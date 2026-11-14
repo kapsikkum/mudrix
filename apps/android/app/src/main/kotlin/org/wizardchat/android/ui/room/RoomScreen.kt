@@ -18,6 +18,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.Orientation
@@ -25,15 +26,19 @@ import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.scrollBy
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -79,19 +84,22 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.IntOffset
@@ -108,6 +116,8 @@ import org.wizardchat.android.matrix.Emoji
 import org.wizardchat.android.matrix.DisplayFormats
 import org.wizardchat.android.matrix.EmojiOnlySize
 import org.wizardchat.android.matrix.MessageLayout
+import org.wizardchat.android.matrix.MessageMention
+import org.wizardchat.android.matrix.Shields
 import org.wizardchat.android.matrix.MessageNotifier
 import org.wizardchat.android.matrix.PacksStore
 import org.wizardchat.android.matrix.PendingUpload
@@ -117,9 +127,11 @@ import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.ReminderPreset
 import org.wizardchat.android.matrix.Reminders
 import org.wizardchat.android.matrix.SavedMessages
+import org.wizardchat.android.matrix.StickerPacks
 import org.wizardchat.android.matrix.TimelineModel
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.mentionCount
+import org.wizardchat.android.matrix.profile
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
@@ -136,19 +148,34 @@ import org.wizardchat.android.ui.shimmer
 import org.wizardchat.android.ui.space.LocalRoomRoles
 import org.wizardchat.android.ui.space.rememberRoomRoles
 import org.wizardchat.android.ui.PhWeight
+import org.wizardchat.android.ui.Spinner
+import org.wizardchat.android.ui.UnreadBadge
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.composer.ComposerView
 import org.wizardchat.android.ui.composer.MediaPicker
 import org.wizardchat.android.ui.composer.MediaPickerTab
 import org.wizardchat.android.ui.copyToClipboard
+import org.wizardchat.android.ui.cosmetics.CosmeticAvatar
 import org.wizardchat.android.ui.home.LocalCalls
+import org.wizardchat.android.ui.people.MembersScreen
 import org.wizardchat.android.ui.people.RoomInfoSheet
+import org.wizardchat.android.ui.people.SheetPage
 import org.wizardchat.android.ui.people.UserProfileSheet
+import org.wizardchat.android.ui.search.RoomSearchScreen
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.theme.withNameColors
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
+import org.wizardchat.android.ui.trPlural
 import org.wizardchat.android.ui.voice.JoinCallBar
+import org.wizardchat.core.CallHistoryView
+import org.wizardchat.core.CallOutcome
+import org.wizardchat.core.Presence
+import org.wizardchat.core.RichBlock
+import org.wizardchat.core.RichSpan
 import org.wizardchat.core.RoomSummary
+import org.wizardchat.core.UserProfile
 import org.wizardchat.core.WizardClient
 import org.wizardchat.tokens.WZ
 
@@ -163,18 +190,25 @@ class MessageActions(
     val endPoll: (ChatEntry) -> Unit,
     val roomId: String,
     val openProfile: (String) -> Unit,
+    val openRoomLink: ((String) -> Unit)? = null,
     val pinnedIds: Set<String> = emptySet(),
     val canPin: Boolean = false,
     val canRedactOthers: Boolean = false,
     val togglePin: (ChatEntry) -> Unit = {},
     val report: (ChatEntry) -> Unit = {},
+    val forward: (ChatEntry) -> Unit = {},
     val viewSource: (ChatEntry) -> Unit = {},
+    val onEditHistory: (ChatEntry) -> Unit = {},
     val openThread: ((ChatEntry) -> Unit)? = null,
+    /** Scrolls to a message by event id, e.g. the one a reply quotes */
+    val jumpTo: ((String) -> Unit)? = null,
     /** Set only in unencrypted rooms */
     val linkPreviews: LinkPreviewLoader? = null,
     /** Decides whether an integration card looks its link up on its own (never in an encrypted room) */
     val isEncrypted: Boolean = true,
     val retry: () -> Unit = {},
+    /** Opens the sticker pack a sticker came from */
+    val stickerPack: (ChatEntry) -> Unit = {},
 )
 
 /** A room's timeline and composer, or with `threadRoot` one of its threads */
@@ -197,14 +231,20 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     var reactingTo by remember { mutableStateOf<ChatEntry?>(null) }
     val reactionPacks = remember { PacksStore() }
     var showInfo by remember { mutableStateOf(false) }
+    var showJumpToDate by remember { mutableStateOf(false) }
+    var showSearch by remember { mutableStateOf(false) }
+    var editHistoryFor by remember { mutableStateOf<ChatEntry?>(null) }
     var canPin by remember { mutableStateOf(false) }
     var canRedactOthers by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf<ChatEntry?>(null) }
+    var forwarding by remember { mutableStateOf<ChatEntry?>(null) }
+    var replacementRoom by remember { mutableStateOf<String?>(null) }
     var sourceText by remember { mutableStateOf<String?>(null) }
     var linkPreviews by remember { mutableStateOf<LinkPreviewLoader?>(null) }
     var profileUserId by remember { mutableStateOf<String?>(null) }
     var highlightedId by remember { mutableStateOf<String?>(null) }
     var unreadDividerId by remember { mutableStateOf<String?>(null) }
+    var stickerPack by remember { mutableStateOf<StickerPacks.Lookup.Found?>(null) }
 
     var positioned by remember { mutableStateOf(false) }
     var userScrolledAway by remember { mutableStateOf(false) }
@@ -243,6 +283,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
     val expandedFolds = UndecryptableFolds.expandedRooms
     val timelineItems = remember(timeline.entries, room.id in expandedFolds) { foldTimeline(timeline.entries, room.id in expandedFolds) }
     val reversedItems = remember(timelineItems) { timelineItems.asReversed() }
+    val seenByLast = remember(timeline.entries) { seenByLastOwn(timeline.entries) }
 
     /** Index in the reversed list of an entry (0 is the bottom anchor, then the uploads) */
     fun listIndex(id: String): Int? {
@@ -263,7 +304,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                 do {
                     timeline.paginateBackwards()
                     delay(80)
-                } while (!fillsScreen && !timeline.reachedStart)
+                } while (!fillsScreen && !timeline.reachedStart && !timeline.historyPaused)
             } finally {
                 loadingOlder = false
             }
@@ -313,9 +354,17 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             timeline.close()
         }
     }
-    LaunchedEffect(timeline) { timeline.start() }
+    LaunchedEffect(timeline) {
+        timeline.start()
+        // A room whose cached history has no message shows nothing to scroll, and positioning waits for a row: load a page
+        delay(1_500)
+        if (timeline.entries.isEmpty() && !timeline.reachedStart) loadOlder()
+    }
     // Looking at a thread marks its replies as seen (the unread dot in the inbox)
     if (threadRoot != null) LaunchedEffect(threadRoot, timeline.entries.size) { org.wizardchat.android.matrix.ThreadLastSeen.markSeen(threadRoot) }
+    LaunchedEffect(room.id, room.isTombstoned) {
+        replacementRoom = if (room.isTombstoned) runCatching { client.localRoomSettings(room.id) }.getOrNull()?.tombstone?.replacementRoom else null
+    }
     LaunchedEffect(timeline) {
         val details = runCatching { client.roomDetails(room.id) }.getOrNull()
         if (details?.isEncrypted == false) linkPreviews = LinkPreviewLoader(client)
@@ -371,6 +420,19 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
 
     // One instance while nothing it reads changes, so rows that did not change are skipped when this screen recomposes
     val pinnedIds = timeline.pinnedIds
+    // A sticker's pack is looked for in this room first, then the others, and only shown when it is public
+    fun openStickerPack(entry: ChatEntry) {
+        val media = (entry.kind as? ChatEntry.Kind.Sticker)?.media ?: return
+        val url = StickerPacks.imageUrl(media.source) ?: return
+        scope.launch {
+            val others = session.roomList?.joinedRooms.orEmpty().map { it.id }
+            when (val found = StickerPacks.find(client, url, StickerPacks.roomOrder(room.id, others))) {
+                is StickerPacks.Lookup.Found -> stickerPack = found
+                StickerPacks.Lookup.Unknown -> CopyToast.show(L10n.format("timeline.stickerPack.unknown"))
+                StickerPacks.Lookup.NotPublic -> CopyToast.show(L10n.format("timeline.stickerPack.notPublic"))
+            }
+        }
+    }
     val actions = remember(timeline, room.id, threadRoot, pinnedIds, canPin, canRedactOthers, linkPreviews, room.isEncrypted, navigator) {
         MessageActions(
         reply = {
@@ -388,16 +450,21 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         endPoll = { entry -> scope.launch { timeline.endPoll(entry) } },
         roomId = room.id,
         openProfile = { profileUserId = it },
+        openRoomLink = { url -> scope.launch { RoomLinks.open(url, session, session.roomList, navigator) } },
         pinnedIds = pinnedIds,
         canPin = canPin,
         canRedactOthers = canRedactOthers,
         togglePin = { entry -> scope.launch { timeline.togglePin(entry) } },
         report = { reporting = it },
+        forward = { forwarding = it },
         viewSource = { entry -> scope.launch { sourceText = timeline.source(entry) } },
+        onEditHistory = { entry -> editHistoryFor = entry },
         openThread = if (threadRoot != null) null else ({ entry -> entry.eventId?.let { navigator.push(Route.Thread(room.id, it)) } }),
+        jumpTo = { eventId -> scope.launch { jump(eventId) } },
         linkPreviews = linkPreviews,
         isEncrypted = room.isEncrypted,
         retry = { timeline.retrySending() },
+        stickerPack = { entry -> openStickerPack(entry) },
         )
     }
 
@@ -407,9 +474,20 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         calls.launchJoin(room, session, if (video) "video" else "audio", ring = true)
     }
 
+    val joinCall: (() -> Unit)? = if (room.inCall || calls.isInCall(room.id)) {
+        null
+    } else {
+        {
+            if (!room.isVoice) calls.showCallScreen = true
+            calls.launchJoin(room, session, intent = "audio")
+        }
+    }
+
     Column(Modifier.fillMaxSize().background(theme.bgSecondary)) {
         RoomTopBar(room, onBack, onShowInfo = { showInfo = true }, onCall = ::startCall,
-            inThread = threadRoot != null, onShowThreads = { showThreads = true })
+            inCall = room.inCall || calls.isInCall(room.id),
+            inThread = threadRoot != null, onShowThreads = { showThreads = true },
+            onJumpToDate = { showJumpToDate = true }, onSearch = { showSearch = true })
         Box(Modifier.weight(1f).fillMaxWidth()) {
             CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
             LazyColumn(
@@ -431,7 +509,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                             Column(Modifier.fillMaxWidth()) {
                                 if (entry.id == unreadDividerId) NewMessagesDivider()
                                 HighlightBox(highlightedId == entry.id) {
-                                    TimelineRow(entry, actions, room.isDirect)
+                                    TimelineRow(entry, actions, room.isDirect, joinCall, seen = seenByLast?.takeIf { it.id == entry.id })
                                 }
                                 if (item.collapsible) UndecryptableCollapseRow(room.id)
                             }
@@ -443,6 +521,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                         Spacer(Modifier.height(0.dp))
                     } else if (timeline.reachedStart) {
                         TimelineStart(room)
+                    } else if (timeline.historyPaused) {
+                        UndecryptableHistoryNotice(timeline.isPaginating) { scope.launch { timeline.paginateBackwards(manual = true) } }
                     } else {
                         // Skeleton rows; history loads as they scroll into view
                         TimelinePlaceholder()
@@ -450,7 +530,8 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                 }
             }
             }
-            if (threadRoot == null && !calls.isInCall(room.id) && room.callParticipants.any { it != session.userId }) {
+            val callElsewhere = room.inCallElsewhere || room.callParticipants.any { it != session.userId }
+            if (threadRoot == null && !calls.isInCall(room.id) && !room.inCall && callElsewhere) {
                 JoinCallBar(room, Modifier.align(Alignment.TopCenter).padding(top = WZ.Space.space3))
             }
             androidx.compose.animation.AnimatedVisibility(
@@ -466,7 +547,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             }
         }
         Column(
-            Modifier.fillMaxWidth().padding(bottom = LocalBottomBarInset.current).navigationBarsPadding().imePadding(),
+            Modifier.fillMaxWidth().padding(bottom = LocalBottomBarInset.current),
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
         ) {
             if (threadRoot != null && timeline.reachedStart && timeline.entries.count { it.isContent } <= 1) {
@@ -478,9 +559,12 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
                     textAlign = TextAlign.Center,
                 )
             }
+            if (threadRoot == null) replacementRoom?.let { TombstoneBanner(room.id, it) }
             org.wizardchat.android.ui.composer.IdentityWarning(room.id, client, room.isEncrypted)
-            if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
-                TypingIndicator(timeline.typingNames)
+            if (LocalSession.current.connectionLost) {
+                OfflineStatus()
+            } else if (prefs.typingIndicators && timeline.typingNames.isNotEmpty()) {
+                TypingIndicator(timeline.typingNames, timeline.typingIds)
             }
             ComposerView(
                 timeline = timeline,
@@ -510,13 +594,40 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
             },
         )
     }
+    if (showSearch) {
+        WizardSheet(onDismiss = { showSearch = false }) {
+            SheetPage {
+                RoomSearchScreen(room, client, { eventId ->
+                    showSearch = false
+                    scope.launch { jump(eventId) }
+                }, { showSearch = false })
+            }
+        }
+    }
+    if (showJumpToDate) {
+        JumpToDateSheet(            client = client,
+            roomId = room.id,
+            onJump = { eventId ->
+                showJumpToDate = false
+                scope.launch { jump(eventId) }
+            },
+            onDismiss = { showJumpToDate = false },
+        )
+    }
+    editHistoryFor?.eventId?.let { id ->
+        EditHistorySheet(client = client, roomId = room.id, eventId = id, onDismiss = { editHistoryFor = null })
+    }
     if (showThreads) {
         ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
             showThreads = false
             navigator.push(Route.Thread(room.id, root))
         }
     }
+    forwarding?.let { entry -> entry.eventId?.let { ForwardSheet(room.id, it) { forwarding = null } } }
     sourceText?.let { SourceSheet(it) { sourceText = null } }
+    stickerPack?.let { found ->
+        StickerPackSheet(found.pack, onOpenRoom = { navigator.openRoom(it) }, onDismiss = { stickerPack = null })
+    }
     reporting?.let { entry -> ReportDialog(onDismiss = { reporting = null }) { reason ->
         scope.launch { if (timeline.reportMessage(entry, reason)) CopyToast.show(L10n.format("timeline.reported")) }
     } }
@@ -538,76 +649,188 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
 private const val BOTTOM_ID = "timeline-bottom"
 private const val TOP_ID = "timeline-top"
 
-/** The room's title capsule (opens the room info) and, in DMs, the call buttons */
+/**
+ * The chat header, flat on the header background: back (with the mentions waiting in other rooms), avatar, name
+ * and subtitle, then call, search and more. Tapping the avatar, name or chevron opens the room info; a thread
+ * shows its own title and the room name, without the info tap.
+ */
 @Composable
 private fun RoomTopBar(
     room: RoomSummary,
     onBack: () -> Unit,
     onShowInfo: () -> Unit,
     onCall: (Boolean) -> Unit,
+    inCall: Boolean,
     inThread: Boolean,
     onShowThreads: () -> Unit,
+    onJumpToDate: () -> Unit,
+    onSearch: () -> Unit,
 ) {
-    val hint = tr("timeline.showsRoomInfoMembers")
-    Box(Modifier.fillMaxWidth().background(theme.bgSecondary).statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
-        Box(Modifier.align(Alignment.CenterStart)) {
-            BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold)
-        }
-        Box(
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
+    val mentions = session.roomList?.mentionRooms.orEmpty().filter { it.id != room.id }.sumOf { it.mentionCount }
+    val partnerId = room.dmUserId?.takeIf { room.isDirect && !inThread }
+    var partner by remember(partnerId) { mutableStateOf<UserProfile?>(null) }
+    LaunchedEffect(partnerId) { partner = partnerId?.let { session.profile(it) } }
+    val name = if (inThread) tr("timeline.threadPanel") else room.displayName
+    val status = partner?.customStatus?.takeIf { (it.expiresAt ?: Long.MAX_VALUE) > System.currentTimeMillis() }?.text
+    val presence = if (!prefs.showPresence) null else when (partner?.presence?.state) {
+        Presence.online -> tr("presence.online")
+        Presence.unavailable -> tr("presence.away")
+        Presence.offline -> tr("presence.offline")
+        else -> null
+    }
+    val subtitle = when {
+        inThread -> room.displayName
+        partnerId != null -> status ?: presence
+        room.memberCount > 0 -> trPlural("room.settings.roles.memberCount", room.memberCount.toInt(), room.memberCount.toInt())
+        else -> room.topic?.takeIf { it.isNotBlank() }
+    }
+    val hint = if (partnerId != null) tr("call.viewProfile") else tr("timeline.showsRoomInfoMembers")
+    val badge: (@Composable () -> Unit)? = if (mentions > 0) ({ UnreadBadge(mentions, isMention = true) }) else null
+    var profileUserId by remember { mutableStateOf<String?>(null) }
+    var showMembers by remember { mutableStateOf(false) }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(theme.bgSecondary)
+            .statusBarsPadding()
+            .heightIn(min = WZ.Space.space11)
+            .padding(horizontal = WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold, badge = badge)
+        Row(
             Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = if (inThread) WZ.Space.space11 else WZ.Space.space11 * 2)
-                .defaultMinSize(minHeight = WZ.Space.space10)
-                .shadow(2.dp, CircleShape)
-                .clip(CircleShape)
-                .background(theme.bgTertiary)
-                .clickable(enabled = !inThread, onClick = onShowInfo)
-                .semantics { contentDescription = "${room.displayName}. $hint" }
-                .padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
-            contentAlignment = Alignment.Center,
+                .weight(1f)
+                .clickable(enabled = !inThread) {
+                    if (partnerId != null) profileUserId = partnerId else onShowInfo()
+                }
+                .then(if (inThread) Modifier else Modifier.semantics { contentDescription = "${room.displayName}. $hint" })
+                .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
         ) {
-            if (inThread) ThreadTitle(room) else RoomTitle(room)
-        }
-        if (!inThread) {
-            Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically) {
-                BarButton("chat-dots", tr("timeline.threads"), onShowThreads, tint = theme.textPrimary)
-                Box {
-                    var callMenu by remember { mutableStateOf(false) }
-                    BarButton("phone", tr("voice.startCall"), { callMenu = true }, weight = PhWeight.fill)
-                    WizardMenu(
-                        callMenu,
-                        { callMenu = false },
-                        listOf(
-                            MenuItem(tr("timeline.voiceCall"), "phone") { onCall(false) },
-                            MenuItem(tr("timeline.videoCall"), "video-camera") { onCall(true) },
-                        ),
+            when {
+                partnerId != null -> CosmeticAvatar(
+                    partnerId,
+                    room.displayName,
+                    partner?.avatarUrl ?: room.dmUserAvatar,
+                    WZ.SizeAvatar.sm,
+                    presence = partner?.presence?.state?.name,
+                )
+                prefs.showRoomAvatars || room.isDirect -> Avatar(room.displayName, room.avatarUrl ?: room.dmUserAvatar, WZ.SizeAvatar.sm)
+                else -> Box(
+                    Modifier.size(WZ.SizeAvatar.sm).clip(CircleShape).background(theme.fill),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PhIcon(if (room.isVoice) "speaker-high" else "hash-straight", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+                }
+            }
+            Column(Modifier.weight(1f)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                    Text(
+                        name,
+                        Modifier.weight(1f, fill = false),
+                        style = wizardFont(WZ.FontSize.lg, FontWeight.Bold),
+                        color = theme.textPrimary,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
+                    if (!inThread) PhIcon("caret-right", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted)
+                }
+                subtitle?.let {
+                    Text(it, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
         }
+        if (!inThread) {
+            Box {
+                var callMenu by remember { mutableStateOf(false) }
+                BarButton("phone", tr("call.startCall"), { callMenu = true }, enabled = !inCall)
+                WizardMenu(
+                    callMenu,
+                    { callMenu = false },
+                    listOf(
+                        MenuItem(tr("timeline.voiceCall"), "phone") { onCall(false) },
+                        MenuItem(tr("timeline.videoCall"), "video-camera") { onCall(true) },
+                    ),
+                )
+            }
+            BarButton("magnifying-glass", tr("common.search"), onSearch, tint = theme.textPrimary)
+            Box {
+                var moreMenu by remember { mutableStateOf(false) }
+                BarButton("dots-three", tr("common.more"), { moreMenu = true }, weight = PhWeight.bold, tint = theme.textPrimary)
+                WizardMenu(
+                    moreMenu,
+                    { moreMenu = false },
+                    buildList<MenuItem> {
+                        if (room.isDirect) add(MenuItem(tr("room.info.title"), "info") { onShowInfo() })
+                        add(MenuItem(tr("common.members"), "users") { showMembers = true })
+                        add(MenuItem(tr("timeline.threads"), "chat-dots") { onShowThreads() })
+                        add(MenuItem(tr("room.jumpToDate.title"), "calendar-blank") { onJumpToDate() })
+                    },
+                )
+            }
+        }
+    }
+    profileUserId?.let { UserProfileSheet(it, room.id, onDismiss = { profileUserId = null }) }
+    if (showMembers) {
+        WizardSheet(onDismiss = { showMembers = false }) {
+            SheetPage { MembersScreen(room.id) { showMembers = false } }
+        }
+    }
+}
+
+/**
+ * Back, the room title and `buttons` bar buttons on the right, flat on the header background (no capsule).
+ * Shared with the voice room; the title is tappable when `onShowInfo` is set.
+ */
+@Composable
+internal fun RoomHeader(
+    room: RoomSummary,
+    onBack: () -> Unit,
+    onShowInfo: (() -> Unit)?,
+    buttons: Int,
+    title: @Composable () -> Unit = { RoomTitle(room) },
+    actions: @Composable RowScope.() -> Unit,
+) {
+    val hint = tr("timeline.showsRoomInfoMembers")
+    val session = LocalSession.current
+    val mentions = session.roomList?.mentionRooms.orEmpty().filter { it.id != room.id }.sumOf { it.mentionCount }
+    val badge: (@Composable () -> Unit)? = if (mentions > 0) ({ UnreadBadge(mentions, isMention = true) }) else null
+    Box(Modifier.fillMaxWidth().background(theme.bgSecondary).statusBarsPadding().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
+        Box(Modifier.align(Alignment.CenterStart)) {
+            BarButton("caret-left", tr("common.back"), onBack, weight = PhWeight.bold, badge = badge)
+        }
+        Box(
+            Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = WZ.Space.space11 + WZ.Space.space2, end = WZ.Space.space11 * buttons)
+                .clickable(enabled = onShowInfo != null, onClick = { onShowInfo?.invoke() })
+                .semantics { contentDescription = "${room.displayName}. $hint" }
+                .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+            contentAlignment = Alignment.Center,
+        ) {
+            title()
+        }
+        Row(Modifier.align(Alignment.CenterEnd), verticalAlignment = Alignment.CenterVertically, content = actions)
     }
 }
 
 @Composable
-private fun ThreadTitle(room: RoomSummary) {
-    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(tr("thread.title"), style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
-        Text(
-            room.displayName,
-            style = wizardFont(WZ.FontSize.xs),
-            color = theme.textMuted,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
-@Composable
-private fun RoomTitle(room: RoomSummary) {
+internal fun RoomTitle(room: RoomSummary) {
     val prefs = LocalPrefs.current
-    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.CenterHorizontally) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            if (!room.isDirect) PhIcon("hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
+    Column(Modifier.widthIn(max = WZ.Size.sidebar), horizontalAlignment = Alignment.Start) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(if (prefs.showRoomAvatars) WZ.Space.space3 else WZ.Space.space1),
+        ) {
+            if (prefs.showRoomAvatars) {
+                Avatar(room.displayName, room.avatarUrl, WZ.SizeAvatar.xs)
+            } else if (!room.isDirect) {
+                PhIcon(if (room.isVoice) "speaker-high" else "hash-straight", size = WZ.SizeIcon.xs, tint = theme.textMuted)
+            }
             Text(
                 room.displayName,
                 style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
@@ -719,7 +942,7 @@ private fun TimelineStart(room: RoomSummary) {
 }
 
 @Composable
-private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean) {
+private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom: Boolean, joinCall: (() -> Unit)?, seen: SeenBy? = null) {
     when (val kind = entry.kind) {
         is ChatEntry.Kind.DateDivider -> Text(
             when {
@@ -739,28 +962,8 @@ private fun TimelineRow(entry: ChatEntry, actions: MessageActions, isPrivateRoom
             color = theme.textMuted,
             textAlign = TextAlign.Center,
         )
-        else -> MessageRow(entry, actions, isPrivateRoom)
-    }
-}
-
-/** The reply arrow behind a row being dragged; [progress] is read while drawing (1 is where a release replies) */
-@Composable
-private fun ReplySwipeHint(progress: () -> Float, modifier: Modifier = Modifier) {
-    val over by remember { derivedStateOf { progress() >= 1f } }
-    val tint = if (over) theme.accent else theme.textMuted
-    Box(
-        modifier
-            .padding(start = WZ.Space.space5)
-            .size(WZ.Space.space9)
-            .graphicsLayer {
-                val p = progress().coerceIn(0f, 1f)
-                scaleX = p
-                scaleY = p
-            }
-            .background(theme.fill, CircleShape),
-        contentAlignment = Alignment.Center,
-    ) {
-        PhIcon("arrow-bend-up-left", size = WZ.SizeIcon.sm, tint = tint)
+        is ChatEntry.Kind.Call -> CallRow(kind.call, joinCall)
+        else -> MessageRow(entry, actions, isPrivateRoom, seen = seen)
     }
 }
 
@@ -782,15 +985,124 @@ private fun HighlightBox(active: Boolean, content: @Composable () -> Unit) {
     Box(if (highlight != null) Modifier.drawBehind { drawRect(highlight.value) } else Modifier) { content() }
 }
 
+private const val CALL_AVATARS_SHOWN = 3
+
+/** A call in the timeline: how it went, who was in it, and Join while it's going on */
+@Composable
+private fun CallRow(call: CallHistoryView, joinCall: (() -> Unit)?) {
+    val ongoing = call.outcome == CallOutcome.ongoing
+    val title = tr(
+        when (call.outcome) {
+            CallOutcome.ongoing -> "call.event.ongoing"
+            CallOutcome.ended -> "call.event.ended"
+            CallOutcome.missed -> "call.event.missed"
+            CallOutcome.declined -> "call.event.declined"
+            CallOutcome.unanswered -> "call.event.unanswered"
+        },
+    )
+    val tint = when (call.outcome) {
+        CallOutcome.ongoing -> theme.success
+        CallOutcome.missed, CallOutcome.declined, CallOutcome.unanswered -> theme.danger
+        CallOutcome.ended -> theme.textMuted
+    }
+    val icon = when {
+        ongoing -> if (call.video) "video-camera" else "phone"
+        call.video -> "video-camera-slash"
+        call.outcome == CallOutcome.ended -> "phone-disconnect"
+        else -> "phone-x"
+    }
+    val endedAt = call.endedAt
+    val duration = if (call.outcome == CallOutcome.ended && endedAt != null && !call.partial) {
+        Formats.duration((endedAt - call.startedAt).coerceAtLeast(0) / 1000.0)
+    } else {
+        null
+    }
+    val kindLabel = tr(if (call.video) "timeline.videoCall" else "timeline.voiceCall")
+    val shown = call.participants.take(CALL_AVATARS_SHOWN)
+    Row(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Row(
+            Modifier
+                .clip(CircleShape)
+                .background(theme.fill)
+                .padding(start = WZ.Space.space5, end = if (ongoing && joinCall != null) WZ.Space.space2 else WZ.Space.space5)
+                .padding(vertical = WZ.Space.space2)
+                .semantics(mergeDescendants = true) { contentDescription = listOfNotNull(kindLabel, title, duration).joinToString(", ") },
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(Modifier.size(WZ.Space.space8).clip(CircleShape).background(theme.bgTertiary), contentAlignment = Alignment.Center) {
+                PhIcon(icon, size = WZ.SizeIcon.xs, tint = tint)
+            }
+            Text(title, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
+            if (shown.isNotEmpty()) {
+                Row(horizontalArrangement = Arrangement.spacedBy(-WZ.Space.space3), verticalAlignment = Alignment.CenterVertically) {
+                    shown.forEach { person ->
+                        Avatar(
+                            person.displayName ?: person.userId,
+                            person.avatarUrl,
+                            WZ.SizeAvatar.xs,
+                            modifier = Modifier.border(WZ.BorderWidth.thick, theme.fill, CircleShape),
+                        )
+                    }
+                    if (call.participants.size > shown.size) {
+                        Text(
+                            "+${call.participants.size - shown.size}",
+                            Modifier.padding(start = WZ.Space.space4),
+                            style = wizardFont(WZ.FontSize.xs, FontWeight.Bold),
+                            color = theme.textMuted,
+                        )
+                    }
+                }
+            }
+            duration?.let { Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, maxLines = 1) }
+            if (ongoing && joinCall != null) {
+                Text(
+                    tr("common.join"),
+                    Modifier
+                        .clip(CircleShape)
+                        .background(theme.success)
+                        .clickable(onClick = joinCall)
+                        .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space2),
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.textOnAccent,
+                    maxLines = 1,
+                )
+            }
+        }
+    }
+}
+
+/** Bubble layout: who has read your last message, most recent first, and when; `id` is that message */
+class SeenBy(val id: String, val userIds: List<String>, val readAt: Map<String, java.time.Instant>)
+
+/** Your last sent message and everyone who has read it: a read receipt sits on the latest message a person has read */
+private fun seenByLastOwn(entries: List<ChatEntry>): SeenBy? {
+    val index = entries.indexOfLast { it.isOwn && it.isContent && !it.isSending && !it.sendFailed }
+    if (index < 0) return null
+    val later = entries.subList(index, entries.size)
+    val readAt = HashMap<String, java.time.Instant>()
+    later.forEach { readAt.putAll(it.readAt) }
+    // Someone who posted after your message has seen it, like on the web
+    val readers = (later.flatMap { it.readBy } + later.filter { !it.isOwn && it.isContent }.map { it.sender })
+        .distinct()
+        .sortedByDescending { readAt[it] ?: java.time.Instant.MIN }
+    return SeenBy(entries[index].id, readers, readAt)
+}
+
 /** One message: avatar, name and time, content, link preview, reactions and read receipts */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom: Boolean = true, modifier: Modifier = Modifier) {
+fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom: Boolean = true, modifier: Modifier = Modifier, seen: SeenBy? = null) {
     val prefs = LocalPrefs.current
     val haptics = LocalHapticFeedback.current
     val density = LocalDensity.current
     val scale = prefs.chatScale
     val spacing = prefs.chatSpacing
+    val isCompact = prefs.messageLayout == MessageLayout.compact
+    val isBubble = prefs.messageLayout == MessageLayout.classic
     var showFailed by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showRemind by remember { mutableStateOf(false) }
@@ -800,10 +1112,12 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
     val replyThreshold = 64f
-    val showReplyHint by remember { derivedStateOf { swipe > 8f } }
     val isText = entry.kind is ChatEntry.Kind.Message || entry.kind is ChatEntry.Kind.Redacted || entry.kind is ChatEntry.Kind.Undecryptable
+    // Bubble layout: your rows sit on the right without an avatar; your text bubbles are right-aligned
+    val ownBubble = isBubble && entry.isOwn
+    val ownTextBubble = ownBubble && isText
     // Only timeline rows have the menu
-    val longPress: (() -> Unit)? = if (actions != null && entry.isContent) {
+    val longPress: (() -> Unit)? = if (actions != null && entry.isContent && entry.allowsActions) {
         {
             haptics.performHapticFeedback(HapticFeedbackType.LongPress)
             showMenu = true
@@ -816,9 +1130,6 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
 
     CompositionLocalProvider(LocalMessageLongPress provides longPress) {
         Box(modifier.fillMaxWidth()) {
-            if (showReplyHint) {
-                ReplySwipeHint({ swipe / replyThreshold }, Modifier.align(Alignment.CenterStart))
-            }
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -828,14 +1139,14 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             Modifier.draggable(
                                 rememberDraggableState { delta ->
                                     val dx = delta / density.density
-                                    swipe = (swipe + dx * 0.6f).coerceIn(0f, replyThreshold + 20f)
-                                    val over = swipe >= replyThreshold
+                                    swipe = (swipe + dx * 0.6f).coerceIn(-(replyThreshold + 20f), 0f)
+                                    val over = swipe <= -replyThreshold
                                     if (over && !crossed) haptics.performHapticFeedback(HapticFeedbackType.LongPress)
                                     crossed = over
                                 },
                                 Orientation.Horizontal,
                                 onDragStopped = {
-                                    if (swipe >= replyThreshold) actions?.reply?.invoke(entry)
+                                    if (swipe <= -replyThreshold) actions?.reply?.invoke(entry)
                                     crossed = false
                                     scope.launch { animate(swipe, 0f, animationSpec = spring()) { value, _ -> swipe = value } }
                                 },
@@ -852,31 +1163,62 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         onClick = {},
                     )
                     .padding(horizontal = WZ.Space.space6)
-                    .padding(top = (if (entry.isGrouped) 1 else 6).dp * spacing, bottom = (if (entry.isGrouped) 1 else 2).dp * spacing),
+                    .padding(
+                        top = (if (entry.isGrouped || isCompact) 1 else 6).dp * spacing,
+                        bottom = (if (entry.isGrouped || isCompact) 1 else 2).dp * spacing,
+                    ),
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
             ) {
-                if (entry.isGrouped) {
-                    Spacer(Modifier.width(WZ.SizeAvatar.md))
-                } else {
-                    Avatar(
-                        entry.senderName,
-                        entry.senderAvatarUrl,
-                        WZ.SizeAvatar.md,
-                        modifier = Modifier.padding(top = WZ.Space.space1).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
-                    )
+                if (!isCompact && !ownBubble) {
+                    // The avatar column is 24 dp in the bubble layout, with a 20 dp avatar centred in it
+                    val column = if (isBubble) 24.dp else WZ.SizeAvatar.md
+                    if (entry.isGrouped) {
+                        Spacer(Modifier.width(column))
+                    } else {
+                        Box(Modifier.width(column), contentAlignment = Alignment.Center) {
+                            org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                                entry.sender,
+                                entry.senderName,
+                                entry.senderAvatarUrl,
+                                if (isBubble) WZ.SizeAvatar.xs else WZ.SizeAvatar.md,
+                                modifier = Modifier.padding(top = WZ.Space.space1).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
+                            )
+                        }
+                    }
                 }
-                Column(Modifier.weight(1f).padding(end = WZ.Space.space5)) {
-                    if (!entry.isGrouped) {
+                Column(
+                    Modifier.weight(1f).padding(end = if (ownBubble) WZ.Space.space6 else if (isBubble) 0.dp else WZ.Space.space5),
+                    horizontalAlignment = if (ownBubble) Alignment.End else Alignment.Start,
+                ) {
+                    if (isCompact) {
+                        if (entry.kind !is ChatEntry.Kind.Message) {
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                                Text(Formats.time(entry.timestamp), style = wizardFont(WZ.FontSize.xs * scale), color = theme.textMuted)
+                                Text(
+                                    entry.senderName,
+                                    Modifier.clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
+                                    style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
+                                    color = nameColor(entry.sender),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                        }
+                    } else if (!entry.isGrouped) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
                             Text(
                                 entry.senderName,
                                 Modifier.weight(1f, fill = false).clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
-                                style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                                color = roleColor ?: theme.accent,
+                                style = wizardFont((if (isBubble) WZ.FontSize.sm else WZ.FontSize.md) * scale, FontWeight.SemiBold),
+                                color = roleColor ?: nameColor(entry.sender),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            Text(Formats.time(entry.timestamp), style = wizardFont(WZ.FontSize.sm * scale), color = theme.textMuted)
+                            Text(
+                                Formats.time(entry.timestamp),
+                                style = wizardFont((if (isBubble) WZ.FontSize.xs else WZ.FontSize.sm) * scale),
+                                color = theme.textMuted,
+                            )
                             val eventId = entry.eventId
                             if (eventId != null && actions?.pinnedIds?.contains(eventId) == true) {
                                 PhIcon(
@@ -888,10 +1230,36 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             }
                         }
                     }
-                    entry.replyTo?.let { ReplyQuoteView(it) }
+                    entry.replyTo?.let { quote ->
+                        ReplyQuoteView(quote, end = ownBubble, bubble = isBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
+                    }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                        Shields.display(entry.shield)?.let { display ->
+                            val tint = when (display.kind) {
+                                Shields.Kind.Red -> theme.danger
+                                Shields.Kind.Warning -> theme.warningColor
+                                Shields.Kind.Grey -> theme.textMuted
+                            }
+                            val reason = L10n.format(display.reasonKey)
+                            Box(
+                                Modifier
+                                    .padding(top = WZ.Space.space1)
+                                    .clip(CircleShape)
+                                    .clickable { CopyToast.show(reason) },
+                            ) {
+                                PhIcon(
+                                    if (display.kind == Shields.Kind.Grey) "shield-check" else "shield-warning",
+                                    size = WZ.SizeIcon.xs * scale,
+                                    tint = tint,
+                                    contentDescription = reason,
+                                )
+                            }
+                        }
                         val sending = entry.isSending && !entry.sendFailed
-                        Box(Modifier.weight(1f, fill = false).alpha(if (sending && isText) 0.5f else 1f), contentAlignment = Alignment.Center) {
+                        Box(
+                            Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
+                            contentAlignment = if (ownBubble) Alignment.CenterEnd else if (isBubble) Alignment.CenterStart else Alignment.Center,
+                        ) {
                             MessageContent(entry, actions, isPrivateRoom, isText)
                             if (sending && !isText) UploadProgressRing(null)
                         }
@@ -924,18 +1292,20 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         LinkPreviewCard(previewUrl, loader)
                     }
                     IntegrationCards(body, actions?.isEncrypted ?: true)
-                    if (entry.reactions.isNotEmpty()) {
-                        ReactionsBar(entry.reactions, actions?.roomId) { key -> actions?.react?.invoke(key, entry) }
+                    if (entry.reactions.isNotEmpty() && entry.allowsActions) {
+                        ReactionsBar(entry.reactions, actions?.roomId, bubble = isBubble) { key -> actions?.react?.invoke(key, entry) }
                     }
                     val thread = entry.thread
                     val openThread = actions?.openThread
                     if (thread != null && thread.replies > 0 && actions != null && openThread != null) {
-                        ThreadSummaryBadge(thread, actions.roomId) { openThread(entry) }
+                        ThreadSummaryBadge(thread, actions.roomId, bubble = isBubble) { openThread(entry) }
                     }
                     val roomId = actions?.roomId
-                    if (entry.readBy.isNotEmpty() && roomId != null) {
-                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-                            ReadReceiptsView(roomId, entry.readBy, entry.readAt)
+                    // Bubble layout: only your last message shows who has read it
+                    val readers = if (isBubble) seen?.userIds.orEmpty() else entry.readBy
+                    if (readers.isNotEmpty() && roomId != null) {
+                        Box(Modifier.fillMaxWidth(), contentAlignment = if (isBubble && !entry.isOwn) Alignment.CenterStart else Alignment.CenterEnd) {
+                            ReadReceiptsView(roomId, readers, if (isBubble) seen?.readAt.orEmpty() else entry.readAt)
                         }
                     }
                 }
@@ -950,42 +1320,101 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     }
 }
 
+/** Bubble layout: pictures, videos and files sit in a bubble-coloured frame, at most 90% of the column (and 620 dp) wide */
+@Composable
+private fun BubbleFrame(enabled: Boolean, own: Boolean, content: @Composable () -> Unit) {
+    if (!enabled) {
+        content()
+        return
+    }
+    BoxWithConstraints(Modifier.fillMaxWidth(), contentAlignment = if (own) Alignment.CenterEnd else Alignment.CenterStart) {
+        Column(
+            Modifier
+                .widthIn(max = minOf(maxWidth * 0.9f, 620.dp))
+                .background(bubbleFill(own), RoundedCornerShape(WZ.Radius.xl))
+                .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+        ) {
+            content()
+        }
+    }
+}
+
 @Composable
 private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivateRoom: Boolean, isText: Boolean) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
+    val isClassic = prefs.messageLayout == MessageLayout.classic
     if (isText) {
-        val isClassic = prefs.messageLayout == MessageLayout.classic
-        Box(
-            if (isClassic) {
-                Modifier
-                    .background(if (entry.isOwn) theme.msgMineBg else theme.msgOtherBg, RoundedCornerShape(WZ.Radius.xl))
-                    .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4)
-            } else {
-                Modifier
-            },
+        if (!isClassic) {
+            TextContent(
+                entry,
+                linkOnAccent = false,
+                onMention = actions?.openProfile,
+                onRoomLink = actions?.openRoomLink,
+                roomId = actions?.roomId,
+            )
+            return
+        }
+        // Bubble layout: at most 78% of the column (and 620 dp), your own text on the accent colour
+        BoxWithConstraints(
+            if (entry.isOwn) Modifier.fillMaxWidth() else Modifier,
+            contentAlignment = if (entry.isOwn) Alignment.CenterEnd else Alignment.CenterStart,
         ) {
-            TextContent(entry, linkOnAccent = isClassic && entry.isOwn && theme.isDark, roomId = actions?.roomId)
+            Column(
+                Modifier
+                    .widthIn(max = minOf(maxWidth * 0.78f, 620.dp))
+                    .background(bubbleFill(entry.isOwn), RoundedCornerShape(WZ.Radius.xl))
+                    .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+            ) {
+                TextContent(
+                    entry,
+                    linkOnAccent = entry.isOwn,
+                    bubble = true,
+                    ownBubble = entry.isOwn,
+                    onMention = actions?.openProfile,
+                    onRoomLink = actions?.openRoomLink,
+                    roomId = actions?.roomId,
+                )
+                if (entry.isGrouped) {
+                    // Grouped bubbles carry their own time, right-aligned under the text
+                    Text(
+                        Formats.time(entry.timestamp),
+                        Modifier.align(Alignment.End).padding(top = WZ.Space.space1),
+                        style = wizardFont(WZ.FontSize.xs * scale),
+                        color = (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f),
+                    )
+                }
+            }
         }
         return
     }
     val captionStyle = wizardFont(WZ.FontSize.lg * scale)
+    val captionColor = if (isClassic && entry.isOwn) theme.textOnAccent else theme.textPrimary
     when (val kind = entry.kind) {
-        is ChatEntry.Kind.Image -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-            if (entry.galleryItems.size >= 2) {
-                GalleryGridView(entry.galleryItems, isPrivateRoom)
-            } else {
-                ImageMessageView(kind.media, isPrivateRoom = isPrivateRoom, spoiler = entry.mediaSpoiler)
+        is ChatEntry.Kind.Image -> BubbleFrame(isClassic, entry.isOwn) {
+            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                if (entry.galleryItems.size >= 2) {
+                    GalleryGridView(entry.galleryItems, isPrivateRoom)
+                } else {
+                    ImageMessageView(kind.media, isPrivateRoom = isPrivateRoom, spoiler = entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else 14.dp)
+                }
+                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
             }
-            kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }
         }
-        is ChatEntry.Kind.Sticker -> ImageMessageView(kind.media, isSticker = true, isPrivateRoom = isPrivateRoom)
-        is ChatEntry.Kind.Video -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-            VideoMessageView(kind.media, entry.mediaSpoiler)
-            kind.media.caption?.let { Text(it, style = captionStyle, color = theme.textPrimary) }
+        is ChatEntry.Kind.Sticker -> ImageMessageView(
+            kind.media,
+            isSticker = true,
+            isPrivateRoom = isPrivateRoom,
+            onStickerTap = actions?.let { messageActions -> ({ messageActions.stickerPack(entry) }) },
+        )
+        is ChatEntry.Kind.Video -> BubbleFrame(isClassic, entry.isOwn) {
+            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                VideoMessageView(kind.media, entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else WZ.Radius.lg)
+                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
+            }
         }
         is ChatEntry.Kind.Audio -> AudioMessageView(kind.media, kind.isVoice, kind.waveform)
-        is ChatEntry.Kind.File -> FileMessageView(kind.media)
+        is ChatEntry.Kind.File -> BubbleFrame(isClassic, entry.isOwn) { FileMessageView(kind.media, bubble = isClassic, ownBubble = isClassic && entry.isOwn) }
         is ChatEntry.Kind.Location -> LocationMessageView(kind.geoUri, kind.description)
         is ChatEntry.Kind.Poll -> PollMessageView(
             kind.poll,
@@ -998,11 +1427,77 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
 }
 
 @Composable
-private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String? = null) {
+private fun TextContent(
+    entry: ChatEntry,
+    linkOnAccent: Boolean,
+    onMention: ((String) -> Unit)?,
+    onRoomLink: ((String) -> Unit)? = null,
+    roomId: String? = null,
+    bubble: Boolean = false,
+    ownBubble: Boolean = false,
+) {
+    val session = LocalSession.current
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     var spoilersRevealed by remember { mutableStateOf(false) }
-    val style = wizardFont(WZ.FontSize.lg * scale).copy(lineHeight = (WZ.FontSize.lg.value * scale + 3 * scale + 4).sp)
+    val kindBody = (entry.kind as? ChatEntry.Kind.Message)?.takeIf { !it.isEmote }?.body
+    val emojiOnlySize = if (kindBody != null && DisplayFormats.isOnlyEmoji(kindBody)) {
+        when (prefs.emojiOnlySize) {
+            EmojiOnlySize.normal -> null
+            EmojiOnlySize.large -> 40f
+            EmojiOnlySize.jumbo -> 56f
+        }
+    } else {
+        null
+    }
+    val size = if (emojiOnlySize == null) (if (bubble) WZ.FontSize.md else WZ.FontSize.lg) * scale else (emojiOnlySize * scale).sp
+    val textColor = if (ownBubble) theme.textOnAccent else theme.textPrimary
+    val style = wizardFont(size).copy(lineHeight = if (bubble && emojiOnlySize == null) (23.5f * scale).sp else (size.value + 3 * scale + 4).sp)
+    val rich = entry.rich
+    val message = entry.kind as? ChatEntry.Kind.Message
+    if (rich != null && message != null && !message.isEmote) {
+        val kind = message
+        val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
+        Column(
+            Modifier
+                .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
+                .then(if (hint != null) Modifier.semantics { contentDescription = "${kind.body} $hint" } else Modifier),
+            verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            if (prefs.messageLayout == MessageLayout.compact) {
+                Text(
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = theme.textMuted)) { append(Formats.time(entry.timestamp)) }
+                        append("  ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = nameColor(entry.sender))) { append(entry.senderName) }
+                    },
+                    style = style,
+                )
+            }
+            RichBlocks(
+                rich,
+                RichStyle(
+                    text = style,
+                    color = if (kind.isNotice) theme.textMuted else textColor,
+                    linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor,
+                    mentionColors = MentionColors(theme.mention, if (linkOnAccent) theme.textOnAccent else theme.accent),
+                    mentions = entry.mentions,
+                    revealSpoilers = spoilersRevealed || entry.spoilers.isEmpty(),
+                    prettifyLinks = prefs.prettifyLinks,
+                    scale = scale,
+                    onMention = onMention,
+                    onRoomLink = onRoomLink,
+                    roomName = { RoomLinks.knownName(it, session.roomList) },
+                    codeBackground = theme.fill,
+                    cover = theme.textMuted,
+                ),
+            )
+            if (entry.isEdited) {
+                Text(tr("timeline.edited"), style = wizardFont(WZ.FontSize.xs * scale), color = theme.textMuted)
+            }
+        }
+        return
+    }
     when (val kind = entry.kind) {
         is ChatEntry.Kind.Message -> {
             val linkColor = if (linkOnAccent) theme.textOnAccent else theme.linkColor
@@ -1022,8 +1517,9 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String?
             val spoilers = if (spoilersRevealed) emptyList() else entry.spoilers
             val mutedColor = theme.textMuted
             // Link detection and spoiler search are regex work: once per message, not on every recomposition
-            val text = remember(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor) {
-                MessageText.attributed(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor)
+            val mentionColors = MentionColors(theme.mention, if (linkOnAccent) theme.textOnAccent else theme.accent)
+            val text = remember(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor, entry.mentions, mentionColors, onMention) {
+                MessageText.attributed(body, prefs.prettifyLinks, linkColor, spoilers, mutedColor, entry.mentions, mentionColors, onMention)
             }
             val edited = tr("timeline.edited")
             val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
@@ -1042,7 +1538,7 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String?
                     .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
                     .then(if (hint != null) Modifier.semantics { contentDescription = "${text.text} $hint" } else Modifier),
                 style = textStyle,
-                color = if (kind.isNotice) theme.textMuted else theme.textPrimary,
+                color = if (kind.isNotice) theme.textMuted else textColor,
             )
         }
         is ChatEntry.Kind.Redacted -> DeletedLabel("trash", tr("timeline.messageDeleted"), style)
@@ -1050,6 +1546,130 @@ private fun TextContent(entry: ChatEntry, linkOnAccent: Boolean, roomId: String?
             DeletedLabel("lock", tr("timeline.waitingForThisMessage"), style)
         }
         else -> {}
+    }
+}
+
+/** What a formatted message's text needs besides its blocks */
+private data class RichStyle(
+    val text: androidx.compose.ui.text.TextStyle,
+    val color: Color,
+    val linkColor: Color,
+    val mentionColors: MentionColors,
+    val mentions: List<MessageMention>,
+    val revealSpoilers: Boolean,
+    val prettifyLinks: Boolean,
+    val scale: Float,
+    val onMention: ((String) -> Unit)?,
+    val onRoomLink: ((String) -> Unit)? = null,
+    val roomName: (String) -> String? = { null },
+    val codeBackground: Color,
+    val cover: Color,
+)
+
+/** A formatted message as the web shows it: paragraphs, headings, quotes, lists and code blocks */
+@Composable
+private fun RichBlocks(blocks: List<RichBlock>, style: RichStyle) {
+    Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+        blocks.forEach { RichBlockView(it, style) }
+    }
+}
+
+@Composable
+private fun RichBlockView(block: RichBlock, style: RichStyle) {
+    when (block) {
+        is RichBlock.Paragraph -> Text(richText(block.spans, style), style = style.text, color = style.color)
+        is RichBlock.Heading -> {
+            val size = when (block.level) {
+                1L -> WZ.FontSize.xxl
+                2L -> WZ.FontSize.xl
+                else -> WZ.FontSize.lg
+            } * style.scale
+            Text(
+                richText(block.spans, style),
+                style = style.text.copy(fontSize = size, lineHeight = size * 1.3f, fontWeight = FontWeight.Bold),
+                color = style.color,
+            )
+        }
+        is RichBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+            Box(Modifier.width(WZ.Space.space1).fillMaxHeight().clip(RoundedCornerShape(WZ.Radius.xs)).background(theme.border))
+            RichBlocks(block.blocks, style.copy(color = theme.textSecondary))
+        }
+        is RichBlock.ItemList -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+            block.items.forEachIndexed { index, item ->
+                Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    Text(if (block.ordered) "${block.start + index}." else "•", style = style.text, color = theme.textMuted)
+                    Box(Modifier.weight(1f)) { RichBlocks(item, style) }
+                }
+            }
+        }
+        is RichBlock.Code -> Box(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(WZ.Radius.md))
+                .background(theme.fill)
+                .horizontalScroll(rememberScrollState())
+                .padding(WZ.Space.space4),
+        ) {
+            Text(
+                block.text,
+                style = style.text.copy(fontFamily = FontFamily.Monospace, fontSize = WZ.FontSize.md * style.scale),
+                color = style.color,
+                softWrap = false,
+            )
+        }
+        RichBlock.Rule -> Box(Modifier.fillMaxWidth().height(WZ.BorderWidth.thin).background(theme.border))
+    }
+}
+
+/** Styled runs as one annotated string: bold, italic, strikethrough, code, links, mention pills and hidden spoilers */
+private fun richText(spans: List<RichSpan>, style: RichStyle): AnnotatedString = buildAnnotatedString {
+    for (span in spans) {
+        val decorations = listOfNotNull(
+            if (span.strike) TextDecoration.LineThrough else null,
+            if (span.underline) TextDecoration.Underline else null,
+        )
+        var spanStyle = SpanStyle(
+            fontWeight = if (span.bold) FontWeight.Bold else null,
+            fontStyle = if (span.italic) FontStyle.Italic else null,
+            textDecoration = if (decorations.isEmpty()) null else TextDecoration.combine(decorations),
+            fontFamily = if (span.code) FontFamily.Monospace else null,
+            background = if (span.code) style.codeBackground else Color.Unspecified,
+        )
+        val hidden = span.spoiler && !style.revealSpoilers
+        if (hidden) spanStyle = spanStyle.copy(color = Color.Transparent, background = style.cover)
+        val mention = span.mention
+        val link = span.link
+        when {
+            hidden -> withStyle(spanStyle) { append(span.text) }
+            mention != null -> {
+                val pill = TextLinkStyles(style.mentionColors.pill(style.mentions.any { it.userId == mention && it.isOwn }))
+                val onMention = style.onMention
+                pushLink(
+                    if (onMention != null) {
+                        LinkAnnotation.Clickable(mention, pill) { onMention(mention) }
+                    } else {
+                        LinkAnnotation.Url("https://matrix.to/#/$mention", pill)
+                    },
+                )
+                append(span.text)
+                pop()
+            }
+            link != null && RoomLinks.target(link) != null -> {
+                val pill = TextLinkStyles(style.mentionColors.pill(isOwn = false))
+                val onRoomLink = style.onRoomLink
+                pushLink(if (onRoomLink != null) LinkAnnotation.Clickable(link, pill) { onRoomLink(link) } else LinkAnnotation.Url(link, pill))
+                val name = style.roomName(link)
+                append(if (name != null) "#$name" else if (span.text.startsWith("#") || span.text.startsWith("!")) span.text else "#${span.text}")
+                pop()
+            }
+            link != null -> {
+                pushLink(LinkAnnotation.Url(link, TextLinkStyles(SpanStyle(color = style.linkColor))))
+                withStyle(spanStyle) { append(span.text) }
+                pop()
+            }
+            span.code -> withStyle(spanStyle) { append(span.text) }
+            else -> withStyle(spanStyle) { append(MessageText.attributed(span.text, style.prettifyLinks, style.linkColor)) }
+        }
     }
 }
 
@@ -1183,11 +1803,11 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                 }
             }
             HorizontalDivider(color = theme.border)
-            item(tr("emoji.react"), "smiley") { actions.moreReactions(entry) }
+            item(tr("timeline.addReaction"), "smiley") { actions.moreReactions(entry) }
             if (entry.canBeRepliedTo) item(tr("timeline.reply"), "arrow-bend-up-left") { actions.reply(entry) }
             val openThread = actions.openThread
             if (entry.canBeRepliedTo && openThread != null) item(tr("timeline.replyInThread"), "chat-dots") { openThread(entry) }
-            if (entry.isOwn && entry.isEditable && entry.kind is ChatEntry.Kind.Message) {
+            if (entry.isOwn && entry.isEditable && entry.editableText != null) {
                 item(tr("common.edit"), "pencil-simple") { actions.edit(entry) }
             }
         }
@@ -1216,7 +1836,11 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
                     }
                 }
             }
+            if (entry.isContent && entry.kind !is ChatEntry.Kind.Redacted && entry.kind !is ChatEntry.Kind.Undecryptable) {
+                item(tr("timeline.forward"), "arrow-circle-right") { actions.forward(entry) }
+            }
             item(tr("timeline.remind.title"), "alarm", action = onRemind)
+            if (entry.isEdited) item(tr("timeline.editHistory.open"), "clock-counter-clockwise") { actions.onEditHistory(entry) }
             item(tr("timeline.viewSource"), "code") { actions.viewSource(entry) }
             HorizontalDivider(color = theme.border)
             if (!entry.isOwn) item(tr("timeline.reportShort"), "flag", destructive = true) { actions.report(entry) }
@@ -1298,7 +1922,7 @@ private fun ReportDialog(onDismiss: () -> Unit, onReport: (String?) -> Unit) {
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
                 Text(tr("timeline.yourHomeserverSAdmins"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
-                WizardTextField(reason, { reason = it }, tr("room.members.reasonLabel"))
+                WizardTextField(reason, { reason = it }, tr("common.reasonOptional"))
             }
         },
         confirmButton = {
@@ -1316,13 +1940,29 @@ private fun ReportDialog(onDismiss: () -> Unit, onReport: (String?) -> Unit) {
 }
 
 @Composable
-private fun TypingIndicator(names: List<String>) {
+private fun OfflineStatus() {
+    Row(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space8),
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spinner(size = WZ.SizeIcon.xs, color = theme.warningColor)
+        Text(tr("banner.offline"), style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = theme.warningColor, maxLines = 1)
+    }
+}
+
+@Composable
+private fun TypingIndicator(names: List<String>, ids: List<String>) {
+    val colored = names.zip(ids).map { (name, id) -> name to nameColor(id) }
     Text(
-        when (names.size) {
-            1 -> tr("timeline.oneTyping", names[0])
-            2 -> tr("timeline.twoTyping", names[0], names[1])
-            else -> tr("timeline.typingMany")
-        },
+        withNameColors(
+            when (names.size) {
+                1 -> tr("timeline.oneTyping", names[0])
+                2 -> tr("timeline.twoTyping", names[0], names[1])
+                else -> tr("timeline.typingMany")
+            },
+            colored,
+        ),
         Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space8),
         style = wizardFont(WZ.FontSize.sm, FontWeight.Medium),
         color = theme.textMuted,

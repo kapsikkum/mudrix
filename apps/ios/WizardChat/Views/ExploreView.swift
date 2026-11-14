@@ -16,6 +16,7 @@ struct ExploreView: View {
     @State private var otherServer = ""
     @State private var search = ""
     @State private var joining: Set<String> = []
+    @State private var knocked: Set<String> = []
     @State private var errorMessage: String?
 
     private var homeServer: String {
@@ -115,6 +116,7 @@ struct ExploreView: View {
                 model: model,
                 title: tab == .featured ? String(localized: "explore.featuredSpaces") : L10n.format("explore.publicRoomsOn", "\(currentServer ?? homeServer)"),
                 isJoined: { roomList.isJoined($0.id) },
+                isKnocked: isKnocked,
                 joining: joining,
                 errorMessage: errorMessage,
                 onJoin: join
@@ -142,7 +144,12 @@ struct ExploreView: View {
         model?.load(server: currentServer, filter: tab == .featured ? nil : search)
     }
 
+    private func isKnocked(_ room: PublicRoom) -> Bool {
+        knocked.contains(room.id) || roomList.knockedIds.contains(room.id)
+    }
+
     private func join(_ room: PublicRoom) {
+        if isKnocked(room) { return }
         if roomList.isJoined(room.id) {
             onOpen(room.id)
             dismiss()
@@ -153,11 +160,18 @@ struct ExploreView: View {
         Task {
             defer { joining.remove(room.id) }
             do {
+                if RoomAccess.requiresKnock(room.joinRule) {
+                    _ = try await session.requireClient.knock(roomIdOrAlias: room.id, reason: nil,
+                                                              via: [currentServer ?? homeServer])
+                    knocked.insert(room.id)
+                    return
+                }
                 let roomId = try await session.join(room.id, via: [currentServer ?? homeServer])
                 onOpen(roomId)
                 dismiss()
             } catch {
-                errorMessage = L10n.format("explore.failedToJoin", "\(error)")
+                errorMessage = L10n.format(RoomAccess.requiresKnock(room.joinRule) ? "explore.knockFailed" : "common.joinFailed",
+                                           "\(error)")
             }
         }
     }
@@ -167,6 +181,7 @@ private struct ResultsList: View {
     @ObservedObject var model: ExploreModel
     let title: String
     let isJoined: (PublicRoom) -> Bool
+    let isKnocked: (PublicRoom) -> Bool
     let joining: Set<String>
     let errorMessage: String?
     let onJoin: (PublicRoom) -> Void
@@ -179,7 +194,7 @@ private struct ResultsList: View {
                     .font(.wizard(WZ.FontSize.sm, .bold))
                     .kerning(0.5)
                     .foregroundStyle(theme.textMuted)
-                if let error = errorMessage ?? model.error.map({ L10n.format("explore.couldNotLoadRooms", "\($0)") }) {
+                if let error = errorMessage ?? model.error.map({ L10n.format("explore.fetchError", "\($0)") }) {
                     Text(error)
                         .font(.wizard(WZ.FontSize.sm))
                         .foregroundStyle(theme.error)
@@ -197,7 +212,7 @@ private struct ResultsList: View {
                     .padding(.vertical, WZ.Space.space9)
                 }
                 ForEach(model.rooms, id: \.id) { room in
-                    RoomCard(room: room, isJoined: isJoined(room),
+                    RoomCard(room: room, isJoined: isJoined(room), isKnocked: isKnocked(room),
                              isJoining: joining.contains(room.id)) { onJoin(room) }
                         .onAppear {
                             if room.id == model.rooms.last?.id { model.loadNextPage() }
@@ -216,6 +231,7 @@ private struct ResultsList: View {
 private struct RoomCard: View {
     let room: PublicRoom
     let isJoined: Bool
+    let isKnocked: Bool
     let isJoining: Bool
     let onJoin: () -> Void
     @Environment(\.theme) private var theme
@@ -252,16 +268,20 @@ private struct RoomCard: View {
                     .foregroundStyle(theme.textMuted)
                 Spacer()
                 Button(action: onJoin) {
-                    Text(isJoined ? String(localized: "common.open") : isJoining ? String(localized: "explore.joining") : String(localized: "common.join"))
+                    Text(isKnocked ? String(localized: "explore.knocking")
+                         : isJoined ? String(localized: "common.open")
+                         : isJoining ? String(localized: "explore.joining")
+                         : RoomAccess.requiresKnock(room.joinRule) ? String(localized: "explore.knock")
+                         : String(localized: "common.join"))
                         .font(.wizard(WZ.FontSize.sm, .semibold))
-                        .foregroundStyle(isJoined ? theme.textPrimary : theme.textOnAccent)
+                        .foregroundStyle(isJoined || isKnocked ? theme.textPrimary : theme.textOnAccent)
                         .padding(.horizontal, WZ.Space.space5)
                         .frame(height: WZ.Space.space9)
-                        .background(isJoined ? theme.bgTertiary : theme.accent,
+                        .background(isJoined || isKnocked ? theme.bgTertiary : theme.accent,
                                     in: RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
                 }
                 .buttonStyle(.plain)
-                .disabled(isJoining)
+                .disabled(isJoining || isKnocked)
             }
         }
         .padding(WZ.Space.space5)

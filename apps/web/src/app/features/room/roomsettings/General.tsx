@@ -28,6 +28,7 @@ import * as css from '@/app/components/Settings/Settings.css';
 import { RoomBridges } from './RoomBridges';
 import { AddressesSection } from './AddressesSection';
 import { IdentitySection } from './IdentitySection';
+import { MemberProfileSection } from './MemberProfileSection';
 import { RoomSpacesSection } from './RoomSpaces';
 import { useIdentityForm, type AccessOption } from './useIdentityForm';
 import { useRoomAliases } from './useRoomAliases';
@@ -45,8 +46,8 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
   const queryClient = useQueryClient();
   const myUserId = useUserId();
   const confirmDialog = useConfirm();
-  const [devModeEnabled] = useAtom(developerModeAtom);
   const toast = useToast();
+  const [devModeEnabled] = useAtom(developerModeAtom);
 
   const { data: settings } = useRoomSettings(roomId);
   const details = useRoomDetails(roomId);
@@ -253,6 +254,10 @@ export function GeneralPanel({ roomId, onClose }: GeneralPanelProps) {
           </div>
         </>
       )}
+
+      <div className={css.divider} />
+
+      <MemberProfileSection roomId={roomId} />
 
       <div className={css.divider} />
 

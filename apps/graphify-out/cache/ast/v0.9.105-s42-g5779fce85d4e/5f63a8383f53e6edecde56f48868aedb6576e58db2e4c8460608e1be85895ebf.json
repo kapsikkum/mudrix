@@ -1,0 +1,1087 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "label": "VideoPlan.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "label": "VideoQuality",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L17",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_original",
+      "label": "Original",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L18",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "label": "Smart",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "label": "Fixed",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "label": "CompressTarget",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videometa",
+      "label": "VideoMeta",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L30",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compressplan",
+      "label": "CompressPlan",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L38",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "label": "VideoPlan",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L46",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_tier",
+      "label": "Tier",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L47",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "label": ".jsRound()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L72",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "label": ".planCompression()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L78",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "label": ".scaledSize()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L110",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_even",
+      "label": ".even()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L117",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "label": ".estimateCompressedSize()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L120",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "label": "Mode",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_original",
+      "label": "original",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_smart",
+      "label": "smart",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_fixed",
+      "label": "fixed",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "label": "UploadPrefs",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L129",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "label": ".smartMaxBytes()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L142",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_defaultquality",
+      "label": ".defaultQuality()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L149",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "label": ".qualityTarget()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L157",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_choice",
+      "label": "Choice",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L169",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "label": ".choices()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L175",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "floor",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.math.floor" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "max",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.math.max" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "min",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "kotlin.math.min" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_original",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_original",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videometa",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compressplan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_tier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videometa",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compressplan",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_even",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videometa",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_original",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_smart",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode_fixed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_mode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L130",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L142",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_defaultquality",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_defaultquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L149",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_defaultquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L149",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L157",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compresstarget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L157",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_choice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_choice",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoquality",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L169",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videometa",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L175",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_uploadprefs",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L175",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_choice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L175",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_compressplan",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_even",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_even",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_defaultquality",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_smart",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_choice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_fixed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_qualitytarget",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_tier",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L51",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_jsround",
+      "callee": "floor",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "estimate",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "last",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L97",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "TIERS"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "firstOrNull",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L98",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "TIERS"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "estimate",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_plancompression",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_scaledsize",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_even",
+      "callee": "toInt",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L122",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_estimatecompressedsize",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L122",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "callee": "floor",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_smartmaxbytes",
+      "callee": "toDouble",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L143",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "prefs.targetBytes"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "mutableListOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L176",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "toMutableSet",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L177",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "OFFERED_HEIGHTS"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "sortedDescending",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L183",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L189",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan_choices",
+      "callee": "toLong",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L189",
+      "receiver": null,
+      "lang": "kotlin",
+      "qualified_prefix": "plan.estimatedBytes"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "callee": "mapOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_media_videoplan_videoplan",
+      "callee": "listOf",
+      "is_member_call": false,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/media/VideoPlan.kt",
+      "source_location": "L163",
+      "receiver": null
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.media"
+}

@@ -1,0 +1,2995 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "label": "linux.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_audio",
+      "label": "AUDIO",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L42"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_supported",
+      "label": "supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L44"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_max_width",
+      "label": "MAX_WIDTH",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L52"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_max_height",
+      "label": "MAX_HEIGHT",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L53"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_min_window_size",
+      "label": "MIN_WINDOW_SIZE",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L54"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_interval",
+      "label": "SHM_INTERVAL",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L55"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_plain_interval",
+      "label": "PLAIN_INTERVAL",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L57"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "label": "Rect",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L73",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_region",
+      "label": "Region",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L81",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "drawable",
+      "label": "Drawable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["x11rb"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "label": "Target",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L88",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_screen",
+      "label": "Screen",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L89"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_window",
+      "label": "Window",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L90"
+    },
+    {
+      "id": "window",
+      "label": "Window",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["x11rb"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_windowinfo",
+      "label": "WindowInfo",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L93",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "label": "X",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L99",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "rustconnection",
+      "label": "RustConnection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["x11rb"]
+    },
+    {
+      "id": "atoms",
+      "label": "Atoms",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "label": ".connect()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L106"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "label": ".property()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L116"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "label": ".property32()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L126"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "label": ".root_size()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L138"
+    },
+    {
+      "id": "replyerror",
+      "label": "ReplyError",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["x11rb"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "label": ".screens()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L143"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "label": ".windows()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L177"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "label": ".window()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L185"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "label": ".region()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L226"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_bgrx",
+      "label": ".bgrx()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L265"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "label": ".image()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L275"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "label": ".snapshot()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L294"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_fit",
+      "label": "fit()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L310"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "label": "scale()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L321"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "label": "draw_cursor()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L359"
+    },
+    {
+      "id": "getcursorimagereply",
+      "label": "GetCursorImageReply",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "label": "sources()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L392"
+    },
+    {
+      "id": "source",
+      "label": "Source",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "label": "Shm",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L419",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "seg",
+      "label": "Seg",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs"
+    },
+    {
+      "id": "c_void",
+      "label": "c_void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "label": ".new()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L426"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "label": ".free()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L450"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "label": "shm_supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L459"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "label": "cursor_supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L466"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "label": "capture()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473"
+    },
+    {
+      "id": "sink",
+      "label": "Sink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "atomicbool",
+      "label": "AtomicBool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "label": "system_audio()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L567"
+    },
+    {
+      "id": "child",
+      "label": "Child",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "joinhandle",
+      "label": "JoinHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "label": "Capture",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L619",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/linux.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L626"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "label": "start()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L637"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "std",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "c_void",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "errorkind",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "read",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "child",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "command",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "stdio",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "null_mut",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "atomicbool",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "ordering",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "arc",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "joinhandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "duration",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "instant",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "mm",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "mmap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "munmap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "mapflags",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "protflags",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "x11rb",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "connection",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "replyerror",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "connectionext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "shm",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "connectionext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "xfixes",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "connectionext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "atomenum",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "connectionext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "drawable",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "imageformat",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "imageorder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "mapstate",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "window",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "windowclass",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "rustconnection",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "super",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "super",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "thumbnail",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "thumbnail",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "session",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Session",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "sink",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Sink",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "source",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "Source",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_audio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_max_width",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_max_height",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_min_window_size",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_interval",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_plain_interval",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_region",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_region",
+      "target": "drawable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_region",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L83",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_screen",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_window",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_windowinfo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_windowinfo",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "rustconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "atoms",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L116",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "target": "replyerror",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_windowinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L177",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_windowinfo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L226",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_region",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L226",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "target": "replyerror",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L226",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_bgrx",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "target": "drawable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L275",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L275",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L294",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_fit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L321",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L359",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "target": "getcursorimagereply",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L359",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L392",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "source",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L392",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L419",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "target": "seg",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L420",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "target": "c_void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L421",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L426",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "target": "rustconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L426",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L450",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "target": "rustconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L450",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L459",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "target": "rustconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L459",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L466",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "target": "rustconnection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L466",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "atomicbool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L473",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L567",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L567",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "target": "child",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L567",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "target": "joinhandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L567",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L619",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "atomicbool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L620",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "joinhandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L621",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "child",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L622",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "joinhandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L622",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "session",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L625",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L626",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L637",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "sink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L637",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "session",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L637",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_bgrx",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L290",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_fit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L297",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L299",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L393",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L395",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L399",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_screen",
+      "relation": "references",
+      "context": "constructor",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L400",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L405",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "target": "window",
+      "relation": "references",
+      "context": "constructor",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L410",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L474",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L475",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L479",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L491",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L494",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_bgrx",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L521",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L525",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L536",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_fit",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L538",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L539",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L639",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_target_screen",
+      "relation": "references",
+      "context": "constructor",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L643",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L643",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "window",
+      "relation": "references",
+      "context": "constructor",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L650",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L654",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L657",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_supported",
+      "callee": "is_some_and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L45"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_supported",
+      "callee": "map_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L107"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "setup",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_connect",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Atoms",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L117"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "callee": "get_property",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L117"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property",
+      "callee": "then_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_property32",
+      "callee": "from_ne_bytes",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L132"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L139"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_root_size",
+      "callee": "get_geometry",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L139"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L144"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L144"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L144"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L144"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "randr_query_version",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L144"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L148"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "randr_get_monitors",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L149"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L150"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_screens",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L166"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "callee": "filter_map",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L179"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_windows",
+      "callee": "into_iter",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L179"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L187"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "get_window_attributes",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L187"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L192"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "get_geometry",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L192"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L197"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "or_else",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L210"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L213"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "from_utf8_lossy",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "String",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L213"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L215"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "nth",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L218"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L218"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_window",
+      "callee": "from_utf8_lossy",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "String",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L220"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "callee": "get_geometry",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L230"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "callee": "translate_coordinates",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L231"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L232"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_region",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L232"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_bgrx",
+      "callee": "setup",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L266"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L276"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "callee": "get_image",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L276"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_image",
+      "callee": "then_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L290"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L298"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_x_snapshot",
+      "callee": "thumbnail",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L306"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "clamp",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L330"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "span",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L332"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "clear",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L333"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "reserve",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L334"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "span",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L336"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L342"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L343"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L344"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_scale",
+      "callee": "extend_from_slice",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L348"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "i32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L365"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "i32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L365"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "i32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L366"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "i32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L366"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "usize",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L367"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "chunks_exact",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L368"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "iter_mut",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L384"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_draw_cursor",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L386"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L394"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "callee": "into_iter",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L395"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L399"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_sources",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L409"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "generate_id",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L427"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L428"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "shm_create_segment",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L428"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "try_from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L429"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "mmap",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L434"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "null_mut",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L435"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_new",
+      "callee": "shm_detach",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L444"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "callee": "munmap",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L452"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_free",
+      "callee": "shm_detach",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L454"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "callee": "is_some_and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L460"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L460"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "callee": "shm_query_version",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L460"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_shm_supported",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L462"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "callee": "is_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L467"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L467"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "callee": "xfixes_query_version",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L467"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_cursor_supported",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L469"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "then_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L474"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L476"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L478"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "as_mut",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L489"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "take_if",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L490"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "is_none",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L493"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "is_some_and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L498"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "as_ref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L498"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "is_none",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L498"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "flatten",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L501"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L501"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "xfixes_get_cursor_image",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L502"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "as_ref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L505"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L506"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "shm_get_image",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L506"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L520"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L533"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L533"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "video",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L546"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_fbc259",
+      "callee": "is_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L549"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "spawn",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L568"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "stderr",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L568"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "stdout",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L568"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "stdin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L568"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "args",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L568"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L582"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "kill",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L583"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "wait",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L584"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L591"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "kind",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L596"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "clear",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L603"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "extend",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L604"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "from_le_bytes",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "f32",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L609"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "audio",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L611"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_system_audio",
+      "callee": "copy_within",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L612"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "callee": "store",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L627"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "callee": "kill",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L629"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "callee": "wait",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L630"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L631"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_capture_stop",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L633"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L640"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "split_once",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L640"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L641"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L643"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L645"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "reply",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L645"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L645"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "get_geometry",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L645"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "flatten",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L654"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L654"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_linux_start",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Box",
+      "source_file": "desktop/src-tauri/src/screen_share/linux.rs",
+      "source_location": "L658"
+    }
+  ]
+}

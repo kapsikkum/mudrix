@@ -24,6 +24,7 @@ import { GlobalSearch } from '@/app/features/globalSearch';
 import { WhatsNewModal } from '@/app/features/whatsNew';
 import { DesktopSourcePicker } from '@/app/features/calls/desktopPicker/DesktopSourcePicker';
 import { ExploreModal } from '@/app/features/explore';
+import { GetAppsModal } from '@/app/features/getApps';
 import { CustomStatusDialog } from '@/app/features/status/CustomStatusDialog';
 
 export function GlobalModals() {
@@ -57,6 +58,7 @@ export function GlobalModals() {
       <RoomSwitcher />
       <GlobalSearch />
       <ExploreModal />
+      <GetAppsModal />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import { memo, useMemo, useRef, useCallback, useEffect } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { GameControllerIcon, MusicNotesIcon } from '@phosphor-icons/react';
 import { useUiDensitySizes } from '@/app/hooks/useUiDensitySync';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -17,6 +18,14 @@ import { Avatar } from '@/app/components/Avatar';
 import { useSyncReady } from '@/app/hooks/useSync';
 import type { RoomSettings } from '@wizardchat/core';
 import { useRoomSettings } from '@/app/data';
+import {
+  activityText,
+  useActiveStatus,
+  useExtendedProfile,
+  useLiveActivities,
+} from '@/app/hooks/useExtendedProfile';
+import { effectiveDotPresence } from '@/util/profileCosmetics';
+import { ListDecoratedAvatar, ListNameplate } from '@/app/features/profile/ListCosmetics';
 import { useMembers } from './useMembers';
 import type { MemberEntry } from './useMembers';
 import {
@@ -29,8 +38,10 @@ import {
 import type { RoleSectionItem } from './memberRoles';
 import type { BuiltinRoleKey, SpaceRoles } from '@/app/features/space/spaceRoles';
 import { builtinKeyOf, roleColorOf, useRoomRoles } from '@/app/features/space/spaceRoles';
-import { useUserStatusText } from '@/app/features/status/customStatus';
 import * as css from './MembersList.css';
+
+/** Custom statuses have no push; visible rows re-check this often (paused while hidden). */
+const STATUS_REFRESH_MS = 60_000;
 
 const MemberRow = memo(function MemberRow({
   member,
@@ -70,12 +81,34 @@ const MemberRow = memo(function MemberRow({
     [member.userId, roomId, setProfile]
   );
 
-  const statusText = useUserStatusText(client, member.userId);
-  const presence = showPresence
+  const { data: ext } = useExtendedProfile(client, member.userId, {
+    refetchInterval: showPresence ? STATUS_REFRESH_MS : undefined,
+  });
+  const status = useActiveStatus(ext?.status);
+  const { t } = useTranslation();
+  const activities = useLiveActivities(ext?.activities);
+
+  const basePresence = showPresence
     ? member.userId === localUserId
       ? ownPresence
       : member.presence
     : undefined;
+  const presence = showPresence ? effectiveDotPresence(basePresence, status?.mode) : undefined;
+  const hasStatusText = !!status && (!!status.emoji || !!status.text);
+
+  const first = activities[0];
+  const more = activities.length - 1;
+  const activityLine = first
+    ? first.type === 'playing'
+      ? activityText(t, first)
+      : first.details
+        ? `${first.name} – ${first.details}`
+        : first.name
+    : '';
+  const ActivityIcon = first?.type === 'listening' ? MusicNotesIcon : GameControllerIcon;
+  const subtitle =
+    [status?.text, ...activities.map((a) => activityText(t, a))].filter(Boolean).join('\n') ||
+    undefined;
 
   return (
     <Tooltip content={member.userId}>
@@ -92,29 +125,49 @@ const MemberRow = memo(function MemberRow({
           }
         }}
       >
-        <Avatar
-          name={member.displayName}
-          mxcUrl={member.avatarMxc}
-          client={client ?? undefined}
-          size="sm"
-          placeholder="logo"
-          presence={presence}
-        />
-        {statusText ? (
-          <span className={css.memberText}>
-            <span
-              className={css.memberNameStacked}
-              style={nameColor ? { color: nameColor } : undefined}
-            >
-              {member.displayName}
-            </span>
-            <span className={css.memberStatus}>{statusText}</span>
-          </span>
-        ) : (
+        <ListNameplate nameplate={ext?.nameplate} client={client} />
+        <ListDecoratedAvatar decoration={ext?.avatarDecoration ?? null} client={client}>
+          <Avatar
+            name={member.displayName}
+            mxcUrl={member.avatarMxc}
+            client={client ?? undefined}
+            size="sm"
+            placeholder="logo"
+            presence={presence}
+          />
+        </ListDecoratedAvatar>
+        <span className={css.memberTextColumn}>
           <span className={css.memberName} style={nameColor ? { color: nameColor } : undefined}>
             {member.displayName}
           </span>
-        )}
+          {first ? (
+            <span className={css.memberStatus} title={subtitle}>
+              <span
+                className={first.type === 'listening' ? css.memberMusicIcon : css.memberGameIcon}
+              >
+                <ActivityIcon size={14} weight="bold" aria-hidden />
+              </span>
+              <span className={css.memberStatusText}>{activityLine}</span>
+              {more > 0 && <span className={css.memberStatusMore}>+{more}</span>}
+              {status?.emoji && (
+                <>
+                  <span className={css.memberStatusDot} aria-hidden>
+                    •
+                  </span>
+                  <span className={css.memberStatusEmoji}>{status.emoji}</span>
+                </>
+              )}
+            </span>
+          ) : (
+            status &&
+            hasStatusText && (
+              <span className={css.memberStatus} title={status.text || undefined}>
+                {status.emoji && <span className={css.memberStatusEmoji}>{status.emoji}</span>}
+                {status.text && <span className={css.memberStatusText}>{status.text}</span>}
+              </span>
+            )
+          )}
+        </span>
       </div>
     </Tooltip>
   );

@@ -79,7 +79,7 @@ export function CreateCategoryModal() {
       });
       close();
     } catch (err) {
-      toast.error(t('room.space.create.failed', { error: getErrorMessage(err) }));
+      toast.error(t('space.create.failed', { error: getErrorMessage(err) }));
     } finally {
       setLoading(false);
     }

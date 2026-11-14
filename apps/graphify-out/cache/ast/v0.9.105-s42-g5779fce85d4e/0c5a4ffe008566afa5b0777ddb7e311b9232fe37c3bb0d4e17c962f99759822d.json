@@ -1,0 +1,1140 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "label": "SavedMessages.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "label": ".firstAccountData()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "label": "SavedMessage",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "label": "EventPreview",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "label": "SavedMessages",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L33",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_ids",
+      "label": ".ids",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L43"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "label": ".toggle()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L70",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_nowms",
+      "label": ".nowMs",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L78"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "label": ".parse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L80",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "label": ".toContent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L88",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "label": ".toggled()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "label": ".preview()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L104",
+      "_callable": true
+    },
+    {
+      "id": "eventsource",
+      "label": "EventSource",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "label": ".resolve()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L114",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_ids",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_nowms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "target": "eventsource",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L114",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L71",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessage",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_eventpreview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "target": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient_firstaccountdata",
+      "callee": "accountData",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_ids",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L43",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L51",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L52",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "contents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "removeValue",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L54",
+      "receiver": "contents"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L55",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "contents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_start",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L58",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_stop",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L63",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L63",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggle",
+      "callee": "setAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L73",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L82",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_parse",
+      "callee": "item",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_tocontent",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L89",
+      "receiver": "items"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L97",
+      "receiver": "current"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_toggled",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L98",
+      "receiver": "current"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "callee": "clear",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "callee": "clear",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_preview",
+      "callee": "clear",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L110",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages_resolve",
+      "callee": "eventSource",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L115",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_savedmessages",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SavedMessages.swift",
+      "source_location": "L37",
+      "receiver": "Namespace"
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_savedmessages_wizardclient",
+      "label": "WizardClient"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/SavedMessages.swift",
+    "table": {
+      "types": "String",
+      "roomId": "String",
+      "eventId": "String",
+      "savedAt": "Int64",
+      "id": "String",
+      "sender": "String",
+      "body": "String",
+      "timestamp": "Int64",
+      "redacted": "Bool",
+      "shared": "SavedMessages",
+      "items": "SavedMessage",
+      "ids": "Set",
+      "subscriptions": "Subscription",
+      "contents": "String",
+      "client": "WizardClient",
+      "nowMs": "Int64",
+      "content": "JSONValue",
+      "current": "SavedMessage",
+      "now": "Int64",
+      "source": "EventSource"
+    },
+    "factory": { "type": ["Namespace", "mudrixKey"] }
+  }
+}

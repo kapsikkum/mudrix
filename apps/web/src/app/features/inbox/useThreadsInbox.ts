@@ -6,9 +6,11 @@ import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllRooms } from '@/app/data';
 import { isThreadInfoUnread } from '@/app/hooks/useHasUnreadThreads';
 import { threadLastSeenAtom } from '@/app/store/atoms';
+import { roomsWithUnreadThreads, threadCandidates } from './inboxNotifications';
+import { useServerNotifications } from './useServerNotifications';
 
 const MAX_THREADS = 50;
-/** How many of the most recently active rooms get their thread list asked for. */
+/** How many of the most recently active rooms get their thread list asked for, besides rooms with unread replies. */
 const FETCH_ROOMS = 25;
 
 export interface InboxThread {
@@ -25,24 +27,27 @@ export interface UseThreadsInboxResult {
 }
 
 /**
- * Threads you take part in, across the busiest joined rooms, newest activity first. Rooms are
- * asked for their threads only while `enabled` (the tab is showing) and again when they see new
- * activity.
+ * Threads you take part in, across the busiest joined rooms and the rooms the server reports unread
+ * thread replies in, newest activity first. Rooms are asked for their threads only while `enabled`
+ * (the tab is showing) and again when they see new activity.
  */
 export function useThreadsInbox(enabled: boolean): UseThreadsInboxResult {
   const rooms = useAllRooms();
   const lastSeen = useAtomValue(threadLastSeenAtom);
   const myUserId = getMatrixClientOrNull()?.userId();
+  const server = useServerNotifications().data;
+  const unreadThreadRoomIds = useMemo(() => roomsWithUnreadThreads(server?.all ?? []), [server]);
 
   const busiest = useMemo(
     () =>
       enabled
-        ? rooms
-            .filter((room) => !room.isInvite && !room.isSpace && !room.isTombstoned)
-            .sort((a, b) => (b.lastActivity ?? 0) - (a.lastActivity ?? 0))
-            .slice(0, FETCH_ROOMS)
+        ? threadCandidates(
+            rooms.filter((room) => !room.isInvite && !room.isSpace && !room.isTombstoned),
+            unreadThreadRoomIds,
+            FETCH_ROOMS
+          )
         : [],
-    [enabled, rooms]
+    [enabled, rooms, unreadThreadRoomIds]
   );
 
   const results = useQueries({

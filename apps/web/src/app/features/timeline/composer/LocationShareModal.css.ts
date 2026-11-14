@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const input = style({
   width: '100%',
@@ -10,7 +11,7 @@ export const input = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
   color: vars.color.textPrimary,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   fontFamily: 'inherit',
   outline: 'none',
   transition: `border-color ${fast}, box-shadow ${fast}`,
@@ -32,12 +33,12 @@ export const status = style({
   alignItems: 'center',
   gap: '8px',
   color: vars.color.textSecondary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
 });
 
 export const errorText = style({
   color: vars.color.danger,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
 });
 
 export const retryBtn = style({
@@ -49,7 +50,7 @@ export const retryBtn = style({
   border: 'none',
   background: 'none',
   color: vars.color.accent,
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   cursor: 'pointer',
   ':disabled': { opacity: 0.5, cursor: 'default' },
 });

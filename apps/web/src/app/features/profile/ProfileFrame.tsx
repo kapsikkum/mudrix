@@ -3,7 +3,9 @@ import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { builtinFramePieces, getBuiltinFrame } from '@/util/builtinCosmetics';
+import { useProfileFramePacks } from '@/app/hooks/useUserPacks';
 import { type ProfileFrameId, type ProfileFramePiece } from '@/util/profileCosmetics';
+import { useResolveCosmetic } from './ProfileCosmetics';
 import * as css from './ProfileCard.css';
 
 interface ProfileFrameProps {
@@ -26,7 +28,7 @@ function FramePieceImg({
   onDims?: (dims: { width: number; height: number; pos: string }) => void;
 }) {
   const isMxc = piece.url.startsWith('mxc://');
-  const { src: blobUrl } = useMediaBlobUrl(client, isMxc ? piece.url : null);
+  const { src: blobUrl } = useMediaBlobUrl(client, isMxc ? piece.url : null, { queue: true });
   // Only mxc:// media or a built-in frame's own assets are ever loaded (a profile or pack must not
   // make clients fetch other hosts).
   const finalSrc = isMxc ? blobUrl : piece.staticSrc;
@@ -62,24 +64,26 @@ function FramePieceImg({
 
 export function ProfileFrame({ frame, client, layer = 'both' }: ProfileFrameProps) {
   const c = client ?? getMatrixClientOrNull();
+  const packs = useProfileFramePacks(c);
+  const shown = useResolveCosmetic(frame);
 
   const resolvedPieces = useMemo<ResolvedPiece[]>(() => {
-    if (!frame) return [];
+    if (!shown) return [];
 
     // 1. Direct pieces on object
-    if (typeof frame === 'object' && frame !== null) {
-      if (Array.isArray(frame.pieces) && frame.pieces.length > 0) {
-        return frame.pieces;
+    if (typeof shown === 'object' && shown !== null) {
+      if (Array.isArray(shown.pieces) && shown.pieces.length > 0) {
+        return shown.pieces;
       }
-      if (frame.url) {
-        return [{ layer: 'front', pos: 'center', url: frame.url }];
+      if (shown.url) {
+        return [{ layer: 'front', pos: 'center', url: shown.url }];
       }
       return [];
     }
 
     // 2. String frame id: look up in pack catalog
-    if (typeof frame === 'string') {
-      const builtin = getBuiltinFrame(frame);
+    if (typeof shown === 'string') {
+      const builtin = getBuiltinFrame(shown);
       if (builtin) {
         return builtinFramePieces(builtin).map((p) => ({
           layer: p.layer,
@@ -88,14 +92,24 @@ export function ProfileFrame({ frame, client, layer = 'both' }: ProfileFrameProp
           staticSrc: p.src,
         }));
       }
-      // Not a built-in: treat the string url as a single center piece
-      return [{ layer: 'front', pos: 'center', url: frame }];
+      for (const group of packs) {
+        for (const item of group.frames) {
+          if (item.id === shown || item.url === shown) {
+            if (Array.isArray(item.pieces) && item.pieces.length > 0) {
+              return item.pieces;
+            }
+            return [{ layer: 'front', pos: 'center', url: item.url }];
+          }
+        }
+      }
+      // Not in local pack catalog: treat the string url as a single center piece
+      return [{ layer: 'front', pos: 'center', url: shown }];
     }
 
     return [];
-  }, [frame]);
+  }, [shown, packs]);
 
-  const frameKey = typeof frame === 'string' ? frame : frame?.url || '';
+  const frameKey = typeof shown === 'string' ? shown : shown?.url || '';
   const [dimsState, setDimsState] = useState<{
     overflowTop?: number;
     overflowBottom?: number;

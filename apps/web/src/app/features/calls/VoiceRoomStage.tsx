@@ -5,7 +5,7 @@ import type { WizardClient } from '@wizardchat/core';
 import { ChatTextIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { useRoom } from '@/app/data';
 import { openRoomChatAtom } from '@/app/store/atoms';
-import { callUiAtom } from '@/app/store/atoms/call';
+import { callUiAtom, callPopoutOpenAtom } from '@/app/store/atoms/call';
 import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { RoomHeader } from '@/app/features/timeline/RoomHeader';
 import { useJoinVoiceRoom } from './useJoinVoiceRoom';
@@ -27,7 +27,8 @@ export function VoiceRoomStage({ client, roomId }: Props) {
 
   const room = useRoom(roomId);
   const background = buildCallBackground(theme);
-  const callPoppedOut = callUi.roomId === roomId;
+  const popoutOpen = useAtomValue(callPopoutOpenAtom);
+  const callPoppedOut = callUi.roomId === roomId && (popoutOpen || callUi.presentation === 'tile');
 
   const markRead = useRoomReadReceipts(client, roomId);
   const lastActivity = room?.lastActivity;
@@ -48,7 +49,7 @@ export function VoiceRoomStage({ client, roomId }: Props) {
         <div className={css.stageContent}>
           <h1 className={css.stageTitle}>{room?.name ?? roomId}</h1>
           {callPoppedOut ? (
-            <p className={css.stageNote}>{t('voice.poppedOut')}</p>
+            <p className={css.stageNote}>{t('call.poppedOut')}</p>
           ) : (
             <div className={css.stageActions}>
               <button

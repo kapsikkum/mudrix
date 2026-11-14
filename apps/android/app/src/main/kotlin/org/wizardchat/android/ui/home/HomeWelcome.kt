@@ -14,6 +14,8 @@ import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.settings.AccountSettings
 import org.wizardchat.android.ui.settings.SessionsSheet
+import org.wizardchat.android.ui.settings.WhatsNew
+import org.wizardchat.android.ui.settings.WhatsNewSheet
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -46,11 +48,43 @@ private const val RECENT_ROOMS = 6
 internal fun recentRooms(rooms: List<RoomSummary>): List<RoomSummary> =
     rooms.filter { !it.isSpace && it.lastActivity != null }.sortedByDescending { it.lastActivity }.take(RECENT_ROOMS)
 
+/** How many release-note bullets the What's new tile shows */
+private const val NOTES_SHOWN = 4
+
+/** The first bullets of the newest section of release notes as plain text (links, code and emphasis stripped) */
+internal fun noteHighlights(markdown: String, limit: Int = NOTES_SHOWN): List<String> {
+    val notes = mutableListOf<String>()
+    var sections = 0
+    for (line in markdown.lineSequence()) {
+        // Only the first section (what is new); the next one lists fixes
+        if (Regex("""^##\s""").containsMatchIn(line)) sections++
+        if (sections > 1) break
+        val bullet = Regex("""^\s*[-*]\s+(.+)$""").find(line) ?: continue
+        notes += bullet.groupValues[1]
+            .replace(Regex("""\[([^\]]+)]\([^)]*\)"""), "$1")
+            .replace(Regex("""[`*_]"""), "")
+            .trim()
+        if (notes.size >= limit) break
+    }
+    return notes
+}
+
 /** The top of the Home list: a greeting, what needs catching up on and the latest rooms */
 @Composable
-fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
+fun HomeWelcome(
+    roomList: RoomListModel,
+    onOpenInbox: (() -> Unit)?,
+    onNewMessage: () -> Unit = {},
+    onCreateSpace: (() -> Unit)? = null,
+    onExplore: (() -> Unit)? = null,
+) {
     val session = LocalSession.current
     val navigator = LocalNavigator.current
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val whatsNew = remember { WhatsNew.latest(context) }
+    val highlights = remember(whatsNew) { whatsNew?.let { noteHighlights(it.markdown) }.orEmpty() }
+    var readingNotes by remember { mutableStateOf(false) }
+    if (readingNotes && whatsNew != null) WhatsNewSheet(whatsNew) { readingNotes = false }
     val name = session.displayName ?: session.userId?.removePrefix("@")?.substringBefore(':').orEmpty()
     val invites = roomList.invites
     val mentions = roomList.mentionRooms
@@ -77,7 +111,7 @@ fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
                 CardRow(tr("timeline.home.profileTitle"), null, tr("timeline.home.profileDesc"), 0, false, icon = "camera") { sheet = SetupSheet.account }
             }
             if (needsVerification) {
-                CardRow(tr("verifySession.title"), null, tr("timeline.home.encryptionDesc"), 0, false, icon = "shield-warning", warning = true) { sheet = SetupSheet.sessions }
+                CardRow(tr("verification.session.title"), null, tr("timeline.home.encryptionDesc"), 0, false, icon = "shield-warning", warning = true) { sheet = SetupSheet.sessions }
             }
         }
         if ((invites.isNotEmpty() || mentions.isNotEmpty()) && onOpenInbox != null) {
@@ -99,6 +133,40 @@ fun HomeWelcome(roomList: RoomListModel, onOpenInbox: (() -> Unit)?) {
                 }
                 val unread = if (room.mentionCount > 0) room.mentionCount else room.unreadCount
                 CardRow(room.displayName, room.avatarUrl, label, unread, room.mentionCount > 0) { navigator.openRoom(room.id) }
+            }
+        }
+        // "Get started": a new message, a new or joined space and the directory
+        Heading(tr("timeline.home.startHeading"), null, null)
+        CardRow(tr("timeline.startDm"), null, tr("timeline.home.dmDesc"), 0, false, icon = "chat-circle") { onNewMessage() }
+        if (onCreateSpace != null) {
+            CardRow(tr("space.chooseCreateJoin"), null, tr("timeline.home.spaceDesc"), 0, false, icon = "stack") { onCreateSpace() }
+        }
+        if (onExplore != null) {
+            CardRow(tr("timeline.home.exploreTitle"), null, tr("timeline.home.exploreDesc"), 0, false, icon = "compass") { onExplore() }
+        }
+        if (whatsNew != null) {
+            Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space3), verticalAlignment = Alignment.CenterVertically) {
+                Text(tr("timeline.home.whatsNewHeading"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
+                Text(
+                    whatsNew.version,
+                    Modifier.clip(androidx.compose.foundation.shape.CircleShape).background(theme.bgActive).padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
+                    style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
+                    color = theme.accent,
+                )
+            }
+            Column(
+                Modifier.fillMaxWidth().clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill).padding(WZ.Space.space4),
+                verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+            ) {
+                highlights.forEach { note ->
+                    Text("• $note", style = wizardFont(WZ.FontSize.sm), color = theme.textPrimary, maxLines = 3, overflow = TextOverflow.Ellipsis)
+                }
+                Text(
+                    tr("timeline.home.readAll"),
+                    Modifier.clickable { readingNotes = true },
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.accent,
+                )
             }
         }
     }

@@ -1,0 +1,314 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sharesender_swift",
+      "label": "ShareSender.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender",
+      "label": "ShareSender",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "label": ".sendPending()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "_callable": true
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ShareSender.swift"
+    },
+    {
+      "id": "messagenotifier",
+      "label": "MessageNotifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ShareSender.swift"
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ShareSender.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ShareSender.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "label": ".publishRooms()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L29",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "target": "messagenotifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender",
+      "target": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "parameter_type"
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "UploadPrep",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "pending",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L14",
+      "receiver": "ShareInbox"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L15",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "TimelineModel",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "start",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L17",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "openRoom",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "fileURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L20",
+      "receiver": "ShareInbox"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "sendFile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L21",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "send",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L23",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L24",
+      "receiver": "ShareInbox"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L25",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_sendpending",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L25",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L30",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "callee": "RoomEntry",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L31",
+      "receiver": "ShareInbox"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_sharesender_sharesender_publishrooms",
+      "callee": "saveRooms",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ShareSender.swift",
+      "source_location": "L32",
+      "receiver": "ShareInbox"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ShareSender.swift",
+    "table": {
+      "roomList": "RoomListModel",
+      "notifier": "MessageNotifier",
+      "prefs": "AppPreferences",
+      "uploadLimit": "Int64",
+      "timeline": "TimelineModel",
+      "prep": "UploadPrep"
+    }
+  }
+}

@@ -6,14 +6,41 @@ import {
   EMOTE_ROOMS_UNSTABLE,
   ROOM_PACK_TYPES,
   USER_PACK,
+  mergePackImageMap,
   mergePackImages,
   mergePackInfo,
   parsePackInfo,
 } from '@/app/features/settings/emojis/imagePackTypes';
+import { mudrixKey } from '@/util/namespace';
+import { mergeSubscriptions, subscriptionRooms } from '@/util/cosmeticPacks';
 
 const DEFAULT_USAGE: PackUsage[] = ['emoticon', 'sticker'];
 
-export type PackUsage = 'emoticon' | 'sticker';
+export type PackUsage =
+  | 'emoticon'
+  | 'sticker'
+  | 'avatar_decoration'
+  | 'profile_decoration'
+  | 'avatar_frame'
+  | 'profile_effect'
+  | 'nameplate'
+  | 'profile_frame';
+
+export type PackKind = 'decoration' | 'effect' | 'emoji' | 'nameplate' | 'profile_frame';
+
+export function packKindOf(usage: readonly string[]): PackKind {
+  if (usage.includes('profile_frame')) return 'profile_frame';
+  if (usage.includes('nameplate')) return 'nameplate';
+  if (usage.includes('profile_effect')) return 'effect';
+  if (
+    usage.includes('avatar_decoration') ||
+    usage.includes('profile_decoration') ||
+    usage.includes('avatar_frame')
+  ) {
+    return 'decoration';
+  }
+  return 'emoji';
+}
 
 export interface UserPackImage {
   url: string;
@@ -72,8 +99,17 @@ function stateEvents(
   return events;
 }
 
+let packIndexCache = new WeakMap<
+  MatrixClient,
+  {
+    imageIndex: Map<string, { name: string; packName: string }>;
+    effectIntroIndex: Map<string, string>;
+  }
+>();
+
 export function invalidateImagePacks(): void {
   stateRequests = new WeakMap();
+  packIndexCache = new WeakMap();
   packListeners.forEach((listener) => listener());
 }
 
@@ -99,6 +135,40 @@ function isMeaningfulPackContent(content: PackContent | undefined): boolean {
   return !!images && typeof images === 'object' && Object.keys(images).length > 0;
 }
 
+export const EFFECT_INTRO_INFO_KEY = mudrixKey('effect_intro');
+
+function ensurePackIndex(client: MatrixClient) {
+  let idx = packIndexCache.get(client);
+  if (!idx) {
+    idx = {
+      imageIndex: new Map(),
+      effectIntroIndex: new Map(),
+    };
+    packIndexCache.set(client, idx);
+  }
+  return idx;
+}
+
+function indexPackContents(client: MatrixClient, contents: PackContent[], fallbackName: string) {
+  const idx = ensurePackIndex(client);
+  const packName = mergePackInfo(...contents).displayName || fallbackName;
+  const merged = mergePackImageMap(...contents);
+  for (const [shortcode, img] of Object.entries(merged)) {
+    if (img.url && !idx.imageIndex.has(img.url)) {
+      idx.imageIndex.set(img.url, { name: img.body || shortcode, packName });
+    }
+    const intro = img.info?.[EFFECT_INTRO_INFO_KEY];
+    if (
+      img.url &&
+      typeof intro === 'string' &&
+      intro.startsWith('mxc://') &&
+      !idx.effectIntroIndex.has(img.url)
+    ) {
+      idx.effectIntroIndex.set(img.url, intro);
+    }
+  }
+}
+
 export async function readRoomPackContents(
   client: MatrixClient,
   roomId: string
@@ -114,9 +184,48 @@ export async function readRoomPackContents(
     }
   }
   for (const [stateKey, contents] of byStateKey) {
-    if (!contents.some(isMeaningfulPackContent)) byStateKey.delete(stateKey);
+    if (!contents.some(isMeaningfulPackContent)) {
+      byStateKey.delete(stateKey);
+    } else {
+      indexPackContents(client, contents, stateKey);
+    }
   }
   return byStateKey;
+}
+
+/** A room pack found for an image: its summary and every image in it by shortcode. */
+export interface PackSource {
+  summary: RoomPackSummary;
+  images: Record<string, UserPackImage>;
+}
+
+const FIND_BATCH = 6;
+
+/**
+ * The room pack an image (by its `mxc://`) belongs to, looking through `roomIds` in order (put the
+ * likeliest room first). Packs of rooms read before are answered from the state cache.
+ */
+export async function findPackSourceForImage(
+  client: MatrixClient,
+  mxc: string,
+  roomIds: readonly string[]
+): Promise<PackSource | null> {
+  for (let at = 0; at < roomIds.length; at += FIND_BATCH) {
+    const batch = await Promise.all(
+      roomIds
+        .slice(at, at + FIND_BATCH)
+        .map(async (roomId) => [roomId, await readRoomPackContents(client, roomId)] as const)
+    );
+    for (const [roomId, byStateKey] of batch) {
+      for (const [stateKey, contents] of byStateKey) {
+        const merged = mergePackImageMap(...contents);
+        if (!Object.values(merged).some((img) => img.url === mxc)) continue;
+        const summary = summarizeRoomPack(roomId, stateKey, contents);
+        if (summary) return { summary, images: parsePackImages({ images: merged }, DEFAULT_USAGE) };
+      }
+    }
+  }
+  return null;
 }
 
 export async function canonicalParents(client: MatrixClient, roomId: string): Promise<string[]> {
@@ -154,14 +263,33 @@ async function summarizeRoomPacks(
   return result;
 }
 
+function parseImageUsage(raw: unknown): PackUsage[] | undefined {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  const parsed = parseUsage(raw);
+  return parsed.length > 0 ? parsed : undefined;
+}
+
 function parseUsage(raw: unknown): PackUsage[] {
   if (Array.isArray(raw) && raw.length > 0) {
-    return raw.filter((u): u is PackUsage => u === 'emoticon' || u === 'sticker');
+    return raw.filter(
+      (u): u is PackUsage =>
+        u === 'emoticon' ||
+        u === 'sticker' ||
+        u === 'avatar_decoration' ||
+        u === 'profile_decoration' ||
+        u === 'avatar_frame' ||
+        u === 'profile_effect' ||
+        u === 'nameplate' ||
+        u === 'profile_frame'
+    );
   }
   return DEFAULT_USAGE;
 }
 
-function parsePackImages(content: PackContent): Record<string, UserPackImage> {
+function parsePackImages(
+  content: PackContent,
+  packUsage: PackUsage[] = DEFAULT_USAGE
+): Record<string, UserPackImage> {
   const imagesRaw = content.images as PackContent | undefined;
   if (!imagesRaw) return {};
   const images: Record<string, UserPackImage> = {};
@@ -170,7 +298,7 @@ function parsePackImages(content: PackContent): Record<string, UserPackImage> {
     if (img && typeof img.url === 'string') {
       images[shortcode] = {
         url: img.url,
-        usage: parseUsage(img.usage),
+        usage: parseImageUsage(img.usage) ?? packUsage,
         body: typeof img.body === 'string' ? img.body : undefined,
         mimetype: typeof img.mimetype === 'string' ? img.mimetype : undefined,
         info: img.info && typeof img.info === 'object' ? (img.info as PackContent) : undefined,
@@ -186,23 +314,13 @@ export function parseUserPack(content: PackContent | null | undefined): UserPack
   const displayName =
     info.displayName && info.displayName.length > 0 ? info.displayName : 'personal';
   const usage = info.usage ? parseUsage(info.usage) : DEFAULT_USAGE;
-  return { displayName, usage, images: parsePackImages(content) };
+  return { displayName, usage, images: parsePackImages(content, usage) };
 }
 
 export function mergeSubscriptionRooms(
   ...contents: (PackContent | null | undefined)[]
 ): Record<string, PackContent> {
-  const merged: Record<string, PackContent> = {};
-  for (const content of contents) {
-    const rooms = content?.rooms as Record<string, PackContent> | undefined;
-    if (!rooms) continue;
-    for (const [roomId, stateKeys] of Object.entries(rooms)) {
-      if (!stateKeys || typeof stateKeys !== 'object') continue;
-      const existing = merged[roomId] ?? {};
-      merged[roomId] = { ...existing, ...stateKeys };
-    }
-  }
-  return merged;
+  return mergeSubscriptions(...contents);
 }
 
 interface FavoritePack {
@@ -237,13 +355,17 @@ export function useSubscribedPackRooms(): Record<string, PackContent> {
 
 export function useUserPack(client: MatrixClient | null): UserPackData | null {
   const content = useAccountData(USER_PACK);
-  return useMemo(() => (client ? parseUserPack(content) : null), [client, content]);
+  return useMemo(() => {
+    if (!client) return null;
+    if (content) indexPackContents(client, [content], 'My Uploads');
+    return parseUserPack(content);
+  }, [client, content]);
 }
 
-export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[] {
+export function useFavoritePackEntries(client: MatrixClient | null): FavoritePack[] {
   const rooms = useSubscribedPackRooms();
   const revision = usePackRevision();
-  const [packs, setPacks] = useState<RoomPackSummary[]>([]);
+  const [packs, setPacks] = useState<FavoritePack[]>([]);
 
   useEffect(() => {
     if (!client) {
@@ -252,7 +374,7 @@ export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[]
     }
     let cancelled = false;
     void readFavoritePacks(client, rooms).then((list) => {
-      if (!cancelled) setPacks(list.map((p) => p.summary));
+      if (!cancelled) setPacks(list);
     });
     return () => {
       cancelled = true;
@@ -262,15 +384,25 @@ export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[]
   return packs;
 }
 
+export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[] {
+  const entries = useFavoritePackEntries(client);
+  return useMemo(() => entries.map((p) => p.summary), [entries]);
+}
+
 export async function saveUserPack(client: MatrixClient, pack: UserPackData): Promise<void> {
-  const imageContent: Record<string, Partial<UserPackImage> & { url: string }> = {};
+  const sameUsage = (a: readonly string[], b: readonly string[]) =>
+    a.length === b.length && a.every((u) => b.includes(u));
+  const imageContent: Record<string, Record<string, unknown>> = {};
   for (const [shortcode, img] of Object.entries(pack.images)) {
-    const image: Partial<UserPackImage> & { url: string } = {
+    const image: Record<string, unknown> = {
       url: img.url,
       body: img.body ?? shortcode,
     };
-    if (pack.usage.length > 0) image.usage = pack.usage;
+    if (img.usage && img.usage.length > 0 && !sameUsage(img.usage, pack.usage)) {
+      image.usage = img.usage;
+    }
     if (img.mimetype) image.mimetype = img.mimetype;
+    if (img.info && Object.keys(img.info).length > 0) image.info = img.info;
     imageContent[shortcode] = image;
   }
   await client.setAccountData(USER_PACK, {
@@ -283,12 +415,20 @@ export async function saveFavoritePacks(
   client: MatrixClient,
   favorites: RoomPackSummary[]
 ): Promise<void> {
-  const rooms: Record<string, PackContent> = {};
-  for (const fav of favorites) {
-    const roomToState = rooms[fav.roomId] ?? {};
-    roomToState[fav.stateKey] = {};
-    rooms[fav.roomId] = roomToState;
-  }
+  const existing = mergeSubscriptions(
+    ((await client.accountData(EMOTE_ROOMS_UNSTABLE)) as PackContent | null) ?? null,
+    ((await client.accountData(EMOTE_ROOMS_STABLE)) as PackContent | null) ?? null
+  );
+  // Subscriptions to rooms this client cannot read (left, or not synced) cannot be listed in the
+  // UI; keep them rather than silently dropping them on every save.
+  const unreadable = new Set<string>();
+  await Promise.all(
+    Object.keys(existing).map(async (roomId) => {
+      const contents = await readRoomPackContents(client, roomId);
+      if (contents.size === 0) unreadable.add(roomId);
+    })
+  );
+  const rooms = subscriptionRooms(existing, favorites, (roomId) => unreadable.has(roomId));
   await Promise.all([
     client.setAccountData(EMOTE_ROOMS_UNSTABLE, { rooms }),
     client.setAccountData(EMOTE_ROOMS_STABLE, { rooms }),
@@ -331,4 +471,555 @@ export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[]
   }, [client, roomIds, revision]);
 
   return packs;
+}
+
+// --- Cosmetic Packs -----------------------------------------------------------
+
+export interface DecorationPackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  isCustom?: boolean;
+}
+
+export interface DecorationPackGroup {
+  packName: string;
+  category: string;
+  decorations: DecorationPackImage[];
+}
+
+export function useDecorationPacks(client: MatrixClient | null): DecorationPackGroup[] {
+  const userPack = useUserPack(client);
+  const favoritePacks = useFavoritePackEntries(client);
+  return useMemo(() => {
+    const groups: DecorationPackGroup[] = [];
+    if (userPack) {
+      const items: DecorationPackImage[] = [];
+      for (const [shortcode, img] of Object.entries(userPack.images)) {
+        if (!img.url) continue;
+        const usage = img.usage && img.usage.length > 0 ? img.usage : userPack.usage;
+        if (
+          usage.includes('avatar_decoration') ||
+          usage.includes('profile_decoration') ||
+          usage.includes('avatar_frame')
+        ) {
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: 'My Uploads',
+            url: img.url,
+            isCustom: true,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({ packName: 'My Uploads', category: 'My Uploads', decorations: items });
+      }
+    }
+
+    const seenPacks = new Set<string>();
+    for (const fav of favoritePacks) {
+      const packKey = `${fav.summary.roomId}/${fav.summary.stateKey}`;
+      if (seenPacks.has(packKey)) continue;
+      seenPacks.add(packKey);
+
+      const mergedImages = mergePackImageMap(...fav.contents);
+      const items: DecorationPackImage[] = [];
+      for (const [shortcode, img] of Object.entries(mergedImages)) {
+        if (!img.url) continue;
+        const effectiveUsage = parseImageUsage(img.usage) ?? fav.summary.usage;
+        if (
+          effectiveUsage.includes('avatar_decoration') ||
+          effectiveUsage.includes('profile_decoration') ||
+          effectiveUsage.includes('avatar_frame')
+        ) {
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: fav.summary.displayName,
+            url: img.url,
+            isCustom: false,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({
+          packName: fav.summary.displayName,
+          category: fav.summary.displayName,
+          decorations: items,
+        });
+      }
+    }
+
+    return groups;
+  }, [userPack, favoritePacks]);
+}
+
+export async function uploadUserDecoration(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'decoration';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_decoration'],
+      body: name,
+      mimetype: file.type || 'image/png',
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserDecoration(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  const current = (await client.cachedAccountData(USER_PACK)) as UserPackData | null;
+  if (!current?.images) return;
+  const newImages = { ...current.images };
+  for (const [shortcode, img] of Object.entries(newImages)) {
+    if (img.url === urlOrShortcode || shortcode === urlOrShortcode) {
+      delete newImages[shortcode];
+    }
+  }
+  await saveUserPack(client, { ...current, images: newImages });
+}
+
+export interface EffectPackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  isCustom?: boolean;
+}
+
+export interface EffectPackGroup {
+  packName: string;
+  category: string;
+  effects: EffectPackImage[];
+}
+
+export function useEffectPacks(client: MatrixClient | null): EffectPackGroup[] {
+  const userPack = useUserPack(client);
+  const favoritePacks = useFavoritePackEntries(client);
+  return useMemo(() => {
+    const groups: EffectPackGroup[] = [];
+    if (userPack) {
+      const items: EffectPackImage[] = [];
+      for (const [shortcode, img] of Object.entries(userPack.images)) {
+        if (!img.url) continue;
+        const usage = img.usage && img.usage.length > 0 ? img.usage : userPack.usage;
+        if (usage.includes('profile_effect')) {
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: 'My Uploads',
+            url: img.url,
+            isCustom: true,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({ packName: 'My Uploads', category: 'My Uploads', effects: items });
+      }
+    }
+
+    const seenPacks = new Set<string>();
+    for (const fav of favoritePacks) {
+      const packKey = `${fav.summary.roomId}/${fav.summary.stateKey}`;
+      if (seenPacks.has(packKey)) continue;
+      seenPacks.add(packKey);
+
+      const mergedImages = mergePackImageMap(...fav.contents);
+      const items: EffectPackImage[] = [];
+      for (const [shortcode, img] of Object.entries(mergedImages)) {
+        if (!img.url) continue;
+        const effectiveUsage = parseImageUsage(img.usage) ?? fav.summary.usage;
+        if (effectiveUsage.includes('profile_effect')) {
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: fav.summary.displayName,
+            url: img.url,
+            isCustom: false,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({
+          packName: fav.summary.displayName,
+          category: fav.summary.displayName,
+          effects: items,
+        });
+      }
+    }
+
+    return groups;
+  }, [userPack, favoritePacks]);
+}
+
+export async function uploadUserEffect(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'effect';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_effect'],
+      body: name,
+      mimetype: file.type || 'image/png',
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserEffect(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export interface NameplatePackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  palette?: string;
+  isCustom?: boolean;
+}
+
+export interface NameplatePackGroup {
+  packName: string;
+  category: string;
+  nameplates: NameplatePackImage[];
+}
+
+export function useNameplatePacks(client: MatrixClient | null): NameplatePackGroup[] {
+  const userPack = useUserPack(client);
+  const favoritePacks = useFavoritePackEntries(client);
+  return useMemo(() => {
+    const groups: NameplatePackGroup[] = [];
+    if (userPack) {
+      const items: NameplatePackImage[] = [];
+      for (const [shortcode, img] of Object.entries(userPack.images)) {
+        if (!img.url) continue;
+        const usage = img.usage && img.usage.length > 0 ? img.usage : userPack.usage;
+        if (usage.includes('nameplate')) {
+          const info = (img.info || {}) as Record<string, unknown>;
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: 'My Uploads',
+            url: img.url,
+            palette: typeof info.palette === 'string' ? info.palette : undefined,
+            isCustom: true,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({ packName: 'My Uploads', category: 'My Uploads', nameplates: items });
+      }
+    }
+
+    const seenPacks = new Set<string>();
+    for (const fav of favoritePacks) {
+      const packKey = `${fav.summary.roomId}/${fav.summary.stateKey}`;
+      if (seenPacks.has(packKey)) continue;
+      seenPacks.add(packKey);
+
+      const mergedImages = mergePackImageMap(...fav.contents);
+      const items: NameplatePackImage[] = [];
+      for (const [shortcode, img] of Object.entries(mergedImages)) {
+        if (!img.url) continue;
+        const effectiveUsage = parseImageUsage(img.usage) ?? fav.summary.usage;
+        if (effectiveUsage.includes('nameplate')) {
+          const info = (img.info || {}) as Record<string, unknown>;
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: fav.summary.displayName,
+            url: img.url,
+            palette: typeof info.palette === 'string' ? info.palette : undefined,
+            isCustom: false,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({
+          packName: fav.summary.displayName,
+          category: fav.summary.displayName,
+          nameplates: items,
+        });
+      }
+    }
+
+    return groups;
+  }, [userPack, favoritePacks]);
+}
+
+export async function uploadUserNameplate(
+  client: MatrixClient,
+  file: File,
+  palette?: string
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'nameplate';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['nameplate'],
+      body: name,
+      mimetype,
+      info: palette ? { palette } : undefined,
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserNameplate(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export interface ProfileFramePiece {
+  layer?: 'back' | 'front';
+  pos: string;
+  url: string;
+}
+
+export interface ProfileFramePackImage {
+  id: string;
+  shortcode: string;
+  name: string;
+  category: string;
+  url: string;
+  pieces?: ProfileFramePiece[];
+  isCustom?: boolean;
+}
+
+export interface ProfileFramePackGroup {
+  packName: string;
+  category: string;
+  frames: ProfileFramePackImage[];
+}
+
+export function useProfileFramePacks(client: MatrixClient | null): ProfileFramePackGroup[] {
+  const userPack = useUserPack(client);
+  const favoritePacks = useFavoritePackEntries(client);
+  return useMemo(() => {
+    const groups: ProfileFramePackGroup[] = [];
+    if (userPack) {
+      const items: ProfileFramePackImage[] = [];
+      for (const [shortcode, img] of Object.entries(userPack.images)) {
+        if (!img.url) continue;
+        const usage = img.usage && img.usage.length > 0 ? img.usage : userPack.usage;
+        if (usage.includes('profile_frame')) {
+          const info = (img.info || {}) as Record<string, unknown>;
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: 'My Uploads',
+            url: img.url,
+            pieces: Array.isArray(info.pieces) ? (info.pieces as ProfileFramePiece[]) : undefined,
+            isCustom: true,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({ packName: 'My Uploads', category: 'My Uploads', frames: items });
+      }
+    }
+
+    const seenPacks = new Set<string>();
+    for (const fav of favoritePacks) {
+      const packKey = `${fav.summary.roomId}/${fav.summary.stateKey}`;
+      if (seenPacks.has(packKey)) continue;
+      seenPacks.add(packKey);
+
+      const mergedImages = mergePackImageMap(...fav.contents);
+      const items: ProfileFramePackImage[] = [];
+      for (const [shortcode, img] of Object.entries(mergedImages)) {
+        if (!img.url) continue;
+        const effectiveUsage = parseImageUsage(img.usage) ?? fav.summary.usage;
+        if (effectiveUsage.includes('profile_frame')) {
+          const info = (img.info || {}) as Record<string, unknown>;
+          items.push({
+            id: img.url,
+            shortcode,
+            name: img.body || shortcode,
+            category: fav.summary.displayName,
+            url: img.url,
+            pieces: Array.isArray(info.pieces) ? (info.pieces as ProfileFramePiece[]) : undefined,
+            isCustom: false,
+          });
+        }
+      }
+      if (items.length > 0) {
+        groups.push({
+          packName: fav.summary.displayName,
+          category: fav.summary.displayName,
+          frames: items,
+        });
+      }
+    }
+
+    return groups;
+  }, [userPack, favoritePacks]);
+}
+
+export async function uploadUserProfileFrame(
+  client: MatrixClient,
+  file: File
+): Promise<{ url: string; shortcode: string; name: string }> {
+  const mimetype = file.type || 'image/png';
+  const url = await client.uploadMedia(new Uint8Array(await file.arrayBuffer()), mimetype);
+  const current = ((await client.cachedAccountData(USER_PACK)) as UserPackData | null) ?? {
+    displayName: 'personal',
+    usage: DEFAULT_USAGE,
+    images: {},
+  };
+  const baseCode =
+    file.name
+      .replace(/\.[^.]+$/, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_|_$/g, '') || 'frame';
+  let shortcode = baseCode;
+  let counter = 1;
+  const currentImages = current.images ?? {};
+  while (currentImages[shortcode]) {
+    shortcode = `${baseCode}_${counter++}`;
+  }
+  const name = file.name.replace(/\.[^.]+$/, '');
+  const updatedImages = {
+    ...currentImages,
+    [shortcode]: {
+      url,
+      usage: ['profile_frame'],
+      body: name,
+      mimetype,
+    },
+  };
+  await saveUserPack(client, {
+    ...current,
+    displayName: current.displayName || 'personal',
+    usage: current.usage || DEFAULT_USAGE,
+    images: updatedImages,
+  });
+  return { url, shortcode, name };
+}
+
+export async function deleteUserProfileFrame(
+  client: MatrixClient,
+  urlOrShortcode: string
+): Promise<void> {
+  await deleteUserDecoration(client, urlOrShortcode);
+}
+
+export function lookupPackImage(
+  client: MatrixClient,
+  mxc: string
+): { name: string; packName: string } | null {
+  return packIndexCache.get(client)?.imageIndex.get(mxc) ?? null;
+}
+
+export function lookupEffectIntro(client: MatrixClient, mxc: string): string | null {
+  return packIndexCache.get(client)?.effectIntroIndex.get(mxc) ?? null;
 }

@@ -68,9 +68,12 @@ internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
     // Asked again when a room has new activity, not on every recomposition
     val activity = roomList.joinedRooms.sumOf { it.lastActivity ?: 0L }
 
-    LaunchedEffect(client, activity) {
+    LaunchedEffect(client, activity, roomList.notificationsLoaded, roomList.threadRoomIds) {
         val c = client ?: return@LaunchedEffect
-        val rooms = roomList.joinedRooms.filter { !it.isSpace }.sortedByDescending { it.lastActivity ?: 0L }.take(THREAD_ROOMS)
+        if (!roomList.notificationsLoaded) return@LaunchedEffect
+        // The busiest rooms, and the rooms the server reports unread thread replies in, whatever their activity
+        val busiest = roomList.joinedRooms.filter { !it.isSpace }.sortedByDescending { it.lastActivity ?: 0L }.take(THREAD_ROOMS)
+        val rooms = (busiest + roomList.joinedRooms.filter { !it.isSpace && it.id in roomList.threadRoomIds }).distinctBy { it.id }
         threads = coroutineScope {
             rooms.chunked(4).flatMap { batch ->
                 batch.map { room ->

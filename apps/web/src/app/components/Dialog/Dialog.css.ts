@@ -1,22 +1,25 @@
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { style, styleVariants } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fadeIn, scaleIn, med } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 export const overlay = style({
   position: 'fixed',
   inset: 0,
-  backgroundColor: 'rgba(0,0,0,0.6)',
-  zIndex: 7500,
+  backgroundColor: vars.scrim.modal,
+  zIndex: zIndex.dialog,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   padding:
-    'calc(24px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left))',
+    'calc(24px + var(--safe-top)) calc(24px + var(--safe-right)) calc(24px + var(--safe-bottom)) calc(24px + var(--safe-left))',
   animation: `${fadeIn} ${med} ease`,
   '@media': {
     '(max-width: 768px)': {
       padding:
-        'calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))',
+        'calc(16px + var(--safe-top)) calc(16px + var(--safe-right)) calc(16px + var(--safe-bottom)) calc(16px + var(--safe-left))',
     },
   },
 });
@@ -43,17 +46,19 @@ export const panelPrimary = style({
 
 export const panelFullscreenMobile = style({
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
-      top: 'env(safe-area-inset-top)',
-      right: 'env(safe-area-inset-right)',
-      bottom: 'env(safe-area-inset-bottom)',
-      left: 'env(safe-area-inset-left)',
+      top: 'var(--safe-top)',
+      right: 'var(--safe-right)',
+      bottom: 'var(--safe-bottom)',
+      left: 'var(--safe-left)',
       width: 'auto !important',
       maxWidth: 'none !important',
       height: 'auto !important',
       maxHeight: 'none !important',
       borderRadius: 0,
+      // Edge to edge, so there is no box outline to draw.
+      border: 'none',
     },
   },
 });
@@ -75,12 +80,24 @@ export const header = style({
 });
 
 export const title = style({
-  fontSize: '1.1rem',
+  fontSize: fontSize.rem110,
   fontWeight: 700,
   color: vars.color.textPrimary,
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
+});
+
+export const titleGroup = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  minWidth: 0,
+});
+
+export const subtitle = style({
+  fontSize: '0.85rem',
+  color: vars.color.textMuted,
 });
 
 export const titleIcon = style({
@@ -109,6 +126,6 @@ export const footer = style({
 
 export const dialogMessage = style({
   color: vars.color.textMuted,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   margin: 0,
 });

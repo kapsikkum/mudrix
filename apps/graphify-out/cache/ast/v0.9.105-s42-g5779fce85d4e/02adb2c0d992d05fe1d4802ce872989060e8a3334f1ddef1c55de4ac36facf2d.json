@@ -1,0 +1,441 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "label": "Sounds.kt",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "label": "Sounds",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L10",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_choice",
+      "label": "Choice",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "label": ".choice()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "soundkind",
+      "label": "SoundKind",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "label": ".play()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L25",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "label": ".loop()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L31",
+      "_callable": true
+    },
+    {
+      "id": "callsounds",
+      "label": "CallSounds",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt"
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_playmessage",
+      "label": ".playMessage()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "label": ".preview()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_appinforeground",
+      "label": ".appInForeground()",
+      "file_type": "code",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L51",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "lifecycle",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.lifecycle.Lifecycle" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "processlifecycleowner",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L4",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "androidx.lifecycle.ProcessLifecycleOwner" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "wizardapplication",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L5",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.WizardApplication" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "soundkind",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L6",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.SoundKind" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "soundpacks",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L7",
+      "weight": 1.0,
+      "metadata": { "target_fqn": "org.wizardchat.android.matrix.SoundPacks" }
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_kt",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_choice",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "target": "soundkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_choice",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "target": "soundkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "target": "soundkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "target": "callsounds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_playmessage",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "target": "soundkind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_appinforeground",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_choice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_loop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_playmessage",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_appinforeground",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_playmessage",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "target": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_play",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L48",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "callee": "resolve",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L19",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "callee": "effectiveSoundOverrides",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L20",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_choice",
+      "callee": "volume",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L21",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "callee": "resource",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L47",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_preview",
+      "callee": "volume",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L48",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "SoundPacks"
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_appinforeground",
+      "callee": "isAtLeast",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_android_app_src_main_kotlin_org_wizardchat_android_matrix_rtc_sounds_sounds_appinforeground",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "android/app/src/main/kotlin/org/wizardchat/android/matrix/rtc/Sounds.kt",
+      "source_location": "L52",
+      "receiver": null,
+      "lang": "kotlin",
+      "kotlin_object_receiver": "ProcessLifecycleOwner"
+    }
+  ],
+  "kotlin_package": "org.wizardchat.android.matrix.rtc"
+}

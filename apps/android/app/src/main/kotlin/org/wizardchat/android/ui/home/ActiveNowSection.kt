@@ -58,12 +58,12 @@ fun ActiveNowSection(roomList: RoomListModel) {
     val cards = roomList.joinedRooms
         .filter { it.isVoice && it.callParticipants.isNotEmpty() }
         .mapNotNull { room ->
-            val ids = room.callParticipants.distinct()
+            val ids = room.callParticipants
             val people = ids.map { id ->
                 ActivePerson(id, known[id]?.dmUserName, known[id]?.dmUserAvatar, id != me && known[id] != null)
             }
             val knownCount = people.count { it.known }
-            if (knownCount == 0) null else ActiveCard(room, people.sortedByDescending { it.known }, knownCount, me != null && me in ids)
+            if (knownCount == 0) null else ActiveCard(room, people.sortedByDescending { it.known }, knownCount, room.inCall || calls.isInCall(room.id))
         }
         .sortedByDescending { it.knownCount }
     if (cards.isEmpty()) return
@@ -72,7 +72,7 @@ fun ActiveNowSection(roomList: RoomListModel) {
         Modifier.fillMaxWidth().padding(start = WZ.Space.space6, top = WZ.Space.space2, bottom = WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
-        Text(tr("home.activeNow"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
+        Text(tr("nav.activeNow"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
             cards.forEach { card ->
                 val shown = card.people.take(PEOPLE_LIMIT)
@@ -87,7 +87,7 @@ fun ActiveNowSection(roomList: RoomListModel) {
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                            PhIcon("speaker-high", PhWeight.fill, WZ.SizeIcon.xs, tint = theme.success)
+                            PhIcon("speaker-high", PhWeight.regular, WZ.SizeIcon.xs, tint = theme.success)
                             Text(
                                 card.room.name ?: card.room.id,
                                 style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
@@ -104,12 +104,12 @@ fun ActiveNowSection(roomList: RoomListModel) {
                         shown.forEach { person -> PersonRow(person, card.room.id) }
                         if (card.people.size > shown.size) {
                             val more = card.people.size - shown.size
-                            Text(trPlural("home.morePeople", more, more), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
+                            Text(trPlural("nav.morePeople", more, more), style = wizardFont(WZ.FontSize.xs), color = theme.textMuted)
                         }
                     }
                     Spacer(Modifier.weight(1f))
                     Text(
-                        tr(if (card.includesMe) "home.open" else "home.join"),
+                        tr(if (card.includesMe) "common.open" else "common.join"),
                         Modifier
                             .fillMaxWidth()
                             .defaultMinSize(minHeight = WZ.SizeControl.md)

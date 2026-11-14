@@ -1,0 +1,1211 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "label": "lib.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_main_window",
+      "label": "MAIN_WINDOW",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L26"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_window_state_file",
+      "label": "WINDOW_STATE_FILE",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L30"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_autostart_flag",
+      "label": "AUTOSTART_FLAG",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L37"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "label": "core_delete_store()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L41"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_set_background_color",
+      "label": "set_background_color()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L54"
+    },
+    {
+      "id": "webviewwindow",
+      "label": "WebviewWindow",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "label": "focus_main()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L58"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "r",
+      "label": "R",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "label": "hide_on_close()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L68"
+    },
+    {
+      "id": "window",
+      "label": "Window",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs"
+    },
+    {
+      "id": "windowevent",
+      "label": "WindowEvent",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/lib.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L94"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "mutex",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "permissionkind",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "permissionresponse",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "color",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "manager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "runtime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "webviewwindow",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "webviewwindowbuilder",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "windowext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_main_window",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_window_state_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_autostart_flag",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_set_background_color",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_set_background_color",
+      "target": "webviewwindow",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_set_background_color",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "target": "window",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "target": "windowevent",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "target": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L148",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::path::Path",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L42"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "count",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "components",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "is_absolute",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "remove_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L46"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_core_delete_store",
+      "callee": "kind",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L47"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_set_background_color",
+      "callee": "set_background_color",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "callee": "unminimize",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_focus_main",
+      "callee": "set_focus",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "label",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "is_none_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "get_if_ready",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "app_handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "prevent_close",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "app_handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L81"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "is_fullscreen",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "set_fullscreen",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L84"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "spawn",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::thread",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L85"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "sleep",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::thread",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "from_millis",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::time::Duration",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "hide_main_window",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L87"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_hide_on_close",
+      "callee": "hide_main_window",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L90"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "is_none",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "var_os",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::env",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "var",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::env",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L97"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::path::PathBuf",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "create_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "set_var",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::env",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L102"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_single_instance",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "invoke_handler",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "setup",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "on_window_event",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "on_permission_request",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "plugin",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_deep_link",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L116"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_updater::Builder",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L117"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_opener",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L118"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_notification",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L119"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "with_state_flags",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L121"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "with_filename",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L121"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_window_state::Builder",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L121"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "window_state_flags",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_plugin_autostart",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L126"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "rpc::Core",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L130"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell::FullscreenState",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L131"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "links::Pending",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L132"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "push_to_talk::PushToTalk",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L133"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "update::PendingUpdate",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L134"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "screen_share::Capture",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L135"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "label",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L145"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "check_fullscreen",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L153"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "app_handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L153"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "app_data_dir",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L158"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L158"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L160"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "create_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L161"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "set_current_dir",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::env",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L162"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "find",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L164"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "config",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L164"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "data_directory",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L174"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L174"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "app_local_data_dir",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L174"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L174"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "load",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L177"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L177"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "args",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::env",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L179"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "manage",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L180"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "SettingsState",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L180"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "init",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "toast",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L182"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L182"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "build",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tray",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L183"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L183"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L187"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "set_decorations",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L188"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L192"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "window_icon",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "dev",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L193"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "set_icon",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L194"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "set_title",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L197"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "name",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "dev",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L197"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L197"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "restore_state",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L199"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "window_state_flags",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "shell",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L199"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L201"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "setup",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "links",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L204"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L204"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "start",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "update",
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L205"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_lib_run",
+      "callee": "handle",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/lib.rs",
+      "source_location": "L205"
+    }
+  ]
+}

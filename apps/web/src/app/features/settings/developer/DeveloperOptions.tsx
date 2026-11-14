@@ -8,16 +8,18 @@ import {
   EyeIcon,
   EyeSlashIcon,
 } from '@phosphor-icons/react';
-import { developerModeAtom } from '@/app/store/atoms';
+import { developerModeAtom, slidingSyncAtom } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { ToggleRow } from '@/app/components/Toggle';
 import { CopyButton, IconButton } from '@/app/components/Button';
 import { AccountDataExplorer } from './AccountDataExplorer';
+import { DeveloperTools } from './DeveloperTools';
 import * as css from '../Settings.css';
 
 export function DeveloperOptions() {
   const { t } = useTranslation();
   const [devModeEnabled, setDevModeEnabled] = useAtom(developerModeAtom);
+  const [slidingSync, setSlidingSync] = useAtom(slidingSyncAtom);
   const client = getMatrixClientOrNull();
   const [tokenVisible, setTokenVisible] = useState(false);
   const [tokenExpanded, setTokenExpanded] = useState(false);
@@ -43,15 +45,28 @@ export function DeveloperOptions() {
 
   return (
     <div>
-      <h2 className={css.panelTitle}>{t('settings.developer.title')}</h2>
+      <h2 className={css.panelTitle}>{t('developer.title')}</h2>
 
       <div className={css.section}>
         <ToggleRow
-          label={t('settings.developer.enable')}
-          description={t('settings.developer.enableDescription')}
+          label={t('developer.enable')}
+          description={t('developer.enableDescription')}
           checked={devModeEnabled}
           onChange={setDevModeEnabled}
         />
+        <ToggleRow
+          label={t('settings.developer.slidingSync')}
+          description={t('settings.developer.slidingSyncDescription')}
+          checked={slidingSync}
+          onChange={setSlidingSync}
+        />
+        <button
+          type="button"
+          className={css.actionBtnSecondary}
+          onClick={() => window.location.reload()}
+        >
+          {t('settings.developer.reload')}
+        </button>
       </div>
 
       {devModeEnabled && (
@@ -63,14 +78,14 @@ export function DeveloperOptions() {
               onClick={() => setTokenExpanded(!tokenExpanded)}
             >
               {tokenExpanded ? <CaretUpIcon size={14} /> : <CaretDownIcon size={14} />}
-              {t('settings.developer.accessToken')}
+              {t('developer.accessToken')}
             </button>
 
             {tokenExpanded && (
               <div className={css.tokenSection}>
                 <div className={css.warningBox}>
                   <WarningIcon size={14} />
-                  {t('settings.developer.accessTokenWarning')}
+                  {t('developer.accessTokenWarning')}
                 </div>
                 <div className={css.tokenRow}>
                   <code className={css.tokenField}>
@@ -92,7 +107,7 @@ export function DeveloperOptions() {
           <div className={css.divider} />
 
           <div className={css.section}>
-            <h3 className={css.sectionTitle}>{t('settings.developer.homeserverUrl')}</h3>
+            <h3 className={css.sectionTitle}>{t('developer.homeserverUrl')}</h3>
             <div className={css.tokenRow}>
               <code className={css.tokenField}>{homeserverUrl}</code>
               <CopyButton text={homeserverUrl} />
@@ -103,6 +118,7 @@ export function DeveloperOptions() {
             <>
               <div className={css.divider} />
               <AccountDataExplorer client={client} />
+              <DeveloperTools client={client} />
             </>
           )}
         </>

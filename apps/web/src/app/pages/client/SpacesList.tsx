@@ -5,6 +5,7 @@ import {
   ChatCircleIcon,
   PlusIcon,
   CompassIcon,
+  DownloadSimpleIcon,
   SpeakerHighIcon,
 } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -32,6 +33,7 @@ import {
   spaceSettingsRoomIdAtom,
   createSpaceOpenAtom,
   exploreOpenAtom,
+  getAppsOpenAtom,
   pinnedSubSpacesAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
@@ -58,7 +60,9 @@ import { getErrorMessage } from '@/util/error';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSpaceNicknamePrompt } from '@/app/hooks/useSpaceNicknames';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { isNativeApp } from '@/util/nativeApp';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -96,7 +100,16 @@ function SortableSpaceItem({
   const className = [isActive ? css.spaceBtnActive : css.spaceBarBtn].filter(Boolean).join(' ');
 
   return (
-    <div ref={setNodeRef} className={className} style={style} {...attributes} {...listeners}>
+    // The inner button is the focus target; the sortable wrapper must not be a second tab stop.
+    <div
+      ref={setNodeRef}
+      className={className}
+      style={style}
+      {...attributes}
+      role={undefined}
+      tabIndex={-1}
+      {...listeners}
+    >
       <span className={css.spacePill} />
       <Tooltip placement="right" content={space.name}>
         <button
@@ -156,10 +169,12 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [, setSpaceSettings] = useAtom(spaceSettingsRoomIdAtom);
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
+  const [getAppsOpen, openGetApps] = useAtom(getAppsOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const client = getMatrixClientOrNull();
+  const setNickname = useSpaceNicknamePrompt(client);
   const rooms = useAllRooms();
   const graph = useSpaceGraph();
   const queryClient = useQueryClient();
@@ -202,6 +217,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
         pinnedSubSpaces,
         setPinnedSubSpacesArr,
         setSpaceSettings,
+        setNickname,
         markSpaceAsRead: handleMarkSpaceAsRead,
       });
     },
@@ -215,6 +231,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       toast,
       pinnedSubSpaces,
       setPinnedSubSpacesArr,
+      setNickname,
       handleMarkSpaceAsRead,
     ]
   );
@@ -335,7 +352,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       const updates = planSpaceReorder(reorderedIds, currentOrders, String(active.id));
       saveSpaceBarOrders(client, updates).catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [orderedSpaces, client, toast, t]
@@ -351,14 +368,14 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       {!isMobile && (
         <>
           {/* Home button */}
-          <Tooltip placement="right" content={t('room.home')}>
+          <Tooltip placement="right" content={t('nav.home')}>
             <button
               type="button"
               className={sidebarView === 'home' ? css.spaceBarBtnActive : css.spaceBarBtn}
               style={{
                 color: sidebarView !== 'home' && homeHasNotif ? vars.color.textPrimary : undefined,
               }}
-              aria-label={t('room.home')}
+              aria-label={t('nav.home')}
               onClick={() => {
                 // Home always lands on the dashboard; its room list sits beside it. On a phone,
                 // switching from another tab keeps the drawer open so a Home room can be picked.
@@ -467,11 +484,11 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
             <div className={css.spacesStickyBottom}>
               {orderedSpaces.length > 0 && <div className={css.spacesSeparator} />}
               {/* Create / Join Space button */}
-              <Tooltip placement="right" content={t('room.space.add')}>
+              <Tooltip placement="right" content={t('space.add')}>
                 <button
                   type="button"
                   className={createSpaceOpen.open ? css.spaceBarBtnActive : css.spaceBarBtn}
-                  aria-label={t('room.space.create.title')}
+                  aria-label={t('space.create.title')}
                   onClick={() => setCreateSpaceOpen({ open: true })}
                 >
                   <span className={css.spacePill} />
@@ -488,6 +505,17 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
                 >
                   <span className={css.spacePill} />
                   <CompassIcon size={20} weight={exploreOpen ? 'fill' : 'regular'} />
+                </button>
+              </Tooltip>
+              <Tooltip placement="right" content={t('getApps.title')}>
+                <button
+                  type="button"
+                  className={getAppsOpen ? css.spaceBarBtnActive : css.spaceBarBtn}
+                  aria-label={t('getApps.title')}
+                  onClick={() => openGetApps(true)}
+                >
+                  <span className={css.spacePill} />
+                  <DownloadSimpleIcon size={20} weight={getAppsOpen ? 'bold' : 'regular'} />
                 </button>
               </Tooltip>
             </div>

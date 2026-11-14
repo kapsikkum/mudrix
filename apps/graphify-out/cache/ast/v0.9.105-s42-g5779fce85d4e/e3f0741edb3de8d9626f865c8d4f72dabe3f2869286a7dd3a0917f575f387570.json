@@ -1,0 +1,965 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "label": "mod.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_source",
+      "label": "Source",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L39",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session",
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L47",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L48"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "label": "Sink",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L53",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "channel",
+      "label": "Channel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/mod.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "invokeresponsebody",
+      "label": "InvokeResponseBody",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/mod.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_slot",
+      "label": "Slot",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L59",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frame",
+      "label": "Frame",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L64",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "label": ".video()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L72"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_audio",
+      "label": ".audio()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L93"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "label": "encode_frames()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L100"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "label": "jpeg()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L122"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_thumbnail",
+      "label": "thumbnail()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L134"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frameslot",
+      "label": "FrameSlot",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L142",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "label": "Capture",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L145",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "mutex",
+      "label": "Mutex",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/mod.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L148"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_support",
+      "label": "Support",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L160",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_screen_capture_supported",
+      "label": "screen_capture_supported()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L168"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_desktop_sources",
+      "label": "desktop_sources()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L177"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "label": "start_screen_capture()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185"
+    },
+    {
+      "id": "state",
+      "label": "State",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/screen_share/mod.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_stop_screen_capture",
+      "label": "stop_screen_capture()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L206"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "sync",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "arc",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "condvar",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "mutex",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "engine",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "serialize",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "channel",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "invokeresponsebody",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "state",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "macos_as_platform",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "macos"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "linux_as_platform",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "linux"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "windows_as_platform",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "windows"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "unsupported_as_platform",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "unsupported"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_source",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frameslot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "target": "channel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "target": "invokeresponsebody",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_slot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_slot",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frame",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frame",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_audio",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frameslot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "target": "channel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "target": "invokeresponsebody",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_thumbnail",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frameslot",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "target": "mutex",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L145",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_session",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L145",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_frameslot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L145",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_support",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_screen_capture_supported",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_screen_capture_supported",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_support",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_desktop_sources",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_desktop_sources",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_source",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L177",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "state",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "channel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "invokeresponsebody",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "channel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "invokeresponsebody",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_stop_screen_capture",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_stop_screen_capture",
+      "target": "state",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_stop_screen_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_thumbnail",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L200",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_stop_screen_capture",
+      "target": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L207",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "callee": "clear",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "callee": "extend_from_slice",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_video",
+      "callee": "notify_one",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_audio",
+      "callee": "flat_map",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L94"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_sink_audio",
+      "callee": "to_le_bytes",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L94"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "callee": "is_none",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L105"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "callee": "wait",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L106"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_encode_frames",
+      "callee": "is_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "try_from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u16",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "try_from",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u16",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "with_capacity",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L126"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "encode",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_jpeg",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "jpeg_encoder::Encoder",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L149"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "callee": "stop",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L152"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_capture_stop",
+      "callee": "notify_all",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L155"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_screen_capture_supported",
+      "callee": "supported",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "platform",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L169"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_desktop_sources",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L178"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_desktop_sources",
+      "callee": "sources",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "platform",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L178"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Slot",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L193"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "callee": "start",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "platform",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L198"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_screen_share_mod_start_screen_capture",
+      "callee": "spawn",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::thread",
+      "source_file": "desktop/src-tauri/src/screen_share/mod.rs",
+      "source_location": "L200"
+    }
+  ]
+}

@@ -19,6 +19,7 @@ import {
 import { useComposerTimeline } from '@/app/features/timeline/composer/composerTimeline';
 import { isLightTheme } from '@/theme/customThemes';
 import { usePickerDrawer } from '@/app/hooks/usePickerShell';
+import { isSafeMatrixMediaUrl } from '@/util/safeUrl';
 import * as css from './StickerPicker.css';
 
 interface Props {
@@ -97,6 +98,17 @@ export function StickerPicker({
     const handleMessage = async (ev: MessageEvent) => {
       const iframe = iframeRef.current;
       if (!iframe || ev.source !== iframe.contentWindow) return;
+      let expectedOrigin: string | null = null;
+      try {
+        const parsed = new URL(widgetUrl, window.location.origin);
+        if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+          expectedOrigin = parsed.origin === window.location.origin ? 'null' : parsed.origin;
+        }
+      } catch {
+        expectedOrigin = null;
+      }
+      if (!expectedOrigin || ev.origin !== expectedOrigin) return;
+
       const data = ev.data;
       if (!data || data.api !== 'fromWidget') return;
       if (data.action !== 'm.sticker' && data.action !== WidgetApiFromWidgetAction.SendSticker)
@@ -110,7 +122,7 @@ export function StickerPicker({
         const name: string = stickerData.name ?? content.body ?? 'Sticker';
         const url: string = content.url;
         const info = content.info ?? {};
-        if (!url) return;
+        if (!url || typeof url !== 'string' || !isSafeMatrixMediaUrl(url)) return;
 
         const mimetype: string = info.mimetype ?? 'image/png';
 
@@ -142,7 +154,7 @@ export function StickerPicker({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [picker, client, threadId, getTimeline, close, replyTo, onReplySent, toast, t]);
+  }, [picker, widgetUrl, client, threadId, getTimeline, close, replyTo, onReplySent, toast, t]);
 
   useEffect(() => {
     if (!picker) return;
@@ -169,11 +181,34 @@ export function StickerPicker({
       widgetApiRef.current = null;
       setLoading(true);
     }
+    return () => {
+      widgetApiRef.current?.stop?.();
+      widgetApiRef.current = null;
+    };
   }, [picker]);
 
   if (!picker) return null;
 
   const themedUrl = getThemedUrl(widgetUrl, currentTheme);
+  const { safeThemedUrl, isSameOrigin } = (() => {
+    try {
+      const parsed = new URL(themedUrl, window.location.origin);
+      if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
+        return { safeThemedUrl: 'about:blank', isSameOrigin: true };
+      }
+      return {
+        safeThemedUrl: parsed.href,
+        isSameOrigin: parsed.origin === window.location.origin,
+      };
+    } catch {
+      return { safeThemedUrl: 'about:blank', isSameOrigin: true };
+    }
+  })();
+  // Same-origin never gets allow-same-origin: with allow-scripts it could drop the sandbox.
+  const sandbox =
+    `allow-scripts ${isSameOrigin ? '' : 'allow-same-origin'} allow-forms allow-popups`
+      .replace(/\s+/g, ' ')
+      .trim();
 
   return (
     <div ref={wrapRef} className={css.popover}>
@@ -198,9 +233,9 @@ export function StickerPicker({
         <iframe
           ref={iframeRef}
           className={css.iframe}
-          src={themedUrl}
+          src={safeThemedUrl}
           allow="clipboard-write"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          sandbox={sandbox}
           title={t('room.settings.widgets.stickerPicker')}
           onLoad={setupWidgetApi}
         />

@@ -521,6 +521,7 @@ struct PollMessageView: View {
 
 struct ReplyQuoteView: View {
     let quote: ChatEntry.ReplyQuote
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
@@ -529,7 +530,7 @@ struct ReplyQuoteView: View {
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Text(quote.senderName)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
-                    .foregroundStyle(theme.accent)
+                    .foregroundStyle(theme.nameColor(quote.sender, colored: prefs.colorUsernames))
                 Text(quote.text.isEmpty ? String(localized: "timeline.originalMessage") : quote.text)
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)
@@ -638,17 +639,19 @@ struct ReadReceiptsView: View {
         .accessibilityLabel(L10n.format("timeline.seenBy", userIds.count))
         .sheet(isPresented: $showList) {
             NavigationStack {
-                List(userIds, id: \.self) { userId in
-                    HStack(spacing: WZ.Space.space5) {
-                        ReceiptAvatar(roomId: roomId, userId: userId, size: 32)
-                        ReceiptName(roomId: roomId, userId: userId)
-                        Spacer()
-                        if let date = readAt[userId] {
-                            Text(verbatim: Calendar.current.isDateInToday(date)
-                                 ? Formats.time(date, prefs.timeFormat)
-                                 : Formats.abbreviatedDateTime(date, prefs.dateFormat, prefs.timeFormat))
-                                .font(.wizard(WZ.FontSize.sm))
-                                .foregroundStyle(theme.textMuted)
+                ThemedList {
+                    ForEach(userIds, id: \.self) { userId in
+                        HStack(spacing: WZ.Space.space5) {
+                            ReceiptAvatar(roomId: roomId, userId: userId, size: 32)
+                            ReceiptName(roomId: roomId, userId: userId)
+                            Spacer()
+                            if let date = readAt[userId] {
+                                Text(verbatim: Calendar.current.isDateInToday(date)
+                                     ? Formats.time(date, prefs.timeFormat)
+                                     : Formats.abbreviatedDateTime(date, prefs.dateFormat, prefs.timeFormat))
+                                    .font(.wizard(WZ.FontSize.sm))
+                                    .foregroundStyle(theme.textMuted)
+                            }
                         }
                     }
                 }
@@ -693,7 +696,7 @@ struct ThreadSummaryBadge: View {
             .contentShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
         }
         .buttonStyle(.plain)
-        .accessibilityHint(String(localized: "thread.openThread"))
+        .accessibilityHint(String(localized: "timeline.openThread"))
     }
 
     private var preview: String? {

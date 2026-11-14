@@ -1,0 +1,587 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_swift",
+      "label": "VideoDownloader.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "label": "VideoDownloader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "label": ".play()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "chatentry",
+      "label": "ChatEntry",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift"
+    },
+    {
+      "id": "medialoader",
+      "label": "MediaLoader",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_cancel",
+      "label": ".cancel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_update",
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "downloadprogress",
+      "label": "DownloadProgress",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "label": "VideoPlayButton",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L59",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L63"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "target": "chatentry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "target": "medialoader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_cancel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_cancel",
+      "target": "medialoader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_update",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_update",
+      "target": "downloadprogress",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_update",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "cachedFile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L19",
+      "receiver": "loader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "present",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L20",
+      "receiver": "NativeVideoPlayer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "downloadFile",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L34",
+      "receiver": "loader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "present",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L38",
+      "receiver": "NativeVideoPlayer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_play",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L41",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videodownloader_cancel",
+      "callee": "cancelDownload",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L49",
+      "receiver": "loader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "accessibilityElement",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "animation",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "ZStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "stroke",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L66",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "rotationEffect",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "stroke",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "StrokeStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_videodownloader_videoplaybutton_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/VideoDownloader.swift",
+      "source_location": "L86",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/VideoDownloader.swift",
+    "table": {
+      "fraction": "Double",
+      "error": "String",
+      "token": "String",
+      "media": "ChatEntry",
+      "loader": "MediaLoader",
+      "progress": "DownloadProgress",
+      "download": "VideoDownloader",
+      "body": "View"
+    }
+  }
+}

@@ -12,7 +12,12 @@ struct GiphyGif: Identifiable, Codable, Hashable {
 struct GifPicker: View {
     let onPick: (GiphyGif) async -> Void
 
-    private static let apiKey = "TGnndTV82UWqYITMnla1ZOiPBJBesE7x"
+    /// Set at build time (GIPHY_API_KEY in Config/Secrets.xcconfig, see docs/SECRETS.md); empty means GIFs are not configured
+    private static let apiKey: String = {
+        let value = (Bundle.main.object(forInfoDictionaryKey: "WZGiphyApiKey") as? String ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return value.hasPrefix("$(") ? "" : value
+    }()
     private static let api = "https://api.giphy.com/v1/gifs"
 
     @Environment(\.theme) private var theme
@@ -29,7 +34,17 @@ struct GifPicker: View {
     }
 
     var body: some View {
-        if !consented {
+        if Self.apiKey.isEmpty {
+            VStack(spacing: WZ.Space.space5) {
+                Image("ph-images-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.textMuted)
+                Text(String(localized: "composer.gifNotConfiguredTooltip"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(WZ.Space.space8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else if !consented {
             VStack(spacing: WZ.Space.space5) {
                 Image("ph-images-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.accent)
                 Text(String(localized: "composer.gifConsentTitle"))
@@ -58,7 +73,7 @@ struct GifPicker: View {
                     }
                     .foregroundStyle(showFavourites ? theme.accent : theme.textMuted)
                     .padding(.trailing, WZ.Space.space3)
-                    .accessibilityLabel(String(localized: "room.favourites"))
+                    .accessibilityLabel(String(localized: "nav.favourites"))
                 }
                 ZStack {
                     grid(showFavourites ? favourites : results)

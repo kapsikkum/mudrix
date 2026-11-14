@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import {
   BIO_KEYS,
@@ -19,11 +20,18 @@ import {
   PROFILE_NAMEPLATE_KEYS,
   PROFILE_FRAME_KEYS,
   PROFILE_IS_MUDRIX_USER_KEYS,
+  PROFILE_STATUS_KEYS,
+  PROFILE_EFFECT_KEYS,
   normalizeHex,
   parseAvatarDecoration,
   parseNameplate,
   parseProfileFrame,
+  parseProfileEffect,
+  statusToValue,
+  isStatusExpired,
+  type ProfileStatus,
   type AvatarDecorationId,
+  type ProfileEffectId,
   type NameplateId,
   type ProfileFrameId,
 } from '@/util/profileCosmetics';
@@ -155,7 +163,36 @@ export function useLiveActivities(
   );
 }
 
+/**
+ * Combined status + activity line for compact surfaces (e.g. MemberList tooltip or ChatListItem).
+ * Merges whatever status emoji/text exist with "Listening to X" / "Playing Y", delimited by ' · '.
+ */
+export function useStatusLine(
+  status: ProfileStatus | null | undefined,
+  activities: ProfileActivity[] | null | undefined
+): ProfileStatus | null {
+  const { t } = useTranslation();
+  const live = useActiveStatus(status);
+  const playing = useLiveActivities(activities);
+  return useMemo(() => {
+    const parts = [live?.text ?? '', ...playing.map((a) => activityText(t, a))].filter(Boolean);
+    const emoji = live?.emoji || (playing[0] ? ACTIVITY_EMOJI[playing[0].type] : '');
+    if (!live && parts.length === 0) return null;
+    return {
+      emoji,
+      text: parts.join(' · '),
+      mode: live?.mode ?? null,
+      expiresAt: live?.expiresAt ?? playing[0]?.expiresAt ?? null,
+    };
+  }, [live, playing, t]);
+}
+
 /** The first emoji of what someone is doing, for places with room for little. */
+
+export function useActiveStatus(status: ProfileStatus | null | undefined): ProfileStatus | null {
+  const tick = useRerenderAt(status?.expiresAt ?? Infinity);
+  return useMemo(() => (status && !isStatusExpired(status) ? status : null), [status, tick]);
+}
 export function activityEmoji(activity: ProfileActivity): string {
   return ACTIVITY_EMOJI[activity.type];
 }
@@ -189,11 +226,13 @@ export interface ExtendedProfileUpdate {
   pronouns?: string[];
   /** IANA zone. Pass null to clear. */
   timezone?: string | null;
+  /** Mudrix-only fields below (`io.github.kapsikkum.mudrix.*`). Pass null to clear. */
+  status?: ProfileStatus | null;
   /** What the desktop app sees the user playing and listening to. */
   activities?: ProfileActivity[];
-  /** Mudrix-only fields below (`io.github.kapsikkum.mudrix.*`). Pass null to clear. */
   accent?: string | null;
   avatarDecoration?: AvatarDecorationId | null;
+  profileEffect?: ProfileEffectId | null;
   nameplate?: NameplateId | null;
   profileFrame?: ProfileFrameId | null;
 }
@@ -223,6 +262,9 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
       if (update.timezone !== undefined) {
         jobs.push(writeField(client, [PROFILE_TZ_KEY], update.timezone || null));
       }
+      if (update.status !== undefined) {
+        jobs.push(writeField(client, PROFILE_STATUS_KEYS, statusToValue(update.status)));
+      }
       if (update.activities !== undefined) {
         jobs.push(writeField(client, PROFILE_ACTIVITY_KEYS, activityToValue(update.activities)));
       }
@@ -238,6 +280,11 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
           )
         );
       }
+      if (update.profileEffect !== undefined) {
+        jobs.push(
+          writeField(client, PROFILE_EFFECT_KEYS, parseProfileEffect(update.profileEffect))
+        );
+      }
       if (update.nameplate !== undefined) {
         jobs.push(writeField(client, PROFILE_NAMEPLATE_KEYS, parseNameplate(update.nameplate)));
       }
@@ -251,7 +298,28 @@ export function useExtendedProfileMutations(client: MatrixClient | null) {
     onSettled: invalidate,
   });
 
-  return { saveFields, busy };
+  const { mutateAsync: saveBannerFile, isPending: savingBanner } = useMutation({
+    mutationFn: async (file: File) => {
+      if (!client) throw new Error('No client');
+      await client.setBanner(new Uint8Array(await file.arrayBuffer()), file.type || null);
+    },
+    onSettled: invalidate,
+  });
+
+  const { mutateAsync: removeBannerField, isPending: removingBanner } = useMutation({
+    mutationFn: async () => {
+      if (!client) throw new Error('No client');
+      await client.setBanner(null);
+    },
+    onSettled: invalidate,
+  });
+
+  return {
+    saveFields,
+    saveBannerFile,
+    removeBannerField,
+    busy: busy || savingBanner || removingBanner,
+  };
 }
 
 /**

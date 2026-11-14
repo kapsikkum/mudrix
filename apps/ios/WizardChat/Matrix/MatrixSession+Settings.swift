@@ -119,16 +119,21 @@ extension MatrixSession {
         try await requireClient.resetRecoveryKey()
     }
 
-    func createSpace(name: String, topic: String?, isPublic: Bool) async throws -> String {
-        try await requireClient.createRoom(options: CreateRoomOptions(name: name, topic: topic, isPublic: isPublic, isSpace: true))
-    }
-
     func createRoom(name: String, topic: String?, isPublic: Bool, encrypted: Bool, isVoice: Bool,
-                    alias: String?, spaceId: String?) async throws -> String {
+                    alias: String?, spaceId: String?, federate: Bool = true, spaceMembers: Bool = false,
+                    founders: [String] = [], roomVersion: String? = nil, isSpace: Bool = false) async throws -> String {
         try await requireClient.createRoom(options: CreateRoomOptions(
             name: name, topic: topic, isPublic: isPublic, alias: isPublic ? alias : nil,
-            isVoice: isVoice, parentSpaceId: spaceId, encrypted: encrypted && !isPublic
+            isSpace: isSpace, isVoice: isVoice, parentSpaceId: spaceId, invite: founders, encrypted: encrypted && !isPublic && !isSpace,
+            federate: federate, access: spaceMembers && spaceId != nil ? "restricted" : nil,
+            founders: founders, roomVersion: founders.isEmpty ? nil : roomVersion
         ))
+    }
+
+    func foundersRoomVersion() async -> String? {
+        guard let capabilities = try? await client?.serverCapabilities() else { return nil }
+        if Int(capabilities.defaultRoomVersion) ?? 0 >= 12 { return capabilities.defaultRoomVersion }
+        return capabilities.roomVersions.contains { $0.first == "12" } ? "12" : nil
     }
 
     func startDirectMessage(with userId: String) async throws -> String {
@@ -161,6 +166,11 @@ extension MatrixSession {
 
     func profile(of userId: String) async -> UserProfile? {
         try? await client?.userProfile(userId: userId)
+    }
+
+    func presence(of userId: String) async -> Presence? {
+        guard let client, !userId.isEmpty else { return nil }
+        return await PresenceCache.shared.state(of: userId, client: client)
     }
 
     func ignore(_ userId: String) async throws {

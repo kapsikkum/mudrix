@@ -1,0 +1,2996 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "label": "AccountSettings.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "photosui",
+      "label": "PhotosUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "label": "AccountSettings",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "photospickeritem",
+      "label": "PhotosPickerItem",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L17"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "label": ".actionRow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "_callable": true
+    },
+    {
+      "id": "localizedstringkey",
+      "label": "LocalizedStringKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_open",
+      "label": ".open()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L143",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "label": "PasswordSection",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L161",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L170"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_change",
+      "label": ".change()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L187",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "label": "EmailSection",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L206",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L216"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_requesttoken",
+      "label": ".requestToken()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L267",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "label": ".finish()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L275",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "label": ".remove()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L286",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "label": "DeactivateSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L295",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L304"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "label": "CustomStatusSheet",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L343",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "label": "ClearAfter",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L352",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "caseiterable",
+      "label": "CaseIterable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "hashable",
+      "label": "Hashable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_today",
+      "label": "today",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_fourhours",
+      "label": "fourHours",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_onehour",
+      "label": "oneHour",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_thirtyminutes",
+      "label": "thirtyMinutes",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_never",
+      "label": "never",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_label",
+      "label": ".label",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L355"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_expiry",
+      "label": ".expiry",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L365"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L376"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L421",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "photosui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "photospickeritem",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_open",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_run",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L168",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L170",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L170",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_change",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L207",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L211",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L214",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L214",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L216",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_requesttoken",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L286",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L286",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L295",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L296",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L302",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L304",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L304",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L344",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L350",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "caseiterable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "hashable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_today",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_fourhours",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_onehour",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_thirtyminutes",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_never",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L353",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L355",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_label",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L355",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L365",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_expiry",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L365",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L376",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L376",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L421",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_change",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L179",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L230",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_requesttoken",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L407",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsPage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "PhotosPicker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "removeAvatar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L29",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L47",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "setDisplayName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L49",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L49",
+      "receiver": "displayName"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L55",
+      "receiver": "displayName"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "sensitive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "CopyRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "AboutMeSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "setCustomStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L83",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "loadTransferable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L116",
+      "receiver": "item"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "jpegData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "UIImage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_body",
+      "callee": "setAvatar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L118",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "action",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_actionrow",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_open",
+      "callee": "accountManagementUrl",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L144",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_open",
+      "callee": "openURL",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_accountsettings_run",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "textContentType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L182",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_change",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_passwordsection_change",
+      "callee": "changePassword",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L197",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "sensitive",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L230",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L237",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "autocorrectionDisabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "textInputAutocapitalization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "keyboardType",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L255",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L258",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L261",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_body",
+      "callee": "emailAddresses",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L264",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_requesttoken",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L268",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_requesttoken",
+      "callee": "requestEmailToken",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L270",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L277",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "callee": "addEmail",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L279",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_finish",
+      "callee": "emailAddresses",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L281",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "callee": "removeEmail",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L288",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_emailsection_remove",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L289",
+      "receiver": "emails"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "presentationDetents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L305",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Toggle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "SecureField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L316",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L317",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L318",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "deactivateAccount",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L319",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L326",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L328",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L329",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L336",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L336",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_deactivatesheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L336",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_label",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L358",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_label",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L359",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_label",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L360",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_expiry",
+      "callee": "date",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L367",
+      "receiver": "Calendar"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_clearafter_expiry",
+      "callee": "startOfDay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L367",
+      "receiver": "Calendar"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L377",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "presentationDetents",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L377",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "NavigationStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L377",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "List",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L378",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L379",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L379",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L380",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L380",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L380",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L380",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L380",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L382",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L384",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L384",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L387",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L387",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L388",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Picker",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L388",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L389",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "tag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L389",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L389",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L395",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L395",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L399",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L403",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L404",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L406",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L407",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "fontWeight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L407",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L407",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L423",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L424",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "callee": "setCustomStatus",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L426",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_accountsettings_customstatussheet_save",
+      "callee": "dismiss",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/AccountSettings.swift",
+      "source_location": "L427",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Settings/AccountSettings.swift",
+    "table": {
+      "session": "MatrixSession",
+      "photo": "PhotosPickerItem",
+      "status": "String",
+      "body": "View",
+      "title": "LocalizedStringKey",
+      "icon": "String",
+      "destructive": "Bool",
+      "action": "Void",
+      "work": "Void",
+      "emails": "String",
+      "pending": "String",
+      "email": "String",
+      "error": "String",
+      "clearAfter": "ClearAfter",
+      "label": "String",
+      "expiry": "Date"
+    }
+  }
+}

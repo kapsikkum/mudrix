@@ -57,6 +57,13 @@ data class AttachmentThumbnail(
     val height: Long,
 )
 
+/** What happened to a picture: the new one isn't named, as it is shown from the member list */
+@Serializable
+enum class AvatarChange {
+    @SerialName("changed") changed,
+    @SerialName("removed") removed,
+}
+
 @Serializable(with = CallEvent.Serializer::class)
 sealed interface CallEvent {
     /** Everyone in the call, oldest first */
@@ -72,7 +79,7 @@ sealed interface CallEvent {
         /** Base64 */
         val key: String,
     ) : CallEvent
-    /** The person rung declined */
+    /** Everyone rung declined (`user_id` is the last of them) */
     @Serializable
     data class Declined(
         val user_id: String,
@@ -121,6 +128,23 @@ sealed interface CallEvent {
     }
 }
 
+@Serializable
+data class CallHistoryView(
+    val outcome: CallOutcome,
+    /** Milliseconds since the Unix epoch */
+    val startedAt: Long,
+    val endedAt: Long? = null,
+    val startedBy: String,
+    /** Everyone who joined, in the order they joined */
+    val participants: List<CallParticipantView>,
+    val video: Boolean,
+    /** The call rang (a DM or small room) */
+    val rang: Boolean,
+    val declinedBy: List<String>,
+    /** The call started before the loaded part of the timeline */
+    val partial: Boolean,
+)
+
 /** One device in a room's call */
 @Serializable
 data class CallMember(
@@ -137,6 +161,22 @@ data class CallMember(
     /** Reactions and raised hands refer to this event */
     val membershipEventId: String? = null,
     /** The name to show, with the user ID added when others in the room share it */
+    val displayName: String? = null,
+    val avatarUrl: String? = null,
+)
+
+@Serializable
+enum class CallOutcome {
+    @SerialName("ongoing") ongoing,
+    @SerialName("ended") ended,
+    @SerialName("missed") missed,
+    @SerialName("declined") declined,
+    @SerialName("unanswered") unanswered,
+}
+
+@Serializable
+data class CallParticipantView(
+    val userId: String,
     val displayName: String? = null,
     val avatarUrl: String? = null,
 )
@@ -184,6 +224,26 @@ data class CustomStatus(
     val expiresAt: Long? = null,
 )
 
+/** A delayed event the homeserver holds for the user */
+@Serializable
+data class DelayedEvent(
+    /** What `cancelDelayedEvent` and `sendDelayedEventNow` take */
+    val delayId: String,
+    val roomId: String,
+    val eventType: String,
+    /** Set when the delayed event is a state event */
+    val stateKey: String? = null,
+    /** The content to send */
+    val content: JsonElement,
+    /** How long the server waits, in milliseconds */
+    val delayMs: Long,
+    /**
+     * When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+     * event goes out at `runningSince + delayMs`
+     */
+    val runningSince: Long,
+)
+
 @Serializable
 data class DeviceInfo(
     val deviceId: String,
@@ -194,6 +254,13 @@ data class DeviceInfo(
     val isVerified: Boolean,
     /** Signed by the account's cross-signing identity (trusted by the owner) */
     val crossSignedByOwner: Boolean,
+)
+
+/** A display name change: `from` is null when there was no name, `to` when it was removed */
+@Serializable
+data class DisplayNameChange(
+    val from: String? = null,
+    val to: String? = null,
 )
 
 /** How much of a download has arrived, in bytes */
@@ -237,16 +304,22 @@ sealed interface EntryContent {
     data class Text(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Notice(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Emote(
         val body: String,
         val html: String? = null,
+        /** The formatting in `html` as blocks to draw; `None` when it has none */
+        val rich: List<RichBlock>? = null,
     ) : EntryContent
     @Serializable
     data class Image(
@@ -309,6 +382,10 @@ sealed interface EntryContent {
     @Serializable
     data class ProfileChange(
         val userId: String,
+        /** Set when the display name changed */
+        val displayName: DisplayNameChange? = null,
+        /** Set when the picture changed */
+        val avatar: AvatarChange? = null,
     ) : EntryContent
     /** Any other state change, with its content as sent */
     @Serializable
@@ -318,6 +395,13 @@ sealed interface EntryContent {
         val content: JsonElement,
         val prevContent: JsonElement? = null,
     ) : EntryContent
+    /** A call, shown on the first of its events */
+    @Serializable
+    data class Call(
+        val call: CallHistoryView,
+    ) : EntryContent
+    /** One of a call's other events: shown as part of its `call` */
+    data object CallPart : EntryContent
     data object Other : EntryContent
 
     object Serializer : JsonUnionSerializer<EntryContent>("EntryContent") {
@@ -338,6 +422,8 @@ sealed interface EntryContent {
             "membership" -> CoreJson.decodeFromJsonElement(Membership.serializer(), json)
             "profileChange" -> CoreJson.decodeFromJsonElement(ProfileChange.serializer(), json)
             "state" -> CoreJson.decodeFromJsonElement(State.serializer(), json)
+            "call" -> CoreJson.decodeFromJsonElement(Call.serializer(), json)
+            "callPart" -> CallPart
             "other" -> Other
             else -> throw SerializationException("Unknown EntryContent $tag")
         }
@@ -359,6 +445,8 @@ sealed interface EntryContent {
             is Membership -> tagged(CoreJson.encodeToJsonElement(Membership.serializer(), value), "type", "membership")
             is ProfileChange -> tagged(CoreJson.encodeToJsonElement(ProfileChange.serializer(), value), "type", "profileChange")
             is State -> tagged(CoreJson.encodeToJsonElement(State.serializer(), value), "type", "state")
+            is Call -> tagged(CoreJson.encodeToJsonElement(Call.serializer(), value), "type", "call")
+            CallPart -> tagged(JsonObject(emptyMap()), "type", "callPart")
             Other -> tagged(JsonObject(emptyMap()), "type", "other")
         }
     }
@@ -373,6 +461,22 @@ data class EventSource(
     val original: JsonElement,
     /** Decrypted, when it was encrypted */
     val decrypted: JsonElement? = null,
+)
+
+/** One version of a message: the original or an edit */
+@Serializable
+data class EventVersion(
+    /** The original event's or the edit's ID */
+    val eventId: String,
+    val sender: String,
+    /** Milliseconds since the Unix epoch */
+    val timestamp: Long,
+    val isOriginal: Boolean,
+    val msgtype: String? = null,
+    val body: String,
+    /** Set with `formattedBody` when the version has HTML */
+    val format: String? = null,
+    val formattedBody: String? = null,
 )
 
 /** Who may read a room's history */
@@ -403,21 +507,52 @@ data class IdentityProvider(
     val icon: String? = null,
 )
 
-/** Someone calling, from a ring or notification event, or a caller's new membership in a direct chat */
+/**
+ * Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+ * in the call
+ */
 @Serializable
 data class IncomingCall(
     val roomId: String,
     val roomName: String? = null,
-    /** The ring or notification event to decline; empty when only the membership is known so far */
+    /** The ring or notification event to decline */
     val eventId: String,
     val sender: String,
     val senderName: String? = null,
-    /** Ring audibly (direct chats), or just show a notification */
+    /** Ring audibly (DMs and rooms up to 10 members), or just show a notification */
     val ring: Boolean,
     val intent: String? = null,
     /** Milliseconds since the Unix epoch */
     val expiresAt: Long,
 )
+
+@Serializable(with = IncomingCallEvent.Serializer::class)
+sealed interface IncomingCallEvent {
+    /** Someone is calling; a later ring in the same room replaces this one */
+    @Serializable
+    data class Ringing(
+        val call: IncomingCall,
+    ) : IncomingCallEvent
+    /** The ring in the call's room is over */
+    @Serializable
+    data class Ended(
+        val call: IncomingCall,
+        val reason: RingEnd,
+    ) : IncomingCallEvent
+
+    object Serializer : JsonUnionSerializer<IncomingCallEvent>("IncomingCallEvent") {
+        override fun read(json: JsonElement): IncomingCallEvent = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "ringing" -> CoreJson.decodeFromJsonElement(Ringing.serializer(), json)
+            "ended" -> CoreJson.decodeFromJsonElement(Ended.serializer(), json)
+            else -> throw SerializationException("Unknown IncomingCallEvent $tag")
+        }
+
+        override fun write(value: IncomingCallEvent): JsonElement = when (value) {
+            is Ringing -> tagged(CoreJson.encodeToJsonElement(Ringing.serializer(), value), "type", "ringing")
+            is Ended -> tagged(CoreJson.encodeToJsonElement(Ended.serializer(), value), "type", "ended")
+        }
+    }
+}
 
 /** Who invited the user to a room */
 @Serializable
@@ -432,6 +567,15 @@ data class InviteInfo(
 /** Who may join a room */
 typealias JoinRule = String
 
+/** What an import found */
+@Serializable
+data class KeyImportResult(
+    /** Keys that were new or better than the ones this device had */
+    val imported: Long,
+    /** Keys the file holds */
+    val total: Long,
+)
+
 /** How far restoring the room keys from the key backup has come */
 @Serializable
 data class KeyRestoreProgress(
@@ -442,6 +586,43 @@ data class KeyRestoreProgress(
     /** Keys this device didn't have and now has */
     val keysRestored: Long,
 )
+
+/** The one-line preview of a room's latest message */
+@Serializable
+data class LastMessage(
+    /**
+     * Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+     * Empty for every non-text kind, and for an event that can't be shown.
+     */
+    val body: String,
+    val senderId: String,
+    /** The sender's display name, omitted when it's the user's own message */
+    val senderName: String? = null,
+    /** Sent by the user, from this or another of their devices */
+    val isOwn: Boolean,
+    /** Milliseconds since the Unix epoch of the message */
+    val timestamp: Long,
+    val kind: LastMessageKind,
+)
+
+/**
+ * What the latest message of a room is, so the app can show a localized label when [`body`] is
+ * empty.
+ *
+ * [`body`]: LastMessage::body
+ */
+@Serializable
+enum class LastMessageKind {
+    @SerialName("text") text,
+    @SerialName("image") image,
+    @SerialName("video") video,
+    @SerialName("audio") audio,
+    @SerialName("file") file,
+    @SerialName("sticker") sticker,
+    @SerialName("poll") poll,
+    @SerialName("call") call,
+    @SerialName("other") other,
+}
 
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
@@ -649,6 +830,7 @@ enum class MessageKind {
 data class Notification(
     val roomId: String,
     val roomName: String? = null,
+    val roomAvatarUrl: String? = null,
     val eventId: String,
     val sender: String,
     val senderName: String? = null,
@@ -656,6 +838,8 @@ data class Notification(
     val body: String,
     /** The message hides a spoiler: show a placeholder instead of its text */
     val spoiler: Boolean,
+    /** Its keys haven't arrived yet: show a placeholder */
+    val encrypted: Boolean,
     /** Mentions and keywords: show more prominently */
     val highlight: Boolean,
     val sound: Boolean,
@@ -743,6 +927,22 @@ data class PublicRoomsPage(
     /** Pass back to load more */
     val next: String? = null,
     val total: Long? = null,
+)
+
+@Serializable
+data class PusherConfig(
+    val appId: String,
+    val pushkey: String,
+    val gatewayUrl: String,
+    val appName: String,
+    val deviceName: String,
+    val lang: String,
+    /**
+     * Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+     * (Sygnal and the like) merge them into what they send, so the app can give iOS an
+     * `aps.alert` to show even though it only ever gets the event's ids.
+     */
+    val defaultPayload: JsonElement? = null,
 )
 
 @Serializable(with = QrLoginStatus.Serializer::class)
@@ -871,6 +1071,84 @@ data class ResolvedAlias(
     val servers: List<String>,
 )
 
+@Serializable(with = RichBlock.Serializer::class)
+sealed interface RichBlock {
+    @Serializable
+    data class Paragraph(
+        val spans: List<RichSpan>,
+    ) : RichBlock
+    @Serializable
+    data class Heading(
+        /** 1 to 6 */
+        val level: Long,
+        val spans: List<RichSpan>,
+    ) : RichBlock
+    @Serializable
+    data class Quote(
+        val blocks: List<RichBlock>,
+    ) : RichBlock
+    /** A bulleted or numbered list (not `List`: Kotlin's would be shadowed) */
+    @Serializable
+    data class ItemList(
+        val ordered: Boolean,
+        /** The first number of an ordered list */
+        val start: Long,
+        val items: List<List<RichBlock>>,
+    ) : RichBlock
+    /** A code block, its text as written */
+    @Serializable
+    data class Code(
+        val text: String,
+    ) : RichBlock
+    data object Rule : RichBlock
+
+    object Serializer : JsonUnionSerializer<RichBlock>("RichBlock") {
+        override fun read(json: JsonElement): RichBlock = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "paragraph" -> CoreJson.decodeFromJsonElement(Paragraph.serializer(), json)
+            "heading" -> CoreJson.decodeFromJsonElement(Heading.serializer(), json)
+            "quote" -> CoreJson.decodeFromJsonElement(Quote.serializer(), json)
+            "itemList" -> CoreJson.decodeFromJsonElement(ItemList.serializer(), json)
+            "code" -> CoreJson.decodeFromJsonElement(Code.serializer(), json)
+            "rule" -> Rule
+            else -> throw SerializationException("Unknown RichBlock $tag")
+        }
+
+        override fun write(value: RichBlock): JsonElement = when (value) {
+            is Paragraph -> tagged(CoreJson.encodeToJsonElement(Paragraph.serializer(), value), "type", "paragraph")
+            is Heading -> tagged(CoreJson.encodeToJsonElement(Heading.serializer(), value), "type", "heading")
+            is Quote -> tagged(CoreJson.encodeToJsonElement(Quote.serializer(), value), "type", "quote")
+            is ItemList -> tagged(CoreJson.encodeToJsonElement(ItemList.serializer(), value), "type", "itemList")
+            is Code -> tagged(CoreJson.encodeToJsonElement(Code.serializer(), value), "type", "code")
+            Rule -> tagged(JsonObject(emptyMap()), "type", "rule")
+        }
+    }
+}
+
+/** A run of text with one style */
+@Serializable
+data class RichSpan(
+    val text: String,
+    val bold: Boolean,
+    val italic: Boolean,
+    val strike: Boolean,
+    val underline: Boolean,
+    /** Inline code */
+    val code: Boolean,
+    val link: String? = null,
+    /** A mentioned user's ID; `text` is "@name", as the plain body shows mentions */
+    val mention: String? = null,
+    val spoiler: Boolean,
+)
+
+/** Why a ring stopped */
+@Serializable
+enum class RingEnd {
+    @SerialName("answered") answered,
+    @SerialName("declined") declined,
+    @SerialName("callerLeft") callerLeft,
+    @SerialName("expired") expired,
+}
+
 @Serializable
 data class RoomDetails(
     val id: String,
@@ -906,6 +1184,15 @@ data class RoomEvent(
     val originServerTs: Long,
 )
 
+/** One page of a room's past, newest first */
+@Serializable
+data class RoomEventsPage(
+    /** The events of the wanted types on this page; can be empty while `next` is set */
+    val events: List<RoomEvent>,
+    /** Pass as `from` for the page before this one; `None` at the start of the room */
+    val next: String? = null,
+)
+
 @Serializable
 data class RoomFilter(
     val kind: RoomKind? = null,
@@ -926,6 +1213,16 @@ enum class RoomKind {
     @SerialName("invites") invites,
 }
 
+/** What a room's member event says about a person */
+@Serializable
+data class RoomMemberProfile(
+    /** `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event */
+    val membership: String? = null,
+    val displayname: String? = null,
+    /** `mxc://` URI */
+    val avatarUrl: String? = null,
+)
+
 /** What the user may do in a room, for showing or hiding actions */
 @Serializable
 data class RoomPermissions(
@@ -939,6 +1236,7 @@ data class RoomPermissions(
     val changePermissions: Boolean,
     val pin: Boolean,
     val manageWidgets: Boolean,
+    val enableEncryption: Boolean,
 )
 
 /** A user-made section of the room list */
@@ -1009,8 +1307,12 @@ data class RoomSummary(
     val memberCount: Long,
     /** The room's own notification setting, if it has one: `all`, `mentions` or `mute` */
     val notificationMode: NotificationMode? = null,
-    /** Users in the room's call, oldest first (a user appears once per device) */
+    /** Users in the room's call, oldest first, once each */
     val callParticipants: List<String>,
+    /** This device is in the room's call */
+    val inCall: Boolean,
+    /** The user is in the room's call on another device, not on this one */
+    val inCallElsewhere: Boolean,
     /**
      * Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
      * "5 min ago"
@@ -1022,6 +1324,11 @@ data class RoomSummary(
     /** The other person's name in a direct chat (or the inviter's for a DM invite) */
     val dmUserName: String? = null,
     val dmUserAvatar: String? = null,
+    /**
+     * The latest message, for a one-line preview in the room list; `null` for a room with
+     * nothing to show yet (an invite, or a latest event that isn't a message)
+     */
+    val lastMessage: LastMessage? = null,
 )
 
 /** A room tag with its sort order (favourites, low priority, custom `u.*` tags) */
@@ -1031,6 +1338,13 @@ data class RoomTag(
     val order: Double? = null,
 )
 
+/** Which way `timestampToEvent` looks from the date */
+@Serializable
+enum class SearchDirection {
+    @SerialName("forward") forward,
+    @SerialName("backward") backward,
+}
+
 /** A message found by search */
 @Serializable
 data class SearchHit(
@@ -1039,6 +1353,14 @@ data class SearchHit(
     val sender: String,
     val body: String,
     val timestamp: Long,
+)
+
+/** One page of server-side search results */
+@Serializable
+data class SearchResults(
+    val hits: List<SearchHit>,
+    /** Pass as `from` for the next page of results; `None` when there are no more */
+    val next: String? = null,
 )
 
 @Serializable
@@ -1084,6 +1406,20 @@ data class ServerInfo(
      * (a browser can only ask servers that allow cross-site requests) or hides it.
      */
     val software: HomeserverSoftware? = null,
+)
+
+/** A notification the server keeps for the user, read or not */
+@Serializable
+data class ServerNotification(
+    val roomId: String,
+    val eventId: String,
+    val sender: String,
+    /** Milliseconds since the Unix epoch of the event */
+    val timestamp: Long,
+    /** The user has read up to this event */
+    val read: Boolean,
+    /** The thread the event is a reply in */
+    val threadRootId: String? = null,
 )
 
 /**
@@ -1138,6 +1474,32 @@ data class SfuConfig(
     val identity: String,
     /** The LiveKit room the token is for: services leading to the same SFU room share a connection */
     val alias: String,
+)
+
+/** Why a message gets a shield */
+@Serializable
+enum class ShieldCode {
+    @SerialName("authenticityNotGuaranteed") authenticityNotGuaranteed,
+    @SerialName("unknownDevice") unknownDevice,
+    @SerialName("unsignedDevice") unsignedDevice,
+    @SerialName("unverifiedIdentity") unverifiedIdentity,
+    @SerialName("verificationViolation") verificationViolation,
+    @SerialName("mismatchedSender") mismatchedSender,
+    @SerialName("sentInClear") sentInClear,
+}
+
+/** How serious a message's encryption warning is */
+@Serializable
+enum class ShieldColor {
+    @SerialName("red") red,
+    @SerialName("grey") grey,
+}
+
+/** The encryption warning to show on a message */
+@Serializable
+data class ShieldView(
+    val color: ShieldColor,
+    val code: ShieldCode,
 )
 
 /** A room or subspace inside a space, joined or not */
@@ -1213,6 +1575,20 @@ data class StateChange(
     val stateKey: String,
 )
 
+/** A state event with who sent it and when */
+@Serializable
+data class StateEventView(
+    val roomId: String,
+    val type: String,
+    val stateKey: String,
+    /** The user ID of whoever set it; permission checks need this */
+    val sender: String,
+    val content: JsonElement,
+    val eventId: String? = null,
+    /** When the sender's server saw it, in milliseconds; `0` when missing */
+    val originServerTs: Long,
+)
+
 /**
  * Where the client keeps its state, crypto keys and caches.
  *
@@ -1225,6 +1601,20 @@ data class StoreConfig(
     val passphrase: String? = null,
     /** Don't share keys with, or read messages from, devices their owner hasn't verified */
     val excludeInsecureDevices: Boolean? = null,
+    val manualEncryptionSetup: Boolean? = null,
+    /**
+     * Which process this client is, for the store locks two processes share (the SDK's
+     * cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+     * itself keeps the current behaviour.
+     *
+     * A second process that restores the same store while the app runs — the iOS
+     * `NotificationService` extension — must pass a different, stable name, e.g.
+     * `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+     * give two concurrently running processes the same name: they would both think they hold
+     * the lock. The value must not be `notifications`, which the SDK's notification client uses
+     * for its own store access.
+     */
+    val processName: String? = null,
 )
 
 /** The state of the background sync, as shown to the user. */
@@ -1315,6 +1705,11 @@ sealed interface TimelineEntry {
          * as an object; null when there are none or the content is not at hand (a local echo)
          */
         val customContent: JsonElement? = null,
+        /**
+         * A warning about the message's authenticity; null when it is fine (verified sender) or
+         * the room isn't encrypted
+         */
+        val shield: ShieldView? = null,
     ) : TimelineEntry
     @Serializable
     data class DateDivider(
@@ -1380,6 +1775,14 @@ sealed interface TimelineKind {
         }
     }
 }
+
+/** The event `timestampToEvent` found */
+@Serializable
+data class TimestampEvent(
+    val eventId: String,
+    /** When the sender's server saw it, in milliseconds */
+    val timestamp: Long,
+)
 
 @Serializable
 data class Tombstone(
@@ -1640,6 +2043,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
             Runtime.call("WizardClient.sniffMimeType", null, listOf(Arg.bytes(head)))
 
         /**
+         * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+         * `stateEventsWithSender` or `watchStateEvents`.
+         */
+        suspend fun mudrixStateTypes(): List<String> =
+            Runtime.call("WizardClient.mudrixStateTypes", null, listOf())
+
+        /**
          * Signs in with a password. `server` may be a server name or a homeserver URL;
          * `identifier` is a username (or full Matrix ID), or an email address or phone number
          * bound to the account.
@@ -1771,6 +2181,11 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun setFavourite(roomId: String, favourite: Boolean) {
         Runtime.callUnit("WizardClient.setFavourite", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(favourite)))
+    }
+
+    /** Moves a room to the low priority group (or back); a favourite stops being one. */
+    suspend fun setLowPriority(roomId: String, lowPriority: Boolean) {
+        Runtime.callUnit("WizardClient.setLowPriority", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(lowPriority)))
     }
 
     suspend fun setMarkedUnread(roomId: String, unread: Boolean) {
@@ -1976,6 +2391,14 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun searchMessages(term: String, roomId: String? = null): List<SearchHit> =
         Runtime.call("WizardClient.searchMessages", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId)))
 
+    /**
+     * Searches messages on the server one page at a time (not possible for encrypted
+     * rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+     * last page has been read.
+     */
+    suspend fun searchMessagesPage(term: String, roomId: String? = null, from: String? = null): SearchResults =
+        Runtime.call("WizardClient.searchMessagesPage", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId), Arg.value<String?>(from)))
+
     suspend fun emojiPacks(roomId: String? = null): List<EmojiPack> =
         Runtime.call("WizardClient.emojiPacks", handle, listOf(Arg.value<String?>(roomId)))
 
@@ -2138,6 +2561,10 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun stateEventsOfTypes(roomId: String, eventTypes: List<String>): List<List<JsonElement>> =
         Runtime.call("WizardClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
 
+    /** Every current state event of the room in full, for exploring it. */
+    suspend fun roomState(roomId: String): List<JsonElement> =
+        Runtime.call("WizardClient.roomState", handle, listOf(Arg.value<String>(roomId)))
+
     suspend fun setStateEvent(roomId: String, eventType: String, stateKey: String, content: JsonElement) {
         Runtime.callUnit("WizardClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
     }
@@ -2278,12 +2705,28 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchRoomEvents(types: List<String>, listener: (RoomEvent) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchRoomEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<RoomEvent>(listener)), ::Subscription)
 
+    /**
+     * A page of a room's message-like events of one of `types`, newest first, decrypted in
+     * encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+     * page's `next` as `from` for the page before it; `next` is null at the start of the room.
+     * A page can hold fewer events than `limit`, even none, while `next` is set.
+     */
+    suspend fun roomEvents(roomId: String, types: List<String>, limit: Long, from: String? = null): RoomEventsPage =
+        Runtime.call("WizardClient.roomEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(types), Arg.value<Long>(limit), Arg.value<String?>(from)))
+
     suspend fun serverFeatures(): ServerFeatures =
         Runtime.call("WizardClient.serverFeatures", handle, listOf())
 
     /** Encrypts and uploads a file; returns the `file` object for message content. */
     suspend fun uploadEncryptedMedia(data: Bytes): JsonElement =
         Runtime.call("WizardClient.uploadEncryptedMedia", handle, listOf(Arg.bytes(data)))
+
+    /**
+     * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+     * mentions and custom emoji to it, which plain Markdown sending can't.
+     */
+    suspend fun markdownToHtml(body: String): String? =
+        Runtime.call("WizardClient.markdownToHtml", handle, listOf(Arg.value<String>(body)))
 
     /** The LiveKit service the homeserver offers for calls, if any */
     suspend fun rtcServiceUrl(): String? =
@@ -2311,11 +2754,12 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     suspend fun joinCall(roomId: String, video: Boolean, ring: Boolean, serviceUrl: String? = null): CallSession =
         Runtime.call("WizardClient.joinCall", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(video), Arg.value<Boolean>(ring), Arg.value<String?>(serviceUrl)))
 
-    fun watchIncomingCalls(listener: (IncomingCall) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCall>(listener)), ::Subscription)
-
-    fun watchCallsHandledElsewhere(listener: (String) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchCallsHandledElsewhere", handle, listOf(Arg.listener<String>(listener)), ::Subscription)
+    /**
+     * Rings as they start and end: answered or declined on one of the user's devices, the
+     * caller left, or it expired.
+     */
+    fun watchIncomingCalls(listener: (IncomingCallEvent) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCallEvent>(listener)), ::Subscription)
 
     suspend fun declineCall(roomId: String, eventId: String) {
         Runtime.callUnit("WizardClient.declineCall", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
@@ -2328,8 +2772,138 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     fun watchNotifications(listener: (Notification) -> Unit): Subscription =
         Runtime.watch("WizardClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
 
+    suspend fun setPusher(config: PusherConfig) {
+        Runtime.callUnit("WizardClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
+    }
+
+    suspend fun removePusher(appId: String, pushkey: String) {
+        Runtime.callUnit("WizardClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
+    }
+
+    suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
+        Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
+    /**
+     * The server's notifications, newest first, read or not; `highlights` keeps only the
+     * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+     */
+    suspend fun serverNotifications(highlights: Boolean, limit: Long): List<ServerNotification> =
+        Runtime.call("WizardClient.serverNotifications", handle, listOf(Arg.value<Boolean>(highlights), Arg.value<Long>(limit)))
+
+    /**
+     * Like `pushedNotification`, for the iOS notification service extension: a second
+     * process restored over the same store with its own `StoreConfig.processName`, safe
+     * while the app runs. It never starts the sync; an event whose keys this process
+     * doesn't have comes back with `encrypted: true` and an empty body.
+     */
+    suspend fun pushedNotificationFromExtension(roomId: String, eventId: String): Notification? =
+        Runtime.call("WizardClient.pushedNotificationFromExtension", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
     suspend fun logout() {
         Runtime.callUnit("WizardClient.logout", handle, listOf())
+    }
+
+    /**
+     * Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+     * `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+     * Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+     * hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+     * server would have to send the plain event).
+     */
+    suspend fun sendDelayedEvent(roomId: String, eventType: String, content: JsonElement, delayMs: Long, stateKey: String? = null): String =
+        Runtime.call("WizardClient.sendDelayedEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content), Arg.value<Long>(delayMs), Arg.value<String?>(stateKey)))
+
+    /**
+     * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+     * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+     */
+    suspend fun listDelayedEvents(roomId: String? = null): List<DelayedEvent> =
+        Runtime.call("WizardClient.listDelayedEvents", handle, listOf(Arg.value<String?>(roomId)))
+
+    /**
+     * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+     * looking `direction` from it ("jump to date"); null when the room has no event that
+     * way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+     * `unsupportedByServer` when the homeserver can't look up dates.
+     */
+    suspend fun timestampToEvent(roomId: String, timestamp: Long, direction: SearchDirection): TimestampEvent? =
+        Runtime.call("WizardClient.timestampToEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(timestamp), Arg.value<SearchDirection>(direction)))
+
+    /**
+     * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+     * decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+     * left out).
+     */
+    suspend fun eventEditHistory(roomId: String, eventId: String): List<EventVersion> =
+        Runtime.call("WizardClient.eventEditHistory", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
+    /**
+     * A person's name and picture in one room or space (its `m.room.member` event), which
+     * can differ from their account profile. Works for any user; the server answers for
+     * people this device hasn't loaded.
+     */
+    suspend fun roomMemberProfile(roomId: String, userId: String): RoomMemberProfile =
+        Runtime.call("WizardClient.roomMemberProfile", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+
+    /**
+     * Sets the own name in one room or space only (the member event's `displayname`); null
+     * or empty goes back to the account's display name. Needs a joined room.
+     */
+    suspend fun setRoomNickname(roomId: String, displayname: String? = null) {
+        Runtime.callUnit("WizardClient.setRoomNickname", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(displayname)))
+    }
+
+    /**
+     * Sets the own picture in one room or space only; without `data` it goes back to the
+     * account's picture. Needs a joined room.
+     */
+    suspend fun setRoomMemberAvatar(roomId: String, data: Bytes? = null, mimetype: String? = null) {
+        Runtime.callUnit("WizardClient.setRoomMemberAvatar", handle, listOf(Arg.value<String>(roomId), Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
+    }
+
+    /**
+     * Every state event of the given types in a room, with who set it and when (the sender
+     * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+     * and the older `chat.mudrix.*`) and space children come from this device; the server
+     * is asked once when there are none there or for other types.
+     */
+    suspend fun stateEventsWithSender(roomId: String, eventTypes: List<String>): List<StateEventView> =
+        Runtime.call("WizardClient.stateEventsWithSender", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
+
+    /**
+     * Calls `listener` with every state event of one of `types` arriving in a joined room,
+     * the first sync's and your own changes included. Mudrix's state types are requested
+     * from the server in every room (a separate light sync connection runs beside the room
+     * list's), so this hears them without polling.
+     */
+    fun watchStateEvents(types: List<String>, listener: (StateEventView) -> Unit): Subscription =
+        Runtime.watch("WizardClient.watchStateEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<StateEventView>(listener)), ::Subscription)
+
+    /**
+     * Writes every room key this device has to a file, encrypted with `passphrase`
+     * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+     * `unsupported`.
+     */
+    suspend fun exportRoomKeys(path: String, passphrase: String) {
+        Runtime.callUnit("WizardClient.exportRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
+    }
+
+    /**
+     * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+     * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+     * Desktop and mobile only: in the browser it rejects with `unsupported`.
+     */
+    suspend fun importRoomKeys(path: String, passphrase: String): KeyImportResult =
+        Runtime.call("WizardClient.importRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
+
+    /** Calls a delayed event off so it is never sent. */
+    suspend fun cancelDelayedEvent(delayId: String) {
+        Runtime.callUnit("WizardClient.cancelDelayedEvent", handle, listOf(Arg.value<String>(delayId)))
+    }
+
+    /** Has the server send a delayed event right now. */
+    suspend fun sendDelayedEventNow(delayId: String) {
+        Runtime.callUnit("WizardClient.sendDelayedEventNow", handle, listOf(Arg.value<String>(delayId)))
     }
 
     /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */
@@ -2543,6 +3117,10 @@ class RoomTimeline(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun editText(itemKey: String, body: String) {
         Runtime.callUnit("RoomTimeline.editText", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(body)))
+    }
+
+    suspend fun editCaption(itemKey: String, caption: String, html: String? = null, mentions: Mentions? = null) {
+        Runtime.callUnit("RoomTimeline.editCaption", handle, listOf(Arg.value<String>(itemKey), Arg.value<String>(caption), Arg.value<String?>(html), Arg.value<Mentions?>(mentions)))
     }
 
     suspend fun redact(itemKey: String, reason: String? = null) {

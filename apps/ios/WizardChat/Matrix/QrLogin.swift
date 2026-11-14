@@ -30,19 +30,19 @@ enum QrLogin {
         let message = ((error as? WizardError)?.message ?? error.localizedDescription).lowercased()
         let key: String.LocalizationValue
         if message.range(of: #"check.?code"#, options: .regularExpression) != nil {
-            key = "qrLogin.codeMismatch"
+            key = "auth.qr.codeMismatch"
         } else if message.range(of: "cancel|declin|denied", options: .regularExpression) != nil {
-            key = "qrLogin.failCancelled"
+            key = "auth.qr.failCancelled"
         } else if message.range(of: "expire|timeout|timed out", options: .regularExpression) != nil {
-            key = "qrLogin.failExpired"
+            key = "auth.qr.failExpired"
         } else if message.range(of: "insecure|secure channel", options: .regularExpression) != nil {
-            key = "qrLogin.failInsecure"
+            key = "auth.qr.failInsecure"
         } else if message.range(of: "unsupported|not supported|rendezvous|oauth|404", options: .regularExpression) != nil {
-            key = "qrLogin.failUnsupported"
+            key = "auth.qr.failUnsupported"
         } else if message.contains("already") {
-            key = "qrLogin.failAlreadySignedIn"
+            key = "auth.qr.failAlreadySignedIn"
         } else {
-            key = "qrLogin.failGeneric"
+            key = "auth.qr.failGeneric"
         }
         return String(localized: key)
     }

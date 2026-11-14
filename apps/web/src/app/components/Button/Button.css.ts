@@ -1,6 +1,7 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const base = style({
   display: 'inline-flex',
@@ -19,9 +20,9 @@ const base = style({
 });
 
 export const sizes = styleVariants({
-  sm: [base, { padding: '5px 12px', fontSize: '0.82rem' }],
-  md: [base, { padding: '8px 18px', fontSize: '0.9rem' }],
-  lg: [base, { padding: '11px 20px', fontSize: '0.95rem', width: '100%' }],
+  sm: [base, { padding: '5px 12px', fontSize: fontSize.rem82 }],
+  md: [base, { padding: '8px 18px', fontSize: fontSize.rem90 }],
+  lg: [base, { padding: '11px 20px', fontSize: fontSize.rem95, width: '100%' }],
 });
 
 const variantBase = (extra: object) =>
@@ -33,7 +34,7 @@ const variantBase = (extra: object) =>
 
 export const primary = variantBase({
   backgroundColor: vars.color.accent,
-  color: '#fff',
+  color: vars.color.onAccent,
   ':disabled': { opacity: 0.5, cursor: 'not-allowed' },
   selectors: { '&:hover:not(:disabled)': { backgroundColor: vars.color.accentHover } },
 });
@@ -47,7 +48,14 @@ export const secondary = variantBase({
 
 export const danger = variantBase({
   backgroundColor: vars.color.danger,
-  color: '#fff',
+  color: vars.color.onAccent,
+  ':disabled': { opacity: 0.5, cursor: 'not-allowed' },
+  selectors: { '&:hover:not(:disabled)': { opacity: 0.85 } },
+});
+
+export const success = variantBase({
+  backgroundColor: vars.color.success,
+  color: vars.color.onAccent,
   ':disabled': { opacity: 0.5, cursor: 'not-allowed' },
   selectors: { '&:hover:not(:disabled)': { opacity: 0.85 } },
 });
@@ -79,10 +87,10 @@ const iconBase = style({
 });
 
 export const iconSizes = styleVariants({
-  xs: [iconBase, { width: '22px', height: '22px', fontSize: '0.75rem' }],
-  sm: [iconBase, { width: '28px', height: '28px', fontSize: '0.9rem' }],
-  md: [iconBase, { width: '32px', height: '32px', fontSize: '1rem' }],
-  lg: [iconBase, { width: '36px', height: '36px', fontSize: '1rem' }],
+  xs: [iconBase, { width: '22px', height: '22px', fontSize: fontSize.rem75 }],
+  sm: [iconBase, { width: '28px', height: '28px', fontSize: fontSize.rem90 }],
+  md: [iconBase, { width: '32px', height: '32px', fontSize: fontSize.rem100 }],
+  lg: [iconBase, { width: '36px', height: '36px', fontSize: fontSize.rem100 }],
 });
 
 export const iconDefault = style({

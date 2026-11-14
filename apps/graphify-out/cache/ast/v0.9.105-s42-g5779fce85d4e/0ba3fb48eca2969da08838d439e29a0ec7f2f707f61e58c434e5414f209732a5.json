@@ -1,0 +1,710 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "label": "toast.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_toast_icon",
+      "label": "TOAST_ICON",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L25"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "label": "init()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L31"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/toast.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "label": "write_icon()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L43"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "label": "register()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L60"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "label": "set_string()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L87"
+    },
+    {
+      "id": "hkey",
+      "label": "HKEY",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/toast.rs",
+      "_rust_use_roots": ["windows"]
+    },
+    {
+      "id": "pcwstr",
+      "label": "PCWSTR",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/toast.rs",
+      "_rust_use_roots": ["windows"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "label": "show()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L103"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "imp",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "imp",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "init",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "init",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "show",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "show",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "manager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "core",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "w",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "hstring",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "pcwstr",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "error_success",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "registry",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "regclosekey",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "regcreatekeyexw",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "regsetvalueexw",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "hkey",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "hkey_current_user",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "key_set_value",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "reg_option_non_volatile",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "reg_sz",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "setcurrentprocessexplicitappusermodelid",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_toast_icon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_toast_icon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "target": "hkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L87",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "target": "pcwstr",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L87",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "target": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L78",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "callee": "app_id",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::dev",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L32"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "callee": "config",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L32"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "callee": "SetCurrentProcessExplicitAppUserModelID",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L33"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "callee": "name",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::dev",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_init",
+      "callee": "as_deref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L37"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "app_local_data_dir",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L44"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L44"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "create_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L45"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "read",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L52"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "as_deref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L53"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "write",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L54"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "into_owned",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_write_icon",
+      "callee": "to_string_lossy",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "callee": "RegCreateKeyExW",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L64"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "callee": "and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_register",
+      "callee": "RegCloseKey",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "callee": "flat_map",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "callee": "chain",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "callee": "encode_utf16",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "callee": "once",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::iter",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L91"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_set_string",
+      "callee": "RegSetValueExW",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L94"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "app_id",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::dev",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "config",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L109"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "on_activated",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "sound",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "text1",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "title",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tauri_winrt_notification::Toast",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "open_room",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::links",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L119"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_toast_show",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/toast.rs",
+      "source_location": "L120"
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_swift",
+      "label": "CallLiveActivityController.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "activitykit",
+      "label": "ActivityKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "label": "CallLiveActivityController",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "activity",
+      "label": "Activity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "callactivityattributes",
+      "label": "CallActivityAttributes",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L11",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L26",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "label": ".end()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L40",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_swift",
+      "target": "activitykit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "activity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "callee": "ActivityAuthorizationInfo",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L13",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "callee": "CallActivityAttributes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L14",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "callee": "request",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L16",
+      "receiver": "Activity"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "callee": "ActivityContent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_start",
+      "callee": "NSLog",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L29",
+      "receiver": "pending"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "callee": "timeIntervalSince",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L32",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L33",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_update",
+      "callee": "ActivityContent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L41",
+      "receiver": "pending"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L46",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_callliveactivitycontroller_callliveactivitycontroller_end",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+      "source_location": "L51",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/RTC/CallLiveActivityController.swift",
+    "table": {
+      "activity": "Activity",
+      "lastState": "CallActivityAttributes",
+      "lastUpdate": "Date",
+      "pending": "Task",
+      "roomName": "String",
+      "isDirect": "Bool",
+      "state": "CallActivityAttributes",
+      "attributes": "CallActivityAttributes"
+    }
+  }
+}

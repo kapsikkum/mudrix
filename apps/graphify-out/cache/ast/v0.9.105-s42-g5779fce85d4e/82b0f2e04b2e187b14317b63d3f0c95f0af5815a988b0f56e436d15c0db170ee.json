@@ -1,0 +1,898 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "label": "RoomRoles.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "label": "RoomRoles",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "label": ".color()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroleskey",
+      "label": "RoomRolesKey",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "environmentkey",
+      "label": "EnvironmentKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues",
+      "label": "EnvironmentValues",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues_roomroles",
+      "label": ".roomRoles",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L25"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "label": "RoomRolesLoader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L33",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L41",
+      "_callable": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "label": ".rebuild()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L64",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "label": "RoomRolesProvider",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L83",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "viewmodifier",
+      "label": "ViewModifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "label": ".body()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L102",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "label": ".roomRoles()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L104",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "target": "color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroleskey",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroleskey",
+      "target": "environmentkey",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues_roomroles",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "target": "viewmodifier",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "target": "content",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_view",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_view",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L86",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "callee": "powerLevel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L14",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "callee": "builtin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L15",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomroles_color",
+      "callee": "roleColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L16",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "rolesChain",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L42",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "ensure",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L48",
+      "receiver": "store"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "rootSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L48",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L49",
+      "receiver": "chain"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "ensure",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L49",
+      "receiver": "store"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "localRoomSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L52",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "found",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_load",
+      "callee": "localRoomSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L57",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "style",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L67",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "state",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L67",
+      "receiver": "states"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "rootSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L67",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "state",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L72",
+      "receiver": "states"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "readRoles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L73",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesloader_rebuild",
+      "callee": "levels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_roomrolesprovider_body",
+      "callee": "environment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L90",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_view_roomroles",
+      "callee": "modifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomRoles.swift",
+      "source_location": "L105",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_environmentvalues",
+      "label": "EnvironmentValues"
+    },
+    { "nid": "$graphify-root$_ios_wizardchat_matrix_roomroles_view", "label": "View" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/RoomRoles.swift",
+    "table": {
+      "roles": "SpaceModern",
+      "powerLevels": "String",
+      "creators": "Set",
+      "none": "RoomRoles",
+      "userId": "String",
+      "defaultValue": "RoomRoles",
+      "roomRoles": "RoomRoles",
+      "current": "RoomRoles",
+      "chain": "String",
+      "levels": "String",
+      "ownLevels": "String",
+      "roomId": "String",
+      "client": "WizardClient",
+      "graph": "SpaceNode",
+      "session": "MatrixSession",
+      "loader": "RoomRolesLoader",
+      "states": "MudrixRoomStates",
+      "content": "Content",
+      "store": "MudrixRoomStates"
+    },
+    "factory": { "builtin": ["SpaceModern", "builtin"], "level": ["SpaceModern", "powerLevel"] }
+  }
+}

@@ -1,0 +1,1278 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "label": "ComposerTextView.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "uikit",
+      "label": "UIKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "uniformtypeidentifiers",
+      "label": "UniformTypeIdentifiers",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "label": "ComposerTextView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uiviewrepresentable",
+      "label": "UIViewRepresentable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "nsrange",
+      "label": "NSRange",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "uifont",
+      "label": "UIFont",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "uicolor",
+      "label": "UIColor",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "nsitemprovider",
+      "label": "NSItemProvider",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makecoordinator",
+      "label": ".makeCoordinator()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "coordinator",
+      "label": "Coordinator",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "label": ".makeUIView()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L22",
+      "_callable": true
+    },
+    {
+      "id": "context",
+      "label": "Context",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "pastingtextview",
+      "label": "PastingTextView",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "label": ".updateUIView()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L35",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "label": ".sizeThatFits()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "proposedviewsize",
+      "label": "ProposedViewSize",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "cgsize",
+      "label": "CGSize",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "label": "Coordinator",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L77",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "nsobject",
+      "label": "NSObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "uitextviewdelegate",
+      "label": "UITextViewDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L79",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchange",
+      "label": ".textViewDidChange()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L81",
+      "_callable": true
+    },
+    {
+      "id": "uitextview",
+      "label": "UITextView",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchangeselection",
+      "label": ".textViewDidChangeSelection()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L86",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidbeginediting",
+      "label": ".textViewDidBeginEditing()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L90",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidendediting",
+      "label": ".textViewDidEndEditing()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L94",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "label": "PastingTextView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L100",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "uttype",
+      "label": "UTType",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L106",
+      "_callable": true
+    },
+    {
+      "id": "cgrect",
+      "label": "CGRect",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "nstextcontainer",
+      "label": "NSTextContainer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "nscoder",
+      "label": "NSCoder",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_layoutsubviews",
+      "label": ".layoutSubviews()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "label": ".hasMedia()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L120",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "label": ".canPerformAction()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L127",
+      "_callable": true
+    },
+    {
+      "id": "selector",
+      "label": "Selector",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "any",
+      "label": "Any",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "label": ".paste()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L132",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "target": "uikit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "target": "uniformtypeidentifiers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "uiviewrepresentable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "nsrange",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "uifont",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "uicolor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "uicolor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "uicolor",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "nsitemprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makecoordinator",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makecoordinator",
+      "target": "coordinator",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "target": "pastingtextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "target": "pastingtextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "target": "proposedviewsize",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "target": "pastingtextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "target": "context",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "target": "cgsize",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "nsobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "uitextviewdelegate",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_init",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchange",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchange",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchangeselection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidchangeselection",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidbeginediting",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidbeginediting",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L90",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidendediting",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator_textviewdidendediting",
+      "target": "uitextview",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "uitextview",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "nsitemprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "uttype",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L104",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "target": "cgrect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "target": "nstextcontainer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "target": "nscoder",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_layoutsubviews",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "target": "nsitemprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "target": "selector",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "target": "any",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L127",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "target": "any",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L132",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "target": "nsitemprovider",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makecoordinator",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_coordinator",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "target": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "callee": "setContentCompressionResistancePriority",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L29",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "callee": "onPaste",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_makeuiview",
+      "callee": "addSubview",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L31",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L50",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L52",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L59",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "callee": "becomeFirstResponder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L60",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_updateuiview",
+      "callee": "resignFirstResponder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L60",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "callee": "CGSize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L67",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "callee": "ceil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "callee": "ceil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "callee": "async",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L72",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_composertextview_sizethatfits",
+      "callee": "CGSize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L74",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "callee": "init",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "callee": "UIPasteConfiguration",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_init",
+      "callee": "fatalError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_layoutsubviews",
+      "callee": "layoutSubviews",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_layoutsubviews",
+      "callee": "CGRect",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L117",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L121",
+      "receiver": "providers"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L122",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_hasmedia",
+      "callee": "hasItemConformingToTypeIdentifier",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L122",
+      "receiver": "provider"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_canperformaction",
+      "callee": "canPerformAction",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "callee": "onPasteItems",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L135",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "callee": "paste",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "callee": "onPasteItems",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview_paste",
+      "callee": "paste",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_composer_composertextview_pastingtextview",
+      "callee": "UILabel",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Composer/ComposerTextView.swift",
+      "source_location": "L102",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Composer/ComposerTextView.swift",
+    "table": {
+      "text": "String",
+      "selection": "NSRange",
+      "isFocused": "Bool",
+      "placeholder": "String",
+      "font": "UIFont",
+      "textColor": "UIColor",
+      "placeholderColor": "UIColor",
+      "tintColor": "UIColor",
+      "onPaste": "NSItemProvider",
+      "context": "Context",
+      "view": "UITextView",
+      "proposal": "ProposedViewSize",
+      "parent": "ComposerTextView",
+      "onPasteItems": "NSItemProvider",
+      "placeholderLabel": "UILabel",
+      "mediaTypes": "UTType",
+      "frame": "CGRect",
+      "textContainer": "NSTextContainer",
+      "coder": "NSCoder",
+      "providers": "NSItemProvider",
+      "action": "Selector",
+      "sender": "Any",
+      "itemProviders": "NSItemProvider"
+    }
+  }
+}

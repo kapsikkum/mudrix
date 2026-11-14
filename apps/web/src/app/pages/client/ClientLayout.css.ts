@@ -7,6 +7,8 @@ import { spacesList } from './SpacesList.css';
 import { bottomDock, roomList } from './RoomListPanel.css';
 import { NATIVE_TAB_BAR, TAB_BAR_HEIGHT } from './MobileTabBar.css';
 import { navList } from '@/app/components/Settings/Settings.css';
+import { mobileHeader } from './MobileHeader.css';
+import { zIndex } from '@/theme/zIndex';
 
 export const appFrame = style({
   display: 'flex',
@@ -14,6 +16,11 @@ export const appFrame = style({
   height: '100vh',
   overflow: 'hidden',
   backgroundColor: vars.color.bgPrimary,
+  selectors: {
+    // Fills the phone shell's web view, which Android and the iOS plugin end at the keyboard; older
+    // iOS builds set --vvh to the visual viewport so the keyboard shrinks the app instead of panning it.
+    'html.tauri-mobile &': { height: 'var(--vvh, 100dvh)' },
+  },
 });
 
 export const appShell = style({
@@ -23,12 +30,16 @@ export const appShell = style({
   overflow: 'hidden',
   position: 'relative',
   backgroundColor: vars.color.bgPrimary,
+  // The strips under the status bar and beside the home indicator take the colour of the bar next
+  // to them: the header (bgSecondary) on top, the composer (bgSecondary) below when there is one.
+  backgroundImage: `linear-gradient(to bottom, ${vars.color.bgSecondary} var(--safe-top), transparent var(--safe-top), transparent calc(100% - var(--safe-bottom)), var(--edge-bottom, transparent) calc(100% - var(--safe-bottom)))`,
   fontFamily: vars.font.body,
   color: vars.color.textPrimary,
-  padding:
-    'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)',
-  '@media': {
-    '(max-width: 768px)': { paddingTop: 0 },
+  padding: 'var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left)',
+  selectors: {
+    '&:has([data-composer])': { vars: { '--edge-bottom': vars.color.bgSecondary } },
+    // The mobile header already clears the top inset.
+    [`${mobileHeader} ~ &`]: { paddingTop: 0 },
   },
 });
 
@@ -38,32 +49,22 @@ export const sidebar = style({
   height: '100%',
   overflow: 'hidden',
   '@media': {
-    '(max-width: 768px)': {
+    // Phones and touch tablets: a drawer that slides in over the chat.
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
-      left: 0,
-      right: 0,
-      top: 'calc(48px + env(safe-area-inset-top))',
-      bottom: `calc(${TAB_BAR_HEIGHT}px + env(safe-area-inset-bottom))`,
+      left: 'var(--safe-left)',
+      top: 'var(--safe-top)',
+      bottom: 'var(--safe-bottom)',
+      // Top and bottom already size it; 100% on top of the offset would run off the screen.
       height: 'auto',
-      zIndex: 5000,
-      paddingLeft: 'env(safe-area-inset-left)',
-      paddingRight: 'env(safe-area-inset-right)',
-      backgroundColor: vars.color.bgPrimary,
+      zIndex: zIndex.panel,
       transform: 'translateX(-100%)',
       transition: `transform ${med} ease`,
     },
-    // Touch tablets: the sidebar is a drawer under the title bar (a menu button there opens it)
-    // instead of taking a third of the screen from the chat.
+    // Tablets keep the title bar (and its menu button) uncovered.
     [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
+      top: `calc(var(--safe-top) + ${TITLE_BAR_HEIGHT}px)`,
       height: 'auto',
-      zIndex: 5000,
-      backgroundColor: vars.color.bgPrimary,
-      transform: 'translateX(-100%)',
-      transition: `transform ${med} ease`,
     },
   },
 });
@@ -78,12 +79,8 @@ globalStyle(`${sidebarNoRail} ${bottomDock}`, {
 
 export const sidebarOpen = style({
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       transform: 'translateX(0)',
-    },
-    [TABLET_QUERY]: {
-      transform: 'translateX(0)',
-      boxShadow: '8px 0 32px rgba(0, 0, 0, 0.35)',
     },
   },
 });
@@ -99,7 +96,7 @@ export const mainContent = style({
 
 export const mainContentHidden = style({
   '@media': {
-    '(min-width: 769px) and (pointer: fine), (min-width: 1101px)': {
+    '(min-width: 769px)': {
       display: 'none',
     },
   },
@@ -115,12 +112,12 @@ export const homeLayout = style({
 export const panelDrawerOverlay = style({
   display: 'none',
   '@media': {
-    [TABLET_QUERY]: {
+    [PANEL_OVERLAY_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      zIndex: 4999,
+      backgroundColor: vars.scrim.base,
+      zIndex: zIndex.panelScrim,
     },
   },
 });
@@ -132,8 +129,8 @@ export const membersDrawerOverlay = style({
       display: 'block',
       position: 'fixed',
       inset: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      zIndex: 4999,
+      backgroundColor: vars.scrim.base,
+      zIndex: zIndex.panelScrim,
     },
   },
 });
@@ -145,8 +142,8 @@ export const drawerOverlay = style({
       display: 'block',
       position: 'fixed',
       inset: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      zIndex: 4999,
+      backgroundColor: vars.scrim.base,
+      zIndex: zIndex.panelScrim,
     },
   },
 });

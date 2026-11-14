@@ -48,12 +48,14 @@ struct ApiConfirmSheet: View {
                     Section(String(localized: "integrations.api.path")) {
                         Text("POST \(path)").font(.system(size: WZ.FontSize.sm, design: .monospaced))
                     }
-                    Section(String(localized: "integrations.api.body")) {
+                    Section {
                         if let body {
                             Text(body).font(.system(size: WZ.FontSize.sm, design: .monospaced)).textSelection(.enabled)
                         } else {
                             Text(String(localized: "integrations.api.noBody")).foregroundStyle(theme.textMuted)
                         }
+                    } header: {
+                        Text(String(localized: "integrations.api.body"))
                     } footer: {
                         Text(L10n.format("integrations.api.onlyThis", host))
                     }

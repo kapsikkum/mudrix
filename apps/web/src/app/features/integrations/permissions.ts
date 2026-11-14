@@ -7,6 +7,7 @@ import type {
   LinkLookup,
   Permissions,
   SlashCommand,
+  WidgetPermission,
 } from './manifest';
 
 /** An old rule already allowed everything the new rule would: same or fewer hosts, same or deeper path. */
@@ -79,7 +80,23 @@ function commandCovered(next: SlashCommand, old: SlashCommand[]): boolean {
       o.description === next.description &&
       o.usage === next.usage &&
       o.insert === next.insert &&
-      o.api === next.api
+      o.api === next.api &&
+      o.widget === next.widget
+  );
+}
+
+/** Code that runs: any change at all (url, name, a new capability, parameter or event type) needs approval. */
+function widgetCovered(next: WidgetPermission, old: WidgetPermission | undefined): boolean {
+  return (
+    old !== undefined &&
+    old.url === next.url &&
+    old.name === next.name &&
+    next.capabilities.every((c) => old.capabilities.includes(c)) &&
+    (next.parameters ?? []).every((p) => (old.parameters ?? []).includes(p)) &&
+    (next.events ?? []).every((e) => (old.events ?? []).includes(e)) &&
+    (!next.fromLinks || old.fromLinks === true) &&
+    (!next.saveFiles || old.saveFiles === true) &&
+    next.linkLabel === old.linkLabel
   );
 }
 
@@ -96,14 +113,26 @@ export function permissionsWidened(prev: Permissions, next: Permissions): boolea
   const oldActions = prev.composerActions ?? [];
   if ((next.composerActions ?? []).some((a) => !actionCovered(a, oldActions))) return true;
   if (next.api && !apiCovered(next.api, prev.api)) return true;
+  if (next.widget && !widgetCovered(next.widget, prev.widget)) return true;
   const oldCommands = prev.commands ?? [];
   return (next.commands ?? []).some((c) => !commandCovered(c, oldCommands));
 }
 
 /**
  * Every host an integration with these permissions may contact, for showing before the person
- * installs it: the lookup host and the api host. Nothing else is ever requested for it.
+ * installs it: the lookup host, the api host and the widget's own host. Nothing else is ever
+ * requested for it.
  */
 export function contactedHosts(p: Permissions): string[] {
-  return [...new Set([p.linkDetails?.host, p.api?.host].filter((h): h is string => !!h))];
+  const widgetHost = (() => {
+    if (!p.widget) return undefined;
+    try {
+      return new URL(p.widget.url).hostname;
+    } catch {
+      return undefined;
+    }
+  })();
+  return [
+    ...new Set([p.linkDetails?.host, p.api?.host, widgetHost].filter((h): h is string => !!h)),
+  ];
 }

@@ -24,6 +24,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.Namespace
+import org.wizardchat.android.matrix.SoundKind
 
 /** What everyone in the call is watching, and where in the video they are */
 data class WatchState(
@@ -96,6 +97,7 @@ class WatchTogether(
     fun start(videoId: String) {
         consent = true
         watchingVideoId = videoId
+        Sounds.play(SoundKind.WatchTogetherStart)
         publish(WatchState(videoId, ownUserId, playing = true, position = 0.0, at = now))
     }
 
@@ -157,7 +159,10 @@ class WatchTogether(
                 if (incoming.at <= stoppedAt) return
                 val current = state
                 if (current != null && incoming.at < current.at) return
-                if (current?.videoId != incoming.videoId && consent) watchingVideoId = incoming.videoId
+                if (current?.videoId != incoming.videoId) {
+                    if (consent) watchingVideoId = incoming.videoId
+                    Sounds.play(SoundKind.WatchTogetherStart)
+                }
                 state = incoming
             }
         }

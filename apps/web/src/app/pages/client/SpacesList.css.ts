@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { uiSize } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const spacesList = style({
   width: '64px',
@@ -9,13 +10,26 @@ export const spacesList = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  // Keeps the Home button off the top edge.
+  paddingTop: '8px',
   paddingBottom: 'var(--bottom-dock-inset, 72px)',
   gap: uiSize('spaceGap'),
-  borderRight: `1px solid ${vars.color.border}`,
+  position: 'relative',
   flexShrink: 0,
   height: '100%',
-  '@media': {
-    '(max-width: 768px)': { paddingTop: '12px' },
+  selectors: {
+    // Divider drawn as a pseudo-element so it stops above the floating user panel instead of
+    // running behind it (the dock overlaps this column).
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 'var(--bottom-dock-inset, 72px)',
+      width: '1px',
+      backgroundColor: vars.color.border,
+      pointerEvents: 'none',
+    },
   },
 });
 
@@ -56,7 +70,7 @@ export const spaceBarBtn = style({
   cursor: 'pointer',
   border: 'none',
   padding: 0,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 700,
   transition: `background-color ${fast}, box-shadow ${fast}`,
   position: 'relative',
@@ -68,7 +82,7 @@ export const spaceBarBtn = style({
   },
 });
 
-// Inner button inside a sortable wrapper - visually transparent, just handles clicks
+// Inner button inside a sortable wrapper — visually transparent, just handles clicks
 export const spaceBtnInner = style({
   width: '100%',
   height: '100%',
@@ -81,16 +95,18 @@ export const spaceBtnInner = style({
   justifyContent: 'center',
   position: 'relative',
   outline: 'none',
+  borderRadius: 'inherit',
+  ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '2px' },
 });
 
 export const spaceBarBtnActive = style([
   spaceBarBtn,
   {
     backgroundColor: vars.color.accent,
-    color: '#fff',
+    color: vars.color.onAccent,
     ':hover': {
       backgroundColor: vars.color.accent,
-      color: '#fff',
+      color: vars.color.onAccent,
     },
   },
 ]);
@@ -160,7 +176,7 @@ export const callBadge = style({
   right: '0px',
   width: '18px',
   height: '18px',
-  borderRadius: '8px',
+  borderRadius: vars.radius.md,
   backgroundColor: vars.color.bgPrimary,
   color: vars.color.success,
   border: `1px solid ${vars.color.success}`,
@@ -192,7 +208,7 @@ export const notifDotMention = style({
   border: `2px solid ${vars.color.bgPrimary}`,
 });
 
-// Insertion-line indicator - dotted accent line between items
+// Insertion-line indicator — dotted accent line between items
 export const insertionLine = style({
   width: '32px',
   height: 0,

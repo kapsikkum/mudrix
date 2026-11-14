@@ -24,7 +24,7 @@ function CloseButton({ onClose }: { onClose: () => void }) {
       onClick={onClose}
       aria-label={t('common.close')}
     >
-      <XIcon size={18} />
+      <XIcon size={22} />
     </button>
   );
 }
@@ -35,12 +35,16 @@ export function NarrowSettingsList<K extends string>({
   onSelect,
   onClose,
   footer,
+  search,
+  results,
 }: {
   title?: string;
   items: NarrowSettingsItem<K>[];
   onSelect: (key: K) => void;
   onClose?: () => void;
   footer?: ReactNode;
+  search?: ReactNode;
+  results?: ReactNode;
 }) {
   return (
     <nav className={css.navList}>
@@ -50,18 +54,20 @@ export function NarrowSettingsList<K extends string>({
           {onClose && <CloseButton onClose={onClose} />}
         </div>
       )}
-      {items.map((item) => (
-        <Fragment key={item.key}>
-          {item.dividerBefore && <div className={css.navListDivider} />}
-          <button type="button" className={css.navRow} onClick={() => onSelect(item.key)}>
-            <span className={css.navRowIcon}>
-              <item.Icon size={22} />
-            </span>
-            <span className={css.navRowLabel}>{item.label}</span>
-            <CaretRightIcon size={18} className={css.navRowCaret} />
-          </button>
-        </Fragment>
-      ))}
+      {search}
+      {results ??
+        items.map((item) => (
+          <Fragment key={item.key}>
+            {item.dividerBefore && <div className={css.navListDivider} />}
+            <button type="button" className={css.navRow} onClick={() => onSelect(item.key)}>
+              <span className={css.navRowIcon}>
+                <item.Icon size={22} />
+              </span>
+              <span className={css.navRowLabel}>{item.label}</span>
+              <CaretRightIcon size={18} className={css.navRowCaret} />
+            </button>
+          </Fragment>
+        ))}
       {footer}
     </nav>
   );
@@ -88,7 +94,7 @@ export function NarrowSettingsPage({
           onClick={onBack}
           aria-label={t('common.back')}
         >
-          <CaretLeftIcon size={20} />
+          <CaretLeftIcon size={22} />
         </button>
         <span className={css.pageHeaderTitle}>{title}</span>
         {onClose && <CloseButton onClose={onClose} />}

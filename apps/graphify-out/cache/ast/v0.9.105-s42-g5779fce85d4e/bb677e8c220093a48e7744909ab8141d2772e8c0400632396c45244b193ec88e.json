@@ -1,0 +1,1480 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_swift",
+      "label": "LinkDetailsLoader.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "label": "LinkDetailsLoader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L10",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_ok",
+      "label": "ok",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "integrationdetails",
+      "label": "IntegrationDetails",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_error",
+      "label": "error",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L13"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_needsask",
+      "label": "needsAsk",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L15"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "label": "Entry",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L18",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "date",
+      "label": "Date",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "label": "Answer",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L30",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "timeinterval",
+      "label": "TimeInterval",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "integrationnetwork",
+      "label": "IntegrationNetwork",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L57",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "label": ".remember()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "label": ".staleJson()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L73",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "label": ".takeBudget()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L79",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "label": ".refundBudget()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L92",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "label": ".refresh()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "label": ".isCached()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L135",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "_callable": true
+    },
+    {
+      "id": "linklookup",
+      "label": "LinkLookup",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "locale",
+      "label": "Locale",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "settingvalues",
+      "label": "SettingValues",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "label": ".reset()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L190",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_ok",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "integrationdetails",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_error",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result_needsask",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "integrationnetwork",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_init",
+      "target": "integrationnetwork",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_init",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "date",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L135",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L135",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "linklookup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "locale",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "settingvalues",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_result",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_entry",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L181",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "target": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L47",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L63",
+      "receiver": "cacheOrder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "callee": "removeFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L65",
+      "receiver": "cacheOrder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L68",
+      "receiver": "cacheOrder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_remember",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "callee": "timeIntervalSince",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_stalejson",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "recent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "timeIntervalSince",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L81",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "recent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L86",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_takebudget",
+      "callee": "recent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "callee": "recent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L93",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "callee": "remove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L94",
+      "receiver": "list"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refundbudget",
+      "callee": "recent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L100",
+      "receiver": "network"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "Request",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L100",
+      "receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "addingTimeInterval",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L106",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "addingTimeInterval",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L111",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "backoffUntil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "addingTimeInterval",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L119",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "addingTimeInterval",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L126",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_refresh",
+      "callee": "addingTimeInterval",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L129",
+      "receiver": "time"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L136",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_iscached",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "buildLookupUrl",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L148",
+      "receiver": "IntegrationDetails"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "inflight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "backoffUntil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "now",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L177",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L180",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "inflight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L183",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "inflight",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_load",
+      "callee": "finish",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L191",
+      "receiver": "cache"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L192",
+      "receiver": "cacheOrder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L193",
+      "receiver": "inflight"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L194",
+      "receiver": "backoffUntil"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_linkdetailsloader_linkdetailsloader_reset",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+      "source_location": "L195",
+      "receiver": "recent"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Integrations/LinkDetailsLoader.swift",
+    "table": {
+      "json": "JSONValue",
+      "error": "String",
+      "etag": "String",
+      "confirmedAt": "Date",
+      "freshUntil": "Date",
+      "cacheOk": "TimeInterval",
+      "cacheFail": "TimeInterval",
+      "maxStale": "TimeInterval",
+      "backoff": "TimeInterval",
+      "hostWindow": "TimeInterval",
+      "shared": "LinkDetailsLoader",
+      "network": "IntegrationNetwork",
+      "now": "Date",
+      "cache": "String",
+      "cacheOrder": "String",
+      "inflight": "String",
+      "backoffUntil": "String",
+      "recent": "String",
+      "url": "String",
+      "entry": "Entry",
+      "host": "String",
+      "at": "Date",
+      "allow": "String",
+      "previous": "Entry",
+      "budgetAt": "Date",
+      "passive": "Bool",
+      "lookup": "LinkLookup",
+      "captures": "String",
+      "locale": "Locale",
+      "settings": "SettingValues",
+      "userInitiated": "Bool",
+      "encrypted": "Bool",
+      "task": "Task"
+    }
+  }
+}

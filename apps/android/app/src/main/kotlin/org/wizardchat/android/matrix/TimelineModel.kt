@@ -10,12 +10,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.io.File
+import java.net.URLDecoder
 import java.time.Instant
 import java.time.ZoneId
 import kotlin.math.roundToLong
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
@@ -37,7 +39,7 @@ import org.wizardchat.android.media.VideoMeta
 import org.wizardchat.android.ui.CopyToast
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.core.AttachmentOptions
-import org.wizardchat.core.UploadedFile
+import org.wizardchat.core.CallHistoryView
 import org.wizardchat.core.EntryContent
 import org.wizardchat.core.ListDiff
 import org.wizardchat.core.MediaInfo
@@ -47,12 +49,16 @@ import org.wizardchat.core.Mentions
 import org.wizardchat.core.MessageKind
 import org.wizardchat.core.ReadReceiptView
 import org.wizardchat.core.ReplyPreview
+import org.wizardchat.core.RichBlock
 import org.wizardchat.core.RoomTimeline
 import org.wizardchat.core.SendState
+import org.wizardchat.core.ShieldView
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.ThreadSummaryView
 import org.wizardchat.core.TimelineEntry
 import org.wizardchat.core.TimelineKind
+import org.wizardchat.core.UploadedFile
+import org.wizardchat.core.UploadedThumbnail
 import org.wizardchat.core.WizardClient
 
 /** A row of the timeline. Immutable: changes make copies. */
@@ -71,6 +77,11 @@ data class PendingUpload(
         var nextId = 0L
     }
 }
+
+/** One file of a send, with the composer attachment it came from (null for the other senders) */
+data class OutgoingFile(val uri: Uri, val preview: Bitmap?, val uploadId: Long? = null)
+
+data class MessageMention(val label: String, val userId: String, val isOwn: Boolean)
 
 @Immutable
 data class ChatEntry(
@@ -94,9 +105,14 @@ data class ChatEntry(
     val isEditable: Boolean = false,
     val isGrouped: Boolean = false,
     val spoilers: List<String> = emptyList(),
+    val mentions: List<MessageMention> = emptyList(),
+    /** The message's formatting (headings, lists, code...) to draw instead of the plain body */
+    val rich: List<RichBlock>? = null,
     val mediaSpoiler: String? = null,
     val galleryItems: List<ChatEntry> = emptyList(),
     val thread: ThreadSummaryView? = null,
+    /** The encryption warning the core found on this message; null when it is fine or the room isn't encrypted */
+    val shield: ShieldView? = null,
 ) {
     sealed interface Kind {
         data class Message(val body: String, val isEmote: Boolean, val isNotice: Boolean) : Kind
@@ -110,10 +126,24 @@ data class ChatEntry(
         data object Redacted : Kind
         data class Undecryptable(val text: String, val reason: String) : Kind
         data class System(val text: String) : Kind
+        data class Call(val call: CallHistoryView) : Kind
         data class DateDivider(val date: Instant) : Kind
     }
 
     enum class ContentType { text, notice, emote, image, video, audio, file, location }
+
+    val editableMedia: MediaContent?
+        get() = when (val k = kind) {
+            is Kind.Image -> k.media
+            is Kind.Video -> k.media
+            is Kind.Audio -> k.media.takeUnless { k.isVoice }
+            is Kind.File -> k.media
+            else -> null
+        }
+
+    val editableText: String?
+        get() = (kind as? Kind.Message)?.body
+            ?: editableMedia?.let { media -> media.caption?.takeIf { it.isNotBlank() && it != media.filename } ?: "" }
 
     /** `duration` is in seconds */
     data class MediaContent(
@@ -159,9 +189,10 @@ data class ChatEntry(
         val id: String get() = key
     }
 
-    data class ReplyQuote(val eventId: String, val senderName: String, val text: String)
+    data class ReplyQuote(val eventId: String, val senderName: String, val text: String, val sender: String = "")
 
-    val canBeRepliedTo: Boolean get() = eventId != null
+    val allowsActions: Boolean get() = kind !is Kind.Redacted && kind !is Kind.Undecryptable
+    val canBeRepliedTo: Boolean get() = eventId != null && allowsActions
 
     val summary: String
         get() = when (val kind = kind) {
@@ -176,7 +207,7 @@ data class ChatEntry(
             else -> ""
         }
 
-    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider
+    val isContent: Boolean get() = kind !is Kind.System && kind !is Kind.DateDivider && kind !is Kind.Call
 
     /** With read receipts added (not your own), newest first */
     fun addReceipts(receipts: List<ReadReceiptView>, ownUserId: String): ChatEntry {
@@ -209,12 +240,20 @@ class TimelineModel(
         private set
     var typingNames by mutableStateOf<List<String>>(emptyList())
         private set
+    var typingIds by mutableStateOf<List<String>>(emptyList())
+        private set
     var sendError by mutableStateOf<String?>(null)
     var firstUnreadId by mutableStateOf<String?>(null)
         private set
     var pinnedIds by mutableStateOf<Set<String>>(emptySet())
         private set
     var uploads by mutableStateOf<List<PendingUpload>>(emptyList())
+        private set
+    /** Where each composer attachment's background upload is, for its chip in the tray */
+    var uploadStates by mutableStateOf<Map<Long, UploadState>>(emptyMap())
+        private set
+    /** The membership and state changes of the timeline, as the audit log lists them; filled when asked for */
+    var auditChanges by mutableStateOf<List<AuditLog.Change>>(emptyList())
         private set
 
     private val kind: TimelineKind = threadRoot?.let { TimelineKind.Thread(it) }
@@ -249,6 +288,7 @@ class TimelineModel(
             if (kind == TimelineKind.Main) {
                 subscriptions += timeline.watchTyping { users ->
                     typingNames = users.map { it.displayName ?: localpart(it.userId) }
+                    typingIds = users.map { it.userId }
                 }
             }
         } catch (e: CancellationException) {
@@ -320,18 +360,32 @@ class TimelineModel(
         repeat(maxPages) {
             if (entries.any { e -> e.eventId == eventId || e.galleryItems.any { it.eventId == eventId } }) return true
             if (reachedStart) return false
-            paginateBackwards()
+            paginateBackwards(manual = true)
             delay(50)
         }
         return entries.any { it.eventId == eventId }
     }
 
-    suspend fun paginateBackwards() {
+    private val unreadable = UnreadableHistory()
+
+    /** Older history stopped loading by itself because it is all messages this device cannot read */
+    var historyPaused by mutableStateOf(false)
+        private set
+
+    /** Loads a page of older messages; [manual] loads even while paused (the person asked for it) */
+    suspend fun paginateBackwards(manual: Boolean = false) {
         val timeline = timeline ?: return
         if (isPaginating || reachedStart) return
+        if (historyPaused && !manual) return
         isPaginating = true
         try {
+            val known = entries.mapTo(HashSet()) { it.id }
             reachedStart = timeline.paginateBack(80)
+            // Entries arrive through the timeline subscription, a moment after the page is loaded
+            delay(150)
+            val added = entries.filter { it.id !in known && it.isContent }
+            unreadable.record(added.size, added.count { it.kind is ChatEntry.Kind.Undecryptable })
+            historyPaused = unreadable.paused
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -364,7 +418,10 @@ class TimelineModel(
     suspend fun edit(entry: ChatEntry, newText: String) {
         val timeline = timeline ?: return
         val itemKey = entry.itemKey ?: return
-        report { timeline.editText(itemKey, newText) }
+        report {
+            if (entry.editableMedia != null) timeline.editCaption(itemKey, newText)
+            else timeline.editText(itemKey, newText)
+        }
     }
 
     suspend fun redact(entry: ChatEntry) {
@@ -381,7 +438,7 @@ class TimelineModel(
 
     /** Uploads a picked file (`content://` or `file://`) */
     suspend fun sendFile(uri: Uri, caption: String? = null, replyTo: String? = null, spoiler: Boolean = false) =
-        sendFiles(listOf(uri to null), caption, replyTo, spoiler)
+        sendFiles(listOf(OutgoingFile(uri, null)), caption, replyTo, spoiler)
 
     /** What is done to the files of one send before they upload */
     class SendPrep(
@@ -402,32 +459,104 @@ class TimelineModel(
 
     private class UploadCancelled : Exception()
 
+    private val uploadTracker = ComposerUploads()
+    private val uploadJobs = HashMap<Long, Job>()
+    private val uploadUris = HashMap<Long, Uri>()
+    private val uploadedFiles = HashMap<Long, UploadedFile>()
+
+    /** Uploads an attachment in the background as soon as it is added, so sending only waits for what is left */
+    fun preupload(id: Long, uri: Uri) {
+        val token = uploadTracker.start(id)
+        uploadUris[id] = uri
+        uploadJobs.remove(id)?.cancel()
+        publishUploads()
+        uploadJobs[id] = scope.launch { uploadInBackground(id, uri, token) }
+    }
+
+    /** Starts the background upload of an attachment again after it failed */
+    fun retryPreupload(id: Long) {
+        val uri = uploadUris[id] ?: return
+        val token = uploadTracker.retry(id) ?: return
+        uploadJobs.remove(id)?.cancel()
+        publishUploads()
+        uploadJobs[id] = scope.launch { uploadInBackground(id, uri, token) }
+    }
+
+    /** Stops and forgets an attachment's background upload (it was removed, or what is sent must be new bytes) */
+    fun cancelPreupload(id: Long) {
+        uploadJobs.remove(id)?.cancel()
+        uploadUris.remove(id)
+        uploadedFiles.remove(id)
+        uploadTracker.forget(id)
+        publishUploads()
+    }
+
+    private fun publishUploads() {
+        uploadStates = uploadTracker.snapshot()
+    }
+
+    private suspend fun uploadInBackground(id: Long, uri: Uri, token: Long) {
+        val timeline = timeline ?: return
+        try {
+            val bytes = readBytes(uri)
+            val mimetype = mimeTypeOf(uri)
+            val file = metadata(uri, bytes, mimetype, filenameOf(uri))
+            val uploaded = timeline.uploadFile(bytes, mimetype) { progress ->
+                if (progress.total <= 0) return@uploadFile
+                val fraction = progress.current.toFloat() / progress.total
+                scope.launch {
+                    uploadTracker.progress(id, token, fraction)
+                    publishUploads()
+                }
+            }
+            if (!uploadTracker.isCurrent(id, token)) return
+            uploadedFiles[id] = file.copy(source = uploaded)
+            uploadTracker.finish(id, token)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            uploadTracker.fail(id, token)
+        } finally {
+            if (uploadTracker.isCurrent(id, token)) publishUploads()
+        }
+    }
+
+    /** Waits for an attachment's background upload, if any; null when there is nothing to send as it is */
+    private suspend fun awaitUpload(id: Long): UploadedFile? {
+        uploadJobs[id]?.join()
+        return uploadedFiles[id]
+    }
+
     /** The caption and reply go with the first file */
     suspend fun sendFiles(
-        files: List<Pair<Uri, Bitmap?>>,
+        files: List<OutgoingFile>,
         caption: String? = null,
         replyTo: String? = null,
         spoiler: Boolean = false,
         prep: SendPrep? = null,
     ) {
         if (timeline == null) return
-        val pending = files.map { (uri, preview) ->
-            val mimetype = mimeTypeOf(uri)
+        val mimeTypes = files.map { mimeTypeOf(it.uri) }
+        // Two or more pictures sent together are tagged so every client of ours shows them as one set
+        val tags = GalleryTags.plan(mimeTypes, java.util.UUID.randomUUID().toString())
+        val pending = files.map { file ->
+            val mimetype = mimeTypeOf(file.uri)
             PendingUpload(
-                preview = preview ?: if (mimetype.startsWith("image/")) decodePreview(uri) else null,
+                preview = file.preview ?: if (mimetype.startsWith("image/")) decodePreview(file.uri) else null,
                 isVideo = mimetype.startsWith("video/"),
-                filename = filenameOf(uri),
+                filename = filenameOf(file.uri),
             )
         }
         uploads = uploads + pending
         files.zip(pending).forEachIndexed { index, (file, item) ->
             upload(
-                file.first,
+                file,
                 item.id,
                 caption = if (index == 0) caption else null,
                 replyTo = if (index == 0) replyTo else null,
                 spoiler = spoiler,
                 prep = prep,
+                gallery = tags.getOrNull(index),
             )
             uploads = uploads.filter { it.id != item.id }
         }
@@ -471,18 +600,43 @@ class TimelineModel(
         }
     }
 
-    private suspend fun upload(uri: Uri, id: Long, caption: String?, replyTo: String?, spoiler: Boolean, prep: SendPrep?) {
+    private suspend fun upload(
+        file: OutgoingFile,
+        id: Long,
+        caption: String?,
+        replyTo: String?,
+        spoiler: Boolean,
+        prep: SendPrep?,
+        gallery: GalleryTags.Tag? = null,
+    ) {
         val timeline = timeline ?: return
         val temporary = mutableListOf<File>()
         report {
             try {
+                val uri = file.uri
                 var source = uri
                 var mimetype = mimeTypeOf(uri)
                 var filename = filenameOf(uri)
                 var data: ByteArray? = null
 
-                val target = prep?.videoTargets?.get(uri)
-                if (target != null && mimetype.startsWith("video/")) {
+                val target = prep?.videoTargets?.get(uri)?.takeIf { mimetype.startsWith("video/") }
+                val image = prep?.image?.takeIf { imageWillProcess(mimetype, it) }
+                val uploadId = file.uploadId
+                val ready = if (uploadId != null && target == null && image == null) awaitUpload(uploadId) else null
+                if (uploadId != null) cancelPreupload(uploadId)
+                if (ready != null) {
+                    timeline.sendUploaded(
+                        ready.copy(
+                            caption = caption,
+                            spoiler = spoiler,
+                            replyTo = replyTo,
+                            extraContent = gallery?.let { GalleryTags.content(it) },
+                        ),
+                    )
+                    return@report
+                }
+
+                if (target != null) {
                     shrinkVideo(uri, id, target, filename)?.let { shrunk ->
                         temporary += shrunk
                         source = Uri.fromFile(shrunk)
@@ -490,8 +644,7 @@ class TimelineModel(
                         filename = shrunk.name
                     }
                 }
-                val image = prep?.image
-                if (image != null && mimetype.startsWith("image/")) {
+                if (image != null) {
                     val original = readBytes(source)
                     val prepared = try {
                         withContext(Dispatchers.Default) { ImagePrep.prepare(original, image) }
@@ -513,37 +666,19 @@ class TimelineModel(
                     throw IllegalStateException(L10n.format("attachment.fileTooLarge", FileSize.format(limit)))
                 }
 
-                var file = UploadedFile(
-                    source = JsonPrimitive(""),
-                    size = bytes.size.toLong(),
-                    filename = filename,
-                    mimetype = mimetype,
+                var uploaded = metadata(source, bytes, mimetype, filename)
+                uploaded = uploaded.copy(
                     caption = caption,
                     spoiler = spoiler,
-                    isAnimated = mimetype == "image/gif",
                     replyTo = replyTo,
+                    extraContent = gallery?.let { GalleryTags.content(it) },
                 )
-                when {
-                    mimetype.startsWith("image/") -> MediaMetadata.imageSize(source)?.let { (w, h) ->
-                        file = file.copy(width = w.toLong(), height = h.toLong())
-                    }
-                    mimetype.startsWith("video/") -> {
-                        val video = MediaMetadata.video(source)
-                        file = file.copy(
-                            width = video.size?.first?.toLong(),
-                            height = video.size?.second?.toLong(),
-                            durationMs = video.duration?.let { (it * 1000).toLong() },
-                        )
-                    }
-                    mimetype.startsWith("audio/") ->
-                        file = file.copy(durationMs = MediaMetadata.duration(source)?.let { (it * 1000).toLong() })
-                }
-                val uploaded = timeline.uploadFile(bytes, mimetype) { progress ->
+                val source0 = timeline.uploadFile(bytes, mimetype) { progress ->
                     if (progress.total <= 0) return@uploadFile
                     val fraction = progress.current.toFloat() / progress.total
                     scope.launch { updateUpload(id) { it.copy(progress = fraction) } }
                 }
-                timeline.sendUploaded(file.copy(source = uploaded))
+                timeline.sendUploaded(uploaded.copy(source = source0))
             } catch (_: UploadCancelled) {
                 // The user stopped it: nothing to send, nothing to report
             } finally {
@@ -552,6 +687,33 @@ class TimelineModel(
                 }
             }
         }
+    }
+
+    /** What the message needs to know about a file, before it is uploaded */
+    private suspend fun metadata(uri: Uri, bytes: ByteArray, mimetype: String, filename: String): UploadedFile {
+        var file = UploadedFile(
+            source = JsonPrimitive(""),
+            size = bytes.size.toLong(),
+            filename = filename,
+            mimetype = mimetype,
+            isAnimated = mimetype == "image/gif",
+        )
+        when {
+            mimetype.startsWith("image/") -> MediaMetadata.imageSize(uri)?.let { (w, h) ->
+                file = file.copy(width = w.toLong(), height = h.toLong())
+            }
+            mimetype.startsWith("video/") -> {
+                val video = MediaMetadata.video(uri)
+                file = file.copy(
+                    width = video.size?.first?.toLong(),
+                    height = video.size?.second?.toLong(),
+                    durationMs = video.duration?.let { (it * 1000).toLong() },
+                )
+            }
+            mimetype.startsWith("audio/") ->
+                file = file.copy(durationMs = MediaMetadata.duration(uri)?.let { (it * 1000).toLong() })
+        }
+        return file
     }
 
     private suspend fun readBytes(uri: Uri): ByteArray = withContext(Dispatchers.IO) {
@@ -665,6 +827,8 @@ class TimelineModel(
             null
         }
         if (items.any { it is TimelineEntry.TimelineStart }) reachedStart = true
+        // The audit log reads the state and membership changes that the rows leave out
+        auditChanges = AuditLog.changes(items)
         // Receipts on events that aren't shown move to the message above them
         var entries = mutableListOf<ChatEntry>()
         for ((item, entry) in items.zip(converted)) {
@@ -735,22 +899,32 @@ class TimelineModel(
             }
             var contentType: ChatEntry.ContentType? = null
             var spoilers = emptyList<String>()
+            var mentions = emptyList<MessageMention>()
+            var rich: List<RichBlock>? = null
             var mediaSpoiler: String? = null
             val kind: ChatEntry.Kind = when (val content = event.content) {
                 is EntryContent.Text -> {
                     contentType = ChatEntry.ContentType.text
+                    rich = content.rich
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = false, isNotice = false)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = false, isNotice = false)
                 }
                 is EntryContent.Notice -> {
                     contentType = ChatEntry.ContentType.notice
+                    rich = content.rich
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = false, isNotice = true)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = false, isNotice = true)
                 }
                 is EntryContent.Emote -> {
                     contentType = ChatEntry.ContentType.emote
                     spoilers = spoilers(content.html)
-                    ChatEntry.Kind.Message(content.body, isEmote = true, isNotice = false)
+                    val mentioned = mentionText(content.html, ownUserId)
+                    mentions = mentioned?.second ?: emptyList()
+                    ChatEntry.Kind.Message(mentioned?.first ?: content.body, isEmote = true, isNotice = false)
                 }
                 is EntryContent.Image -> {
                     contentType = ChatEntry.ContentType.image
@@ -794,9 +968,16 @@ class TimelineModel(
                 is EntryContent.Redacted -> ChatEntry.Kind.Redacted
                 is EntryContent.UnableToDecrypt -> ChatEntry.Kind.Undecryptable(decryptionMessage(content.reason), content.reason)
                 is EntryContent.Membership -> {
+                    if (WizardApplication.instance.prefs.hideMembershipEvents) return null
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)
                 }
+                is EntryContent.ProfileChange -> {
+                    if (WizardApplication.instance.prefs.hideProfileEvents) return null
+                    ChatEntry.Kind.System(L10n.format("mobile.profileChanged", event.senderName ?: content.userId))
+                }
+                is EntryContent.Call -> ChatEntry.Kind.Call(content.call)
+                EntryContent.CallPart -> return null
                 else -> return null
             }
             return ChatEntry(
@@ -814,9 +995,12 @@ class TimelineModel(
                 contentType = contentType,
                 sendFailed = event.sendState == SendState.failed,
                 spoilers = spoilers,
+                mentions = mentions,
+                rich = rich,
                 mediaSpoiler = mediaSpoiler,
                 isEditable = event.isEditable,
                 thread = event.thread,
+                shield = event.shield,
                 replyTo = event.inReplyTo?.let(::quote),
                 reactions = event.reactions.map {
                     ChatEntry.ReactionGroup(it.key, it.count.toInt(), it.mine, it.senders)
@@ -835,6 +1019,38 @@ class TimelineModel(
                 val inner = match.groupValues[1].replace(Regex("<[^>]+>"), "")
                 decodeEntities(inner).trim().ifEmpty { null }
             }.toList()
+        }
+
+        private val mentionLink = Regex(
+            """<a\s[^>]*href=["']https://matrix\.to/#/((?:@|%40)[^"'?]+)[^"']*["'][^>]*>(.*?)</a>""",
+            setOf(RegexOption.IGNORE_CASE, RegexOption.DOT_MATCHES_ALL),
+        )
+
+        /**
+         * The body has only names, so mentions (matrix.to links in the HTML, as Element sends them)
+         * are read from the HTML and shown as "@name" pills
+         */
+        fun mentionText(html: String?, ownUserId: String?): Pair<String, List<MessageMention>>? {
+            if (html == null) return null
+            val withoutReply = html.replace(Regex("(?is)<mx-reply>.*?</mx-reply>"), "")
+            if (!mentionLink.containsMatchIn(withoutReply)) return null
+            val mentions = mutableListOf<MessageMention>()
+            val text = mentionLink.replace(withoutReply) { match ->
+                val rawId = match.groupValues[1]
+                val userId = runCatching { URLDecoder.decode(rawId.replace("+", "%2B"), "UTF-8") }.getOrDefault(rawId)
+                val name = decodeEntities(match.groupValues[2].replace(Regex("<[^>]+>"), "")).trim()
+                val label = if (name.startsWith("@")) name else "@" + name.ifEmpty { userId }
+                mentions += MessageMention(label, userId, userId == ownUserId)
+                label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            }
+                .replace(Regex("(?i)<br\\s*/?>"), "\n")
+                .replace(Regex("(?i)</(p|div|li|h[1-6]|blockquote|pre|tr)>"), "\n")
+                .replace(Regex("(?i)<li[^>]*>"), "• ")
+                .replace(Regex("""(?i)<img[^>]*alt="([^"]*)"[^>]*>"""), "$1")
+                .replace(Regex("<[^>]+>"), "")
+                .replace("&nbsp;", " ")
+                .replace(Regex("\n{3,}"), "\n\n")
+            return decodeEntities(text).trim() to mentions
         }
 
         private fun decodeEntities(text: String): String =
@@ -879,7 +1095,7 @@ class TimelineModel(
         }
 
         private fun quote(reply: ReplyPreview): ChatEntry.ReplyQuote = when (reply) {
-            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary)
+            is ReplyPreview.Ready -> ChatEntry.ReplyQuote(reply.eventId, reply.senderName ?: reply.sender, reply.summary, reply.sender)
             is ReplyPreview.Unavailable -> ChatEntry.ReplyQuote(reply.eventId, "", "")
             is ReplyPreview.Pending -> ChatEntry.ReplyQuote(reply.eventId, "", "")
         }

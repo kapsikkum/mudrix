@@ -27,6 +27,11 @@ struct SpacesScreen: View {
                     }
                     .buttonStyle(.plain)
                     .contextMenu {
+                        if roomList.unreadState(of: .space(space.id)).unread {
+                            Button { Task { await roomList.markAsRead(roomList.rooms(for: .space(space.id))) } } label: {
+                                Label(menu: String(localized: "common.markRead"), icon: "ph-envelope-open-regular")
+                            }
+                        }
                         Button { copyToClipboard("https://matrix.to/#/\(space.id)", message: String(localized: "timeline.linkCopied")) } label: {
                             Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
                         }
@@ -37,12 +42,11 @@ struct SpacesScreen: View {
             .padding(.top, WZ.Space.space4)
         }
         .background(theme.bgPrimary.ignoresSafeArea())
-        .navigationTitle(String(localized: "room.settings.permissions.groups.spaces"))
-        .navigationBarTitleDisplayMode(.large)
+        .tabTitle(String(localized: "room.settings.permissions.groups.spaces"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onCreateSpace) { Image("ph-plus-regular") }
-                    .accessibilityLabel(String(localized: "home.createOrJoin"))
+                    .accessibilityLabel(String(localized: "nav.createOrJoin"))
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: onExplore) { Image("ph-compass-regular") }

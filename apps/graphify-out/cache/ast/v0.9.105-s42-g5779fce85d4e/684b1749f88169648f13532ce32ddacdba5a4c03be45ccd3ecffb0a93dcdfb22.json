@@ -1,0 +1,425 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_swift",
+      "label": "Icons.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "label": "PhosphorWeight",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_thin",
+      "label": "thin",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_light",
+      "label": "light",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_regular",
+      "label": "regular",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_bold",
+      "label": "bold",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_fill",
+      "label": "fill",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_duotone",
+      "label": "duotone",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_image",
+      "label": "Image",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "label": ".ph()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L8",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "label": "Icon",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "cgfloat",
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Icons.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_icon_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L24"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "string",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_thin",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_light",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_regular",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_bold",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_fill",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight_duotone",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_image",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_image",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_image",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_icon_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon_init",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon_init",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_phosphorweight",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon_init",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_image",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "target": "$graphify-root$_ios_wizardchat_support_icons_image_ph",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "callee": "scaledToFit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_icons_icon_body",
+      "callee": "resizable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Icons.swift",
+      "source_location": "L25",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_support_icons_image", "label": "Image" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Support/Icons.swift",
+    "table": { "name": "String", "weight": "PhosphorWeight", "size": "CGFloat", "body": "View" }
+  }
+}

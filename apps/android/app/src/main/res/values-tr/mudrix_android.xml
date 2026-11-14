@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings only the Android app has; keys are mobile.* so they never clash with packages/i18n -->
+<resources>
+    <string name="mobile_forwarded">%1$s odasına iletildi</string>
+    <string name="mobile_imageFailed">Bu resim yüklenemedi. Tekrar denemek için dokun.</string>
+    <string name="mobile_keepAlive_channel">Arka plan bağlantısı</string>
+    <string name="mobile_keepAlive_text">Mesaj bildirimleri için bağlı</string>
+    <string name="mobile_listening_note">Bu telefonda çalan şarkıyı profilinde gösterir. Android ayarlarında bildirim erişimi gerekir.</string>
+    <string name="mobile_listening_share">Dinlediğimi paylaş</string>
+    <string name="mobile_lowPriority">Düşük öncelik</string>
+    <string name="mobile_presence_invisible">Görünmez</string>
+    <string name="mobile_profileChanged">%1$s profilini güncelledi</string>
+    <string name="mobile_publish_note">Herkes bu odayı ana sunucunun herkese açık dizininde bulabilir.</string>
+    <string name="mobile_publish_title">Oda dizininde yayınla</string>
+    <string name="mobile_push_distributor">Anlık bildirim hizmeti</string>
+    <string name="mobile_push_failed">Kayıt başarısız: %1$s</string>
+    <string name="mobile_push_fcmNote">Mesajlar Google\'ın anlık bildirim hizmeti (Firebase) üzerinden gelir.</string>
+    <string name="mobile_push_keepAlive">Bağlı kal</string>
+    <string name="mobile_push_keepAliveNote">Mudrix\'i sessiz bir bildirimle arka planda çalışır tutar ve mesaj bildirimlerini kendisi gösterir. Daha fazla pil kullanır.</string>
+    <string name="mobile_push_keepAliveOnlyNote">Bu sürümde anlık bildirim hizmeti yok. «Bağlı kal» Mudrix\'i çalışır tutar, böylece mesajlar bildirilir.</string>
+    <string name="mobile_push_noDistributor">Yüklü UnifiedPush uygulaması yok. Mudrix kapalıyken bildirim almak için ntfy gibi birini yükleyin.</string>
+    <string name="mobile_push_title">Uygulama kapalıyken teslimat</string>
+    <string name="mobile_push_unifiedNote">Mesajlar bu telefondaki bir UnifiedPush uygulaması üzerinden gelir.</string>
+    <string name="mobile_reportRoom_button">Odayı bildir</string>
+    <string name="mobile_reportRoom_failed">Oda bildirilemedi: %1$s</string>
+    <string name="mobile_reportRoom_sent">Oda bildirildi</string>
+    <string name="mobile_reportRoom_title">Bu oda bildirilsin mi?</string>
+    <string name="mobile_systemAccentNote">Vurgu rengini duvar kâğıdından alır (Material You).</string>
+</resources>

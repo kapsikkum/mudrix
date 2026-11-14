@@ -10,6 +10,9 @@ export const currentRoomIdAtom = atom<string | null>(null);
 
 export const favouriteRoomsAtom = atom<ReadonlySet<string>>(new Set<string>());
 
+/** Rooms tagged low priority that are not favourites (a favourite is never low priority) */
+export const lowPriorityRoomsAtom = atom<ReadonlySet<string>>(new Set<string>());
+
 export const currentSpaceIdAtom = atomWithAccountStorage<string | null>(
   STORAGE_KEY_CURRENT_SPACE,
   null

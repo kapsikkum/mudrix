@@ -31,8 +31,25 @@ enum Sounds {
 
     /// The file and volume a sound would play with now, or nil when it is off
     private static func choice(_ kind: SoundKind) -> Choice? {
+        // The per-sound switches in Settings > Voice & Video
+        if let toggle = toggle(kind), !CallSounds.isOn(toggle) { return nil }
         guard let prefs, let pack = activePack(kind), let found = file(pack, kind) else { return nil }
         return Choice(url: found.url, volume: SoundPacks.volume(kind, slider: prefs.notificationSoundVolume))
+    }
+
+    /// The switch in Settings > Voice & Video a sound belongs to
+    private static func toggle(_ kind: SoundKind) -> String? {
+        switch kind {
+        case .mute, .unmute: return "mute"
+        case .cameraOn, .cameraOff: return "camera"
+        case .join: return "join"
+        case .leave: return "leave"
+        case .ring: return "ringtone"
+        case .ringback: return "ringback"
+        case .callEnd: return "callEnded"
+        case .watchTogetherStart: return "watchTogether"
+        default: return nil
+        }
     }
 
     /// Plays a call or voice sound once, as the settings say
@@ -44,6 +61,7 @@ enum Sounds {
     /// Loops the ring or ringback until the returned loop is stopped; nil when it is off
     static func loop(_ kind: SoundKind) -> CallSounds.Loop? {
         guard let choice = choice(kind) else { return nil }
+        if kind == .ring { return CallSounds.ringtone(url: choice.url, volume: choice.volume) }
         return CallSounds.loop(url: choice.url, volume: choice.volume)
     }
 

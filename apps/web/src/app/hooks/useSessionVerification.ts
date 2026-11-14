@@ -4,6 +4,7 @@ import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { sessionVerificationAtom } from '@/app/store/atoms';
 import { evaluateSessionVerification } from '@/app/features/device/sessionVerification';
 
+const INITIAL_DELAY_MS = 2500;
 const RETRY_DELAY_MS = 5000;
 
 export function useSessionVerification(client: MatrixClient | null, syncReady: boolean) {
@@ -13,6 +14,7 @@ export function useSessionVerification(client: MatrixClient | null, syncReady: b
     if (!client || !syncReady) return;
 
     let cancelled = false;
+    let initialReady = false;
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const evaluate = async () => {
@@ -28,16 +30,24 @@ export function useSessionVerification(client: MatrixClient | null, syncReady: b
       }
     };
 
+    const initialTimer = setTimeout(() => {
+      initialReady = true;
+      void evaluate();
+    }, INITIAL_DELAY_MS);
+
     const ownId = client.userId();
     const subscriptions = [
-      client.watchEncryptionStatus(() => void evaluate()),
+      client.watchEncryptionStatus(() => {
+        if (initialReady) void evaluate();
+      }),
       client.watchTrustChanges((userIds) => {
-        if (ownId && userIds.includes(ownId)) void evaluate();
+        if (initialReady && ownId && userIds.includes(ownId)) void evaluate();
       }),
     ];
 
     return () => {
       cancelled = true;
+      clearTimeout(initialTimer);
       if (retryTimer) clearTimeout(retryTimer);
       subscriptions.forEach((s) => s.cancel());
     };

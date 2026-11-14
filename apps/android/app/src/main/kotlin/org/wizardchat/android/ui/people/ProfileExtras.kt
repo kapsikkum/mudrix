@@ -43,50 +43,34 @@ import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.accountDataJSON
 import org.wizardchat.android.matrix.setAccountDataJSON
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
+import org.wizardchat.android.ui.settings.VerificationModel
+import org.wizardchat.android.ui.settings.VerificationSheet
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.core.HomeserverSoftware
+import org.wizardchat.core.UserTrust
 import org.wizardchat.tokens.WZ
 
 /** The colour a profile asks to be tinted with, or null */
 internal fun accentColor(accent: String?): Color? =
     accent?.let { runCatching { Color(android.graphics.Color.parseColor(it)) }.getOrNull() }
 
-/** Pronouns, local time, bio and what they are playing, under the name */
+/** The bio and what they are playing (the web's card body; pronouns sit under the name) */
 @Composable
 internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
     var fullBio by remember { mutableStateOf(false) }
     val activities = ProfileFields.live(profile.activities)
-    val local = profile.timezone?.let { ProfileFields.localTime(it) }
-    if (profile.pronouns.isEmpty() && local == null && profile.bio.isEmpty() && activities.isEmpty()) return
+    if (profile.bio.isEmpty() && activities.isEmpty()) return
     Column(
         Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
     ) {
-        if (profile.pronouns.isNotEmpty()) {
-            Text(profile.pronouns.joinToString(", "), style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
-        }
-        if (local != null) {
-            val (time, offset) = local
-            val hours = abs(offset)
-            val shown = if (hours % 1.0 == 0.0) "${hours.toInt()}" else "%.1f".format(hours)
-            val relative = when {
-                offset == 0.0 -> tr("profile.sameTime")
-                offset > 0 -> tr("profile.hoursAhead", shown)
-                else -> tr("profile.hoursBehind", shown)
-            }
-            Text(
-                "${time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))} · $relative",
-                style = wizardFont(WZ.FontSize.sm),
-                color = theme.textMuted,
-            )
-        }
-        activities.forEach { ActivityCard(it) }
+        ProfileActivities(activities)
         if (profile.bio.isNotEmpty()) {
             Column(
                 Modifier.fillMaxWidth().clip(RoundedCornerShape(WZ.Radius.lg)).background(theme.fill).padding(WZ.Space.space4),
@@ -112,6 +96,34 @@ internal fun ProfileAbout(profile: ExtendedProfile, name: String) {
             }
         }
     }
+}
+
+/** What the person is playing or listening to, as the cards the web shows on a profile */
+@Composable
+internal fun ProfileActivities(activities: List<ProfileActivity>) {
+    if (activities.isEmpty()) return
+    Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+        activities.forEach { ActivityCard(it) }
+    }
+}
+
+/** The person's local time, with how far it is from yours (a row of the web's details tab) */
+@Composable
+internal fun ProfileLocalTime(profile: ExtendedProfile) {
+    val local = profile.timezone?.let { ProfileFields.localTime(it) } ?: return
+    val (time, offset) = local
+    val hours = abs(offset)
+    val shown = if (hours % 1.0 == 0.0) "${hours.toInt()}" else "%.1f".format(hours)
+    val relative = when {
+        offset == 0.0 -> tr("profile.sameTime")
+        offset > 0 -> tr("profile.hoursAhead", shown)
+        else -> tr("profile.hoursBehind", shown)
+    }
+    Text(
+        "${time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))} · $relative",
+        style = wizardFont(WZ.FontSize.md),
+        color = theme.textSecondary,
+    )
 }
 
 private const val BIO_CLAMP_LINES = 4
@@ -180,6 +192,31 @@ private fun Badge(text: String, glyph: String, color: Color) {
     }
 }
 
+/** Whether you verified this person, and a button to do it (emoji comparison) when they have an identity */
+@Composable
+internal fun ProfileVerification(userId: String) {
+    val session = LocalSession.current
+    var trust by remember(userId) { mutableStateOf<UserTrust?>(null) }
+    var model by remember { mutableStateOf<VerificationModel?>(null) }
+    LaunchedEffect(userId, model) {
+        trust = session.client?.let { runCatching { it.userTrust(userId) }.getOrNull() }
+    }
+    val current = trust?.takeIf { it.verified || it.hasIdentity } ?: return
+    GroupedSection {
+        GroupedRow(
+            tr(if (current.verified) "profile.verifiedUser" else "profile.notVerifiedUser"),
+            icon = if (current.verified) "shield-check" else "shield-warning",
+            iconTint = if (current.verified) theme.success else theme.textMuted,
+            onClick = if (current.verified) null else ({ model = VerificationModel(VerificationModel.Start.User(userId)) }),
+        ) {
+            if (!current.verified) {
+                Text(tr("verification.verifyUser"), style = wizardFont(WZ.FontSize.lg, FontWeight.Medium), color = theme.accent)
+            }
+        }
+    }
+    model?.let { VerificationSheet(it) { model = null } }
+}
+
 /** A private note on someone, kept in account data and saved when the box loses focus */
 @Composable
 internal fun ProfileNote(userId: String) {
@@ -236,11 +273,14 @@ internal fun ProfileNote(userId: String) {
 
 /** The profile picture, with a ring in the person's accent colour when they chose one */
 @Composable
-internal fun AccentAvatar(name: String, url: String?, accent: String?) {
+internal fun AccentAvatar(name: String, url: String?, accent: String?, decoration: org.wizardchat.android.ui.cosmetics.CosmeticCatalog.Image? = null) {
     val color = accentColor(accent)
-    if (color == null) {
-        Avatar(name, url, WZ.SizeAvatar.xl)
-    } else {
-        Box(Modifier.border(3.dp, color, CircleShape).padding(3.dp)) { Avatar(name, url, WZ.SizeAvatar.xl) }
+    Box(contentAlignment = Alignment.Center) {
+        if (color == null) {
+            Avatar(name, url, WZ.SizeAvatar.xl)
+        } else {
+            Box(Modifier.border(3.dp, color, CircleShape).padding(3.dp)) { Avatar(name, url, WZ.SizeAvatar.xl) }
+        }
+        org.wizardchat.android.ui.cosmetics.DecorationOverlay(decoration, WZ.SizeAvatar.xl, animate = true)
     }
 }

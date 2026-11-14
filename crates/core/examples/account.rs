@@ -17,6 +17,8 @@ fn store(name: &str) -> StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some("account-test".into()),
         exclude_insecure_devices: false,
+        manual_encryption_setup: false,
+        process_name: None,
     }
 }
 
@@ -126,14 +128,18 @@ async fn main() -> Result<(), BoxError> {
     println!("wrong current password refused; changed it and signed in with the new one");
 
     client
-        .set_profile_field("org.wizardchat.test", json!({ "a": 1 }))
+        .set_profile_field("io.github.kapsikkum.mudrix.test", json!({ "a": 1 }))
         .await?;
     let me = session.user_id.clone();
     assert_eq!(
-        again.profile_field(&me, "org.wizardchat.test").await?,
+        again
+            .profile_field(&me, "io.github.kapsikkum.mudrix.test")
+            .await?,
         Some(json!({ "a": 1 }))
     );
-    client.delete_profile_field("org.wizardchat.test").await?;
+    client
+        .delete_profile_field("io.github.kapsikkum.mudrix.test")
+        .await?;
     client
         .set_banner(Some((vec![0x89, 0x50, 0x4e, 0x47], "image/png".into())))
         .await?;

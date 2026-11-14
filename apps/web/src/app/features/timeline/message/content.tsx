@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
+import { watchRoomPills } from '../roomPills';
 import { useTranslation } from 'react-i18next';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useStore } from 'jotai';
 import type {
   MediaInfo,
   RoomTimeline,
@@ -34,6 +36,7 @@ import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import { VideoPlaceholder } from './VideoPlaceholder';
 import { GifLinkEmbed } from './GifLinkEmbed';
+import { GifFavouriteButton } from './GifFavouriteButton';
 import {
   FilePreviewModal,
   TextFileCard,
@@ -43,6 +46,7 @@ import {
 import type { ManualVideoLoad } from './encryption';
 import type { MediaCover } from './MediaSpoiler';
 import { AnimatedImage } from './AnimatedImage';
+import { StickerPackPreviewModal, useStickerPackPreview } from './StickerPackPreviewModal';
 import { prettifyLinksAtom, sessionVerificationAtom } from '@/app/store/atoms';
 import { AudioFilePlayer } from '@/app/components/AudioFilePlayer/AudioFilePlayer';
 import { VoiceMessagePlayer } from '@/app/components/VoiceMessagePlayer/VoiceMessagePlayer';
@@ -329,6 +333,12 @@ function RichHtml({
     }
   }, [html, client, revealedSpoilers]);
 
+  const store = useStore();
+  useEffect(() => {
+    const root = wrapRef.current;
+    return root ? watchRoomPills(root, store) : undefined;
+  }, [html, revealedSpoilers, store]);
+
   return (
     <span ref={wrapRef} className={className} onClick={onClick} onKeyDown={onKeyDown}>
       {segments.map((seg, i) => {
@@ -415,7 +425,10 @@ interface StickerBoxProps {
   mediaFailed: boolean;
   width?: number | null;
   height?: number | null;
-  requestFullRes?: () => Promise<string | null>;
+  requestFullRes?: (force?: boolean) => Promise<string | null>;
+  onClick?: () => void;
+  /** An overlay inside the box, like the GIF favourite's star. */
+  overlay?: ReactNode;
 }
 
 function StickerBox({
@@ -427,6 +440,8 @@ function StickerBox({
   width,
   height,
   requestFullRes,
+  onClick,
+  overlay,
 }: StickerBoxProps) {
   const [measured, setMeasured] = useState<{ src: string; w: number; h: number } | null>(null);
   const infoW = typeof width === 'number' && width > 0 ? width : undefined;
@@ -447,6 +462,7 @@ function StickerBox({
           wrapperClassName={css.mediaBoxFillWrap}
           isAnimated={isAnimated}
           requestFullRes={requestFullRes}
+          onClick={onClick}
           onLoad={
             infoW && infoH
               ? undefined
@@ -464,7 +480,26 @@ function StickerBox({
           <StickerIcon size={32} className={css.stickerPulseGlyph} />
         </div>
       )}
+      {overlay}
     </div>
+  );
+}
+
+/** A sticker; a click opens the pack it came from. */
+function StickerContent({
+  client,
+  roomId,
+  packMxc,
+  ...box
+}: StickerBoxProps & { client: MatrixClient; roomId?: string; packMxc: string | null }) {
+  const preview = useStickerPackPreview(client, roomId);
+  return (
+    <>
+      <StickerBox {...box} onClick={packMxc ? () => void preview.open(packMxc) : undefined} />
+      {preview.source && (
+        <StickerPackPreviewModal client={client} source={preview.source} onClose={preview.close} />
+      )}
+    </>
   );
 }
 
@@ -488,10 +523,11 @@ interface MessageContentProps {
   onMentionClick?: (userId: string, rect: DOMRect) => void;
   optimisticBody?: string | null;
   imagePacks?: Map<string, ImagePackImage>;
-  requestFullRes?: () => Promise<string | null>;
+  requestFullRes?: (force?: boolean) => Promise<string | null>;
   mediaCover?: MediaCover | null;
   onRevealMedia?: () => void;
   videoLoad?: ManualVideoLoad | null;
+  hideCaption?: boolean;
 }
 
 /** "Preview" button for PDF and text attachments, with its modal. */
@@ -556,6 +592,7 @@ export function MessageContent({
   mediaCover = null,
   onRevealMedia,
   videoLoad = null,
+  hideCaption = false,
 }: MessageContentProps) {
   const { t } = useTranslation();
   const prettifyLinks = useAtomValue(prettifyLinksAtom);
@@ -609,6 +646,7 @@ export function MessageContent({
 
   const renderCaptionHtml = useCallback(
     (media: MediaInfo): string | undefined => {
+      if (hideCaption) return undefined;
       const caption = getMediaCaption(media);
       if (caption === undefined) return undefined;
       const captionContent: Record<string, unknown> = media.captionHtml
@@ -616,7 +654,7 @@ export function MessageContent({
         : { body: caption };
       return renderRichTextHtml(captionContent, imagePacks, myId, prettifyLinks);
     },
-    [myId, prettifyLinks, imagePacks]
+    [myId, prettifyLinks, imagePacks, hideCaption]
   );
 
   if (isRedacted) {
@@ -670,8 +708,12 @@ export function MessageContent({
     const src =
       mediaSrc ??
       (mxcUrl && mxcUrl.startsWith('mxc://') ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
+    const gifUrl = media.mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') ? mxcUrl : null;
     return (
-      <StickerBox
+      <StickerContent
+        client={client}
+        roomId={roomId}
+        packMxc={mxcUrl && mxcUrl.startsWith('mxc://') ? mxcUrl : null}
         src={src}
         alt={content.body || 'sticker'}
         mimeType={media.mimetype ?? undefined}
@@ -680,6 +722,7 @@ export function MessageContent({
         width={media.width}
         height={media.height}
         requestFullRes={requestFullRes}
+        overlay={gifUrl ? <GifFavouriteButton client={client} url={gifUrl} /> : undefined}
       />
     );
   }
@@ -704,9 +747,23 @@ export function MessageContent({
     const imgH = media.height;
     const hasDimensions =
       typeof imgW === 'number' && typeof imgH === 'number' && imgW > 0 && imgH > 0;
-    // Reserve a fixed box from the event metadata so the layout never changes
-    // while the media bytes are fetched, decrypted or loaded.
-    const boxStyle = hasDimensions ? { aspectRatio: `${imgW} / ${imgH}` } : { height: 200 };
+    // Reserve a box sized from the event metadata so the layout never changes while
+    // the media bytes are fetched, decrypted or loaded. Both dimensions are scaled down
+    // together (not just height clamped) so the box always matches the image's own
+    // aspect ratio exactly - otherwise object-fit: contain would letterbox tall or wide
+    // images, showing the box's background colour as bars around the picture.
+    const MAX_MEDIA_W = 320;
+    const MAX_MEDIA_H = 420;
+    const boxStyle = hasDimensions
+      ? (() => {
+          const scale = Math.min(MAX_MEDIA_W / imgW, MAX_MEDIA_H / imgH, 1);
+          return {
+            width: Math.round(imgW * scale),
+            height: Math.round(imgH * scale),
+            aspectRatio: `${imgW} / ${imgH}`,
+          };
+        })()
+      : { width: MAX_MEDIA_W, height: 200 };
 
     const captionHtml = renderCaptionHtml(media);
     const mediaEl = isCovered ? (
@@ -729,6 +786,9 @@ export function MessageContent({
           onClick={() => onMediaClick?.(src)}
           requestFullRes={requestFullRes}
         />
+        {mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') && (
+          <GifFavouriteButton client={client} url={mxcUrl} />
+        )}
       </div>
     ) : mediaFailed ? (
       <MediaError />
@@ -804,7 +864,18 @@ export function MessageContent({
     const vidH = media.height;
     const hasDimensions =
       typeof vidW === 'number' && typeof vidH === 'number' && vidW > 0 && vidH > 0;
-    const boxStyle = hasDimensions ? { aspectRatio: `${vidW} / ${vidH}` } : { height: 200 };
+    const MAX_MEDIA_W = 320;
+    const MAX_MEDIA_H = 420;
+    const boxStyle = hasDimensions
+      ? (() => {
+          const scale = Math.min(MAX_MEDIA_W / vidW, MAX_MEDIA_H / vidH, 1);
+          return {
+            width: Math.round(vidW * scale),
+            height: Math.round(vidH * scale),
+            aspectRatio: `${vidW} / ${vidH}`,
+          };
+        })()
+      : { width: MAX_MEDIA_W, height: 200 };
     const captionHtml = renderCaptionHtml(media);
     const mediaEl = isCovered ? (
       <div className={css.mediaBox} style={boxStyle}>
@@ -916,12 +987,12 @@ export function MessageContent({
           {size !== undefined && <span className={css.fileSize}>{formatFileSize(size)}</span>}
         </span>
         <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
-        <Tooltip content={t('mediaLightbox.download')}>
+        <Tooltip content={t('common.download')}>
           <a
             href={src}
             download={filename}
             className={css.fileDownload}
-            aria-label={t('mediaLightbox.download')}
+            aria-label={t('common.download')}
           >
             <DownloadSimpleIcon size={16} />
           </a>
@@ -1039,7 +1110,7 @@ export function MessageContent({
 
   return (
     <div style={{ display: 'block' }}>
-      <GifLinkEmbed body={body}>
+      <GifLinkEmbed body={body} client={client}>
         <RichHtml
           html={html}
           client={client}

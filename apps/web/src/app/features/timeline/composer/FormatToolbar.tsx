@@ -6,13 +6,25 @@ import {
   CodeIcon,
   QuotesIcon,
   LinkIcon,
+  TextHIcon,
+  ListBulletsIcon,
+  ListNumbersIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { LabelWithKeys } from '@/app/components/KeyCaps';
 import { MODIFIER_KEY, SHIFT_KEY } from '@/app/util/platform';
 import * as css from '../Composer.css';
 
-export type FormatType = 'bold' | 'italic' | 'strike' | 'code' | 'quote' | 'link';
+export type FormatType =
+  | 'bold'
+  | 'italic'
+  | 'strike'
+  | 'code'
+  | 'heading'
+  | 'bulletList'
+  | 'numberedList'
+  | 'quote'
+  | 'link';
 
 interface FormatToolbarProps {
   activeFormats: FormatType[];
@@ -47,11 +59,22 @@ export function FormatToolbar({ activeFormats, onFormat }: FormatToolbarProps) {
       label: t('composer.formatting.code'),
       keys: [MODIFIER_KEY, 'E'],
     },
+    { fmt: 'heading', icon: <TextHIcon size={14} />, label: t('composer.formatting.heading') },
+    {
+      fmt: 'bulletList',
+      icon: <ListBulletsIcon size={14} />,
+      label: t('composer.formatting.bulletList'),
+    },
+    {
+      fmt: 'numberedList',
+      icon: <ListNumbersIcon size={14} />,
+      label: t('composer.formatting.numberedList'),
+    },
     { fmt: 'quote', icon: <QuotesIcon size={14} />, label: t('composer.formatting.quote') },
     { fmt: 'link', icon: <LinkIcon size={14} />, label: t('composer.formatting.link') },
   ];
 
-  const isToggle = (fmt: FormatType) => fmt !== 'quote' && fmt !== 'link';
+  const isToggle = (fmt: FormatType) => fmt !== 'link';
 
   return (
     <div

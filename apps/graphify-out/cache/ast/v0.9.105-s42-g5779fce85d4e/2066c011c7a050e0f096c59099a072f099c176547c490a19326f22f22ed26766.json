@@ -1,0 +1,337 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_swift",
+      "label": "Shimmer.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "label": "ShimmerModifier",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "viewmodifier",
+      "label": "ViewModifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift"
+    },
+    {
+      "id": "cgfloat",
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_reduced",
+      "label": ".reduced",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "label": ".body()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L13",
+      "_callable": true
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift"
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L32",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_shimmer_view_shimmer",
+      "label": ".shimmer()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L34",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "viewmodifier",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_reduced",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "target": "content",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_view",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_view",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_view_shimmer",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_view_shimmer",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_shimmer_view_shimmer",
+      "target": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_reduced",
+      "callee": "reducesMotion",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L11",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L15",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "onAppear",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "mask",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L17",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "LinearGradient",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "UnitPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "UnitPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "withAnimation",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_shimmermodifier_body",
+      "callee": "repeatForever",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_shimmer_view_shimmer",
+      "callee": "modifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Shimmer.swift",
+      "source_location": "L35",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_views_shimmer_view", "label": "View" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Shimmer.swift",
+    "table": {
+      "prefs": "AppPreferences",
+      "phase": "CGFloat",
+      "reduced": "Bool",
+      "content": "Content"
+    }
+  }
+}

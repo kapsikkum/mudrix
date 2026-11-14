@@ -1,0 +1,3619 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "label": "RoomListScreen.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "label": "Route",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "hashable",
+      "label": "Hashable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_room",
+      "label": "room",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_space",
+      "label": "space",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_chat",
+      "label": "chat",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "label": "RoomListScreen",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L10",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "sidebarselection",
+      "label": "SidebarSelection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "roomsection",
+      "label": "RoomSection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_title",
+      "label": ".title",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L30"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_spaceid",
+      "label": ".spaceId",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L38"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_stylespaceid",
+      "label": ".styleSpaceId",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L44"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_ismodern",
+      "label": ".isModern",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L49"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "label": ".isVoice()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "roomgroup",
+      "label": "RoomGroup",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "label": ".groups",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L58"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L65"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "label": ".modernRows()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L201",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "label": ".roomRow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L222",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "label": ".sectionMenu()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L266",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "label": ".groupHeader()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L294",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_grouptitle",
+      "label": ".groupTitle()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L335",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_canreorder",
+      "label": ".canReorder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L343",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "label": ".moveRooms()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L352",
+      "_callable": true
+    },
+    {
+      "id": "indexset",
+      "label": "IndexSet",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "label": ".moveGroup()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L364",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_startnewsection",
+      "label": ".startNewSection()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L368",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "label": ".saveSectionName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L374",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "label": ".sectionTask()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L393",
+      "_callable": true
+    },
+    {
+      "id": "localizedstringkey",
+      "label": "LocalizedStringKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_emptytext",
+      "label": ".emptyText",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L401"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "label": "InboxButton",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L409",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L414"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "label": "RoomRow",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L432",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "cgfloat",
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_avatarsize",
+      "label": ".avatarSize",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L440"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_voice",
+      "label": ".voice",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L441"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_incall",
+      "label": ".inCall",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L442"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "label": ".typeIcon()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L444",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_hasunread",
+      "label": ".hasUnread",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L448"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L450"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "label": "SkeletonRow",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L489",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L492"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "hashable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_room",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_space",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route_chat",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_route",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "roomsection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "roomsection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_title",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_spaceid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_stylespaceid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_ismodern",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L201",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L201",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L222",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L222",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L266",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L266",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L266",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L294",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L294",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_grouptitle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L335",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_grouptitle",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L335",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_grouptitle",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L335",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_canreorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L343",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_canreorder",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L343",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_canreorder",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L343",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L352",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L352",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "target": "indexset",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L352",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L352",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L364",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "target": "roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L364",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L364",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_startnewsection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L368",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_startnewsection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L368",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L374",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L393",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L393",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L401",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_emptytext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L401",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L409",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L409",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L410",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L411",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L414",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L414",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L432",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L433",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L434",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L436",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L437",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L440",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_avatarsize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L440",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L441",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_voice",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L441",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L442",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_incall",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L442",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L444",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L444",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L444",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L448",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_hasunread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L448",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L450",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L450",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L489",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L489",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L492",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L492",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_canreorder",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_startnewsection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L211",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L225",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L273",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_startnewsection",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L278",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_grouptitle",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L299",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L310",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L365",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_movegroup",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L365",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L381",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "target": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L453",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_title",
+      "callee": "space",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L34",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_stylespaceid",
+      "callee": "rootSpace",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L46",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_ismodern",
+      "callee": "style",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L51",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_ismodern",
+      "callee": "state",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L51",
+      "receiver": "mudrix"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "callee": "isVoiceChannelFlagged",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L55",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_isvoice",
+      "callee": "state",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L55",
+      "receiver": "mudrix"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L62",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "callee": "RoomGroup",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L62",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L62",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groups",
+      "callee": "localizedCaseInsensitiveContains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L62",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "confirmationDialog",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "alert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "confirmationDialog",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "alert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "toolbar",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "searchable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "scrollContentBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "environment",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "List",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowSeparator",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "VerificationBanner",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "HomeWelcome",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ActiveNowSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowSeparator",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L85",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowSeparator",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "onMove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "onMove",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ignoresSafeArea",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L113",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "GlobalSearchResults",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L134",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Divider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L137",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "fontWeight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ToolbarItem",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ensure",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L157",
+      "receiver": "mudrix"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "ensureAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L161",
+      "receiver": "mudrix"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "rooms",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L161",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "UserPickerView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "CreateRoomView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "space",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L166",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "SpaceSettingsView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L177",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "deleteRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L182",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L191",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L192",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_body",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L196",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "banner",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L203",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "state",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L203",
+      "receiver": "mudrix"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "listRowSeparator",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "SpaceBannerView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "space",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L204",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "modernCategories",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L209",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_modernrows",
+      "callee": "uppercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L214",
+      "receiver": "title"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "contextMenu",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "swipeActions",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "swipeActions",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "listRowSeparator",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "listRowBackground",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "listRowInsets",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "NavigationLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "room",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L223",
+      "receiver": "Route"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "EdgeInsets",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L232",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L232",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L233",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "setRead",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L233",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L241",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L242",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L246",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L246",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "setRead",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L246",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L247",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "setFavourite",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L250",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L252",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L256",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "copyToClipboard",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L256",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Divider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L259",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L260",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_roomrow",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L261",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "sectionContext",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L268",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "sectionTag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L269",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L270",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L271",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L271",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L272",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "setRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L273",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L275",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L275",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L279",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Divider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L282",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L283",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "setRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L284",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L286",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectionmenu",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L290",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L296",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L296",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L297",
+      "receiver": "anchors"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L298",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "uppercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L299",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L302",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L304",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Menu",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L304",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L306",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L307",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L310",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L311",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L314",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L315",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Divider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L319",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L321",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_groupheader",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L325",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L353",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "callee": "move",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L354",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L355",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "callee": "saveFavouriteOrder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L357",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_moverooms",
+      "callee": "saveHomeOrder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L359",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L375",
+      "receiver": "sectionName"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "callee": "renameRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L383",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "callee": "createRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L385",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "callee": "sectionContext",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L385",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_savesectionname",
+      "callee": "setRoomSection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L387",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L394",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L395",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomlistscreen_sectiontask",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L396",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L417",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L417",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L418",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L418",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "offset",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_inboxbutton_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L421",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_typeicon",
+      "callee": "Icon",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L445",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L451",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L451",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L451",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L453",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L453",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L455",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L457",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L457",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "offset",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L460",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L460",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L460",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L460",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L462",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "stroke",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L463",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L463",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L468",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L469",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L469",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L469",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L469",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L471",
+      "receiver": "theme"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "ParticipantStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L474",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L477",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "UnreadBadge",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L479",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "UnreadBadge",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L481",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_roomrow_body",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L485",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "shimmer",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L493",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L493",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L493",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L494",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L494",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L494",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L495",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L495",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_home_roomlistscreen_skeletonrow_body",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Home/RoomListScreen.swift",
+      "source_location": "L495",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Home/RoomListScreen.swift",
+    "table": {
+      "roomList": "RoomListModel",
+      "selection": "SidebarSelection",
+      "onOpenInbox": "Void",
+      "prefs": "AppPreferences",
+      "mudrix": "MudrixRoomStates",
+      "leaving": "RoomSummary",
+      "newSectionFor": "String",
+      "renaming": "RoomSection",
+      "deleting": "RoomSection",
+      "sectionError": "String",
+      "title": "String",
+      "spaceId": "String",
+      "styleSpaceId": "String",
+      "isModern": "Bool",
+      "room": "RoomSummary",
+      "groups": "RoomGroup",
+      "body": "View",
+      "modern": "Bool",
+      "group": "RoomGroup",
+      "source": "IndexSet",
+      "destination": "Int",
+      "offset": "Int",
+      "roomId": "String",
+      "work": "Void",
+      "emptyText": "LocalizedStringKey",
+      "action": "Void",
+      "showsHashIcon": "Bool",
+      "isVoice": "Bool",
+      "avatarSize": "CGFloat",
+      "voice": "Bool",
+      "inCall": "Bool",
+      "size": "CGFloat",
+      "hasUnread": "Bool"
+    }
+  }
+}

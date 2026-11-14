@@ -64,6 +64,29 @@ function openDeepLink() {
   });
 }
 
+const interceptedDocuments = new WeakSet<Document>();
+
+/**
+ * Sends clicks on external links in `doc` to the system browser. The app's own document gets this at
+ * start-up; the call's pop-out window has to be given it too, because it is a document of its own
+ * (and a window the webview would otherwise refuse to open links from).
+ */
+export function interceptExternalLinks(doc: Document): void {
+  if (interceptedDocuments.has(doc)) return;
+  interceptedDocuments.add(doc);
+  doc.addEventListener(
+    'click',
+    (event) => {
+      const link = (event.target as Element | null)?.closest?.('a[href]');
+      if (!(link instanceof HTMLAnchorElement) || link.hasAttribute('download')) return;
+      if (link.origin === location.origin || !isExternal(link.href)) return;
+      event.preventDefault();
+      void openUrl(link.href);
+    },
+    true
+  );
+}
+
 /** Installs the desktop API and window chrome; links that would open a new window go to the system browser */
 export function installDesktopHooks(): void {
   if (!isDesktop) return;
@@ -93,15 +116,5 @@ export function installDesktopHooks(): void {
     }
     return open(url, target, features);
   };
-  document.addEventListener(
-    'click',
-    (event) => {
-      const link = (event.target as Element | null)?.closest?.('a[href]');
-      if (!(link instanceof HTMLAnchorElement) || link.hasAttribute('download')) return;
-      if (link.origin === location.origin || !isExternal(link.href)) return;
-      event.preventDefault();
-      void openUrl(link.href);
-    },
-    true
-  );
+  interceptExternalLinks(document);
 }

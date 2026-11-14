@@ -3,6 +3,7 @@
 // check (`wizardchat-desktop/<channel>/latest.json`), stable releases to stable and next releases to
 // next. The installers are listed in desktop-assets.json for the release page.
 // The Linux tarball's PKGBUILD goes next to the feed (`<channel>/PKGBUILD`) for Arch users.
+// The Android APK is uploaded and listed with the installers for people who don't use Google Play.
 // See docs/BUILDING.md.
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
@@ -61,6 +62,7 @@ const installers = [
   find('dmg', '.dmg', macBundle('x86_64')),
   find('tarball', '.tar.gz'),
   find('arch', '.pkg.tar.zst'),
+  find('android', '.apk', 'target'),
 ];
 
 const platforms = {};
@@ -93,7 +95,9 @@ writeFileSync('desktop-assets.json', JSON.stringify(assets));
 const notesFile = `whatsnew/${version.replace(/-.*$/, '')}.md`;
 const feed = JSON.stringify({
   version,
-  notes: existsSync(notesFile) ? readFileSync(notesFile, 'utf8') : '',
+  notes: existsSync(notesFile)
+    ? readFileSync(notesFile, 'utf8').replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '')
+    : '',
   pub_date: new Date().toISOString(),
   platforms,
 });

@@ -86,3 +86,24 @@ export const jsonEditor = style({
   whiteSpace: 'pre',
   resize: 'vertical',
 });
+
+export const rowNested = style({
+  paddingLeft: '28px',
+  backgroundColor: vars.color.bgSecondary,
+});
+
+export const jsonView = style({
+  margin: 0,
+  padding: '12px',
+  maxHeight: '420px',
+  overflow: 'auto',
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.color.bgTertiary,
+  border: `1px solid ${vars.color.border}`,
+  fontFamily: 'monospace',
+  fontSize: '0.78rem',
+  lineHeight: 1.45,
+  color: vars.color.textPrimary,
+  whiteSpace: 'pre',
+  userSelect: 'text',
+});

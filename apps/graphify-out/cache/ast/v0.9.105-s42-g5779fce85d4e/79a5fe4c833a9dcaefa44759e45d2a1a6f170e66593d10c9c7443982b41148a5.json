@@ -1,0 +1,925 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "label": "shell.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_fullscreenstate",
+      "label": "FullscreenState",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L15",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "atomicbool",
+      "label": "AtomicBool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_window_state_flags",
+      "label": "window_state_flags()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L18"
+    },
+    {
+      "id": "stateflags",
+      "label": "StateFlags",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs",
+      "_rust_use_roots": ["tauri_plugin_window_state"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "label": "check_fullscreen()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L24"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "r",
+      "label": "R",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "label": "hide_main_window()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L40"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "label": "toggle_main_window()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L47"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_show_main_window",
+      "label": "show_main_window()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L59"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "label": "apply_settings()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L65"
+    },
+    {
+      "id": "settingspatch",
+      "label": "SettingsPatch",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "desktopsettings",
+      "label": "DesktopSettings",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/shell.rs",
+      "_rust_use_roots": ["crate"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "label": "sync_autostart()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L85"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "label": "get_desktop_settings()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L100"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "label": "set_desktop_settings()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L107"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_shell_set_unread_count",
+      "label": "set_unread_count()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L113"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "atomic",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "atomicbool",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "ordering",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "emitter",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "manager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "runtime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "managerext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "tauri_plugin_window_state",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "apphandleext_as",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "stateflags",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "settings",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "settings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "settings",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "desktopsettings",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "DesktopSettings",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "settingspatch",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "SettingsPatch",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "crate",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "crate",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "tray",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "tray",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "main_window",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "MAIN_WINDOW",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_fullscreenstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_fullscreenstate",
+      "target": "atomicbool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_window_state_flags",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_window_state_flags",
+      "target": "stateflags",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_show_main_window",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_show_main_window",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_show_main_window",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "target": "settingspatch",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "target": "desktopsettings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "target": "desktopsettings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "target": "desktopsettings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L100",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "target": "settingspatch",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "target": "desktopsettings",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_set_unread_count",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_set_unread_count",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_window_state_flags",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_shell_set_desktop_settings",
+      "target": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L108",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "callee": "is_fullscreen",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "callee": "swap",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L29"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_check_fullscreen",
+      "callee": "emit_to",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L35"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "callee": "save_window_state",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L41"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L42"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_hide_main_window",
+      "callee": "hide",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L43"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "get_webview_window",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "is_visible",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "is_minimized",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_toggle_main_window",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_show_main_window",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "autolaunch",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L67"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "enable",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L69"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "disable",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L71"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "update",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "sync_mute",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tray",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_apply_settings",
+      "callee": "emit",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "callee": "is_enabled",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "callee": "autolaunch",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L86"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "callee": "update",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_sync_autostart",
+      "callee": "default",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Default",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L92"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_get_desktop_settings",
+      "callee": "get",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "settings",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_shell_set_unread_count",
+      "callee": "set_unread",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "tray",
+      "source_file": "desktop/src-tauri/src/shell.rs",
+      "source_location": "L114"
+    }
+  ]
+}

@@ -1,19 +1,24 @@
 import { useEffect, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { motionReduced } from '@/app/util/elastic';
 import { useTranslation } from 'react-i18next';
+import { zIndex } from '@/theme/zIndex';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue } from 'jotai';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import {
+  ArrowSquareOutIcon,
   UserIcon,
   PaletteIcon,
   PersonSimpleCircleIcon,
   ShieldIcon,
   BellIcon,
+  HeadphonesIcon,
   SmileyStickerIcon,
+  SparkleIcon,
   FilmStripIcon,
   PuzzlePieceIcon,
   MicrophoneIcon,
+  GameControllerIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
@@ -22,8 +27,15 @@ import {
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
+  SignOutIcon,
 } from '@phosphor-icons/react';
-import { mobileYouOpenAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
+import { logout } from '@/client/initMatrix';
+import {
+  mobileYouOpenAtom,
+  settingsHighlightAtom,
+  settingsOpenAtom,
+  settingsPageAtom,
+} from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
 import {
   Avatar,
@@ -42,11 +54,15 @@ import { Accessibility } from './accessibility';
 import { Privacy } from './privacy';
 import { Language } from './language';
 import { Notifications } from './notifications';
+import { VoiceVideo } from './voiceVideo';
 import { EmojisStickers } from './emojis';
+import { Cosmetics } from './cosmetics';
 import { Media } from './media';
 import { Integrations } from './integrations';
 import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
+import { Activity } from './activity';
+import { isTauriDesktop } from '@/util/desktop';
 import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
 import { Encryption } from './encryption';
@@ -58,23 +74,31 @@ import {
   type NarrowSettingsItem,
 } from '@/app/components/Settings/NarrowSettings';
 import { useSubSections, type SubSection } from './useSubSections';
+import {
+  SettingsSearchInput,
+  SettingsSearchResults,
+  useHighlightSetting,
+  useSettingsSearch,
+  type SettingsSearchResult,
+} from '@/app/components/Settings/SettingsSearch';
+import { SETTINGS_INDEX } from './searchIndex';
 import * as css from './Settings.css';
 
 function AccountPage() {
   const { t } = useTranslation();
   const { canChangePassword, canChangeThreePids, accountManagementUrl, loading } =
     useAccountManagement();
+  const profileExtras = (
+    <div className={css.section}>
+      <ExtendedProfile />
+    </div>
+  );
   const statusSection = (
     <>
       <div className={css.divider} />
       <div className={css.section}>
         <h3 className={css.sectionTitle}>{t('status.title')}</h3>
         <StatusSettings />
-      </div>
-      <div className={css.divider} />
-      <div className={css.section}>
-        <h3 className={css.sectionTitle}>{t('settings.account.aboutTitle')}</h3>
-        <ExtendedProfile />
       </div>
     </>
   );
@@ -84,6 +108,7 @@ function AccountPage() {
       <div>
         <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
         <div className={css.section}>
+          <h3 className={css.sectionTitle}>{t('settings.account.profileTitle')}</h3>
           <div className={css.avatarRow}>
             <div className={css.profileFields}>
               <DisplayName />
@@ -92,6 +117,8 @@ function AccountPage() {
             <Avatar />
           </div>
         </div>
+        <div className={css.divider} />
+        {profileExtras}
         {statusSection}
         <div className={css.divider} />
         <div className={css.section}>
@@ -103,6 +130,7 @@ function AccountPage() {
             className={css.externalLink}
           >
             {t('settings.account.manageAccount')}
+            <ArrowSquareOutIcon size={14} aria-hidden />
           </a>
         </div>
       </div>
@@ -113,6 +141,7 @@ function AccountPage() {
     <div>
       <h2 className={css.panelTitle}>{t('settings.account.title')}</h2>
       <div className={css.section}>
+        <h3 className={css.sectionTitle}>{t('settings.account.profileTitle')}</h3>
         <div className={css.avatarRow}>
           <div className={css.profileFields}>
             <DisplayName />
@@ -121,6 +150,7 @@ function AccountPage() {
           <Avatar />
         </div>
       </div>
+      {profileExtras}
       {statusSection}
       {loading ? (
         <div className={css.actions}>
@@ -171,14 +201,20 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Language />;
     case 'notifications':
       return <Notifications />;
+    case 'voice-video':
+      return <VoiceVideo />;
     case 'emojis-stickers':
       return <EmojisStickers />;
+    case 'cosmetics':
+      return <Cosmetics />;
     case 'integrations':
       return <Integrations />;
     case 'media':
       return <Media />;
     case 'voice':
       return <VoiceAudio />;
+    case 'activity':
+      return <Activity />;
     case 'keybinds':
       return <Keybinds />;
     case 'developer':
@@ -198,6 +234,15 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   return [
     { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
     { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
+    ...(isTauriDesktop()
+      ? [
+          {
+            key: 'activity' as const,
+            label: t('settings.activity.title'),
+            Icon: GameControllerIcon,
+          },
+        ]
+      : []),
     { key: 'integrations', label: t('settings.integrations.title'), Icon: PuzzlePieceIcon },
     {
       key: 'emojis-stickers',
@@ -205,8 +250,10 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       Icon: SmileyStickerIcon,
     },
     { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
-    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
+    { key: 'cosmetics', label: t('settings.cosmetics.title'), Icon: SparkleIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
+    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
+    { key: 'voice-video', label: t('settings.voiceVideo.title'), Icon: HeadphonesIcon },
     {
       key: 'appearance',
       label: t('settings.appearance.title'),
@@ -229,7 +276,7 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       dividerBefore: true,
     },
     { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
-    { key: 'developer', label: t('settings.developer.title'), Icon: WrenchIcon },
+    { key: 'developer', label: t('developer.title'), Icon: WrenchIcon },
     { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
   ];
 }
@@ -291,6 +338,12 @@ export function Settings() {
 
   const NAV = useSettingsNav();
   const subs = useSubSections(scrollerEl, activePage);
+  const [query, setQuery] = useState('');
+  const results = useSettingsSearch(NAV, SETTINGS_INDEX, query);
+  const [highlight, setHighlight] = useAtom(settingsHighlightAtom);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const clearHighlight = useCallback(() => setHighlight(null), [setHighlight]);
+  useHighlightSetting(pageRef, open ? highlight : null, clearHighlight);
 
   const close = useCallback(() => setOpen(false), [setOpen]);
   const navigate = useNavigate();
@@ -298,15 +351,34 @@ export function Settings() {
     close();
     navigate('/welcome?add=1');
   };
+  const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
   const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
   const backToList = useCallback(() => setNarrowView('list'), []);
   const openPage = (page: SettingsPage) => {
     setActivePage(page);
     setNarrowView('page');
   };
+  const openResult = (result: SettingsSearchResult<SettingsPage>) => {
+    openPage(result.page);
+    setHighlight(result.pageLabel ? result.label : null);
+  };
+  const search = (className: string) => (
+    <SettingsSearchInput
+      className={className}
+      value={query}
+      onChange={setQuery}
+      onSubmit={() => results?.[0] && openResult(results[0])}
+    />
+  );
+  const page = (
+    <div ref={pageRef}>
+      <PageContent page={shownPage} />
+    </div>
+  );
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
+    if (open) setQuery('');
     if (open && !targetPageRef.current) {
       setActivePage('account');
       setNarrowView('list');
@@ -320,7 +392,6 @@ export function Settings() {
     setTargetPage(null);
   }, [open, targetPage, setTargetPage]);
 
-  const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
   const pageOnly = isNarrow && youTabOpen;
   const showPage = isNarrow && (pageOnly || narrowView === 'page');
 
@@ -330,29 +401,32 @@ export function Settings() {
       onClose={showPage && !pageOnly ? backToList : close}
       swipeBack={pageOnly}
       size="xl"
-      zIndex={7000}
+      zIndex={zIndex.modal}
       maxWidth="900px"
       height="640px"
       surface="primary"
       fullscreenOnMobile
       bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
-      ariaLabel={t('settings.userSettings')}
+      ariaLabel={t('settings.title')}
     >
       {isNarrow ? (
         showPage ? (
           <NarrowSettingsPage
             title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
             onBack={pageOnly ? close : backToList}
-            onClose={pageOnly ? undefined : close}
           >
-            <PageContent page={shownPage} />
+            {page}
           </NarrowSettingsPage>
         ) : (
           <NarrowSettingsList
-            title={t('settings.userSettings')}
+            title={t('settings.title')}
             items={NAV}
             onSelect={openPage}
             onClose={close}
+            search={search(css.navListSearch)}
+            results={
+              results && <SettingsSearchResults results={results} onSelect={openResult} narrow />
+            }
             footer={
               <div className={css.navListFooter}>
                 <AccountSwitcher onAddAccount={addAccount} />
@@ -363,36 +437,50 @@ export function Settings() {
       ) : (
         <>
           <nav className={css.nav}>
-            <span className={css.navLabel}>{t('settings.userSettings')}</span>
-            {NAV.map((item) => {
-              const isActive = activePage === item.key;
-              return (
-                <div key={item.key}>
-                  {item.dividerBefore && <div className={css.navDivider} />}
-                  <button
-                    type="button"
-                    className={isActive ? css.navItemActive : css.navItem}
-                    onClick={() => setActivePage(item.key)}
-                  >
-                    <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                    <span className={css.navLabelText}>{item.label}</span>
-                  </button>
-                  {isActive && subs.sections.length > 1 && (
-                    <NavSubList
-                      sections={subs.sections}
-                      activeId={subs.activeId}
-                      onPick={subs.scrollTo}
-                    />
-                  )}
-                </div>
-              );
-            })}
+            <span className={css.navLabel}>{t('settings.title')}</span>
+            {search(css.navSearch)}
+            {results ? (
+              <SettingsSearchResults results={results} onSelect={openResult} />
+            ) : (
+              NAV.map((item) => {
+                const isActive = activePage === item.key;
+                return (
+                  <div key={item.key}>
+                    {item.dividerBefore && <div className={css.navDivider} />}
+                    <button
+                      type="button"
+                      className={isActive ? css.navItemActive : css.navItem}
+                      onClick={() => setActivePage(item.key)}
+                    >
+                      <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                      <span className={css.navLabelText}>{item.label}</span>
+                    </button>
+                    {isActive && subs.sections.length > 1 && (
+                      <NavSubList
+                        sections={subs.sections}
+                        activeId={subs.activeId}
+                        onPick={subs.scrollTo}
+                      />
+                    )}
+                  </div>
+                );
+              })
+            )}
             <div className={css.navFooter}>
               <AccountSwitcher onAddAccount={addAccount} />
+              <button
+                type="button"
+                className={css.navLogout}
+                onClick={() => void logout()}
+                aria-label={t('settings.account.logout')}
+              >
+                <SignOutIcon size={16} />
+                <span className={css.navLabelText}>{t('settings.account.logout')}</span>
+              </button>
             </div>
           </nav>
 
-          <div className={css.content} ref={setScrollerEl}>
+          <div className={css.content}>
             <button
               type="button"
               className={css.closeBtn}
@@ -401,7 +489,9 @@ export function Settings() {
             >
               <XIcon size={18} />
             </button>
-            <PageContent page={shownPage} />
+            <div className={css.scroller} ref={setScrollerEl}>
+              {page}
+            </div>
           </div>
         </>
       )}

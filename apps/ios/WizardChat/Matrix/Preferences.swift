@@ -3,7 +3,9 @@ import SwiftUI
 import UIKit
 import WizardChatCore
 
-enum MessageLayout: String, CaseIterable { case modern, classic }
+enum MessageLayout: String, CaseIterable { case modern, classic, compact }
+/// The mobile shell: the space rail, or the earlier bottom tabs
+enum NavigationStyle: String, CaseIterable { case rail, classic }
 enum Density: String, CaseIterable { case compact, `default`, spacious }
 enum ReducedMotion: String, CaseIterable { case system, on, off }
 enum MediaVisibility: String, CaseIterable { case always, `private`, never }
@@ -47,6 +49,18 @@ enum PhotoUploadSize: String, CaseIterable {
 /// YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all)
 enum YouTubeEmbeds: String, CaseIterable { case ask, on, off }
 
+/// Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline)
+enum PresenceChoice: String, CaseIterable, Hashable {
+    case auto, online, away, invisible
+
+    /// What to tell the server; sharing off always reads as offline
+    func presence(shared: Bool) -> Presence {
+        if !shared || self == .invisible { return .offline }
+        if self == .away { return .unavailable }
+        return .online
+    }
+}
+
 /// Streamer mode: hide private details always, or only while this device is being recorded or mirrored
 enum StreamerMode: String, CaseIterable { case off, on, auto }
 
@@ -61,6 +75,7 @@ final class AppPreferences: ObservableObject {
     static let languages = ["en", "de", "es", "fr", "it", "pt", "ru", "ja", "tr", "nl", "pl"]
 
     private static let layouts: Set<String> = ["classic", "modern", "compact"]
+    private static let navigationStyles: Set<String> = ["rail", "classic"]
 
     /// Names an earlier version of the base used, by the key they are now under
     private static let legacyKeys = ["sendTyping": "typingIndicators", "notificationSound": "notificationSounds"]
@@ -86,13 +101,19 @@ final class AppPreferences: ObservableObject {
     // choice is the phone layout, and until one is made it follows the main one
     @Published private(set) var mainMessageLayout: String
     @Published private(set) var phoneMessageLayout: String?
+    @Published private(set) var phoneNavigationStyle: String?
 
     @Published var chatFontSize: Double { didSet { save("chatFontSize", chatFontSize); syncIfNeeded() } }
     @Published var chatDensity: Density { didSet { save("chatDensity", chatDensity.rawValue); syncIfNeeded() } }
     @Published var uiDensity: Density { didSet { save("uiDensity", uiDensity.rawValue); syncIfNeeded() } }
     @Published var prettifyLinks: Bool { didSet { save("prettifyLinks", prettifyLinks); syncIfNeeded() } }
+    @Published var colorUsernames: Bool { didSet { save("colorUsernames", colorUsernames); syncIfNeeded() } }
     /// Show images sent together as one gallery; off shows every image as its own message
     @Published var groupImages: Bool { didSet { save("groupImages", groupImages); syncIfNeeded() } }
+    /// Leave join, leave, kick and ban notices out of timelines
+    @Published var hideMembershipEvents: Bool { didSet { save("hideMembershipEvents", hideMembershipEvents); syncIfNeeded() } }
+    /// Leave display name and picture changes out of timelines
+    @Published var hideProfileEvents: Bool { didSet { save("hideProfileEvents", hideProfileEvents); syncIfNeeded() } }
     @Published var themedAppIcon: Bool { didSet { save("themedAppIcon", themedAppIcon); syncIfNeeded() } }
     @Published var showRoomAvatars: Bool { didSet { save("showRoomAvatars", showRoomAvatars); syncIfNeeded() } }
     @Published var reducedMotion: ReducedMotion { didSet { save("reducedMotion", reducedMotion.rawValue); syncIfNeeded() } }
@@ -120,7 +141,10 @@ final class AppPreferences: ObservableObject {
     @Published private(set) var screenCaptured = false
 
     @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
+    @Published var presenceChoice: PresenceChoice { didSet { save("presenceChoice", presenceChoice.rawValue) } }
     @Published var showHomeserverSoftware: Bool { didSet { save("showHomeserverSoftware", showHomeserverSoftware); syncIfNeeded() } }
+    /// Draw cosmetics that come from packs, anyone's; built-in ones always draw
+    @Published var showCosmeticPacks: Bool { didSet { save("showCosmeticPacks", showCosmeticPacks); syncIfNeeded() } }
     @Published var notificationSounds: Bool { didSet { save("notificationSounds", notificationSounds); syncIfNeeded() } }
     /// Message sounds also play while the app is open on screen
     @Published var notificationSoundsWhenFocused: Bool {
@@ -158,6 +182,7 @@ final class AppPreferences: ObservableObject {
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
+    @Published var pushToTalk: Bool { didSet { save("pushToTalk", pushToTalk) } }
 
     /// Called after a synced setting changed on this device
     var onSyncedSettingsChange: (() -> Void)?
@@ -194,11 +219,17 @@ final class AppPreferences: ObservableObject {
         let phone = d.string(forKey: "messageLayoutMobile") ?? d.string(forKey: "messageLayout")
         phoneMessageLayout = Self.layouts.contains(phone ?? "") ? phone : nil
 
+        let navigation = d.string(forKey: "navigationStyle")
+        phoneNavigationStyle = Self.navigationStyles.contains(navigation ?? "") ? navigation : nil
+
         chatFontSize = d.object(forKey: "chatFontSize") as? Double ?? Self.defaultChatFontSize
         chatDensity = Self.stored(d, "chatDensity", .default)
         uiDensity = Self.stored(d, "uiDensity", .default)
         prettifyLinks = d.object(forKey: "prettifyLinks") as? Bool ?? true
         groupImages = d.object(forKey: "groupImages") as? Bool ?? true
+        hideMembershipEvents = d.object(forKey: "hideMembershipEvents") as? Bool ?? false
+        hideProfileEvents = d.object(forKey: "hideProfileEvents") as? Bool ?? true
+        colorUsernames = d.object(forKey: "colorUsernames") as? Bool ?? true
         themedAppIcon = d.bool(forKey: "themedAppIcon")
         showRoomAvatars = d.object(forKey: "showRoomAvatars") as? Bool ?? true
         reducedMotion = Self.stored(d, "reducedMotion", .system)
@@ -223,7 +254,12 @@ final class AppPreferences: ObservableObject {
         streamerMode = Self.stored(d, "streamerMode", .auto)
         // Off until chosen, like Mudrix: you appear offline and nobody sees your status
         showPresence = d.object(forKey: "showPresence") as? Bool ?? false
+        presenceChoice = Self.initialPresenceChoice(
+            storedChoice: d.string(forKey: "presenceChoice"),
+            storedShowPresence: d.object(forKey: "showPresence") as? Bool
+        )
         showHomeserverSoftware = d.object(forKey: "showHomeserverSoftware") as? Bool ?? true
+        showCosmeticPacks = d.object(forKey: "showCosmeticPacks") as? Bool ?? true
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
         notificationSoundsWhenFocused = d.object(forKey: "notificationSoundsWhenFocused") as? Bool ?? false
         let storedPack = d.string(forKey: "notificationSoundPack")
@@ -246,6 +282,7 @@ final class AppPreferences: ObservableObject {
         soundboardMutedUsers = d.stringArray(forKey: "soundboardMutedUsers") ?? []
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
+        pushToTalk = d.bool(forKey: "pushToTalk")
         developerMode = d.bool(forKey: "developerMode")
 
         registerSynced()
@@ -263,11 +300,31 @@ final class AppPreferences: ObservableObject {
         E(rawValue: d.string(forKey: key) ?? "") ?? fallback
     }
 
+    /// Migrates an explicit off switch to Invisible when no presence choice has been saved yet
+    static func initialPresenceChoice(storedChoice: String?, storedShowPresence: Bool?) -> PresenceChoice {
+        if let storedChoice, let choice = PresenceChoice(rawValue: storedChoice) {
+            return choice
+        }
+        if storedShowPresence == false {
+            return .invisible
+        }
+        return .auto
+    }
+
     /// The layout in use on this device: its own phone choice, else the account's main one
     var messageLayout: MessageLayout {
         get { (phoneMessageLayout ?? mainMessageLayout) == "classic" ? .classic : .modern }
         set {
             setPhoneLayout(newValue.rawValue)
+            syncIfNeeded()
+        }
+    }
+
+    /// The shell in use on this device: the space rail unless the classic tabs were chosen
+    var navigationStyle: NavigationStyle {
+        get { phoneNavigationStyle == NavigationStyle.classic.rawValue ? .classic : .rail }
+        set {
+            setNavigationStyle(newValue.rawValue)
             syncIfNeeded()
         }
     }
@@ -317,12 +374,16 @@ final class AppPreferences: ObservableObject {
             stringKey("systemLightTheme", \.systemLightTheme, topLevel: false, allowed: { Themes.isValidName($0) }),
             layoutKey("messageLayout", mobile: false),
             layoutKey("messageLayoutMobile", mobile: true),
+            navigationKey(),
             languageKey(),
             numberKey("chatFontSize", \.chatFontSize, range: 8...40),
             enumKey("chatDensity", \.chatDensity),
             enumKey("uiDensity", \.uiDensity),
             boolKey("prettifyLinks", \.prettifyLinks),
+            boolKey("colorUsernames", \.colorUsernames),
             boolKey("groupImages", \.groupImages),
+            boolKey("hideMembershipEvents", \.hideMembershipEvents),
+            boolKey("hideProfileEvents", \.hideProfileEvents),
             boolKey("themedAppIcon", \.themedAppIcon),
             boolKey("showRoomAvatars", \.showRoomAvatars),
             enumKey("reducedMotion", \.reducedMotion),
@@ -343,6 +404,7 @@ final class AppPreferences: ObservableObject {
             boolKey("emoticonsToEmoji", \.emoticonsToEmoji),
             boolKey("showPresence", \.showPresence),
             boolKey("showHomeserverSoftware", \.showHomeserverSoftware),
+            boolKey("showCosmeticPacks", \.showCosmeticPacks),
             boolKey("notificationSounds", \.notificationSounds),
             boolKey("notificationSoundsWhenFocused", \.notificationSoundsWhenFocused),
             packKey("notificationSoundPack", \.notificationSoundPack),
@@ -488,6 +550,25 @@ final class AppPreferences: ObservableObject {
     private func setPhoneLayout(_ value: String) {
         phoneMessageLayout = value
         save("messageLayoutMobile", value)
+    }
+
+    private func navigationKey() -> Synced {
+        Synced(
+            key: "navigationStyle", topLevel: true,
+            read: { [unowned self] in self.phoneNavigationStyle.map { JSONValue.string($0) } },
+            normalise: { value in
+                if case .string(let text) = value, Self.navigationStyles.contains(text) { return value }
+                return nil
+            },
+            apply: { [unowned self] value in
+                guard case .string(let text) = value, Self.navigationStyles.contains(text) else { return }
+                if self.phoneNavigationStyle != text { self.setNavigationStyle(text) }
+            })
+    }
+
+    private func setNavigationStyle(_ value: String) {
+        phoneNavigationStyle = value
+        save("navigationStyle", value)
     }
 
     private func languageKey() -> Synced {

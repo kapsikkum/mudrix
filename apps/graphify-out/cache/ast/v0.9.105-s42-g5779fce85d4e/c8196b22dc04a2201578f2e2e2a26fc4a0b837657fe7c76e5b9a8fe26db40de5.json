@@ -1,0 +1,2753 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "label": "RoomListModel.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_displayname",
+      "label": ".displayName",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_unreadcount",
+      "label": ".unreadCount",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_mentioncount",
+      "label": ".mentionCount",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "label": "SpaceSummary",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L10",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "label": "SidebarSelection",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "hashable",
+      "label": "Hashable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_home",
+      "label": "home",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L13"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_dms",
+      "label": "dms",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_space",
+      "label": "space",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L15"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "label": "RoomGroup",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L18",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "label": "Kind",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_favourites",
+      "label": "favourites",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_section",
+      "label": "section",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "roomsection",
+      "label": "RoomSection",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_rooms",
+      "label": "rooms",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L22"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup_issection",
+      "label": ".isSection",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L28"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L30"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_unreadstate",
+      "label": "UnreadState",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L39",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L44",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_joinedrooms",
+      "label": ".joinedRooms",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L46"
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_spacerooms",
+      "label": ".spaceRooms",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L52"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L77",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L81",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_room",
+      "label": ".room()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_accept",
+      "label": ".accept()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L125",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_decline",
+      "label": ".decline()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L129",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "label": ".setRead()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L133",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_leave",
+      "label": ".leave()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L140",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_markasread",
+      "label": ".markAsRead()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L144",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_alljoinedrooms",
+      "label": ".allJoinedRooms",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L148"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "label": ".isJoined()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L150",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "label": ".space()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L154",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "label": ".unreadState()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L162",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "label": ".rooms()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L169",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "label": ".computeRooms()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L176",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "label": ".groups()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L189",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "label": ".sectionContext()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L229",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "label": ".sectionTag()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L234",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "label": ".moveGroup()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L239",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "label": ".saveFavouriteOrder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L249",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "label": ".roomIds()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L259",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_updatehomeorder",
+      "label": ".updateHomeOrder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L267",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "label": ".saveHomeOrder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L271",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "label": ".applyTags()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L278",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "label": ".apply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L293",
+      "_callable": true
+    },
+    {
+      "id": "listdiff",
+      "label": "ListDiff",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "label": ".refreshGraph()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L303",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_displayname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_unreadcount",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary_mentioncount",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "target": "hashable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_home",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_dms",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection_space",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_favourites",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_section",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "target": "roomsection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind_rooms",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_kind",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup_issection",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_unreadstate",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_joinedrooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_spacerooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "roomsection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L72",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_init",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L77",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_room",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_room",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_accept",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_accept",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L125",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_decline",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_decline",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_leave",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_leave",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_markasread",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_markasread",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L144",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_alljoinedrooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L150",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L150",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L154",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L154",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L158",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L158",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_unreadstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L169",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L169",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L176",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L189",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L189",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_sidebarselection",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L229",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L229",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L234",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L234",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L234",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L239",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L239",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L239",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L239",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L249",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L259",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L259",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L259",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_updatehomeorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L278",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L278",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L293",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "listdiff",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L293",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L293",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L303",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_updatehomeorder",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_markasread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_leave",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_leave",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_markasread",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_spacerooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_unreadstate",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_spacerooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomgroup",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectioncontext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L204",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L294",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L299",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRooms",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L83",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L84",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRoomSections",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L86",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L87",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchRoomAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L89",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L90",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L92",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L93",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L98",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L99",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "watchSpaces",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L104",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L105",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_start",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L107",
+      "receiver": "diffs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L116",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L116",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L118",
+      "receiver": "graphTask"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_room",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L122",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_accept",
+      "callee": "acceptInvite",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L126",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_decline",
+      "callee": "declineInvite",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L130",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "timeline",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L135",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_setread",
+      "callee": "setMarkedUnread",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L137",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_isjoined",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L151",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L155",
+      "receiver": "spaces"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L159",
+      "receiver": "spaces"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_space",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L159",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_unreadstate",
+      "callee": "reduce",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "roomsCache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_rooms",
+      "callee": "roomsCache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "reduce",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L179",
+      "receiver": "spaceRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "formUnion",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L179",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L180",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L182",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L185",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_computerooms",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L185",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L193",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L193",
+      "receiver": "rooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "favouriteOrder",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "favouriteOrder",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "localizedCompare",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L198",
+      "receiver": "a"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "bySection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L204",
+      "receiver": "rest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "Dictionary",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L207",
+      "receiver": "homeOrder"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L208",
+      "receiver": "rest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "position",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "position",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L217",
+      "receiver": "sections"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "bySection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L222",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "block",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L224",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_groups",
+      "callee": "block",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "callee": "roomTags",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L236",
+      "receiver": "sections"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_sectiontag",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L236",
+      "receiver": "tags"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L240",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L244",
+      "receiver": "anchors"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L244",
+      "receiver": "anchors"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "swapAt",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L245",
+      "receiver": "anchors"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_movegroup",
+      "callee": "setRoomSectionOrder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L246",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L251",
+      "receiver": "roomIds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "favouriteOrder",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "favouriteOrder",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L254",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savefavouriteorder",
+      "callee": "setFavouriteOrder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L255",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L260",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_roomids",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L261",
+      "receiver": "rooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "setAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L274",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_savehomeorder",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L275",
+      "receiver": "roomIds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "pair",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L282",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "pair",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L283",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L283",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "tags",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L284",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "names",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L285",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "favourite",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L285",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_applytags",
+      "callee": "orders",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L286",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L294",
+      "receiver": "diffs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L295",
+      "receiver": "rooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L296",
+      "receiver": "rooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_apply",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L297",
+      "receiver": "joinedRooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L304",
+      "receiver": "graphTask"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L306",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L307",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L309",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "spaceGraph",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L310",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "Dictionary",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L311",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L311",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L311",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "Dictionary",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L318",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L318",
+      "receiver": "spaces"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel_refreshgraph",
+      "callee": "descendants",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L320",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L61",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomlistmodel",
+      "callee": "wizardchatKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RoomListModel.swift",
+      "source_location": "L63",
+      "receiver": "Namespace"
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_roomsummary",
+      "label": "RoomSummary"
+    },
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_roomlistmodel_spacesummary",
+      "label": "SpaceSummary"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/RoomListModel.swift",
+    "table": {
+      "displayName": "String",
+      "unreadCount": "Int",
+      "mentionCount": "Int",
+      "kind": "Kind",
+      "rooms": "RoomSummary",
+      "isSection": "Bool",
+      "id": "String",
+      "joinedRooms": "RoomSummary",
+      "invites": "RoomSummary",
+      "mentionRooms": "RoomSummary",
+      "spaces": "SpaceSummary",
+      "graph": "SpaceNode",
+      "spaceRooms": "String",
+      "sections": "RoomSection",
+      "roomTags": "String",
+      "favouriteOrder": "String",
+      "homeOrder": "String",
+      "mudrixHomeOrder": "String",
+      "wizardchatHomeOrder": "String",
+      "client": "WizardClient",
+      "roomsCache": "SidebarSelection",
+      "subscriptions": "Subscription",
+      "graphTask": "Task",
+      "invite": "RoomSummary",
+      "room": "RoomSummary",
+      "read": "Bool",
+      "allJoinedRooms": "RoomSummary",
+      "roomId": "String",
+      "selection": "SidebarSelection",
+      "anchor": "String",
+      "offset": "Int",
+      "groups": "RoomGroup",
+      "roomIds": "String",
+      "content": "JSONValue",
+      "pairs": "JSONValue",
+      "diffs": "ListDiff",
+      "position": "Dictionary",
+      "count": "Double",
+      "children": "Dictionary"
+    },
+    "factory": {
+      "homeOrderEvent": ["Namespace", "mudrixKey"],
+      "wizardchatHomeOrderEvent": ["Namespace", "wizardchatKey"]
+    }
+  }
+}

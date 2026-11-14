@@ -129,7 +129,7 @@ pub enum CallEvent {
         /// Base64
         key: String,
     },
-    /// The person rung declined
+    /// Everyone rung declined (`user_id` is the last of them)
     Declined {
         user_id: String,
     },
@@ -151,22 +151,112 @@ pub enum CallEvent {
     },
 }
 
-/// Someone calling, from a ring or notification event, or a caller's new membership in a direct chat
+/// Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+/// in the call
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
 #[serde(rename_all = "camelCase")]
 pub struct IncomingCall {
     pub room_id: String,
     pub room_name: Option<String>,
-    /// The ring or notification event to decline; empty when only the membership is known so far
+    /// The ring or notification event to decline
     pub event_id: String,
     pub sender: String,
     pub sender_name: Option<String>,
-    /// Ring audibly (direct chats), or just show a notification
+    /// Ring audibly (DMs and rooms up to 10 members), or just show a notification
     pub ring: bool,
     pub intent: Option<String>,
     /// Milliseconds since the Unix epoch
     pub expires_at: u64,
+}
+
+/// Why a ring stopped
+#[derive(Clone, Copy, Debug, Serialize, PartialEq)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum RingEnd {
+    /// One of the user's devices joined the call, this one included
+    Answered,
+    /// Declined on one of the user's devices, this one included
+    Declined,
+    /// The caller left before anyone answered: missed
+    CallerLeft,
+    /// Nobody answered in time: missed
+    Expired,
+}
+
+#[derive(Clone, Debug, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase", tag = "type")]
+pub enum IncomingCallEvent {
+    /// Someone is calling; a later ring in the same room replaces this one
+    Ringing { call: IncomingCall },
+    /// The ring in the call's room is over
+    Ended { call: IncomingCall, reason: RingEnd },
+}
+
+/// Who is in a room's call, as the room list shows it
+#[derive(Clone, Debug, Default, PartialEq)]
+pub(crate) struct RoomCallState {
+    /// Users in the call, oldest first, once each
+    pub participants: Vec<String>,
+    /// This device is in the call
+    pub joined: bool,
+    /// The user is in the call on another device only
+    pub joined_elsewhere: bool,
+}
+
+pub(crate) async fn room_call_state(room: &Room) -> RoomCallState {
+    let client = room.client();
+    let own = (
+        client
+            .user_id()
+            .map(ToString::to_string)
+            .unwrap_or_default(),
+        client
+            .device_id()
+            .map(ToString::to_string)
+            .unwrap_or_default(),
+    );
+    let Ok(members) = call_members_of(room, own.clone(), false).await else {
+        return RoomCallState::default();
+    };
+    let mut participants: Vec<String> = Vec::new();
+    for member in &members {
+        if !participants.contains(&member.user_id) {
+            participants.push(member.user_id.clone());
+        }
+    }
+    let joined = members.iter().any(|m| m.is_own_device);
+    RoomCallState {
+        participants,
+        joined,
+        joined_elsewhere: !joined && members.iter().any(|m| m.user_id == own.0),
+    }
+}
+
+pub(crate) fn is_voice_room(room: &Room) -> bool {
+    room.room_type()
+        .is_some_and(|t| t.to_string() == VOICE_ROOM_TYPE)
+}
+
+fn is_direct(room: &Room) -> bool {
+    room.direct_targets_length() > 0
+}
+
+/// Rooms up to this size ring everyone, like a DM (Discord's group DMs); larger rooms only get
+/// a quiet notification
+const RING_MAX_MEMBERS: u64 = 10;
+
+/// Whether starting a call here rings the others, rather than just notifying them
+fn rings(room: &Room) -> bool {
+    !is_voice_room(room) && (is_direct(room) || room.joined_members_count() <= RING_MAX_MEMBERS)
+}
+
+/// Whether a call is already going: anyone but this device is in it, the user's other
+/// devices included. Joining such a call never rings.
+fn call_running(members: &[CallMember]) -> bool {
+    members.iter().any(|m| !m.is_own_device)
 }
 
 /// How long memberships last and how fast a vanished client drops out. The defaults match
@@ -589,7 +679,7 @@ impl WizardClient {
     }
 
     pub async fn call_members(&self, room_id: &str) -> Result<Vec<CallMember>> {
-        call_members_of(&self.room(room_id)?, self.own_device()).await
+        call_members_of(&self.room(room_id)?, self.own_device(), true).await
     }
 
     fn own_device(&self) -> (String, String) {
@@ -625,7 +715,7 @@ impl WizardClient {
         );
         futures_util::pin_mut!(changes);
         loop {
-            let members = call_members_of(&room, own.clone()).await?;
+            let members = call_members_of(&room, own.clone(), true).await?;
             if last.as_ref() != Some(&members) {
                 on_members(members.clone());
                 last = Some(members);
@@ -701,13 +791,11 @@ impl WizardClient {
         let room = self.room(room_id)?;
         let service_url = normalize_url(service_url);
         let (user_id, device_id) = self.own_device();
-        let ongoing = call_members_of(&room, (user_id.clone(), device_id.clone()))
-            .await?
-            .iter()
-            .any(|m| !m.is_own_device);
+        let running = call_running(
+            &call_members_of(&room, (user_id.clone(), device_id.clone()), false).await?,
+        );
         let session = CallSession {
             client: self.sdk().clone(),
-            room,
             state_key: format!("_{user_id}_{device_id}_m.call"),
             identity: format!("{user_id}:{device_id}"),
             member_id: random_uuid()?,
@@ -717,9 +805,10 @@ impl WizardClient {
             intent: if video { "video" } else { "audio" }.to_owned(),
             timings,
             state: Arc::new(Mutex::new(SessionState::default())),
+            room,
         };
         session.join().await?;
-        if ring && !ongoing {
+        if ring && !running && !is_voice_room(&session.room) {
             let membership = session.state.lock().unwrap().membership_event_id.clone();
             if let Some(membership) = membership {
                 session.notify(&membership).await?;
@@ -764,11 +853,45 @@ impl WizardClient {
         (receiver, guards)
     }
 
-    pub async fn watch_incoming_calls(&self, mut on_call: impl FnMut(IncomingCall)) {
-        let (mut receiver, _guards) = self.room_events();
+    /// Reports rings as they start and end. A ring ends when one of the user's devices answers
+    /// or declines, the caller leaves, or it expires.
+    pub async fn watch_incoming_calls(&self, mut on_event: impl FnMut(IncomingCallEvent)) {
+        enum Input {
+            Event(Value, Room),
+            Tick,
+        }
+        let (receiver, _guards) = self.room_events();
+        let ticks = stream::unfold((), |_| async {
+            sleep(Duration::from_secs(1)).await;
+            Some((Input::Tick, ()))
+        });
+        let inputs = stream::select(receiver.map(|(e, r)| Input::Event(e, r)), ticks);
+        futures_util::pin_mut!(inputs);
         let own = self.own_device();
         let mut seen: VecDeque<String> = VecDeque::new();
-        while let Some((event, room)) = receiver.next().await {
+        let mut ringing: HashMap<String, IncomingCall> = HashMap::new();
+        while let Some(input) = inputs.next().await {
+            let (event, room) = match input {
+                Input::Tick => {
+                    let now = now_ms();
+                    let expired: Vec<String> = ringing
+                        .iter()
+                        .filter(|(_, call)| call.expires_at <= now)
+                        .map(|(room_id, _)| room_id.clone())
+                        .collect();
+                    for room_id in expired {
+                        if let Some(call) = ringing.remove(&room_id) {
+                            on_event(IncomingCallEvent::Ended {
+                                call,
+                                reason: RingEnd::Expired,
+                            });
+                        }
+                    }
+                    continue;
+                }
+                Input::Event(event, room) => (event, room),
+            };
+            // State events arrive through both handlers
             let id = event
                 .get("event_id")
                 .and_then(Value::as_str)
@@ -777,22 +900,23 @@ impl WizardClient {
             if seen.contains(&id) {
                 continue;
             }
-            if let Some(call) = incoming_call(&event, &room, &own).await {
-                seen.push_back(id);
-                if seen.len() > 64 {
-                    seen.pop_front();
-                }
-                on_call(call);
+            seen.push_back(id);
+            if seen.len() > 256 {
+                seen.pop_front();
             }
-        }
-    }
-
-    pub async fn watch_calls_handled_elsewhere(&self, mut on_room: impl FnMut(String)) {
-        let (mut receiver, _guards) = self.room_events();
-        let own = self.own_device();
-        while let Some((event, room)) = receiver.next().await {
-            if handled_elsewhere(&event, &own) {
-                on_room(room.room_id().to_string());
+            let room_id = room.room_id().to_string();
+            if let Some(call) = incoming_call(&event, &room, &own).await {
+                ringing.insert(room_id, call.clone());
+                on_event(IncomingCallEvent::Ringing { call });
+                continue;
+            }
+            let Some(call) = ringing.get(&room_id) else {
+                continue;
+            };
+            if let Some(reason) = ring_end(&event, &room, call, &own).await {
+                if let Some(call) = ringing.remove(&room_id) {
+                    on_event(IncomingCallEvent::Ended { call, reason });
+                }
             }
         }
     }
@@ -807,88 +931,63 @@ impl WizardClient {
     }
 }
 
-fn handled_elsewhere(event: &Value, own: &(String, String)) -> bool {
-    if event.get("sender").and_then(Value::as_str) != Some(own.0.as_str()) {
-        return false;
-    }
-    let now = now_ms();
-    match event.get("type").and_then(Value::as_str) {
-        Some(DECLINE_EVENT) => event
-            .get("origin_server_ts")
-            .and_then(Value::as_u64)
-            .is_some_and(|sent| sent + RING_TIMEOUT_MS >= now),
-        Some(CALL_MEMBER_EVENT) => {
-            parse_member(event, (&own.0, &own.1), now).is_some_and(|m| !m.is_own_device)
+async fn ring_end(
+    event: &Value,
+    room: &Room,
+    call: &IncomingCall,
+    own: &(String, String),
+) -> Option<RingEnd> {
+    match event.get("type").and_then(Value::as_str)? {
+        // Any of the user's declines in the room counts: another device may have declined an
+        // earlier ring of the same call
+        DECLINE_EVENT => (event.get("sender").and_then(Value::as_str) == Some(own.0.as_str()))
+            .then_some(RingEnd::Declined),
+        CALL_MEMBER_EVENT => {
+            let members = call_members_of(room, own.clone(), false).await.ok()?;
+            if members.iter().any(|m| m.user_id == own.0) {
+                Some(RingEnd::Answered)
+            } else if !members.iter().any(|m| m.user_id == call.sender) {
+                Some(RingEnd::CallerLeft)
+            } else {
+                None
+            }
         }
-        _ => false,
+        _ => None,
     }
 }
 
+/// A ring or call notification worth showing. Only these ring: a caller's membership alone
+/// (a second device joining, a rejoin) never does (MSC4075).
 async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Option<IncomingCall> {
-    if room
-        .room_type()
-        .is_some_and(|t| t.to_string() == VOICE_ROOM_TYPE)
-    {
+    let kind = event.get("type")?.as_str()?;
+    if (kind != NOTIFICATION_EVENT && kind != NOTIFICATION_EVENT_STABLE) || is_voice_room(room) {
         return None;
     }
-    let kind = event.get("type")?.as_str()?;
     let from = event.get("sender")?.as_str()?;
     if from == own.0 {
         return None;
     }
     let now = now_ms();
     let content = event.get("content")?;
-    let (ring, intent, expires_at, event_id) =
-        if kind == NOTIFICATION_EVENT || kind == NOTIFICATION_EVENT_STABLE {
-            let sent = content
-                .get("sender_ts")
-                .and_then(Value::as_u64)
-                .or_else(|| event.get("origin_server_ts")?.as_u64())
-                .unwrap_or(now);
-            let lifetime = content
-                .get("lifetime")
-                .and_then(Value::as_u64)
-                .unwrap_or(RING_LIFETIME_MS)
-                .min(RING_TIMEOUT_MS);
-            if now.saturating_sub(sent) > lifetime {
-                return None;
-            }
-            let ring = content.get("notification_type").and_then(Value::as_str) == Some("ring");
-            if ring && !room.is_direct().await.unwrap_or(false) {
-                return None;
-            }
-            (
-                ring,
-                content
-                    .get("m.call.intent")
-                    .and_then(Value::as_str)
-                    .map(ToOwned::to_owned),
-                sent + lifetime,
-                event.get("event_id")?.as_str()?.to_owned(),
-            )
-        } else if kind == CALL_MEMBER_EVENT {
-            let member = parse_member(event, (&own.0, &own.1), now)?;
-            let intent = member.intent.as_deref()?;
-            if member.joined_at + RING_TIMEOUT_MS < now
-                || !matches!(intent, "ring" | "audio" | "video")
-                || !room.is_direct().await.unwrap_or(false)
-            {
-                return None;
-            }
-            (
-                true,
-                member.intent.clone(),
-                member.joined_at + RING_TIMEOUT_MS,
-                String::new(),
-            )
-        } else {
-            return None;
-        };
-    let members = call_members_of(room, own.clone()).await.ok()?;
-    let answered_elsewhere = members
-        .iter()
-        .any(|m| m.user_id == own.0 && !m.is_own_device);
-    if answered_elsewhere || !members.iter().any(|m| m.user_id == from) {
+    let sent = content
+        .get("sender_ts")
+        .and_then(Value::as_u64)
+        .or_else(|| event.get("origin_server_ts")?.as_u64())
+        .unwrap_or(now);
+    let lifetime = content
+        .get("lifetime")
+        .and_then(Value::as_u64)
+        .unwrap_or(RING_LIFETIME_MS)
+        .min(RING_TIMEOUT_MS);
+    if now.saturating_sub(sent) > lifetime {
+        return None;
+    }
+    // Rings from large rooms are only shown as a notification
+    let ring =
+        content.get("notification_type").and_then(Value::as_str) == Some("ring") && rings(room);
+    let members = call_members_of(room, own.clone(), false).await.ok()?;
+    let already_in = members.iter().any(|m| m.user_id == own.0);
+    if already_in || !members.iter().any(|m| m.user_id == from) {
         return None;
     }
     let user = <&matrix_sdk::ruma::UserId>::try_from(from).ok()?;
@@ -899,12 +998,15 @@ async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Op
     Some(IncomingCall {
         room_id: room.room_id().to_string(),
         room_name: room.cached_display_name().map(|n| n.to_string()),
-        event_id,
+        event_id: event.get("event_id")?.as_str()?.to_owned(),
         sender: from.to_owned(),
         sender_name,
         ring,
-        intent,
-        expires_at,
+        intent: content
+            .get("m.call.intent")
+            .and_then(Value::as_str)
+            .map(ToOwned::to_owned),
+        expires_at: sent + lifetime,
     })
 }
 
@@ -917,7 +1019,11 @@ fn member_name(member: &matrix_sdk::room::RoomMember) -> String {
     }
 }
 
-async fn call_members_of(room: &Room, own: (String, String)) -> Result<Vec<CallMember>> {
+pub(crate) async fn call_members_of(
+    room: &Room,
+    own: (String, String),
+    with_profiles: bool,
+) -> Result<Vec<CallMember>> {
     let now = now_ms();
     let events = room
         .get_state_events(StateEventType::from(CALL_MEMBER_EVENT))
@@ -930,7 +1036,7 @@ async fn call_members_of(room: &Room, own: (String, String)) -> Result<Vec<CallM
         })
         .filter_map(|event| parse_member(&event, (&own.0, &own.1), now))
         .collect();
-    for member in &mut members {
+    for member in members.iter_mut().filter(|_| with_profiles) {
         let Ok(user) = <&matrix_sdk::ruma::UserId>::try_from(member.user_id.as_str()) else {
             continue;
         };
@@ -1027,7 +1133,7 @@ impl CallSession {
         &self.identity
     }
 
-    /// Whether joining rang the others (a direct chat nobody was in): show "calling..."
+    /// Whether joining rang the others (a DM or small room nobody was in): show "calling..."
     pub fn rang(&self) -> bool {
         self.state.lock().unwrap().rang
     }
@@ -1209,10 +1315,10 @@ impl CallSession {
     }
 
     async fn notify(&self, membership_event_id: &str) -> Result<()> {
-        let direct = self.room.direct_targets_length() > 0;
+        let ring = rings(&self.room);
         let content = json!({
             "m.mentions": { "user_ids": [], "room": true },
-            "notification_type": if direct { "ring" } else { "notification" },
+            "notification_type": if ring { "ring" } else { "notification" },
             "sender_ts": now_ms(),
             "lifetime": RING_LIFETIME_MS,
             "m.call.intent": self.intent,
@@ -1221,8 +1327,8 @@ impl CallSession {
         let response = self.room.send_raw(NOTIFICATION_EVENT, content).await?;
         let mut state = self.state.lock().unwrap();
         state.notification_event_id = Some(response.response.event_id.to_string());
-        state.rung_at = direct.then(now_ms);
-        state.rang = direct;
+        state.rung_at = ring.then(now_ms);
+        state.rang = ring;
         Ok(())
     }
 
@@ -1332,6 +1438,7 @@ impl CallSession {
         let mut last_members: Option<Vec<CallMember>> = None;
         let mut pending_own_key: Option<(u64, CallEvent)> = None;
         let mut others_seen = false;
+        let mut declined: std::collections::HashSet<String> = std::collections::HashSet::new();
         // Raised hand reaction event id -> who raised it
         let mut hands: HashMap<String, String> = HashMap::new();
         let mut input = Some(Input::MembersChanged);
@@ -1371,6 +1478,7 @@ impl CallSession {
                     let members = match call_members_of(
                         &self.room,
                         (self.user_id.clone(), self.device_id.clone()),
+                        true,
                     )
                     .await
                     {
@@ -1411,8 +1519,13 @@ impl CallSession {
                 }
                 Input::Key(event) => on_event(event),
                 Input::Declined(user_id) => {
-                    self.state.lock().unwrap().rung_at = None;
-                    on_event(CallEvent::Declined { user_id });
+                    declined.insert(user_id.clone());
+                    // In a group the ring goes on until everyone rung has declined
+                    let others = self.room.joined_members_count().saturating_sub(1).max(1);
+                    if declined.len() as u64 >= others {
+                        self.state.lock().unwrap().rung_at = None;
+                        on_event(CallEvent::Declined { user_id });
+                    }
                 }
                 Input::Timeline(event) => {
                     let members = last_members.as_deref().unwrap_or_default();
@@ -1760,13 +1873,15 @@ impl CallSession {
 
     /// Rings the others again (when nobody answered); returns false when someone is in the call.
     pub async fn ring_again(&self) -> Result<bool> {
-        let others = call_members_of(&self.room, (self.user_id.clone(), self.device_id.clone()))
-            .await?
-            .iter()
-            .any(|m| m.user_id != self.user_id);
+        let members = call_members_of(
+            &self.room,
+            (self.user_id.clone(), self.device_id.clone()),
+            false,
+        )
+        .await?;
         let membership = self.state.lock().unwrap().membership_event_id.clone();
         match membership {
-            Some(id) if !others => {
+            Some(id) if !call_running(&members) && !is_voice_room(&self.room) => {
                 self.notify(&id).await?;
                 Ok(true)
             }

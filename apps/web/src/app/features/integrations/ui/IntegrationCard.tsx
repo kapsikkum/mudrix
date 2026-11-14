@@ -1,7 +1,23 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@/app/components/Button';
+import { hostOf } from '../widget';
 import type { IntegrationCardData } from './useIntegrationCards';
 import { useLinkDetails, type LinkDetailsState } from './useLinkDetails';
+import { IntegrationViewerDialog } from './IntegrationViewerDialog';
 import * as css from './IntegrationCard.css';
+
+/** Host plus a shortened tail of the link (the part after the host can be a long secret code). */
+function shortLink(url: string): string {
+  try {
+    const u = new URL(url);
+    const tail = `${u.pathname === '/' ? '' : u.pathname}${u.search}${u.hash}`;
+    const short = tail.length > 30 ? `${tail.slice(0, 20)}…${tail.slice(-6)}` : tail;
+    return `${u.host}${short}`;
+  } catch {
+    return '';
+  }
+}
 
 /** What the lookup found: plain text nodes only, nothing from the answer is a link or markup. */
 function DetailsBlock({ state }: { state: LinkDetailsState }) {
@@ -58,7 +74,8 @@ export function IntegrationCard({
   isEncrypted: boolean;
 }) {
   const { t } = useTranslation();
-  const { rule } = card;
+  const [open, setOpen] = useState(false);
+  const { rule, viewer } = card;
   const details = useLinkDetails(card, isEncrypted);
   const icon = card.iconDataUrl?.startsWith('data:image/') ? card.iconDataUrl : undefined;
   const title = (details.status === 'ready' && details.details.title) || card.title;
@@ -66,7 +83,7 @@ export function IntegrationCard({
     details.status === 'ready'
       ? t('integrations.card.viaDetails', { name: card.integrationName, host: details.host })
       : t('integrations.card.via', { name: card.integrationName });
-  const open = (
+  const openLink = (
     <a
       href={card.url}
       target="_blank"
@@ -74,11 +91,12 @@ export function IntegrationCard({
       className={css.button}
       onClick={(e) => e.stopPropagation()}
     >
-      {rule.buttonLabel || t('integrations.card.open')}
+      {rule.buttonLabel ||
+        (viewer ? t('integrations.card.openInBrowser') : t('integrations.card.open'))}
     </a>
   );
 
-  if (!card.lookup) {
+  if (!viewer && !card.lookup) {
     return (
       <div className={css.card}>
         {icon && <img src={icon} alt="" className={css.icon} />}
@@ -87,11 +105,13 @@ export function IntegrationCard({
           {card.subtitle && <span className={css.subtitle}>{card.subtitle}</span>}
           <span className={css.via}>{via}</span>
         </div>
-        {open}
+        {openLink}
       </div>
     );
   }
 
+  const host = hostOf(card.url);
+  const label = viewer ? viewer.label || t('integrations.card.openHere') : '';
   return (
     <div className={css.cardRich}>
       <div className={css.richHeader}>
@@ -102,10 +122,38 @@ export function IntegrationCard({
         </div>
       </div>
       <DetailsBlock state={details} />
+      {viewer && (
+        <>
+          <code className={css.linkLine} title={host}>
+            {shortLink(card.url)}
+          </code>
+          <span className={css.note}>{t('integrations.card.nothingLoaded', { host, label })}</span>
+        </>
+      )}
       <div className={css.actions}>
-        {open}
+        {viewer && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(true);
+            }}
+          >
+            {label}
+          </Button>
+        )}
+        {openLink}
         <span className={css.via}>{via}</span>
       </div>
+      {viewer && open && (
+        <IntegrationViewerDialog
+          viewer={viewer}
+          url={card.url}
+          title={card.title}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </div>
   );
 }

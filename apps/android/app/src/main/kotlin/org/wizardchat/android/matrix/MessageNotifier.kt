@@ -9,6 +9,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import androidx.compose.runtime.getValue
@@ -30,8 +36,10 @@ import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcons
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.core.Notification
+import org.wizardchat.core.NotificationMode
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.Subscription
+import org.wizardchat.core.WizardClient
 
 /**
  * Shows a notification for new messages while the app runs (there's no push server). Tapping one
@@ -81,17 +89,24 @@ class MessageNotifier {
     }
 
     private fun notify(notification: Notification) {
-        val prefs = prefs ?: return
+        val roomList = roomList ?: return
+        val roomAvatar = roomList.room(notification.roomId)?.avatarUrl ?: notification.roomAvatarUrl
+        scope.launch { show(notification, roomList.client, roomAvatar) }
+    }
+
+    suspend fun show(notification: Notification, client: WizardClient, roomAvatar: String? = notification.roomAvatarUrl) {
+        val prefs = prefs ?: WizardApplication.instance.prefs
         if (!(prefs.notificationBanners || prefs.notificationSounds) || notification.roomId == activeRoomId) return
         if (!canPost()) return
+        createChannels()
         val sender = notification.senderName ?: notification.sender
         val title = notification.roomName ?: sender
-        var body = if (notification.isDirect || notification.roomName == null) notification.body else "$sender: ${notification.body}"
-        if (body.isEmpty()) body = L10n.format("notifications.newMessage")
+        val text = notification.body.ifEmpty { L10n.format("common.newMessage") }
+        var body = if (notification.isDirect || notification.roomName == null) text else "$sender: $text"
         // Streamer mode: the notification says who, not what
         if (prefs.streamerModeActive(CallManager.shared.screenSharing)) body = L10n.format("settings.privacy.streamer.notificationBody")
         val sound = prefs.notificationSounds && notification.sound
-        val userId = roomList?.client?.userId ?: return
+        val userId = client.userId ?: return
         val tag = "$userId|${notification.roomId}"
         val id = notification.eventId.hashCode()
 
@@ -117,15 +132,78 @@ class MessageNotifier {
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
             .setPriority(if (notification.highlight) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_DEFAULT)
             .setSilent(true)
+            .setOnlyAlertOnce(true)
             .setAutoCancel(true)
             .setNumber(badge)
             .setContentIntent(openIntent(notification.roomId, userId))
             .addAction(reply)
             .addAction(markRead)
+        val avatar = if (notification.isDirect) {
+            roomAvatar ?: runCatching { MemberDirectory.profile(notification.sender, notification.roomId, client).avatarUrl }.getOrNull()
+        } else {
+            roomAvatar
+        }
+        avatarBitmap(avatar, client)?.let(builder::setLargeIcon)
         try {
             manager.notify(tag, id, builder.build())
         } catch (_: SecurityException) {
         }
+    }
+
+    fun showPlaceholder(userId: String, roomId: String, eventId: String) {
+        val prefs = prefs ?: WizardApplication.instance.prefs
+        if (!(prefs.notificationBanners || prefs.notificationSounds) || !canPost()) return
+        createChannels()
+        val sound = prefs.notificationSounds
+        val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
+            .setSmallIcon(smallIcon())
+            .setContentTitle(L10n.format("common.newMessage"))
+            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+            .setSilent(!sound)
+            .setOnlyAlertOnce(true)
+            .setAutoCancel(true)
+            .setContentIntent(openIntent(roomId, userId))
+        try {
+            manager.notify("$userId|$roomId", eventId.hashCode(), builder.build())
+        } catch (_: SecurityException) {
+        }
+    }
+
+    /** A ring that ended without any of the user's devices answering */
+    fun missedCall(roomId: String, callerName: String, roomName: String?) {
+        val prefs = prefs ?: return
+        if (!(prefs.notificationBanners || prefs.notificationSounds) || !canPost()) return
+        // The ring watch outlives the screen, so the room list may come from the session
+        val roomList = currentRoomList() ?: return
+        if (roomList.room(roomId)?.notificationMode == NotificationMode.mute) return
+        val userId = roomList.client.userId ?: return
+        val sound = prefs.notificationSounds
+        val title = L10n.format("call.missedFrom", callerName)
+        val builder = NotificationCompat.Builder(context, if (sound) CHANNEL_MESSAGES else CHANNEL_SILENT)
+            .setSmallIcon(smallIcon())
+            .setContentTitle(title)
+            .setCategory(NotificationCompat.CATEGORY_MISSED_CALL)
+            .setSilent(!sound)
+            .setAutoCancel(true)
+            .setContentIntent(openIntent(roomId, userId))
+        if (roomName != null && roomName != callerName) builder.setContentText(roomName)
+        try {
+            manager.notify("$userId|$roomId", "missed|$roomId".hashCode(), builder.build())
+        } catch (_: SecurityException) {
+        }
+    }
+
+    private suspend fun avatarBitmap(mxc: String?, client: WizardClient): Bitmap? {
+        mxc ?: return null
+        val data = runCatching { client.thumbnail(mxc, 192, 192, true) }.getOrNull() ?: return null
+        val source = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
+        val size = minOf(source.width, source.height)
+        val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            shader = BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        }
+        Canvas(output).drawCircle(size / 2f, size / 2f, size / 2f, paint)
+        return output
     }
 
     private fun canPost(): Boolean =

@@ -1,0 +1,1549 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "label": "NotificationSettingsPage.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "usernotifications",
+      "label": "UserNotifications",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "label": "NotificationSettingsPage",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "pushrules",
+      "label": "PushRules",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L15"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_unavailable",
+      "label": ".unavailable",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L97"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "label": ".levelRow()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "_callable": true
+    },
+    {
+      "id": "localizedstringkey",
+      "label": "LocalizedStringKey",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "managedrule",
+      "label": "ManagedRule",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "label": ".setLevel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "notiflevel",
+      "label": "NotifLevel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "label": ".addKeyword()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "label": ".reload()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L132",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L140",
+      "_callable": true
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "label": ".requestAuthorization()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L152",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "label": "FlowChips",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L159",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L164"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "label": "WrapLayout",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L185",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "layout",
+      "label": "Layout",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "cgfloat",
+      "label": "CGFloat",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "label": ".sizeThatFits()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L188",
+      "_callable": true
+    },
+    {
+      "id": "proposedviewsize",
+      "label": "ProposedViewSize",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "subviews",
+      "label": "Subviews",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "cgsize",
+      "label": "CGSize",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "label": ".placeSubviews()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L203",
+      "_callable": true
+    },
+    {
+      "id": "cgrect",
+      "label": "CGRect",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "target": "usernotifications",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "pushrules",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_unavailable",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "target": "localizedstringkey",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "target": "managedrule",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "target": "pushrules",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L103",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "target": "notiflevel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "target": "managedrule",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "target": "pushrules",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L160",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L164",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "target": "layout",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "target": "cgfloat",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L186",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "target": "proposedviewsize",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L188",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "target": "subviews",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L188",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "target": "cgsize",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L188",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "target": "cgrect",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "target": "proposedviewsize",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "target": "subviews",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L165",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "target": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsPage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "NavigationLink",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "ToggleRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "RemindersSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L38",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "present",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L44",
+      "receiver": "rules"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "present",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L45",
+      "receiver": "rules"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsDivider",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "SettingsSection",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "onSubmit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "wizardField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "textInputAutocapitalization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "PrimaryButtonStyle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L67",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L69",
+      "receiver": "keyword"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "removeNotificationKeyword",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L77",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "ProgressView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "StatusText",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_unavailable",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_unavailable",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_unavailable",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "PickerRow",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "level",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L107",
+      "receiver": "rules"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L110",
+      "receiver": "NotifLevel"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_levelrow",
+      "callee": "LocalizedStringKey",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L110",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_setlevel",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L122",
+      "receiver": "keyword"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L124",
+      "receiver": "rules"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_addkeyword",
+      "callee": "addNotificationKeyword",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L129",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "callee": "PushRules",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L134",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_reload",
+      "callee": "pushRules",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L134",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_run",
+      "callee": "work",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_notificationsettingspage_requestauthorization",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L153",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "onRemove",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_flowchips_body",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_sizethatfits",
+      "callee": "CGSize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L200",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "callee": "place",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L210",
+      "receiver": "view"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "callee": "CGPoint",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_settings_notificationsettingspage_wraplayout_placesubviews",
+      "callee": "ProposedViewSize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+      "source_location": "L210",
+      "receiver": null,
+      "via_stub": true
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Settings/NotificationSettingsPage.swift",
+    "table": {
+      "prefs": "AppPreferences",
+      "session": "MatrixSession",
+      "rules": "PushRules",
+      "error": "String",
+      "body": "View",
+      "unavailable": "View",
+      "label": "LocalizedStringKey",
+      "managed": "ManagedRule",
+      "level": "NotifLevel",
+      "work": "Void",
+      "items": "String",
+      "onRemove": "String",
+      "spacing": "CGFloat",
+      "proposal": "ProposedViewSize",
+      "subviews": "Subviews",
+      "bounds": "CGRect"
+    },
+    "factory": { "center": ["UNUserNotificationCenter", "current"] }
+  }
+}

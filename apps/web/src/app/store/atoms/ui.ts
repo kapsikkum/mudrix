@@ -104,7 +104,7 @@ export interface InviteModalState {
 export const inviteModalRoomIdAtom = atom<InviteModalState | null>(null);
 export const roomSettingsRoomIdAtom = atom<string | null>(null);
 export const roomSettingsTabAtom = atom<
-  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | null
+  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'developer' | null
 >(null);
 export const spaceSettingsRoomIdAtom = atom<string | null>(null);
 
@@ -195,9 +195,13 @@ export interface RoomSearchResults {
   activeMatch: number;
   next: () => void;
   prev: () => void;
+  /** False while the homeserver's results are shown: there is no match to step through */
+  showNav?: boolean;
 }
 export const roomSearchResultsAtom = atom<RoomSearchResults | null>(null);
 export const exploreOpenAtom = atom(false);
+
+export const getAppsOpenAtom = atom(false);
 export const inboxOpenAtom = atom(false);
 export const mobileYouOpenAtom = atom(false);
 
@@ -255,17 +259,21 @@ export type SettingsPage =
   | 'accessibility'
   | 'privacy'
   | 'notifications'
+  | 'voice-video'
   | 'emojis-stickers'
+  | 'cosmetics'
   | 'integrations'
   | 'media'
   | 'voice'
   | 'keybinds'
+  | 'activity'
   | 'language'
   | 'developer'
   | 'sessions'
   | 'encryption'
   | 'about';
 export const settingsPageAtom = atom<SettingsPage | null>(null);
+export const settingsHighlightAtom = atom<string | null>(null);
 
 export interface EmojiVerificationState {
   open: boolean;

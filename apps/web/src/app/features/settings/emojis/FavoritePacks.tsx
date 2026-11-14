@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon, StickerIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
@@ -6,6 +6,8 @@ import { useRoomNames } from './roomNames';
 import {
   useFavoritePacks,
   saveFavoritePacks,
+  packKindOf,
+  type PackKind,
   type RoomPackSummary,
 } from '@/app/hooks/useUserPacks';
 import { useToast } from '@/app/hooks/useToast';
@@ -18,12 +20,22 @@ import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 
 interface Props {
   client: MatrixClient;
+  /** Which kind of pack to list; emoji and sticker packs unless told otherwise. */
+  kind?: PackKind;
+  /** Heading, note and empty text for kinds other than emoji. */
+  title?: string;
+  note?: string;
+  empty?: string;
 }
 
-export function FavoritePacks({ client }: Props) {
+export function FavoritePacks({ client, kind = 'emoji', title, note, empty }: Props) {
   const { t } = useTranslation();
   const toast = useToast();
-  const favoritePacks = useFavoritePacks(client);
+  const allFavorites = useFavoritePacks(client);
+  const favoritePacks = useMemo(
+    () => allFavorites.filter((f) => packKindOf(f.usage) === kind),
+    [allFavorites, kind]
+  );
   const roomNames = useRoomNames();
   const [removing, setRemoving] = useState(false);
 
@@ -31,17 +43,17 @@ export function FavoritePacks({ client }: Props) {
     async (fav: RoomPackSummary) => {
       setRemoving(true);
       try {
-        const next = favoritePacks.filter(
+        const next = allFavorites.filter(
           (f) => !(f.roomId === fav.roomId && f.stateKey === fav.stateKey)
         );
         await saveFavoritePacks(client, next);
       } catch (err) {
-        toast.error(t('settings.emojisStickers.saveFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
       } finally {
         setRemoving(false);
       }
     },
-    [favoritePacks, client, toast, t]
+    [allFavorites, client, toast, t]
   );
 
   const handleSave = useCallback(
@@ -49,7 +61,7 @@ export function FavoritePacks({ client }: Props) {
       try {
         await saveFavoritePacks(client, favorites);
       } catch (err) {
-        toast.error(t('settings.emojisStickers.saveFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.saveFailed', { error: getErrorMessage(err) }));
       }
     },
     [client, toast, t]
@@ -95,19 +107,28 @@ export function FavoritePacks({ client }: Props) {
     <div>
       <div className={css.headerRow}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h3 className={panelCss.sectionTitle}>{t('settings.emojisStickers.favoritePacks')}</h3>
+          <h3 className={panelCss.sectionTitle}>
+            {title ?? t('settings.emojisStickers.favoritePacks')}
+          </h3>
           <p className={panelCss.settingNote} style={{ marginBottom: 4 }}>
-            {t('settings.emojisStickers.favoritePacksNote')}
+            {note ?? t('settings.emojisStickers.favoritePacksNote')}
           </p>
         </div>
         <div className={css.headerButton}>
-          <FavoritePacksSelect client={client} current={favoritePacks} onSave={handleSave} />
+          <FavoritePacksSelect
+            client={client}
+            current={allFavorites}
+            onSave={handleSave}
+            kind={kind}
+          />
         </div>
       </div>
 
       <div style={{ marginTop: 12 }}>
         {favoritePacks.length === 0 ? (
-          <div className={css.emptyPacks}>{t('settings.emojisStickers.noFavoritePacks')}</div>
+          <div className={css.emptyPacks}>
+            {empty ?? t('settings.emojisStickers.noFavoritePacks')}
+          </div>
         ) : (
           <div className={css.packList}>{favoritePacks.map(renderPack)}</div>
         )}

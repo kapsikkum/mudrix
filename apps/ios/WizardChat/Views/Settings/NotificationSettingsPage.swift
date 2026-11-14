@@ -21,21 +21,21 @@ struct NotificationSettingsPage: View {
                 ToggleRow(label: "settings.notifications.soundsWhenFocused", note: "settings.notifications.soundsWhenFocusedNote",
                           isOn: $prefs.notificationSoundsWhenFocused)
                 SettingsDivider()
-                NavigationLink(value: SettingsView.Page.voice) {
+                NavigationLink(value: SettingsView.Page.voiceVideo) {
                     Text(String(localized: "settings.notifications.chooseSounds"))
                 }
                 SettingsDivider()
-                ToggleRow(label: "settings.notifications.notificationBanners", note: "settings.showABannerWhen",
+                ToggleRow(label: "settings.notifications.notificationBanners", note: "settings.notifications.bannerNote",
                           isOn: $prefs.notificationBanners)
             }
             if bannersDenied {
-                StatusText(text: String(localized: "settings.notificationsAreTurnedOff"))
+                StatusText(text: String(localized: "settings.notifications.systemDisabledIos"))
             }
 
             RemindersSection()
 
             if let rules {
-                SettingsSection(title: "room.settings.permissions.groups.messages", note: "settings.disableNoNotificationAt") {
+                SettingsSection(title: "room.settings.permissions.groups.messages", note: "settings.notifications.levelHint") {
                     levelRow("room.dm.directMessages", PushRuleSets.dms, rules)
                     SettingsDivider()
                     levelRow("settings.notifications.rooms", PushRuleSets.rooms, rules)

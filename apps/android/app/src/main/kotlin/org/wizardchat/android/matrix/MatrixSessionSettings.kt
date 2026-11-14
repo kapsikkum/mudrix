@@ -3,6 +3,7 @@ package org.wizardchat.android.matrix
 import android.net.Uri
 import java.security.SecureRandom
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
@@ -85,10 +86,21 @@ suspend fun MatrixSession.recover(recoveryKey: String) {
 
 suspend fun MatrixSession.enableRecovery(): String = requireClient.enableRecovery()
 
+suspend fun MatrixSession.resetIdentity(password: String?, approve: (String) -> Unit) {
+    val client = requireClient
+    withPassword(password) { client.resetIdentityWithAuth(it, approve) }
+}
+
+suspend fun MatrixSession.cancelIdentityReset() {
+    runCatching { client?.cancelIdentityReset() }
+}
+
 suspend fun MatrixSession.resetRecoveryKey(): String = requireClient.resetRecoveryKey()
 
-suspend fun MatrixSession.createSpace(name: String, topic: String?, isPublic: Boolean): String =
-    requireClient.createRoom(CreateRoomOptions(name = name, topic = topic, isPublic = isPublic, isSpace = true))
+suspend fun MatrixSession.hasEncryptionIdentity(): Boolean? {
+    val userId = userId ?: return null
+    return runCatching { client?.userTrust(userId)?.hasIdentity }.getOrNull()
+}
 
 suspend fun MatrixSession.createRoom(
     name: String,
@@ -98,17 +110,34 @@ suspend fun MatrixSession.createRoom(
     isVoice: Boolean,
     alias: String?,
     spaceId: String?,
+    federate: Boolean = true,
+    spaceMembers: Boolean = false,
+    founders: List<String> = emptyList(),
+    roomVersion: String? = null,
+    isSpace: Boolean = false,
 ): String = requireClient.createRoom(
     CreateRoomOptions(
         name = name,
         topic = topic,
         isPublic = isPublic,
         alias = if (isPublic) alias else null,
+        isSpace = isSpace,
         isVoice = isVoice,
         parentSpaceId = spaceId,
-        encrypted = encrypted && !isPublic,
+        invite = founders,
+        encrypted = encrypted && !isPublic && !isSpace,
+        federate = federate,
+        access = if (spaceMembers && spaceId != null) "restricted" else null,
+        founders = founders,
+        roomVersion = if (founders.isEmpty()) null else roomVersion,
     ),
 )
+
+suspend fun MatrixSession.foundersRoomVersion(): String? {
+    val capabilities = runCatching { client?.serverCapabilities() }.getOrNull() ?: return null
+    if ((capabilities.defaultRoomVersion.toIntOrNull() ?: 0) >= 12) return capabilities.defaultRoomVersion
+    return if (capabilities.roomVersions.any { it.firstOrNull() == "12" }) "12" else null
+}
 
 suspend fun MatrixSession.startDirectMessage(userId: String): String = requireClient.startDm(userId)
 
@@ -148,6 +177,17 @@ suspend fun MatrixSession.writeProfileField(keys: List<String>, value: JsonEleme
         runCatching { if (value == null) client.deleteProfileField(key) else client.setProfileField(key, value) }.exceptionOrNull()
     }
     if (value != null && failures.size == keys.size) throw failures.first()
+}
+
+/** Writes the custom status mode, keeping the emoji, text and expiry other clients stored */
+suspend fun MatrixSession.writeStatusMode(mode: String?) {
+    val client = requireClient
+    val userId = client.userId ?: return
+    val current = ProfileFields.STATUS_KEYS.firstNotNullOfOrNull { key ->
+        runCatching { client.profileField(userId, key) }.getOrNull()?.takeIf { it !is JsonNull }
+    }.let(ProfileFields::parseStatus)
+    val next = current?.copy(mode = mode) ?: mode?.let { ProfileStatus(mode = it) }
+    writeProfileField(ProfileFields.STATUS_KEYS, ProfileFields.statusValue(next))
 }
 
 /**

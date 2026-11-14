@@ -7,6 +7,8 @@ export interface UiDensitySizes {
   roomAvatar: number;
   categoryHeader: number;
   memberRow: number;
+  /** Two-line rows (name + status) in the DM list. */
+  dmRow: number;
   roleHeader: number;
   spaceGap: number;
 }
@@ -16,7 +18,8 @@ export const UI_DENSITY_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomRow: 32,
     roomAvatar: 24,
     categoryHeader: 22,
-    memberRow: 32,
+    memberRow: 40,
+    dmRow: 40,
     roleHeader: 26,
     spaceGap: 4,
   },
@@ -24,7 +27,8 @@ export const UI_DENSITY_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomRow: 40,
     roomAvatar: 32,
     categoryHeader: 26,
-    memberRow: 38,
+    memberRow: 48,
+    dmRow: 48,
     roleHeader: 30,
     spaceGap: 6,
   },
@@ -32,7 +36,8 @@ export const UI_DENSITY_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomRow: 48,
     roomAvatar: 36,
     categoryHeader: 32,
-    memberRow: 46,
+    memberRow: 56,
+    dmRow: 56,
     roleHeader: 36,
     spaceGap: 10,
   },
@@ -44,6 +49,7 @@ export const TOUCH_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomAvatar: 42,
     categoryHeader: 40,
     memberRow: 48,
+    dmRow: 48,
     roleHeader: 38,
     spaceGap: 14,
   },
@@ -52,6 +58,7 @@ export const TOUCH_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomAvatar: 48,
     categoryHeader: 44,
     memberRow: 54,
+    dmRow: 54,
     roleHeader: 42,
     spaceGap: 16,
   },
@@ -60,6 +67,7 @@ export const TOUCH_SIZES: Record<UiDensity, UiDensitySizes> = {
     roomAvatar: 54,
     categoryHeader: 48,
     memberRow: 62,
+    dmRow: 62,
     roleHeader: 48,
     spaceGap: 20,
   },

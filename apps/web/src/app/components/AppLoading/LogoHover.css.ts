@@ -23,9 +23,12 @@ const makePolygon = (baseFill: string) =>
     },
   });
 
-export const p0 = makePolygon(vars.logo.p0);
-export const p1 = makePolygon(vars.logo.p1);
-export const p2 = makePolygon(vars.logo.p2);
-export const p3 = makePolygon(vars.logo.p3);
-export const p4 = makePolygon(vars.logo.p4);
-export const p5 = makePolygon(vars.logo.p5);
+// One style per mud facet tone (0 darkest .. 5 lightest)
+export const tones = [
+  makePolygon(vars.logo.p0),
+  makePolygon(vars.logo.p1),
+  makePolygon(vars.logo.p2),
+  makePolygon(vars.logo.p3),
+  makePolygon(vars.logo.p4),
+  makePolygon(vars.logo.p5),
+];

@@ -61,7 +61,7 @@ final class SpaceModernTests: XCTestCase {
 
     func testRolesAreOnlyTrustedWhenSettingThemTakesPower() {
         let rolesState = state([
-            (MudrixTypes.spaceRoles, "", #"{"roles":[{"id":"dev","name":"  Dev​s ","color":"#AABBCC"},{"id":"BAD","name":"x"}],"builtin":{"100":{"color":"#112233"}}}"#),
+            (MudrixTypes.spaceRoles, "", ##"{"roles":[{"id":"dev","name":"  Dev​s ","color":"#AABBCC"},{"id":"BAD","name":"x"}],"builtin":{"100":{"color":"#112233"}}}"##),
             (MudrixTypes.spaceMemberRoles, "alice:s", #"{"roles":["dev","gone"]}"#),
         ])
         let high = json(#"{"state_default":50}"#).object

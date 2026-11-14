@@ -1,0 +1,224 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_sensitive_swift",
+      "label": "Sensitive.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "label": "SensitiveModifier",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "viewmodifier",
+      "label": "ViewModifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Sensitive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "label": ".body()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L7",
+      "_callable": true
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Sensitive.swift"
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Support/Sensitive.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_sensitive_view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_support_sensitive_view_sensitive",
+      "label": ".sensitive()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L15",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "target": "viewmodifier",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "target": "content",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_swift",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_view",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_view",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_view_sensitive",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_view_sensitive",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_support_sensitive_view_sensitive",
+      "target": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "callee": "accessibilityHidden",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_sensitive_sensitivemodifier_body",
+      "callee": "blur",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L8",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_support_sensitive_view_sensitive",
+      "callee": "modifier",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Support/Sensitive.swift",
+      "source_location": "L16",
+      "receiver": null
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_support_sensitive_view", "label": "View" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Support/Sensitive.swift",
+    "table": { "prefs": "AppPreferences", "content": "Content" }
+  }
+}

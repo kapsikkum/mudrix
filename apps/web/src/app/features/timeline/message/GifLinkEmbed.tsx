@@ -1,5 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import type { WizardClient } from '@wizardchat/core';
 import { AnimatedImage } from './AnimatedImage';
+import { GifFavouriteButton } from './GifFavouriteButton';
 import {
   hasGifConsent,
   parseGifLink,
@@ -11,6 +13,7 @@ import * as css from '../Timeline.css';
 interface GifLinkEmbedProps {
   /** The message text; only a body that is nothing but one GIPHY / KLIPY link becomes a GIF. */
   body: string;
+  client: WizardClient;
   /** Shown instead while resolving, when it isn't a GIF link, or when the GIF can't be loaded. */
   children: ReactNode;
 }
@@ -20,7 +23,7 @@ interface GifLinkEmbedProps {
  * so this only happens once the user has agreed to contact the GIF providers (the same consent
  * the picker asks for); until then the link stays a link.
  */
-export function GifLinkEmbed({ body, children }: GifLinkEmbedProps) {
+export function GifLinkEmbed({ body, client, children }: GifLinkEmbedProps) {
   const link = parseGifLink(body);
   const linkKey = link ? JSON.stringify(link) : null;
   const [item, setItem] = useState<GifItem | null>(null);
@@ -73,6 +76,7 @@ export function GifLinkEmbed({ body, children }: GifLinkEmbedProps) {
         }}
         onError={() => setFailed(true)}
       />
+      <GifFavouriteButton client={client} url={item.sendUrl} />
     </div>
   );
 }

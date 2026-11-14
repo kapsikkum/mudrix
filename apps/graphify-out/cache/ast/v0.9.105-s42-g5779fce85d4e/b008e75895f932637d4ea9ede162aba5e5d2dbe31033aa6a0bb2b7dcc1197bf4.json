@@ -1,0 +1,1006 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "label": "LinkPreview.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "label": "LinkPreviewData",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "label": "LinkPreviewLoader",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "label": ".preview()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L22",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "label": "LinkPreviewCard",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L48",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "uiimage",
+      "label": "UIImage",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L58"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "label": ".card()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L79",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext",
+      "label": "MessageText",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L114",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "label": ".firstPreviewURL()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L115",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_init",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "uiimage",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewdata",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "target": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L68",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "cache",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L24",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "inFlight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L25",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "urlPreview",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L28",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L29",
+      "receiver": "preview"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L36",
+      "receiver": "preview"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "inFlight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L40",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "inFlight",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L42",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewloader_preview",
+      "callee": "cache",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L43",
+      "receiver": "Self"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "accessibilityHint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "accessibilityElement",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "openURL",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L70",
+      "receiver": "imageUrl"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "thumbnail",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L71",
+      "receiver": "mediaLoader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "data",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L73",
+      "receiver": "URLSession"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_body",
+      "callee": "UIImage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L74",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L80",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "clipShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "scaledToFill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "resizable",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_linkpreviewcard_card",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "NSDataDetector",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "matches",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L118",
+      "receiver": "detector"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L119",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L119",
+      "receiver": "url"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext_firstpreviewurl",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/Messages/LinkPreview.swift",
+      "source_location": "L120",
+      "receiver": "url"
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_views_messages_linkpreview_messagetext",
+      "label": "MessageText"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/Messages/LinkPreview.swift",
+    "table": {
+      "url": "URL",
+      "title": "String",
+      "description": "String",
+      "siteName": "String",
+      "imageUrl": "String",
+      "cache": "String",
+      "inFlight": "String",
+      "client": "WizardClient",
+      "loader": "LinkPreviewLoader",
+      "data": "LinkPreviewData",
+      "image": "UIImage",
+      "body": "View",
+      "text": "String"
+    }
+  }
+}

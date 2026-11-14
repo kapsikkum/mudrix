@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   ArrowSquareInIcon,
   ArrowSquareOutIcon,
+  AppWindowIcon,
   ArrowsInIcon,
   ArrowsOutIcon,
   ChatTextIcon,
@@ -23,8 +24,8 @@ import { Tooltip } from '@/app/components/Tooltip';
 import { Popover } from '@/app/components/Popover';
 import {
   callActionsAtom,
-  callEffectiveViewAtom,
   callIsVoiceRoomAtom,
+  callPopoutOpenAtom,
   callUiAtom,
   callSessionAtom,
   showNonVideoParticipantsAtom,
@@ -40,12 +41,23 @@ import { DeviceControl } from './DeviceMenu';
 import { PushToTalkDot } from './PushToTalkDot';
 import { SoundboardButton } from '@/app/features/soundboard/SoundboardButton';
 import { useCallSnapshot } from './stage/useCallSnapshot';
+import { useCallView } from './useCallView';
+import { canOpenCallPopoutWindow, useToggleCallPopout } from './CallPopoutWindow';
+import { isTauriMobile } from '@/util/desktop';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import {
   watchActionsAtom,
   watchDialogOpenAtom,
   watchStateAtom,
 } from './watchTogether/watchTogether';
 import * as css from './CallControlBar.css';
+
+/**
+ * Phones and tablets have no room for a popout: the call already fills the screen. The main window's
+ * width means nothing while the call is in the pop-out window, so it is not asked then.
+ */
+const isMobileLayout = (poppedOut: boolean) =>
+  isTauriMobile() || (!poppedOut && window.matchMedia(PANEL_OVERLAY_QUERY).matches);
 
 const JOINING_SLOW_MS = 8_000;
 
@@ -64,7 +76,7 @@ export function CallControlBar() {
   const { t } = useTranslation();
   const ui = useAtomValue(callUiAtom);
   const actions = useAtomValue(callActionsAtom);
-  const view = useAtomValue(callEffectiveViewAtom);
+  const view = useCallView();
   const isVoiceCall = useAtomValue(callIsVoiceRoomAtom);
   const callSession = useAtomValue(callSessionAtom);
   const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
@@ -78,6 +90,8 @@ export function CallControlBar() {
   const openRoomChat = useSetAtom(openRoomChatAtom);
   const closeRoomChat = useSetAtom(closeRoomChatAtom);
   const returnToCall = useReturnToCall();
+  const popoutOpen = useAtomValue(callPopoutOpenAtom);
+  const popOut = useToggleCallPopout();
   const menuBtnRef = useRef<HTMLSpanElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const watching = !!useAtomValue(watchStateAtom);
@@ -86,10 +100,10 @@ export function CallControlBar() {
 
   if (!actions) return null;
 
-  const micTitle = ui.isMuted ? t('voice.unmute') : t('voice.mute');
-  const cameraTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
-  const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
-  const viewTitle = ui.isSpotlight ? t('voice.switchToGrid') : t('voice.switchToSpotlight');
+  const micTitle = ui.isMuted ? t('call.unmute') : t('call.mute');
+  const cameraTitle = ui.isVideoMuted ? t('call.cameraOff') : t('call.cameraOn');
+  const shareTitle = ui.isScreenSharing ? t('call.stopShare') : t('call.shareScreen');
+  const viewTitle = ui.isSpotlight ? t('call.switchToGrid') : t('call.switchToSpotlight');
   const closeMenu = () => setMenuOpen(false);
 
   const chatRoomId = ui.roomId;
@@ -102,7 +116,7 @@ export function CallControlBar() {
   };
 
   return (
-    <div className={css.bar} role="group" aria-label={t('voice.controls')}>
+    <div className={css.bar} role="group" aria-label={t('call.controls')}>
       {(reconnecting || awaitingMembership) && (
         <div className={css.reconnecting} role="status" aria-live="polite">
           <span className={css.reconnectingSpinner} aria-hidden="true" />
@@ -199,12 +213,12 @@ export function CallControlBar() {
         )}
 
         <span ref={menuBtnRef} className={css.menuAnchor}>
-          <Tooltip content={t('voice.moreOptions')}>
+          <Tooltip content={t('common.moreOptions')}>
             <button
               type="button"
               className={menuOpen ? css.ctrlAccent : css.ctrl}
               onClick={() => setMenuOpen((open) => !open)}
-              aria-label={t('voice.moreOptions')}
+              aria-label={t('common.moreOptions')}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
             >
@@ -213,12 +227,12 @@ export function CallControlBar() {
           </Tooltip>
         </span>
 
-        <Tooltip content={t('voice.hangup')}>
+        <Tooltip content={t('call.hangup')}>
           <button
             type="button"
             className={css.ctrlDanger}
             onClick={() => actions.hangup()}
-            aria-label={t('voice.hangup')}
+            aria-label={t('call.hangup')}
           >
             <PhoneXIcon size={20} />
           </button>
@@ -234,6 +248,23 @@ export function CallControlBar() {
         dense
       >
         <div className={css.menu}>
+          {canOpenCallPopoutWindow() && !isMobileLayout(popoutOpen) && (
+            <button
+              type="button"
+              role="menuitemcheckbox"
+              className={css.menuItem}
+              aria-checked={popoutOpen}
+              onClick={() => {
+                popOut();
+                closeMenu();
+              }}
+            >
+              <AppWindowIcon size={16} />
+              <span className={css.menuItemLabel}>{t('call.popOutWindow')}</span>
+              <span className={css.menuItemSpacer} />
+            </button>
+          )}
+
           {(view === 'fullscreen' || view === 'docked') && (
             <button
               type="button"
@@ -245,7 +276,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowSquareOutIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.popOut')}</span>
+              <span className={css.menuItemLabel}>{t('call.popOut')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -261,12 +292,12 @@ export function CallControlBar() {
               }}
             >
               <ArrowsOutIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.fullscreen')}</span>
+              <span className={css.menuItemLabel}>{t('common.fullscreen')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
 
-          {view === 'fullscreen' && !isVoiceCall && (
+          {view === 'fullscreen' && !isVoiceCall && !popoutOpen && (
             <button
               type="button"
               role="menuitem"
@@ -277,7 +308,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowsInIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.exitFullscreen')}</span>
+              <span className={css.menuItemLabel}>{t('common.exitFullscreen')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -293,7 +324,7 @@ export function CallControlBar() {
               }}
             >
               <ArrowSquareInIcon size={16} />
-              <span className={css.menuItemLabel}>{t('voice.returnToCall')}</span>
+              <span className={css.menuItemLabel}>{t('call.returnToCall')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}

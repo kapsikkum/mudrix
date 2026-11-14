@@ -21,19 +21,38 @@ interface StatusView {
   final: boolean;
 }
 
-const QUIET = { stale: false, retry: false, final: false } as const;
-
 /** What the line under the server address says. */
 export function describeServer(hs: Homeserver, t: TFunction): StatusView {
   if (!hs.input.trim()) {
-    return { ...QUIET, tone: 'muted', text: t('welcome.serverEmpty'), mark: 'none' };
+    return {
+      tone: 'muted',
+      text: t('welcome.serverEmpty'),
+      mark: 'none',
+      stale: false,
+      retry: false,
+      final: false,
+    };
   }
   if (!hs.complete) {
-    return { ...QUIET, tone: 'muted', text: t('welcome.serverIncomplete'), mark: 'none' };
+    return {
+      tone: 'muted',
+      text: t('welcome.serverIncomplete'),
+      mark: 'none',
+      stale: false,
+      retry: false,
+      final: false,
+    };
   }
   const caps = hs.current;
   if (!caps) {
-    return { ...QUIET, tone: 'muted', text: t('welcome.serverChecking'), mark: 'spin' };
+    return {
+      tone: 'muted',
+      text: t('welcome.serverChecking'),
+      mark: 'spin',
+      stale: false,
+      retry: false,
+      final: false,
+    };
   }
   const base = {
     mark: hs.checking ? ('spin' as const) : ('dot' as const),
@@ -52,10 +71,7 @@ export function describeServer(hs: Homeserver, t: TFunction): StatusView {
       retry: false,
     };
   }
-  if (
-    caps.discoveryStatus === DiscoveryStatus.WellKnownInvalid ||
-    caps.discoveryStatus === DiscoveryStatus.NotMatrix
-  ) {
+  if (caps.discoveryStatus === DiscoveryStatus.NotMatrix) {
     return { ...base, tone: 'bad', text: t('welcome.serverNotFound'), retry: false };
   }
   return { ...base, tone: 'bad', text: t('welcome.serverNoAnswer'), retry: !hs.checking };
@@ -64,20 +80,20 @@ export function describeServer(hs: Homeserver, t: TFunction): StatusView {
 function StatusLine({ hs, id }: { hs: Homeserver; id?: string }) {
   const { t } = useTranslation();
   const s = describeServer(hs, t);
-  const toneClass =
-    s.tone === 'ok' ? css.serverStatusOk : s.tone === 'bad' ? css.serverStatusBad : undefined;
+  const toneClass = s.tone === 'ok' ? css.statusOk : s.tone === 'bad' ? css.statusBad : undefined;
   return (
     <div
       id={id}
+      data-server-status
       aria-busy={s.mark === 'spin' || undefined}
-      className={[css.serverStatus, toneClass].filter(Boolean).join(' ')}
+      className={[css.status, toneClass].filter(Boolean).join(' ')}
     >
-      <span className={css.serverStatusMark} aria-hidden>
-        {s.mark === 'dot' && <span className={css.serverDot} />}
-        {s.mark === 'spin' && <span className={css.serverSpinner} />}
+      <span className={css.statusMark} aria-hidden>
+        {s.mark === 'dot' && <span className={css.dot} />}
+        {s.mark === 'spin' && <span className={css.spinner} />}
       </span>
       <span
-        className={[css.serverStatusText, s.stale ? css.serverStatusStale : undefined]
+        className={[css.statusText, s.stale ? css.statusStale : undefined]
           .filter(Boolean)
           .join(' ')}
         title={s.text}
@@ -85,7 +101,7 @@ function StatusLine({ hs, id }: { hs: Homeserver; id?: string }) {
         {s.text}
       </span>
       {s.retry && (
-        <button type="button" className={css.serverRetry} onClick={hs.retry}>
+        <button type="button" className={css.retry} onClick={hs.retry}>
           {t('welcome.serverRetry')}
         </button>
       )}
@@ -93,7 +109,6 @@ function StatusLine({ hs, id }: { hs: Homeserver; id?: string }) {
   );
 }
 
-/** Whether the address box is unfolded; kept by the page so every form shows the same state. */
 export interface ServerPickerState {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -101,18 +116,20 @@ export interface ServerPickerState {
 
 interface Props extends ServerPickerState {
   hs: Homeserver;
-  /** "Logging in to", "Creating your account on"... */
+  /** "Signing in to", "Creating your account on"... */
   label: string;
+  /** Where focus goes when Enter is pressed in the address box. */
+  onAddressEntered?: () => void;
   disabled?: boolean;
 }
 
 /**
- * Which server the account is on. Folded by default into one quiet line ("matrix.org - Change"),
+ * Which server the account is on. Folded by default into one quiet line ("matrix.org — Change"),
  * so someone who has never heard of homeservers can ignore it; unfolded it is a plain address
  * box with the popular servers one tap away. The address box stays mounted while it is open and
  * every line in it has a fixed height, so typing never moves anything.
  */
-export function ServerPicker({ hs, label, open, onOpenChange, disabled }: Props) {
+export function ServerPicker({ hs, label, open, onOpenChange, onAddressEntered, disabled }: Props) {
   const { t } = useTranslation();
   const uid = useId();
   const inputId = `srv${uid}`;
@@ -142,18 +159,18 @@ export function ServerPicker({ hs, label, open, onOpenChange, disabled }: Props)
 
   return (
     <div className={css.server} role="group" aria-labelledby={`${inputId}-label`}>
-      <div className={css.serverLabelRow}>
+      <div className={css.labelRow}>
         {open ? (
-          <label id={`${inputId}-label`} className={css.serverLabel} htmlFor={inputId}>
+          <label id={`${inputId}-label`} className={css.label} htmlFor={inputId}>
             {t('welcome.serverAddress')}
           </label>
         ) : (
-          <span id={`${inputId}-label`} className={css.serverLabel}>
+          <span id={`${inputId}-label`} className={css.label}>
             {label}
           </span>
         )}
         {open && (
-          <button type="button" className={css.serverDone} onClick={() => closeEditor(true)}>
+          <button type="button" className={css.doneButton} onClick={() => closeEditor(true)}>
             {t('welcome.serverDone')}
           </button>
         )}
@@ -189,16 +206,17 @@ export function ServerPicker({ hs, label, open, onOpenChange, disabled }: Props)
               // Enter here confirms the address; it must not submit the sign-in form.
               e.preventDefault();
               if (!hs.input.trim()) return;
-              closeEditor(true);
+              closeEditor(false);
+              onAddressEntered?.();
             }}
           />
           <StatusLine hs={hs} id={statusId} />
-          <div className={css.serverPresets} role="group" aria-label={t('welcome.serverPopular')}>
+          <div className={css.presets} role="group" aria-label={t('welcome.serverPopular')}>
             {PRESET_SERVERS.map((p) => (
               <button
                 key={p.value}
                 type="button"
-                className={css.serverPreset}
+                className={css.preset}
                 aria-pressed={hs.host === displayHost(p.value)}
                 disabled={disabled}
                 onClick={() => {
@@ -225,7 +243,7 @@ export function ServerPicker({ hs, label, open, onOpenChange, disabled }: Props)
           <button
             ref={changeRef}
             type="button"
-            className={css.serverChange}
+            className={css.changeButton}
             aria-label={t('welcome.serverChangeLabel', { server: hs.host })}
             aria-expanded={false}
             disabled={disabled}
@@ -236,7 +254,7 @@ export function ServerPicker({ hs, label, open, onOpenChange, disabled }: Props)
           </button>
         </div>
       )}
-      <span className={css.serverSrOnly} role="status">
+      <span className={css.srOnly} role="status">
         {announce}
       </span>
     </div>

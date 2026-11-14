@@ -14,7 +14,14 @@ interface NativeSource {
   appName: string | null;
 }
 
-type Choice = { id: string; name: string; audio: boolean } | null;
+type Choice = {
+  id: string;
+  name: string;
+  audio: boolean;
+  maxHeight?: number | null;
+  fps?: number;
+  cursor?: boolean;
+} | null;
 
 const pickerListeners = new Set<() => void>();
 let pendingChoice: ((choice: Choice) => void) | null = null;
@@ -94,7 +101,7 @@ async function audioTrack(channel: Channel<ArrayBuffer>) {
   return { track: destination.stream.getAudioTracks()[0], close: () => void context.close() };
 }
 
-function videoTrack(channel: Channel<ArrayBuffer>) {
+function videoTrack(channel: Channel<ArrayBuffer>, maxHeight: number | null, fps: number) {
   const canvas = document.createElement('canvas');
   canvas.width = 1280;
   canvas.height = 720;
@@ -106,11 +113,14 @@ function videoTrack(channel: Channel<ArrayBuffer>) {
     decoding = true;
     void createImageBitmap(new Blob([buffer], { type: 'image/jpeg' }))
       .then((bitmap) => {
-        if (canvas.width !== bitmap.width || canvas.height !== bitmap.height) {
-          canvas.width = bitmap.width;
-          canvas.height = bitmap.height;
+        const scale = maxHeight && bitmap.height > maxHeight ? maxHeight / bitmap.height : 1;
+        const width = Math.max(1, Math.round(bitmap.width * scale));
+        const height = Math.max(1, Math.round(bitmap.height * scale));
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
         }
-        context.drawImage(bitmap, 0, 0);
+        context.drawImage(bitmap, 0, 0, width, height);
         bitmap.close();
       })
       .catch(() => {})
@@ -118,7 +128,7 @@ function videoTrack(channel: Channel<ArrayBuffer>) {
         decoding = false;
       });
   };
-  return canvas.captureStream(30).getVideoTracks()[0];
+  return canvas.captureStream(fps).getVideoTracks()[0];
 }
 
 export interface NativeScreenShare {
@@ -138,14 +148,20 @@ export async function screenShareAudioSupported(): Promise<boolean> {
   return (await support()).audio;
 }
 
-export async function startScreenShare(): Promise<NativeScreenShare | null | undefined> {
+export async function startScreenShare(settings: {
+  /** Longest side, in pixels, frames are scaled down to; null keeps the source's own size */
+  maxHeight: number | null;
+  fps: number;
+}): Promise<NativeScreenShare | null | undefined> {
   const supported = await support();
   if (!supported.video) return undefined;
   const choice = await pickSource();
   if (!choice) return null;
+  const maxHeight = choice.maxHeight ?? settings.maxHeight;
+  const fps = choice.fps ?? settings.fps;
   const frames = new Channel<ArrayBuffer>();
   const audioChunks = new Channel<ArrayBuffer>();
-  const video = videoTrack(frames);
+  const video = videoTrack(frames, maxHeight, fps);
   const withAudio = choice.audio && supported.audio;
   const audio = withAudio ? await audioTrack(audioChunks) : null;
   await invoke('start_screen_capture', {

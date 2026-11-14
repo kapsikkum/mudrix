@@ -20,20 +20,20 @@ export function VerifySessionGate() {
 
   const deviceId = client?.session().deviceId ?? null;
   const needsGate = state.status === 'unverified' || state.status === 'no-identity';
-  if (!client || !needsGate || (deviceId && skippedDevice === deviceId)) return null;
+  const noIdentity = state.status === 'no-identity';
+  if (!client || !needsGate || (deviceId && skippedDevice === deviceId && !noIdentity)) return null;
 
   const skip = async () => {
     const ok = await confirm({
-      title: t('verifySession.skipConfirmTitle'),
-      message: t('verifySession.skipConfirmBody'),
-      confirmLabel: t('verifySession.skipConfirm'),
+      title: t('verification.session.skipConfirmTitle'),
+      message: t('verification.session.skipConfirmBody'),
+      confirmLabel: t('verification.session.skipConfirm'),
       danger: true,
       cancelPrimary: true,
     });
     if (ok && deviceId) setSkippedDevice(deviceId);
   };
 
-  const noIdentity = state.status === 'no-identity';
   const cannotVerify = !noIdentity && !state.hasOtherVerifiedSession && !state.hasRecoveryKey;
 
   return (
@@ -48,24 +48,24 @@ export function VerifySessionGate() {
           <ShieldCheckIcon size={32} weight="fill" />
         </span>
         <h1 id="verify-session-title" className={css.title}>
-          {noIdentity ? t('verifySession.setupTitle') : t('verifySession.title')}
+          {noIdentity ? t('verification.session.setupTitle') : t('verification.session.title')}
         </h1>
         <p className={css.body}>
           {noIdentity
-            ? t('verifySession.setupBody')
+            ? t('verification.session.setupBody')
             : cannotVerify
-              ? t('verifySession.noWayToVerify')
-              : t('verifySession.body')}
+              ? t('verification.session.noWayToVerify')
+              : t('verification.session.body')}
         </p>
 
         <div className={css.actions}>
           {noIdentity ? (
             <Button variant="primary" size="lg" loading={setupLoading} onClick={resetIdentity}>
-              {t('verifySession.setupButton')}
+              {t('verification.session.setupButton')}
             </Button>
           ) : cannotVerify ? (
             <Button variant="primary" size="lg" loading={setupLoading} onClick={resetIdentity}>
-              {t('verifySession.resetAndSetUp')}
+              {t('verification.session.resetAndSetUp')}
             </Button>
           ) : (
             <>
@@ -78,7 +78,7 @@ export function VerifySessionGate() {
                   onClick={verifyWithOtherDevice}
                 >
                   <DevicesIcon size={18} />
-                  {t('verifySession.useOtherDevice')}
+                  {t('verification.session.useOtherDevice')}
                 </Button>
               )}
               {state.hasRecoveryKey && (
@@ -90,7 +90,7 @@ export function VerifySessionGate() {
                   onClick={verifyWithRecoveryKey}
                 >
                   <KeyIcon size={18} />
-                  {t('verifySession.useRecoveryKey')}
+                  {t('verification.session.useRecoveryKey')}
                 </Button>
               )}
               <button
@@ -99,17 +99,21 @@ export function VerifySessionGate() {
                 disabled={busy !== null || setupLoading}
                 onClick={resetIdentity}
               >
-                {t('verifySession.reset')}
+                {t('verification.session.reset')}
               </button>
             </>
           )}
         </div>
 
         <div className={css.footer}>
-          <button type="button" className={css.footerLink} onClick={skip}>
-            {t('verifySession.skip')}
-          </button>
-          <span aria-hidden>·</span>
+          {!noIdentity && (
+            <>
+              <button type="button" className={css.footerLink} onClick={skip}>
+                {t('verification.session.skip')}
+              </button>
+              <span aria-hidden>·</span>
+            </>
+          )}
           <button type="button" className={css.footerLink} onClick={() => void logout()}>
             {t('settings.account.logout')}
           </button>

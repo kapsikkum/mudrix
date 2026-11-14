@@ -1,0 +1,1686 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "label": "ProfileExtras.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_color",
+      "label": "Color",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "label": ".accent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "label": "AccentAvatar",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L18"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "label": "ProfileAboutView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L30",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "extendedprofile",
+      "label": "ExtendedProfile",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "profileactivity",
+      "label": "ProfileActivity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_activities",
+      "label": ".activities",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L39"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_bioislong",
+      "label": ".bioIsLong",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L41"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L45"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "label": ".relative()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L82",
+      "_callable": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "label": "ActivityCard",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L90",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_title",
+      "label": ".title",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L95"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_cardtitle",
+      "label": ".cardTitle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L101"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_since",
+      "label": ".since",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L106"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L115"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "label": "ProfileBadges",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L134",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "homeserversoftware",
+      "label": "HomeserverSoftware",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L140"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "label": ".badge()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L155",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "label": "ProfileNoteSection",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L174",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L184"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "label": ".current()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L208",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L214",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_color",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_color",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "extendedprofile",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_activities",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_bioislong",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L90",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "profileactivity",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_title",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L101",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_cardtitle",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_since",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L135",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "homeserversoftware",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_color",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L155",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L175",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L177",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L179",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L184",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L208",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L195",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "target": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_color_accent",
+      "callee": "normalizeHex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L7",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "overlay",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "strokeBorder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L22",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_accentavatar_body",
+      "callee": "AvatarView",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_activities",
+      "callee": "live",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L39",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_bioislong",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L42",
+      "receiver": "profile"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L48",
+      "receiver": "profile"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "localTime",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L52",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L57",
+      "receiver": "activities"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "textSelection",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "callee": "truncatingRemainder",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L85",
+      "receiver": "hours"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profileaboutview_relative",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L86",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_title",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L96",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_title",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L97",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_title",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L98",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_since",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L112",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_activitycard_body",
+      "callee": "RoundedRectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "callee": "describeSoftware",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L147",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_body",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "background",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilebadges_badge",
+      "callee": "Capsule",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "task",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L185",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "onChange",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "focused",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "TextField",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "foregroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L192",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L200",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "callee": "accountDataJSON",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L209",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "callee": "accountDataJSON",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L210",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "callee": "parseNotes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L211",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L211",
+      "receiver": "content"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_current",
+      "callee": "JSONValue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L217",
+      "receiver": "note"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "notes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "removeValue",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L219",
+      "receiver": "notes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "notes",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L219",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "notesValue",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L220",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "setAccountDataJSON",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L221",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_profilenotesection_save",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/ProfileExtras.swift",
+      "source_location": "L223",
+      "receiver": "Task"
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_views_people_profileextras_color", "label": "Color" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/ProfileExtras.swift",
+    "table": {
+      "hex": "String",
+      "name": "String",
+      "url": "String",
+      "accent": "String",
+      "body": "View",
+      "profile": "ExtendedProfile",
+      "activities": "ProfileActivity",
+      "bioIsLong": "Bool",
+      "offset": "Double",
+      "activity": "ProfileActivity",
+      "title": "String",
+      "cardTitle": "String",
+      "since": "String",
+      "isMudrixUser": "Bool",
+      "software": "HomeserverSoftware",
+      "text": "String",
+      "glyph": "String",
+      "color": "Color",
+      "userId": "String",
+      "session": "MatrixSession",
+      "focused": "Bool",
+      "trimmed": "String"
+    },
+    "factory": { "known": ["ProfileFields", "describeSoftware"] }
+  }
+}

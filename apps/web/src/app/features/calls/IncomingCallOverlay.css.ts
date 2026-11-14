@@ -61,8 +61,22 @@ export const callKind = style({
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
+  minWidth: 0,
   fontSize: '0.78rem',
   color: vars.color.textMuted,
+  whiteSpace: 'nowrap',
+});
+
+export const ellipsis = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+});
+
+export const roomName = style({
+  fontSize: '0.78rem',
+  color: vars.color.textMuted,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
 });
 

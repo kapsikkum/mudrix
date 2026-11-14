@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
-import { groupImagesAtom } from '@/app/store/atoms/settings';
+import {
+  groupImagesAtom,
+  hideMembershipEventsAtom,
+  hideProfileEventsAtom,
+} from '@/app/store/atoms/settings';
 import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@wizardchat/core';
 import {
   useMembers,
@@ -18,16 +22,15 @@ import {
   computeMessagePermissions,
   type RoomPermissions,
 } from '@/app/features/timeline/message/permissions';
-import {
-  CALL_MEMBER_EVENT_TYPES,
-  buildCallSessions,
-  isRedundantJoin,
-  type CallSessionSummary,
-  type MemberLookup,
-} from '@/app/features/timeline/message/callSessions';
 import { entryEventId, isEventEntry, type EventEntry } from '@/app/features/timeline/message/entry';
 import { getGalleryTag, isPendingEcho } from '@/app/features/timeline/message/gallery';
 import type { ItemRange } from '@/app/hooks/useVirtualPaginator';
+import {
+  isReceiptAnchorEntry,
+  isSystemLine,
+  isTimelineRenderedEntry,
+  type TimelineHidePrefs,
+} from '@/app/hooks/timelineFilter';
 import {
   UNREADABLE_PAGES_BEFORE_PAUSE,
   isUnreadablePage,
@@ -38,37 +41,11 @@ export type { EventEntry };
 const PAGINATION_LIMIT = 80;
 const PAGINATION_TIMEOUT_MS = 25000;
 
-const JOIN_CHANGES = new Set(['Joined', 'InvitationAccepted']);
-const LEAVE_CHANGES = new Set(['Left', 'Kicked', 'KickedAndBanned']);
-
 const EMPTY_REDACTED = new Set<string>();
 const EMPTY_EDITS = new Map<string, string>();
 const MAIN_KIND: TimelineKind = { type: 'main' };
 
-export function isTimelineRenderedEntry(entry: TimelineEntry): entry is EventEntry {
-  if (entry.kind !== 'event') return false;
-  const { content } = entry;
-  switch (content.type) {
-    case 'membership':
-      return (
-        content.change !== null &&
-        (JOIN_CHANGES.has(content.change) || LEAVE_CHANGES.has(content.change))
-      );
-    case 'state':
-      return CALL_MEMBER_EVENT_TYPES.has(content.eventType) && !isRedundantJoin(entry);
-    case 'profileChange':
-    case 'other':
-      return false;
-    default:
-      return true;
-  }
-}
-
-/** Read avatars sit on messages only, not on joins, leaves or call events */
-export function isReceiptAnchorEntry(entry: TimelineEntry): entry is EventEntry {
-  if (!isTimelineRenderedEntry(entry)) return false;
-  return entry.content.type !== 'membership' && entry.content.type !== 'state';
-}
+export { isTimelineRenderedEntry, isReceiptAnchorEntry };
 
 export interface TimelineItem {
   event: EventEntry;
@@ -95,18 +72,18 @@ export interface TimelineItem {
   sendError: string | null;
   optimisticBody: string | null;
   galleryEvents: EventEntry[] | null;
-  callSession: CallSessionSummary | null;
 }
 
 export function itemContainsEvent(item: TimelineItem, eventId: string): boolean {
   if (item.eventId === eventId) return true;
-  if (item.callSession?.events.some((e) => entryEventId(e) === eventId)) return true;
   return item.galleryEvents?.some((e) => entryEventId(e) === eventId) ?? false;
 }
 
 export function indexOfEvent(items: TimelineItem[], eventId: string): number {
   return items.findIndex((item) => itemContainsEvent(item, eventId));
 }
+
+export type MemberLookup = (userId: string) => { name: string | null; avatarUrl: string | null };
 
 export interface BuildContext {
   myId: string;
@@ -118,7 +95,11 @@ export interface BuildContext {
   decryptingIds?: ReadonlySet<string>;
   /** Off: every image is its own message, as other clients show them. Default on. */
   groupImages?: boolean;
+  /** Which system lines the user hides. Default: joins and leaves shown, profile changes hidden. */
+  hide?: TimelineHidePrefs;
 }
+
+const DEFAULT_HIDE: TimelineHidePrefs = { hideMembership: false, hideProfile: true };
 
 export type BuildItemsSeed = { prevEvent?: EventEntry | null };
 
@@ -142,11 +123,9 @@ export function buildItems(
   locale: string,
   optimisticRedactedIds: ReadonlySet<string> = EMPTY_REDACTED,
   optimisticEditBodies: ReadonlyMap<string, string> = EMPTY_EDITS,
-  seed: BuildItemsSeed = {},
-  callSessions?: ReadonlyMap<string, CallSessionSummary>
+  seed: BuildItemsSeed = {}
 ): TimelineItem[] {
   const { myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, decryptingIds } = ctx;
-  const sessions = callSessions ?? buildCallSessions(entries.filter(isEventEntry), lookupMember);
   const items: TimelineItem[] = [];
   const events = entries.filter(isEventEntry);
 
@@ -158,30 +137,18 @@ export function buildItems(
   // Images sent together are posted back to back; anything further apart is not one set.
   const GALLERY_GAP_MS = 60 * 1000;
   const groupImages = ctx.groupImages !== false;
+  const hide = ctx.hide ?? DEFAULT_HIDE;
 
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
-    if (!isTimelineRenderedEntry(event)) continue;
-    const isSystemMessage = event.content.type === 'membership';
-    const isCallEvent = event.content.type === 'state';
+    if (!isTimelineRenderedEntry(event, hide)) continue;
+    const isSystemMessage = isSystemLine(event);
+    const isCallEvent = event.content.type === 'call';
 
     const sender = event.sender;
     if (sender !== myId && !isSystemMessage && !isCallEvent && ignoredUsers.has(sender)) continue;
 
     const eventId = entryEventId(event);
-    const callSession = isCallEvent ? (sessions.get(eventId) ?? null) : null;
-    if (isCallEvent && !callSession) continue;
-
-    if (callSession) {
-      let skip = callSession.events.length - 1;
-      for (let j = i + 1; j <= i + skip && j < events.length; j++) {
-        if (events[j] !== callSession.events[j - i]) {
-          skip = j - i - 1;
-          break;
-        }
-      }
-      i += skip;
-    }
 
     const senderId = sender;
     const ts = event.timestamp;
@@ -219,7 +186,7 @@ export function buildItems(
       let prevTs = ts;
       for (let j = i + 1; j < events.length; j++) {
         const next = events[j];
-        if (!isTimelineRenderedEntry(next)) continue;
+        if (!isTimelineRenderedEntry(next, hide)) continue;
         if (!isGalleryCandidate(next, optimisticRedactedIds)) break;
         if (next.sender !== senderId) break;
         const nextTag = getGalleryTag(next)?.id;
@@ -263,7 +230,6 @@ export function buildItems(
       sendError: event.sendState === 'failed' ? event.sendError : null,
       optimisticBody,
       galleryEvents,
-      callSession,
     });
 
     if (galleryEvents !== null) {
@@ -316,7 +282,6 @@ function itemsRenderEq(a: TimelineItem, b: TimelineItem): boolean {
     a.dateSepLabel === b.dateSepLabel &&
     (a.optimisticBody ?? null) === (b.optimisticBody ?? null) &&
     a.isSystemMessage === b.isSystemMessage &&
-    (a.callSession?.version ?? null) === (b.callSession?.version ?? null) &&
     galleryEventsEqual(a, b)
   );
 }
@@ -373,6 +338,9 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
   const { data: members } = useMembers(roomId);
   const ignored = useIgnoredUsers();
   const groupImages = useAtomValue(groupImagesAtom);
+  const hideMembership = useAtomValue(hideMembershipEventsAtom);
+  const hideProfile = useAtomValue(hideProfileEventsAtom);
+  const hide = useMemo(() => ({ hideMembership, hideProfile }), [hideMembership, hideProfile]);
 
   const ignoredUsers = useMemo(() => new Set(ignored), [ignored]);
   const roomPerms = useMemo(
@@ -397,8 +365,9 @@ export function useBuildContext(client: WizardClient, roomId: string | null): Bu
       ignoredUsers,
       lookupMember,
       groupImages,
+      hide,
     }),
-    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, groupImages]
+    [myId, roomPerms, pinnedIds, ignoredUsers, lookupMember, groupImages, hide]
   );
   return context;
 }
@@ -670,7 +639,6 @@ export function useTimeline(
     const prevEvent = start > 0 ? (events[start - 1] ?? null) : null;
     let built: TimelineItem[];
     try {
-      const callSessions = buildCallSessions(slice, buildContext.lookupMember);
       built = buildItems(
         slice,
         buildContext,
@@ -678,8 +646,7 @@ export function useTimeline(
         locale,
         optimisticRedactedIds,
         optimisticEditBodies,
-        { prevEvent },
-        callSessions
+        { prevEvent }
       );
     } catch (err) {
       console.error('[useTimeline] buildItems failed, keeping last render', err);

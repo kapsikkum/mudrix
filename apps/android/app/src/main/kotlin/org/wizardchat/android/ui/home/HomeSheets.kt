@@ -3,7 +3,6 @@ package org.wizardchat.android.ui.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,10 +21,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,22 +45,25 @@ import org.wizardchat.android.matrix.UnreadState
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
+import org.wizardchat.android.ui.GroupedRow
+import org.wizardchat.android.ui.GroupedSection
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.LocalBottomBarInset
 import org.wizardchat.android.ui.MenuItem
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.PrimaryButton
+import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.SheetTopBar
 import org.wizardchat.android.ui.WizardMenu
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.WizardTextField
 import org.wizardchat.android.ui.WizardTopBar
 import org.wizardchat.android.ui.copyToClipboard
+import org.wizardchat.android.ui.people.CreateRoomSheet
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
-import org.wizardchat.core.CreateRoomOptions
 import org.wizardchat.core.SpaceSummary
 import org.wizardchat.tokens.WZ
 
@@ -72,12 +71,13 @@ import org.wizardchat.tokens.WZ
 @Composable
 fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: () -> Unit) {
     val navigator = LocalNavigator.current
+    val scope = rememberCoroutineScope()
     var search by remember { mutableStateOf("") }
     val spaces = if (search.isEmpty()) roomList.spaces else roomList.spaces.filter { it.name.contains(search, ignoreCase = true) }
 
     Column(Modifier.fillMaxSize().background(theme.bgPrimary)) {
-        WizardTopBar(tr("room.settings.permissions.groups.spaces"), large = true) {
-            BarButton("plus", tr("home.createOrJoin"), onCreateSpace)
+        WizardTopBar(tr("room.settings.permissions.groups.spaces"), large = true, titleInRow = true) {
+            BarButton("plus", tr("nav.createOrJoin"), onCreateSpace)
             BarButton("compass", tr("explore.title"), onExplore)
         }
         WizardTextField(
@@ -99,7 +99,11 @@ fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: 
             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space6),
         ) {
             items(spaces, key = { it.id }) { space ->
-                SpaceGridItem(space, roomList.unreadState(SidebarSelection.Space(space.id))) {
+                SpaceGridItem(
+                    space,
+                    roomList.unreadState(SidebarSelection.Space(space.id)),
+                    onMarkRead = { scope.launch { roomList.markAsRead(roomList.rooms(SidebarSelection.Space(space.id))) } },
+                ) {
                     navigator.push(Route.Space(space.id))
                 }
             }
@@ -109,22 +113,29 @@ fun SpacesScreen(roomList: RoomListModel, onCreateSpace: () -> Unit, onExplore: 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SpaceGridItem(space: SpaceSummary, unread: UnreadState, onOpen: () -> Unit) {
+private fun SpaceGridItem(space: SpaceSummary, unread: UnreadState, onMarkRead: () -> Unit, onOpen: () -> Unit) {
     var menuOpen by remember { mutableStateOf(false) }
     Box {
         SpaceTile(space.name, unread, Modifier.combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true })) {
             Avatar(space.name, space.avatarUrl, WZ.SizeAvatar.xl, cornerRadius = WZ.Radius.xl)
         }
-        WizardMenu(
-            menuOpen,
-            { menuOpen = false },
-            listOf(
-                MenuItem(tr("common.copyLink"), "link-simple") {
-                    copyToClipboard("https://matrix.to/#/${space.id}", L10n.format("timeline.linkCopied"))
-                },
-            ),
-        )
+        SpaceMenu(menuOpen, space.id, unread, onMarkRead) { menuOpen = false }
     }
+}
+
+/** The menu a space offers when long-pressed, in the grid and on the rail */
+@Composable
+internal fun SpaceMenu(expanded: Boolean, spaceId: String, unread: UnreadState, onMarkRead: () -> Unit, onDismiss: () -> Unit) {
+    WizardMenu(
+        expanded,
+        onDismiss,
+        listOfNotNull(
+            if (unread.unread) MenuItem(tr("common.markRead"), "envelope-open") { onMarkRead() } else null,
+            MenuItem(tr("common.copyLink"), "link-simple") {
+                copyToClipboard("https://matrix.to/#/$spaceId", L10n.format("timeline.linkCopied"))
+            },
+        ),
+    )
 }
 
 @Composable
@@ -167,30 +178,13 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var mode by remember { mutableStateOf(CreateSpaceMode.choose) }
-    var name by remember { mutableStateOf("") }
-    var topic by remember { mutableStateOf("") }
-    var isPublic by remember { mutableStateOf(false) }
     var joinTarget by remember { mutableStateOf("") }
     var isWorking by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    fun create() {
-        scope.launch {
-            isWorking = true
-            errorMessage = null
-            try {
-                val trimmedTopic = topic.trim()
-                val spaceId = session.requireClient.createRoom(
-                    CreateRoomOptions(name = name.trim(), topic = trimmedTopic.ifEmpty { null }, isPublic = isPublic, isSpace = true),
-                )
-                onCreated(spaceId)
-                onDismiss()
-            } catch (e: Exception) {
-                errorMessage = L10n.format("space.failedToCreateSpace", e.message ?: e.toString())
-            } finally {
-                isWorking = false
-            }
-        }
+    if (mode == CreateSpaceMode.create) {
+        CreateRoomSheet(null, onDismiss, onSpaceCreated = onCreated, onBack = { mode = CreateSpaceMode.choose })
+        return
     }
 
     fun join() {
@@ -202,22 +196,16 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
                 onCreated(spaceId)
                 onDismiss()
             } catch (e: Exception) {
-                errorMessage = L10n.format("explore.failedToJoin", e.message ?: e.toString())
+                errorMessage = L10n.format("common.joinFailed", e.message ?: e.toString())
             } finally {
                 isWorking = false
             }
         }
     }
 
-    val title = when (mode) {
-        CreateSpaceMode.choose -> tr("space.addASpace")
-        CreateSpaceMode.create -> tr("room.space.create.title")
-        CreateSpaceMode.join -> tr("room.space.join.title")
-    }
-
     WizardSheet(onDismiss) {
         SheetTopBar(
-            title,
+            tr(if (mode == CreateSpaceMode.join) "space.join.title" else "space.addSpace"),
             leading = {
                 if (mode == CreateSpaceMode.choose) {
                     BarTextButton(tr("common.cancel"), onDismiss)
@@ -236,36 +224,18 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
                 .verticalScroll(rememberScrollState())
                 .imePadding()
                 .navigationBarsPadding()
-                .padding(WZ.Space.space6),
+                .padding(vertical = WZ.Space.space6),
             verticalArrangement = Arrangement.spacedBy(WZ.Space.space6),
         ) {
-            when (mode) {
-                CreateSpaceMode.choose -> Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space5)) {
-                    Choice("plus-circle", tr("room.space.create.title"), tr("space.groupRoomsTogetherFor")) { mode = CreateSpaceMode.create }
-                    Choice("arrow-circle-right", tr("room.space.join.title"), tr("space.joinWithASpace")) { mode = CreateSpaceMode.join }
+            if (mode == CreateSpaceMode.choose) {
+                GroupedSection {
+                    Choice("plus-circle", tr("space.create.title"), tr("space.addSpaceHint")) { mode = CreateSpaceMode.create }
+                    RowDivider()
+                    Choice("link-simple", tr("space.join.title"), tr("space.joinHint")) { mode = CreateSpaceMode.join }
                 }
-                CreateSpaceMode.create -> {
-                    Field(tr("room.space.name")) { WizardTextField(name, { name = it }, tr("space.mySpace")) }
-                    Field(tr("dialogs.topic")) { WizardTextField(topic, { topic = it }, tr("space.whatIsThisSpace")) }
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-                            Text(tr("room.space.create.public"), style = wizardFont(WZ.FontSize.md, FontWeight.Medium), color = theme.textPrimary)
-                            Text(tr("room.space.create.publicNote"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
-                        }
-                        Switch(
-                            isPublic,
-                            { isPublic = it },
-                            colors = SwitchDefaults.colors(checkedTrackColor = theme.accent, checkedThumbColor = theme.textOnAccent),
-                        )
-                    }
-                    PrimaryButton(
-                        if (isWorking) tr("space.creating") else tr("common.create"),
-                        ::create,
-                        enabled = !isWorking && name.isNotBlank(),
-                    )
-                }
-                CreateSpaceMode.join -> {
-                    Field(tr("room.space.join.spaceId")) {
+            } else {
+                Column(Modifier.padding(horizontal = WZ.Space.space6), verticalArrangement = Arrangement.spacedBy(WZ.Space.space6)) {
+                    Field(tr("space.join.spaceId")) {
                         WizardTextField(
                             joinTarget,
                             { joinTarget = it },
@@ -281,34 +251,17 @@ fun CreateSpaceSheet(onDismiss: () -> Unit, onCreated: (String) -> Unit) {
                     )
                 }
             }
-            errorMessage?.let { Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.error) }
+            errorMessage?.let {
+                Text(it, Modifier.padding(horizontal = WZ.Space.space6), style = wizardFont(WZ.FontSize.sm), color = theme.error)
+            }
         }
     }
 }
 
+/** A choice with its explanation under it, opening the next step */
 @Composable
 private fun Choice(icon: String, title: String, note: String, onClick: () -> Unit) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(WZ.Radius.md))
-            .background(theme.bgPrimary)
-            .border(1.dp, theme.border, RoundedCornerShape(WZ.Radius.md))
-            .clickable(onClick = onClick)
-            .padding(WZ.Space.space5),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
-    ) {
-        Box(
-            Modifier.size(WZ.Space.space10).clip(RoundedCornerShape(WZ.Radius.md)).background(theme.bgTertiary),
-            contentAlignment = Alignment.Center,
-        ) {
-            PhIcon(icon, size = WZ.SizeIcon.lg, tint = theme.accent)
-        }
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
-            Text(title, style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
-            Text(note, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
-        }
+    GroupedRow(title, icon = icon, subtitle = note, onClick = onClick) {
         PhIcon("caret-right", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.textMuted)
     }
 }

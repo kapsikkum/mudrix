@@ -23,6 +23,8 @@ pub fn store(example: &str, device: &str) -> StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some(format!("{example}-test")),
         exclude_insecure_devices: false,
+        manual_encryption_setup: false,
+        process_name: None,
     }
 }
 

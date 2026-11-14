@@ -35,4 +35,20 @@ pub struct StoreConfig {
     #[serde(default)]
     #[cfg_attr(feature = "typegen", specta(optional))]
     pub exclude_insecure_devices: bool,
+    #[serde(default)]
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    pub manual_encryption_setup: bool,
+    /// Which process this client is, for the store locks two processes share (the SDK's
+    /// cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+    /// itself keeps the current behaviour.
+    ///
+    /// A second process that restores the same store while the app runs — the iOS
+    /// `NotificationService` extension — must pass a different, stable name, e.g.
+    /// `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+    /// give two concurrently running processes the same name: they would both think they hold
+    /// the lock. The value must not be `notifications`, which the SDK's notification client uses
+    /// for its own store access.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[cfg_attr(feature = "typegen", specta(optional))]
+    pub process_name: Option<String>,
 }

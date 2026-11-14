@@ -15,6 +15,7 @@ import {
 import { Tooltip } from '@/app/components/Tooltip';
 import { callUiAtom, callActionsAtom } from '@/app/store/atoms/call';
 import { useRoom } from '@/app/data';
+import { getRoomDisplayName } from '@/util/matrix';
 import { useReturnToCall } from './useReturnToCall';
 import { useCallTileVisible } from './useCallParticipants';
 import { useCallSnapshot } from './stage/useCallSnapshot';
@@ -42,7 +43,7 @@ export function CallBar() {
 
   const roomId = ui.roomId;
   const room = useRoom(roomId);
-  const roomName = room?.name ?? roomId ?? '';
+  const roomName = getRoomDisplayName(room) ?? roomId ?? '';
 
   const joined = ui.phase === 'joined';
   const tileVisible = useCallTileVisible();
@@ -50,8 +51,8 @@ export function CallBar() {
   const reconnecting = snapshot?.reconnecting ?? false;
   const connected = joined && tileVisible && !reconnecting && !snapshot?.awaitingMembership;
   const CamIcon = ui.isVideoMuted ? VideoCameraSlashIcon : VideoCameraIcon;
-  const videoTitle = ui.isVideoMuted ? t('voice.cameraOff') : t('voice.cameraOn');
-  const shareTitle = ui.isScreenSharing ? t('voice.stopShare') : t('voice.shareScreen');
+  const videoTitle = ui.isVideoMuted ? t('call.cameraOff') : t('call.cameraOn');
+  const shareTitle = ui.isScreenSharing ? t('call.stopShare') : t('call.shareScreen');
   const statusRef = useRef<HTMLButtonElement>(null);
   const [statsOpen, setStatsOpen] = useState(false);
 
@@ -72,10 +73,10 @@ export function CallBar() {
             <CellSignalHighIcon size={14} weight="bold" />
             <span className={css.callStatus}>
               {reconnecting
-                ? t('voice.statusReconnecting')
+                ? t('call.statusReconnecting')
                 : connected
-                  ? t('voice.statusConnected')
-                  : t('voice.statusConnecting')}
+                  ? t('call.statusConnected')
+                  : t('call.statusConnecting')}
             </span>
           </button>
           <CallStatsPopover
@@ -95,7 +96,7 @@ export function CallBar() {
                 type="button"
                 className={micMuted ? css.ctrlMuted : css.ctrl}
                 onClick={toggleMic}
-                aria-label={micMuted ? t('voice.unmute') : t('voice.mute')}
+                aria-label={micMuted ? t('call.unmute') : t('call.mute')}
                 aria-pressed={micMuted}
               >
                 {micMuted ? <MicrophoneSlashIcon size={16} /> : <MicrophoneIcon size={16} />}
@@ -104,19 +105,19 @@ export function CallBar() {
                 type="button"
                 className={deafened ? css.ctrlMuted : css.ctrl}
                 onClick={toggleDeafen}
-                aria-label={deafened ? t('voice.undeafen') : t('voice.deafen')}
+                aria-label={deafened ? t('call.undeafen') : t('call.deafen')}
                 aria-pressed={deafened}
               >
                 <HeadphonesIcon size={16} weight={deafened ? 'fill' : 'regular'} />
               </button>
             </>
           )}
-          <Tooltip content={t('voice.hangup')}>
+          <Tooltip content={t('call.hangup')}>
             <button
               type="button"
               className={css.leaveBtn}
               onClick={() => actions?.hangup()}
-              aria-label={t('voice.hangup')}
+              aria-label={t('call.hangup')}
             >
               <PhoneXIcon size={16} />
             </button>

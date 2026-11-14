@@ -1,0 +1,703 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "label": "loopback.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_page",
+      "label": "Page",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L15",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "label": "escape()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L24"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_css_color",
+      "label": "css_color()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L32"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "label": ".render()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L45"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_listeners",
+      "label": "LISTENERS",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L80"
+    },
+    {
+      "id": "mutex",
+      "label": "Mutex",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/loopback.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "tcplistener",
+      "label": "TcpListener",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/loopback.rs",
+      "_rust_use_roots": ["tokio"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "label": "loopback_listen()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L84"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "label": "loopback_wait()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L99"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/loopback.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_cancel",
+      "label": "loopback_cancel()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L139"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "std",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "hashmap",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "mutex",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "duration",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "deserialize",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "url",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "tokio",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "asyncreadext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "asyncwriteext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "tcplistener",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_page",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_css_color",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_page",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_listeners",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_listeners",
+      "target": "mutex",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_listeners",
+      "target": "tcplistener",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_listeners",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_page",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_page",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L99",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_cancel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L139",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "target": "$graphify-root$_desktop_src_tauri_src_loopback_css_color",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L72",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_escape",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L25"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_css_color",
+      "callee": "chars",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L34"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_css_color",
+      "callee": "is_ascii_alphanumeric",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L36"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "as_ref",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "find",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "query_pairs",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "into_owned",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "is_none",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "is_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "is_some",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L55"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "or_else",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_page_render",
+      "callee": "unwrap_or_default",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L85"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "callee": "port",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "callee": "local_addr",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L88"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_listen",
+      "callee": "get_or_insert_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L89"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "ok_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "as_mut",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L100"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L106"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "accept",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "from_utf8_lossy",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "String",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L111"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L112"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L112"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "lines",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L112"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "nth",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "split_whitespace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L115"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L117"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "write_all",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L118"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "write_all",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L128"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "as_bytes",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L128"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_wait",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L129"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_loopback_loopback_cancel",
+      "callee": "as_mut",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/loopback.rs",
+      "source_location": "L140"
+    }
+  ]
+}

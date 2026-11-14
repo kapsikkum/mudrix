@@ -1,0 +1,1619 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_swift",
+      "label": "VideoCompressor.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "avfoundation",
+      "label": "AVFoundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "coremedia",
+      "label": "CoreMedia",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "label": "VideoCompressor",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "label": "Failure",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "localizederror",
+      "label": "LocalizedError",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_failure_errordescription",
+      "label": ".errorDescription",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L14"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "label": ".compress()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "_callable": true
+    },
+    {
+      "id": "url",
+      "label": "URL",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "compressplan",
+      "label": "CompressPlan",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "sendable",
+      "label": "Sendable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "label": "Job",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L40",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "avassetreader",
+      "label": "AVAssetReader",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "avassetwriter",
+      "label": "AVAssetWriter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_job_iscancelled",
+      "label": ".isCancelled",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L46"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "label": ".attach()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "label": ".cancel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L61",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L70",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "label": "Pump",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L77",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "dispatchqueue",
+      "label": "DispatchQueue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "avassetwriterinput",
+      "label": "AVAssetWriterInput",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "avassetreaderoutput",
+      "label": "AVAssetReaderOutput",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "cmsamplebuffer",
+      "label": "CMSampleBuffer",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L94",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "label": ".finish()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L111",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "label": ".run()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark",
+      "label": "ProgressMark",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L252",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark_next",
+      "label": ".next()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L255",
+      "_callable": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_swift",
+      "target": "avfoundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_swift",
+      "target": "coremedia",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_swift",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "target": "error",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "target": "localizederror",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_failure_errordescription",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "compressplan",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "sendable",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "avassetreader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "avassetwriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_iscancelled",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "target": "avassetreader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "target": "avassetwriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L61",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "target": "avassetreader",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "target": "avassetwriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "sendable",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "dispatchqueue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L78",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "avassetwriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "avassetwriterinput",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "avassetreaderoutput",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "cmsamplebuffer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L82",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "avassetwriter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "avassetwriterinput",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "avassetreaderoutput",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "cmsamplebuffer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_init",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L85",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L111",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "compressplan",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "sendable",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L119",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark",
+      "target": "sendable",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark_next",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L255",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark_next",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L255",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark_next",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L255",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_progressmark",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L224",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "target": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "callee": "removeItem",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L21",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "callee": "withTaskCancellationHandler",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "callee": "removeItem",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L30",
+      "receiver": "FileManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "callee": "CancellationError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_compress",
+      "callee": "resourceValues",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L34",
+      "receiver": "destination"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_iscancelled",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L47",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_iscancelled",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L48",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_iscancelled",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L48",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L53",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_attach",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L57",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L62",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_cancel",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L66",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "callee": "cancelReading",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L71",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_job_stop",
+      "callee": "cancelWriting",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L72",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "callee": "requestMediaDataWhenReady",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L95",
+      "receiver": "input"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "callee": "copyNextSampleBuffer",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L98",
+      "receiver": "output"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_start",
+      "callee": "onSample",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "callee": "markAsFinished",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L114",
+      "receiver": "input"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_pump_finish",
+      "callee": "completion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVURLAsset",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "loadTracks",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L122",
+      "receiver": "asset"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "loadTracks",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L125",
+      "receiver": "asset"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L126",
+      "receiver": "videoTrack"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L127",
+      "receiver": "videoTrack"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L128",
+      "receiver": "videoTrack"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "load",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L129",
+      "receiver": "asset"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "applying",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CGRect",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "scaledSize",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L137",
+      "receiver": "VideoPlan"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L137",
+      "receiver": "shownWidth"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L137",
+      "receiver": "shownHeight"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVMutableVideoCompositionLayerInstruction",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L143",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CGAffineTransform",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CGFloat",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CGFloat",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "setTransform",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L145",
+      "receiver": "layer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "concatenating",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L145",
+      "receiver": "transform"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVMutableVideoCompositionInstruction",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CMTimeRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVMutableVideoComposition",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CGSize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CMTime",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CMTimeScale",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L152",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetReader",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L154",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetReaderVideoCompositionOutput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "canAdd",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L160",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L161",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetReaderTrackOutput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L174",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "canAdd",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L176",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L177",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetWriter",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L182",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L188",
+      "receiver": "frameRate"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetWriterInput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L196",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "canAdd",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L198",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L199",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "AVAssetWriterInput",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L209",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "canAdd",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L211",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L212",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "startWriting",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L218",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "startReading",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L219",
+      "receiver": "reader"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "startSession",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L220",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CMSampleBufferGetPresentationTimeStamp",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "next",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L226",
+      "receiver": "lastReported"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "progress",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "enter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L228",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L229",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "enter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L234",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "leave",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L235",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "withCheckedContinuation",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L239",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "notify",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L240",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "global",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L240",
+      "receiver": "DispatchQueue"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "resume",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L240",
+      "receiver": "continuation"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "withExtendedLifetime",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L242",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "CancellationError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "finishWriting",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L246",
+      "receiver": "writer"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_videocompressor_videocompressor_run",
+      "callee": "progress",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/VideoCompressor.swift",
+      "source_location": "L248",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Media/VideoCompressor.swift",
+    "table": {
+      "reason": "String",
+      "errorDescription": "String",
+      "source": "URL",
+      "plan": "CompressPlan",
+      "destination": "URL",
+      "progress": "Sendable",
+      "lock": "NSLock",
+      "reader": "AVAssetReader",
+      "writer": "AVAssetWriter",
+      "isCancelled": "Bool",
+      "queue": "DispatchQueue",
+      "input": "AVAssetWriterInput",
+      "output": "AVAssetReaderOutput",
+      "onSample": "CMSampleBuffer",
+      "label": "String",
+      "completion": "Sendable",
+      "job": "Job",
+      "value": "Double",
+      "lastReported": "ProgressMark",
+      "group": "DispatchGroup",
+      "videoInput": "AVAssetWriterInput",
+      "videoOutput": "AVAssetReaderVideoCompositionOutput",
+      "composition": "AVMutableVideoComposition",
+      "instruction": "AVMutableVideoCompositionInstruction",
+      "scale": "CGAffineTransform",
+      "layer": "AVMutableVideoCompositionLayerInstruction",
+      "asset": "AVURLAsset"
+    },
+    "factory": { "size": ["VideoPlan", "scaledSize"] }
+  }
+}

@@ -1,6 +1,7 @@
 package org.wizardchat.android.ui.room
 
 import android.content.ActivityNotFoundException
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +10,9 @@ import android.graphics.drawable.Drawable
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.animation.AnimatedVisibility
@@ -48,8 +52,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -57,6 +63,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -73,14 +80,21 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,11 +107,13 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import java.io.File
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.LocalPrefs
@@ -105,6 +121,7 @@ import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.ChatEntry
 import org.wizardchat.android.matrix.MediaVisibility
 import org.wizardchat.android.matrix.memberProfile
+import org.wizardchat.android.media.TextFile
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarButton
 import org.wizardchat.android.ui.BarTextButton
@@ -115,6 +132,8 @@ import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.Spinner
 import org.wizardchat.android.ui.WizardSheet
 import org.wizardchat.android.ui.composer.PackThumb
+import org.wizardchat.android.ui.space.LocalRoomRoles
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -192,6 +211,28 @@ internal fun shareFile(context: Context, file: File, mimetype: String) {
     }
 }
 
+internal suspend fun saveToPhotos(context: Context, file: File, mimetype: String) {
+    val saved = withContext(Dispatchers.IO) {
+        runCatching {
+            val values = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, file.name)
+                put(MediaStore.Images.Media.MIME_TYPE, mimetype)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/WizardChat")
+                    put(MediaStore.Images.Media.IS_PENDING, 1)
+                }
+            }
+            val resolver = context.contentResolver
+            val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values) ?: error("insert failed")
+            resolver.openOutputStream(uri)?.use { out -> file.inputStream().use { it.copyTo(out) } }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                resolver.update(uri, ContentValues().apply { put(MediaStore.Images.Media.IS_PENDING, 0) }, null, null)
+            }
+        }.isSuccess
+    }
+    CopyToast.show(L10n.format(if (saved) "common.savedToPhotos" else "common.somethingWentWrong"))
+}
+
 /** Shows a playing GIF/WebP drawable */
 @Composable
 internal fun AnimatedDrawable(drawable: Drawable, fit: Boolean, modifier: Modifier = Modifier) {
@@ -214,6 +255,8 @@ fun ImageMessageView(
     isSticker: Boolean = false,
     isPrivateRoom: Boolean = true,
     spoiler: String? = null,
+    onStickerTap: (() -> Unit)? = null,
+    radius: Dp = 14.dp,
 ) {
     val prefs = LocalPrefs.current
     val loader = LocalMedia.current
@@ -229,10 +272,13 @@ fun ImageMessageView(
 
     var image by remember(media.source) { mutableStateOf<Bitmap?>(null) }
     var animated by remember(media.source) { mutableStateOf<Drawable?>(null) }
-    LaunchedEffect(animate, hidden, loader) {
+    var failed by remember(media.source) { mutableStateOf(false) }
+    var attempt by remember(media.source) { mutableIntStateOf(0) }
+    LaunchedEffect(animate, hidden, loader, attempt) {
         if (hidden || loader == null) return@LaunchedEffect
         if (animate) animated = loader.animated(media.source)
         if (image == null) image = loader.image(media.source, if (animate) null else 800)
+        failed = image == null && animated == null
     }
 
     val maxWidth = if (isSticker) 160f else 260f
@@ -240,7 +286,7 @@ fun ImageMessageView(
     val width = media.width ?: maxWidth
     val height = media.height ?: (maxWidth * 0.75f)
     val scale = minOf(maxWidth / maxOf(width, 1f), maxHeight / maxOf(height, 1f), 1f)
-    val shape = RoundedCornerShape(if (isSticker) 0.dp else 14.dp)
+    val shape = RoundedCornerShape(if (isSticker) 0.dp else radius)
 
     Box(
         Modifier
@@ -249,7 +295,12 @@ fun ImageMessageView(
             .messageTap(interaction) {
                 when {
                     hidden -> revealed = true
+                    failed -> {
+                        failed = false
+                        attempt += 1
+                    }
                     canAnimate && !animate && !isSticker -> playing = true
+                    isSticker -> onStickerTap?.invoke()
                     !isSticker -> showViewer = true
                 }
             }
@@ -267,6 +318,7 @@ fun ImageMessageView(
                 Modifier.fillMaxSize().then(blur),
                 contentScale = if (isSticker) ContentScale.Fit else ContentScale.Crop,
             )
+            failed && !hidden -> FailedPicture()
             else -> {
                 Box(Modifier.fillMaxSize().background(theme.fill))
                 if (!hidden) Spinner(color = theme.textMuted)
@@ -295,6 +347,19 @@ fun ImageMessageView(
         ImageViewer(image, animated.takeIf { canAnimate }, media.caption ?: media.filename, media.source, media.filename, media.mimetype) {
             showViewer = false
         }
+    }
+}
+
+/** A picture that could not be loaded: a warning tile; tapping it tries again */
+@Composable
+internal fun FailedPicture(modifier: Modifier = Modifier) {
+    Column(
+        modifier.fillMaxSize().background(theme.fill).padding(WZ.Space.space4),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterVertically),
+    ) {
+        PhIcon("warning-circle", size = WZ.SizeIcon.xl, tint = theme.warningColor)
+        Text(tr("mobile.imageFailed"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
     }
 }
 
@@ -368,7 +433,7 @@ fun ImageViewer(
 private const val DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000L
 
 @Composable
-fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
+fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null, radius: Dp = WZ.Radius.lg) {
     val loader = LocalMedia.current
     val scope = rememberCoroutineScope()
     var revealed by remember { mutableStateOf(false) }
@@ -387,7 +452,7 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null) {
     Box(
         Modifier
             .size(width.dp, minOf(width * ratio, 340f).dp)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .clip(RoundedCornerShape(radius))
             .background(theme.fill)
             .messageTap {
                 if (spoiler != null && !revealed) {
@@ -515,7 +580,16 @@ fun VideoPlayer(file: File, onDismiss: () -> Unit) {
 }
 
 @Composable
-fun FileMessageView(media: ChatEntry.MediaContent) {
+fun FileMessageView(media: ChatEntry.MediaContent, bubble: Boolean = false, ownBubble: Boolean = false) {
+    if (TextFile.showsCard(media.filename, media.mimetype, media.size)) {
+        TextFileCard(media, bubble, ownBubble)
+    } else {
+        FileRow(media, bubble, ownBubble)
+    }
+}
+
+@Composable
+private fun FileRow(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: Boolean) {
     val loader = LocalMedia.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -523,7 +597,7 @@ fun FileMessageView(media: ChatEntry.MediaContent) {
     Row(
         Modifier
             .widthIn(max = WZ.Size.sidebar)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.sm else WZ.Radius.lg))
             .background(theme.fill)
             .messageTap {
                 if (loader == null || loading) return@messageTap
@@ -548,16 +622,132 @@ fun FileMessageView(media: ChatEntry.MediaContent) {
             Text(
                 media.filename,
                 style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                color = theme.textPrimary,
+                color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             media.size?.let {
-                Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = if (ownBubble) theme.textOnAccent.copy(alpha = 0.75f) else theme.textMuted)
             }
         }
         Spacer(Modifier.weight(0.001f))
         if (loading) Spinner(size = WZ.SizeIcon.md) else PhIcon("download-simple", tint = theme.textMuted)
+    }
+}
+
+/** The start of a small text file in a monospace card, with the whole file one tap away */
+@Composable
+private fun TextFileCard(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: Boolean) {
+    val session = LocalSession.current
+    val loader = LocalMedia.current
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var head by remember(media.source) { mutableStateOf<String?>(null) }
+    var full by remember(media.source) { mutableStateOf<String?>(null) }
+    var expanded by remember(media.source) { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(false) }
+
+    LaunchedEffect(media.source, session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        head = withContext(Dispatchers.IO) {
+            runCatching { client.mediaHead(media.source, TextFile.PREVIEW_BYTES.toLong()) }
+                .getOrNull()?.let(TextFile::decodeHead)
+        }
+    }
+
+    fun open() {
+        if (loader == null || loading) return
+        scope.launch {
+            loading = true
+            val file = runCatching { loader.file(media.source, media.filename) }.getOrNull()
+            loading = false
+            if (file != null) openFile(context, file, media.mimetype)
+        }
+    }
+
+    fun toggle() {
+        if (loading) return
+        if (expanded) {
+            expanded = false
+            return
+        }
+        val size = media.size
+        if (full != null || (size != null && size <= TextFile.PREVIEW_BYTES)) {
+            expanded = true
+            return
+        }
+        scope.launch {
+            loading = true
+            val text = withContext(Dispatchers.IO) {
+                runCatching { loader?.file(media.source, media.filename)?.readText() }
+                    .getOrNull()?.let(TextFile::clampForCard)
+            }
+            loading = false
+            if (text != null) {
+                full = text
+                expanded = true
+            }
+        }
+    }
+
+    Column(
+        Modifier
+            .widthIn(max = WZ.Size.sidebar)
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.sm else WZ.Radius.lg))
+            .background(theme.fill)
+            .padding(WZ.Space.space4),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .heightIn(max = if (expanded) 360.dp else 108.dp)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            Text(
+                (if (expanded) full ?: head else head).orEmpty(),
+                style = TextStyle(fontFamily = FontFamily.Monospace, fontSize = WZ.FontSize.sm),
+                color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
+                maxLines = if (expanded) Int.MAX_VALUE else 5,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+            Column(
+                Modifier.weight(1f).clickable { open() },
+                verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+            ) {
+                Text(
+                    media.filename,
+                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                    color = if (ownBubble) theme.textOnAccent else theme.textPrimary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                media.size?.let {
+                    Text(Formats.fileSize(it), style = wizardFont(WZ.FontSize.sm), color = if (ownBubble) theme.textOnAccent.copy(alpha = 0.75f) else theme.textMuted)
+                }
+            }
+            if (head != null) {
+                Text(
+                    tr(if (expanded) "common.collapse" else "common.expand"),
+                    Modifier.clickable { toggle() },
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = if (ownBubble) theme.textOnAccent else theme.accent,
+                    maxLines = 1,
+                )
+            }
+            if (loading) {
+                Spinner(size = WZ.SizeIcon.md)
+            } else {
+                PhIcon(
+                    "download-simple",
+                    tint = theme.textMuted,
+                    contentDescription = tr("common.download"),
+                    modifier = Modifier.clickable { open() },
+                )
+            }
+        }
     }
 }
 
@@ -834,30 +1024,51 @@ fun PollMessageView(poll: ChatEntry.PollContent, isOwn: Boolean, onVote: (String
     }
 }
 
+/** The fill behind a bubble: yours a deep accent, others' a light tint of it on the raised surface */
 @Composable
-fun ReplyQuoteView(quote: ChatEntry.ReplyQuote) {
+internal fun bubbleFill(own: Boolean): Color =
+    if (own) lerp(Color.Black, theme.accent, 0.78f) else lerp(theme.bgTertiary, theme.accent, 0.14f)
+
+/** A quoted message on one line: the sender's colour, then the text. Tapping it jumps to the original. */
+@Composable
+fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, bubble: Boolean = false, onJump: (() -> Unit)? = null) {
+    val scale = LocalPrefs.current.chatScale
+    val roles = LocalRoomRoles.current
+    val bar = if (bubble) 2.dp else 3.dp
     Row(
-        Modifier.height(IntrinsicSize.Min).padding(bottom = WZ.Space.space2),
+        Modifier
+            .then(if (end) Modifier else Modifier.fillMaxWidth())
+            .height(IntrinsicSize.Min)
+            .padding(bottom = WZ.Space.space2)
+            .then(if (onJump != null) Modifier.clickable(onClick = onJump) else Modifier),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Box(Modifier.width(WZ.Space.space1).fillMaxHeight().background(theme.accent, CircleShape))
-        Column {
-            Text(quote.senderName, style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.accent, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            Text(
-                quote.text.ifEmpty { tr("timeline.originalMessage") },
-                style = wizardFont(WZ.FontSize.sm),
-                color = theme.textMuted,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+        if (!end) Box(Modifier.width(bar).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
+        Text(
+            buildAnnotatedString {
+                if (quote.senderName.isNotEmpty()) {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = if (bubble) theme.textMuted else (roles.colorOf(quote.sender) ?: nameColor(quote.sender)))) {
+                        append(quote.senderName)
+                    }
+                    append(": ")
+                }
+                append(quote.text.ifEmpty { tr("timeline.originalMessage") })
+            },
+            style = wizardFont((if (bubble) WZ.FontSize.sm else WZ.FontSize.md) * scale),
+            color = theme.textMuted,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = if (end) TextAlign.End else TextAlign.Start,
+        )
+        if (end) Box(Modifier.width(bar).fillMaxHeight().background(theme.accent, RoundedCornerShape(2.dp)))
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, onToggle: (String) -> Unit) {
+fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, bubble: Boolean = false, onToggle: (String) -> Unit) {
     var reactors by remember { mutableStateOf<ChatEntry.ReactionGroup?>(null) }
+    val chipShape = if (bubble) RoundedCornerShape(WZ.Radius.lg) else CircleShape
     FlowRow(
         Modifier.padding(top = WZ.Space.space2),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
@@ -881,11 +1092,11 @@ fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = nul
             ) {
                 Row(
                     Modifier
-                        .height(WZ.Space.space8)
-                        .clip(CircleShape)
+                        .then(if (bubble) Modifier else Modifier.height(WZ.Space.space8))
+                        .clip(chipShape)
                         .background(if (mine) theme.accent.copy(alpha = 0.18f) else theme.fill)
-                        .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, CircleShape)
-                        .padding(horizontal = WZ.Space.space4),
+                        .border(WZ.BorderWidth.thin, if (mine) theme.accent else Color.Transparent, chipShape)
+                        .padding(horizontal = WZ.Space.space4, vertical = if (bubble) WZ.Space.space1 else 0.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
                 ) {
@@ -894,7 +1105,7 @@ fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = nul
                     } else {
                         Text(reaction.key, fontSize = WZ.SizeIcon.sm.value.sp)
                     }
-                    Text(
+                    if (!bubble || reaction.count != 1) Text(
                         "${reaction.count}",
                         style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                         color = if (mine) theme.accent else theme.textMuted,
@@ -1003,7 +1214,7 @@ fun ReadReceiptsView(roomId: String, userIds: List<String>, readAt: Map<String, 
 }
 
 @Composable
-fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> Unit) {
+fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, bubble: Boolean = false, onOpen: () -> Unit) {
     val latest = thread.latestSummary?.lineSequence()?.firstOrNull()?.trim()?.takeIf { it.isNotEmpty() }
     val preview = when {
         thread.latestRedacted -> tr("timeline.messageDeleted")
@@ -1011,13 +1222,14 @@ fun ThreadSummaryBadge(thread: ThreadSummaryView, roomId: String, onOpen: () -> 
         thread.latestUndecryptable -> tr("timeline.couldNotDecrypt")
         else -> null
     }
-    val hint = tr("thread.openThread")
+    val hint = tr("timeline.openThread")
     Row(
         Modifier
-            .widthIn(max = WZ.Size.panel)
-            .clip(RoundedCornerShape(WZ.Radius.lg))
+            .then(if (bubble) Modifier.fillMaxWidth() else Modifier.widthIn(max = WZ.Size.panel))
+            .clip(RoundedCornerShape(if (bubble) WZ.Radius.xl else WZ.Radius.lg))
             .background(theme.fill)
-            .clickable(onClickLabel = hint, onClick = onOpen)
+            .messageTap(onClick = onOpen)
+            .semantics { onClick(label = hint) { onOpen(); true } }
             .padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space3),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),

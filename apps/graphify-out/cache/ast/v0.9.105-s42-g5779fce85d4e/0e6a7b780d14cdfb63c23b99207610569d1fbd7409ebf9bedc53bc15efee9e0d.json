@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "label": "dev.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_is_dev",
+      "label": "IS_DEV",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_683102",
+      "label": "WINDOW_ICON",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L10"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_toast_icon",
+      "label": "TOAST_ICON",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_60259d",
+      "label": "window_icon()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L14"
+    },
+    {
+      "id": "image",
+      "label": "Image",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/dev.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_name",
+      "label": "name()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L21"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/dev.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_dev_app_id",
+      "label": "app_id()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L36"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "image",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_is_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_683102",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_toast_icon",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_60259d",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_60259d",
+      "target": "image",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_name",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_dev_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_dev_app_id",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L36",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_60259d",
+      "callee": "flatten",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_dev_window_icon_60259d",
+      "callee": "then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_dev_name",
+      "callee": "unwrap_or_else",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L22"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_dev_name",
+      "callee": "config",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/dev.rs",
+      "source_location": "L22"
+    }
+  ]
+}

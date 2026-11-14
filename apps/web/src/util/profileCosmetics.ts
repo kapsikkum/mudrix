@@ -312,6 +312,10 @@ export function parseProfileEffect(value: unknown): ProfileEffectId | null {
   return null;
 }
 
+export function profileEffectThumbnailSrc(_id: ProfileEffectId): string {
+  return '';
+}
+
 export function parseIsMudrixUser(value: unknown): boolean {
   return value === true;
 }

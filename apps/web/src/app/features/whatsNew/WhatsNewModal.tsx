@@ -3,15 +3,17 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import { GitlabLogoSimpleIcon, SparkleIcon } from '@phosphor-icons/react';
+import { GithubLogoIcon, SparkleIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { whatsNewOpenAtom, whatsNewSeenAtom } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
+import { SOURCE_URL } from '@/const/links';
+import { parseMatrixToUrl } from '@/util/matrixTo';
 import { latestWhatsNew } from './whatsNew';
 import * as css from './WhatsNewModal.css';
 
-const CHANGELOG_URL = 'https://github.com/kapsikkum/mudrix/releases';
+const CHANGELOG_URL = `${SOURCE_URL}/releases`;
 
 export function WhatsNewModal() {
   const { t, i18n } = useTranslation();
@@ -36,6 +38,10 @@ export function WhatsNewModal() {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const href = (e.target as Element).closest('a')?.getAttribute('href');
     if (!href) return;
+    if (parseMatrixToUrl(href)) {
+      close();
+      return;
+    }
     e.preventDefault();
     if (/^https?:\/\//.test(href)) window.open(href, '_blank', 'noopener,noreferrer');
   };
@@ -55,7 +61,7 @@ export function WhatsNewModal() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <GitlabLogoSimpleIcon size={16} />
+            <GithubLogoIcon size={16} />
             {t('whatsNew.fullChangelog')}
           </a>
           <Button variant="primary" onClick={close}>

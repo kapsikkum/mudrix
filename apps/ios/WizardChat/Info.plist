@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>chat.mudrix.mobile.refresh</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -38,13 +34,13 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
-		<string>voip</string>
-		<string>fetch</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>
@@ -53,5 +49,9 @@
 	</dict>
 	<key>WZAppGroup</key>
 	<string>$(WZ_APP_GROUP)</string>
+	<key>WZGiphyApiKey</key>
+	<string>$(GIPHY_API_KEY)</string>
+	<key>WZKeychainAccessGroup</key>
+	<string>$(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)</string>
 </dict>
 </plist>

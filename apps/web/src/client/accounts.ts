@@ -1,4 +1,5 @@
 import type { MatrixCredentials } from './types';
+import { STORAGE_KEY_ACCOUNT_PROFILE } from '@/const/storageKeys';
 import {
   activeAccount,
   listAccounts as listStored,
@@ -48,4 +49,28 @@ export function upsertAccount(credentials: MatrixCredentials): void {
 
 export function removeAccount(userId: string): void {
   removeStored(userId);
+}
+
+export interface AccountProfile {
+  displayName: string | null;
+  avatarUrl: string | null;
+}
+
+const profileKey = (userId: string) => `${STORAGE_KEY_ACCOUNT_PROFILE}::${userId}`;
+
+export function storedAccountProfile(userId: string): AccountProfile | null {
+  try {
+    const raw = localStorage.getItem(profileKey(userId));
+    return raw ? (JSON.parse(raw) as AccountProfile) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function rememberAccountProfile(userId: string, profile: AccountProfile): void {
+  try {
+    localStorage.setItem(profileKey(userId), JSON.stringify(profile));
+  } catch {
+    // storage full or blocked
+  }
 }

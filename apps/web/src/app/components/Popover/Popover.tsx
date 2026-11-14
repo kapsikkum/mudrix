@@ -12,6 +12,7 @@ import {
 import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { usePortalContainer } from '@/app/components/PortalContainer';
 import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import * as css from './Popover.css';
 
@@ -54,6 +55,7 @@ export function Popover({
   const surfaceRef = externalRef ?? innerRef;
   // Same breakpoint as the context menu: phones and touch tablets get bottom sheets.
   const sheet = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const portalContainer = usePortalContainer();
 
   useBackToClose(open && sheet, onClose);
   useSwipeDownDismiss({ enabled: open && sheet, sheetRef: surfaceRef, onClose });
@@ -96,13 +98,14 @@ export function Popover({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('keydown', handleKeyDown);
+    const doc = portalContainer.ownerDocument;
+    doc.addEventListener('mousedown', handleMouseDown);
+    doc.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-      document.removeEventListener('keydown', handleKeyDown);
+      doc.removeEventListener('mousedown', handleMouseDown);
+      doc.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, sheet, onClose, anchorRef, surfaceRef]);
+  }, [open, sheet, onClose, anchorRef, surfaceRef, portalContainer]);
 
   // A sheet has no outside-press handler: its backdrop closes it, and Escape still does.
   useEffect(() => {
@@ -110,9 +113,10 @@ export function Popover({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [open, sheet, onClose]);
+    const doc = portalContainer.ownerDocument;
+    doc.addEventListener('keydown', handleKeyDown);
+    return () => doc.removeEventListener('keydown', handleKeyDown);
+  }, [open, sheet, onClose, portalContainer]);
 
   if (!open) return null;
 
@@ -142,6 +146,6 @@ export function Popover({
         {children}
       </div>
     </>,
-    document.body
+    portalContainer
   );
 }

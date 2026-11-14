@@ -3,6 +3,8 @@ import type { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { KeyCaps } from '@/app/components/KeyCaps';
+import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   ArrowRightIcon,
@@ -35,9 +37,7 @@ import {
   type RoomEntry,
 } from '@/app/features/roomSwitcher/roomEntries';
 import { useSwitchContext } from '@/app/pages/client/hooks/useContextNavigation';
-import { KeyCaps } from '@/app/components/KeyCaps';
 import * as css from './GlobalSearch.css';
-import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 
 const ROOM_LIMIT = 6;
 const SPACE_LIMIT = 3;
@@ -78,7 +78,7 @@ function snippet(body: string, query: string): string {
   const flat = body.replace(/\s+/g, ' ');
   const idx = flat.toLowerCase().indexOf(query.toLowerCase());
   const start = Math.max(0, idx - 30);
-  return (start > 0 ? '...' : '') + flat.slice(start, start + 140);
+  return (start > 0 ? '…' : '') + flat.slice(start, start + 140);
 }
 
 function roomPath(entry: RoomEntry): string {
@@ -124,7 +124,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           width: 'min(640px, calc(100vw - 32px))',
         });
       } else {
-        setPosition({ top: 'calc(8px + env(safe-area-inset-top))', left: 8, right: 8 });
+        setPosition({ top: 'calc(8px + var(--safe-top))', left: 8, right: 8 });
       }
     };
     place();
@@ -153,7 +153,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       {
         kind: 'place',
         key: 'place:home',
-        label: t('room.home'),
+        label: t('nav.home'),
         icon: <HouseIcon size={16} />,
         run: () => switchContext('home', null),
       },
@@ -174,7 +174,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       {
         kind: 'place',
         key: 'place:settings',
-        label: t('settings.userSettings'),
+        label: t('settings.title'),
         icon: <GearIcon size={16} />,
         run: () => setSettingsOpen(true),
       },
@@ -184,10 +184,10 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
 
     if (!text && !prefix) {
       return [
-        { key: 'places', title: t('globalSearch.places'), items: places },
+        { key: 'places', title: t('search.global.places'), items: places },
         {
           key: 'recent',
-          title: t('globalSearch.recent'),
+          title: t('search.global.recent'),
           items: asItems([...entries].sort(byActivity).slice(0, RECENT_LIMIT)),
         },
       ];
@@ -197,13 +197,13 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       const kind = prefix === '#' ? 'room' : prefix === '@' ? 'dm' : 'space';
       const scoped = entries.filter((e) => e.kind === kind);
       const list = text ? rankByName(scoped, text) : [...scoped].sort(byActivity);
-      const title = kind === 'space' ? t('globalSearch.spaces') : t('globalSearch.roomsAndDms');
+      const title = kind === 'space' ? t('search.global.spaces') : t('search.global.roomsAndDms');
       return [
         {
           key: kind,
           title,
           items: asItems(list.slice(0, SCOPED_LIMIT)),
-          empty: t('globalSearch.noResults'),
+          empty: t('common.noResults'),
         },
       ];
     }
@@ -213,7 +213,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       (p) => p.kind === 'place' && p.label.toLowerCase().includes(text)
     );
     if (matchingPlaces.length > 0) {
-      result.push({ key: 'places', title: t('globalSearch.places'), items: matchingPlaces });
+      result.push({ key: 'places', title: t('search.global.places'), items: matchingPlaces });
     }
     const rooms = rankByName(
       entries.filter((e) => e.kind !== 'space'),
@@ -226,14 +226,14 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
     if (rooms.length > 0) {
       result.push({
         key: 'rooms',
-        title: t('globalSearch.roomsAndDms'),
+        title: t('search.global.roomsAndDms'),
         items: asItems(rooms.slice(0, ROOM_LIMIT)),
       });
     }
     if (spaces.length > 0) {
       result.push({
         key: 'spaces',
-        title: t('globalSearch.spaces'),
+        title: t('search.global.spaces'),
         items: asItems(spaces.slice(0, SPACE_LIMIT)),
       });
     }
@@ -247,13 +247,13 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
       if (total > 0) items.push({ kind: 'showAll', key: 'showAll', total });
       result.push({
         key: 'messages',
-        title: t('globalSearch.messagesIn', { room: messageRoomName }),
+        title: t('search.global.messagesIn', { room: messageRoomName }),
         items,
-        empty: t('globalSearch.noMessages'),
+        empty: t('search.global.noMessages'),
       });
     }
     if (result.length === 0) {
-      result.push({ key: 'none', title: '', items: [], empty: t('globalSearch.noResults') });
+      result.push({ key: 'none', title: '', items: [], empty: t('common.noResults') });
     }
     return result;
   }, [
@@ -408,7 +408,7 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
           <ArrowRightIcon size={16} />
         </span>
         <span className={css.itemText}>
-          {t('globalSearch.showAll', { count: item.total, room: messageRoomName })}
+          {t('search.global.showAll', { count: item.total, room: messageRoomName })}
         </span>
       </div>
     );
@@ -433,16 +433,16 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
               aria-expanded={flatItems.length > 0}
               aria-haspopup="listbox"
               aria-autocomplete="list"
-              aria-controls="global-search-results"
               aria-activedescendant={
                 flatItems.length > 0 && highlighted >= 0
                   ? `global-search-option-${highlighted}`
                   : undefined
               }
+              aria-controls="global-search-results"
               autoComplete="off"
               spellCheck={false}
             />
-            {keyboardHints && <KeyCaps keys={['Esc']} size="sm" />}
+            <kbd className={css.kbd}>Esc</kbd>
           </div>
         </div>
         <div className={css.body} ref={bodyRef} id="global-search-results" role="listbox">
@@ -462,25 +462,25 @@ function GlobalSearchPanel({ onClose }: { onClose: () => void }) {
             <>
               <span className={css.footerHint}>
                 <KeyCaps keys={['↑', '↓']} size="sm" />
-                {t('roomSwitcher.hintNavigate')}
+                {t('common.navigate')}
               </span>
               <span className={css.footerHint}>
                 <KeyCaps keys={['↵']} size="sm" />
-                {t('roomSwitcher.hintOpen')}
+                {t('search.switcher.hintOpen')}
               </span>
             </>
           )}
           <span className={css.footerHint}>
             <KeyCaps keys={['#']} size="sm" />
-            {t('roomSwitcher.prefixRooms')}
+            {t('search.switcher.prefixRooms')}
           </span>
           <span className={css.footerHint}>
             <KeyCaps keys={['@']} size="sm" />
-            {t('roomSwitcher.prefixDms')}
+            {t('search.switcher.prefixDms')}
           </span>
           <span className={css.footerHint}>
             <KeyCaps keys={['*']} size="sm" />
-            {t('roomSwitcher.prefixSpaces')}
+            {t('search.switcher.prefixSpaces')}
           </span>
         </div>
       </div>

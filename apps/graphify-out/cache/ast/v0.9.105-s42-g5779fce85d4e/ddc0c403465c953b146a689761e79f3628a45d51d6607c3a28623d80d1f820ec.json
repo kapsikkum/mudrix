@@ -1,0 +1,654 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_swift",
+      "label": "SignInIdentifier.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "label": "SignInIdentifier",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_user",
+      "label": "user",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SignInIdentifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_mxid",
+      "label": "mxid",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_email",
+      "label": "email",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_phone",
+      "label": "phone",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L9"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SignInIdentifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_isemailorphone",
+      "label": ".isEmailOrPhone",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_tocore",
+      "label": ".toCore()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L18",
+      "_callable": true
+    },
+    {
+      "id": "loginidentifier",
+      "label": "LoginIdentifier",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SignInIdentifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "label": ".matches()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L31",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "label": ".digits()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L35",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "label": ".looksLikePhone()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L41",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "label": ".parse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L49",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "label": ".interpret()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L59",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_user",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_mxid",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_email",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_phone",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_isemailorphone",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_tocore",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_tocore",
+      "target": "loginidentifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L59",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "target": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L60",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_matches",
+      "callee": "range",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L32",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L36",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_digits",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L44",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L45",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_lookslikephone",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L50",
+      "receiver": "raw"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L55",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_parse",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L55",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "lastIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L61",
+      "receiver": "address"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "address",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "index",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L62",
+      "receiver": "address"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L63",
+      "receiver": "domain"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L63",
+      "receiver": "serverName"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_signinidentifier_signinidentifier_interpret",
+      "callee": "address",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SignInIdentifier.swift",
+      "source_location": "L64",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/SignInIdentifier.swift",
+    "table": {
+      "isEmailOrPhone": "Bool",
+      "pattern": "String",
+      "value": "String",
+      "raw": "String",
+      "serverName": "String",
+      "domain": "String"
+    }
+  }
+}

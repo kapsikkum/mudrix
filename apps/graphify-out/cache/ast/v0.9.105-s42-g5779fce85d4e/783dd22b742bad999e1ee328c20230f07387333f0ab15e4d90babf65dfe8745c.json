@@ -1,0 +1,1250 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_swift",
+      "label": "IntegrationManifestTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "label": "IntegrationManifestTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationManifestTests.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationManifestTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "label": ".fixtures()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L14",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "label": ".usable()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L20",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationManifestTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "label": ".repo()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L25",
+      "_callable": true
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationManifestTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_base",
+      "label": ".base",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L30"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "label": ".with()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L38",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "label": ".testGoodManifestsAreValidAndEveryEntryIsUsable()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L42",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "label": ".testBadManifestsAreRefusedOrSetAside()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "label": ".testWidgetsAreSetAsideAsUnsupportedNeverAnErrorOfTheFile()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "label": ".testOversizeAndNotJsonAreRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "label": ".testOnlyAnEntryThatCannotBeUsedIsSetAside()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "label": ".testLocalApiHostsPortsAndAddressesAreNeverValid()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L106",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "label": ".testPathPatterns()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "label": ".testUnsafeCharacters()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L123",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_base",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L106",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_base",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_repo",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "target": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_json",
+      "callee": "parseJSON",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L11",
+      "receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "callee": "url",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L15",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "callee": "parseJSON",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L16",
+      "receiver": "IntegrationNetwork"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_fixtures",
+      "callee": "compactMapValues",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L17",
+      "receiver": "root"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_usable",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L21",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_with",
+      "callee": "merging",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L39",
+      "receiver": "object"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testgoodmanifestsarevalidandeveryentryisusable",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L45",
+      "receiver": "good"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L49",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testbadmanifestsarerefusedorsetaside",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L51",
+      "receiver": "bad"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L57",
+      "receiver": "widgets"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L58",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L63",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testwidgetsaresetasideasunsupportedneveranerrorofthefile",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L63",
+      "receiver": "failed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "parseText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L68",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L68",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "parseText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L69",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L69",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "parseText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L71",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testoversizeandnotjsonarerefused",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L84",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L84",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L86",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L86",
+      "receiver": "manifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L87",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "reason",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "reason",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "reason",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L91",
+      "receiver": "manifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L92",
+      "receiver": "manifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "extra",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L99",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "validate",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L102",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L102",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testonlyanentrythatcannotbeusedissetaside",
+      "callee": "integrations",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L103",
+      "receiver": "canonical"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testlocalapihostsportsandaddressesarenevervalid",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L109",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "parsePathPattern",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L114",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "patternNames",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L116",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "parsePathPattern",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L118",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testpathpatterns",
+      "callee": "lookupNames",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L120",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "hasUnsafeChars",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L124",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "hasUnsafeChars",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L125",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "hasUnsafeChars",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L126",
+      "receiver": "IntegrationManifest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationmanifesttests_integrationmanifesttests_testunsafecharacters",
+      "callee": "stripUnsafeChars",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationManifestTests.swift",
+      "source_location": "L127",
+      "receiver": "IntegrationManifest"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/IntegrationManifestTests.swift",
+    "table": {
+      "text": "String",
+      "value": "JSONValue",
+      "integrations": "JSONValue",
+      "serial": "Double",
+      "base": "String",
+      "object": "String",
+      "changes": "String"
+    }
+  }
+}

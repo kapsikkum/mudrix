@@ -123,13 +123,13 @@ private struct ShareView: View {
                     } else if model.fileCount > 0 {
                         Label(L10n.format("share.fileCount", model.fileCount), image: "ph-file-regular")
                     }
-                    TextField(String(localized: "share.addAMessage"), text: $model.message, axis: .vertical)
+                    TextField(String(localized: "share.messagePlaceholder"), text: $model.message, axis: .vertical)
                         .lineLimit(1...5)
                 }
                 .listRowBackground(colors.bgRaised)
                 Section(String(localized: "share.sendTo")) {
                     if model.rooms.isEmpty {
-                        Text(String(localized: "share.openWizardchatOnceSo"))
+                        Text(String(localized: "share.noRoomsHint"))
                             .foregroundStyle(.secondary)
                     }
                     ForEach(rooms) { room in

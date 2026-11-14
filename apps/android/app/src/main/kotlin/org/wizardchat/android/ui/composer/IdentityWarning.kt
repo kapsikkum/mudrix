@@ -81,7 +81,7 @@ fun IdentityWarning(roomId: String, client: WizardClient, encrypted: Boolean) {
         PhIcon("warning", size = WZ.SizeIcon.md, tint = if (verified) theme.danger else theme.warningColor)
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
             Text(
-                L10n.format(if (verified) "identityWarning.verifiedReset" else "identityWarning.reset", name),
+                L10n.format(if (verified) "verification.identityWarning.verifiedReset" else "verification.identityWarning.reset", name),
                 style = wizardFont(WZ.FontSize.sm),
                 color = theme.textPrimary,
             )
@@ -89,14 +89,14 @@ fun IdentityWarning(roomId: String, client: WizardClient, encrypted: Boolean) {
             error?.let { Text(it, style = wizardFont(WZ.FontSize.xs), color = theme.danger) }
         }
         BarTextButton(
-            tr(if (verified) "identityWarning.withdraw" else "common.ok"),
+            tr(if (verified) "verification.identityWarning.withdraw" else "common.ok"),
             {
                 if (busy) return@BarTextButton
                 busy = true
                 error = null
                 scope.launch {
                     runCatching { client.acknowledgeIdentity(userId) }
-                        .onFailure { error = L10n.format("identityWarning.failed", it.message ?: "") }
+                        .onFailure { error = L10n.format("verification.identityWarning.failed", it.message ?: "") }
                     busy = false
                 }
             },

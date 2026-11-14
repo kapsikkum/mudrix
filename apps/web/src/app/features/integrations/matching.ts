@@ -7,6 +7,7 @@ import {
   type ComposerAction,
   type LinkCardRule,
   type LinkLookup,
+  type WidgetPermission,
 } from './manifest';
 import {
   NO_SETTING_VALUES,
@@ -16,6 +17,7 @@ import {
   type StoredSettings,
 } from './settings';
 import type { GrantMap, InstalledIntegration } from './types';
+import { assertViewerUrlAllowed } from './widget';
 
 export interface LinkCardMatch {
   integrationId: string;
@@ -47,7 +49,7 @@ export interface ActiveCommand {
   name: string;
   description: string;
   usage?: string;
-  kind: 'insert' | 'api';
+  kind: 'insert' | 'api' | 'widget';
   /** Template, for kind insert. */
   insert?: string;
   /** Id of an action in the same integration's api actions, for kind api. */
@@ -82,6 +84,37 @@ export function settingsOf(i: InstalledIntegration, stored?: StoredSettings): Se
   const own =
     stored && Object.prototype.hasOwnProperty.call(stored, i.id) ? stored[i.id] : undefined;
   return resolveSettings(i.settings, own);
+}
+
+/** The approved window a card's link can be opened in (see `WidgetPermission.fromLinks`). */
+export interface LinkViewer {
+  integrationId: string;
+  integrationName: string;
+  /** The widget's own url: the link must be on exactly its origin. */
+  widgetUrl: string;
+  label?: string;
+  saveFiles: boolean;
+}
+
+/** The enabled, widget-granted integration allowed to open this link in a window, if any. */
+export function findLinkViewer(
+  url: string,
+  installed: readonly InstalledIntegration[],
+  grants: GrantMap
+): LinkViewer | null {
+  for (const i of installed) {
+    const w = i.permissions.widget;
+    if (w?.fromLinks && active(i, grants, 'widget') && assertViewerUrlAllowed(w.url, url).ok) {
+      return {
+        integrationId: i.id,
+        integrationName: i.name,
+        widgetUrl: w.url,
+        label: w.linkLabel,
+        saveFiles: w.saveFiles === true,
+      };
+    }
+  }
+  return null;
 }
 
 /** `/s` covers `/s` and `/s/...` but not `/sx`. */
@@ -259,6 +292,23 @@ export function getApiActions(
     });
 }
 
+export interface ActiveWidget extends WidgetPermission {
+  integrationId: string;
+  integrationName: string;
+}
+
+/** Widgets of every enabled integration whose widget grant is still on. */
+export function getWidgets(
+  installed: readonly InstalledIntegration[],
+  grants: GrantMap
+): ActiveWidget[] {
+  return installed.flatMap((i) =>
+    active(i, grants, 'widget') && i.permissions.widget
+      ? [{ ...i.permissions.widget, integrationId: i.id, integrationName: i.name }]
+      : []
+  );
+}
+
 /**
  * Slash commands of enabled, granted integrations. Names in `reserved` (built-in commands and
  * aliases) are dropped so an integration can never shadow them; between integrations the first
@@ -277,14 +327,18 @@ export function getCommands(
     (i.permissions.commands ?? []).forEach((c) => {
       const name = c.name.toLowerCase();
       if (reserved.has(name) || seen.has(name)) return;
-      const kind: ActiveCommand['kind'] = c.api !== undefined ? 'api' : 'insert';
+      const kind: ActiveCommand['kind'] =
+        c.widget === true ? 'widget' : c.api !== undefined ? 'api' : 'insert';
       if (kind === 'api') {
         if (!active(i, grants, 'api')) return;
         if (!i.permissions.api?.actions.some((a) => a.id === c.api)) return;
+      } else if (kind === 'widget') {
+        if (!active(i, grants, 'widget') || !i.permissions.widget) return;
       } else if (c.insert === undefined) return;
       seen.add(name);
+      const { widget: _w, ...rest } = c;
       out.push({
-        ...c,
+        ...rest,
         kind,
         integrationId: i.id,
         integrationName: i.name,

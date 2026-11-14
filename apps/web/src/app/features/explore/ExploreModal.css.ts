@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast, med } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const controlHeight = '36px';
 
@@ -79,7 +80,7 @@ const pillBase = style({
   background: 'transparent',
   color: vars.color.textMuted,
   fontFamily: vars.font.body,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   lineHeight: '1',
   whiteSpace: 'nowrap',
@@ -130,7 +131,7 @@ export const pillOtherInput = style({
   minWidth: 0,
   color: vars.color.textMuted,
   fontFamily: vars.font.body,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   lineHeight: '1',
   width: '38px',
@@ -193,7 +194,7 @@ export const searchInput = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontFamily: vars.font.body,
   outline: 'none',
   transition: `border-color ${fast}`,
@@ -214,7 +215,7 @@ export const scrollArea = style({
 });
 
 export const sectionTitle = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 700,
   letterSpacing: '0.06em',
   color: vars.color.textMuted,
@@ -266,7 +267,7 @@ export const cardAvatar = style({
   height: '40px',
   borderRadius: vars.radius.sm,
   flexShrink: 0,
-  fontSize: '1rem',
+  fontSize: fontSize.rem100,
   fontWeight: 700,
   display: 'flex',
   alignItems: 'center',
@@ -282,7 +283,7 @@ export const cardInfo = style({
 
 export const cardName = style({
   fontWeight: 600,
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   color: vars.color.textPrimary,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -290,7 +291,7 @@ export const cardName = style({
 });
 
 export const cardAlias = style({
-  fontSize: '0.74rem',
+  fontSize: fontSize.rem74,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -299,7 +300,7 @@ export const cardAlias = style({
 });
 
 export const cardTypeBadge = style({
-  fontSize: '0.66rem',
+  fontSize: fontSize.rem66,
   fontWeight: 700,
 
   letterSpacing: '0.04em',
@@ -311,7 +312,7 @@ export const cardTypeBadge = style({
 });
 
 export const cardTopic = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textSecondary,
   overflow: 'hidden',
   display: '-webkit-box',
@@ -330,7 +331,7 @@ export const cardFooter = style({
 });
 
 export const cardMembers = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.rem76,
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',
@@ -342,8 +343,8 @@ export const joinBtn = style({
   borderRadius: vars.radius.sm,
   border: 'none',
   backgroundColor: vars.color.accent,
-  color: '#fff',
-  fontSize: '0.78rem',
+  color: vars.color.onAccent,
+  fontSize: fontSize.rem78,
   fontWeight: 600,
   cursor: 'pointer',
   transition: `background-color ${fast}, opacity ${fast}`,
@@ -362,7 +363,7 @@ export const joinedBadge = style({
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.success}`,
   color: vars.color.success,
-  fontSize: '0.78rem',
+  fontSize: fontSize.rem78,
   fontWeight: 600,
   flexShrink: 0,
 });
@@ -386,7 +387,7 @@ export const pageBtn = style({
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.textPrimary,
   fontFamily: vars.font.body,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   fontWeight: 500,
   cursor: 'pointer',
   flexShrink: 0,
@@ -407,7 +408,7 @@ export const pageBtn = style({
 });
 
 export const pageIndicator = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   padding: '0 4px',
   userSelect: 'none',
@@ -427,12 +428,12 @@ export const emptyState = style({
 
 export const emptyTitle = style({
   color: vars.color.textPrimary,
-  fontSize: '1.05rem',
+  fontSize: fontSize.rem105,
   fontWeight: 600,
 });
 
 export const emptyBody = style({
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   lineHeight: '1.55',
   maxWidth: '340px',
 });
@@ -470,6 +471,6 @@ export const errorBanner = style({
   backgroundColor: `${vars.color.error}18`,
   border: `1px solid ${vars.color.error}44`,
   color: vars.color.error,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   textAlign: 'center',
 });

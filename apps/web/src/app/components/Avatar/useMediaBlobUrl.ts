@@ -7,6 +7,8 @@ export interface MediaBlobOptions {
   width?: number;
   height?: number;
   resizeMethod?: string;
+  enabled?: boolean;
+  queue?: boolean;
 }
 
 export interface MediaBlobResult {
@@ -28,7 +30,7 @@ export function useMediaBlobUrl(
   mxcUrl: string | undefined | null,
   options: MediaBlobOptions = {}
 ): MediaBlobResult {
-  const { width, height, resizeMethod } = options;
+  const { width, height, resizeMethod, enabled = true } = options;
   const isMxc = !!mxcUrl && mxcUrl.startsWith('mxc://');
   const cacheKey = isMxc ? mediaBlobCacheKey(mxcUrl as string, width, height, resizeMethod) : null;
 
@@ -43,7 +45,7 @@ export function useMediaBlobUrl(
   }
 
   useEffect(() => {
-    if (!mxcUrl || !client || !isMxc || !cacheKey) return;
+    if (!mxcUrl || !client || !isMxc || !cacheKey || !enabled) return;
     if (getCachedBlobUrl(cacheKey)) return;
 
     let alive = true;
@@ -55,7 +57,7 @@ export function useMediaBlobUrl(
     return () => {
       alive = false;
     };
-  }, [mxcUrl, client, isMxc, cacheKey, width, height, resizeMethod, nonce]);
+  }, [mxcUrl, client, isMxc, cacheKey, width, height, resizeMethod, enabled, nonce]);
 
   const refetch = useCallback(() => {
     if (cacheKey) deleteCachedBlobUrl(cacheKey);

@@ -1,0 +1,926 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_swift",
+      "label": "ImagePrep.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "imageio",
+      "label": "ImageIO",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "uniformtypeidentifiers",
+      "label": "UniformTypeIdentifiers",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "label": "ImagePrep",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "label": "Options",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_format",
+      "label": "Format",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_format_jpeg",
+      "label": "jpeg",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_format_png",
+      "label": "png",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "label": "Prepared",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L24",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_prepareerror",
+      "label": "PrepareError",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L30",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_formatof",
+      "label": ".formatOf()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "uint8",
+      "label": "UInt8",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "label": ".isHeif()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "label": ".prepare()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L53",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "label": ".prepareHeif()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "label": ".pixelSize()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L113",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "label": ".longestSide()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L122",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "label": ".redraw()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "_callable": true
+    },
+    {
+      "id": "uttype",
+      "label": "UTType",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_swift",
+      "target": "imageio",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_swift",
+      "target": "uniformtypeidentifiers",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_swift",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_format",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_format",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_format_jpeg",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_format",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_format_png",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepareerror",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_prepareerror",
+      "target": "error",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_formatof",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_formatof",
+      "target": "uint8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_formatof",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_format",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "target": "uint8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "uint8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_options",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L98",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L113",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L122",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "uttype",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L128",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_formatof",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepareerror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepared",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepareheif",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_longestside",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L130",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "target": "$graphify-root$_ios_wizardchat_media_imageprep_prepareerror",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L130",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "callee": "ascii",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L47",
+      "receiver": "ImageStrip"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L48",
+      "receiver": "heifBrands"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_isheif",
+      "callee": "ascii",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L48",
+      "receiver": "ImageStrip"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "callee": "isAnimatedPng",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L61",
+      "receiver": "ImageStrip"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "callee": "stripJpeg",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L78",
+      "receiver": "ImageStrip"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_prepare",
+      "callee": "stripPng",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L82",
+      "receiver": "ImageStrip"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "callee": "CGImageSourceCreateWithData",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "callee": "CGImageSourceCopyPropertiesAtIndex",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "callee": "props",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_pixelsize",
+      "callee": "props",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "CGImageSourceCreateWithData",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "CGImageSourceCreateThumbnailAtIndex",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L138",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "NSMutableData",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "CGImageDestinationCreateWithData",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "CGImageDestinationAddImage",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_imageprep_imageprep_redraw",
+      "callee": "CGImageDestinationFinalize",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/ImagePrep.swift",
+      "source_location": "L147",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Media/ImagePrep.swift",
+    "table": {
+      "stripMetadata": "Bool",
+      "maxSide": "Int",
+      "data": "Data",
+      "fileExtension": "String",
+      "heifBrands": "Set",
+      "bytes": "UInt8",
+      "options": "Options",
+      "type": "UTType",
+      "unchanged": "Prepared",
+      "output": "NSMutableData"
+    }
+  }
+}

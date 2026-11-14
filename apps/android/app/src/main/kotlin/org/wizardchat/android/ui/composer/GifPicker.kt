@@ -56,6 +56,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
+import org.wizardchat.android.BuildConfig
 import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.PhWeight
@@ -76,7 +77,8 @@ data class GiphyGif(
     val height: Int,
 )
 
-private const val GIPHY_API_KEY = "TGnndTV82UWqYITMnla1ZOiPBJBesE7x"
+/** Set at build time (GIPHY_API_KEY, see docs/SECRETS.md); empty means GIFs are not configured */
+private val GIPHY_API_KEY: String = BuildConfig.GIPHY_API_KEY
 private const val GIPHY_API = "https://api.giphy.com/v1/gifs"
 private val favouritesSerializer = ListSerializer(GiphyGif.serializer())
 
@@ -113,6 +115,23 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
         if (!list.remove(gif)) list.add(0, gif)
         favouritesRaw = Json.encodeToString(favouritesSerializer, list.take(50))
         composerDefaults.edit().putString("gifFavourites", favouritesRaw).apply()
+    }
+
+    if (GIPHY_API_KEY.isBlank()) {
+        Column(
+            Modifier.fillMaxSize().padding(WZ.Space.space8),
+            verticalArrangement = Arrangement.spacedBy(WZ.Space.space5, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            PhIcon("images", size = WZ.SizeIcon.xxl, tint = theme.textMuted)
+            Text(
+                tr("composer.gifNotConfiguredTooltip"),
+                style = wizardFont(WZ.FontSize.md),
+                color = theme.textMuted,
+                textAlign = TextAlign.Center,
+            )
+        }
+        return
     }
 
     if (!consented) {
@@ -159,7 +178,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                     "star",
                     if (showFavourites) PhWeight.fill else PhWeight.regular,
                     tint = if (showFavourites) theme.accent else theme.textMuted,
-                    contentDescription = tr("room.favourites"),
+                    contentDescription = tr("nav.favourites"),
                 )
             }
         }

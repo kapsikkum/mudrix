@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useAllRooms } from '@/app/data';
 import { effectiveThemeAtom, themedAppIconAtom } from '@/app/store/atoms';
-import { resolveLogoAssets } from '@/theme/themeLogos';
+import { resolveLogoAssets, hasThemedLogo } from '@/theme/themeLogos';
 
 import { getRoomUnreadCount, roomHasUnreadMention } from '@/util/mentions';
 
@@ -35,6 +35,11 @@ export function useFaviconBadge() {
   useEffect(() => {
     window.desktopAPI?.setUnreadCount?.(total, mentionRooms);
   }, [total, mentionRooms]);
+
+  useEffect(() => {
+    const themed = themedAppIcon && hasThemedLogo(theme);
+    void window.desktopAPI?.setAppIcon?.(themed ? resolveLogoAssets(theme, true).logo : null);
+  }, [theme, themedAppIcon]);
 
   useEffect(() => {
     const assets = resolveLogoAssets(theme, themedAppIcon);

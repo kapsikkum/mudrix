@@ -4,11 +4,24 @@ import AVFoundation
 /// that follow the user's sound settings go through `Sounds`.
 @MainActor
 enum CallSounds {
-    static let defaultVolume: Float = 0.5
+    nonisolated static let defaultVolume: Float = 0.5
     private static var playing: [AVAudioPlayer] = []
+    private static let toggles = [
+        "mute": "mute", "unmute": "mute", "deafen": "deafen", "undeafen": "deafen",
+        "camera_on": "camera", "camera_off": "camera", "screenshare_start": "screenshare", "screenshare_stop": "screenshare",
+        "call_join": "join", "call_leave": "leave", "ringtone": "ringtone", "ringback": "ringback",
+        "call_declined": "callEnded", "call_no_answer": "callEnded", "raise_hand": "raiseHand",
+        "reaction": "reaction", "watch_together_start": "watchTogether",
+    ]
+
+    static func defaultsKey(_ toggle: String) -> String { "voice.sound.\(toggle)" }
+
+    static func isOn(_ toggle: String) -> Bool {
+        UserDefaults.standard.object(forKey: defaultsKey(toggle)) as? Bool ?? true
+    }
 
     static func play(_ name: String, volume: Float = defaultVolume) {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "wav") else { return }
+        guard isOn(toggles[name] ?? name), let url = Bundle.main.url(forResource: name, withExtension: "wav") else { return }
         play(url: url, volume: volume)
     }
 
@@ -26,6 +39,29 @@ enum CallSounds {
         return Loop(player: player)
     }
 
+    /// The default session is silenced by the ring/silent switch, so an incoming call rings with
+    /// `.playback` and the previous session comes back when it stops. In a call LiveKit's
+    /// `.playAndRecord` already rings through the switch and is left alone.
+    static func ringtone(url: URL, volume: Float = defaultVolume) -> Loop? {
+        let session = AVAudioSession.sharedInstance()
+        let previous = (session.category, session.mode, session.categoryOptions)
+        let switched = previous.0 != .playAndRecord
+        if switched {
+            try? session.setCategory(.playback, mode: .default)
+            try? session.setActive(true)
+        }
+        let restore = {
+            guard switched else { return }
+            try? session.setCategory(previous.0, mode: previous.1, options: previous.2)
+            try? session.setActive(false, options: .notifyOthersOnDeactivation)
+        }
+        guard let ring = loop(url: url, volume: volume) else {
+            restore()
+            return nil
+        }
+        ring.onStop = restore
+        return ring
+    }
     private static func makePlayer(_ url: URL, volume: Float) -> AVAudioPlayer? {
         guard let player = try? AVAudioPlayer(contentsOf: url) else { return nil }
         player.volume = volume
@@ -34,7 +70,12 @@ enum CallSounds {
 
     final class Loop {
         private let player: AVAudioPlayer
+        fileprivate var onStop: (() -> Void)?
         init(player: AVAudioPlayer) { self.player = player }
-        func stop() { player.stop() }
+        func stop() {
+            player.stop()
+            onStop?()
+            onStop = nil
+        }
     }
 }

@@ -2,6 +2,7 @@ import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { CHAT_SCALE_VAR, chatSize, chatSpace } from './chatDisplay';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
+import { fontSize } from '@/theme/typeScale';
 import { fast, fadeInUp, scaleIn } from '@/theme/animations.css';
 import { TYPING_INDICATOR_BAND_HEIGHT } from './composer/TypingIndicator.css';
 
@@ -132,6 +133,24 @@ export const msgAvatarCol = style({
   paddingTop: '2px',
 });
 
+// The message and its shield side by side. A plain block-level flex row would span the whole
+// column and flex:1 on the body would push the shield to the pane's right edge. fit-content
+// shrinks the row to its content (capped at the column width so long text still wraps), keeping
+// the shield snug. 'last baseline' sits the shield on the last line of wrapped text ('center'
+// fallback).
+export const msgContentShieldRow = style({
+  display: 'flex',
+  alignItems: ['center', 'last baseline'],
+  gap: '6px',
+  width: 'fit-content',
+  maxWidth: '100%',
+});
+
+export const msgContentShieldBody = style({
+  flex: 1,
+  minWidth: 0,
+});
+
 export const msgRow = style({
   display: 'flex',
   alignItems: 'flex-start',
@@ -198,15 +217,6 @@ export const replyConnector = style({
   pointerEvents: 'none',
 });
 
-export const replyLineSkeleton = style({
-  width: '45%',
-  maxWidth: '240px',
-  height: '0.7rem',
-  borderRadius: '6px',
-  backgroundColor: vars.color.bgTertiary,
-  animation: `${pulse} 1.5s ease-in-out infinite`,
-});
-
 export const replyLineButton = style({
   display: 'flex',
   alignItems: 'center',
@@ -237,18 +247,18 @@ export const msgMeta = style({
   display: 'flex',
   alignItems: 'baseline',
   gap: '8px',
+  marginBottom: '2px',
   flexWrap: 'wrap',
 });
 export const msgSender = style({
-  font: 'inherit',
   fontWeight: 600,
-  fontSize: chatSize(0.95),
-  lineHeight: 1.15,
-  color: vars.color.textPrimary,
+  color: vars.color.accent,
+  fontSize: chatSize(0.9),
   cursor: 'pointer',
   border: 'none',
   background: 'none',
   padding: 0,
+  font: 'inherit',
   ':hover': { textDecoration: 'underline' },
 });
 export const msgTime = style({
@@ -275,7 +285,7 @@ export const msgContent = style({
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
   fontSize: chatSize(0.95),
-  lineHeight: '1.375',
+  lineHeight: '1.55',
   wordBreak: 'break-word',
   position: 'relative',
   display: 'inline',
@@ -294,10 +304,15 @@ export const msgContentGrouped = style([
 ]);
 
 // Classic variant: same baseline structure, message content rendered inside bubbles.
+// Bubble layout (Signal-style): incoming bubbles are a light tint of the theme accent on the
+// theme's raised surface, outgoing ones a deepened accent with white text and sit on the right.
+const BUBBLE_OTHER_BG = `color-mix(in srgb, ${vars.color.accent} 14%, ${vars.color.bgTertiary})`;
+const BUBBLE_OWN_BG = `color-mix(in srgb, ${vars.color.accent} 78%, #000)`;
 const msgBubbleBase = {
-  backgroundColor: vars.color.msgOtherBg,
-  padding: '7px 12px',
-  borderRadius: '12px',
+  backgroundColor: BUBBLE_OTHER_BG,
+  padding: '8px 14px',
+  borderRadius: '18px',
+  maxWidth: 'min(78%, 620px)',
 };
 
 export const msgContentClassic = style([
@@ -306,21 +321,26 @@ export const msgContentClassic = style([
   { display: 'inline-block', alignSelf: 'flex-start' },
 ]);
 
-export const msgContentClassicOwn = style([
-  msgContentClassic,
-  { backgroundColor: vars.color.msgMineBg },
-]);
+const ownBubble = {
+  backgroundColor: BUBBLE_OWN_BG,
+  color: vars.color.onAccent,
+  alignSelf: 'flex-end',
+};
 
+export const msgContentClassicOwn = style([msgContentClassic, ownBubble]);
+
+// Grouped bubbles stack their content and the time (right-aligned underneath) instead of wrapping
+// in a row, so the time never lands beside an image or on a different side from bubble to bubble.
 export const msgContentClassicGrouped = style([
   msgContentGrouped,
   msgBubbleBase,
-  { alignSelf: 'flex-start' },
+  { alignSelf: 'flex-start', flexDirection: 'column', alignItems: 'stretch', gap: '2px' },
 ]);
 
-export const msgContentClassicGroupedOwn = style([
-  msgContentClassicGrouped,
-  { backgroundColor: vars.color.msgMineBg },
-]);
+export const msgContentClassicGroupedOwn = style([msgContentClassicGrouped, ownBubble]);
+
+// Marks the current user's rows; only styled in the Bubble layout (root attribute).
+export const msgRowOwn = style({});
 
 // Stands in for a picture that is still decoding: a pulse, which runs on the compositor.
 export const imageSkeleton = style({
@@ -338,11 +358,75 @@ export const imageErrorFallback = style({
   position: 'absolute',
   inset: 0,
   display: 'flex',
+  flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  gap: '6px',
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
+  border: 'none',
+  padding: 0,
+  cursor: 'pointer',
   width: '100%',
+  selectors: { '&:hover': { color: vars.color.textPrimary } },
+});
+
+export const stickerPackPreviewHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  marginBottom: '14px',
+});
+
+export const stickerPackPreviewAvatar = style({
+  width: '40px',
+  height: '40px',
+  borderRadius: vars.radius.sm,
+  objectFit: 'cover',
+  backgroundColor: vars.color.bgTertiary,
+  flexShrink: 0,
+});
+
+export const stickerPackPreviewInfo = style({
+  display: 'flex',
+  flexDirection: 'column',
+  minWidth: 0,
+});
+
+export const stickerPackPreviewName = style({
+  fontWeight: 600,
+  fontSize: fontSize.rem95,
+  color: vars.color.textPrimary,
+});
+
+export const stickerPackPreviewMeta = style({
+  fontSize: fontSize.rem80,
+  color: vars.color.textMuted,
+});
+
+export const stickerPackPreviewGrid = style({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, 72px)',
+  gap: '8px',
+  maxHeight: '340px',
+  overflowY: 'auto',
+});
+
+export const stickerPackPreviewItem = style({
+  width: '72px',
+  height: '72px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  overflow: 'hidden',
+});
+
+export const stickerPackPreviewItemImg = style({
+  maxWidth: '100%',
+  maxHeight: '100%',
+  objectFit: 'contain',
 });
 
 export const mediaBox = style({
@@ -350,8 +434,9 @@ export const mediaBox = style({
   overflow: 'hidden',
   width: '100%',
   maxWidth: '320px',
+  maxHeight: '420px',
   borderRadius: vars.radius.sm,
-  backgroundColor: vars.color.border,
+  backgroundColor: vars.color.bgTertiary,
   selectors: {
     [`${msgContentClassic} &, ${msgContentClassicOwn} &, ${msgContentClassicGrouped} &, ${msgContentClassicGroupedOwn} &`]:
       {
@@ -365,6 +450,35 @@ export const stickerBox = style({
   overflow: 'hidden',
   width: '152px',
   borderRadius: vars.radius.sm,
+});
+
+export const gifFavouriteBtn = style({
+  position: 'absolute',
+  top: '8px',
+  right: '8px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '26px',
+  height: '26px',
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  color: '#fff',
+  cursor: 'pointer',
+  zIndex: 1,
+  opacity: 0,
+  transition: `background-color ${fast}, color ${fast}, opacity ${fast}`,
+  selectors: {
+    [`${stickerBox}:hover &, ${mediaBox}:hover &`]: { opacity: 1 },
+    '&:hover': { backgroundColor: 'rgba(0,0,0,0.75)' },
+    '&[data-active="true"]': { color: '#fbbf24' },
+    '&:focus-visible': {
+      opacity: 1,
+      outline: `2px solid ${vars.color.accent}`,
+    },
+    '&[data-coarse="true"]': { opacity: 1 },
+  },
 });
 
 export const mediaBoxPulse = style({
@@ -916,6 +1030,12 @@ const editedMarkerBase = {
   color: vars.color.textMuted,
   fontStyle: 'italic',
   whiteSpace: 'nowrap',
+  // Rendered as a button that opens the edit history.
+  background: 'none',
+  border: 'none',
+  padding: 0,
+  fontFamily: 'inherit',
+  cursor: 'pointer',
 };
 
 // Inline next to the sender name, revealed on row hover
@@ -1127,9 +1247,50 @@ export const replyQuote = style({
   fontSize: chatSize(0.95),
   borderRadius: '2px',
   cursor: 'pointer',
+  // One line with an ellipsis, like Discord, whatever the quoted message looks like.
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   ':hover': {
     color: vars.color.textPrimary,
   },
+});
+
+// The quoted text arrives as rendered HTML (paragraphs, line breaks, lists). Flatten it to a single
+// inline run so it can be cut off with an ellipsis.
+export const replyText = style({
+  minWidth: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+globalStyle(`${replyText} *`, {
+  display: 'inline',
+  whiteSpace: 'nowrap',
+  margin: 0,
+  padding: 0,
+});
+globalStyle(`${replyText} br`, { display: 'none' });
+
+// A reply quote's image thumbnail, sized to the line of text it sits in.
+export const replyImage = style({
+  height: '1.4em',
+  width: 'auto',
+  verticalAlign: 'middle',
+  display: 'inline',
+});
+
+// Placeholder shown while a reply's target event is still being fetched, so the
+// quote does not pop in and push the message down.
+export const replyQuoteSkeleton = style({
+  display: 'block',
+  width: '55%',
+  maxWidth: '260px',
+  height: '0.8rem',
+  margin: '0.35rem 0',
+  borderRadius: '6px',
+  backgroundColor: vars.color.bgTertiary,
+  animation: `${pulse} 1.5s ease-in-out infinite`,
 });
 
 export const replyMediaRow = style({
@@ -1144,7 +1305,7 @@ export const replyMediaThumb = style({
   width: '36px',
   height: '36px',
   objectFit: 'cover',
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   flexShrink: 0,
   verticalAlign: 'middle',
 });
@@ -1164,7 +1325,7 @@ export const replyMediaIcon = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
   color: vars.color.accent,
@@ -1345,7 +1506,7 @@ export const msgActions = style({
 
 export const swipeReplyIcon = style({
   position: 'absolute',
-  left: '16px',
+  right: '16px',
   top: '50%',
   width: '32px',
   height: '32px',
@@ -1723,6 +1884,8 @@ export const callPillEnded = style({
   opacity: 0.8,
 });
 
+export const callPillMissed = style({});
+
 export const callPillIcon = style({
   display: 'flex',
   alignItems: 'center',
@@ -1736,6 +1899,9 @@ export const callPillIcon = style({
   selectors: {
     [`${callPillOngoing} &`]: {
       color: vars.color.success,
+    },
+    [`${callPillMissed} &`]: {
+      color: vars.color.error,
     },
   },
 });
@@ -1757,6 +1923,23 @@ export const callPillDuration = style({
   fontVariantNumeric: 'tabular-nums',
   whiteSpace: 'nowrap',
   flexShrink: 0,
+});
+
+export const callPillJoin = style({
+  padding: '2px 10px',
+  borderRadius: vars.radius.sm,
+  border: 'none',
+  backgroundColor: vars.color.success,
+  color: '#fff',
+  fontSize: chatSize(0.74),
+  fontWeight: 600,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  whiteSpace: 'nowrap',
+  flexShrink: 0,
+  ':hover': {
+    filter: 'brightness(1.1)',
+  },
 });
 
 export const searchEmpty = style({
@@ -1850,6 +2033,15 @@ globalStyle('.mention-pill', {
 globalStyle('.mention-pill:focus-visible', {
   outline: `2px solid ${vars.color.accent}`,
   outlineOffset: '1px',
+});
+
+globalStyle('a.mention-pill.room-pill', {
+  color: vars.color.accent,
+  textDecoration: 'none',
+});
+
+globalStyle('a.mention-pill.room-pill:hover', {
+  textDecoration: 'underline',
 });
 
 globalStyle('.mention-pill-self', {
@@ -1976,6 +2168,13 @@ export const readReceiptRow = style({
   flexShrink: 0,
   width: '52px',
   minHeight: '16px',
+  '@media': {
+    // On a phone the fixed column would squeeze every message; it only takes room when needed.
+    '(max-width: 768px)': { width: 'auto', minHeight: 0 },
+  },
+  selectors: {
+    '&:empty': { display: 'none' },
+  },
 });
 
 export const readReceiptRowSpaced = style({
@@ -2035,7 +2234,7 @@ export const threadBadgeName = style({
   display: 'flex',
   flexShrink: 0,
   fontWeight: 600,
-  color: vars.color.textPrimary,
+  color: vars.color.accent,
 });
 
 export const threadBadgeNameText = style({
@@ -2174,7 +2373,7 @@ export const receiptPopoverTime = style({
 });
 
 export const msgSending = style({
-  opacity: 0.6,
+  opacity: 0.5,
 });
 
 export const msgFailed = style({
@@ -2254,74 +2453,165 @@ export const chatDropZone = style({
   backdropFilter: 'blur(3px)',
 });
 
-const COMPACT_TIME_WIDTH = chatSize(3.4);
-const COMPACT_GAP = '8px';
-const COMPACT_INDENT = `calc(${COMPACT_TIME_WIDTH} + ${COMPACT_GAP})`;
-
-export const msgRowCompact = style([
-  msgRow,
-  { paddingTop: chatSpace(1), paddingBottom: chatSpace(1) },
-]);
-
-export const compactBody = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-  flex: 1,
-  minWidth: 0,
-  paddingLeft: COMPACT_INDENT,
-  paddingRight: '12px',
+// Compact layout (Discord-style), toggled via the root attribute: no avatars, the time sits in a
+// right-aligned gutter on the left, and the sender name and message text flow inline after it.
+// Spacing follows the message spacing setting like the other layouts, just from a tighter base.
+globalStyle(`:root[data-compact-layout] ${msgRow}`, {
+  paddingTop: chatSpace(2),
+  paddingBottom: chatSpace(0.5),
 });
-
-export const compactLine = style({
-  display: 'flow-root',
-  minWidth: 0,
-  color: vars.color.textPrimary,
-  fontSize: chatSize(0.95),
-  lineHeight: '1.55',
-  wordBreak: 'break-word',
+globalStyle(`:root[data-compact-layout] ${msgRowGrouped}`, {
+  paddingTop: chatSpace(0.5),
+  paddingBottom: chatSpace(0.5),
 });
-
-export const compactHeader = style({
-  float: 'left',
+globalStyle(`:root[data-compact-layout] ${msgAvatarCol}`, { display: 'none' });
+globalStyle(`:root[data-compact-layout] ${msgHoverRegion}`, { gap: '0' });
+globalStyle(`:root[data-compact-layout] ${msgBody}`, {
   display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   alignItems: 'baseline',
-  gap: COMPACT_GAP,
-  marginLeft: `calc(-1 * ${COMPACT_INDENT})`,
-  marginRight: '6px',
-  whiteSpace: 'nowrap',
+  position: 'relative',
+  paddingLeft: '76px',
+  paddingRight: '8px',
 });
-
-globalStyle(`${compactLine} ${compactHeader} > *`, { lineHeight: 'inherit' });
-
-export const compactTime = style({
-  width: COMPACT_TIME_WIDTH,
-  flexShrink: 0,
-  textAlign: 'right',
-  color: vars.color.textMuted,
-  fontSize: chatSize(0.72),
-  fontVariantNumeric: 'tabular-nums',
-});
-
-export const compactText = style({
+// Everything except the name and the text (replies, reactions, threads, ...) takes its own line.
+globalStyle(`:root[data-compact-layout] ${msgBody} > *`, { flex: '0 0 100%' });
+globalStyle(`:root[data-compact-layout] ${msgBody} > ${msgMeta}`, { flex: '0 0 auto' });
+globalStyle(`:root[data-compact-layout] ${msgBody} > ${msgContent}`, {
+  flex: '1 1 0',
+  minWidth: 0,
   display: 'block',
-  minWidth: 0,
 });
-
-export const compactBlock = style({
-  minWidth: 0,
-  color: vars.color.textPrimary,
-  fontSize: chatSize(0.95),
-  lineHeight: '1.55',
+globalStyle(`:root[data-compact-layout] ${msgMeta}`, {
+  display: 'block',
+  marginBottom: '0',
+  marginRight: '6px',
 });
-
+globalStyle(`:root[data-compact-layout] ${msgTime}`, {
+  position: 'absolute',
+  left: 0,
+  top: 0,
+  width: '64px',
+  textAlign: 'right',
+  opacity: 1,
+  fontSize: fontSize.rem68,
+  lineHeight: 'calc(0.95rem * 1.375)',
+});
+globalStyle(`:root[data-compact-layout] ${msgSender}`, { fontSize: fontSize.rem95 });
+globalStyle(`:root[data-compact-layout] ${msgContent}`, { lineHeight: '1.375' });
+// The edit box takes its own full-width line under the name instead of squeezing in beside it.
+globalStyle(`:root[data-compact-layout] ${editContainer}`, { maxWidth: '100%', marginTop: '4px' });
+// Media and other block content goes on the line below the author, aligned with the name.
 globalStyle(
-  `${compactText} ${codeBlock}, ${compactText} pre, ${compactText} blockquote, ${compactText} table, ${compactText} ul, ${compactText} ol`,
-  { clear: 'left' }
+  `:root[data-compact-layout] ${msgBody} > ${msgContent}:has(${mediaBox}, ${stickerBox}, ${mediaWrap}, ${mediaError}, ${gallery}, ${fileCard}, ${locationMsg}, pre, blockquote, table, ul, ol, video, audio)`,
+  { flex: '0 0 100%' }
 );
-globalStyle(`${compactText} > div > :not(:first-child)`, { clear: 'left' });
+// Emoji-only messages keep the normal text size.
+globalStyle(`:root[data-compact-layout] ${emojiOnly}`, {
+  fontSize: 'inherit',
+  lineHeight: 'inherit',
+});
 
-globalStyle(`${compactLine} ${emojiOnly}`, { fontSize: 'inherit', lineHeight: 'inherit' });
+// Bubble layout (root attribute): your messages sit on the right without avatar or name, the time
+// is always visible, and receipts / the Sent marker sit under the bubble.
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgAvatarCol}`, { display: 'none' });
+globalStyle(`:root[data-bubble-layout] ${msgSender}`, { fontSize: fontSize.rem80 });
+globalStyle(`:root[data-bubble-layout] ${msgTime}`, { fontSize: fontSize.rem66, opacity: 1 });
+globalStyle(`:root[data-bubble-layout] ${msgAvatarCol}`, { width: '24px' });
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgMeta}`, { justifyContent: 'flex-end' });
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgBody}`, {
+  alignItems: 'flex-end',
+  paddingRight: '16px',
+});
+globalStyle(
+  `:root[data-bubble-layout] ${msgContentClassicOwn} a, :root[data-bubble-layout] ${msgContentClassicGroupedOwn} a`,
+  {
+    color: 'inherit',
+    textDecoration: 'underline',
+  }
+);
+globalStyle(`:root[data-bubble-layout] ${msgBody}`, { gap: '2px' });
 
-globalStyle(`${compactBlock} ${mediaBox}`, { maxWidth: '240px' });
-globalStyle(`${compactBlock} ${stickerBox}`, { width: '112px' });
+export const bubbleStatusRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  alignSelf: 'flex-start',
+  gap: '4px',
+  marginTop: '2px',
+  padding: '0 6px',
+  fontSize: fontSize.rem66,
+  color: vars.color.textMuted,
+});
+export const bubbleStatusRowOwn = style({ alignSelf: 'flex-end' });
+globalStyle(`:root[data-bubble-layout] ${bubbleStatusRow} ${readReceiptRow}`, {
+  width: 'auto',
+  minHeight: 0,
+});
+
+export const bubbleGroupedTime = style({
+  display: 'block',
+  alignSelf: 'flex-end',
+  textAlign: 'right',
+  fontSize: fontSize.rem66,
+  opacity: 0.65,
+  marginTop: 2,
+});
+
+// Your own replies sit on the right, so their quote hugs the right edge with the accent bar on its
+// right side instead of floating at the far left of the row.
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${replyQuote}`, {
+  width: 'auto',
+  maxWidth: 'min(78%, 620px)',
+  alignSelf: 'flex-end',
+  textAlign: 'right',
+  borderLeft: 'none',
+  borderRight: `3px solid ${vars.color.accent}`,
+  paddingLeft: 0,
+  paddingRight: '8px',
+});
+globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${replyQuoteSkeleton}`, {
+  alignSelf: 'flex-end',
+});
+
+// Bubbles with media get more room (the bubble grows toward the middle of the screen) and the media
+// is capped to the bubble's inner width so it never pokes out of the rounded edge.
+globalStyle(
+  bubbleClasses
+    .map(
+      (c) =>
+        `:root[data-bubble-layout] ${c}:has(${mediaBox}, ${stickerBox}, ${mediaWrap}, ${gallery})`
+    )
+    .join(', '),
+  { maxWidth: 'min(90%, 620px)' }
+);
+globalStyle(
+  bubbleClasses
+    .flatMap((c) => [
+      `:root[data-bubble-layout] ${c} ${mediaBox}`,
+      `:root[data-bubble-layout] ${c} ${mediaWrap}`,
+      `:root[data-bubble-layout] ${c} ${gallery}`,
+    ])
+    .join(', '),
+  { maxWidth: '100%' }
+);
+// Media boxes carry a fixed pixel size inline; when the bubble is narrower the box shrinks and its
+// height follows the aspect ratio rather than being squashed.
+globalStyle(bubbleClasses.map((c) => `:root[data-bubble-layout] ${c} ${mediaBox}`).join(', '), {
+  height: 'auto !important',
+});
+
+// Message text stays selectable and copyable even though the rest of the UI is not.
+globalStyle(`${msgContent}, ${msgContent} *`, { userSelect: 'text', WebkitUserSelect: 'text' });
+
+// On a touch screen a long press opens the message sheet; selecting the word under the finger (and
+// the callout, handles and search bar that come with it) would fight it. The sheet offers "Copy text".
+globalStyle(`${msgContent}, ${msgContent} *`, {
+  '@media': {
+    '(pointer: coarse)': {
+      userSelect: 'none',
+      WebkitUserSelect: 'none',
+      WebkitTouchCallout: 'none',
+    },
+  },
+});

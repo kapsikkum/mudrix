@@ -70,21 +70,58 @@ function ProfileNameLink({
 
 export function SystemMessageDisplay({ event, senderName, client, roomId }: SystemMessageProps) {
   const content = event.content.type === 'membership' ? event.content : null;
+  const profile = event.content.type === 'profileChange' ? event.content : null;
   const senderId = event.sender;
-  const subjectId = content?.userId ?? senderId;
+  const subjectId = content?.userId ?? profile?.userId ?? senderId;
   const openProfile = useProfileOpener(subjectId, roomId);
   const members = useLoadedMembers(roomId);
   const subject = members.get(subjectId);
   const sender = members.get(senderId);
 
-  const subjectName = subject?.displayName ?? content?.displayName ?? subjectId;
+  const subjectName =
+    subject?.displayName ??
+    content?.displayName ??
+    (subjectId === senderId ? event.senderName : null) ??
+    subjectId;
   const subjectAvatar =
     subject?.avatarUrl ?? (subjectId === senderId ? event.senderAvatar : null) ?? null;
   const change = content?.change ?? null;
 
   let label: React.ReactNode;
 
-  if (change === 'Joined' || change === 'InvitationAccepted') {
+  if (profile) {
+    const nameLink = { name: <ProfileNameLink userId={subjectId} roomId={roomId} /> };
+    if (profile.displayName) {
+      const { from, to } = profile.displayName;
+      label = to ? (
+        <Trans
+          i18nKey="timeline.userChangedName"
+          values={{ name: from || subjectId, newName: to }}
+          components={nameLink}
+        />
+      ) : (
+        <Trans
+          i18nKey="timeline.userRemovedName"
+          values={{ name: from || subjectId }}
+          components={nameLink}
+        />
+      );
+    } else if (profile.avatar) {
+      label = (
+        <Trans
+          i18nKey={
+            profile.avatar === 'removed'
+              ? 'timeline.userRemovedAvatar'
+              : 'timeline.userChangedAvatar'
+          }
+          values={{ name: subjectName }}
+          components={nameLink}
+        />
+      );
+    } else {
+      return null;
+    }
+  } else if (change === 'Joined' || change === 'InvitationAccepted') {
     label = (
       <Trans
         i18nKey="timeline.userJoined"

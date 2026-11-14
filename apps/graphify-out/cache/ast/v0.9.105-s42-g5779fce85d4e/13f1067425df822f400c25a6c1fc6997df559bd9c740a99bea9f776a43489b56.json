@@ -1,0 +1,2464 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_swift",
+      "label": "SpaceModern.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "label": "RoomListStyle",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle_matrix",
+      "label": "matrix",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle_modern",
+      "label": "modern",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "label": "SpaceModern",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L11",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_style",
+      "label": ".style()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L12",
+      "_callable": true
+    },
+    {
+      "id": "mudrixroomstate",
+      "label": "MudrixRoomState",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "label": ".rootSpace()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L17",
+      "_callable": true
+    },
+    {
+      "id": "spacenode",
+      "label": "SpaceNode",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "label": ".parent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L30",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "label": "Banner",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L36",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "label": ".banner()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L54",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_explicitautojoin",
+      "label": ".explicitAutoJoin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L64",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "label": ".isVoiceChannelFlagged()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L68",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "label": ".validOrder()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "label": ".orderedChildren()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L80",
+      "_callable": true
+    },
+    {
+      "id": "spacelink",
+      "label": "SpaceLink",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "label": "Category",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L94",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "label": ".categories()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L102",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_arrange",
+      "label": ".arrange()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L120",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "label": "Role",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L133",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "label": "Builtin",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L141",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "caseiterable",
+      "label": "CaseIterable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_founder",
+      "label": "founder",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_admin",
+      "label": "admin",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_moderator",
+      "label": "moderator",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_member",
+      "label": "member",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "label": "BuiltinLook",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L145",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "label": "Roles",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L150",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles_isempty",
+      "label": ".isEmpty",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L156"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "label": ".cleanRoleName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L161",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "label": ".isValidRoleColor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L173",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "label": ".isRoleId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L178",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "label": ".levelNeeded()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L185",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "label": ".trusted()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L190",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "label": ".sanitizeRole()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L194",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "label": ".readRoles()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "label": ".powerLevel()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L235",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "label": ".canSendState()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "_callable": true
+    },
+    {
+      "id": "set",
+      "label": "Set",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "label": ".memberStateKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L245",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "label": ".rolesChain()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L250",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "label": ".builtin()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "label": ".roleColor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "target": "string",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle_matrix",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle_modern",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_style",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_style",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_style",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roomliststyle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_explicitautojoin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_explicitautojoin",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_explicitautojoin",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L68",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "spacelink",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L95",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L96",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L102",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_arrange",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L120",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_arrange",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L120",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L133",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L134",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L135",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "string",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "caseiterable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_founder",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_admin",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_moderator",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin_member",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L146",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L147",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L154",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L154",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L156",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles_isempty",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L156",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L161",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L178",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L178",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L178",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L194",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L194",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "mudrixroomstate",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L203",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L235",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L235",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L235",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L235",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L240",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L245",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L245",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L245",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L250",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "target": "spacenode",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L250",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L250",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "target": "set",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L262",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtin",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L271",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_banner",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L82",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_category",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L195",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L196",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L198",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_role",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_trusted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L204",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_builtinlook",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L231",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L241",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L253",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L274",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern",
+      "target": "$graphify-root$_ios_wizardchat_matrix_spacemodern_roles",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_style",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L13",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L22",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rootspace",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L25",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L31",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_parent",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L31",
+      "receiver": "node"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L55",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L56",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_banner",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L57",
+      "receiver": "bannerPresets"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_explicitautojoin",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L65",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvoicechannelflagged",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L69",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_validorder",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L75",
+      "receiver": "order"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_orderedchildren",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L81",
+      "receiver": "node"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "callee": "Dictionary",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L103",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L103",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "callee": "byId",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L104",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_categories",
+      "callee": "walk",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_arrange",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L121",
+      "receiver": "rooms"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L163",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cleanrolename",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L170",
+      "receiver": "words"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L174",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "callee": "allSatisfy",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isvalidrolecolor",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L175",
+      "receiver": "value"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L179",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_isroleid",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L180",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "callee": "powerLevels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_levelneeded",
+      "callee": "powerLevels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L186",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L198",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_sanitizerole",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "get",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L205",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L209",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L210",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L213",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "raw",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L216",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L217",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "enumerated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L224",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "order",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "all",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L225",
+      "receiver": "state"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "assigned",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L226",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L227",
+      "receiver": "ids"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L227",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "order",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L227",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "byUser",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L228",
+      "receiver": "held"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_readroles",
+      "callee": "roles",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "callee": "powerLevels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L236",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_powerlevel",
+      "callee": "powerLevels",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L236",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_cansendstate",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L241",
+      "receiver": "creators"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L246",
+      "receiver": "userId"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_memberstatekey",
+      "callee": "dropFirst",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L246",
+      "receiver": "userId"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L253",
+      "receiver": "graph"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_roleschain",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L255",
+      "receiver": "chain"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_builtin",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L263",
+      "receiver": "creators"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L278",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_spacemodern_spacemodern_rolecolor",
+      "callee": "byUser",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SpaceModern.swift",
+      "source_location": "L278",
+      "receiver": "roles"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/SpaceModern.swift",
+    "table": {
+      "state": "MudrixRoomState",
+      "spaceId": "String",
+      "graph": "SpaceNode",
+      "roomId": "String",
+      "url": "String",
+      "color": "String",
+      "bannerPresets": "String",
+      "order": "String",
+      "node": "SpaceNode",
+      "roomIds": "String",
+      "depth": "Int",
+      "isVoice": "Bool",
+      "id": "String",
+      "name": "String",
+      "builtin": "Builtin",
+      "roles": "Roles",
+      "byUser": "String",
+      "isEmpty": "Bool",
+      "noRoles": "Roles",
+      "value": "String",
+      "powerLevels": "String",
+      "type": "String",
+      "raw": "JSONValue",
+      "userId": "String",
+      "creators": "Set",
+      "powerLevel": "Double",
+      "byId": "Dictionary"
+    }
+  }
+}

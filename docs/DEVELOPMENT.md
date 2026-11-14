@@ -18,7 +18,7 @@ Matrix logic)    Tauri IPC (rpc.rs)   apps/desktop   macOS/Windows/Linux
 `crates/core` does everything that isn't UI: sign-in, sync, encryption, rooms, timelines, calls and settings. The apps
 only render what the core pushes to them and call it for actions. `apps/desktop` reuses the web UI, `apps/ios` (SwiftUI)
 and `apps/android` (Jetpack Compose) are native. The apps' typed API is generated from the declarations in
-`crates/core/src/rpc/`. How the code is organised and what goes where is in [CONTRIBUTING.md](CONTRIBUTING.md).
+`crates/core/src/rpc/`. How the code is organised and what goes where is in [CODEBASE.md](CODEBASE.md).
 
 ## Setup
 
@@ -70,6 +70,21 @@ Don't run cargo and Gradle at the same time on a small machine; both are memory-
 | Desktop | `npm run desktop` | rebuilds the Rust side when the core changes                            |
 | iOS     | `npm run ios`     | builds the core and opens the Xcode project; run it from there          |
 | Android | `npm run android` | builds the core and installs the app on the running emulator or a phone |
+
+## A local server to test against
+
+`tools/test-server` starts a throwaway homeserver (tuwunel) with LiveKit, lk-jwt-service and seeded
+accounts, rooms and fixtures. It runs in Docker or Podman, listens only on this machine, and is
+wiped with one command:
+
+```sh
+npm run test-server        # or `npm run test-server:down` / `npm run test-server:reset`
+npm run test-server:seed
+```
+
+Sign in at `http://localhost:5180/welcome/<address from tools/test-server/.generated/env.json>`. The
+folder's README lists the accounts, the fixture rooms, how to reach it from the Android emulator or
+a USB phone, and the N4/R8/R10 parity checks it exists for.
 
 ## After a change
 

@@ -27,13 +27,13 @@
         "$value": "#f3e4e9"
       },
       "hover": {
-        "$value": "#06060710"
+        "$value": "rgba(6, 6, 7, 0.05)"
       },
       "active": {
-        "$value": "#e0508a24"
+        "$value": "rgba(224, 80, 138, 0.14)"
       },
       "overlay": {
-        "$value": "#4a2f3b66",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
@@ -42,7 +42,7 @@
         "$value": "#4a2f3b"
       },
       "secondary": {
-        "$value": "#684855"
+        "$value": "#b095a0"
       },
       "muted": {
         "$value": "#85606f"
@@ -54,7 +54,7 @@
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#1f6fd1"
+        "$value": "#1F6FD1"
       }
     },
     "accent": {
@@ -65,15 +65,15 @@
         "$value": "#b84271"
       },
       "soft": {
-        "$value": "#e0508a1f",
+        "$value": "rgba(224, 80, 138, 0.14)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#e0508a0d",
+        "$value": "rgba(224, 80, 138, 0.05)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#e0508a08"
+        "$value": "rgba(224, 80, 138, 0.03)"
       }
     },
     "border": {
@@ -81,10 +81,10 @@
         "$value": "#f0cbd9"
       },
       "strong": {
-        "$value": "#d5b0bf"
+        "$value": "#f0cbd9"
       },
       "focus": {
-        "$value": "#b84271"
+        "$value": "#e0508a"
       }
     },
     "status": {
@@ -101,7 +101,7 @@
         "$value": "#d97706"
       },
       "info": {
-        "$value": "#2563eb"
+        "$value": "#1F6FD1"
       },
       "mention": {
         "$value": "#f06428"
@@ -121,30 +121,44 @@
         "$value": "#9ca3af"
       }
     },
+    "role": {
+      "founder": {
+        "$value": "#a855f7"
+      },
+      "admin": {
+        "$value": "#ef4444"
+      },
+      "moderator": {
+        "$value": "#eab308"
+      },
+      "member": {
+        "$value": "#3b82f6"
+      }
+    },
     "logo": {
       "p0": {
-        "$value": "#6a329f"
+        "$value": "#4A301B"
       },
       "p1": {
-        "$value": "#784cc8"
+        "$value": "#644427"
       },
       "p2": {
-        "$value": "#6a329f"
+        "$value": "#7A5434"
       },
       "p3": {
-        "$value": "#784cc8"
+        "$value": "#8A6038"
       },
       "p4": {
-        "$value": "#5e3079"
+        "$value": "#A87B50"
       },
       "p5": {
-        "$value": "#885ee7"
+        "$value": "#CFA170"
       },
       "hover": {
-        "$value": "#9b75f0"
+        "$value": "#E2BC8E"
       },
       "hoverGlow": {
-        "$value": "#9b75f099"
+        "$value": "#E2BC8E99"
       }
     },
     "message": {
@@ -155,7 +169,7 @@
         "$value": "#fdeef3"
       },
       "highlight": {
-        "$value": "#f064281f",
+        "$value": "#f0642826",
         "$description": "Messages that mention you"
       }
     },

@@ -102,7 +102,7 @@ struct MessageMenuOverlay: View {
                     .background(theme.fill, in: Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "emoji.react"))
+            .accessibilityLabel(String(localized: "timeline.addReaction"))
         }
         .padding(.horizontal, WZ.Space.space3)
         .padding(.vertical, WZ.Space.space2)
@@ -144,7 +144,7 @@ struct MessageMenuOverlay: View {
         if canReact, entry.canBeRepliedTo, let openThread = actions.openThread {
             main.append(.init(title: String(localized: "timeline.replyInThread"), icon: "ph-chat-dots-regular") { openThread(entry) })
         }
-        if canReact, entry.isOwn, entry.isEditable, case .message = entry.kind {
+        if canReact, entry.isOwn, entry.isEditable, entry.editableText != nil {
             main.append(.init(title: String(localized: "common.edit"), icon: "ph-pencil-simple-regular") { actions.edit(entry) })
         }
         if !entry.summary.isEmpty, case .message = entry.kind {
@@ -163,10 +163,14 @@ struct MessageMenuOverlay: View {
                 main.append(.init(title: pinned ? String(localized: "timeline.unpin") : String(localized: "timeline.pin"),
                                   icon: pinned ? "ph-push-pin-slash-regular" : "ph-push-pin-regular") { actions.togglePin(entry) })
             }
+            main.append(.init(title: String(localized: "timeline.forward"), icon: "ph-arrow-circle-right-regular") { actions.forward(entry) })
             let isSaved = saved.ids.contains(eventId)
             main.append(.init(title: isSaved ? String(localized: "timeline.unsaveMessage") : String(localized: "timeline.saveMessage"),
                               icon: isSaved ? "ph-bookmark-simple-fill" : "ph-bookmark-simple-regular") { toggleSaved(eventId) })
             main.append(.init(title: String(localized: "timeline.remind.title"), icon: "ph-alarm-regular") { actions.remind(entry) })
+            if entry.isEdited {
+                main.append(.init(title: String(localized: "timeline.editHistory.open"), icon: "ph-clock-counter-clockwise-regular") { actions.editHistory(entry) })
+            }
             main.append(.init(title: String(localized: "timeline.viewSource"), icon: "ph-code-regular") { actions.viewSource(entry) })
             if !entry.isOwn {
                 danger.append(.init(title: String(localized: "timeline.reportShort"), icon: "ph-flag-regular", destructive: true) { actions.report(entry) })

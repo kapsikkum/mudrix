@@ -1,0 +1,3190 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_swift",
+      "label": "IntegrationNetworkTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "label": "IntegrationNetworkTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_teardown",
+      "label": ".tearDown()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L9",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "label": "Answer",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L14",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer_response",
+      "label": "response",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L15"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer_fails",
+      "label": "fails",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L16"
+    },
+    {
+      "id": "error",
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "label": "Scripted",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L20",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "sendable",
+      "label": "Sendable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "net",
+      "label": "Net",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L25",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "label": ".calls",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L27"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "label": ".network",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L32"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "label": ".answer()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "label": ".redirect()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "label": ".req()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "timeinterval",
+      "label": "TimeInterval",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "label": ".failure()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "_callable": true
+    },
+    {
+      "id": "staticstring",
+      "label": "StaticString",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "uint",
+      "label": "UInt",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "label": ".success()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "label": ".isOk()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "label": ".testOnlyHttpsOnAnAllowedHostAndTheDefaultPortIsRequested()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L94",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "label": ".testLocalAndPrivateLookingHostsAreNeverAllowedEvenWhenListed()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L111",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "label": ".testResolvedAddressesInsideTheNetworkAreLocal()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "label": ".testARefusedAddressNeverReachesTheNetwork()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L135",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "label": ".testTheRequestCarriesNoCookiesReferrerOrExtraHeaders()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L144",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "label": ".testAConfirmedPostSendsExactlyItsJsonBodyAndNothingElse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L152",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "label": ".testOnlyAWellFormedEntityTagIsSentAndOnlyOnAGet()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L168",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "label": ".testARedirectInsideTheAllowListIsFollowedOneOutsideItIsRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L184",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "label": ".testARedirectToHttpAnotherPortCredentialsOrAnAddressIsRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L198",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "label": ".testAMissingLocationAPostRedirectAndARedirectLoopAreRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L207",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "label": ".testAnAnswerOverTheCapIsRefusedByItsDeclaredLengthAndWhileStreaming()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L218",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "label": ".testNothingAbove1MBIsAcceptedWhateverTheCallerAsksFor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L226",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "label": ".testTheAnswerMustBeJsonUnlessARepositoryFileOrASignatureWasAskedFor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L232",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "label": ".testAJsonAnswerThatDoesNotParseOrIsNotUtf8IsRefused()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L248",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "label": ".testAnHttpErrorReportsItsStatusAndA304IsPassedOn()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L256",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "label": ".testARequestThatNeverAnswersTimesOutANetworkErrorSaysSo()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L264",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "label": ".testRequestsNobodyAskedForAreRefusedWhileTheBlockerIsOnAskedOnesAreNot()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L272",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_teardown",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer_response",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer_fails",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "target": "error",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "sendable",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_init",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_answer",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "timeinterval",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "target": "staticstring",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "target": "uint",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L73",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "target": "staticstring",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "target": "uint",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "target": "net",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L144",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L152",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L184",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L198",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L207",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L232",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L256",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L264",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L272",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_isok",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L145",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L147",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L164",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L187",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L194",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L228",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L228",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L228",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L229",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L233",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L238",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L252",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_answer",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L257",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L273",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L273",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "target": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L277",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_teardown",
+      "callee": "setPassiveBlocked",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L10",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_teardown",
+      "callee": "tearDown",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L28",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_calls",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L28",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "Net",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L33",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "lock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L35",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L35",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "unlock",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L35",
+      "receiver": "lock"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L36",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "answers",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "yield",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L43",
+      "receiver": "continuation"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "finish",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L44",
+      "receiver": "continuation"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_scripted_network",
+      "callee": "WireResponse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L46",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_redirect",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L63",
+      "receiver": "location"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_req",
+      "callee": "Request",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L69",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_failure",
+      "callee": "Failure",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L76",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_success",
+      "callee": "XCTFail",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L96",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L97",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L97",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L106",
+      "receiver": "bad"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L106",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L107",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L108",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyhttpsonanallowedhostandthedefaultportisrequested",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L108",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "isForbiddenHost",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L114",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L116",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "isForbiddenHost",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L116",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L117",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L117",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L118",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testlocalandprivatelookinghostsareneverallowedevenwhenlisted",
+      "callee": "checkRequestURL",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L118",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L122",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L122",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L123",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L123",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L124",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L124",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L125",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L125",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L126",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv4",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L127",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L128",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv6",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L128",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv6",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L129",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L130",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv6",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L130",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L131",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv6",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L131",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L132",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testresolvedaddressesinsidethenetworkarelocal",
+      "callee": "isLocalIPv6",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L132",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L137",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L138",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L139",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L140",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarefusedaddressneverreachesthenetwork",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L146",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtherequestcarriesnocookiesreferrerorextraheaders",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L154",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L156",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L159",
+      "receiver": "bare"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L161",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L164",
+      "receiver": "big"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaconfirmedpostsendsexactlyitsjsonbodyandnothingelse",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L169",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L170",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L171",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L171",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "validEtag",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L172",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L174",
+      "receiver": "get"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "headers",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L175",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L177",
+      "receiver": "bad"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "headers",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L178",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L180",
+      "receiver": "post"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testonlyawellformedentitytagissentandonlyonaget",
+      "callee": "headers",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L181",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L186",
+      "receiver": "ok"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L187",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L188",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L191",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L191",
+      "receiver": "two"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L194",
+      "receiver": "away"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirectinsidetheallowlistisfollowedoneoutsideitisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L195",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L202",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L202",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testaredirecttohttpanotherportcredentialsoranaddressisrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L209",
+      "receiver": "none"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L211",
+      "receiver": "post"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L212",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L214",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L214",
+      "receiver": "loop"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testamissinglocationapostredirectandaredirectlooparerefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L215",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L220",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L220",
+      "receiver": "declared"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L222",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L222",
+      "receiver": "streamed"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanansweroverthecapisrefusedbyitsdeclaredlengthandwhilestreaming",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L223",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testnothingabove1mbisacceptedwhateverthecallerasksfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L233",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L234",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L235",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L237",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L238",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L240",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L241",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L242",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L242",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L243",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L244",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testtheanswermustbejsonunlessarepositoryfileorasignaturewasaskedfor",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L245",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L249",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L250",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L250",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L251",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L251",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testajsonanswerthatdoesnotparseorisnotutf8isrefused",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L253",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L257",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L258",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L259",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L259",
+      "receiver": "missing"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L260",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testanhttperrorreportsitsstatusanda304ispassedon",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L261",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L265",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "URLError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L265",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L266",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L267",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "URLError",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L267",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L268",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testarequestthatneveranswerstimesoutanetworkerrorsaysso",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L269",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "setPassiveBlocked",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L274",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L275",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L275",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L276",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L277",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L277",
+      "receiver": "s"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "setPassiveBlocked",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L278",
+      "receiver": "Net"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "XCTAssertNotNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L279",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_integrationnetworktests_integrationnetworktests_testrequestsnobodyaskedforarerefusedwhiletheblockerisonaskedonesarenot",
+      "callee": "fetch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/IntegrationNetworkTests.swift",
+      "source_location": "L279",
+      "receiver": "s"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/IntegrationNetworkTests.swift",
+    "table": {
+      "lock": "NSLock",
+      "answers": "Answer",
+      "seen": "Net",
+      "calls": "Net",
+      "network": "Net",
+      "status": "Int",
+      "type": "String",
+      "body": "String",
+      "headers": "String",
+      "location": "String",
+      "url": "String",
+      "allow": "String",
+      "expect": "Net",
+      "maxBytes": "Int",
+      "post": "Bool",
+      "jsonBody": "String",
+      "ifNoneMatch": "String",
+      "passive": "Bool",
+      "timeout": "TimeInterval",
+      "outcome": "Net",
+      "file": "StaticString",
+      "line": "UInt",
+      "check": "Net",
+      "s": "Scripted",
+      "big": "Scripted",
+      "bare": "Scripted",
+      "bad": "Scripted",
+      "get": "Scripted",
+      "away": "Scripted",
+      "two": "Scripted",
+      "ok": "Scripted",
+      "loop": "Scripted",
+      "none": "Scripted",
+      "streamed": "Scripted",
+      "declared": "Scripted"
+    }
+  }
+}

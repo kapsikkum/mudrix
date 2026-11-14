@@ -171,3 +171,27 @@ struct UndecryptableCollapseRow: View {
         .padding(.leading, WZ.Space.space6 + WZ.SizeAvatar.md + WZ.Space.space5)
     }
 }
+
+/// Shown at the top of the history when older messages stopped loading because this device can't read them
+struct UndecryptableHistoryNotice: View {
+    let loading: Bool
+    let onLoadOlder: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space3) {
+            Text(String(localized: "timeline.undecryptable.historyPaused"))
+                .font(.wizard(WZ.FontSize.md, .semibold))
+                .foregroundStyle(theme.textPrimary)
+            Text(String(localized: "timeline.undecryptable.historyPausedReason"))
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.textMuted)
+            Button(String(localized: "timeline.undecryptable.loadOlder"), action: onLoadOlder)
+                .buttonStyle(PrimaryButtonStyle())
+                .disabled(loading)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, WZ.Space.space7)
+        .padding(.vertical, WZ.Space.space6)
+    }
+}

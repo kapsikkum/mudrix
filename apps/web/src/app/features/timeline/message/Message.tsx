@@ -2,12 +2,20 @@ import { memo, useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import type { RoomTimeline, WizardClient as MatrixClient } from '@wizardchat/core';
-import { SmileyIcon, WarningIcon, ChatDotsIcon, ArrowBendUpLeftIcon } from '@phosphor-icons/react';
+import {
+  SmileyIcon,
+  WarningIcon,
+  ChatDotsIcon,
+  ArrowBendUpLeftIcon,
+  CheckIcon,
+} from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Avatar } from '@/app/components/Avatar';
 import { MediaLightbox } from '@/app/components/MediaLightbox/MediaLightbox';
 import { MessageActionToolbar } from './MessageActionToolbar';
 import { ViewSourceModal } from './ViewSourceModal';
+import { EditHistoryModal } from './EditHistoryModal';
+import { EventShield } from './EventShield';
 import { formatTime } from '@/util/format';
 import { formatUserId } from '@/util/matrix';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
@@ -17,8 +25,7 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { isThreadInfoUnread } from '@/app/hooks/useHasUnreadThreads';
-import { CallSessionDisplay } from './callEvents';
-import type { CallSessionSummary } from './callSessions';
+import { CallHistoryDisplay } from './callEvents';
 import { SystemMessageDisplay } from './systemMessages';
 import {
   buildReactionMap,
@@ -87,7 +94,12 @@ function formatReactors(names: string[]): string {
   return `${shown} and ${others} others`;
 }
 
-import { buildReplyContent, isEditableEvent, type ReplyContent } from './textContent';
+import {
+  buildReplyContent,
+  isCaptionEditable,
+  isEditableEvent,
+  type ReplyContent,
+} from './textContent';
 import { ReceiptAvatar } from './receiptAvatar';
 import { ReadReceiptsPopover, useReadReceiptsPopover } from './readReceiptsPopover';
 import { ReactorsSheet } from './ReactorsSheet';
@@ -106,6 +118,7 @@ import { EditMessageComposer } from './EditMessageComposer';
 import { ReplyMediaThumb, isReplyMediaEvent } from './ReplyMediaThumb';
 import { extractPollData } from './PollViewer';
 import * as css from '../Timeline.css';
+import { useExtendedProfile } from '@/app/hooks/useExtendedProfile';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { useRoomRolesContext } from '@/app/features/space/RoomRolesContext';
 import { builtinKeyOf, roleColorOf } from '@/app/features/space/spaceRoles';
@@ -126,6 +139,8 @@ export interface MessageProps {
   senderName: string;
   senderAvatar: string | null;
   isGrouped: boolean;
+  /** Your latest sent message: the bubble layout marks it Sent until someone has read it. */
+  isLastOwn?: boolean;
   variant: MessageLayout;
   isSystemMessage: boolean;
   isEdited: boolean;
@@ -141,7 +156,6 @@ export interface MessageProps {
   sendError?: string | null;
   optimisticBody?: string | null;
   galleryEvents?: MatrixEvent[] | null;
-  callSession?: CallSessionSummary | null;
   client: MatrixClient;
   searchQuery?: string;
   receiptUsers?: ReceiptUser[];
@@ -173,6 +187,7 @@ export const Message = memo(function Message({
   senderName,
   senderAvatar,
   isGrouped,
+  isLastOwn = false,
   variant,
   isSystemMessage,
   isEdited,
@@ -187,7 +202,6 @@ export const Message = memo(function Message({
   isFailed = false,
   optimisticBody = null,
   galleryEvents = null,
-  callSession = null,
   client,
   searchQuery = '',
   receiptUsers = [],
@@ -224,6 +238,7 @@ export const Message = memo(function Message({
     initialTime?: number;
   } | null>(null);
   const [viewSourceEvent, setViewSourceEvent] = useState<MatrixEvent | null>(null);
+  const [editHistoryId, setEditHistoryId] = useState<string | null>(null);
   const [devModeEnabled] = useAtom(developerModeAtom);
   const threadLastSeen = useAtomValue(threadLastSeenAtom);
   const { openContextMenu } = useContextMenu();
@@ -234,6 +249,7 @@ export const Message = memo(function Message({
   const members = useLoadedMembers(roomId);
   const eventKey = entryEventId(event);
 
+  const { data: senderProfile } = useExtendedProfile(client, isGrouped ? null : senderId);
   const colorFor = useUsernameColor();
   const { roles: roomRoles, settings: roomSettings } = useRoomRolesContext();
   // A role's colour (a Modern space) replaces the name colour everyone gets by default.
@@ -244,19 +260,19 @@ export const Message = memo(function Message({
           senderId,
           builtinKeyOf(roomSettings, senderId, members.get(senderId)?.powerLevel ?? 0)
         )
-      : undefined) ?? colorFor(senderId);
+      : undefined) ?? colorFor(senderId, senderProfile?.accent);
   const senderNameStyle = useMemo(
     () => (senderColor ? { color: senderColor } : undefined),
     [senderColor]
   );
 
-  const handleNameClick = useCallback(() => {
-    setMentionInsert({ text: `@${senderName} `, displayName: senderName, userId: senderId });
-  }, [senderName, senderId, setMentionInsert]);
-
   const handleOpenProfile = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
+      if (e.shiftKey) {
+        setMentionInsert({ text: `@${senderName} `, displayName: senderName, userId: senderId });
+        return;
+      }
       const rect = e.currentTarget.getBoundingClientRect();
       setProfile({
         userId: senderId,
@@ -264,7 +280,7 @@ export const Message = memo(function Message({
         anchorRect: { top: rect.top, left: rect.left, width: rect.width, height: rect.height },
       });
     },
-    [senderId, roomId, setProfile]
+    [senderId, roomId, senderName, setMentionInsert, setProfile]
   );
 
   const handleMouseEnter = useCallback(() => {
@@ -303,7 +319,10 @@ export const Message = memo(function Message({
   const myId = client.userId() ?? '';
   const isPollEvent = contentType === 'poll';
   const poll = event.content.type === 'poll' ? event.content.poll : null;
-  const canEditMessageType = isEditableEvent(event) || isPollEvent;
+  const isCaptionEvent = isCaptionEditable(event);
+  const canEditMessageType =
+    (isEditableEvent(event) && !(isCaptionEvent && (galleryEvents?.length ?? 0) >= 2)) ||
+    isPollEvent;
 
   const pollData = useMemo(() => {
     if (!isPollEvent) return null;
@@ -731,6 +750,7 @@ export const Message = memo(function Message({
       mentions: null,
       sendError: null,
       customContent: null,
+      shield: null,
     });
   }, [inReplyTo, replyTarget, myId]);
 
@@ -782,8 +802,8 @@ export const Message = memo(function Message({
     touchFirst && !isRedacted && !isDecrypting && !isUndecryptable && !isFailed && !isSending;
   useSwipeToReply(msgRowRef, swipeContentRef, swipeIconRef, () => onReply(event), canSwipeReply);
 
-  if (callSession) {
-    return <CallSessionDisplay session={callSession} client={client} roomId={roomId} />;
+  if (event.content.type === 'call') {
+    return <CallHistoryDisplay call={event.content.call} client={client} roomId={roomId} />;
   }
 
   if (isSystemMessage) {
@@ -809,6 +829,7 @@ export const Message = memo(function Message({
         event={event}
         client={client}
         timeline={timeline}
+        hideCaption={isEditing}
         mediaSrc={mediaSrc}
         thumbnailSrc={thumbnailSrc}
         isDecrypting={isFileDecrypting}
@@ -838,18 +859,16 @@ export const Message = memo(function Message({
       />
     );
 
-  const isCompact = variant === 'compact';
-  const isCompactInline =
-    !(galleryEvents != null && galleryEvents.length >= 2) &&
-    (isRedacted ||
-      isUndecryptable ||
-      isDecrypting ||
-      contentType === 'text' ||
-      contentType === 'notice' ||
-      contentType === 'emote');
-
   const showEncryptedBanner = isDecrypting || isUndecryptable;
   const showFailedUI = isFailed && !isEdited && !isRedacted;
+  const showShield =
+    !!event.shield &&
+    !isSystemMessage &&
+    !isRedacted &&
+    !isSending &&
+    !isFailed &&
+    !isUndecryptable &&
+    !isDecrypting;
   const actionToolbar = showActions && !isRedacted && !showEncryptedBanner && !showFailedUI && (
     <MessageActionToolbar
       event={event}
@@ -969,6 +988,26 @@ export const Message = memo(function Message({
     </div>
   );
 
+  // Bubble layout: Signal/Telegram-style status under the bubble. Who has read up to a message shows
+  // under it; your latest message that nobody has read yet says Sent.
+  const bubbleStatus =
+    variant === 'classic' &&
+    (receiptUsers.length > 0 || (isOwn && isLastOwn && !isSending && !isFailed)) ? (
+      <div className={[css.bubbleStatusRow, isOwn ? css.bubbleStatusRowOwn : null].join(' ')}>
+        {receiptUsers.length > 0 ? (
+          <>
+            {readReceiptBar}
+            {isOwn && <span>{t('timeline.seen', { defaultValue: 'Seen' })}</span>}
+          </>
+        ) : (
+          <>
+            <CheckIcon size={11} weight="bold" />
+            <span>{t('timeline.sent', { defaultValue: 'Sent' })}</span>
+          </>
+        )}
+      </div>
+    ) : null;
+
   const failedUI = showFailedUI && (
     <div className={css.sendFailedRow}>
       <WarningIcon size={14} className={css.sendFailedIcon} />
@@ -1002,15 +1041,11 @@ export const Message = memo(function Message({
           height={24}
           alt={displayReply.body || ''}
           placeholder="none"
-          style={{
-            height: '1.4em',
-            width: 'auto',
-            verticalAlign: 'middle',
-            display: 'inline',
-          }}
+          className={css.replyImage}
         />
       ) : (
         <span
+          className={css.replyText}
           dangerouslySetInnerHTML={{
             __html: displayReply.formattedBody
               ? markdownToHtml(displayReply.formattedBody, myId, true, false, true)
@@ -1051,8 +1086,9 @@ export const Message = memo(function Message({
         : css.msgContent;
 
   const rowClass = [
-    isCompact ? css.msgRowCompact : isGrouped ? css.msgRowGrouped : css.msgRow,
+    isGrouped ? css.msgRowGrouped : css.msgRow,
     showActions ? css.msgRowActive : null,
+    isOwn ? css.msgRowOwn : null,
     isSending ? css.msgSending : null,
     isFailed ? css.msgFailed : null,
   ]
@@ -1073,6 +1109,7 @@ export const Message = memo(function Message({
       tabIndex={0}
       role="group"
       data-hovered={showActions ? 'true' : 'false'}
+      data-swipe-reply={canSwipeReply ? '' : undefined}
     >
       {canSwipeReply && (
         <span ref={swipeIconRef} className={css.swipeReplyIcon} aria-hidden>
@@ -1085,9 +1122,11 @@ export const Message = memo(function Message({
         data-flashing={isFlashing ? 'true' : undefined}
       >
         {hasReplyLine && !displayReply && (
-          <div className={css.replyLineRow} aria-hidden="true">
+          <div className={css.replyLineRow}>
             <span className={css.replyConnector} />
-            <span className={css.replyLineSkeleton} />
+            <div className={css.replyLineButton} aria-hidden="true" style={{ cursor: 'default' }}>
+              <span className={css.replyQuoteSkeleton} />
+            </div>
           </div>
         )}
         {hasReplyLine && displayReply && (
@@ -1105,53 +1144,65 @@ export const Message = memo(function Message({
                 size="xs"
                 placeholder="logo"
               />
-              <strong style={{ color: colorFor(displayReply.senderId) }}>@{replyName}</strong>{' '}
-              {replyBody}
+              <strong>@{replyName}</strong> {replyBody}
             </button>
           </div>
         )}
-        {!isCompact && (
-          <div className={css.msgAvatarCol}>
-            {!isGrouped && (
-              <button
-                type="button"
-                onClick={handleOpenProfile}
-                aria-label={senderName}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  cursor: 'pointer',
-                  lineHeight: 0,
-                }}
-              >
-                <Avatar
-                  name={senderName}
-                  mxcUrl={senderAvatar}
-                  client={client}
-                  size="sm"
-                  placeholder="logo"
-                />
-              </button>
-            )}
-          </div>
-        )}
+        <div className={css.msgAvatarCol}>
+          {!isGrouped && (
+            <button
+              type="button"
+              onClick={handleOpenProfile}
+              aria-label={senderName}
+              style={{
+                background: 'none',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                lineHeight: 0,
+              }}
+            >
+              <Avatar
+                name={senderName}
+                mxcUrl={senderAvatar}
+                client={client}
+                size={variant === 'classic' ? 'xs' : 'sm'}
+                placeholder="logo"
+              />
+            </button>
+          )}
+        </div>
 
-        <div className={isCompact ? css.compactBody : css.msgBody}>
-          {!isGrouped && !isCompact ? (
+        <div className={css.msgBody}>
+          {!isGrouped ? (
             <div className={css.msgMeta}>
               <button
                 type="button"
                 className={css.msgSender}
                 style={senderNameStyle}
-                onClick={handleNameClick}
+                onClick={handleOpenProfile}
               >
                 {senderName}
               </button>
               <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
-              {isEdited && <span className={css.editedMarkerHeader}>{t('timeline.edited')}</span>}
+              {isEdited && (
+                <button
+                  type="button"
+                  className={css.editedMarkerHeader}
+                  onClick={() => setEditHistoryId(event.eventId)}
+                  title={t('timeline.editHistory.open')}
+                >
+                  {t('timeline.edited')}
+                </button>
+              )}
             </div>
           ) : null}
+
+          {!hideReplyQuote && !hasReplyLine && !displayReply && inReplyTo?.state === 'pending' && (
+            <div className={css.replyQuote} aria-hidden="true" style={{ cursor: 'default' }}>
+              <span className={css.replyQuoteSkeleton} />
+            </div>
+          )}
 
           {!hideReplyQuote && !hasReplyLine && displayReply && (
             <button
@@ -1159,7 +1210,7 @@ export const Message = memo(function Message({
               className={css.replyQuote}
               onClick={() => onJumpToEvent?.(displayReply.eventId)}
             >
-              <strong style={{ color: colorFor(displayReply.senderId) }}>
+              <strong>
                 {members.get(displayReply.senderId)?.displayName ??
                   displayReply.senderName ??
                   formatUserId(displayReply.senderId)}
@@ -1169,63 +1220,37 @@ export const Message = memo(function Message({
             </button>
           )}
 
-          {isCompact ? (
-            <>
-              <div className={css.compactLine}>
-                <span className={css.compactHeader}>
-                  <span
-                    className={css.compactTime}
-                    title={new Date(ts).toLocaleString(i18n.language)}
-                  >
-                    {formatTime(ts, i18n.language)}
-                  </span>
-                  <button
-                    type="button"
-                    className={css.msgSender}
-                    style={senderNameStyle}
-                    onClick={handleNameClick}
-                  >
-                    {senderName}
-                  </button>
-                </span>
-                {!isEditing && isCompactInline && (
-                  <div className={css.compactText}>
-                    {messageContent}
-                    {isEdited && (
-                      <span className={css.editedMarkerGroupedClassic}>
-                        {' '}
-                        {t('timeline.edited')}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              {isEditing && !isPollEvent && editState ? (
-                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
-              ) : !isEditing && !isCompactInline ? (
-                <div className={css.compactBlock}>
-                  {messageContent}
-                  {isEdited && (
-                    <span className={css.editedMarkerGroupedClassic}> {t('timeline.edited')}</span>
-                  )}
-                </div>
-              ) : null}
-            </>
-          ) : isEditing && !isPollEvent ? (
+          {isEditing && !isPollEvent ? (
             editState ? (
-              <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              <>
+                {isCaptionEvent && <div className={contentClass}>{messageContent}</div>}
+                <EditMessageComposer client={client} editState={editState} onClose={cancelEdit} />
+              </>
             ) : null
           ) : !isEditing ? (
             <div className={contentClass}>
-              {messageContent}
+              {showShield ? (
+                <div className={css.msgContentShieldRow}>
+                  <div className={css.msgContentShieldBody}>{messageContent}</div>
+                  <EventShield shield={event.shield} />
+                </div>
+              ) : (
+                messageContent
+              )}
+              {isGrouped && variant === 'classic' && (
+                <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
+              )}
               {isGrouped && isEdited && (
-                <span
+                <button
+                  type="button"
                   className={
                     variant === 'classic' ? css.editedMarkerGroupedClassic : css.editedMarkerGrouped
                   }
+                  onClick={() => setEditHistoryId(event.eventId)}
+                  title={t('timeline.editHistory.open')}
                 >
                   {t('timeline.edited')}
-                </span>
+                </button>
               )}
             </div>
           ) : null}
@@ -1266,11 +1291,13 @@ export const Message = memo(function Message({
               </button>
             </Tooltip>
           )}
+
+          {!isEditing && bubbleStatus}
         </div>
         {!isEditing && actionToolbar}
       </div>
 
-      {readReceiptBar}
+      {variant !== 'classic' && readReceiptBar}
 
       <ReadReceiptsPopover
         client={client}
@@ -1298,6 +1325,12 @@ export const Message = memo(function Message({
         roomId={roomId}
         client={client}
         onClose={handleViewSourceClose}
+      />
+      <EditHistoryModal
+        client={client}
+        roomId={roomId}
+        eventId={editHistoryId}
+        onClose={() => setEditHistoryId(null)}
       />
       {editPollModal}
     </div>

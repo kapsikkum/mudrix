@@ -17,7 +17,7 @@ const MAX_VISIBLE = 8;
 
 interface GalleryReady {
   src: string | null;
-  requestFullRes: () => Promise<string | null>;
+  requestFullRes: (force?: boolean) => Promise<string | null>;
 }
 
 interface GalleryImageProps {

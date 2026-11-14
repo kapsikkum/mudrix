@@ -1,9 +1,9 @@
-import BackgroundTasks
 import SwiftUI
 import UIKit
 
 @main
 struct WizardChatApp: App {
+    @UIApplicationDelegateAdaptor(PushAppDelegate.self) private var pushDelegate
     @StateObject private var session = MatrixSession()
     @StateObject private var prefs = AppPreferences()
     @StateObject private var notifier = MessageNotifier()
@@ -15,9 +15,10 @@ struct WizardChatApp: App {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.scenePhase) private var scenePhase
 
-    static let refreshTask = "chat.mudrix.mobile.refresh"
 
     init() {
+        // Before any client is restored: the store the notification extension needs is in the app group
+        SessionStore.prepare()
         FontRegistry.registerFonts()
     }
 
@@ -82,19 +83,28 @@ struct WizardChatApp: App {
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
             .onChange(of: prefs.followSystemTheme) { _, _ in applyAppIcon() }
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
-            // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork)
+            // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork),
+            // and the notification service extension shows no text when it is on
             .onChange(of: prefs.streamerModeActive, initial: true) { _, active in
                 IntegrationNetwork.setPassiveBlocked(active)
+                ShareInbox.saveHideContent(active)
             }
             .onChange(of: prefs.showPresence) { _, visible in
-                Task { await session.applyPresence(visible) }
+                Task { await session.applyPresence(visible, choice: prefs.presenceChoice) }
+            }
+            .onChange(of: prefs.presenceChoice) { _, choice in
+                Task { await session.applyPresence(prefs.showPresence, choice: choice) }
+            }
+            // The notification service extension can't read these, and the gateway's alerts would
+            // otherwise always play the system sound
+            .onChange(of: prefs.notificationSounds, initial: true) { _, on in
+                ShareInbox.saveNotificationSounds(on)
             }
         }
         .onChange(of: scenePhase) { _, phase in
             switch phase {
             case .background:
                 UIApplication.shared.ignoreSnapshotOnNextApplicationLaunch()
-                Self.scheduleRefresh()
                 Task { await session.pauseSync(keepRunning: calls.isInCall) }
             case .active:
                 Task { await session.resumeSync() }
@@ -102,25 +112,6 @@ struct WizardChatApp: App {
                 break
             }
         }
-        .backgroundTask(.appRefresh(Self.refreshTask)) {
-            await backgroundRefresh()
-        }
-    }
-
-    private static func scheduleRefresh() {
-        let request = BGAppRefreshTaskRequest(identifier: refreshTask)
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
-        try? BGTaskScheduler.shared.submit(request)
-    }
-
-    @MainActor
-    private func backgroundRefresh() async {
-        Self.scheduleRefresh()
-        if session.state == .restoring { await session.restore() }
-        guard session.state == .loggedIn, let roomList = session.roomList else { return }
-        notifier.start(roomList: roomList, prefs: prefs)
-        try? await session.client?.startSync()
-        try? await Task.sleep(for: .seconds(20))
     }
 
     private func onLoginChanged() async {
@@ -134,6 +125,7 @@ struct WizardChatApp: App {
         VoiceMoves.stop()
         verificationRequests.stop()
         MemberDirectory.shared.reset()
+        PresenceCache.shared.reset()
         syncer?.stop()
         syncer = nil
         guard session.state == .loggedIn, session.client != nil else { return }
@@ -143,13 +135,19 @@ struct WizardChatApp: App {
             syncer = next
             next.start()
         }
-        await session.applyPresence(prefs.showPresence)
+        await session.applyPresence(prefs.showPresence, choice: prefs.presenceChoice)
         await session.ensureMudrixUserFlag()
         if let roomList = session.roomList {
             notifier.start(roomList: roomList, prefs: prefs)
         }
+        Push.client = { [weak session] in session?.client }
+        Push.resume = { [weak session] in await session?.resumeSync() }
+        Push.pause = { [weak session] in await session?.pauseSync(keepRunning: false) }
+        Push.requestToken()
+        Push.scheduleRefresh()
         if let client = session.client {
-            calls.watchIncoming(client)
+            let notifier = notifier
+            calls.watchIncoming(client, session: session) { [weak notifier] call in notifier?.notifyMissedCall(call) }
             SavedMessages.shared.start(client: client)
             Reminders.shared.start(client: client) { session.roomList?.room(id: $0)?.displayName }
             recentEmoji.start(client: client)

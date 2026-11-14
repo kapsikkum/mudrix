@@ -21,6 +21,8 @@ export function IdentitySection({ form, nameLabel, namePlaceholder }: Props) {
   const {
     fileRef,
     currentAvatarMxc,
+    shownAvatarMxc,
+    isDm,
     currentName,
     name,
     setName,
@@ -82,7 +84,7 @@ export function IdentitySection({ form, nameLabel, namePlaceholder }: Props) {
               {avatarPreview ? (
                 <img src={avatarPreview} alt="preview" className={css.avatarPreviewImg} />
               ) : (
-                <Avatar name={currentName} mxcUrl={currentAvatarMxc} client={client} size="xl" />
+                <Avatar name={currentName} mxcUrl={shownAvatarMxc} client={client} size="xl" />
               )}
               {canSetAvatar && !currentAvatarMxc && !avatarPreview && (
                 <div className={css.avatarOverlay}>
@@ -114,6 +116,11 @@ export function IdentitySection({ form, nameLabel, namePlaceholder }: Props) {
                     : undefined
                 }
               />
+            )}
+            {isDm && canSetAvatar && currentAvatarMxc && !avatarPreview && (
+              <Button variant="secondary" size="sm" onClick={() => void handleRemoveAvatar()}>
+                {t('room.settings.general.resetAvatar')}
+              </Button>
             )}
             <input
               ref={fileRef}

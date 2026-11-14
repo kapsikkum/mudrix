@@ -1,0 +1,195 @@
+name: iOS
+
+# Compile check (and unit tests) for the iOS Simulator, no signing. macOS minutes cost 10x: this only runs when iOS,
+# core or shared-package files change, or by hand (Actions -> iOS -> Run workflow).
+# The raw xcodebuild logs are uploaded whether or not the build passes.
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps/ios/**
+      - crates/**
+      - packages/**
+      - whatsnew/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/ios.yml
+      - .github/actions/setup-rust/**
+  pull_request:
+    paths:
+      - apps/ios/**
+      - crates/**
+      - packages/**
+      - whatsnew/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/ios.yml
+      - .github/actions/setup-rust/**
+  workflow_dispatch:
+    inputs:
+      xcode-version:
+        description: Xcode version to select (must ship the iOS 18 SDK or newer)
+        default: '26'
+        type: string
+      run-tests:
+        description: Run the XCTest target after the build
+        default: true
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  XCODE_VERSION: ${{ inputs.xcode-version || '26' }}
+  RUN_TESTS: ${{ github.event_name == 'workflow_dispatch' && !inputs.run-tests && 'false' || 'true' }}
+
+defaults:
+  run:
+    # Explicit shell: bash runs with -eo pipefail, so `cmd | tee log` still fails when cmd does
+    shell: bash
+
+jobs:
+  build:
+    name: Simulator build + tests (unsigned)
+    # macos-26 = Apple silicon, Xcode 26 (needed for the Icon Composer .icon app icons). Pinned instead of macos-latest so the image doesn't change under us.
+    runs-on: macos-26
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          targets: aarch64-apple-ios aarch64-apple-ios-sim
+          cache-key: ios
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Tools (xcodegen, xcbeautify)
+        run: |
+          mkdir -p ci-logs
+          brew list xcodegen > /dev/null 2>&1 || brew install xcodegen
+          brew list xcbeautify > /dev/null 2>&1 || brew install xcbeautify || true
+          {
+            xcodebuild -version
+            xcrun --sdk iphonesimulator --show-sdk-version
+            swift --version
+            xcodegen --version
+          } 2>&1 | tee ci-logs/versions.log
+
+      - run: npm ci --ignore-scripts
+
+      # tokens, translations, emoji and icons: project.yml pulls packages/*/dist into the app
+      - name: Shared assets
+        run: npm run assets
+
+      # Debug profile, aarch64-apple-ios + aarch64-apple-ios-sim, UniFFI Swift bindings, XCFramework
+      - name: Build the core for iOS
+        run: apps/ios/scripts/build-core.sh --debug 2>&1 | tee ci-logs/build-core.log
+
+      - name: Generate the Xcode project
+        working-directory: apps/ios
+        run: xcodegen generate 2>&1 | tee ../../ci-logs/xcodegen.log
+
+      - name: Cache Swift packages (LiveKit)
+        uses: actions/cache@v4
+        with:
+          path: apps/ios/build/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('apps/ios/project.yml') }}
+
+      - name: Pick an iOS 18+ simulator
+        run: |
+          xcrun simctl list devices available --json > ci-logs/simulators.json
+          python3 - <<'PY' | tee sim.env
+          import json, sys
+          runtimes = json.load(open("ci-logs/simulators.json"))["devices"]
+          best = None
+          for runtime, devices in runtimes.items():
+              if "iOS-" not in runtime:
+                  continue
+              version = tuple(int(p) for p in runtime.rsplit("iOS-", 1)[1].split("-") if p.isdigit())
+              if version < (18,):
+                  continue
+              for d in devices:
+                  if d["name"].startswith("iPhone") and d.get("isAvailable", True):
+                      cand = (version, d["name"], d["udid"])
+                      if best is None or cand > best:
+                          best = cand
+          if best is None:
+              sys.exit("no iPhone simulator with an iOS 18+ runtime is available; see ci-logs/simulators.json")
+          print("SIM_ID=%s" % best[2])
+          print("SIM_NAME=%s (iOS %s)" % (best[1], ".".join(map(str, best[0]))), file=sys.stderr)
+          PY
+          cat sim.env >> "$GITHUB_ENV"
+
+      - name: xcodebuild build
+        working-directory: apps/ios
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project WizardChat.xcodeproj \
+            -scheme WizardChat \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SIM_ID" \
+            -derivedDataPath build \
+            -resultBundlePath ../../ci-logs/build.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
+            2>&1 | tee ../../ci-logs/xcodebuild-build.log \
+            | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
+
+      - name: xcodebuild test
+        if: env.RUN_TESTS == 'true'
+        working-directory: apps/ios
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project WizardChat.xcodeproj \
+            -scheme WizardChat \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$SIM_ID" \
+            -derivedDataPath build \
+            -resultBundlePath ../../ci-logs/test.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
+            2>&1 | tee ../../ci-logs/xcodebuild-test.log \
+            | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
+
+      # The first iOS compile ever: put every distinct error into the run summary so one run shows the whole list
+      - name: Error summary
+        if: always()
+        run: |
+          {
+            echo '### Compiler and linker errors'
+            echo '```'
+            grep -hE '(: error:|^error:|ld: |Undefined symbols|BUILD FAILED|TEST FAILED|\*\* .* FAILED \*\*)' ci-logs/*.log 2> /dev/null | sort -u | head -400 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-xcodebuild-logs
+          path: ci-logs/
+          if-no-files-found: warn
+          retention-days: 14

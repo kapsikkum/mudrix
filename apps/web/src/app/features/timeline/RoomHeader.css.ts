@@ -65,6 +65,38 @@ export const roomName = style({
   flexShrink: 0,
 });
 
+const encryptionBtnBase = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  flexShrink: 0,
+  border: 'none',
+  background: 'none',
+  padding: 0,
+  borderRadius: vars.radius.sm,
+  cursor: 'pointer',
+  transition: `background-color ${fast}, color ${fast}`,
+} as const;
+
+export const encryptionBtn = style([
+  encryptionBtnBase,
+  {
+    color: vars.color.textSecondary,
+    ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
+  },
+]);
+
+export const encryptionBtnOff = style([
+  encryptionBtnBase,
+  {
+    color: vars.color.textMuted,
+    opacity: 0.75,
+    ':hover': { backgroundColor: vars.color.bgHover, opacity: 1 },
+  },
+]);
+
 export const topicDivider = style({
   width: '3px',
   height: '3px',

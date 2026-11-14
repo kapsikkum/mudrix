@@ -1,0 +1,223 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilewriting_swift",
+      "label": "ProfileWriting.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "label": ".writeProfileField()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L8",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileWriting.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ProfileWriting.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "label": ".ensureMudrixUserFlag()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L27",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "target": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "callee": "setProfileField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L14",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "callee": "deleteProfileField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L16",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_writeprofilefield",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L19",
+      "receiver": "failures"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "callee": "bool",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L31",
+      "receiver": "defaults"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "callee": "profileField",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L32",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "callee": "isUserKeys",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L32",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "callee": "supportsExtendedProfiles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L34",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession_ensuremudrixuserflag",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ProfileWriting.swift",
+      "source_location": "L37",
+      "receiver": "defaults"
+    }
+  ],
+  "swift_extensions": [
+    {
+      "nid": "$graphify-root$_ios_wizardchat_matrix_profilewriting_matrixsession",
+      "label": "MatrixSession"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ProfileWriting.swift",
+    "table": { "keys": "String", "value": "JSONValue", "defaults": "UserDefaults" }
+  }
+}

@@ -1,5 +1,6 @@
 package org.wizardchat.android.ui.voice
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.spring
@@ -37,6 +38,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +59,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import io.livekit.android.renderer.TextureViewRenderer
 import io.livekit.android.room.track.VideoTrack
 import livekit.org.webrtc.RendererCommon
+import org.wizardchat.android.LocalPrefs
+import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.CallManager
 import org.wizardchat.android.matrix.CallParticipantInfo
 import org.wizardchat.android.ui.Avatar
@@ -77,6 +81,8 @@ import io.livekit.android.room.Room as LiveKitRoom
 @Composable
 fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
     val calls = CallManager.shared
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
     var volumeFor by remember { mutableStateOf<String?>(null) }
     val screenShares = calls.participants.filter { it.screenTrack != null }
     val full: (androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope.() -> GridItemSpan) = { GridItemSpan(maxLineSpan) }
@@ -93,7 +99,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 item(span = full) {
                     Box(contentAlignment = Alignment.Center) {
                         IconLabel(
-                            tr("voice.statusReconnecting"),
+                            tr("call.statusReconnecting"),
                             "wifi-slash",
                             color = theme.warningColor,
                             size = WZ.FontSize.sm,
@@ -110,25 +116,39 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
             }
             items(calls.participants, key = { it.id }) { participant ->
                 var showMenu by remember { mutableStateOf(false) }
+                var moveTargets by remember(room.id, participant.userId) { mutableStateOf(emptyList<RoomSummary>()) }
+                var showMove by remember { mutableStateOf(false) }
+                LaunchedEffect(showMenu) {
+                    if (showMenu) moveTargets = voiceMoveTargets(session, room.id, participant.userId)
+                }
                 Box(Modifier.animateItem()) {
                     ParticipantTile(
                         room.id,
                         participant,
-                        onTap = { if (!participant.isLocal) volumeFor = participant.userId },
-                        onLongPress = { if (!participant.isLocal) showMenu = true },
+                        onTap = { if (!participant.isLocal && !participant.isOwnOtherDevice) volumeFor = participant.userId },
+                        onLongPress = { if (!participant.isLocal && !participant.isOwnOtherDevice) showMenu = true },
                     )
                     WizardMenu(
                         showMenu,
                         { showMenu = false },
-                        listOf(
-                            if (participant.locallyMuted) {
-                                MenuItem(tr("call.unmuteForMe"), "speaker-high") { calls.toggleLocalMute(participant.userId) }
+                        buildList {
+                            add(
+                                if (participant.locallyMuted) {
+                                    MenuItem(tr("call.unmuteForMe"), "speaker-high") { calls.toggleLocalMute(participant.userId) }
+                                } else {
+                                    MenuItem(tr("call.muteForMe"), "speaker-slash") { calls.toggleLocalMute(participant.userId) }
+                                },
+                            )
+                            add(MenuItem(tr("call.volume"), "sliders") { volumeFor = participant.userId })
+                            if (participant.userId in prefs.soundboardMutedUsers) {
+                                add(MenuItem(tr("soundboard.person.unmute"), "bell") { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers - participant.userId })
                             } else {
-                                MenuItem(tr("call.muteForMe"), "speaker-slash") { calls.toggleLocalMute(participant.userId) }
-                            },
-                            MenuItem(tr("call.volume"), "sliders") { volumeFor = participant.userId },
-                        ),
+                                add(MenuItem(tr("soundboard.person.mute"), "bell-slash") { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers + participant.userId })
+                            }
+                            if (moveTargets.isNotEmpty()) add(MenuItem(tr("room.settings.channels.moveTo"), "arrow-circle-right") { showMove = true })
+                        },
                     )
+                    if (showMove) VoiceMoveDialog(room.id, participant.userId, moveTargets) { showMove = false }
                 }
             }
         }
@@ -143,7 +163,7 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
             ) {
                 Spinner()
-                Text(tr("voice.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                Text(tr("call.statusConnecting"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
             }
         }
     }
@@ -156,14 +176,19 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
 @Composable
 private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, onTap: () -> Unit, onLongPress: () -> Unit) {
     val profile = rememberMemberProfile(participant.userId, roomId)
-    val name = profile.name ?: participant.userId
+    val name = participant.displayName ?: profile.name ?: participant.userId
+    val avatarUrl = participant.avatarUrl ?: profile.avatarUrl
     val shape = RoundedCornerShape(WZ.Radius.xl)
     val ring by animateColorAsState(
         if (participant.speaking) theme.success else Color.Transparent,
         tween(WZ.MotionDuration.fast),
         label = "speaking",
     )
-    val hint = if (participant.isLocal) "" else tr("voice.tapToChangeTheir")
+    val hint = if (participant.isLocal || participant.isOwnOtherDevice) "" else tr("call.volumeHint")
+    val label = when {
+        participant.isOwnOtherDevice -> tr("call.ownOtherDevice", name)
+        else -> name
+    }
 
     Box(
         Modifier
@@ -173,14 +198,21 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
             .background(theme.fill)
             .border(WZ.BorderWidth.thick, ring, shape)
             .combinedClickable(onClick = onTap, onLongClick = onLongPress)
-            .semantics { contentDescription = listOf(name, hint).filter { it.isNotEmpty() }.joinToString(", ") },
+            .semantics { contentDescription = listOf(label, hint).filter { it.isNotEmpty() }.joinToString(", ") },
         contentAlignment = Alignment.Center,
     ) {
         val camera = participant.cameraTrack
         if (camera != null) {
             CallVideoView(camera, participant.connection, fill = true, mirror = participant.isLocal, Modifier.fillMaxSize())
         } else {
-            Avatar(name, profile.avatarUrl, WZ.SizeAvatar.lg, modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f))
+            org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                participant.userId,
+                name,
+                avatarUrl,
+                WZ.SizeAvatar.lg,
+                modifier = Modifier.alpha(if (participant.connected) 1f else 0.5f),
+                animateDecoration = true,
+            )
         }
         AnimatedContent(
             participant.reaction,
@@ -221,7 +253,7 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
                 )
             }
             Text(
-                if (participant.isLocal) tr("voice.userYou", name) else name,
+                label,
                 Modifier.weight(1f, fill = false),
                 style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                 color = theme.textPrimary,
@@ -235,12 +267,13 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
 
 @Composable
 private fun ScreenShareTile(roomId: String, participant: CallParticipantInfo, track: VideoTrack) {
-    val name = rememberMemberProfile(participant.userId, roomId).name ?: participant.userId
+    val profile = rememberMemberProfile(participant.userId, roomId)
+    val name = participant.displayName ?: profile.name ?: participant.userId
     val shape = RoundedCornerShape(WZ.Radius.xl)
     Box(Modifier.fillMaxWidth().aspectRatio(16f / 9f).clip(shape).background(theme.bgTertiary)) {
         CallVideoView(track, participant.connection, fill = false, mirror = false, Modifier.fillMaxSize())
         IconLabel(
-            tr("voice.userScreen", name),
+            tr("call.userScreen", name),
             "monitor-arrow-up",
             color = theme.textPrimary,
             size = WZ.FontSize.sm,
@@ -291,7 +324,7 @@ private fun VolumeSheet(roomId: String, userId: String) {
                     modifier = Modifier.weight(1f),
                     colors = SliderDefaults.colors(thumbColor = theme.accent, activeTrackColor = theme.accent, inactiveTrackColor = theme.fill),
                 )
-                PhIcon("speaker-high", PhWeight.fill, tint = theme.textMuted)
+                PhIcon("speaker-high", PhWeight.regular, tint = theme.textMuted)
             }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -312,20 +345,28 @@ internal fun CallVideoView(track: VideoTrack, connection: LiveKitRoom?, fill: Bo
     key(room) {
         val attached = remember { arrayOfNulls<VideoTrack>(1) }
         AndroidView(
-            factory = { context -> TextureViewRenderer(context).also(room::initVideoRenderer) },
+            factory = { context ->
+                TextureViewRenderer(context).also { view ->
+                    runCatching { room.initVideoRenderer(view) }.onFailure { Log.w("WZCALL", "video view setup failed", it) }
+                }
+            },
             update = { view ->
                 view.setScalingType(if (fill) RendererCommon.ScalingType.SCALE_ASPECT_FILL else RendererCommon.ScalingType.SCALE_ASPECT_FIT)
                 view.setMirror(mirror)
                 if (attached[0] !== track) {
-                    attached[0]?.removeRenderer(view)
-                    track.addRenderer(view)
+                    runCatching {
+                        attached[0]?.removeRenderer(view)
+                        track.addRenderer(view)
+                    }.onFailure { Log.w("WZCALL", "attaching video failed", it) }
                     attached[0] = track
                 }
             },
             onRelease = { view ->
-                attached[0]?.removeRenderer(view)
+                runCatching {
+                    attached[0]?.removeRenderer(view)
+                    view.release()
+                }
                 attached[0] = null
-                view.release()
             },
             modifier = modifier,
         )

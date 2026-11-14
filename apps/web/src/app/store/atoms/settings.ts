@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { MOD_MODIFIER } from '@/app/util/platform';
 import type { UiDensity, UiScale } from '@/theme/uiDensity';
 import {
   DEFAULT_EMOJI_ONLY_SIZE,
@@ -11,7 +12,8 @@ import { DEFAULT_THEME } from '@/theme/themes.css';
 import type { CustomTheme } from '@/theme/customThemes';
 import { DEFAULT_SOUND_PACK, type SoundKind } from '@/util/notificationSounds';
 import type { ThemeName } from '@/theme/themeTokens';
-import { MOD_MODIFIER } from '@/app/util/platform';
+import { isMobileDevice } from '@/util/desktop';
+import { dictionaryForLocale, isSpellcheckAvailable } from '@/util/spellcheck/languages';
 import {
   STORAGE_KEY_THEME,
   STORAGE_KEY_CUSTOM_THEMES,
@@ -47,6 +49,8 @@ export type YouTubeEmbeds = 'ask' | 'on' | 'off';
 export type GifProviderPreference = 'giphy' | 'klipy';
 export type ReducedMotion = 'system' | 'on' | 'off';
 export type ChatDensity = 'compact' | 'default' | 'spacious';
+export type ScreenShareQuality = '720' | '1080' | 'source';
+export type ScreenShareFps = 15 | 30 | 60;
 export type { UiDensity, UiScale } from '@/theme/uiDensity';
 
 export interface Keybinds {
@@ -54,18 +58,21 @@ export interface Keybinds {
   toggleDeafen: string;
   toggleVideo: string;
   disconnect: string;
+  toggleScreenShare?: string;
   pushToTalk: string;
 }
 
 export const DEFAULT_KEYBINDS: Keybinds = {
-  toggleMute: `${MOD_MODIFIER}+Shift+KeyM`,
-  toggleDeafen: `${MOD_MODIFIER}+Shift+KeyD`,
+  toggleMute: '',
+  toggleDeafen: '',
   toggleVideo: '',
   disconnect: '',
+  toggleScreenShare: `${MOD_MODIFIER}+Shift+KeyE`,
   pushToTalk: '',
 };
 
 export interface Preferences {
+  slidingSync: boolean;
   typingIndicators: boolean;
   notificationSounds: boolean;
   /** Whether message sounds also play while the app is the window being looked at. */
@@ -111,6 +118,10 @@ export interface Preferences {
   uiZoom: number;
   timeFormat: TimeFormatPreference;
   dateFormat: DateFormatPreference;
+  useSystemAccent: boolean;
+  hideMembershipEvents: boolean;
+  hideProfileEvents: boolean;
+  profileEffects: boolean;
   /** Which colour emoji font draws emoji */
   emojiStyle: EmojiStyle;
   /** Font size of messages that are only emoji */
@@ -122,6 +133,14 @@ export interface Preferences {
   streamerMode: StreamerMode;
   /** Share whether you are online (off: you appear offline and nobody's presence is shown) */
   showPresence: boolean;
+  /** Desktop app: show the game or music playing on this computer on your profile */
+  shareActivity: boolean;
+  shareActivityGames: boolean;
+  shareActivityMusic: boolean;
+  /** Games the person hid from their profile, by lower-case name */
+  hiddenActivities: string[];
+  /** Programs added by hand: when `exe` is running it counts as the game `name` */
+  customActivityApps: { exe: string; name: string }[];
   /** Ask a person's homeserver what software it runs and show it as a badge on their profile */
   showHomeserverSoftware: boolean;
   followSystemTheme: boolean;
@@ -131,6 +150,9 @@ export interface Preferences {
   noiseSuppression: boolean;
   echoCancellation: boolean;
   autoGainControl: boolean;
+  screenShareQuality: ScreenShareQuality;
+  screenShareFps: ScreenShareFps;
+  screenShareCursor: boolean;
   /** Soundboard: hear and play clips in calls. Device-only (see settingsSync). */
   soundboardEnabled: boolean;
   /** 0-100, separate from voice and notification volume. Device-only. */
@@ -139,6 +161,13 @@ export interface Preferences {
   soundboardMutedUsers: string[];
   /** Let people who manage a space move me from one of its voice channels to another. */
   allowVoiceMoves: boolean;
+  voiceSounds: Partial<Record<string, boolean>>;
+  /** Underline misspelled words in the composer (off on phones, which keep the keyboard's own). */
+  spellcheckEnabled: boolean;
+  /** Dictionary codes to check against; empty follows the display language. */
+  spellcheckLanguages: string[];
+  /** Draw cosmetics that come from packs; the built-in ones are always drawn. */
+  showCosmeticPacks: boolean;
 }
 
 export const themeAtom = atomWithStorage<ThemeName>(STORAGE_KEY_THEME, DEFAULT_THEME);
@@ -160,6 +189,7 @@ export const messageLayoutMobileAtom = atomWithStorage<MessageLayout | null>(
 export const keybindsAtom = atomWithStorage<Keybinds>(STORAGE_KEY_KEYBINDS, DEFAULT_KEYBINDS);
 
 export const DEFAULT_PREFERENCES: Preferences = {
+  slidingSync: false,
   typingIndicators: true,
   notificationSounds: true,
   notificationSoundsWhenFocused: false,
@@ -195,14 +225,23 @@ export const DEFAULT_PREFERENCES: Preferences = {
   excludeInsecureSessions: false,
   pushToTalk: false,
   uiZoom: 100,
+  useSystemAccent: false,
+  hideMembershipEvents: false,
+  hideProfileEvents: true,
   timeFormat: 'auto',
   dateFormat: 'long',
+  profileEffects: true,
   emojiStyle: DEFAULT_EMOJI_STYLE,
   emojiOnlySize: DEFAULT_EMOJI_ONLY_SIZE,
   emoticonsToEmoji: true,
   messageSendAnimation: false,
   streamerMode: 'auto',
   showPresence: false,
+  shareActivity: false,
+  shareActivityGames: true,
+  shareActivityMusic: true,
+  hiddenActivities: [],
+  customActivityApps: [],
   showHomeserverSoftware: true,
   followSystemTheme: false,
   systemDarkTheme: 'Carbon',
@@ -210,10 +249,17 @@ export const DEFAULT_PREFERENCES: Preferences = {
   noiseSuppression: true,
   echoCancellation: true,
   autoGainControl: true,
+  screenShareQuality: '1080',
+  screenShareFps: 30,
+  screenShareCursor: true,
   soundboardEnabled: true,
   soundboardVolume: 70,
   soundboardMutedUsers: [],
   allowVoiceMoves: true,
+  voiceSounds: {},
+  spellcheckEnabled: !isMobileDevice(),
+  spellcheckLanguages: [],
+  showCosmeticPacks: true,
 };
 
 export const preferencesAtom = atomWithStorage<Preferences>(
@@ -229,6 +275,12 @@ function preferenceFieldAtom<K extends keyof Preferences>(key: K) {
   );
 }
 
+export const shareActivityAtom = preferenceFieldAtom('shareActivity');
+export const shareActivityGamesAtom = preferenceFieldAtom('shareActivityGames');
+export const shareActivityMusicAtom = preferenceFieldAtom('shareActivityMusic');
+export const hiddenActivitiesAtom = preferenceFieldAtom('hiddenActivities');
+export const customActivityAppsAtom = preferenceFieldAtom('customActivityApps');
+export const slidingSyncAtom = preferenceFieldAtom('slidingSync');
 export const typingIndicatorsAtom = preferenceFieldAtom('typingIndicators');
 export const notificationSoundsAtom = preferenceFieldAtom('notificationSounds');
 export const notificationSoundsWhenFocusedAtom = preferenceFieldAtom(
@@ -264,8 +316,12 @@ export const themedAppIconAtom = preferenceFieldAtom('themedAppIcon');
 export const excludeInsecureSessionsAtom = preferenceFieldAtom('excludeInsecureSessions');
 export const pushToTalkEnabledAtom = preferenceFieldAtom('pushToTalk');
 export const uiZoomAtom = preferenceFieldAtom('uiZoom');
+export const useSystemAccentAtom = preferenceFieldAtom('useSystemAccent');
+export const hideMembershipEventsAtom = preferenceFieldAtom('hideMembershipEvents');
+export const hideProfileEventsAtom = preferenceFieldAtom('hideProfileEvents');
 export const timeFormatAtom = preferenceFieldAtom('timeFormat');
 export const dateFormatAtom = preferenceFieldAtom('dateFormat');
+export const profileEffectsAtom = preferenceFieldAtom('profileEffects');
 export const emojiStyleAtom = preferenceFieldAtom('emojiStyle');
 export const emojiOnlySizeAtom = preferenceFieldAtom('emojiOnlySize');
 export const emoticonsToEmojiAtom = preferenceFieldAtom('emoticonsToEmoji');
@@ -279,6 +335,9 @@ export const systemLightThemeAtom = preferenceFieldAtom('systemLightTheme');
 export const noiseSuppressionAtom = preferenceFieldAtom('noiseSuppression');
 export const echoCancellationAtom = preferenceFieldAtom('echoCancellation');
 export const autoGainControlAtom = preferenceFieldAtom('autoGainControl');
+export const screenShareQualityAtom = preferenceFieldAtom('screenShareQuality');
+export const screenShareFpsAtom = preferenceFieldAtom('screenShareFps');
+export const screenShareCursorAtom = preferenceFieldAtom('screenShareCursor');
 export const soundboardEnabledAtom = preferenceFieldAtom('soundboardEnabled');
 export const soundboardVolumeAtom = preferenceFieldAtom('soundboardVolume');
 export const soundboardMutedUsersAtom = preferenceFieldAtom('soundboardMutedUsers');
@@ -326,6 +385,7 @@ export const effectiveThemeAtom = atom<ThemeName>((get) => {
   if (!get(followSystemThemeAtom)) return get(themeAtom);
   return get(systemPrefersDarkAtom) ? get(systemDarkThemeAtom) : get(systemLightThemeAtom);
 });
+export const voiceSoundsAtom = preferenceFieldAtom('voiceSounds');
 
 const rawStringStorage = {
   getItem: (key: string, init: string) => localStorage.getItem(key) ?? init,
@@ -334,6 +394,21 @@ const rawStringStorage = {
 };
 
 export const languageAtom = atomWithStorage<string>(STORAGE_KEY_LANGUAGE, 'en', rawStringStorage);
+
+export const spellcheckEnabledAtom = preferenceFieldAtom('spellcheckEnabled');
+export const showCosmeticPacksAtom = preferenceFieldAtom('showCosmeticPacks');
+
+const storedSpellcheckLanguagesAtom = preferenceFieldAtom('spellcheckLanguages');
+
+/** The dictionaries in use: the chosen ones, or the display language's (else English) when none. */
+export const spellcheckLanguagesAtom = atom(
+  (get) => {
+    const chosen = get(storedSpellcheckLanguagesAtom).filter(isSpellcheckAvailable);
+    return chosen.length > 0 ? chosen : [dictionaryForLocale(get(languageAtom)) ?? 'en'];
+  },
+  (_get, set, codes: string[]) =>
+    set(storedSpellcheckLanguagesAtom, codes.filter(isSpellcheckAvailable))
+);
 
 export const developerModeAtom = atomWithStorage<boolean>(STORAGE_KEY_DEVELOPER_MODE, false);
 

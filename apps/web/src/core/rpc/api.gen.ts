@@ -54,6 +54,11 @@ export type AttachmentThumbnail = {
   height: number;
 };
 
+/**
+ * What happened to a picture: the new one isn't named, as it is shown from the member list
+ */
+export type AvatarChange = 'changed' | 'removed';
+
 export type CallEvent =
   | { type: 'members'; members: Array<CallMember> }
   | {
@@ -70,6 +75,30 @@ export type CallEvent =
   | { type: 'reaction'; identity: string; emoji: string }
   | { type: 'handRaised'; identity: string; raised: boolean }
   | { type: 'error'; message: string; fatal: boolean };
+
+export type CallHistoryView = {
+  outcome: CallOutcome;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  startedAt: number;
+  endedAt: number | null;
+  startedBy: string;
+  /**
+   * Everyone who joined, in the order they joined
+   */
+  participants: Array<CallParticipantView>;
+  video: boolean;
+  /**
+   * The call rang (a DM or small room)
+   */
+  rang: boolean;
+  declinedBy: Array<string>;
+  /**
+   * The call started before the loaded part of the timeline
+   */
+  partial: boolean;
+};
 
 /**
  * One device in a room's call
@@ -98,6 +127,14 @@ export type CallMember = {
   /**
    * The name to show, with the user ID added when others in the room share it
    */
+  displayName: string | null;
+  avatarUrl: string | null;
+};
+
+export type CallOutcome = 'ongoing' | 'ended' | 'missed' | 'declined' | 'unanswered';
+
+export type CallParticipantView = {
+  userId: string;
   displayName: string | null;
   avatarUrl: string | null;
 };
@@ -163,6 +200,35 @@ export type CustomStatus = {
   expiresAt?: number | null;
 };
 
+/**
+ * A delayed event the homeserver holds for the user
+ */
+export type DelayedEvent = {
+  /**
+   * What `cancelDelayedEvent` and `sendDelayedEventNow` take
+   */
+  delayId: string;
+  roomId: string;
+  eventType: string;
+  /**
+   * Set when the delayed event is a state event
+   */
+  stateKey: string | null;
+  /**
+   * The content to send
+   */
+  content: JsonValue;
+  /**
+   * How long the server waits, in milliseconds
+   */
+  delayMs: number;
+  /**
+   * When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+   * event goes out at `runningSince + delayMs`
+   */
+  runningSince: number;
+};
+
 export type DeviceInfo = {
   deviceId: string;
   displayName: string | null;
@@ -175,6 +241,11 @@ export type DeviceInfo = {
    */
   crossSignedByOwner: boolean;
 };
+
+/**
+ * A display name change: `from` is null when there was no name, `to` when it was removed
+ */
+export type DisplayNameChange = { from: string | null; to: string | null };
 
 /**
  * How much of a download has arrived, in bytes
@@ -225,9 +296,33 @@ export type EncryptionStatus = {
  * [`crate::WizardClient::media`] to get the (decrypted) bytes.
  */
 export type EntryContent =
-  | { type: 'text'; body: string; html: string | null }
-  | { type: 'notice'; body: string; html: string | null }
-  | { type: 'emote'; body: string; html: string | null }
+  | {
+      type: 'text';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'notice';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'emote';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
   | { type: 'image'; media: MediaInfo }
   | { type: 'video'; media: MediaInfo }
   | { type: 'audio'; media: MediaInfo }
@@ -253,7 +348,18 @@ export type EntryContent =
       change: string | null;
       reason: string | null;
     }
-  | { type: 'profileChange'; userId: string }
+  | {
+      type: 'profileChange';
+      userId: string;
+      /**
+       * Set when the display name changed
+       */
+      displayName: DisplayNameChange | null;
+      /**
+       * Set when the picture changed
+       */
+      avatar: AvatarChange | null;
+    }
   | {
       type: 'state';
       eventType: string;
@@ -261,6 +367,8 @@ export type EntryContent =
       content: JsonValue;
       prevContent: JsonValue | null;
     }
+  | { type: 'call'; call: CallHistoryView }
+  | { type: 'callPart' }
   | { type: 'other' };
 
 /**
@@ -277,6 +385,29 @@ export type EventSource = {
    * Decrypted, when it was encrypted
    */
   decrypted: JsonValue | null;
+};
+
+/**
+ * One version of a message: the original or an edit
+ */
+export type EventVersion = {
+  /**
+   * The original event's or the edit's ID
+   */
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  timestamp: number;
+  isOriginal: boolean;
+  msgtype: string | null;
+  body: string;
+  /**
+   * Set with `formattedBody` when the version has HTML
+   */
+  format: string | null;
+  formattedBody: string | null;
 };
 
 /**
@@ -319,19 +450,20 @@ export type IdentityProvider = {
 };
 
 /**
- * Someone calling, from a ring or notification event, or a caller's new membership in a direct chat
+ * Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+ * in the call
  */
 export type IncomingCall = {
   roomId: string;
   roomName: string | null;
   /**
-   * The ring or notification event to decline; empty when only the membership is known so far
+   * The ring or notification event to decline
    */
   eventId: string;
   sender: string;
   senderName: string | null;
   /**
-   * Ring audibly (direct chats), or just show a notification
+   * Ring audibly (DMs and rooms up to 10 members), or just show a notification
    */
   ring: boolean;
   intent: string | null;
@@ -340,6 +472,9 @@ export type IncomingCall = {
    */
   expiresAt: number;
 };
+
+export type IncomingCallEvent =
+  { type: 'ringing'; call: IncomingCall } | { type: 'ended'; call: IncomingCall; reason: RingEnd };
 
 /**
  * Who invited the user to a room
@@ -362,6 +497,20 @@ export type JoinRule = 'invite' | 'public' | 'knock' | 'restricted' | 'knock_res
 export type JsonValue = any;
 
 /**
+ * What an import found
+ */
+export type KeyImportResult = {
+  /**
+   * Keys that were new or better than the ones this device had
+   */
+  imported: number;
+  /**
+   * Keys the file holds
+   */
+  total: number;
+};
+
+/**
  * How far restoring the room keys from the key backup has come
  */
 export type KeyRestoreProgress = {
@@ -378,6 +527,40 @@ export type KeyRestoreProgress = {
    */
   keysRestored: number;
 };
+
+/**
+ * The one-line preview of a room's latest message
+ */
+export type LastMessage = {
+  /**
+   * Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+   * Empty for every non-text kind, and for an event that can't be shown.
+   */
+  body: string;
+  senderId: string;
+  /**
+   * The sender's display name, omitted when it's the user's own message
+   */
+  senderName: string | null;
+  /**
+   * Sent by the user, from this or another of their devices
+   */
+  isOwn: boolean;
+  /**
+   * Milliseconds since the Unix epoch of the message
+   */
+  timestamp: number;
+  kind: LastMessageKind;
+};
+
+/**
+ * What the latest message of a room is, so the app can show a localized label when [`body`] is
+ * empty.
+ *
+ * [`body`]: LastMessage::body
+ */
+export type LastMessageKind =
+  'text' | 'image' | 'video' | 'audio' | 'file' | 'sticker' | 'poll' | 'call' | 'other';
 
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
@@ -497,6 +680,7 @@ export type MessageKind = 'text' | 'emote' | 'notice';
 export type Notification = {
   roomId: string;
   roomName: string | null;
+  roomAvatarUrl: string | null;
   eventId: string;
   sender: string;
   senderName: string | null;
@@ -508,6 +692,10 @@ export type Notification = {
    * The message hides a spoiler: show a placeholder instead of its text
    */
   spoiler: boolean;
+  /**
+   * Its keys haven't arrived yet: show a placeholder
+   */
+  encrypted: boolean;
   /**
    * Mentions and keywords: show more prominently
    */
@@ -588,6 +776,21 @@ export type PublicRoomsPage = {
   total: number | null;
 };
 
+export type PusherConfig = {
+  appId: string;
+  pushkey: string;
+  gatewayUrl: string;
+  appName: string;
+  deviceName: string;
+  lang: string;
+  /**
+   * Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+   * (Sygnal and the like) merge them into what they send, so the app can give iOS an
+   * `aps.alert` to show even though it only ever gets the event's ids.
+   */
+  defaultPayload: JsonValue | null;
+};
+
 export type QrLoginStatus =
   | { type: 'starting' }
   | { type: 'showQr'; data: string }
@@ -646,6 +849,55 @@ export type ReplyPreview =
 
 export type ResolvedAlias = { roomId: string; servers: Array<string> };
 
+export type RichBlock =
+  | { type: 'paragraph'; spans: Array<RichSpan> }
+  | {
+      type: 'heading';
+      /**
+       * 1 to 6
+       */
+      level: number;
+      spans: Array<RichSpan>;
+    }
+  | { type: 'quote'; blocks: Array<RichBlock> }
+  | {
+      type: 'itemList';
+      ordered: boolean;
+      /**
+       * The first number of an ordered list
+       */
+      start: number;
+      items: Array<Array<RichBlock>>;
+    }
+  | { type: 'code'; text: string }
+  | { type: 'rule' };
+
+/**
+ * A run of text with one style
+ */
+export type RichSpan = {
+  text: string;
+  bold: boolean;
+  italic: boolean;
+  strike: boolean;
+  underline: boolean;
+  /**
+   * Inline code
+   */
+  code: boolean;
+  link: string | null;
+  /**
+   * A mentioned user's ID; `text` is "@name", as the plain body shows mentions
+   */
+  mention: string | null;
+  spoiler: boolean;
+};
+
+/**
+ * Why a ring stopped
+ */
+export type RingEnd = 'answered' | 'declined' | 'callerLeft' | 'expired';
+
 export type RoomDetails = {
   id: string;
   name: string | null;
@@ -685,6 +937,20 @@ export type RoomEvent = {
   originServerTs: number;
 };
 
+/**
+ * One page of a room's past, newest first
+ */
+export type RoomEventsPage = {
+  /**
+   * The events of the wanted types on this page; can be empty while `next` is set
+   */
+  events: Array<RoomEvent>;
+  /**
+   * Pass as `from` for the page before this one; `None` at the start of the room
+   */
+  next: string | null;
+};
+
 export type RoomFilter = {
   kind?: RoomKind;
   /**
@@ -703,6 +969,21 @@ export type RoomFilter = {
 export type RoomKind = 'all' | 'people' | 'groups' | 'unread' | 'favourites' | 'invites';
 
 /**
+ * What a room's member event says about a person
+ */
+export type RoomMemberProfile = {
+  /**
+   * `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event
+   */
+  membership: string | null;
+  displayname: string | null;
+  /**
+   * `mxc://` URI
+   */
+  avatarUrl: string | null;
+};
+
+/**
  * What the user may do in a room, for showing or hiding actions
  */
 export type RoomPermissions = {
@@ -716,6 +997,7 @@ export type RoomPermissions = {
   changePermissions: boolean;
   pin: boolean;
   manageWidgets: boolean;
+  enableEncryption: boolean;
 };
 
 /**
@@ -814,9 +1096,17 @@ export type RoomSummary = {
    */
   notificationMode: NotificationMode | null;
   /**
-   * Users in the room's call, oldest first (a user appears once per device)
+   * Users in the room's call, oldest first, once each
    */
   callParticipants: Array<string>;
+  /**
+   * This device is in the room's call
+   */
+  inCall: boolean;
+  /**
+   * The user is in the room's call on another device, not on this one
+   */
+  inCallElsewhere: boolean;
   /**
    * Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
    * "5 min ago"
@@ -832,12 +1122,22 @@ export type RoomSummary = {
    */
   dmUserName: string | null;
   dmUserAvatar: string | null;
+  /**
+   * The latest message, for a one-line preview in the room list; `null` for a room with
+   * nothing to show yet (an invite, or a latest event that isn't a message)
+   */
+  lastMessage: LastMessage | null;
 };
 
 /**
  * A room tag with its sort order (favourites, low priority, custom `u.*` tags)
  */
 export type RoomTag = { name: string; order: number | null };
+
+/**
+ * Which way `timestampToEvent` looks from the date
+ */
+export type SearchDirection = 'forward' | 'backward';
 
 /**
  * A message found by search
@@ -848,6 +1148,17 @@ export type SearchHit = {
   sender: string;
   body: string;
   timestamp: number;
+};
+
+/**
+ * One page of server-side search results
+ */
+export type SearchResults = {
+  hits: Array<SearchHit>;
+  /**
+   * Pass as `from` for the next page of results; `None` when there are no more
+   */
+  next: string | null;
 };
 
 export type SendState = 'sending' | 'failed' | 'sent';
@@ -904,6 +1215,27 @@ export type ServerInfo = {
 };
 
 /**
+ * A notification the server keeps for the user, read or not
+ */
+export type ServerNotification = {
+  roomId: string;
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch of the event
+   */
+  timestamp: number;
+  /**
+   * The user has read up to this event
+   */
+  read: boolean;
+  /**
+   * The thread the event is a reply in
+   */
+  threadRootId: string | null;
+};
+
+/**
  * Everything needed to restore a signed-in client. Apps store it securely and hand it back to
  * [`crate::WizardClient::restore`] on the next start.
  */
@@ -938,6 +1270,28 @@ export type SfuConfig = {
    */
   alias: string;
 };
+
+/**
+ * Why a message gets a shield
+ */
+export type ShieldCode =
+  | 'authenticityNotGuaranteed'
+  | 'unknownDevice'
+  | 'unsignedDevice'
+  | 'unverifiedIdentity'
+  | 'verificationViolation'
+  | 'mismatchedSender'
+  | 'sentInClear';
+
+/**
+ * How serious a message's encryption warning is
+ */
+export type ShieldColor = 'red' | 'grey';
+
+/**
+ * The encryption warning to show on a message
+ */
+export type ShieldView = { color: ShieldColor; code: ShieldCode };
 
 /**
  * A room or subspace inside a space, joined or not
@@ -1031,6 +1385,25 @@ export type SpaceSummary = {
 export type StateChange = { roomId: string; eventType: string; stateKey: string };
 
 /**
+ * A state event with who sent it and when
+ */
+export type StateEventView = {
+  roomId: string;
+  type: string;
+  stateKey: string;
+  /**
+   * The user ID of whoever set it; permission checks need this
+   */
+  sender: string;
+  content: JsonValue;
+  eventId: string | null;
+  /**
+   * When the sender's server saw it, in milliseconds; `0` when missing
+   */
+  originServerTs: number;
+};
+
+/**
  * Where the client keeps its state, crypto keys and caches.
  *
  * `location` is an IndexedDB database name on the web and a directory path on native platforms.
@@ -1043,6 +1416,20 @@ export type StoreConfig = {
    * Don't share keys with, or read messages from, devices their owner hasn't verified
    */
   excludeInsecureDevices?: boolean;
+  manualEncryptionSetup?: boolean;
+  /**
+   * Which process this client is, for the store locks two processes share (the SDK's
+   * cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+   * itself keeps the current behaviour.
+   *
+   * A second process that restores the same store while the app runs — the iOS
+   * `NotificationService` extension — must pass a different, stable name, e.g.
+   * `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+   * give two concurrently running processes the same name: they would both think they hold
+   * the lock. The value must not be `notifications`, which the SDK's notification client uses
+   * for its own store access.
+   */
+  processName?: string | null;
 };
 
 /**
@@ -1143,6 +1530,11 @@ export type TimelineEntry =
        * as an object; null when there are none or the content is not at hand (a local echo)
        */
       customContent: JsonValue | null;
+      /**
+       * A warning about the message's authenticity; null when it is fine (verified sender) or
+       * the room isn't encrypted
+       */
+      shield: ShieldView | null;
     }
   | { kind: 'dateDivider'; id: string; timestamp: number }
   | { kind: 'readMarker'; id: string }
@@ -1156,6 +1548,17 @@ export type TimelineKind =
   | { type: 'thread'; rootEventId: string }
   | { type: 'pinned' }
   | { type: 'event'; eventId: string };
+
+/**
+ * The event `timestampToEvent` found
+ */
+export type TimestampEvent = {
+  eventId: string;
+  /**
+   * When the sender's server saw it, in milliseconds
+   */
+  timestamp: number;
+};
 
 export type Tombstone = { replacementRoom: string; body: string };
 
@@ -1439,6 +1842,14 @@ export class WizardClient extends Remote {
 
   setFavourite(roomId: string, favourite: boolean): Promise<void> {
     return runtime.call('WizardClient.setFavourite', this, [roomId, favourite]) as Promise<void>;
+  }
+
+  /** Moves a room to the low priority group (or back); a favourite stops being one. */
+  setLowPriority(roomId: string, lowPriority: boolean): Promise<void> {
+    return runtime.call('WizardClient.setLowPriority', this, [
+      roomId,
+      lowPriority,
+    ]) as Promise<void>;
   }
 
   setMarkedUnread(roomId: string, unread: boolean): Promise<void> {
@@ -1749,6 +2160,23 @@ export class WizardClient extends Remote {
     >;
   }
 
+  /**
+   * Searches messages on the server one page at a time (not possible for encrypted
+   * rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+   * last page has been read.
+   */
+  searchMessagesPage(
+    term: string,
+    roomId?: string | null,
+    from?: string | null
+  ): Promise<SearchResults> {
+    return runtime.call('WizardClient.searchMessagesPage', this, [
+      term,
+      roomId,
+      from,
+    ]) as Promise<SearchResults>;
+  }
+
   emojiPacks(roomId?: string | null): Promise<Array<EmojiPack>> {
     return runtime.call('WizardClient.emojiPacks', this, [roomId]) as Promise<Array<EmojiPack>>;
   }
@@ -2005,6 +2433,11 @@ export class WizardClient extends Remote {
     >;
   }
 
+  /** Every current state event of the room in full, for exploring it. */
+  roomState(roomId: string): Promise<Array<JsonValue>> {
+    return runtime.call('WizardClient.roomState', this, [roomId]) as Promise<Array<JsonValue>>;
+  }
+
   setStateEvent(
     roomId: string,
     eventType: string,
@@ -2214,6 +2647,26 @@ export class WizardClient extends Remote {
     return runtime.watch('WizardClient.watchRoomEvents', this, [types, listener], Subscription);
   }
 
+  /**
+   * A page of a room's message-like events of one of `types`, newest first, decrypted in
+   * encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+   * page's `next` as `from` for the page before it; `next` is null at the start of the room.
+   * A page can hold fewer events than `limit`, even none, while `next` is set.
+   */
+  roomEvents(
+    roomId: string,
+    types: Array<string>,
+    limit: number,
+    from?: string | null
+  ): Promise<RoomEventsPage> {
+    return runtime.call('WizardClient.roomEvents', this, [
+      roomId,
+      types,
+      limit,
+      from,
+    ]) as Promise<RoomEventsPage>;
+  }
+
   serverFeatures(): Promise<ServerFeatures> {
     return runtime.call('WizardClient.serverFeatures', this, []) as Promise<ServerFeatures>;
   }
@@ -2221,6 +2674,14 @@ export class WizardClient extends Remote {
   /** Encrypts and uploads a file; returns the `file` object for message content. */
   uploadEncryptedMedia(data: Uint8Array): Promise<JsonValue> {
     return runtime.call('WizardClient.uploadEncryptedMedia', this, [data]) as Promise<JsonValue>;
+  }
+
+  /**
+   * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+   * mentions and custom emoji to it, which plain Markdown sending can't.
+   */
+  markdownToHtml(body: string): Promise<string | null> {
+    return runtime.call('WizardClient.markdownToHtml', this, [body]) as Promise<string | null>;
   }
 
   /** The LiveKit service the homeserver offers for calls, if any */
@@ -2265,12 +2726,12 @@ export class WizardClient extends Remote {
     ]) as Promise<CallSession>;
   }
 
-  watchIncomingCalls(listener: (value: IncomingCall) => void): Subscription {
+  /**
+   * Rings as they start and end: answered or declined on one of the user's devices, the
+   * caller left, or it expired.
+   */
+  watchIncomingCalls(listener: (value: IncomingCallEvent) => void): Subscription {
     return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
-  }
-
-  watchCallsHandledElsewhere(listener: (value: string) => void): Subscription {
-    return runtime.watch('WizardClient.watchCallsHandledElsewhere', this, [listener], Subscription);
   }
 
   declineCall(roomId: string, eventId: string): Promise<void> {
@@ -2285,8 +2746,209 @@ export class WizardClient extends Remote {
     return runtime.watch('WizardClient.watchNotifications', this, [listener], Subscription);
   }
 
+  setPusher(config: PusherConfig): Promise<void> {
+    return runtime.call('WizardClient.setPusher', this, [config]) as Promise<void>;
+  }
+
+  removePusher(appId: string, pushkey: string): Promise<void> {
+    return runtime.call('WizardClient.removePusher', this, [appId, pushkey]) as Promise<void>;
+  }
+
+  pushedNotification(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('WizardClient.pushedNotification', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
+  }
+
+  /**
+   * The server's notifications, newest first, read or not; `highlights` keeps only the
+   * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+   */
+  serverNotifications(highlights: boolean, limit: number): Promise<Array<ServerNotification>> {
+    return runtime.call('WizardClient.serverNotifications', this, [highlights, limit]) as Promise<
+      Array<ServerNotification>
+    >;
+  }
+
+  /**
+   * Like `pushedNotification`, for the iOS notification service extension: a second
+   * process restored over the same store with its own `StoreConfig.processName`, safe
+   * while the app runs. It never starts the sync; an event whose keys this process
+   * doesn't have comes back with `encrypted: true` and an empty body.
+   */
+  pushedNotificationFromExtension(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('WizardClient.pushedNotificationFromExtension', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
+  }
+
   logout(): Promise<void> {
     return runtime.call('WizardClient.logout', this, []) as Promise<void>;
+  }
+
+  /**
+   * Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+   * `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+   * Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+   * hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+   * server would have to send the plain event).
+   */
+  sendDelayedEvent(
+    roomId: string,
+    eventType: string,
+    content: JsonValue,
+    delayMs: number,
+    stateKey?: string | null
+  ): Promise<string> {
+    return runtime.call('WizardClient.sendDelayedEvent', this, [
+      roomId,
+      eventType,
+      content,
+      delayMs,
+      stateKey,
+    ]) as Promise<string>;
+  }
+
+  /**
+   * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+   * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+   */
+  listDelayedEvents(roomId?: string | null): Promise<Array<DelayedEvent>> {
+    return runtime.call('WizardClient.listDelayedEvents', this, [roomId]) as Promise<
+      Array<DelayedEvent>
+    >;
+  }
+
+  /**
+   * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+   * looking `direction` from it ("jump to date"); null when the room has no event that
+   * way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+   * `unsupportedByServer` when the homeserver can't look up dates.
+   */
+  timestampToEvent(
+    roomId: string,
+    timestamp: number,
+    direction: SearchDirection
+  ): Promise<TimestampEvent | null> {
+    return runtime.call('WizardClient.timestampToEvent', this, [
+      roomId,
+      timestamp,
+      direction,
+    ]) as Promise<TimestampEvent | null>;
+  }
+
+  /**
+   * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+   * decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+   * left out).
+   */
+  eventEditHistory(roomId: string, eventId: string): Promise<Array<EventVersion>> {
+    return runtime.call('WizardClient.eventEditHistory', this, [roomId, eventId]) as Promise<
+      Array<EventVersion>
+    >;
+  }
+
+  /**
+   * A person's name and picture in one room or space (its `m.room.member` event), which
+   * can differ from their account profile. Works for any user; the server answers for
+   * people this device hasn't loaded.
+   */
+  roomMemberProfile(roomId: string, userId: string): Promise<RoomMemberProfile> {
+    return runtime.call('WizardClient.roomMemberProfile', this, [
+      roomId,
+      userId,
+    ]) as Promise<RoomMemberProfile>;
+  }
+
+  /**
+   * Sets the own name in one room or space only (the member event's `displayname`); null
+   * or empty goes back to the account's display name. Needs a joined room.
+   */
+  setRoomNickname(roomId: string, displayname?: string | null): Promise<void> {
+    return runtime.call('WizardClient.setRoomNickname', this, [
+      roomId,
+      displayname,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Sets the own picture in one room or space only; without `data` it goes back to the
+   * account's picture. Needs a joined room.
+   */
+  setRoomMemberAvatar(
+    roomId: string,
+    data?: Uint8Array | null,
+    mimetype?: string | null
+  ): Promise<void> {
+    return runtime.call('WizardClient.setRoomMemberAvatar', this, [
+      roomId,
+      data,
+      mimetype,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Every state event of the given types in a room, with who set it and when (the sender
+   * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+   * and the older `chat.mudrix.*`) and space children come from this device; the server
+   * is asked once when there are none there or for other types.
+   */
+  stateEventsWithSender(roomId: string, eventTypes: Array<string>): Promise<Array<StateEventView>> {
+    return runtime.call('WizardClient.stateEventsWithSender', this, [
+      roomId,
+      eventTypes,
+    ]) as Promise<Array<StateEventView>>;
+  }
+
+  /**
+   * Calls `listener` with every state event of one of `types` arriving in a joined room,
+   * the first sync's and your own changes included. Mudrix's state types are requested
+   * from the server in every room (a separate light sync connection runs beside the room
+   * list's), so this hears them without polling.
+   */
+  watchStateEvents(types: Array<string>, listener: (value: StateEventView) => void): Subscription {
+    return runtime.watch('WizardClient.watchStateEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+   * `stateEventsWithSender` or `watchStateEvents`.
+   */
+  static mudrixStateTypes(): Promise<Array<string>> {
+    return runtime.call('WizardClient.mudrixStateTypes', null, []) as Promise<Array<string>>;
+  }
+
+  /**
+   * Writes every room key this device has to a file, encrypted with `passphrase`
+   * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+   * `unsupported`.
+   */
+  exportRoomKeys(path: string, passphrase: string): Promise<void> {
+    return runtime.call('WizardClient.exportRoomKeys', this, [path, passphrase]) as Promise<void>;
+  }
+
+  /**
+   * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+   * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+   * Desktop and mobile only: in the browser it rejects with `unsupported`.
+   */
+  importRoomKeys(path: string, passphrase: string): Promise<KeyImportResult> {
+    return runtime.call('WizardClient.importRoomKeys', this, [
+      path,
+      passphrase,
+    ]) as Promise<KeyImportResult>;
+  }
+
+  /** Calls a delayed event off so it is never sent. */
+  cancelDelayedEvent(delayId: string): Promise<void> {
+    return runtime.call('WizardClient.cancelDelayedEvent', this, [delayId]) as Promise<void>;
+  }
+
+  /** Has the server send a delayed event right now. */
+  sendDelayedEventNow(delayId: string): Promise<void> {
+    return runtime.call('WizardClient.sendDelayedEventNow', this, [delayId]) as Promise<void>;
   }
 
   /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */
@@ -2743,6 +3405,20 @@ export class RoomTimeline extends Remote {
 
   editText(itemKey: string, body: string): Promise<void> {
     return runtime.call('RoomTimeline.editText', this, [itemKey, body]) as Promise<void>;
+  }
+
+  editCaption(
+    itemKey: string,
+    caption: string,
+    html?: string | null,
+    mentions?: Mentions | null
+  ): Promise<void> {
+    return runtime.call('RoomTimeline.editCaption', this, [
+      itemKey,
+      caption,
+      html,
+      mentions,
+    ]) as Promise<void>;
   }
 
   redact(itemKey: string, reason?: string | null): Promise<void> {

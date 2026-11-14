@@ -1,0 +1,982 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "label": "links.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_scheme",
+      "label": "SCHEME",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "label": "Pending",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L14",
+      "_rust_declaration_count": 1
+    },
+    {
+      "id": "mutex",
+      "label": "Mutex",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/links.rs",
+      "_rust_use_roots": ["std"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "label": "app_path()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L20"
+    },
+    {
+      "id": "url",
+      "label": "Url",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/links.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "label": "open_link()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L40"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/links.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "r",
+      "label": "R",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/links.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "label": "open_room()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L49"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "label": "setup()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L55"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "label": "icon_file()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L91"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "label": "show_notification()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L112"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "label": "show_with_plugin()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L140"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_take_pending_room",
+      "label": "take_pending_room()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L162"
+    },
+    {
+      "id": "state",
+      "label": "State",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/links.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_links_take_deep_link",
+      "label": "take_deep_link()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L167"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "mutex",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "emitter",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "manager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "runtime",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "state",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "url",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "deeplinkext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "notificationext",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "import"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_scheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "target": "mutex",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "target": "mutex",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "target": "url",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L91",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "target": "r",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L140",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_take_pending_room",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L162",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_take_pending_room",
+      "target": "state",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_take_pending_room",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L162",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_take_deep_link",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_take_deep_link",
+      "target": "state",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_take_deep_link",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_pending",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L167",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L83",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "target": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L150",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "scheme",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L21"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "host_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L24"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L28"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "query",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L31"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_app_path",
+      "callee": "fragment",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L34"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L45"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_open_link",
+      "callee": "emit",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L46"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_open_room",
+      "callee": "emit",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L52"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "deep_link",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L56"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "register_all",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L59"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "on_open_url",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L61"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "urls",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "get_current",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L66"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "on_action",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L73"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "notification",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L73"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "action_id",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L74"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "notification",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L77"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "extra",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L79"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "as_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L80"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L81"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_setup",
+      "callee": "focus_main",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L84"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "rsplit",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L92"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "ends_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L95"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "ends_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L95"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "app_cache_dir",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L96"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "exists",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L102"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "asset_resolver",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L103"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "create_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "parent",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "write",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L105"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "into_owned",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L107"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_icon_file",
+      "callee": "to_string_lossy",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L107"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "callee": "is_some_and",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L120"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "callee": "get_if_ready",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::settings",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L120"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "callee": "is_ok",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "callee": "show",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "crate::toast",
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L127"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_notification",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L131"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "body",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L147"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "title",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L147"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "builder",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L147"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "notification",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L147"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L150"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "icon",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L151"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "extra",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L156"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "is_ok",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L158"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_show_with_plugin",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L158"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_take_pending_room",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L163"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_links_take_deep_link",
+      "callee": "take",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/links.rs",
+      "source_location": "L168"
+    }
+  ]
+}

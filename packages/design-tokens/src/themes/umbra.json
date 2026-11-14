@@ -27,13 +27,13 @@
         "$value": "#0e0e11"
       },
       "hover": {
-        "$value": "#ffffff0b"
+        "$value": "rgba(255, 255, 255, 0.045)"
       },
       "active": {
-        "$value": "#5865f233"
+        "$value": "rgba(88, 101, 242, 0.2)"
       },
       "overlay": {
-        "$value": "#000000a6",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
@@ -42,7 +42,7 @@
         "$value": "#e3e3e8"
       },
       "secondary": {
-        "$value": "#b7b7c0"
+        "$value": "#686875"
       },
       "muted": {
         "$value": "#8b8b98"
@@ -54,7 +54,7 @@
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#4ea8ff"
+        "$value": "#4EA8FF"
       }
     },
     "accent": {
@@ -65,15 +65,15 @@
         "$value": "#4752c4"
       },
       "soft": {
-        "$value": "#5865f226",
+        "$value": "rgba(88, 101, 242, 0.2)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#5865f20f",
+        "$value": "rgba(88, 101, 242, 0.06)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#5865f20a"
+        "$value": "rgba(88, 101, 242, 0.04)"
       }
     },
     "border": {
@@ -81,10 +81,10 @@
         "$value": "#222228"
       },
       "strong": {
-        "$value": "#3c3c44"
+        "$value": "#222228"
       },
       "focus": {
-        "$value": "#929bf7"
+        "$value": "#5865f2"
       }
     },
     "status": {
@@ -101,7 +101,7 @@
         "$value": "#ff9d00"
       },
       "info": {
-        "$value": "#58a6ff"
+        "$value": "#4EA8FF"
       },
       "mention": {
         "$value": "#f06428"
@@ -121,30 +121,44 @@
         "$value": "#6b7280"
       }
     },
+    "role": {
+      "founder": {
+        "$value": "#a855f7"
+      },
+      "admin": {
+        "$value": "#ef4444"
+      },
+      "moderator": {
+        "$value": "#eab308"
+      },
+      "member": {
+        "$value": "#3b82f6"
+      }
+    },
     "logo": {
       "p0": {
-        "$value": "#4752c4"
+        "$value": "#4752C4"
       },
       "p1": {
-        "$value": "#5865f2"
+        "$value": "#5865F2"
       },
       "p2": {
-        "$value": "#4752c4"
+        "$value": "#4752C4"
       },
       "p3": {
-        "$value": "#5865f2"
+        "$value": "#5865F2"
       },
       "p4": {
-        "$value": "#363e99"
+        "$value": "#363E99"
       },
       "p5": {
-        "$value": "#7983f5"
+        "$value": "#7983F5"
       },
       "hover": {
-        "$value": "#9aa2f8"
+        "$value": "#9AA2F8"
       },
       "hoverGlow": {
-        "$value": "#9aa2f899"
+        "$value": "#9AA2F899"
       }
     },
     "message": {

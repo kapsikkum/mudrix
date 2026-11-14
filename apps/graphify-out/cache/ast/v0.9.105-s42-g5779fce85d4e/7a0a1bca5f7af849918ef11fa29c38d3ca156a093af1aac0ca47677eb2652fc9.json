@@ -1,0 +1,1293 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_swift",
+      "label": "SettingsSync.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "label": "SettingsSync",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L7",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "label": ".object()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L26",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "label": ".pick()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "label": ".hasMudrixSettings()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L40",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "label": ".stable()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L45",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "label": ".quoted()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "label": ".mergeForWrite()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "label": "SettingsSyncer",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L104",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "wizardclient",
+      "label": "WizardClient",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "task",
+      "label": "Task",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "never",
+      "label": "Never",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L116",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L121",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L140",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "label": ".received()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L148",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "label": ".becomeReady()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L154",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "label": ".applyRemote()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L172",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "label": ".schedulePush()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L177",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "label": ".push()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L186",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L40",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L106",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "task",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "never",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L110",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_init",
+      "target": "wizardclient",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L116",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_init",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L116",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L121",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L148",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L154",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L34",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_object",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L135",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L189",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L192",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "target": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L196",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_pick",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L41",
+      "receiver": "writeTypes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_hasmudrixsettings",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L41",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "callee": "rounded",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L53",
+      "receiver": "number"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "callee": "sorted",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L60",
+      "receiver": "fields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_stable",
+      "callee": "fields",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L60",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_quoted",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L66",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "changed",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "current",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "base",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "current",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L91",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "base",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "changed",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "currentPrefs",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "prefs",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L94",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync_mergeforwrite",
+      "callee": "base",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L122",
+      "receiver": "SettingsSync"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "watchAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L123",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L124",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L127",
+      "receiver": "watches"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "watchLoadState",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L127",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L129",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L137",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L142",
+      "receiver": "pushTask"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_stop",
+      "callee": "forEach",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L144",
+      "receiver": "subscriptions"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L144",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_received",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L149",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "callee": "accountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L159",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_becomeready",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "callee": "applySettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L174",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_applyremote",
+      "callee": "sanitizeSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L174",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L178",
+      "receiver": "pushTask"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L179",
+      "receiver": null,
+      "via_stub": true
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_schedulepush",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L180",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "callee": "settingsSnapshot",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L187",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "callee": "sanitizeSettings",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L189",
+      "receiver": "prefs"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L198",
+      "receiver": "writes"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "callee": "setAccountData",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L202",
+      "receiver": "client"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssyncer_push",
+      "callee": "contents",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L203",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L9",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L12",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_settingssync_settingssync",
+      "callee": "wizardchatKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/SettingsSync.swift",
+      "source_location": "L18",
+      "receiver": "Namespace"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/SettingsSync.swift",
+    "table": {
+      "value": "JSONValue",
+      "contents": "String",
+      "text": "String",
+      "type": "String",
+      "next": "String",
+      "current": "String",
+      "writeAll": "Bool",
+      "client": "WizardClient",
+      "prefs": "AppPreferences",
+      "subscriptions": "Subscription",
+      "pushTask": "Task",
+      "content": "JSONValue"
+    },
+    "factory": {
+      "settingsType": ["Namespace", "mudrixKey"],
+      "previousSettingsType": ["Namespace", "legacyMudrixKey"],
+      "wizardchatSettingsType": ["Namespace", "wizardchatKey"],
+      "merged": ["SettingsSync", "mergeForWrite"],
+      "hasSaved": ["SettingsSync", "hasMudrixSettings"]
+    }
+  }
+}

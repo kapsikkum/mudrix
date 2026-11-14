@@ -1,0 +1,1095 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "label": "ImagePacks.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emojipack",
+      "label": "EmojiPack",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "label": "PackImage",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L9"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_text",
+      "label": ".text",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L10"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_isemoticon",
+      "label": ".isEmoticon",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_issticker",
+      "label": ".isSticker",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L12"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "label": "ImagePacks",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "imagepack",
+      "label": "ImagePack",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "label": ".cached()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L19",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_forget",
+      "label": ".forget()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L22",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore",
+      "label": "PacksStore",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L31",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "label": ".load()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L36",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "label": "Emoji",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L48",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "decodable",
+      "label": "Decodable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L49"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_u",
+      "label": ".u",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L56"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_l",
+      "label": ".l",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L57"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "label": "Group",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L59",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "label": "File",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L65",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "label": ".label()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L80",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "label": ".matches()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L97",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emojipack",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emojipack",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_text",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_isemoticon",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage_issticker",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "target": "imagepack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "target": "imagepack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_forget",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_forget",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "target": "imagepack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore",
+      "target": "observableobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore",
+      "target": "imagepack",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "decodable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L49",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L50",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L52",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L53",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_u",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L56",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_l",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L57",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "target": "decodable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L61",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "target": "decodable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_group",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_file",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L70",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L92",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L97",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "target": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packsstore_load",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L41",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_cached",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_forget",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L22",
+      "receiver": "cache"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "callee": "emojiPacks",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L25",
+      "receiver": "session"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_imagepacks_load",
+      "callee": "cache",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_l",
+      "callee": "n",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_l",
+      "callee": "n",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "callee": "n",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_label",
+      "callee": "byCharacter",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "callee": "localizedCaseInsensitiveContains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L98",
+      "receiver": "l"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "callee": "localizedCaseInsensitiveContains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L99",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "callee": "k",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "callee": "k",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji_matches",
+      "callee": "localizedCaseInsensitiveContains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L100",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "url",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L71",
+      "receiver": "Bundle"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L73",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "Dictionary",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L77",
+      "receiver": "all"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "compactMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "icons",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "name",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L94",
+      "receiver": "group"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emoji",
+      "callee": "name",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/ImagePacks.swift",
+      "source_location": "L94",
+      "receiver": "group"
+    }
+  ],
+  "swift_extensions": [
+    { "nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_emojipack", "label": "EmojiPack" },
+    { "nid": "$graphify-root$_ios_wizardchat_matrix_imagepacks_packimage", "label": "PackImage" }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/ImagePacks.swift",
+    "table": {
+      "id": "Int",
+      "text": "String",
+      "isEmoticon": "Bool",
+      "isSticker": "Bool",
+      "cache": "String",
+      "roomId": "String",
+      "session": "MatrixSession",
+      "packs": "ImagePack",
+      "e": "String",
+      "g": "Int",
+      "s": "String",
+      "n": "String",
+      "k": "String",
+      "u": "String",
+      "l": "String",
+      "key": "String",
+      "name": "String",
+      "groups": "Int",
+      "emoji": "String",
+      "file": "File",
+      "all": "Emoji",
+      "byCharacter": "Dictionary",
+      "query": "String"
+    }
+  }
+}

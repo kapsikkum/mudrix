@@ -1,0 +1,1153 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "label": "MessageNotifier.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "usernotifications",
+      "label": "UserNotifications",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "label": "MessageNotifier",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "nsobject",
+      "label": "NSObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "observableobject",
+      "label": "ObservableObject",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "unusernotificationcenterdelegate",
+      "label": "UNUserNotificationCenterDelegate",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "apppreferences",
+      "label": "AppPreferences",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "roomlistmodel",
+      "label": "RoomListModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "subscription",
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L19",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "label": ".start()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L32",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_stop",
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L48",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "label": ".notify()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L55",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "label": ".userNotificationCenter()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L80",
+      "_callable": true
+    },
+    {
+      "id": "unusernotificationcenter",
+      "label": "UNUserNotificationCenter",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "unnotificationresponse",
+      "label": "UNNotificationResponse",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "void",
+      "label": "Void",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "label": ".room()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L107",
+      "_callable": true
+    },
+    {
+      "id": "roomsummary",
+      "label": "RoomSummary",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "label": ".reply()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L115",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "label": ".removeDelivered()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L123",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "label": ".updateBadge()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L132",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "unnotification",
+      "label": "UNNotification",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "unnotificationpresentationoptions",
+      "label": "UNNotificationPresentationOptions",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_unchecked",
+      "label": "Unchecked",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L153",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "sendable",
+      "label": "Sendable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "target": "usernotifications",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "nsobject",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "observableobject",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "unusernotificationcenterdelegate",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "subscription",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "target": "roomlistmodel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "target": "apppreferences",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_stop",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "target": "wizardchatcore",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L55",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "unusernotificationcenter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "unnotificationresponse",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L80",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "target": "roomsummary",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L115",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L123",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L123",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L132",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L132",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L136",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "unusernotificationcenter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "unnotification",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "unnotificationpresentationoptions",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "void",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L136",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_unchecked",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_unchecked",
+      "target": "sendable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_stop",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_unchecked",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L96",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "target": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L116",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "init",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L22",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "UNTextInputNotificationAction",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "UNNotificationAction",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "setNotificationCategories",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L27",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_init",
+      "callee": "UNNotificationCategory",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L35",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L36",
+      "receiver": "subscription"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "watchNotifications",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L37",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "assumeIsolated",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L38",
+      "receiver": "MainActor"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "requestAuthorization",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_start",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L44",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_stop",
+      "callee": "cancel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L50",
+      "receiver": "subscription"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "UNMutableNotificationContent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L58",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "info",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "notificationSound",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L73",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "UNNotificationRequest",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "info",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L75",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "add",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_notify",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L77",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L89",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "value",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L89",
+      "receiver": "done"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "info",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "active",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L91",
+      "receiver": "SessionStore"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "info",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L95",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "setRead",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L98",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "removeDeliveredNotifications",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L99",
+      "receiver": "center"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "info",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L101",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_room",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L110",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "callee": "timeline",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L116",
+      "receiver": "roomList"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "callee": "sendText",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L117",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "callee": "markAsRead",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L118",
+      "receiver": "timeline"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_reply",
+      "callee": "sleep",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L120",
+      "receiver": "Task"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L124",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "getDeliveredNotifications",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L125",
+      "receiver": "center"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L126",
+      "receiver": "delivered"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "userInfo",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_removedelivered",
+      "callee": "removeDeliveredNotifications",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L128",
+      "receiver": "center"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "callee": "setBadgeCount",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L133",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_updatebadge",
+      "callee": "current",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L133",
+      "receiver": "UNUserNotificationCenter"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "userInfo",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L141",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L142",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "formUnion",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L144",
+      "receiver": "options"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "playMessage",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L147",
+      "receiver": "Sounds"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_messagenotifier_messagenotifier_usernotificationcenter",
+      "callee": "value",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/MessageNotifier.swift",
+      "source_location": "L148",
+      "receiver": "done"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/MessageNotifier.swift",
+    "table": {
+      "activeRoomId": "String",
+      "roomToOpen": "String",
+      "eventToFocus": "String",
+      "threadToOpen": "String",
+      "accountToOpen": "String",
+      "prefs": "AppPreferences",
+      "roomList": "RoomListModel",
+      "subscription": "Subscription",
+      "notification": "UNNotification",
+      "center": "UNUserNotificationCenter",
+      "response": "UNNotificationResponse",
+      "completionHandler": "UNNotificationPresentationOptions",
+      "roomId": "String",
+      "text": "String",
+      "userId": "String",
+      "count": "Int",
+      "markRead": "UNNotificationAction",
+      "reply": "UNTextInputNotificationAction",
+      "request": "UNNotificationRequest",
+      "content": "UNMutableNotificationContent",
+      "done": "Unchecked"
+    }
+  }
+}

@@ -1,0 +1,456 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_swift",
+      "label": "YouTubeLink.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "label": "YouTubeVideo",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/YouTubeLink.swift"
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/YouTubeLink.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "label": "YouTubeLink",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L10",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "label": ".isVideoId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L11",
+      "_callable": true
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Media/YouTubeLink.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "label": ".timestamp()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L16",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "label": ".parse()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L32",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_embedurl",
+      "label": ".embedUrl()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L54",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_swift",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_swift",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_embedurl",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_embedurl",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_embedurl",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L54",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubevideo",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "target": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L50",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_isvideoid",
+      "callee": "range",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L12",
+      "receiver": "text"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "range",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L18",
+      "receiver": "raw"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L19",
+      "receiver": "raw"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "CharacterSet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "NSRegularExpression",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "firstMatch",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L23",
+      "receiver": "regex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "NSRange",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_timestamp",
+      "callee": "part",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L28",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L33",
+      "receiver": "components"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L34",
+      "receiver": "components"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L35",
+      "receiver": "rawHost"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L36",
+      "receiver": "components"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "parts",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_media_youtubelink_youtubelink_parse",
+      "callee": "param",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Media/YouTubeLink.swift",
+      "source_location": "L50",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Media/YouTubeLink.swift",
+    "table": {
+      "id": "String",
+      "start": "Int",
+      "text": "String",
+      "raw": "String",
+      "video": "YouTubeVideo"
+    }
+  }
+}

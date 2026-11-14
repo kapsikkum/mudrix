@@ -2,19 +2,19 @@ import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai';
 import { ArrowCounterClockwiseIcon, PlayIcon } from '@phosphor-icons/react';
 import { Select } from '@/app/components/Select';
-import { Slider } from '@/app/components/Slider';
+import { RangeInput } from '@/app/components/Slider';
 import {
   notificationSoundPackAtom,
   notificationSoundVolumeAtom,
   soundOverridesAtom,
 } from '@/app/store/atoms';
 import {
-  PLAYED_SOUND_KINDS,
+  SOUND_KINDS,
   SOUND_PACKS,
   getSoundPack,
+  soundPackOptions,
   previewSound,
   resolveSoundPack,
-  soundPackOptions,
   type SoundKind,
 } from '@/util/notificationSounds';
 import * as layoutCss from '../Settings.css';
@@ -29,18 +29,16 @@ const KIND_LABELS: Record<SoundKind, string> = {
   mute: 'settings.voice.sound.mute',
   unmute: 'settings.voice.sound.unmute',
   'camera-on': 'settings.voice.sound.cameraOn',
-  'camera-off': 'settings.voice.sound.cameraOff',
   join: 'settings.voice.sound.join',
   leave: 'settings.voice.sound.leave',
+  'camera-off': 'settings.voice.sound.cameraOff',
   moved: 'settings.voice.sound.moved',
   'watch-together-start': 'settings.voice.sound.watchTogetherStart',
 };
 
-const VOLUME_STOPS = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 const SAME = '';
 const OFF = 'off';
 
-/** The sound pack, the volume, and a pack (or off) for each sound on its own. */
 export function SoundsSection() {
   const { t } = useTranslation();
   const [soundPack, setSoundPack] = useAtom(notificationSoundPackAtom);
@@ -55,8 +53,10 @@ export function SoundsSection() {
   };
 
   const packOptions = soundPackOptions((c) => t(`settings.voice.packGroup.${c}`));
+  // A pack that no longer exists (it was removed) reads as the default.
   const known = (id: string | undefined) => (SOUND_PACKS.some((p) => p.id === id) ? id : undefined);
-  const hasOverrides = PLAYED_SOUND_KINDS.some((kind) => overrides[kind]);
+
+  const hasOverrides = SOUND_KINDS.some((kind) => overrides[kind]);
 
   return (
     <div className={layoutCss.section}>
@@ -73,7 +73,7 @@ export function SoundsSection() {
         </div>
         <button
           type="button"
-          className={css.soundButton}
+          className={css.button}
           onClick={() => previewSound('message', soundPack, soundVolume)}
         >
           {t('settings.voice.soundPreview')}
@@ -81,18 +81,20 @@ export function SoundsSection() {
       </div>
       <div className={css.soundRow}>
         <span className={css.soundLabel}>{t('settings.voice.soundVolume')}</span>
-        <Slider
+        <RangeInput
+          max={100}
+          step={5}
           value={soundVolume}
-          stops={VOLUME_STOPS}
-          format={(v) => `${v}%`}
+          className={css.volumeSlider}
           aria-label={t('settings.voice.soundVolume')}
           onChange={setSoundVolume}
         />
+        <span>{soundVolume}%</span>
       </div>
 
       <p className={layoutCss.settingNote}>{t('settings.voice.soundsNote')}</p>
       <div>
-        {PLAYED_SOUND_KINDS.map((kind) => {
+        {SOUND_KINDS.map((kind) => {
           const resolved = resolveSoundPack(kind, soundPack, overrides);
           const label = t(KIND_LABELS[kind]);
           return (
@@ -115,7 +117,7 @@ export function SoundsSection() {
               </div>
               <button
                 type="button"
-                className={css.soundButton}
+                className={css.iconButton}
                 disabled={!resolved}
                 aria-label={t('settings.voice.playSound', { sound: label })}
                 onClick={() => resolved && previewSound(kind, resolved, soundVolume)}
@@ -127,8 +129,8 @@ export function SoundsSection() {
         })}
       </div>
       {hasOverrides && (
-        <div className={css.resetRow}>
-          <button type="button" className={css.soundButton} onClick={() => setOverrides({})}>
+        <div className={css.buttonRow}>
+          <button type="button" className={css.button} onClick={() => setOverrides({})}>
             <ArrowCounterClockwiseIcon size={16} />
             {t('settings.voice.resetSounds')}
           </button>

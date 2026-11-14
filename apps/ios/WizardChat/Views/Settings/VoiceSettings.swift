@@ -1,26 +1,34 @@
 import SwiftUI
 
-/// Settings > Voice & Audio: sound effects, microphone processing and the soundboard on this device
+/// Microphone processing, applied to the next call. A section of Settings > Voice & Video
+/// (`VoiceVideoSettings` lays it out, there is no separate page).
+struct VoiceProcessingSection: View {
+    @EnvironmentObject private var prefs: AppPreferences
+
+    var body: some View {
+        SettingsSection(title: "settings.voice.inputTitle", note: "settings.voice.processingNote") {
+            ToggleRow(label: "settings.voice.noiseSuppression", note: "settings.voice.noiseSuppressionNote",
+                      isOn: $prefs.noiseSuppression)
+            ToggleRow(label: "settings.voice.echoCancellation", note: "settings.voice.echoCancellationNote",
+                      isOn: $prefs.echoCancellation)
+            ToggleRow(label: "settings.voice.autoGainControl", note: "settings.voice.autoGainControlNote",
+                      isOn: $prefs.autoGainControl)
+        }
+    }
+}
+
+/// The Mudrix-only sections of Settings > Voice & Video: sound effects, moves between voice rooms and the
+/// soundboard on this device. Meant to be placed inside the page by `VoiceVideoSettings`.
 struct VoiceSettings: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
-        SettingsPage(title: "settings.voice.title") {
-            soundEffects
-            SettingsSection(title: "settings.voice.inputTitle", note: "settings.voice.processingNote") {
-                ToggleRow(label: "settings.voice.noiseSuppression", note: "settings.voice.noiseSuppressionNote",
-                          isOn: $prefs.noiseSuppression)
-                ToggleRow(label: "settings.voice.echoCancellation", note: "settings.voice.echoCancellationNote",
-                          isOn: $prefs.echoCancellation)
-                ToggleRow(label: "settings.voice.autoGainControl", note: "settings.voice.autoGainControlNote",
-                          isOn: $prefs.autoGainControl)
-            }
-            SettingsSection {
-                ToggleRow(label: "settings.voice.allowMoves", note: "settings.voice.allowMovesNote", isOn: $prefs.allowVoiceMoves)
-            }
-            soundboard
+        soundEffects
+        SettingsSection {
+            ToggleRow(label: "settings.voice.allowMoves", note: "settings.voice.allowMovesNote", isOn: $prefs.allowVoiceMoves)
         }
+        soundboard
     }
 
     // MARK: Sound effects

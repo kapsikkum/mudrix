@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 const NARROW = '(max-width: 768px)';
 
@@ -35,7 +36,7 @@ export const selectWrap = style({
 });
 
 export const hint = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.textMuted,
   lineHeight: 1.5,
   margin: '0 0 8px',
@@ -55,7 +56,7 @@ export const button = style({
   justifyContent: 'center',
   gap: '6px',
   padding: '10px 14px',
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   color: vars.color.textPrimary,
   backgroundColor: vars.color.bgTertiary,
@@ -82,7 +83,7 @@ export const iconButton = style([
 
 export const errorText = style({
   color: vars.color.error,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   margin: '8px 0 0',
 });
 
@@ -91,7 +92,7 @@ export const warningText = style({
   alignItems: 'flex-start',
   gap: '6px',
   color: vars.color.warning,
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   lineHeight: 1.5,
   margin: '0 0 8px',
 });
@@ -121,7 +122,7 @@ export const meterCaption = style({
   display: 'flex',
   justifyContent: 'space-between',
   marginTop: '4px',
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   color: vars.color.textMuted,
 });
 
@@ -181,7 +182,7 @@ export const kindRow = style({
 export const kindLabel = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   fontWeight: 500,
   color: vars.color.textPrimary,
   '@media': {
@@ -197,10 +198,4 @@ export const kindSelect = style({
   '@media': {
     [NARROW]: { width: 'auto', flex: 1 },
   },
-});
-
-export const soundButton = style([button, { padding: '8px 12px' }]);
-
-export const resetRow = style({
-  marginTop: '8px',
 });

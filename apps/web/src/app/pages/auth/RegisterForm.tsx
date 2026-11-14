@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { WizardClient } from '@wizardchat/core';
 import { loadCore, register } from '@/client/initMatrix';
@@ -16,9 +16,9 @@ import {
   DiscoveryStatus,
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
-import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
+import { Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
+import { AuthField } from './AuthField';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
@@ -60,7 +60,10 @@ export function RegisterForm({
   const [password, setPassword] = useState('');
   const [usernameState, setUsernameState] = useState<UsernameState>('idle');
   const [status, setStatus] = useState('');
-  const [statusType, setStatusType] = useState<'error' | 'success'>('error');
+  const [usernameRequired, setUsernameRequired] = useState(false);
+  const [passwordRequired, setPasswordRequired] = useState(false);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
 
   const serverName = hs.serverName;
@@ -116,19 +119,19 @@ export function RegisterForm({
 
   const usernameError =
     usernameState === 'taken'
-      ? t('welcome.usernameTaken')
+      ? t('auth.usernameTaken')
       : usernameState === 'reserved'
-        ? t('welcome.usernameReserved')
+        ? t('auth.usernameReserved')
         : usernameState === 'invalid'
-          ? t('welcome.usernameInvalidChars')
+          ? t('auth.usernameInvalidChars')
           : undefined;
   const usernameHint = !fullId
     ? undefined
     : usernameState === 'available'
-      ? t('welcome.usernameAvailable', { id: fullId })
+      ? t('auth.usernameAvailable', { id: fullId })
       : usernameState === 'checking'
-        ? t('welcome.usernameChecking', { id: fullId })
-        : t('welcome.usernameHint', { id: fullId });
+        ? t('auth.usernameChecking', { id: fullId })
+        : t('auth.usernameHint', { id: fullId });
 
   const canSubmit =
     !!localpart &&
@@ -137,10 +140,13 @@ export function RegisterForm({
     usernameState !== 'reserved' &&
     usernameState !== 'invalid';
 
-  const handleRegister = async () => {
+  const handleRegister = async (e?: SyntheticEvent) => {
+    e?.preventDefault();
+    if (loading) return;
+    setUsernameRequired(!localpart);
+    setPasswordRequired(!password);
     if (!localpart || !password) {
-      setStatus(t('welcome.fillAllFields'));
-      setStatusType('error');
+      (localpart ? passwordRef : usernameRef).current?.focus();
       return;
     }
     if (!canSubmit) return;
@@ -153,7 +159,7 @@ export function RegisterForm({
       const dummyOnly = (stages: string[]) => stages.length === 1 && stages[0] === 'm.login.dummy';
       if (flows.length > 0 && !flows.some(dummyOnly)) {
         const names = flows.map((stages) => stages.join(' -> ')).join(', ');
-        throw new Error(t('welcome.additionalVerification', { names: names || 'unknown' }));
+        throw new Error(t('auth.additionalVerification', { names: names || 'unknown' }));
       }
 
       const credentials = await register(serverUrl, localpart, password);
@@ -163,17 +169,16 @@ export function RegisterForm({
       const message = getErrorMessage(err);
       const errcode = matrixErrcode(err);
       if (errcode === MatrixErrorCode.USER_IN_USE) {
-        setStatus(t('welcome.usernameTaken'));
+        setStatus(t('auth.usernameTaken'));
       } else if (errcode === MatrixErrorCode.INVALID_USERNAME) {
-        setStatus(t('welcome.invalidUsername'));
+        setStatus(t('auth.invalidUsername'));
       } else if (errcode === MatrixErrorCode.EXCLUSIVE) {
-        setStatus(t('welcome.usernameReserved'));
+        setStatus(t('auth.usernameReserved'));
       } else if (errcode === MatrixErrorCode.WEAK_PASSWORD) {
-        setStatus(t('welcome.weakPassword', { error: message }));
+        setStatus(t('auth.weakPassword', { error: message }));
       } else {
-        setStatus(t('welcome.registrationFailed', { error: message }));
+        setStatus(t('auth.registrationFailed', { error: message }));
       }
-      setStatusType('error');
     } finally {
       setLoading(false);
     }
@@ -188,8 +193,7 @@ export function RegisterForm({
       },
       (err) => {
         if (isPopupClosed(err)) return;
-        setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
-        setStatusType('error');
+        setStatus(t('auth.registrationFailed', { error: getErrorMessage(err) }));
       }
     );
   };
@@ -205,143 +209,193 @@ export function RegisterForm({
       },
       (err) => {
         if (!isPopupClosed(err)) {
-          setStatus(t('welcome.registrationFailed', { error: getErrorMessage(err) }));
-          setStatusType('error');
+          setStatus(t('auth.registrationFailed', { error: getErrorMessage(err) }));
         }
         setLoading(false);
       }
     );
   };
 
-  return (
-    <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.register')}</h2>
+  const ssoButtons =
+    idps.length === 0 ? (
+      <Button
+        fullWidth
+        size="lg"
+        variant="secondary"
+        className={css.submit}
+        onClick={() => handleSso()}
+      >
+        {t('common.continueWithSso')}
+      </Button>
+    ) : (
+      idps.map((idp) => {
+        const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
+        return (
+          <Button
+            key={idp.id}
+            fullWidth
+            size="lg"
+            variant="secondary"
+            className={css.submit}
+            onClick={() => handleSso(idp.id)}
+          >
+            {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
+            {t('welcome.continueWithIdp', { name: idp.name })}
+          </Button>
+        );
+      })
+    );
 
-      <ServerPicker hs={hs} label={t('welcome.serverLabelRegister')} {...picker} />
+  const formStatus =
+    status ||
+    (isRateLimited
+      ? t('welcome.registrationRateLimited')
+      : !hasPasswordRegister && !hasSso && !oidcMetadata && !capabilitiesLoading
+        ? serverUnreachable
+          ? t('auth.serverUnreachable')
+          : wellKnownInvalid
+            ? t('auth.notMatrixServer')
+            : t('welcome.registrationUnavailable')
+        : '');
+
+  return (
+    <form
+      className={css.form}
+      onSubmit={handleRegister}
+      noValidate
+      aria-label={t('welcome.registerTitle')}
+    >
+      <ServerPicker
+        hs={hs}
+        label={t('welcome.serverLabelRegister')}
+        {...picker}
+        onAddressEntered={() => usernameRef.current?.focus()}
+      />
 
       {isChecking ? (
         <div className={css.checkingServer}>
           <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
           {oidcMetadata && (
-            <Button fullWidth size="lg" variant="primary" onClick={handleOidc} disabled={loading}>
-              {loading ? t('welcome.redirecting') : t('welcome.oidcRegister')}
-            </Button>
-          )}
-
-          {hasPasswordRegister && (
             <>
-              <Input
-                type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
-                autoCapitalize="none"
-                spellCheck={false}
-                helperText={usernameError ? undefined : usernameHint}
-                error={usernameError}
-              />
-              <Input
-                type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-                showPasswordToggle
-                error={passwordTooShort ? t('welcome.passwordTooShort') : undefined}
-                onKeyDown={(e) => e.key === 'Enter' && handleRegister()}
-              />
-
-              {strength && !passwordTooShort && (
-                <div className={css.strength} aria-live="polite">
-                  <div className={css.strengthBars}>
-                    {[1, 2, 3].map((i) => (
-                      <span
-                        key={i}
-                        className={
-                          i <= STRENGTH_BARS[strength] ? STRENGTH_CLASS[strength] : css.strengthBar
-                        }
-                      />
-                    ))}
-                  </div>
-                  <span>{t(`welcome.passwordStrength.${strength}`)}</span>
-                </div>
-              )}
-
+              <p className={css.note}>{t('welcome.browserSignUpNote', { server: hs.host })}</p>
               <Button
                 fullWidth
                 size="lg"
                 variant="primary"
-                onClick={handleRegister}
-                disabled={loading || !canSubmit}
+                className={css.submit}
+                onClick={handleOidc}
+                loading={loading}
+                spinnerWhileLoading
+              >
+                {loading
+                  ? t('welcome.redirecting')
+                  : t('welcome.oidcRegisterOn', { server: hs.host })}
+              </Button>
+            </>
+          )}
+
+          {hasPasswordRegister && (
+            <>
+              <AuthField
+                ref={usernameRef}
+                label={t('welcome.username')}
+                showRequired
+                name="username"
+                type="text"
+                autoComplete="username"
+                enterKeyHint="next"
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setUsernameRequired(false);
+                }}
+                hint={usernameHint}
+                error={usernameRequired ? t('welcome.usernameRequired') : usernameError}
+              />
+              <AuthField
+                ref={passwordRef}
+                label={t('welcome.password')}
+                showRequired
+                name="new-password"
+                type="password"
+                autoComplete="new-password"
+                enterKeyHint="go"
+                showPasswordToggle
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPasswordRequired(false);
+                }}
+                hint={
+                  strength && !passwordTooShort ? (
+                    <span className={css.strength} aria-live="polite">
+                      <span className={css.strengthBars} aria-hidden>
+                        {[1, 2, 3].map((i) => (
+                          <span
+                            key={i}
+                            className={
+                              i <= STRENGTH_BARS[strength]
+                                ? STRENGTH_CLASS[strength]
+                                : css.strengthBar
+                            }
+                          />
+                        ))}
+                      </span>
+                      <span>{t(`welcome.passwordStrength.${strength}`)}</span>
+                    </span>
+                  ) : undefined
+                }
+                error={
+                  passwordRequired
+                    ? t('welcome.passwordRequired')
+                    : passwordTooShort
+                      ? t('welcome.passwordTooShort')
+                      : undefined
+                }
+              />
+              <div className={css.formError} role="alert">
+                {formStatus}
+              </div>
+              <Button
+                type="submit"
+                fullWidth
+                size="lg"
+                variant="primary"
+                className={css.submit}
+                loading={loading}
+                spinnerWhileLoading
+                disabled={!canSubmit && !!(localpart && password)}
               >
                 {loading ? t('welcome.registering') : t('welcome.registerSubmit')}
               </Button>
             </>
           )}
 
+          {!hasPasswordRegister && (
+            <div className={css.formError} role="alert">
+              {formStatus}
+            </div>
+          )}
+
           {hasSso && (
             <>
               {hasPasswordRegister && <div className={css.divider}>{t('common.or')}</div>}
-              {idps.length === 0 ? (
-                <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
-                  {t('welcome.ssoLogin')}
-                </Button>
-              ) : (
-                idps.map((idp) => {
-                  const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
-                  return (
-                    <Button
-                      key={idp.id}
-                      fullWidth
-                      variant="secondary"
-                      onClick={() => handleSso(idp.id)}
-                    >
-                      {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
-                      {t('welcome.continueWithIdp', { name: idp.name })}
-                    </Button>
-                  );
-                })
-              )}
+              <div className={css.altMethods}>{ssoButtons}</div>
             </>
           )}
-
-          {isRateLimited && (
-            <p className={css.statusText}>{t('welcome.registrationRateLimited')}</p>
-          )}
-
-          {!capabilitiesLoading &&
-            !hasPasswordRegister &&
-            !hasSso &&
-            !isRateLimited &&
-            !oidcMetadata && (
-              <p className={css.statusText}>
-                {serverUnreachable && t('welcome.serverUnreachable')}
-                {wellKnownInvalid && t('welcome.notMatrixServer')}
-                {!serverUnreachable && !wellKnownInvalid && t('welcome.registrationUnavailable')}
-              </p>
-            )}
         </>
       )}
 
-      {status && (
-        <p className={statusType === 'success' ? css.statusSuccess : css.statusText}>{status}</p>
-      )}
-
-      <p className={css.switchText}>
+      <p className={css.altText}>
         {t('welcome.haveAccount')}{' '}
-        <button type="button" className={css.switchLink} onClick={onShowLogin}>
-          {t('welcome.login')}
+        <button type="button" className={css.inlineLink} onClick={onShowLogin}>
+          {t('welcome.loginLink')}
         </button>
       </p>
-
-      {loading && <SpinnerOverlay />}
-    </div>
+    </form>
   );
 }

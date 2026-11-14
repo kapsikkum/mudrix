@@ -150,7 +150,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                 SharedPage(page, push, pop)
             } else {
                 SheetPage {
-                    SheetBar(tr("home.spaceSettings"), trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
+                    SheetBar(tr("space.settingsTitle"), trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
                     FormList(Modifier.weight(1f)) {
                         item {
                             Column(
@@ -175,7 +175,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                         if (canEdit) {
                             item {
                                 GroupedSection(header = tr("settings.about.title")) {
-                                    FormField(name, { name = it }, tr("dialogs.name"))
+                                    FormField(name, { name = it }, tr("common.name"))
                                     RowDivider()
                                     FormField(topic, { topic = it }, tr("room.topic"), maxLines = 4)
                                     RowDivider()
@@ -185,7 +185,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                         }
 
                         item {
-                            GroupedSection(header = tr("room.title"), footer = if (canManageRooms) tr("room.swipeARoomTo") else null) {
+                            GroupedSection(header = tr("nav.rooms"), footer = if (canManageRooms) tr("space.swipeToRemoveHint") else null) {
                                 childIds.forEachIndexed { index, roomId ->
                                     if (index > 0) RowDivider()
                                     if (canManageRooms) {
@@ -198,7 +198,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                                     if (childIds.isNotEmpty()) RowDivider()
                                     ActionRow(tr("room.create.title"), "plus", { showCreateRoom = true })
                                     RowDivider()
-                                    ActionRow(tr("room.addExistingRooms"), "stack-plus", { showAddRooms = true })
+                                    ActionRow(tr("space.addExistingRooms"), "stack-plus", { showAddRooms = true })
                                 }
                             }
                         }
@@ -223,17 +223,19 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                             GroupedSection {
                                 NavRow(tr("common.members"), "users", { push(PeoplePage.Members(space.id)) })
                                 RowDivider()
+                                NavRow(tr("room.settings.security.title"), "lock-key", { push(PeoplePage.General(space.id)) })
+                                RowDivider()
                                 NavRow(tr("room.settings.permissions.title"), "shield-check", { push(PeoplePage.Roles(space.id)) })
                                 RowDivider()
                                 NavRow(tr("room.settings.emojis.title"), "smiley", { push(PeoplePage.Packs(space.id)) })
                                 RowDivider()
-                                CopyRow(tr("room.copySpaceLink"), "link-simple", "https://matrix.to/#/${space.id}")
+                                CopyRow(tr("space.copyLink"), "link-simple", "https://matrix.to/#/${space.id}")
                             }
                         }
 
                         item {
                             GroupedSection {
-                                ActionRow(tr("room.space.leave"), "sign-out", { confirmLeave = true }, theme.danger)
+                                ActionRow(tr("space.leave"), "sign-out", { confirmLeave = true }, theme.danger)
                             }
                         }
                         item { ErrorText(error) }
@@ -242,7 +244,7 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
 
                 if (confirmLeave) {
                     ConfirmDialog(
-                        title = L10n.format("room.leaveNamed", space.name),
+                        title = L10n.format("room.info.leaveConfirm", space.name),
                         confirmLabel = tr("common.leave"),
                         onConfirm = {
                             scope.launch {
@@ -260,10 +262,10 @@ fun SpaceSettingsSheet(space: SpaceSummary, roomList: RoomListModel, onDismiss: 
                     }
                 }
                 if (showCreateRoom) {
-                    CreateRoomSheet(space.id) {
+                    CreateRoomSheet(space.id, onDismiss = {
                         showCreateRoom = false
                         reloads++
-                    }
+                    })
                 }
             }
         }
@@ -285,7 +287,7 @@ private fun ChildRow(roomId: String, roomList: RoomListModel, hierarchy: Map<Str
     ) {
         Avatar(name, room?.avatarUrl ?: hierarchy[roomId]?.second, WZ.SizeAvatar.sm)
         Text(name, Modifier.weight(1f), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
-        if (room == null) Text(tr("room.notJoined"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        if (room == null) Text(tr("space.notJoined"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
     }
 }
 
@@ -344,7 +346,7 @@ private fun AddRoomsToSpaceSheet(space: SpaceSummary, roomList: RoomListModel, e
     WizardSheet(onDismiss) {
         SheetPage {
             SheetBar(
-                tr("room.addRooms"),
+                tr("space.addRooms"),
                 leading = { BarTextButton(tr("common.cancel"), onDismiss) },
                 trailing = { BarTextButton(tr("common.add"), ::add, enabled = selected.isNotEmpty() && !busy, bold = true) },
             )
@@ -388,7 +390,7 @@ private fun AddRoomsToSpaceSheet(space: SpaceSummary, roomList: RoomListModel, e
                     item { ErrorText(error) }
                 }
                 if (candidates.isEmpty()) {
-                    EmptyState(tr("room.noOtherRooms"), "hash-straight", Modifier.align(Alignment.Center))
+                    EmptyState(tr("space.noOtherRooms"), "hash-straight", Modifier.align(Alignment.Center))
                 }
             }
         }

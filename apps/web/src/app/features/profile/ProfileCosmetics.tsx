@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { SealCheckIcon } from '@phosphor-icons/react';
+import { HardDrivesIcon, SealCheckIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import { Tooltip } from '@/app/components/Tooltip';
-import { showHomeserverSoftwareAtom } from '@/app/store/atoms';
+import { showCosmeticPacksAtom, showHomeserverSoftwareAtom } from '@/app/store/atoms';
+import { resolveCosmetic } from '@/util/cosmeticPacks';
 import {
   describeSoftware,
   getHomeserverSoftware,
@@ -16,10 +17,15 @@ import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import {
   avatarDecorationSrc,
   nameplatePaletteRgb,
+  profileEffectThumbnailSrc,
   type AvatarDecorationId,
   type NameplateId,
+  type ProfileEffectId,
+  type ProfileStatus,
 } from '@/util/profileCosmetics';
 import { builtinNameplateSrc, getBuiltinNameplate } from '@/util/builtinCosmetics';
+import { publicUrl } from '@/util/publicUrl';
+import { useNameplatePacks } from '@/app/hooks/useUserPacks';
 import { useRestartingSrc } from './useRestartingSrc';
 import * as css from './ProfileCard.css';
 
@@ -94,7 +100,7 @@ function HomeserverBadgeIcon({ software }: { software: HomeserverSoftware }) {
       >
         {known.logo ? (
           <img
-            src={`/assets/homeservers/${known.logo}`}
+            src={publicUrl(`assets/homeservers/${known.logo}`)}
             alt=""
             width={16}
             height={16}
@@ -106,6 +112,47 @@ function HomeserverBadgeIcon({ software }: { software: HomeserverSoftware }) {
         )}
       </span>
     </Tooltip>
+  );
+}
+
+/** The homeserver badge as a settings preview (the real one shows the software in use). */
+export function HomeserverBadgePreview() {
+  return (
+    <span className={css.badge} aria-hidden>
+      <HardDrivesIcon size={14} color="#38bdf8" weight="fill" />
+    </span>
+  );
+}
+
+export interface BadgeDefinition {
+  id: string;
+  labelKey: string;
+  hintKey: string;
+  Icon: ComponentType;
+  atom?: typeof showHomeserverSoftwareAtom;
+}
+
+export const PROFILE_BADGES: readonly BadgeDefinition[] = [
+  {
+    id: 'mudrix',
+    labelKey: 'profile.badge.mudrixUser',
+    hintKey: 'profile.badges.mudrixUserHint',
+    Icon: MudrixBadgeIcon,
+  },
+  {
+    id: 'homeserver',
+    labelKey: 'profile.badges.homeserver',
+    hintKey: 'profile.badges.showHomeserverHint',
+    Icon: HomeserverBadgePreview,
+    atom: showHomeserverSoftwareAtom,
+  },
+];
+
+export function MudrixUserBadge() {
+  return (
+    <div className={css.badgeRow}>
+      <MudrixBadgeIcon />
+    </div>
   );
 }
 
@@ -141,16 +188,21 @@ export function useHomeserverSoftware(
  * of the nearest positioned ancestor (the card's name block).
  */
 export function ProfileBadges({
-  software,
-  showMudrix,
+  software: propSoftware,
+  userId,
+  showMudrix = false,
   floating = false,
   style,
 }: {
-  software: HomeserverSoftware | null;
-  showMudrix: boolean;
+  software?: HomeserverSoftware | null;
+  userId?: string;
+  showMudrix?: boolean;
   floating?: boolean;
   style?: React.CSSProperties;
 }) {
+  const client = getMatrixClientOrNull();
+  const fetchedSoftware = useHomeserverSoftware(client, userId ?? '');
+  const software = propSoftware !== undefined ? propSoftware : fetchedSoftware;
   if (!showMudrix && !software) return null;
   return (
     <div className={floating ? `${css.badgeRow} ${css.badgeFloating}` : css.badgeRow} style={style}>
@@ -160,16 +212,62 @@ export function ProfileBadges({
   );
 }
 
+/**
+ * Options for the cosmetic image hooks. `thumb` requests a small still thumbnail from the
+ * homeserver instead of the full (often large, animated) media; use it for grids. `enabled` lets
+ * a grid tile fetch only while visible.
+ */
+export interface CosmeticSrcOptions {
+  thumb?: number;
+  enabled?: boolean;
+}
+
+/**
+ * The one gate every drawing of a cosmetic goes through: with cosmetic packs switched off in
+ * Settings > Cosmetics, pack items are not drawn for anyone while built-in ones still are.
+ */
+export function useResolveCosmetic<T>(value: T | null | undefined): T | null {
+  const showPacks = useAtomValue(showCosmeticPacksAtom);
+  return resolveCosmetic(value, showPacks);
+}
+
 /** Resolves a decoration to an image source; `mxc://` media is fetched with the session's login. */
 export function useDecorationSrc(
   decoration: AvatarDecorationId | null | undefined,
-  client?: MatrixClient | null
+  client?: MatrixClient | null,
+  options: CosmeticSrcOptions = {}
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const isMxc = !!decoration && decoration.startsWith('mxc://');
-  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? decoration : null);
-  if (!decoration) return undefined;
-  return isMxc ? blobUrl : avatarDecorationSrc(decoration);
+  const shown = useResolveCosmetic(decoration);
+  const isMxc = !!shown && shown.startsWith('mxc://');
+  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? shown : null, {
+    width: options.thumb,
+    height: options.thumb,
+    enabled: options.enabled,
+    queue: true,
+  });
+  if (!shown) return undefined;
+  return isMxc ? blobUrl : avatarDecorationSrc(shown);
+}
+
+/** Resolves a profile effect thumbnail or preview source with authenticated blob support for mxc://. */
+export function useEffectSrc(
+  effect: ProfileEffectId | null | undefined,
+  client?: MatrixClient | null,
+  options: CosmeticSrcOptions = {}
+): string | undefined {
+  const c = client ?? getMatrixClientOrNull();
+  const shown = useResolveCosmetic(effect);
+  const isMxc = !!shown && shown.startsWith('mxc://');
+  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? shown : null, {
+    width: options.thumb,
+    height: options.thumb,
+    enabled: options.enabled,
+    queue: true,
+  });
+  if (!shown) return undefined;
+  if (isMxc) return blobUrl;
+  return profileEffectThumbnailSrc(shown);
 }
 
 /** Wraps an avatar and draws an avatar decoration around it. */
@@ -183,7 +281,8 @@ export function DecoratedAvatar({
   client?: MatrixClient | null;
 }) {
   const src = useRestartingSrc(useDecorationSrc(decoration, client));
-  if (!decoration) return <>{children}</>;
+  const shown = useResolveCosmetic(decoration);
+  if (!shown) return <>{children}</>;
   return (
     <span className={css.decorated} style={{ display: 'inline-flex' }}>
       {children}
@@ -206,14 +305,20 @@ export function DecoratedAvatar({
 /** A nameplate's image: a built-in by id, or `mxc://` media. Nothing else is ever loaded. */
 export function useNameplateSrc(
   nameplate: NameplateId | null | undefined,
-  client?: MatrixClient | null
+  client?: MatrixClient | null,
+  options: CosmeticSrcOptions = {}
 ): string | undefined {
   const c = client ?? getMatrixClientOrNull();
-  const url =
-    typeof nameplate === 'object' && nameplate !== null ? nameplate.url : (nameplate ?? null);
+  const shown = useResolveCosmetic(nameplate);
+  const url = typeof shown === 'object' && shown !== null ? shown.url : (shown ?? null);
   const isMxc = !!url && url.startsWith('mxc://');
   const builtin = isMxc ? undefined : getBuiltinNameplate(url);
-  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? url : null);
+  const { src: blobUrl } = useMediaBlobUrl(c, isMxc ? url : null, {
+    width: options.thumb,
+    height: options.thumb,
+    enabled: options.enabled,
+    queue: true,
+  });
   if (builtin) return builtinNameplateSrc(builtin);
   return isMxc ? blobUrl : undefined;
 }
@@ -224,14 +329,23 @@ export function useResolvedNameplate(
   client?: MatrixClient | null
 ): { src: string | undefined; palette?: string; active: boolean } {
   const c = client ?? getMatrixClientOrNull();
+  const packs = useNameplatePacks(c);
+  const shown = useResolveCosmetic(nameplate);
   const { url, palette } = ((): { url: string | null; palette?: string } => {
-    if (!nameplate) return { url: null };
-    if (typeof nameplate === 'object') return { url: nameplate.url, palette: nameplate.palette };
-    const builtin = getBuiltinNameplate(nameplate);
+    if (!shown) return { url: null };
+    if (typeof shown === 'object') return { url: shown.url, palette: shown.palette };
+    const builtin = getBuiltinNameplate(shown);
     if (builtin) return { url: builtin.id, palette: builtin.palette };
-    return { url: nameplate };
+    for (const group of packs) {
+      for (const item of group.nameplates) {
+        if (item.id === shown || item.url === shown) {
+          return { url: item.url, palette: item.palette };
+        }
+      }
+    }
+    return { url: shown };
   })();
-  const src = useNameplateSrc(url, c);
+  const src = useNameplateSrc(shown, c);
   return { src, palette, active: !!url };
 }
 
@@ -273,6 +387,16 @@ export function NameplateWrapper({
         />
       )}
       <span className={css.nameplateContent}>{children}</span>
+    </span>
+  );
+}
+
+export function StatusPill({ status }: { status: ProfileStatus }) {
+  if (!status.emoji && !status.text) return null;
+  return (
+    <span className={css.statusPill}>
+      {status.emoji && <span className={css.statusEmoji}>{status.emoji}</span>}
+      {status.text && <span className={css.statusText}>{status.text}</span>}
     </span>
   );
 }

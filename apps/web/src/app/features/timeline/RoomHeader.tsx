@@ -1,32 +1,49 @@
 import { useState, useEffect, useRef } from 'react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
 import {
+  LockSimpleIcon,
+  LockSimpleOpenIcon,
   PushPinIcon,
   PhoneIcon,
   HashStraightIcon,
   SpeakerHighIcon,
   UsersIcon,
   ChatDotsIcon,
+  ListIcon,
+  DotsThreeVerticalIcon,
+  CalendarBlankIcon,
+  MagnifyingGlassIcon,
 } from '@phosphor-icons/react';
+import { useContextMenu } from '@/app/hooks/useContextMenu';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Tooltip } from '@/app/components/Tooltip';
-import { membersPanelOpenAtom, threadsPanelViewAtom } from '@/app/store/atoms';
+import {
+  membersPanelOpenAtom,
+  threadsPanelViewAtom,
+  roomSettingsRoomIdAtom,
+  roomSettingsTabAtom,
+  mobileDrawerOpenAtom,
+  globalSearchOpenAtom,
+} from '@/app/store/atoms';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
 import { useRoom } from '@/app/data';
-import { isVoiceRoom } from '@/util/matrix';
+import { getRoomDisplayName, isVoiceRoom } from '@/util/matrix';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { PinnedMessagesPopover } from './PinnedMessagesPopover';
+import { JumpToDateModal } from './JumpToDateModal';
 import * as css from './RoomHeader.css';
 
 interface RoomHeaderProps {
   client: MatrixClient;
   roomId: string;
   onJumpToEvent?: (eventId: string) => void;
-  onStartCall?: (roomId: string) => void;
+  onStartCall?: (roomId: string, ring: boolean) => void;
   callActive?: boolean;
   othersInCall?: boolean;
+  inCallElsewhere?: boolean;
 }
 
 export function RoomHeader({
@@ -36,15 +53,21 @@ export function RoomHeader({
   onStartCall,
   callActive = false,
   othersInCall = false,
+  inCallElsewhere = false,
 }: RoomHeaderProps) {
   const { t } = useTranslation();
   const toggleMembersPanel = useSetAtom(membersPanelOpenAtom);
   const setThreadsPanelView = useSetAtom(threadsPanelViewAtom);
   const membersPanelOpen = useAtomValue(membersPanelOpenAtom);
   const threadsPanelView = useAtomValue(threadsPanelViewAtom);
+  const setRoomSettingsId = useSetAtom(roomSettingsRoomIdAtom);
+  const setRoomSettingsTab = useSetAtom(roomSettingsTabAtom);
   const hasUnreadThreads = useHasUnreadThreads(roomId);
   const room = useRoom(roomId);
+  const encrypted = room?.isEncrypted ?? false;
   const [showPinned, setShowPinned] = useState(false);
+  const merged = useMediaQuery('(max-width: 768px)');
+  const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
 
   useEffect(() => {
     if (!onJumpToEvent) return;
@@ -67,16 +90,32 @@ export function RoomHeader({
     return !room.isInvite;
   })();
   // Voice rooms are joined from the sidebar, so the header button is not an entry point there.
+  const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
+  const { openContextMenu } = useContextMenu();
+  const [showJumpToDate, setShowJumpToDate] = useState(false);
   const isVoice = isVoiceRoom(room);
-  const callLive = callActive || othersInCall;
+  const joinsRunningCall = othersInCall || inCallElsewhere;
+  const callLive = callActive || joinsRunningCall;
   const callDisabled = callActive || isVoice || !canJoinCall;
   const callLabel = isVoice
     ? t('room.joinVoice')
     : callActive
-      ? t('voice.callActive')
-      : othersInCall
-        ? t('voice.joinCall')
-        : t('voice.startCall');
+      ? t('call.callActive')
+      : inCallElsewhere
+        ? t('call.joinHere')
+        : othersInCall
+          ? t('call.joinCall')
+          : t('call.startCall');
+  const callTooltip =
+    inCallElsewhere && !callActive && !isVoice ? (
+      <>
+        {t('call.inCallElsewhere')}
+        <br />
+        {callLabel}
+      </>
+    ) : (
+      callLabel
+    );
   const hasLeftHeaderActions =
     (callSupported && onStartCall !== undefined) || onJumpToEvent !== undefined;
 
@@ -109,15 +148,26 @@ export function RoomHeader({
 
   useEffect(() => {
     setShowTopic(false);
+    setShowJumpToDate(false);
   }, [roomId]);
 
-  const roomName = room?.name ?? roomId;
+  const roomName = getRoomDisplayName(room) ?? roomId;
   const topic = room?.topic?.trim() ?? '';
 
   return (
     <div className={css.headerWrapper}>
       {/* Main header bar */}
       <div className={css.header}>
+        {merged && (
+          <button
+            type="button"
+            className={css.headerBtn}
+            onClick={() => setDrawerOpen(true)}
+            aria-label={t('common.menu')}
+          >
+            <ListIcon size={20} />
+          </button>
+        )}
         <div className={css.nameContainer}>
           <div className={css.nameRow}>
             {isVoice ? (
@@ -128,6 +178,27 @@ export function RoomHeader({
             <Tooltip content={roomId}>
               <h1 className={css.roomName}>{roomName}</h1>
             </Tooltip>
+            {room && !room.isSpace && (
+              <Tooltip
+                content={encrypted ? t('encryption.encrypted') : t('encryption.notEncrypted')}
+              >
+                <button
+                  type="button"
+                  className={encrypted ? css.encryptionBtn : css.encryptionBtnOff}
+                  aria-label={encrypted ? t('encryption.encrypted') : t('encryption.notEncrypted')}
+                  onClick={() => {
+                    setRoomSettingsTab('general');
+                    setRoomSettingsId(roomId);
+                  }}
+                >
+                  {encrypted ? (
+                    <LockSimpleIcon size={14} weight="fill" />
+                  ) : (
+                    <LockSimpleOpenIcon size={14} />
+                  )}
+                </button>
+              </Tooltip>
+            )}
           </div>
           {topic && (
             <>
@@ -150,12 +221,12 @@ export function RoomHeader({
 
         {/* Call button - available in DM and group rooms */}
         {callSupported && onStartCall && (
-          <Tooltip content={callLabel}>
+          <Tooltip content={callTooltip}>
             <button
               type="button"
               className={callLive ? css.headerBtnActive : css.headerBtn}
               aria-label={callLabel}
-              onClick={() => onStartCall(roomId)}
+              onClick={() => onStartCall(roomId, !joinsRunningCall)}
               disabled={callDisabled}
             >
               <PhoneIcon size={16} weight={callLive ? 'fill' : 'regular'} />
@@ -164,7 +235,7 @@ export function RoomHeader({
         )}
 
         {/* Pinned button */}
-        {onJumpToEvent && (
+        {onJumpToEvent && !merged && (
           <div ref={pinnedAnchorRef} className={css.headerBtnAnchor}>
             <Tooltip content={t('room.header.pinnedMessages')}>
               <button
@@ -182,8 +253,89 @@ export function RoomHeader({
           </div>
         )}
 
-        <div className={css.headerPanelButtons}>
-          {hasLeftHeaderActions && <div className={`${css.headerDivider} ${css.hideOnMobile}`} />}
+        {/* Jump to date button */}
+        {onJumpToEvent && !merged && (
+          <Tooltip content={t('room.jumpToDate.title')}>
+            <button
+              type="button"
+              className={css.headerBtn}
+              aria-label={t('room.jumpToDate.title')}
+              onClick={() => {
+                setShowJumpToDate(true);
+                setShowPinned(false);
+                setShowTopic(false);
+              }}
+            >
+              <CalendarBlankIcon size={16} />
+            </button>
+          </Tooltip>
+        )}
+
+        {merged && (
+          <>
+            <button
+              type="button"
+              className={threadsPanelView ? css.headerBtnActive : css.headerBtn}
+              aria-label={t('timeline.threads')}
+              onClick={() => setThreadsPanelView((prev) => (prev ? null : { type: 'list' }))}
+            >
+              <span className={css.headerThreadIconWrap}>
+                <ChatDotsIcon size={18} weight={threadsPanelView ? 'fill' : 'regular'} />
+                {hasUnreadThreads && <span className={css.headerThreadDot} />}
+              </span>
+            </button>
+            <button
+              type="button"
+              className={membersPanelOpen ? css.headerBtnActive : css.headerBtn}
+              aria-label={t('common.members')}
+              onClick={() => toggleMembersPanel((v) => !v)}
+            >
+              <UsersIcon size={18} weight={membersPanelOpen ? 'fill' : 'regular'} />
+            </button>
+            <div ref={pinnedAnchorRef} className={css.headerBtnAnchor}>
+              <button
+                type="button"
+                className={css.headerBtn}
+                aria-label={t('common.more', { defaultValue: 'More' })}
+                onClick={(e) =>
+                  openContextMenu(e, [
+                    ...(onJumpToEvent
+                      ? [
+                          {
+                            label: t('room.header.pinnedMessages'),
+                            icon: <PushPinIcon size={18} />,
+                            onClick: () => {
+                              setShowPinned(true);
+                              setShowTopic(false);
+                            },
+                          },
+                          {
+                            label: t('room.jumpToDate.title'),
+                            icon: <CalendarBlankIcon size={18} />,
+                            onClick: () => {
+                              setShowJumpToDate(true);
+                              setShowPinned(false);
+                              setShowTopic(false);
+                            },
+                          },
+                        ]
+                      : []),
+                    {
+                      label: t('roomSwitcher.title'),
+                      icon: <MagnifyingGlassIcon size={18} />,
+                      onClick: () => openGlobalSearch(true),
+                    },
+                  ])
+                }
+              >
+                <DotsThreeVerticalIcon size={20} weight="bold" />
+              </button>
+            </div>
+          </>
+        )}
+
+        <div className={css.desktopOnly}>
+          {hasLeftHeaderActions && <div className={css.headerDivider} />}
 
           {/* Threads toggle button */}
           <Tooltip content={t('timeline.threads')}>
@@ -223,6 +375,16 @@ export function RoomHeader({
           onClose={() => setShowPinned(false)}
           anchorRef={pinnedAnchorRef}
           onJumpTo={onJumpToEvent}
+        />
+      )}
+
+      {onJumpToEvent && (
+        <JumpToDateModal
+          open={showJumpToDate}
+          onClose={() => setShowJumpToDate(false)}
+          client={client}
+          roomId={roomId}
+          onJump={onJumpToEvent}
         />
       )}
 

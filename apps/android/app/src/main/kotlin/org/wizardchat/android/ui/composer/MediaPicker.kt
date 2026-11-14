@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,8 +17,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -104,54 +109,118 @@ fun MediaPicker(
     var current by remember { mutableStateOf(tab) }
     WizardSheet(onDismiss) {
         Column(Modifier.fillMaxWidth().fillMaxHeight(0.9f).background(theme.bgSecondary)) {
-            Box(Modifier.fillMaxWidth().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
-                if (!emojiOnly) {
-                    val tabs = listOf(
-                        MediaPickerTab.emoji to tr("common.emoji"),
-                        MediaPickerTab.stickers to tr("room.settings.widgets.stickers"),
-                        MediaPickerTab.gif to tr("composer.gif"),
-                    )
-                    SingleChoiceSegmentedButtonRow(Modifier.width(WZ.Size.sidebar).align(Alignment.Center)) {
-                        tabs.forEachIndexed { index, (value, label) ->
-                            SegmentedButton(
-                                selected = current == value,
-                                onClick = { current = value },
-                                shape = SegmentedButtonDefaults.itemShape(index, tabs.size),
-                                icon = {},
-                                colors = SegmentedButtonDefaults.colors(
-                                    activeContainerColor = theme.bgPrimary,
-                                    activeContentColor = theme.textPrimary,
-                                    inactiveContainerColor = theme.fill,
-                                    inactiveContentColor = theme.textPrimary,
-                                    activeBorderColor = theme.border,
-                                    inactiveBorderColor = theme.border,
-                                ),
-                            ) {
-                                Text(label, style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), maxLines = 1)
-                            }
-                        }
+            PickerBody(
+                current = current,
+                onTab = { current = it },
+                store = store,
+                emojiOnly = emojiOnly,
+                onDone = onDismiss,
+                onEmoji = { emoji, image ->
+                    onEmoji(emoji, image)
+                    if (emojiOnly) onDismiss()
+                },
+                onSticker = { sticker ->
+                    onSticker(sticker)
+                    onDismiss()
+                },
+                onGif = { gif ->
+                    onGif(gif)
+                    onDismiss()
+                },
+            )
+        }
+    }
+}
+
+/**
+ * The same picker, docked under the composer in the keyboard's place: no scrim, the messages stay
+ * visible above it. Picking an emoji keeps it open; a sticker or GIF sends and closes it.
+ */
+@Composable
+fun DockedMediaPicker(
+    tab: MediaPickerTab,
+    store: PacksStore,
+    onEmoji: (String, PackImage?) -> Unit,
+    onSticker: (PackImage) -> Unit,
+    onGif: suspend (GiphyGif) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var current by remember { mutableStateOf(tab) }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(theme.bgSecondary)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .consumeWindowInsets(WindowInsets.navigationBars),
+    ) {
+        PickerBody(
+            current = current,
+            onTab = { current = it },
+            store = store,
+            emojiOnly = false,
+            onDone = onDismiss,
+            onEmoji = onEmoji,
+            onSticker = { sticker ->
+                onSticker(sticker)
+                onDismiss()
+            },
+            onGif = { gif ->
+                onGif(gif)
+                onDismiss()
+            },
+        )
+    }
+}
+
+/** The tabs and Done button on top, then the chosen tab's grid */
+@Composable
+private fun ColumnScope.PickerBody(
+    current: MediaPickerTab,
+    onTab: (MediaPickerTab) -> Unit,
+    store: PacksStore,
+    emojiOnly: Boolean,
+    onDone: () -> Unit,
+    onEmoji: (String, PackImage?) -> Unit,
+    onSticker: (PackImage) -> Unit,
+    onGif: suspend (GiphyGif) -> Unit,
+) {
+    Box(Modifier.fillMaxWidth().height(WZ.Space.space11).padding(horizontal = WZ.Space.space3)) {
+        if (!emojiOnly) {
+            val tabs = listOf(
+                MediaPickerTab.emoji to tr("common.emoji"),
+                MediaPickerTab.stickers to tr("room.settings.widgets.stickers"),
+                MediaPickerTab.gif to tr("composer.gif"),
+            )
+            SingleChoiceSegmentedButtonRow(Modifier.width(WZ.Size.sidebar).align(Alignment.Center)) {
+                tabs.forEachIndexed { index, (value, label) ->
+                    SegmentedButton(
+                        selected = current == value,
+                        onClick = { onTab(value) },
+                        shape = SegmentedButtonDefaults.itemShape(index, tabs.size),
+                        icon = {},
+                        colors = SegmentedButtonDefaults.colors(
+                            activeContainerColor = theme.bgPrimary,
+                            activeContentColor = theme.textPrimary,
+                            inactiveContainerColor = theme.fill,
+                            inactiveContentColor = theme.textPrimary,
+                            activeBorderColor = theme.border,
+                            inactiveBorderColor = theme.border,
+                        ),
+                    ) {
+                        Text(label, style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), maxLines = 1)
                     }
-                }
-                Box(Modifier.align(Alignment.CenterEnd)) {
-                    BarTextButton(tr("common.done"), onDismiss, bold = true)
                 }
             }
-            Box(Modifier.weight(1f).fillMaxWidth()) {
-                when (current) {
-                    MediaPickerTab.emoji -> EmojiGrid(store.packs) { emoji, image ->
-                        onEmoji(emoji, image)
-                        if (emojiOnly) onDismiss()
-                    }
-                    MediaPickerTab.stickers -> StickerGrid(store.packs, store.isLoading) { sticker ->
-                        onSticker(sticker)
-                        onDismiss()
-                    }
-                    MediaPickerTab.gif -> GifPicker { gif ->
-                        onGif(gif)
-                        onDismiss()
-                    }
-                }
-            }
+        }
+        Box(Modifier.align(Alignment.CenterEnd)) {
+            BarTextButton(tr("common.done"), onDone, bold = true)
+        }
+    }
+    Box(Modifier.weight(1f).fillMaxWidth()) {
+        when (current) {
+            MediaPickerTab.emoji -> EmojiGrid(store.packs, onEmoji)
+            MediaPickerTab.stickers -> StickerGrid(store.packs, store.isLoading, onSticker)
+            MediaPickerTab.gif -> GifPicker(onGif)
         }
     }
 }
@@ -160,7 +229,7 @@ fun MediaPicker(
 private fun EmojiGrid(packs: List<ImagePack>, onPick: (String, PackImage?) -> Unit) {
     var search by remember { mutableStateOf("") }
     val recentEmoji = RecentEmoji.shared
-    val recent = recentEmoji.entries
+    val recent = recentEmoji.frequent
     val customEmoji = packs.flatMap { pack -> pack.images.filter { it.emoticon } }
     val gridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()

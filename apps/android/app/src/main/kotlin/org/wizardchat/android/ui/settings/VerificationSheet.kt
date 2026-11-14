@@ -47,6 +47,7 @@ internal class VerificationModel(val start: Start) {
     sealed interface Start {
         data object OwnDevice : Start
         data class Device(val deviceId: String) : Start
+        data class User(val userId: String) : Start
         class Incoming(val flow: VerificationFlow) : Start
     }
 
@@ -81,6 +82,7 @@ internal class VerificationModel(val start: Start) {
             val flow = when (start) {
                 Start.OwnDevice -> requireNotNull(client).requestSelfVerification()
                 is Start.Device -> requireNotNull(client).requestDeviceVerification(start.deviceId)
+                is Start.User -> requireNotNull(client).requestUserVerification(start.userId)
                 is Start.Incoming -> start.flow
             }
             this.flow = flow
@@ -157,7 +159,12 @@ internal fun VerificationSheet(model: VerificationModel, onDismiss: () -> Unit) 
     val scope = rememberCoroutineScope()
     LaunchedEffect(model) { model.begin(session.client, scope) }
     DisposableEffect(model) { onDispose { model.stopWatching() } }
-    val title = if (model.start is VerificationModel.Start.OwnDevice) tr("settings.verifyWithAnotherDevice") else tr("verification.verifyDevice")
+    val userStart = model.start as? VerificationModel.Start.User
+    val title = when {
+        model.start is VerificationModel.Start.OwnDevice -> tr("settings.encryption.verifyWithDevice")
+        userStart != null -> tr("verification.verifyUser")
+        else -> tr("verification.verifyDevice")
+    }
     // Swiping away mid-comparison would leave the other device waiting, so Cancel is the way out
     val waitingOnYou = model.step is VerificationModel.Step.Incoming || model.step is VerificationModel.Step.Compare
 
@@ -183,8 +190,12 @@ internal fun VerificationSheet(model: VerificationModel, onDismiss: () -> Unit) 
             when (val step = model.step) {
                 VerificationModel.Step.Starting, VerificationModel.Step.WaitingForOtherDevice -> {
                     Spinner()
-                    val waiting = if (model.start is VerificationModel.Start.OwnDevice) "settings.openWizardchatOrAnother" else "verification.waitingForOther"
-                    Text(tr(waiting), style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
+                    val waiting = when {
+                        userStart != null -> L10n.format("verification.waitingFor", userStart.userId)
+                        model.start is VerificationModel.Start.OwnDevice -> tr("verification.otherDeviceHint")
+                        else -> tr("verification.waitingForOther")
+                    }
+                    Text(waiting, style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
                 }
                 is VerificationModel.Step.Incoming -> {
                     PhIcon("shield-warning", size = WZ.SizeIcon.xxl, tint = theme.warningColor)
@@ -204,10 +215,11 @@ internal fun VerificationSheet(model: VerificationModel, onDismiss: () -> Unit) 
                 }
                 VerificationModel.Step.WaitingForEmojis -> {
                     Spinner()
-                    Text(tr("settings.waitingForTheOther"), style = body, color = theme.textPrimary)
+                    Text(tr("verification.waitingForOtherDevice"), style = body, color = theme.textPrimary)
                 }
                 is VerificationModel.Step.Compare -> {
-                    Text(tr("settings.checkThatTheseEmojis"), style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
+                    val compare = if (userStart != null) L10n.format("verification.compareEmojisUser", userStart.userId) else tr("verification.compareEmojis")
+                    Text(compare, style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
                     step.emojis.chunked(4).forEach { row ->
                         Row(Modifier.fillMaxWidth()) {
                             row.forEach { emoji ->
@@ -236,7 +248,12 @@ internal fun VerificationSheet(model: VerificationModel, onDismiss: () -> Unit) 
                 }
                 VerificationModel.Step.Done -> {
                     PhIcon("shield-check", size = WZ.SizeIcon.xxl, tint = theme.success)
-                    Text(tr("settings.sessions.verified"), style = wizardFont(WZ.FontSize.lg, FontWeight.Bold), color = theme.textPrimary)
+                    Text(
+                        if (userStart != null) L10n.format("verification.deviceVerified", userStart.userId) else tr("common.verified"),
+                        style = wizardFont(WZ.FontSize.lg, FontWeight.Bold),
+                        color = theme.textPrimary,
+                        textAlign = TextAlign.Center,
+                    )
                     PrimaryButton(tr("common.done"), onDismiss)
                 }
                 is VerificationModel.Step.Failed -> {
@@ -244,7 +261,7 @@ internal fun VerificationSheet(model: VerificationModel, onDismiss: () -> Unit) 
                     Text(step.message, style = body, color = theme.textPrimary, textAlign = TextAlign.Center)
                 }
                 VerificationModel.Step.Cancelled -> {
-                    Text(tr("settings.verificationWasCancelled"), style = body, color = theme.textPrimary)
+                    Text(tr("verification.cancelled"), style = body, color = theme.textPrimary)
                 }
             }
         }

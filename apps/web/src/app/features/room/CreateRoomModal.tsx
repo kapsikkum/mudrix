@@ -243,7 +243,7 @@ export function CreateRoomModal() {
       {access === 'public' && (
         <Input
           label={t('room.create.roomAddress')}
-          placeholder={t('room.create.roomAddressPlaceholder')}
+          placeholder={t('room.settings.addresses.addressPlaceholder')}
           value={roomAlias}
           onChange={(e) => setRoomAlias(e.target.value)}
         />

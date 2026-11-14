@@ -25,19 +25,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import org.wizardchat.android.LocalSession
+import org.wizardchat.android.matrix.AuditEntry
+import org.wizardchat.android.matrix.AuditLog
 import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.MudrixTypes
 import org.wizardchat.android.matrix.RoomListStyle
 import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.matrix.TimelineModel
-import org.wizardchat.android.matrix.ChatEntry
+import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.ui.GroupedRow
 import org.wizardchat.android.ui.GroupedSection
+import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
 import org.wizardchat.android.ui.RowDivider
 import org.wizardchat.android.ui.Spinner
@@ -118,9 +124,8 @@ internal fun SpaceModernSection(spaceId: String, canManage: Boolean) {
 }
 
 /**
- * The audit log of a room or space (`R4`): who joined, left, was invited, removed or banned, newest first. The core's
- * timeline carries membership changes only; changes to the name, topic, permissions or rooms of a space are not in it yet
- * (the core call wanted for that is listed under "Core calls wanted by P2-8").
+ * The audit log of a room or space (`R4`): who joined, left, was invited, removed or banned, what was renamed, its topic,
+ * picture and permissions, and for a space its rooms and roles, newest first (as the web's audit log shows them).
  */
 @Composable
 internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
@@ -133,13 +138,23 @@ internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
         model.start()
         // Page back until there is enough to show or the room starts
         var pages = 0
-        while (!model.reachedStart && model.entries.count { it.kind is ChatEntry.Kind.System } < 30 && pages < 8) {
+        while (!model.reachedStart && model.auditChanges.size < 30 && pages < 8) {
             model.paginateBackwards()
             kotlinx.coroutines.delay(150)
             pages++
         }
     }
-    val changes = remember(timeline?.entries) { timeline?.entries?.filter { it.kind is ChatEntry.Kind.System }?.asReversed().orEmpty() }
+    var roleEvents by remember(roomId) { mutableStateOf(listOf<org.wizardchat.core.StateEventView>()) }
+    LaunchedEffect(roomId, client) {
+        val c = client ?: return@LaunchedEffect
+        val types = MudrixTypes.typeAndLegacy(MudrixTypes.SPACE_ROLES) + MudrixTypes.typeAndLegacy(MudrixTypes.SPACE_MEMBER_ROLES)
+        roleEvents = runCatching { c.stateEventsWithSender(roomId, types) }.getOrNull().orEmpty()
+    }
+    val changes = timeline?.auditChanges.orEmpty()
+    val entries = remember(changes, roleEvents, session.roomList?.joinedRooms, session.roomList?.spaces) {
+        fun roomName(id: String) = session.roomList?.room(id)?.displayName ?: session.roomList?.space(id)?.name ?: id
+        (AuditLog.entries(changes) { id -> roomName(id) } + AuditLog.roleEntries(roleEvents)).sortedByDescending { it.ts }
+    }
     var loadingMore by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     SheetPage {
@@ -153,7 +168,7 @@ internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
                     color = theme.textMuted,
                 )
             }
-            if (changes.isEmpty()) {
+            if (entries.isEmpty()) {
                 item {
                     Box(Modifier.fillMaxWidth().padding(WZ.Space.space8), contentAlignment = Alignment.Center) {
                         if (timeline?.reachedStart == true) {
@@ -164,13 +179,36 @@ internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
                     }
                 }
             }
-            items(changes, key = { it.id }) { entry ->
+            items(entries, key = { it.id }) { entry ->
                 Row(
                     Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space7, vertical = WZ.Space.space3),
                     horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                    verticalAlignment = Alignment.Top,
                 ) {
-                    Text((entry.kind as ChatEntry.Kind.System).text, Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
-                    Text(Formats.abbreviatedDateTime(entry.timestamp), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                    PhIcon(
+                        when (entry.category) {
+                            AuditEntry.Category.members -> "user"
+                            AuditEntry.Category.permissions -> "shield"
+                            AuditEntry.Category.settings -> "gear"
+                            AuditEntry.Category.rooms -> "hash-straight"
+                            AuditEntry.Category.roles -> "users"
+                        },
+                        size = WZ.SizeIcon.sm,
+                        tint = theme.textMuted,
+                    )
+                    Text(
+                        androidx.compose.ui.text.buildAnnotatedString {
+                            withStyle(
+                                androidx.compose.ui.text.SpanStyle(fontWeight = FontWeight.SemiBold, color = theme.textPrimary),
+                            ) { append(entry.actor) }
+                            append(" ")
+                            append(auditText(entry))
+                        },
+                        Modifier.weight(1f),
+                        style = wizardFont(WZ.FontSize.md),
+                        color = theme.textMuted,
+                    )
+                    Text(Formats.abbreviatedDateTime(java.time.Instant.ofEpochMilli(entry.ts)), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                 }
             }
             item {
@@ -183,7 +221,7 @@ internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
                             loadingMore = false
                         }
                     }, enabled = !loadingMore)
-                } else if (changes.isNotEmpty()) {
+                } else if (entries.isNotEmpty()) {
                     Text(
                         tr("room.settings.auditLog.start"),
                         Modifier.fillMaxWidth().padding(WZ.Space.space6),
@@ -195,3 +233,28 @@ internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
         }
     }
 }
+
+/** One audit line's action text, with the values the action's line names */
+private fun auditText(entry: AuditEntry): String {
+    val values = entry.values
+    fun level(value: String): String {
+        val number = value.toDoubleOrNull() ?: return value
+        val key = AuditLog.levelKey(number) ?: return value
+        return "${L10n.format("room.members.$key")} ($value)"
+    }
+    fun rule(value: String): String {
+        val key = "room.settings.auditLog.rule.$value"
+        return if (L10n.has(key)) L10n.format(key) else value
+    }
+    val args = when (entry.action) {
+        "powerChanged" -> arrayOf(values["target"].orEmpty(), level(values["from"].orEmpty()), level(values["to"].orEmpty()))
+        "invited", "kicked", "banned", "unbanned", "knockDenied", "inviteRevoked", "memberRolesChanged" ->
+            arrayOf(values["target"].orEmpty())
+        "renamed" -> arrayOf(values["name"].orEmpty())
+        "joinRulesChanged" -> arrayOf(rule(values["rule"].orEmpty()))
+        "roomAdded", "roomRemoved" -> arrayOf(values["room"].orEmpty())
+        else -> emptyArray()
+    }
+    return L10n.format("room.settings.auditLog.action.${entry.action}", *args)
+}
+

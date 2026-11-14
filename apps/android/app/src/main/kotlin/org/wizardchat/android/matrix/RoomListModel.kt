@@ -1,6 +1,7 @@
 package org.wizardchat.android.matrix
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
@@ -13,14 +14,23 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
 import org.wizardchat.core.ListDiff
+import org.wizardchat.core.NotificationMode
 import org.wizardchat.core.RoomSection
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.SpaceSummary
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
 
-val RoomSummary.displayName: String get() = name ?: canonicalAlias ?: id
-val RoomSummary.unreadCount: Int get() = if (markedUnread) maxOf(unreadMessages.toInt(), 1) else unreadMessages.toInt()
+val RoomSummary.displayName: String get() = roomDisplayName(isDirect, dmUserName, name, canonicalAlias, id)
+
+/**
+ * A DM is named after the other person: the SDK's own name reads "Empty Room (was X)" once they have left.
+ */
+internal fun roomDisplayName(isDirect: Boolean, dmUserName: String?, name: String?, canonicalAlias: String?, id: String): String =
+    (if (isDirect) dmUserName?.takeIf { it.isNotBlank() } else null) ?: name ?: canonicalAlias ?: id
+
+/** Messages that notify under the room's notification setting (as on the web), or 1 when marked unread */
+val RoomSummary.unreadCount: Int get() = if (unreadNotifications > 0) unreadNotifications.toInt() else if (markedUnread) 1 else 0
 val RoomSummary.mentionCount: Int get() = unreadMentions.toInt()
 
 sealed interface SidebarSelection {
@@ -36,10 +46,17 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         private set
     var invites by mutableStateOf(listOf<RoomSummary>())
         private set
+
+    /** Rooms you asked to join and are waiting on; they are not in [joinedRooms] */
+    var knockedIds by mutableStateOf(setOf<String>())
+        private set
     var mentionRooms by mutableStateOf(listOf<RoomSummary>())
         private set
     var spaces by mutableStateOf(listOf<SpaceSummary>())
         private set
+    var allSpaces by mutableStateOf(listOf<SpaceSummary>())
+        private set
+    private val allSpaceList = mutableListOf<SpaceSummary>()
     var spaceRooms by mutableStateOf(mapOf<String, Set<String>>())
         private set
     var isLoaded by mutableStateOf(false)
@@ -62,11 +79,20 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     private var subscriptions = listOf<Subscription>()
     private var graphJob: Job? = null
 
+    /** Unread mentions per room as the server counts them, for messages the local counts haven't loaded (see [refreshNotifications]) */
+    private var serverMentions = mapOf<String, Int>()
+    /** Rooms with unread thread replies, as the server's notifications show them */
+    var threadRoomIds by mutableStateOf(setOf<String>())
+        private set
+    var notificationsLoaded by mutableStateOf(false)
+        private set
+
     // The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
     private var mudrixHomeOrder: List<String>? = null
     private var wizardchatHomeOrder: List<String>? = null
 
     fun start() {
+        scope.launch { refreshNotifications() }
         subscriptions = listOf(
             client.watchRooms(5000) { diffs -> apply(diffs) },
             client.watchRoomSections { sections = it },
@@ -84,6 +110,10 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
                 spaces = spaceList.toList()
                 refreshGraph()
             },
+            client.watchAllSpaces { diffs ->
+                diffs.forEach { it.applyTo(allSpaceList) }
+                allSpaces = allSpaceList.toList()
+            },
         )
     }
 
@@ -99,6 +129,20 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     suspend fun decline(invite: RoomSummary) = client.declineInvite(invite.id)
 
+    private val notificationOverrides = mutableStateMapOf<String, NotificationMode?>()
+
+    fun notificationMode(room: RoomSummary): NotificationMode? =
+        if (room.id in notificationOverrides) notificationOverrides[room.id] else room.notificationMode
+
+    suspend fun setNotificationMode(room: RoomSummary, mode: NotificationMode?) {
+        val had = room.id in notificationOverrides
+        val previous = notificationOverrides[room.id]
+        notificationOverrides[room.id] = mode
+        runCatching { client.setRoomNotificationMode(room.id, mode) }.onFailure {
+            if (had) notificationOverrides[room.id] = previous else notificationOverrides.remove(room.id)
+        }
+    }
+
     suspend fun setRead(room: RoomSummary, read: Boolean) {
         if (read) runCatching { client.timeline(room.id).markAsRead() }
         runCatching { client.setMarkedUnread(room.id, !read) }
@@ -110,11 +154,39 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     suspend fun markAsRead(rooms: List<RoomSummary>) {
         rooms.forEach { setRead(it, true) }
+        refreshNotifications()
+    }
+
+    /** Unread mentions in the room: its own count, or the server's when that is higher */
+    fun mentionCountOf(room: RoomSummary): Int = maxOf(room.mentionCount, serverMentions[room.id] ?: 0)
+
+    /**
+     * Asks the server for its notifications: the unread mentions, and the rooms with unread thread replies. The room
+     * counts only see messages loaded since the app started, so older unread ones are found this way.
+     */
+    suspend fun refreshNotifications() {
+        val highlights = runCatching { client.serverNotifications(true, NOTIFICATION_LIMIT) }.getOrNull()
+        val all = runCatching { client.serverNotifications(false, NOTIFICATION_LIMIT) }.getOrNull()
+        if (highlights != null) {
+            serverMentions = highlights.filter { !it.read && it.threadRootId == null }.groupingBy { it.roomId }.eachCount()
+        }
+        if (all != null) {
+            threadRoomIds = all.filter { !it.read && it.threadRootId != null }.mapTo(mutableSetOf()) { it.roomId }
+        }
+        notificationsLoaded = true
+        mentionRooms = joinedRooms.filter { mentionCountOf(it) > 0 }
     }
 
     fun isJoined(roomId: String) = joinedRooms.any { it.id == roomId } || spaces.any { it.id == roomId }
 
     fun space(id: String): SpaceSummary? = spaces.firstOrNull { it.id == id }
+
+    /** The header of a Modern category room [id]: its name (joined or not), its canonical alias, else [generic] */
+    fun categoryHeaderOf(id: String, generic: String): String = categoryHeader(
+        name = space(id)?.name ?: allSpaces.firstOrNull { it.id == id }?.name ?: room(id)?.name,
+        canonicalAlias = room(id)?.canonicalAlias,
+        generic = generic,
+    )
 
     fun spaceContaining(roomId: String): SpaceSummary? = spaces.firstOrNull { spaceRooms[it.id]?.contains(roomId) == true }
 
@@ -148,10 +220,13 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         )
         val bySection = mutableMapOf<String, MutableList<RoomSummary>>()
         var rest = mutableListOf<RoomSummary>()
+        val lowPriority = mutableListOf<RoomSummary>()
         for (room in rooms) {
             if (room.isFavourite) continue
             val tag = sectionTag(room.id)
-            if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room) else rest.add(room)
+            if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room)
+            else if (room.isLowPriority) lowPriority.add(room)
+            else rest.add(room)
         }
         if (selection == SidebarSelection.Home && homeOrder.isNotEmpty()) {
             val position = homeOrder.withIndex().associate { it.value to it.index }
@@ -167,6 +242,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
             addAll(block(above = true))
             add(RoomGroup(RoomGroup.Kind.Rooms, rest))
             addAll(block(above = false))
+            if (lowPriority.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.LowPriority, lowPriority))
         }
     }
 
@@ -178,7 +254,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     }
 
     suspend fun moveGroup(anchor: String, offset: Int, groups: List<RoomGroup>) {
-        val anchors = groups.filter { it.kind != RoomGroup.Kind.Favourites }.map { it.id }.toMutableList()
+        val anchors = groups.filter { it.isMovable }.map { it.id }.toMutableList()
         val index = anchors.indexOf(anchor)
         if (index < 0 || index + offset !in anchors.indices) return
         java.util.Collections.swap(anchors, index, index + offset)
@@ -218,9 +294,15 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     private fun apply(diffs: List<ListDiff<RoomSummary>>) {
         diffs.forEach { it.applyTo(rooms) }
-        joinedRooms = rooms.filter { !it.isInvite }
+        joinedRooms = rooms.filter { !it.isInvite && !it.isKnocked }
+        knockedIds = rooms.filter { it.isKnocked && !it.isInvite }.mapTo(mutableSetOf()) { it.id }
+        joinedRooms.forEach { room ->
+            if (room.id in notificationOverrides && notificationOverrides[room.id] == room.notificationMode) {
+                notificationOverrides.remove(room.id)
+            }
+        }
         invites = rooms.filter { it.isInvite }
-        mentionRooms = joinedRooms.filter { it.mentionCount > 0 }
+        mentionRooms = joinedRooms.filter { mentionCountOf(it) > 0 }
         isLoaded = true
         refreshGraph()
     }
@@ -248,11 +330,18 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
         data object Favourites : Kind
         data class Section(val section: RoomSection) : Kind
         data object Rooms : Kind
+
+        /** Rooms tagged `m.lowpriority` that are in no section; always last, not movable */
+        data object LowPriority : Kind
     }
+
+    /** Sections and the room list itself can be moved up and down; favourites and low priority stay put */
+    val isMovable: Boolean get() = kind != Kind.Favourites && kind != Kind.LowPriority
 
     val id: String
         get() = when (kind) {
             Kind.Favourites -> "favourites"
+            Kind.LowPriority -> "low-priority"
             is Kind.Section -> kind.section.tag
             Kind.Rooms -> ROOMS_ANCHOR
         }
@@ -260,6 +349,7 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
 
 const val ROOMS_ANCHOR = "chats"
 const val HOME_SPACE = "home-space"
+private const val NOTIFICATION_LIMIT = 100L
 private val HOME_ORDER_EVENT = Namespace.mudrixKey("home_order")
 private val WIZARDCHAT_HOME_ORDER_EVENT = Namespace.wizardchatKey("home_order")
 

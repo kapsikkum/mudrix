@@ -1,0 +1,1911 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "label": "SoundboardData.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "label": "BuiltInClip",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "int64",
+      "label": "Int64",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip_resource",
+      "label": ".resource",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L11"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "label": "SoundboardSound",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L15",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "float",
+      "label": "Float",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "label": "SoundboardClip",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L27",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "label": "SoundboardPress",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L40",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "label": "PlayResult",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_ok",
+      "label": "ok",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_disabled",
+      "label": "disabled",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_notincall",
+      "label": "notInCall",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_ratelimited",
+      "label": "rateLimited",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_cooldown",
+      "label": "cooldown",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_error",
+      "label": "error",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "label": "SoundboardLimiter",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L54",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "label": "History",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L55",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L66",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forsending",
+      "label": ".forSending()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L74",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forreceiving",
+      "label": ".forReceiving()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L79",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "label": ".check()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L84",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_reset",
+      "label": ".reset()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L97",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "label": "SoundboardFormat",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L101",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "label": ".builtInClip()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L138",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "label": ".normalizeMimetype()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L143",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "label": ".number()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L153",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "double",
+      "label": "Double",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "label": ".parseBoard()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L159",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_clip",
+      "label": ".clip()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L182",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "label": ".playContent()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L188",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "label": ".parsePress()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L206",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer",
+      "label": "CallTimer",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L225",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer_format",
+      "label": ".format()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L226",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L7",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip_resource",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L28",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L41",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L42",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "float",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L44",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L47",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L48",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_ok",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_disabled",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_notincall",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_ratelimited",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_cooldown",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult_error",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L56",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L57",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L60",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L61",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L62",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_init",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_init",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L66",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forsending",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forsending",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L74",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forreceiving",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L79",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forreceiving",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L79",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L84",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_playresult",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L84",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_reset",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L108",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_builtinclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L133",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L153",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "target": "double",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L153",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L159",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L159",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L159",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_clip",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L182",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_clip",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_clip",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L182",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L188",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L188",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L188",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L206",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_swift",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L225",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer_format",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer_format",
+      "target": "int64",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L226",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_calltimer_format",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L226",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forsending",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_forreceiving",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_history",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L85",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L168",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L169",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardsound",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_clip",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_number",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardpress",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L213",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "target": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardclip",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L134",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "senders",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "removeAll",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L86",
+      "receiver": "history"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L87",
+      "receiver": "history"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "defer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "senders",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L88",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "perSound",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L91",
+      "receiver": "history"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L92",
+      "receiver": "history"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardlimiter_check",
+      "callee": "perSound",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L93",
+      "receiver": "history"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_builtinclip",
+      "callee": "first",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L139",
+      "receiver": "builtInClips"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "callee": "lowercased",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_normalizemimetype",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L145",
+      "receiver": "base"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "raw",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L160",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L165",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L167",
+      "receiver": "url"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L168",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L169",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L170",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "insert",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L171",
+      "receiver": "seen"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L172",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L172",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L173",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L174",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L175",
+      "receiver": "name"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parseboard",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L179",
+      "receiver": "out"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L194",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L196",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L198",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L199",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_playcontent",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L200",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "content",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L207",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L208",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "flatMap",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L209",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L209",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L210",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L210",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L211",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L216",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "hasPrefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L216",
+      "receiver": "url"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L217",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat_parsepress",
+      "callee": "sound",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L218",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L102",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "callee": "mudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L104",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "callee": "legacyMudrixKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L105",
+      "receiver": "Namespace"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_matrix_rtc_soundboarddata_soundboardformat",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+      "source_location": "L133",
+      "receiver": "builtIn"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Matrix/RTC/SoundboardData.swift",
+    "table": {
+      "id": "String",
+      "name": "String",
+      "emoji": "String",
+      "durationMs": "Int64",
+      "resource": "String",
+      "url": "String",
+      "mimetype": "String",
+      "size": "Int64",
+      "volume": "Float",
+      "builtIn": "BuiltInClip",
+      "times": "Int64",
+      "perSound": "String",
+      "minGapMs": "Int64",
+      "burst": "Int",
+      "windowMs": "Int64",
+      "perSoundCooldownMs": "Int64",
+      "senders": "String",
+      "senderId": "String",
+      "soundKey": "String",
+      "now": "Int64",
+      "maxDurationMs": "Int64",
+      "maxSizeBytes": "Int64",
+      "builtInClips": "SoundboardClip",
+      "raw": "JSONValue",
+      "value": "JSONValue",
+      "sound": "SoundboardSound",
+      "clip": "SoundboardClip",
+      "content": "JSONValue",
+      "elapsedMs": "Int64",
+      "seconds": "String"
+    },
+    "factory": {
+      "playType": ["Namespace", "mudrixKey"],
+      "boardType": ["Namespace", "mudrixKey"],
+      "legacyBoardType": ["Namespace", "legacyMudrixKey"]
+    }
+  }
+}

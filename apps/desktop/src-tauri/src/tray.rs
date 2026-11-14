@@ -2,12 +2,16 @@
 //! the unread badge (tray icon, Windows taskbar overlay, macOS dock badge).
 
 use crate::{settings, shell, MAIN_WINDOW};
+use std::sync::Mutex;
 use tauri::image::Image;
 use tauri::menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{AppHandle, Manager, Wry};
 
 const TRAY_ID: &str = "main";
+
+/// Themed app icon (PNG) chosen in the web UI; replaces the plain tray icon when set.
+static THEMED_ICON: Mutex<Option<Vec<u8>>> = Mutex::new(None);
 
 const ICON_NORMAL: &[u8] = include_bytes!("../icons/tray/tray.png");
 const ICON_UNREAD: &[u8] = include_bytes!("../icons/tray/tray-unread.png");
@@ -28,8 +32,11 @@ pub fn build(app: &AppHandle) -> tauri::Result<()> {
     let separator = PredefinedMenuItem::separator(app)?;
     let menu = Menu::with_items(app, &[&open, &mute, &separator, &quit])?;
 
+    let icon = crate::dev::window_icon()
+        .unwrap_or_else(|| Image::from_bytes(ICON_NORMAL).expect("bundled tray icon"));
+
     TrayIconBuilder::with_id(TRAY_ID)
-        .icon(Image::from_bytes(ICON_NORMAL)?)
+        .icon(icon)
         .tooltip(name)
         .menu(&menu)
         .show_menu_on_left_click(false)
@@ -82,10 +89,13 @@ pub fn set_unread(app: &AppHandle, total: u32, highlight: u32) {
     let shown = if total > 0 { total } else { highlight };
 
     if let Some(tray) = app.tray_by_id(TRAY_ID) {
+        let themed = THEMED_ICON.lock().ok().and_then(|t| t.clone());
         let bytes: &[u8] = if mention {
             ICON_MENTION
         } else if unread {
             ICON_UNREAD
+        } else if let Some(t) = themed.as_deref() {
+            t
         } else {
             ICON_NORMAL
         };
@@ -122,4 +132,31 @@ pub fn set_unread(app: &AppHandle, total: u32, highlight: u32) {
         // macOS dock badge (on Linux only some launchers honour this).
         let _ = window.set_badge_count(if unread { Some(i64::from(shown)) } else { None });
     }
+}
+
+/// Apply (or, with `None`, reset) the themed app icon on the window and the idle tray icon.
+pub fn set_themed_icon(app: &AppHandle, png: Option<Vec<u8>>) {
+    let image = png.as_deref().and_then(|b| Image::from_bytes(b).ok());
+    if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
+        let icon = image
+            .clone()
+            .or_else(crate::dev::window_icon)
+            .or_else(|| app.default_window_icon().cloned());
+        if let Some(icon) = icon {
+            let _ = window.set_icon(icon);
+        }
+    }
+    if let Ok(mut themed) = THEMED_ICON.lock() {
+        *themed = png.filter(|_| image.is_some());
+    }
+    if let Some(tray) = app.tray_by_id(TRAY_ID) {
+        let _ = tray.set_icon(Some(image.unwrap_or_else(|| {
+            Image::from_bytes(ICON_NORMAL).expect("bundled tray icon")
+        })));
+    }
+}
+
+#[tauri::command]
+pub fn set_app_icon(app: AppHandle, png: Option<Vec<u8>>) {
+    set_themed_icon(&app, png);
 }

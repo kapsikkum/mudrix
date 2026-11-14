@@ -22,9 +22,23 @@ import org.wizardchat.android.ui.theme.CustomTheme
 import org.wizardchat.android.ui.theme.CustomThemes
 import org.wizardchat.android.ui.theme.Themes
 
-enum class MessageLayout { modern, classic }
+enum class MessageLayout { modern, classic, compact }
+/** The mobile shell: the space rail, or the earlier bottom pill navigation */
+enum class NavigationStyle { rail, classic }
 enum class Density { compact, default, spacious }
 enum class ReducedMotion { system, on, off }
+
+/** Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline) */
+enum class PresenceChoice {
+    auto, online, away, invisible;
+
+    /** What to tell the server; sharing off always reads as offline */
+    fun presence(shared: Boolean): org.wizardchat.core.Presence = when {
+        !shared || this == invisible -> org.wizardchat.core.Presence.offline
+        this == away -> org.wizardchat.core.Presence.unavailable
+        else -> org.wizardchat.core.Presence.online
+    }
+}
 enum class MediaVisibility { always, private, never }
 
 /** An enum whose synced value is not its Kotlin name (`12h` cannot be one) */
@@ -128,9 +142,21 @@ class AppPreferences(context: Context) {
             phoneMessageLayout = value.name
         }
 
+    // Absent until chosen, then synced like the main message layout; a rail is the default
+    private var phoneNavigationStyle by pref(
+        defaults.getString("navigationStyle", null)?.takeIf { it in NAVIGATION_STYLES },
+        nullableStringCodec("navigationStyle", NAVIGATION_STYLES),
+    ) { if (it == null) remove("navigationStyle") else putString("navigationStyle", it) }
+    var navigationStyle: NavigationStyle
+        get() = if (phoneNavigationStyle == NavigationStyle.classic.name) NavigationStyle.classic else NavigationStyle.rail
+        set(value) {
+            phoneNavigationStyle = value.name
+        }
+
     var chatFontSize by pref(defaults.getFloat("chatFontSize", DEFAULT_CHAT_FONT_SIZE), numberCodec("chatFontSize", 8f..40f)) { putFloat("chatFontSize", it) }
     var chatDensity by pref(enumPref("chatDensity", Density.default), enumCodec<Density>("chatDensity")) { putString("chatDensity", it.name) }
     var uiDensity by pref(enumPref("uiDensity", Density.default), enumCodec<Density>("uiDensity")) { putString("uiDensity", it.name) }
+    var colorUsernames by pref(defaults.getBoolean("colorUsernames", true), boolCodec("colorUsernames")) { putBoolean("colorUsernames", it) }
     var prettifyLinks by pref(defaults.getBoolean("prettifyLinks", true), boolCodec("prettifyLinks")) { putBoolean("prettifyLinks", it) }
     /** Show images sent together as one gallery; off shows every image as its own message */
     var groupImages by pref(defaults.getBoolean("groupImages", true), boolCodec("groupImages")) { putBoolean("groupImages", it) }
@@ -231,8 +257,27 @@ class AppPreferences(context: Context) {
     }
 
     /** Ask a person's homeserver what it runs and show it on their profile */
+    /** Keeps the app connected in the background (the foreground service); on from the start in a build that has no push service */
+    var keepAlive by pref(
+        defaults.getBoolean("keepAlive", org.wizardchat.android.push.PushMode.current == org.wizardchat.android.push.PushMode.keepalive),
+    ) { putBoolean("keepAlive", it) }
+    /** Shares the song playing on the phone as the profile's "listening to" (needs Notification access) */
+    var shareListening by pref(defaults.getBoolean("shareListening", false)) { putBoolean("shareListening", it) }
+    /** The accent colour comes from the wallpaper (Material You, Android 12+) instead of the theme */
+    var useSystemAccent by pref(defaults.getBoolean("useSystemAccent", false), boolCodec("useSystemAccent")) { putBoolean("useSystemAccent", it) }
+    var presenceChoice by pref(enumPref("presenceChoice", PresenceChoice.auto)) { putString("presenceChoice", it.name) }
+    var hideMembershipEvents by pref(defaults.getBoolean("hideMembershipEvents", false), boolCodec("hideMembershipEvents")) {
+        putBoolean("hideMembershipEvents", it)
+    }
+    var hideProfileEvents by pref(defaults.getBoolean("hideProfileEvents", true), boolCodec("hideProfileEvents")) {
+        putBoolean("hideProfileEvents", it)
+    }
     var showHomeserverSoftware by pref(defaults.getBoolean("showHomeserverSoftware", true), boolCodec("showHomeserverSoftware")) {
         putBoolean("showHomeserverSoftware", it)
+    }
+    /** Draw the decorations, nameplates, frames and effects that come from packs, for everyone (the web's `showCosmeticPacks`) */
+    var showCosmeticPacks by pref(defaults.getBoolean("showCosmeticPacks", true), boolCodec("showCosmeticPacks")) {
+        putBoolean("showCosmeticPacks", it)
     }
     var notificationBanners by pref(defaults.getBoolean("notificationBanners", true)) { putBoolean("notificationBanners", it) }
     var language by pref(
@@ -248,6 +293,10 @@ class AppPreferences(context: Context) {
         applyLanguage(it)
     }
     var developerMode by pref(defaults.getBoolean("developerMode", false)) { putBoolean("developerMode", it) }
+    var pushToTalk by pref(defaults.getBoolean("pushToTalk", false)) { putBoolean("pushToTalk", it) }
+    var verifySkippedDevice by pref(defaults.getString("verifySkippedDevice", "") ?: "") {
+        putString("verifySkippedDevice", it)
+    }
     var verificationBannerDismissed by pref(defaults.getBoolean("verificationBannerDismissed", false)) {
         putBoolean("verificationBannerDismissed", it)
     }
@@ -437,6 +486,7 @@ class AppPreferences(context: Context) {
         val LANGUAGES = listOf("en", "de", "es", "fr", "it", "pt", "ru", "ja", "tr", "nl", "pl")
 
         private val LAYOUTS = setOf("classic", "modern", "compact")
+        private val NAVIGATION_STYLES = setOf("rail", "classic")
 
         /** Names this app used before it followed the web's settings, by the key they are now under */
         private val LEGACY_KEYS = mapOf("sendTyping" to "typingIndicators", "notificationSound" to "notificationSounds")

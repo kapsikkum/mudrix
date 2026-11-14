@@ -455,9 +455,28 @@ export const spaceSectionRoomsNested = style([
     display: 'flex',
     flexDirection: 'column',
     gap: '4px',
-    padding: '2px 0 4px',
+    padding: '2px 0 4px 18px',
   },
 ]);
+
+/** A category title: a small label over its rooms, not a room of its own. */
+export const categoryName = style({
+  fontSize: '0.75rem',
+  fontWeight: 700,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  color: vars.color.textMuted,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+/** The rooms and categories, kept to a readable width. */
+export const sectionList = style({
+  width: '100%',
+  maxWidth: '760px',
+  margin: '0 auto',
+});
 
 export const spaceSectionRoomItem = style({
   boxSizing: 'border-box',

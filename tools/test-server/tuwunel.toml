@@ -1,0 +1,24 @@
+# Test homeserver for tools/test-server. Not for production: open registration with a known token,
+# one throwaway database, no federation with anything but itself. __HOST__ is filled in by up.mjs,
+# the one address this stack listens on.
+[global]
+server_name = "mudrix.test"
+address = ["__HOST__"]
+port = 6167
+database_path = "/var/lib/tuwunel"
+
+allow_registration = true
+registration_token = "mudrix-test"
+allow_encryption = true
+allow_federation = true
+new_user_displayname_suffix = ""
+default_room_version = "11"
+ip_range_denylist = []
+
+[global.well_known]
+client = "http://__HOST__:6167"
+
+# MatrixRTC focus for call clients (MSC4143).
+[[global.well_known.rtc_transports]]
+type = "livekit"
+livekit_service_url = "http://__HOST__:8090"

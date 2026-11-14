@@ -1,8 +1,12 @@
 package org.wizardchat.android.ui.home
 
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import org.wizardchat.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -18,6 +22,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -26,6 +32,9 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,7 +60,9 @@ import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.CallManager
+import org.wizardchat.android.matrix.ListeningSharing
 import org.wizardchat.android.matrix.MessageNotifier
+import org.wizardchat.android.matrix.NavigationStyle
 import org.wizardchat.android.matrix.RecentEmoji
 import org.wizardchat.android.matrix.MudrixRoomStates
 import org.wizardchat.android.matrix.Reminders
@@ -62,6 +73,7 @@ import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.ensureMudrixUserFlag
 import org.wizardchat.android.matrix.SettingsSyncer
 import org.wizardchat.android.matrix.SidebarSelection
+import org.wizardchat.android.matrix.SpaceRail
 import org.wizardchat.android.matrix.UnreadState
 import org.wizardchat.android.matrix.unreadCount
 import org.wizardchat.android.ui.Avatar
@@ -80,6 +92,7 @@ import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.voice.CallBar
+import org.wizardchat.android.ui.voice.CallErrorBanner
 import org.wizardchat.android.ui.voice.DMCallScreen
 import org.wizardchat.android.ui.voice.IncomingCallBanner
 import org.wizardchat.android.ui.voice.VoiceRoomScreen
@@ -115,12 +128,17 @@ private val callBarHeight = WZ.Size.callControl + WZ.Space.space5
 fun MainScreen(roomList: RoomListModel) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
+    val modern = prefs.navigationStyle == NavigationStyle.rail
     val calls = remember { CallManager.shared }
     val notifier = remember { MessageNotifier.shared }
 
     var tab by remember { mutableStateOf(Tab.home) }
+    // The tab You was opened from, so closing You returns there with its rail selection (kept in paths)
+    var youFrom by remember { mutableStateOf(Tab.home) }
     val paths = remember { mutableStateMapOf<Tab, List<Route>>() }
     var showInbox by remember { mutableStateOf(false) }
+    var ownProfile by remember { mutableStateOf(false) }
+    val railListState = rememberLazyListState()
     var showCreateSpace by remember { mutableStateOf(false) }
     var showExplore by remember { mutableStateOf(false) }
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -134,10 +152,12 @@ fun MainScreen(roomList: RoomListModel) {
     fun show(roomId: String) {
         val room = roomList.room(roomId)
         val space = roomList.spaceContaining(roomId)
+        // The Modern rail has no DM-only pane: direct messages live in the Home pane
+        val dmTab = if (modern) Tab.home else Tab.dms
         when {
             room?.isDirect == true -> {
-                tab = Tab.dms
-                paths[Tab.dms] = listOf(Route.Room(roomId))
+                tab = dmTab
+                paths[dmTab] = listOf(Route.Room(roomId))
             }
             space != null -> {
                 tab = Tab.spaces
@@ -153,10 +173,21 @@ fun MainScreen(roomList: RoomListModel) {
     fun showSpace(spaceId: String) {
         tab = Tab.spaces
         paths[Tab.spaces] = listOf(Route.Space(spaceId))
+        RailSelectionStore.save(context, spaceId)
     }
 
     fun select(item: Tab) {
         if (item == tab) paths[item] = emptyList() else tab = item
+    }
+
+    fun openYou() {
+        if (tab == Tab.me) return
+        youFrom = tab
+        tab = Tab.me
+    }
+
+    fun closeYou() {
+        tab = youFrom
     }
 
     fun showsIsland(item: Tab) = !keyboardVisible && paths[item].orEmpty().none { it is Route.Room || it is Route.Chat || it is Route.Thread }
@@ -175,6 +206,16 @@ fun MainScreen(roomList: RoomListModel) {
         )
     }
 
+    LaunchedEffect(session.userId, session.avatarUrl, session.media) {
+        val userId = session.userId ?: return@LaunchedEffect
+        val url = session.avatarUrl
+        if (url == null) {
+            SessionStore.saveAvatar(null, userId)
+        } else {
+            session.media?.thumbnail(url)?.let { withContext(Dispatchers.IO) { SessionStore.saveAvatar(it, userId) } }
+        }
+    }
+
     LaunchedEffect(session.client) {
         val client = session.client ?: return@LaunchedEffect
         syncer = SettingsSyncer(client, prefs, this).also { it.start() }
@@ -190,16 +231,17 @@ fun MainScreen(roomList: RoomListModel) {
     LaunchedEffect(session.client) {
         if (session.client != null) session.ensureMudrixUserFlag()
     }
-    // Also when another device changes the setting
-    LaunchedEffect(session.client, prefs.showPresence) {
-        if (session.client != null) session.applyPresence(prefs.showPresence)
+    LaunchedEffect(session.client, prefs.shareListening) {
+        if (session.client != null && prefs.shareListening) ListeningSharing.start(session) else ListeningSharing.stop()
     }
-    // Signed out: MainScreen goes away
+    // Also when another device changes the setting
+    LaunchedEffect(session.client, prefs.showPresence, prefs.presenceChoice) {
+        if (session.client != null) session.applyPresence(prefs.showPresence, prefs.presenceChoice)
+    }
+    // Also runs when the activity is recreated (rotation), so calls end on sign-out instead (MatrixSession)
     DisposableEffect(Unit) {
         onDispose {
             notifier.stop()
-            calls.stopWatchingIncoming()
-            calls.leave()
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
             SavedMessages.shared.stop()
@@ -216,15 +258,34 @@ fun MainScreen(roomList: RoomListModel) {
         showInbox = false
         showCreateSpace = false
         showExplore = false
+        ownProfile = false
         show(roomId)
     }
     val totalUnread = roomList.joinedRooms.sumOf { it.unreadCount }
     LaunchedEffect(totalUnread) { notifier.updateBadge(totalUnread) }
 
-    BackHandler(enabled = paths[tab].orEmpty().isNotEmpty()) {
-        paths[tab] = paths[tab].orEmpty().dropLast(1)
+    // Back to the space that was open when the app last closed, once the spaces have loaded
+    var startupHandled by remember { mutableStateOf(false) }
+    LaunchedEffect(roomList.isLoaded, roomList.spaces) {
+        if (startupHandled || !roomList.isLoaded) return@LaunchedEffect
+        if (modern && roomList.spaces.isEmpty()) return@LaunchedEffect
+        startupHandled = true
+        if (!modern) return@LaunchedEffect
+        val target = SpaceRail.selected(RailSelectionStore.load(context), railSpaces(roomList)) ?: return@LaunchedEffect
+        showSpace(target.id)
     }
-    BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) { tab = Tab.home }
+
+    BackHandler(enabled = paths[tab].orEmpty().isNotEmpty()) {
+        val leavingSpaceRoot = modern && tab == Tab.spaces && paths[tab].orEmpty().size == 1 && paths[tab]?.lastOrNull() is Route.Space
+        paths[tab] = paths[tab].orEmpty().dropLast(1)
+        if (leavingSpaceRoot) {
+            tab = Tab.home
+            RailSelectionStore.save(context, null)
+        }
+    }
+    BackHandler(enabled = paths[tab].orEmpty().isEmpty() && tab != Tab.home) {
+        if (modern && tab == Tab.me) closeYou() else tab = Tab.home
+    }
 
     val stateHolder = rememberSaveableStateHolder()
     CompositionLocalProvider(
@@ -233,39 +294,126 @@ fun MainScreen(roomList: RoomListModel) {
         LocalNotifier provides notifier,
         LocalSpaceGraph provides roomList.graph,
     ) {
-        Box(Modifier.fillMaxSize().background(theme.bgPrimary)) {
-            val inset = (if (showsIsland(tab)) islandHeight else 0.dp) + (if (showsCallBar(tab)) callBarHeight else 0.dp)
-            CompositionLocalProvider(LocalBottomBarInset provides inset) {
-                stateHolder.SaveableStateProvider(tab) {
-                    TabContent(
-                        tab,
-                        paths[tab].orEmpty(),
-                        roomList,
-                        onOpenInbox = { showInbox = true },
-                        onCreateSpace = { showCreateSpace = true },
-                        onExplore = { showExplore = true },
-                    )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(theme.bgPrimary)
+                .then(if (modern) Modifier.windowInsetsPadding(WindowInsets.displayCutout) else Modifier),
+        ) {
+            val path = paths[tab].orEmpty()
+            val top = path.lastOrNull()
+            val chatOpen = top is Route.Room || top is Route.Chat || top is Route.Thread
+            val callBar: @Composable () -> Unit = {
+                CallBar(
+                    onClick = {
+                        val room = calls.room
+                        if (room?.isDirect == true) calls.showCallScreen = true else room?.let { show(it.id) }
+                    },
+                    modifier = Modifier.padding(horizontal = WZ.Space.space6),
+                )
+            }
+            if (modern) {
+                var dockInset by remember { mutableStateOf(0.dp) }
+                val selectedSpaceId = (top as? Route.Space)?.id
+                val homeSelected = selectedSpaceId == null && tab != Tab.me
+                val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
+                // Chats and the You screen take the whole screen: no rail, no dock. The rail and dock come and go
+                // around the content, which stays composed in one place so its push and pop slides keep running
+                val showShell = !chatOpen && tab != Tab.me
+                val contentInset = if (showShell) dockInset else 0.dp
+                Row(Modifier.fillMaxSize()) {
+                    Row(Modifier.fillMaxHeight()) {
+                        if (showShell) {
+                            SpaceRailBar(
+                                roomList,
+                                selectedSpaceId = selectedSpaceId,
+                                homeSelected = homeSelected,
+                                onHome = {
+                                    select(Tab.home)
+                                    RailSelectionStore.save(context, null)
+                                },
+                                onSpace = ::showSpace,
+                                onCreateSpace = { showCreateSpace = true },
+                                onExplore = { showExplore = true },
+                                bottomInset = dockInset,
+                                listState = railListState,
+                            )
+                            Box(Modifier.width(1.dp).fillMaxHeight().background(theme.border))
+                        }
+                    }
+                    Column(Modifier.weight(1f)) {
+                        CompositionLocalProvider(LocalBottomBarInset provides contentInset) {
+                            Box(Modifier.weight(1f)) {
+                                stateHolder.SaveableStateProvider(tab) {
+                                    TabContent(
+                                        tab,
+                                        path,
+                                        roomList,
+                                        onOpenInbox = { showInbox = true },
+                                        onCreateSpace = { showCreateSpace = true },
+                                        onExplore = { showExplore = true },
+                                        onCloseYou = ::closeYou,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+                if (showShell) {
+                    ModernDock(
+                        Modifier.align(Alignment.BottomCenter),
+                        keyboardVisible = keyboardVisible,
+                        inboxBadge = inboxBadge,
+                        inboxMention = roomList.mentionRooms.isNotEmpty(),
+                        onProfile = { ownProfile = true },
+                        onInbox = { showInbox = true },
+                        onInset = { dockInset = it },
+                    ) {
+                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                            Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
+                        }
+                    }
+                } else {
+                    Column(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1)) {
+                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                            callBar()
+                        }
+                    }
+                }
+            } else {
+                val inset = (if (showsIsland(tab)) islandHeight else 0.dp) + (if (showsCallBar(tab)) callBarHeight else 0.dp)
+                CompositionLocalProvider(LocalBottomBarInset provides inset) {
+                    stateHolder.SaveableStateProvider(tab) {
+                        TabContent(
+                            tab,
+                            path,
+                            roomList,
+                            onOpenInbox = { showInbox = true },
+                            onCreateSpace = { showCreateSpace = true },
+                            onExplore = { showExplore = true },
+                        )
+                    }
+                }
+
+                Column(
+                    Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1),
+                    verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                ) {
+                    AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        callBar()
+                    }
+                    AnimatedVisibility(showsIsland(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        TabIsland(roomList, tab, ::select, Modifier.padding(horizontal = WZ.Space.space6))
+                    }
                 }
             }
 
-            Column(
-                Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1),
-                verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
-            ) {
-                AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                    CallBar(
-                        onClick = {
-                            val room = calls.room
-                            if (room?.isDirect == true) calls.showCallScreen = true else room?.let { show(it.id) }
-                        },
-                        modifier = Modifier.padding(horizontal = WZ.Space.space6),
-                    )
-                }
-                AnimatedVisibility(showsIsland(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
-                    TabIsland(roomList, tab, ::select, Modifier.padding(horizontal = WZ.Space.space6))
-                }
+            session.userId?.takeIf { ownProfile }?.let { userId ->
+                OwnProfilePage(userId, onClose = { ownProfile = false }, onOpenSettings = {
+                    ownProfile = false
+                    openYou()
+                })
             }
-
             Column(
                 Modifier.align(Alignment.TopCenter).statusBarsPadding(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -274,6 +422,8 @@ fun MainScreen(roomList: RoomListModel) {
                 ConnectionBanner(Modifier.padding(top = WZ.Space.space1))
                 CopyToastView(Modifier.padding(top = WZ.Space.space2))
                 IncomingCallBanner(Modifier.padding(top = WZ.Space.space2))
+                CallErrorBanner(Modifier.padding(top = WZ.Space.space2))
+                org.wizardchat.android.ui.voice.AloneNotice(Modifier.padding(top = WZ.Space.space2), show = !calls.showCallScreen)
             }
         }
 
@@ -297,6 +447,8 @@ fun MainScreen(roomList: RoomListModel) {
     }
 }
 
+private fun Route?.isChatRoute() = this is Route.Room || this is Route.Chat || this is Route.Thread
+
 @Composable
 private fun TabContent(
     tab: Tab,
@@ -305,9 +457,12 @@ private fun TabContent(
     onOpenInbox: () -> Unit,
     onCreateSpace: () -> Unit,
     onExplore: () -> Unit,
+    onCloseYou: () -> Unit = {},
 ) {
+    val modernHeader = LocalPrefs.current.navigationStyle == NavigationStyle.rail
     if (tab == Tab.me) {
-        SettingsScreen(isTab = true)
+        // Modern has no rail to go back to, so the You screen gets a Done button
+        if (modernHeader) SettingsScreen(isTab = false, onDismiss = onCloseYou) else SettingsScreen(isTab = true)
         return
     }
     val navigator = LocalNavigator.current
@@ -315,41 +470,73 @@ private fun TabContent(
     AnimatedContent(
         targetState = path,
         transitionSpec = {
-            if (targetState.size >= initialState.size) {
-                slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
-            } else {
-                slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
+            val chat = initialState.lastOrNull().isChatRoute() || targetState.lastOrNull().isChatRoute()
+            when {
+                // Rail switches swap in place; only moving into or out of a chat slides
+                modernHeader && !chat -> fadeIn(tween(120)) togetherWith fadeOut(tween(120))
+                targetState.size >= initialState.size -> slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
+                else -> slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
             }
         },
         contentKey = { it.size to it.lastOrNull() },
         label = "navigation",
     ) { stack ->
         val route = stack.lastOrNull()
-        stateHolder.SaveableStateProvider(route?.toString() ?: "root-$tab") {
-            when (route) {
-                null -> when (tab) {
-                    Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox)
-                    Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox)
-                    else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
+        val key = route?.toString() ?: "root-$tab"
+        stateHolder.SaveableStateProvider(key) {
+            val previous = stack.getOrNull(stack.lastIndex - 1)
+            val isChat = route is Route.Room || route is Route.Chat || route is Route.Thread
+            if (isChat) {
+                SwipeBack(
+                    onBack = navigator.pop,
+                    underlay = {
+                        stateHolder.SaveableStateProvider("peek-$tab-$key") {
+                            RouteView(tab, previous, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+                        }
+                    },
+                ) {
+                    RouteView(tab, route, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
                 }
-                is Route.Space -> RoomListScreen(roomList, SidebarSelection.Space(route.id), null)
-                is Route.Room, is Route.Chat -> {
-                    val id = if (route is Route.Room) route.id else (route as Route.Chat).id
-                    val room = roomList.room(id)
-                    when {
-                        room == null -> Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
-                        room.isVoice && route is Route.Room -> VoiceRoomScreen(room, onBack = navigator.pop, onOpenChat = { navigator.push(Route.Chat(id)) })
-                        else -> RoomScreen(room, roomList.client, onBack = navigator.pop)
-                    }
-                }
-                is Route.Thread -> {
-                    val room = roomList.room(route.roomId)
-                    if (room == null) {
-                        Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
-                    } else {
-                        RoomScreen(room, roomList.client, onBack = navigator.pop, threadRoot = route.rootEventId)
-                    }
-                }
+            } else {
+                RouteView(tab, route, roomList, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+            }
+        }
+    }
+}
+
+@Composable
+private fun RouteView(
+    tab: Tab,
+    route: Route?,
+    roomList: RoomListModel,
+    onOpenInbox: () -> Unit,
+    onCreateSpace: () -> Unit,
+    onExplore: () -> Unit,
+    modernHeader: Boolean,
+) {
+    val navigator = LocalNavigator.current
+    when (route) {
+        null -> when (tab) {
+            Tab.home -> RoomListScreen(roomList, SidebarSelection.Home, onOpenInbox, onCreateSpace, onExplore, modernHeader)
+            Tab.dms -> RoomListScreen(roomList, SidebarSelection.Dms, onOpenInbox, modernHeader = modernHeader)
+            else -> SpacesScreen(roomList, onCreateSpace = onCreateSpace, onExplore = onExplore)
+        }
+        is Route.Space -> RoomListScreen(roomList, SidebarSelection.Space(route.id), null, modernHeader = modernHeader)
+        is Route.Room, is Route.Chat -> {
+            val id = if (route is Route.Room) route.id else (route as Route.Chat).id
+            val room = roomList.room(id)
+            when {
+                room == null -> Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
+                room.isVoice && route is Route.Room -> VoiceRoomScreen(room, onBack = navigator.pop, onOpenChat = { navigator.push(Route.Chat(id)) })
+                else -> RoomScreen(room, roomList.client, onBack = navigator.pop)
+            }
+        }
+        is Route.Thread -> {
+            val room = roomList.room(route.roomId)
+            if (room == null) {
+                Box(Modifier.fillMaxSize().background(theme.bgPrimary), contentAlignment = Alignment.Center) { Spinner() }
+            } else {
+                RoomScreen(room, roomList.client, onBack = navigator.pop, threadRoot = route.rootEventId)
             }
         }
     }
@@ -358,14 +545,15 @@ private fun TabContent(
 @Composable
 private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) -> Unit, modifier: Modifier = Modifier) {
     val session = LocalSession.current
+    val prefs = LocalPrefs.current
     val spacesUnread = roomList.spaces.fold(UnreadState()) { state, space ->
         val unread = roomList.unreadState(SidebarSelection.Space(space.id))
         UnreadState(state.unread || unread.unread, state.mention || unread.mention)
     }
     Surface(modifier.fillMaxWidth(), shape = CircleShape, color = theme.bgTertiary.copy(alpha = 0.96f), shadowElevation = 8.dp) {
         Row(Modifier.padding(WZ.Space.space2)) {
-            TabItem(Tab.home, selected, tr("room.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
-            TabItem(Tab.dms, selected, tr("roomSwitcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
+            TabItem(Tab.home, selected, tr("nav.home"), "house", roomList.unreadState(SidebarSelection.Home), onSelect)
+            TabItem(Tab.dms, selected, tr("search.switcher.prefixDms"), "chat-circle", roomList.unreadState(SidebarSelection.Dms), onSelect)
             TabItem(Tab.spaces, selected, tr("room.settings.permissions.groups.spaces"), "stack", spacesUnread, onSelect)
             val isSelected = selected == Tab.me
             Column(
@@ -379,13 +567,15 @@ private fun TabIsland(roomList: RoomListModel, selected: Tab, onSelect: (Tab) ->
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
             ) {
-                Avatar(
+                org.wizardchat.android.ui.cosmetics.CosmeticAvatar(
+                    session.userId,
                     session.displayName ?: session.userId ?: "",
                     session.avatarUrl,
                     WZ.SizeAvatar.sm,
                     modifier = Modifier.border(WZ.BorderWidth.thick, if (isSelected) theme.accent else androidx.compose.ui.graphics.Color.Transparent, CircleShape),
+                    presence = prefs.presenceChoice.presence(true).name,
                 )
-                Text(tr("mobileNav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
+                Text(tr("nav.you"), style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold), color = if (isSelected) theme.accent else theme.textMuted)
             }
         }
     }

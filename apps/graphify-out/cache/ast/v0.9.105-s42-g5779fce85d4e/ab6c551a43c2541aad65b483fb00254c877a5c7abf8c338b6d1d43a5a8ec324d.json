@@ -1,0 +1,356 @@
+{
+  "nodes": [
+    {
+      "id": "pkg_wizardchat_desktop",
+      "label": "wizardchat-desktop",
+      "file_type": "code",
+      "type": "package",
+      "ecosystem": "cargo",
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1"
+    }
+  ],
+  "edges": [
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_wizardchat_core",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_opener",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_serde",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_serde_json",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tokio",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_notification",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_deep_link",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_device_query",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_single_instance",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_updater",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_autostart",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_plugin_window_state",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_jpeg_encoder",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_base64",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_macos_accessibility_client",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_foundation",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_screen_capture_kit",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_core_media",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_core_video",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_core_graphics",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_core_foundation",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_objc2_core_audio_types",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_block2",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_dispatch2",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_x11rb",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_rustix",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_tauri_winrt_notification",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_windows_core",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "pkg_wizardchat_desktop",
+      "target": "pkg_windows",
+      "relation": "depends_on",
+      "context": "dependency",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "desktop/src-tauri/Cargo.toml",
+      "source_location": "L1",
+      "weight": 1.0
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const intro = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   color: vars.color.textMuted,
   lineHeight: 1.5,
   marginBottom: '24px',
@@ -45,7 +46,7 @@ export const iconTile = style({
   alignItems: 'center',
   justifyContent: 'center',
   fontWeight: 700,
-  fontSize: '1.1rem',
+  fontSize: fontSize.rem110,
   objectFit: 'cover',
 });
 
@@ -58,14 +59,14 @@ export const info = style({
 });
 
 export const name = style({
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
 });
 
 export const muted = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.textMuted,
   lineHeight: 1.5,
   overflowWrap: 'anywhere',
@@ -73,7 +74,7 @@ export const muted = style({
 
 export const mono = style({
   fontFamily: 'monospace',
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textMuted,
   overflowWrap: 'anywhere',
 });
@@ -86,7 +87,7 @@ export const row = style({
 });
 
 export const disclosure = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textPrimary,
 });
 
@@ -120,7 +121,7 @@ export const permBody = style({
 });
 
 export const permTitle = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -128,7 +129,7 @@ export const permTitle = style({
 export const permList = style({
   margin: 0,
   paddingLeft: '18px',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.textPrimary,
   lineHeight: 1.5,
   overflowWrap: 'anywhere',
@@ -153,13 +154,13 @@ export const banner = style({
 });
 
 export const bannerTitle = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontWeight: 600,
   color: vars.color.warning,
 });
 
 export const errorText = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.error,
   overflowWrap: 'anywhere',
 });
@@ -191,20 +192,94 @@ export const nameRow = style({
   flexWrap: 'wrap',
 });
 
+export const codeBadge = style({
+  flexShrink: 0,
+  padding: '1px 8px',
+  borderRadius: vars.radius.pill,
+  border: `1px solid ${vars.color.danger}`,
+  color: vars.color.danger,
+  fontSize: fontSize.rem75,
+  fontWeight: 700,
+  lineHeight: 1.5,
+});
+
+export const highAccess = style({
+  marginLeft: '6px',
+  padding: '0 6px',
+  borderRadius: vars.radius.pill,
+  border: `1px solid ${vars.color.warning}`,
+  color: vars.color.warning,
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
+  whiteSpace: 'nowrap',
+});
+
+export const codeWarning = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  padding: '12px 14px',
+  borderRadius: vars.radius.sm,
+  border: `2px solid ${vars.color.danger}`,
+  backgroundColor: vars.color.bgSecondary,
+  color: vars.color.textPrimary,
+});
+
+export const codeWarningHead = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  color: vars.color.danger,
+  fontSize: fontSize.rem95,
+  fontWeight: 700,
+});
+
+export const keyChangedHead = codeWarningHead;
+
+export const codeWarningList = style({
+  margin: 0,
+  paddingLeft: '18px',
+  fontSize: fontSize.rem85,
+  lineHeight: 1.5,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+  overflowWrap: 'anywhere',
+});
+
+export const ackRow = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '8px',
+  fontSize: fontSize.rem85,
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+  cursor: 'pointer',
+});
+
+export const ackBox = style({
+  marginTop: '2px',
+  width: '16px',
+  height: '16px',
+  flexShrink: 0,
+  accentColor: vars.color.danger,
+  ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '2px' },
+});
+
 export const officialBadge = style({
   flexShrink: 0,
   padding: '1px 8px',
-  borderRadius: '999px',
+  borderRadius: vars.radius.pill,
   border: `1px solid ${vars.color.accent}`,
   color: vars.color.accent,
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 700,
   lineHeight: 1.5,
 });
 
 export const fingerprintSmall = style({
   fontFamily: 'monospace',
-  fontSize: '0.8rem',
+  fontSize: fontSize.rem80,
   color: vars.color.textMuted,
   letterSpacing: '0.04em',
   fontVariantNumeric: 'tabular-nums',
@@ -214,7 +289,7 @@ export const fingerprintSmall = style({
 
 export const fingerprintLarge = style({
   fontFamily: 'monospace',
-  fontSize: '1.1rem',
+  fontSize: fontSize.rem110,
   fontWeight: 600,
   color: vars.color.textPrimary,
   letterSpacing: '0.1em',
@@ -237,12 +312,12 @@ export const keyChangedBlock = style({
   border: `2px solid ${vars.color.danger}`,
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   lineHeight: 1.5,
 });
 
 export const securityError = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   color: vars.color.danger,
   fontWeight: 600,
   overflowWrap: 'anywhere',
@@ -251,7 +326,7 @@ export const securityError = style({
 export const integrationNames = style({
   margin: 0,
   paddingLeft: '18px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textPrimary,
   lineHeight: 1.6,
   overflowWrap: 'anywhere',
@@ -261,16 +336,7 @@ export const sourceLine = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '4px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   fontWeight: 600,
   color: vars.color.textPrimary,
-});
-
-export const keyChangedHead = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  color: vars.color.danger,
-  fontSize: '0.95rem',
-  fontWeight: 700,
 });

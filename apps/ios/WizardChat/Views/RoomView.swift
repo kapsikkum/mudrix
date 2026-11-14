@@ -17,6 +17,9 @@ struct RoomView: View {
 
     @State private var openThread: IdentifiedString?
     @State private var showThreads = false
+    @State private var showJumpToDate = false
+    @State private var showMembers = false
+    @State private var showSearch = false
 
     @State private var backAnchorVisible = false
     @State private var isAtBottom = true
@@ -60,14 +63,18 @@ struct RoomView: View {
     @State private var afterMenu: (() -> Void)?
     @StateObject private var reactionPacks = PacksStore()
     @State private var showInfo = false
+    @State private var barWidth: CGFloat = 0
     @State private var canPin = false
     @State private var canRedactOthers = false
     @State private var reporting: ChatEntry?
     @State private var reportReason = ""
+    @State private var forwarding: ChatEntry?
     @State private var sourceText: IdentifiedString?
+    @State private var editHistoryFor: IdentifiedString?
     @State private var selectingText: IdentifiedString?
     @State private var linkPreviews: LinkPreviewLoader?
     @EnvironmentObject private var session: MatrixSession
+    @Environment(\.roomOpener) private var roomOpener
     @EnvironmentObject private var calls: CallManager
     @State private var profileUserId: String?
     @State private var highlightedId: String?
@@ -180,8 +187,10 @@ struct RoomView: View {
                         .padding(.horizontal, WZ.Space.space6)
                 }
                 IdentityWarning(roomId: room.id, client: timeline.client, encrypted: room.isEncrypted)
-                if prefs.typingIndicators && !timeline.typingNames.isEmpty {
-                    TypingIndicator(names: timeline.typingNames)
+                if session.connectionLost {
+                    OfflineStatus()
+                } else if prefs.typingIndicators && !timeline.typingNames.isEmpty {
+                    TypingIndicator(names: timeline.typingNames, ids: timeline.typingIds)
                 }
                 ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing, threadRoot: threadRoot) { typing in
                     if prefs.typingIndicators { timeline.setTyping(typing) }
@@ -189,54 +198,86 @@ struct RoomView: View {
             }
             .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { composerTop = $0 }
         }
+        .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { barWidth = $0 }
         .background(theme.bgSecondary.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(threadRoot == nil)
         .toolbarBackground(theme.bgSecondary, for: .navigationBar)
         .toolbarBackgroundVisibility(.visible, for: .navigationBar)
         .toolbar {
-            ToolbarItem(placement: .principal) {
+            ToolbarItem(placement: .topBarLeading) {
                 if threadRoot != nil {
                     ThreadTitle(room: room)
-                        .padding(.horizontal, WZ.Space.space6)
-                        .padding(.vertical, WZ.Space.space2)
-                        .frame(minHeight: WZ.Space.space10)
-                        .floatingGlass(in: Capsule())
+                        .padding(.horizontal, WZ.Space.space2)
                 } else {
-                    Button { showInfo = true } label: {
-                        RoomTitle(room: room)
-                            .padding(.horizontal, WZ.Space.space6)
-                            .padding(.vertical, WZ.Space.space2)
-                            .frame(minHeight: WZ.Space.space10)
-                            .floatingGlass(in: Capsule())
-                            .contentShape(Capsule())
+                    HStack(spacing: WZ.Space.space2) {
+                        RoomBackButton(roomId: room.id)
+                        RoomChatTitle(room: room, partnerId: dmPartnerId, maxWidth: RoomTitle.maxWidth(barWidth: barWidth, buttons: 3),
+                                      onTap: {
+                                          if let partnerId = dmPartnerId { profileUserId = partnerId } else { showInfo = true }
+                                      })
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(String(localized: "timeline.showsRoomInfoMembers"))
                 }
             }
             .glassBackgroundHidden()
             if threadRoot == nil {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button { showThreads = true } label: {
-                        Image("ph-chat-dots-regular").foregroundStyle(theme.textPrimary)
-                    }
-                        .accessibilityLabel(String(localized: "timeline.threads"))
                     Menu {
                         Button { startCall(video: false) } label: {
-                            Label(menu: String(localized: "timeline.voiceCall"), icon: "ph-phone-fill")
+                            Label(menu: String(localized: "timeline.voiceCall"), icon: "ph-phone-regular")
                         }
                         Button { startCall(video: true) } label: {
-                            Label(menu: String(localized: "timeline.videoCall"), icon: "ph-video-camera-fill")
+                            Label(menu: String(localized: "timeline.videoCall"), icon: "ph-video-camera-regular")
                         }
                     } label: {
-                        Image("ph-phone-fill")
+                        Image("ph-phone-regular").foregroundStyle(theme.textPrimary)
                     }
-                    .accessibilityLabel(String(localized: "voice.startCall"))
+                    .disabled(room.inCall || calls.isInCall(roomId: room.id))
+                    .accessibilityLabel(String(localized: "call.startCall"))
+                    Button { showSearch = true } label: {
+                        Image("ph-magnifying-glass-regular").foregroundStyle(theme.textPrimary)
+                    }
+                    .accessibilityLabel(String(localized: "common.search"))
+                    Menu {
+                        if room.isDirect {
+                            Button { showInfo = true } label: {
+                                Label(String(localized: "room.info.title"), image: "ph-info-regular")
+                            }
+                        }
+                        Button { showMembers = true } label: {
+                            Label(String(localized: "common.members"), image: "ph-users-regular")
+                        }
+                        Button { showThreads = true } label: {
+                            Label(String(localized: "timeline.threads"), image: "ph-chat-dots-regular")
+                        }
+                        Button { showJumpToDate = true } label: {
+                            Label(String(localized: "room.jumpToDate.title"), image: "ph-calendar-blank-regular")
+                        }
+                    } label: {
+                        Image("ph-dots-three-bold").foregroundStyle(theme.textPrimary)
+                    }
+                    .accessibilityLabel(String(localized: "common.more"))
                 }
+                .glassBackgroundHidden()
             }
         }
         .navigationDestination(item: $openThread) { root in
             RoomView(room: room, client: timeline.client, threadRoot: root.id)
+        }
+        .sheet(isPresented: $showJumpToDate) {
+            JumpToDateSheet(client: timeline.client, roomId: room.id) { eventId in notifier.eventToFocus = (room.id, eventId) }
+                .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showMembers) {
+            NavigationStack { MembersView(roomId: room.id) }
+        }
+        .sheet(isPresented: $showSearch) {
+            NavigationStack {
+                RoomSearchView(room: room, client: timeline.client) { eventId in
+                    showSearch = false
+                    notifier.eventToFocus = (room.id, eventId)
+                }
+            }
         }
         .sheet(isPresented: $showThreads) {
             ThreadListView(room: room, client: timeline.client) { root in
@@ -246,12 +287,15 @@ struct RoomView: View {
         }
         .overlay(alignment: .top) {
             if threadRoot == nil, !calls.isInCall(roomId: room.id),
-               room.callParticipants.contains(where: { $0 != session.userId }) {
+               room.inCallElsewhere || room.callParticipants.contains(where: { $0 != session.userId }) {
                 JoinCallBar(room: room).padding(.top, WZ.Space.space3)
             }
         }
         .sheet(isPresented: $showInfo, onDismiss: { Task { await timeline.loadPinned() } }) {
-            RoomInfoView(room: room, client: timeline.client) { eventId in
+            RoomInfoView(room: room, client: timeline.client, onRoomReplaced: { newRoom in
+                showInfo = false
+                openRoom(newRoom, notifier: notifier)
+            }) { eventId in
                 showInfo = false
                 notifier.eventToFocus = (room.id, eventId)
             }
@@ -265,9 +309,15 @@ struct RoomView: View {
             Button(String(localized: "common.cancel"), role: .cancel) {}
         }
         .sheet(item: $sourceText) { source in SourceView(json: source.id) }
+        .sheet(item: $forwarding) { entry in
+            if let eventId = entry.eventId {
+                ForwardSheet(client: timeline.client, fromRoomId: room.id, eventId: eventId)
+            }
+        }
+        .sheet(item: $editHistoryFor) { target in EditHistorySheet(client: timeline.client, roomId: room.id, eventId: target.id) }
         .sheet(item: $selectingText) { text in SelectTextView(text: text.id) }
         .alert(String(localized: "timeline.reportMessage"), isPresented: Binding(get: { reporting != nil }, set: { if !$0 { reporting = nil } })) {
-            TextField(String(localized: "room.members.reasonLabel"), text: $reportReason)
+            TextField(String(localized: "common.reasonOptional"), text: $reportReason)
             Button(String(localized: "timeline.reportShort"), role: .destructive) {
                 guard let entry = reporting else { return }
                 let reason = reportReason.isEmpty ? nil : reportReason
@@ -296,6 +346,8 @@ struct RoomView: View {
             UserProfileSheet(userId: item.id, roomId: room.id)
         }
         .onChange(of: prefs.groupImages, initial: true) { _, group in timeline.groupImages = group }
+        .onChange(of: prefs.hideMembershipEvents, initial: true) { _, hide in timeline.hideMembershipEvents = hide }
+        .onChange(of: prefs.hideProfileEvents, initial: true) { _, hide in timeline.hideProfileEvents = hide }
         .task { await timeline.start() }
         .fullScreenCover(item: $menuTarget, onDismiss: {
             afterMenu?()
@@ -340,6 +392,9 @@ struct RoomView: View {
         }
     }
 
+    /// The other person in a DM; the header opens their profile instead of the room info
+    private var dmPartnerId: String? { room.isDirect ? room.dmUserId : nil }
+
     private func startCall(video: Bool) {
         calls.showCallScreen = true
         guard !calls.isInCall(roomId: room.id) else { return }
@@ -357,17 +412,26 @@ struct RoomView: View {
             endPoll: { entry in Task { await timeline.endPoll(entry) } },
             roomId: room.id,
             openProfile: { profileUserId = $0 },
+            openRoomLink: { link in Task { await RoomLinks.open(link, session: session, opener: roomOpener) } },
+            roomName: { [roomList = session.roomList] link in
+                MainActor.assumeIsolated { RoomLinks.knownName(link, roomList: roomList) }
+            },
             pinnedIds: timeline.pinnedIds,
             canPin: canPin,
             canRedactOthers: canRedactOthers,
             togglePin: { entry in Task { await timeline.togglePin(entry) } },
             report: { reporting = $0 },
-            remind: { remindTarget = $0 },
             viewSource: { entry in Task { sourceText = await timeline.source(of: entry).map(IdentifiedString.init) } },
+            forward: { forwarding = $0 },
+            editHistory: { editHistoryFor = $0.eventId.map(IdentifiedString.init) },
             selectText: { selectingText = IdentifiedString(id: $0.summary) },
-            openThread: threadRoot != nil ? nil : { entry in openThread = entry.eventId.map(IdentifiedString.init) },
+            openThread: threadRoot != nil ? nil : { entry in
+                guard menuTarget == nil else { return }
+                openThread = entry.eventId.map(IdentifiedString.init)
+            },
             linkPreviews: linkPreviews,
             retry: { timeline.retrySending() },
+            remind: { remindTarget = $0 },
             openMenu: { entry, frame in
                 // The menu fades in by itself; the cover's own slide-up would fight it
                 var transaction = Transaction()
@@ -413,6 +477,10 @@ struct RoomView: View {
                         EmptyView()
                     } else if timeline.reachedStart {
                         TimelineStart(room: room)
+                    } else if timeline.historyPaused {
+                        UndecryptableHistoryNotice(loading: timeline.isPaginating) {
+                            Task { await timeline.paginateBackwards(manual: true) }
+                        }
                     } else {
                         // Skeleton rows that load the next page of history only once they
                         // actually scroll into view.
@@ -500,7 +568,7 @@ struct RoomView: View {
             repeat {
                 await timeline.paginateBackwards()
                 try? await Task.sleep(for: .milliseconds(80))
-            } while !fillsScreen && !timeline.reachedStart && !Task.isCancelled
+            } while !fillsScreen && !timeline.reachedStart && !timeline.historyPaused && !Task.isCancelled
         }
     }
 }
@@ -702,8 +770,8 @@ private struct ThreadTitle: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: WZ.Space.space0) {
-            Text(String(localized: "thread.title"))
+        VStack(alignment: .leading, spacing: WZ.Space.space0) {
+            Text(String(localized: "timeline.threadPanel"))
                 .font(.wizard(WZ.FontSize.lg, .semibold))
                 .foregroundStyle(theme.textPrimary)
             Text(room.displayName)
@@ -715,16 +783,148 @@ private struct ThreadTitle: View {
     }
 }
 
-private struct RoomTitle: View {
+/// Back in the chat header, with the mentions waiting in other rooms as a badge
+private struct RoomBackButton: View {
+    let roomId: String
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Button { dismiss() } label: {
+            Image("ph-caret-left-bold")
+                .font(.system(size: WZ.SizeIcon.md, weight: .bold))
+                .foregroundStyle(theme.textPrimary)
+                .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                .overlay(alignment: .topTrailing) {
+                    if let roomList = session.roomList {
+                        MentionCountBadge(roomList: roomList, roomId: roomId)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(String(localized: "common.back"))
+    }
+}
+
+private struct MentionCountBadge: View {
+    @ObservedObject var roomList: RoomListModel
+    let roomId: String
+
+    var body: some View {
+        let count = roomList.mentionRooms.filter { $0.id != roomId }.reduce(0) { $0 + $1.mentionCount }
+        if count > 0 {
+            UnreadBadge(count: count, isMention: true)
+                .offset(x: WZ.Space.space2, y: -WZ.Space.space2)
+        }
+    }
+}
+
+/// Flat chat header title: avatar, bold name with a chevron, and one subtitle line. A DM shows the partner's
+/// status or presence (and their profile on tap); a room shows its member count (and room info on tap).
+private struct RoomChatTitle: View {
     let room: RoomSummary
+    let partnerId: String?
+    let maxWidth: CGFloat
+    let onTap: () -> Void
+    @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+    @State private var partner: UserProfile?
+
+    private var status: String? {
+        guard let custom = partner?.customStatus else { return nil }
+        if let expiresAt = custom.expiresAt, Double(expiresAt) / 1000 < Date.now.timeIntervalSince1970 { return nil }
+        return custom.text
+    }
+
+    private var presence: String? {
+        guard prefs.showPresence, let state = partner?.presence?.state else { return nil }
+        switch state {
+        case .online: return String(localized: "presence.online")
+        case .unavailable: return String(localized: "presence.away")
+        case .offline: return String(localized: "presence.offline")
+        }
+    }
+
+    private var subtitle: String? {
+        if partnerId != nil { return status ?? presence }
+        if room.memberCount > 0 { return L10n.plural("room.settings.roles.memberCount", count: room.memberCount, room.memberCount) }
+        guard let topic = room.topic, !topic.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        return topic
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: WZ.Space.space3) {
+                avatar
+                VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                    HStack(spacing: WZ.Space.space2) {
+                        Text(room.displayName)
+                            .font(.wizard(WZ.FontSize.lg, .bold))
+                            .foregroundStyle(theme.textPrimary)
+                            .lineLimit(1)
+                        Image("ph-caret-right-bold")
+                            .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                    if let subtitle {
+                        Text(subtitle)
+                            .font(.wizard(WZ.FontSize.xs))
+                            .foregroundStyle(theme.textMuted)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            .frame(maxWidth: maxWidth, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint(partnerId != nil ? String(localized: "call.viewProfile") : String(localized: "timeline.showsRoomInfoMembers"))
+        .task(id: partnerId) {
+            partner = nil
+            guard let partnerId else { return }
+            partner = await session.profile(of: partnerId)
+        }
+    }
+
+    @ViewBuilder
+    private var avatar: some View {
+        if let partnerId {
+            CosmeticAvatar(userId: partnerId, name: room.displayName, url: partner?.avatarUrl ?? room.dmUserAvatar,
+                           size: WZ.SizeAvatar.sm, presence: partner?.presence?.state, presenceRingColor: theme.bgSecondary)
+        } else if prefs.showRoomAvatars || room.isDirect {
+            AvatarView(name: room.displayName, url: room.avatarUrl ?? room.dmUserAvatar, size: WZ.SizeAvatar.sm)
+        } else {
+            Image(room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-regular")
+                .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
+                .foregroundStyle(theme.textMuted)
+                .frame(width: WZ.SizeAvatar.sm, height: WZ.SizeAvatar.sm)
+                .background(theme.fill, in: Circle())
+        }
+    }
+}
+
+struct RoomTitle: View {
+    let room: RoomSummary
+    var maxWidth: CGFloat = WZ.Size.sidebar
+
+    /// Shrinks the title (it truncates) so the bar's buttons never fold into an overflow menu
+    static func maxWidth(barWidth: CGFloat, buttons: Int) -> CGFloat {
+        guard barWidth > 0 else { return WZ.Size.sidebar }
+        let taken = WZ.Space.space11 * CGFloat(buttons + 1) + WZ.Space.space6 * 7
+        return min(WZ.Size.sidebar, max(WZ.Space.space11, barWidth - taken))
+    }
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
-        VStack(spacing: WZ.Space.space0) {
-            HStack(spacing: WZ.Space.space1) {
-                if !room.isDirect {
-                    Image("ph-hash-straight-regular")
+        VStack(alignment: .leading, spacing: WZ.Space.space0) {
+            HStack(spacing: prefs.showRoomAvatars ? WZ.Space.space3 : WZ.Space.space1) {
+                if prefs.showRoomAvatars {
+                    AvatarView(name: room.displayName, url: room.avatarUrl, size: WZ.SizeAvatar.xs)
+                } else if !room.isDirect {
+                    Image(room.isVoice ? "ph-speaker-high-regular" : "ph-hash-straight-regular")
                         .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
                         .foregroundStyle(theme.textMuted)
                 }
@@ -740,7 +940,7 @@ private struct RoomTitle: View {
             }
         }
         .lineLimit(1)
-        .frame(maxWidth: WZ.Size.sidebar)
+        .frame(maxWidth: maxWidth, alignment: .leading)
     }
 }
 
@@ -808,6 +1008,11 @@ private struct TimelineRow: View, Equatable {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, WZ.Space.space9)
                 .padding(.vertical, WZ.Space.space1)
+        case .call(let call):
+            CallTile(call: call, roomId: actions.roomId)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, WZ.Space.space6)
+                .padding(.vertical, WZ.Space.space1)
         default:
             MessageRow(entry: entry, actions: actions, isPrivateRoom: isPrivateRoom)
         }
@@ -836,6 +1041,12 @@ struct MessageRow: View {
     private var scale: CGFloat { prefs.chatScale }
     private var spacing: CGFloat { prefs.chatSpacing }
     private var isClassic: Bool { prefs.messageLayout == .classic }
+    private var isCompact: Bool { prefs.messageLayout == .compact }
+    private var senderColor: Color { theme.nameColor(entry.sender, colored: prefs.colorUsernames) }
+
+    private var isMessageText: Bool {
+        if case .message = entry.kind { true } else { false }
+    }
 
 
     private var isText: Bool {
@@ -847,20 +1058,35 @@ struct MessageRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: WZ.Space.space5) {
-            if entry.isGrouped {
+            if isCompact {
+                EmptyView()
+            } else if entry.isGrouped {
                 Color.clear.frame(width: WZ.SizeAvatar.md, height: WZ.Space.space0)
             } else {
-                AvatarView(name: entry.senderName, url: entry.senderAvatarUrl, size: WZ.SizeAvatar.md)
+                CosmeticAvatar(userId: entry.sender, name: entry.senderName, url: entry.senderAvatarUrl, size: WZ.SizeAvatar.md)
                     .padding(.top, WZ.Space.space1)
                     .onTapGesture { actions?.openProfile(entry.sender) }
                     .accessibilityAddTraits(.isButton)
             }
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
-                if !entry.isGrouped {
+                if isCompact {
+                    if !isMessageText {
+                        HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space3) {
+                            Text(entry.timestamp, format: .dateTime.hour().minute())
+                                .font(.wizard(WZ.FontSize.xs * scale))
+                                .foregroundStyle(theme.textMuted)
+                            Text(entry.senderName)
+                                .font(.wizard(WZ.FontSize.md * scale, .semibold))
+                                .foregroundStyle(senderColor)
+                                .lineLimit(1)
+                                .onTapGesture { actions?.openProfile(entry.sender) }
+                        }
+                    }
+                } else if !entry.isGrouped {
                     HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space4) {
                         Text(entry.senderName)
                             .font(.wizard(WZ.FontSize.md * scale, .semibold))
-                            .foregroundStyle(roomRoles.color(of: entry.sender) ?? theme.accent)
+                            .foregroundStyle(roomRoles.color(of: entry.sender) ?? senderColor)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
                         Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
@@ -886,6 +1112,15 @@ struct MessageRow: View {
                                 UploadProgressRing(progress: nil)
                             }
                         }
+                    if let shield = Shields.display(entry.shield) {
+                        Button { CopyToast.shared.show(L10n.format(shield.reasonKey)) } label: {
+                            Image(shield.kind == .grey ? "ph-shield-check-regular" : "ph-shield-warning-regular")
+                                .font(.system(size: WZ.SizeIcon.xs * scale))
+                                .foregroundStyle(shield.kind == .red ? theme.danger : shield.kind == .warning ? theme.warningColor : theme.textMuted)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(L10n.format(shield.reasonKey))
+                    }
                     if entry.sendFailed {
                         Button { showFailed = true } label: {
                             Image("ph-warning-circle-regular")
@@ -912,7 +1147,7 @@ struct MessageRow: View {
                     // linkPreviews is set only in unencrypted rooms, so until it is known the room counts as encrypted
                     IntegrationLinkCards(text: body, roomId: actions?.roomId, isEncrypted: actions?.linkPreviews == nil)
                 }
-                if !entry.reactions.isEmpty {
+                if !entry.reactions.isEmpty && entry.allowsActions {
                     ReactionsBar(reactions: entry.reactions, roomId: actions?.roomId) { key in actions?.react(key, entry) }
                 }
                 if let thread = entry.thread, thread.replies > 0, let actions, let openThread = actions.openThread {
@@ -927,22 +1162,22 @@ struct MessageRow: View {
             .padding(.trailing, WZ.Space.space5)
         }
         .padding(.horizontal, WZ.Space.space6)
-        .padding(.top, (entry.isGrouped ? 1 : 6) * spacing)
-        .padding(.bottom, (entry.isGrouped ? 1 : 2) * spacing)
+        .padding(.top, (entry.isGrouped || isCompact ? 1 : 6) * spacing)
+        .padding(.bottom, (entry.isGrouped || isCompact ? 1 : 2) * spacing)
         .offset(x: swipe)
-        .background(alignment: .leading) {
-            if swipe > 8 {
+        .background(alignment: .trailing) {
+            if swipe < -8 {
                 Image("ph-arrow-bend-up-left-regular")
                     .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
-                    .foregroundStyle(swipe >= Self.replyThreshold ? theme.accent : theme.textMuted)
+                    .foregroundStyle(swipe <= -Self.replyThreshold ? theme.accent : theme.textMuted)
                     .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                     .background(theme.fill, in: Circle())
-                    .scaleEffect(min(swipe / Self.replyThreshold, 1))
-                    .padding(.leading, WZ.Space.space5)
+                    .scaleEffect(min(-swipe / Self.replyThreshold, 1))
+                    .padding(.trailing, WZ.Space.space5)
             }
         }
         .gesture(swipeToReply)
-        .sensoryFeedback(.impact(weight: .medium), trigger: swipe >= Self.replyThreshold)
+        .sensoryFeedback(.impact(weight: .medium), trigger: swipe <= -Self.replyThreshold)
     }
 
     /// Messages of only emoji are shown larger, like on the web
@@ -979,19 +1214,56 @@ struct MessageRow: View {
 
     private var swipeToReply: SwipeToReplyGesture {
         SwipeToReplyGesture { dx in
-            guard actions != nil, entry.canBeRepliedTo, entry.itemKey != nil else { return }
-            swipe = min(max(dx, 0) * 0.6, Self.replyThreshold + 20)
+            guard actions != nil, entry.canBeRepliedTo, entry.allowsActions, entry.itemKey != nil else { return }
+            swipe = max(min(dx, 0) * 0.6, -(Self.replyThreshold + 20))
         } onEnd: {
-            if swipe >= Self.replyThreshold { actions?.reply(entry) }
+            if swipe <= -Self.replyThreshold { actions?.reply(entry) }
             withAnimation(.spring(duration: WZ.MotionDuration.slow)) { swipe = 0 }
         }
+    }
+
+    private var compactPrefix: Text {
+        guard isCompact else { return Text(verbatim: "") }
+        return Text(entry.timestamp, format: .dateTime.hour().minute())
+            .font(.wizard(WZ.FontSize.xs * scale))
+            .foregroundColor(theme.textMuted)
+            + Text(verbatim: "  ")
+            + Text(entry.senderName)
+            .font(.wizard(WZ.FontSize.md * scale, .semibold))
+            .foregroundColor(senderColor)
+            + Text(verbatim: "  ")
     }
 
     @ViewBuilder
     private var textContent: some View {
         switch entry.kind {
+        case .message(_, false, let isNotice) where entry.rich != nil:
+            VStack(alignment: .leading, spacing: WZ.Space.space3 * scale) {
+                if isCompact { compactPrefix }
+                RichBlocksView(blocks: entry.rich ?? [], style: RichStyle(
+                    mentions: entry.mentions, revealSpoilers: spoilersRevealed || entry.spoilers.isEmpty,
+                    prettifyLinks: prefs.prettifyLinks, scale: scale, theme: theme,
+                    roomName: actions?.roomName ?? { _ in nil }))
+                if entry.isEdited {
+                    Text(String(localized: "timeline.edited"))
+                        .font(.wizard(WZ.FontSize.xs * scale))
+                        .foregroundStyle(theme.textMuted)
+                }
+            }
+            .foregroundStyle(isNotice ? theme.textMuted : theme.textPrimary)
+            .environment(\.openURL, OpenURLAction { url in
+                if RoomLinks.target(url.absoluteString) != nil, let actions {
+                    actions.openRoomLink(url.absoluteString)
+                    return .handled
+                }
+                guard let userId = MessageText.mentionedUser(url) else { return .systemAction }
+                actions?.openProfile(userId)
+                return .handled
+            })
+            .onTapGesture { if !entry.spoilers.isEmpty { withAnimation { spoilersRevealed.toggle() } } }
+            .accessibilityHint(entry.spoilers.isEmpty || spoilersRevealed ? "" : String(localized: "timeline.containsASpoilerTap"))
         case .message(let body, let isEmote, let isNotice):
-            (Text(MessageText.hidingSpoilers(
+            (compactPrefix + Text(MessageText.hidingSpoilers(
                 MessageText.withMentions(
                     MessageText.attributed(isEmote ? "* \(entry.senderName) \(body)" : body,
                                            prettifyLinks: prefs.prettifyLinks),
@@ -1003,6 +1275,10 @@ struct MessageRow: View {
                 .font(.wizard(WZ.FontSize.xs * scale))
                 .foregroundColor(theme.textMuted))
                 .environment(\.openURL, OpenURLAction { url in
+                    if RoomLinks.target(url.absoluteString) != nil, let actions {
+                        actions.openRoomLink(url.absoluteString)
+                        return .handled
+                    }
                     guard let userId = MessageText.mentionedUser(url) else { return .systemAction }
                     actions?.openProfile(userId)
                     return .handled
@@ -1087,7 +1363,7 @@ private struct MenuPressGesture: UIGestureRecognizerRepresentable {
     }
 }
 
-/// Starts only on a clearly sideways drag to the right, so vertical drags always scroll
+/// Starts only on a clearly sideways drag to the left, so vertical drags always scroll
 struct SwipeToReplyGesture: UIGestureRecognizerRepresentable {
     let onChange: (CGFloat) -> Void
     let onEnd: () -> Void
@@ -1112,7 +1388,7 @@ struct SwipeToReplyGesture: UIGestureRecognizerRepresentable {
         func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
             guard let pan = recognizer as? UIPanGestureRecognizer else { return true }
             let velocity = pan.velocity(in: pan.view)
-            return velocity.x > 0 && abs(velocity.x) > abs(velocity.y) * 1.6
+            return velocity.x < 0 && abs(velocity.x) > abs(velocity.y) * 1.6
         }
     }
 }
@@ -1127,7 +1403,7 @@ private struct MessageContextMenu: ViewModifier {
     @State private var frame = FrameBox()
 
     func body(content: Content) -> some View {
-        if entry.isContent {
+        if entry.isContent && entry.allowsActions {
             content
                 .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { [frame] in frame.value = $0 }
                 .gesture(MenuPressGesture { [frame] in actions.openMenu(entry, frame.value) })
@@ -1147,12 +1423,16 @@ struct MessageActions {
     let endPoll: (ChatEntry) -> Void
     let roomId: String
     let openProfile: (String) -> Void
+    var openRoomLink: (String) -> Void = { _ in }
+    var roomName: (String) -> String? = { _ in nil }
     var pinnedIds: Set<String> = []
     var canPin = false
     var canRedactOthers = false
     var togglePin: (ChatEntry) -> Void = { _ in }
     var report: (ChatEntry) -> Void = { _ in }
     var viewSource: (ChatEntry) -> Void = { _ in }
+    var forward: (ChatEntry) -> Void = { _ in }
+    var editHistory: (ChatEntry) -> Void = { _ in }
     var selectText: (ChatEntry) -> Void = { _ in }
     var openThread: ((ChatEntry) -> Void)?
     /// Set only in unencrypted rooms (see `LinkPreviewLoader`).
@@ -1171,6 +1451,17 @@ enum MessageText {
     }
 
     private static let cache = NSCache<NSString, Cached>()
+
+    static func isEmojiOnly(_ text: String) -> Bool {
+        var found = false
+        for character in text where !character.isWhitespace {
+            let scalars = character.unicodeScalars
+            guard let first = scalars.first, first.properties.isEmoji,
+                  first.properties.isEmojiPresentation || scalars.count > 1 else { return false }
+            found = true
+        }
+        return found
+    }
 
     static func attributed(_ text: String, prettifyLinks: Bool) -> AttributedString {
         let key = "\(prettifyLinks ? 1 : 0)\(text)" as NSString
@@ -1237,12 +1528,152 @@ enum MessageText {
     }
 }
 
-private struct TypingIndicator: View {
-    let names: [String]
+/// What a formatted message's text needs besides its blocks
+struct RichStyle {
+    let mentions: [MessageMention]
+    let revealSpoilers: Bool
+    let prettifyLinks: Bool
+    let scale: CGFloat
+    let theme: WizardTheme
+    var roomName: (String) -> String? = { _ in nil }
+}
+
+/// A formatted message as the web shows it: paragraphs, headings, quotes, lists and code blocks
+struct RichBlocksView: View {
+    let blocks: [RichBlock]
+    let style: RichStyle
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space3 * style.scale) {
+            ForEach(Array(blocks.enumerated()), id: \.offset) { _, block in
+                RichBlockView(block: block, style: style)
+            }
+        }
+    }
+}
+
+private struct RichBlockView: View {
+    let block: RichBlock
+    let style: RichStyle
+
+    private var theme: WizardTheme { style.theme }
+
+    var body: some View {
+        switch block {
+        case .paragraph(let paragraph):
+            Text(MessageText.rich(paragraph.spans, style: style))
+                .fixedSize(horizontal: false, vertical: true)
+        case .heading(let heading):
+            Text(MessageText.rich(heading.spans, style: style))
+                .font(.wizard((heading.level <= 1 ? WZ.FontSize.xxl : heading.level == 2 ? WZ.FontSize.xl : WZ.FontSize.lg)
+                              * style.scale, .bold))
+                .fixedSize(horizontal: false, vertical: true)
+        case .quote(let quote):
+            HStack(alignment: .top, spacing: WZ.Space.space4) {
+                RoundedRectangle(cornerRadius: WZ.Radius.xs).fill(theme.border).frame(width: WZ.Space.space1)
+                AnyView(RichBlocksView(blocks: quote.blocks, style: style))
+                    .foregroundStyle(theme.textSecondary)
+            }
+            .fixedSize(horizontal: false, vertical: true)
+        case .itemList(let list):
+            VStack(alignment: .leading, spacing: WZ.Space.space2 * style.scale) {
+                ForEach(Array(list.items.enumerated()), id: \.offset) { index, item in
+                    HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space3) {
+                        Text(list.ordered ? "\(Int(list.start) + index)." : "•")
+                            .monospacedDigit()
+                            .foregroundStyle(theme.textMuted)
+                        AnyView(RichBlocksView(blocks: item, style: style))
+                    }
+                }
+            }
+        case .code(let code):
+            ScrollView(.horizontal, showsIndicators: false) {
+                Text(code.text)
+                    .font(.system(size: WZ.FontSize.md * style.scale, design: .monospaced))
+                    .textSelection(.enabled)
+                    .padding(WZ.Space.space4)
+            }
+            .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.md, style: .continuous))
+        case .rule:
+            Rectangle().fill(theme.border).frame(height: WZ.BorderWidth.thin)
+        }
+    }
+}
+
+extension MessageText {
+    /// Styled runs as one attributed string: bold, italic, strikethrough, code, links, mention
+    /// pills and hidden spoilers
+    static func rich(_ spans: [RichSpan], style: RichStyle) -> AttributedString {
+        let theme = style.theme
+        var result = AttributedString()
+        for span in spans {
+            var part = span.link == nil && span.mention == nil && !span.code
+                ? attributed(span.text, prettifyLinks: style.prettifyLinks)
+                : AttributedString(span.text)
+            var intent: InlinePresentationIntent = []
+            if span.bold { intent.insert(.stronglyEmphasized) }
+            if span.italic { intent.insert(.emphasized) }
+            if span.code { intent.insert(.code) }
+            if !intent.isEmpty { part.inlinePresentationIntent = intent }
+            if span.strike { part.strikethroughStyle = .single }
+            if span.underline { part.underlineStyle = .single }
+            if span.code { part.backgroundColor = theme.fill }
+            if let link = span.link, let url = URL(string: link) { part.link = url }
+            if span.mention == nil, let link = span.link, RoomLinks.target(link) != nil {
+                if let name = style.roomName(link) {
+                    part = AttributedString("#" + name)
+                } else if !span.text.hasPrefix("#"), !span.text.hasPrefix("!") {
+                    part = AttributedString("#" + span.text)
+                }
+                part.foregroundColor = theme.accent
+                part.backgroundColor = theme.accent.opacity(0.18)
+                part.inlinePresentationIntent = .stronglyEmphasized
+                part.link = URL(string: link) ?? URL(string: link.replacingOccurrences(of: "#/#", with: "#/%23"))
+            }
+            if let userId = span.mention {
+                let isOwn = style.mentions.contains { $0.userId == userId && $0.isOwn }
+                let color = isOwn ? theme.mention : theme.accent
+                part.foregroundColor = color
+                part.backgroundColor = color.opacity(0.18)
+                part.inlinePresentationIntent = .stronglyEmphasized
+                part.link = URL(string: "https://matrix.to/#/\(userId)")
+            }
+            if span.spoiler && !style.revealSpoilers {
+                part.foregroundColor = theme.textMuted
+                part.backgroundColor = theme.textMuted
+                part.link = nil
+            }
+            result += part
+        }
+        return withMentions(result, [], theme: theme)
+    }
+}
+
+private struct OfflineStatus: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        Text(text)
+        HStack(spacing: WZ.Space.space3) {
+            ProgressView().controlSize(.mini).tint(theme.warningColor)
+            Text(String(localized: "banner.offline"))
+                .font(.wizard(WZ.FontSize.sm, .medium))
+                .foregroundStyle(theme.warningColor)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, WZ.Space.space8)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct TypingIndicator: View {
+    let names: [String]
+    let ids: [String]
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Text(withNameColors(text, Array(zip(names, ids.map { theme.nameColor($0, colored: prefs.colorUsernames) }))))
             .font(.wizard(WZ.FontSize.sm, .medium))
             .foregroundStyle(theme.textMuted)
             .lineLimit(1)

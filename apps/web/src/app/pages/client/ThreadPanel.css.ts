@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { TABLET_QUERY } from '@/const/breakpoints';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { vars } from '@/theme/vars.css';
-import { med, slideInRight } from '@/theme/animations.css';
+import { med, slideInRight, slideInUp } from '@/theme/animations.css';
 
 const base = {
   width: '450px',
@@ -15,14 +15,20 @@ const base = {
   flexShrink: 0,
   '@media': {
     '(max-width: 768px)': {
+      // Bottom drawer, like the pickers and menus.
       position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
+      left: 0,
+      right: 0,
+      top: 'auto',
+      bottom: 0,
       width: 'auto',
+      height: '80dvh',
+      paddingBottom: 'env(safe-area-inset-bottom)',
+      borderLeft: 'none',
+      borderRadius: '20px 20px 0 0',
+      boxShadow: vars.shadow.sheet,
       zIndex: 5000,
-      transform: 'translateX(100%)',
+      transform: 'translateY(100%)',
       transition: `transform ${med} ease`,
     },
     // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
@@ -51,12 +57,14 @@ export const threadPanelOpen = style({
   '@media': {
     '(max-width: 768px)': {
       position: 'fixed',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
+      left: 0,
+      right: 0,
+      top: 'auto',
+      bottom: 0,
+      height: '80dvh',
       zIndex: 5000,
-      transform: 'translateX(0)',
-      animation: `${slideInRight} ${med} ease`,
+      transform: 'translateY(0)',
+      animation: `${slideInUp} ${med} ease`,
     },
     // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
     [TABLET_QUERY]: {

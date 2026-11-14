@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom, useStore } from 'jotai';
 import type { WizardClient } from '@wizardchat/core';
 import { useTranslation } from 'react-i18next';
 import {
@@ -118,7 +118,7 @@ function RoomRow({
         <div className={css.roomName}>
           {entry.name}
           {entry.isSuggested && (
-            <Tooltip content={t('room.suggested')}>
+            <Tooltip content={t('space.suggested')}>
               <span className={css.suggestedBadge}>
                 <StarIcon size={14} weight="fill" />
               </span>
@@ -168,7 +168,7 @@ function RoomRow({
                 loading={isBusy}
                 onClick={() => onJoin(entry.roomId, entry.name, entry.viaServers)}
               >
-                {t('explore.join')}
+                {t('common.join')}
               </Button>
             )}
           </div>
@@ -177,8 +177,8 @@ function RoomRow({
         <div className={css.roomRowActions} onClick={(e) => e.stopPropagation()}>
           <IconButton
             size="sm"
-            tooltip={t('room.open')}
-            aria-label={t('room.open')}
+            tooltip={t('common.open')}
+            aria-label={t('common.open')}
             onClick={(e) => {
               e.stopPropagation();
               onSelect(entry.roomId);
@@ -256,12 +256,13 @@ function SpaceSectionView({
   const cachedRoomsRef = useRef<SpaceRoomEntry[]>(section.rooms);
 
   const queryClient = useQueryClient();
+  const store = useStore();
   const fetchRooms = useCallback(
     (force = false) => {
       if (isRoot || !client || !section.spaceId) return;
       const subSpaceId = section.spaceId;
       const apply = (summaryMap: Map<string, RoomSummary>) => {
-        const { rooms, subSpaces } = splitHierarchyLevel(subSpaceId, summaryMap, client, 'Unknown');
+        const { rooms, subSpaces } = splitHierarchyLevel(subSpaceId, summaryMap, store, 'Unknown');
         cachedRoomsRef.current = rooms;
         setLocalRooms(rooms);
         // Nested sub-spaces are promoted to their own sections so they are
@@ -278,7 +279,7 @@ function SpaceSectionView({
         .catch(() => {})
         .finally(() => setIsFetching(false));
     },
-    [isRoot, section.spaceId, client, onSubSpacesFound, queryClient]
+    [isRoot, section.spaceId, client, onSubSpacesFound, queryClient, store]
   );
 
   const sectionChildren = useMemo(
@@ -362,7 +363,7 @@ function SpaceSectionView({
       const updates = planSpaceReorder(orderedIds, orders, movedId);
       saveSpaceChildOrders(client, reorderSpaceId, updates).catch((err: unknown) => {
         setPendingIds(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [client, graph, reorderSpaceId, toast, t]
@@ -394,7 +395,7 @@ function SpaceSectionView({
             onToggle(section.categoryKey);
           }}
           aria-expanded={isOpen}
-          aria-label={isRoot ? t('room.title') : section.spaceName}
+          aria-label={isRoot ? t('nav.rooms') : section.spaceName}
         >
           <CaretDownIcon
             size={14}
@@ -414,10 +415,10 @@ function SpaceSectionView({
         <div className={css.spaceSectionTitle}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
             <span className={css.spaceSectionName}>
-              {isRoot ? t('room.title') : section.spaceName}
+              {isRoot ? t('nav.rooms') : section.spaceName}
             </span>
             {!isRoot && section.isSuggested && (
-              <Tooltip content={t('room.suggested')}>
+              <Tooltip content={t('space.suggested')}>
                 <span className={css.suggestedBadge}>
                   <StarIcon size={14} weight="fill" />
                 </span>
@@ -435,8 +436,8 @@ function SpaceSectionView({
           {!isRoot && (
             <IconButton
               size="sm"
-              tooltip={t('room.open')}
-              aria-label={t('room.open')}
+              tooltip={t('common.open')}
+              aria-label={t('common.open')}
               onClick={() => onOpenSubSpace(section.spaceId!)}
             >
               <CaretDoubleRightIcon size={16} weight="bold" />
@@ -449,7 +450,7 @@ function SpaceSectionView({
               loading={isBusySpace}
               onClick={() => onJoinSpace(section.spaceId!, section.viaServers)}
             >
-              {t('explore.join')}
+              {t('common.join')}
             </Button>
           )}
           {canAddRoom && (isRoot || section.isJoined) && (
@@ -501,7 +502,7 @@ function SpaceSectionView({
               ))}
             </div>
           ) : displayRooms.length === 0 ? (
-            <div className={css.emptyState}>{t('room.noRooms')}</div>
+            <div className={css.emptyState}>{t('nav.noRooms')}</div>
           ) : (
             <RoomReorderProvider
               rows={reorderRows}
@@ -684,7 +685,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
         onClick: () => handleAddRoom(targetSpaceId, targetSpaceName),
       },
       {
-        label: t('room.space.addExistingRoom'),
+        label: t('space.addExistingRoom'),
         icon: <CubeIcon size={14} />,
         onClick: () => handleAddExistingRoom(targetSpaceId, targetSpaceName),
       },
@@ -694,12 +695,12 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
         onClick: () => {},
       },
       {
-        label: t('room.addSubSpace'),
+        label: t('space.createSubspace'),
         icon: <StackIcon size={14} />,
         onClick: () => handleAddSubSpace(targetSpaceId, targetSpaceName),
       },
       {
-        label: t('room.space.addExistingSubSpace'),
+        label: t('space.addExistingSubSpace'),
         icon: <StackIcon size={14} />,
         onClick: () => handleAddExistingSubSpace(targetSpaceId, targetSpaceName),
       },
@@ -726,7 +727,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
         await client.removeFromSpace(spaceId, childRoomId);
         void queryClient.invalidateQueries({ queryKey: queryKeys.spaceChildren(spaceId) });
       } catch (err) {
-        toast.error(t('room.space.removeFailed', { error: getErrorMessage(err) }));
+        toast.error(t('space.removeFailed', { error: getErrorMessage(err) }));
       }
     },
     [client, spaceId, toast, t, queryClient]
@@ -768,7 +769,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       ];
       if (canRemoveFromSpace) {
         items.push({
-          label: entry.isSuggested ? t('room.space.unsetSuggested') : t('room.space.setSuggested'),
+          label: entry.isSuggested ? t('space.unsetSuggested') : t('space.setSuggested'),
           icon: <StarIcon size={14} weight={entry.isSuggested ? 'fill' : 'regular'} />,
           onClick: () => handleToggleSuggested(entry.roomId, fromSpaceId),
         });
@@ -776,7 +777,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       items.push({ divider: true, label: '', onClick: () => {} });
       if (canRemoveFromSpace) {
         items.push({
-          label: t('room.space.removeRoom'),
+          label: t('space.removeRoom'),
           icon: <XIcon size={14} />,
           danger: true,
           onClick: () => handleRemoveFromSpace(entry.roomId),
@@ -805,7 +806,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       const isPinned = pinnedSubSpaces.has(section.spaceId!);
       const items: ContextMenuItem[] = [
         {
-          label: isPinned ? t('room.space.unpinFromSidebar') : t('room.space.pinToSidebar'),
+          label: isPinned ? t('space.unpinFromSidebar') : t('space.pinToSidebar'),
           icon: <PushPinIcon size={14} weight={isPinned ? 'fill' : 'regular'} />,
           onClick: () => {
             setPinnedSubSpacesArr((prev) => {
@@ -837,9 +838,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       ];
       if (canRemoveFromSpace) {
         items.push({
-          label: section.isSuggested
-            ? t('room.space.unsetSuggested')
-            : t('room.space.setSuggested'),
+          label: section.isSuggested ? t('space.unsetSuggested') : t('space.setSuggested'),
           icon: <StarIcon size={14} weight={section.isSuggested ? 'fill' : 'regular'} />,
           onClick: () => handleToggleSuggested(section.spaceId!, spaceId),
         });
@@ -847,14 +846,14 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       items.push({ divider: true, label: '', onClick: () => {} });
       if (canRemoveFromSpace) {
         items.push({
-          label: t('room.space.removeRoom'),
+          label: t('space.removeRoom'),
           icon: <XIcon size={14} />,
           danger: true,
           onClick: () => handleRemoveFromSpace(section.spaceId!),
         });
       }
       items.push({
-        label: t('room.space.leave'),
+        label: t('space.leave'),
         icon: <SignOutIcon size={14} />,
         danger: true,
         onClick: () => roomActions.leaveSpace(section.spaceId!, section.spaceName),
@@ -881,7 +880,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       try {
         await joinVia(client, roomId, viaServers);
       } catch (err) {
-        toast.error(t('explore.joinFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.joinFailed', { error: getErrorMessage(err) }));
       } finally {
         setJoiningRooms((prev) => {
           const next = new Set(prev);
@@ -919,7 +918,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
       try {
         await joinVia(client, subSpaceId, viaServers);
       } catch (err) {
-        toast.error(t('explore.joinFailed', { error: getErrorMessage(err) }));
+        toast.error(t('common.joinFailed', { error: getErrorMessage(err) }));
       } finally {
         setJoiningRooms((prev) => {
           const next = new Set(prev);
@@ -981,13 +980,13 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
           <div className={css.pageScroll}>
             <div className={css.pageContent}>
               <div className={css.noPreviewScreen}>
-                <div className={css.noPreviewText}>{t('room.space.noPreview')}</div>
+                <div className={css.noPreviewText}>{t('space.noPreview')}</div>
                 <Button
                   variant="primary"
                   loading={joiningRooms.has(spaceId)}
                   onClick={() => handleJoinSpace(spaceId, [])}
                 >
-                  {t('explore.join')}
+                  {t('common.join')}
                 </Button>
               </div>
             </div>
@@ -1064,7 +1063,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
                     loading={joiningRooms.has(spaceId)}
                     onClick={() => handleJoinSpace(spaceId, spaceSummary.via ?? [])}
                   >
-                    {t('explore.join')}
+                    {t('common.join')}
                   </Button>
                 </div>
               </>
@@ -1072,7 +1071,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
           </div>
           {error && (
             <div className={css.errorBanner} role="alert">
-              {t('room.space.loadFailed', { error: getErrorMessage(error) })}
+              {t('space.loadFailed', { error: getErrorMessage(error) })}
             </div>
           )}
           {isLoading && (
@@ -1098,8 +1097,8 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
             </div>
           )}
           {!isLoading && (
-            <>
-              {rootSection && (
+            <div className={css.sectionList}>
+              {rootSection && !(rootSection.rooms.length === 0 && subspaceSections.length > 0) && (
                 <SpaceSectionView
                   key={rootSection.categoryKey}
                   section={rootSection}
@@ -1140,7 +1139,7 @@ export function SpaceOverview({ spaceId }: SpaceOverviewProps) {
                   onSubSpacesFound={handleSubSpacesFound}
                 />
               ))}
-            </>
+            </div>
           )}
         </div>
       </div>

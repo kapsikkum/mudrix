@@ -6,6 +6,8 @@ import UserNotifications
 final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     var activeRoomId: String?
     @Published var roomToOpen: String?
+    /// A space to open once the main tab view can show it (from a profile's mutual spaces)
+    @Published var spaceToOpen: String?
     @Published var eventToFocus: (roomId: String, eventId: String)?
     /// A thread to open once its room is on screen (from the inbox)
     @Published var threadToOpen: (roomId: String, rootId: String)?
@@ -14,7 +16,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
     private weak var roomList: RoomListModel?
     private var subscription: Subscription?
 
-    static let messageCategory = "message"
+    static let messageCategory = NotificationPreviewBuilder.messageCategory
 
     override init() {
         super.init()
@@ -60,7 +62,7 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         content.title = notification.roomName ?? sender
         content.body = notification.isDirect || notification.roomName == nil
             ? notification.body : "\(sender): \(notification.body)"
-        if content.body.isEmpty { content.body = String(localized: "notifications.newMessage") }
+        if content.body.isEmpty { content.body = String(localized: "common.newMessage") }
         // Streamer mode keeps message text out of banners, so it does not end up on a stream
         if prefs.streamerModeActive { content.body = String(localized: "settings.privacy.streamer.notificationBody") }
         content.threadIdentifier = notification.roomId
@@ -73,8 +75,48 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         if prefs.notificationSounds && notification.sound { content.sound = Sounds.notificationSound(priority: priority) }
         if notification.highlight { content.interruptionLevel = .timeSensitive }
         let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|\(notification.eventId)",
-                                            content: content, trigger: nil)
+                                            content: await withAvatar(content, for: notification), trigger: nil)
         try? await UNUserNotificationCenter.current().add(request)
+        Self.removeDeliveredPushes(eventId: notification.eventId)
+    }
+
+    /// Shows a message a push told the app about
+    func show(_ notification: WizardChatCore.Notification) {
+        Task { await notify(notification) }
+    }
+
+    func notifyMissedCall(_ call: IncomingCall) {
+        guard let prefs, prefs.notificationBanners || prefs.notificationSounds,
+              call.roomId != activeRoomId else { return }
+        let content = UNMutableNotificationContent()
+        content.title = call.roomName ?? call.senderName ?? call.sender
+        content.body = L10n.format("call.missedFrom", call.senderName ?? call.sender)
+        content.threadIdentifier = call.roomId
+        var info = ["roomId": call.roomId]
+        if let userId = roomList?.client.userId { info["userId"] = userId }
+        content.userInfo = info
+        if prefs.notificationSounds { content.sound = .default }
+        let request = UNNotificationRequest(identifier: "\(info["userId"] ?? "")|missed|\(call.eventId)",
+                                            content: content, trigger: nil)
+        Task { try? await UNUserNotificationCenter.current().add(request) }
+    }
+
+    private func withAvatar(_ content: UNMutableNotificationContent,
+                            for notification: WizardChatCore.Notification) async -> UNNotificationContent {
+        guard let client = roomList?.client else { return content }
+        let roomAvatar = roomList?.room(id: notification.roomId)?.avatarUrl
+        var avatar = roomAvatar
+        if notification.isDirect, avatar == nil {
+            avatar = await MemberDirectory.shared.profile(notification.sender, in: notification.roomId, client: client).avatarUrl
+        }
+        guard let avatar, let data = try? await client.thumbnail(mxc: avatar, width: 192, height: 192, crop: true) else { return content }
+        let file = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).png")
+        guard (try? data.write(to: file)) != nil,
+              let attachment = try? UNNotificationAttachment(identifier: "avatar", url: file,
+                                                             options: [UNNotificationAttachmentOptionsTypeHintKey: "public.image"])
+        else { return content }
+        content.attachments = [attachment]
+        return content
     }
 
     nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -129,6 +171,24 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         }
     }
 
+    /// A push iOS already delivered for the event is the generic one; the local notice replaces it
+    private static func removeDeliveredPushes(eventId: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getDeliveredNotifications { delivered in
+            let ids = NotificationDedup.remoteDuplicates(
+                of: delivered.map {
+                    NotificationDedup.Delivered(
+                        identifier: $0.request.identifier,
+                        eventId: ($0.request.content.userInfo["event_id"] as? String)
+                            ?? ($0.request.content.userInfo["eventId"] as? String),
+                        isRemote: ($0.request.trigger is UNPushNotificationTrigger))
+                },
+                eventId: eventId)
+            guard !ids.isEmpty else { return }
+            center.removeDeliveredNotifications(withIdentifiers: ids)
+        }
+    }
+
     func updateBadge(_ count: Int) {
         UNUserNotificationCenter.current().setBadgeCount(count)
     }
@@ -139,7 +199,15 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         let done = Unchecked(value: completionHandler)
         let hasSound = notification.request.content.sound != nil
         let priority = notification.request.content.userInfo["priority"] as? String == "1"
+        // The sync path shows its own notification for the same event, so the push adds nothing
+        let suppress = NotificationDedup.suppressRemote(
+            isRemote: (notification.request.trigger is UNPushNotificationTrigger),
+            hasEventId: PushPayload.parse(notification.request.content.userInfo)?.eventId != nil)
         Task { @MainActor in
+            guard !suppress else {
+                done.value([])
+                return
+            }
             var options: UNNotificationPresentationOptions = []
             if prefs?.notificationBanners == true { options.formUnion([.banner, .list]) }
             // The app is on screen, so the chosen pack's sound is played here, at the volume setting

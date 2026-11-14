@@ -1,9 +1,18 @@
 import Foundation
 import WizardChatCore
 
+/// A DM is named after the other person: the SDK's own name reads "Empty Room (was X)" once they have left
+func roomDisplayName(isDirect: Bool, dmUserName: String?, name: String?, canonicalAlias: String?, id: String) -> String {
+    if isDirect, let partner = dmUserName, !partner.isEmpty { return partner }
+    return name ?? canonicalAlias ?? id
+}
+
 extension RoomSummary: @retroactive Identifiable {
-    var displayName: String { name ?? canonicalAlias ?? id }
-    var unreadCount: Int { markedUnread ? max(unreadMessages, 1) : unreadMessages }
+    var displayName: String {
+        roomDisplayName(isDirect: isDirect, dmUserName: dmUserName, name: name, canonicalAlias: canonicalAlias, id: id)
+    }
+    /// Messages that notify under the room's notification setting (as on the web), or 1 when marked unread
+    var unreadCount: Int { unreadNotifications > 0 ? unreadNotifications : markedUnread ? 1 : 0 }
     var mentionCount: Int { unreadMentions }
 }
 
@@ -20,6 +29,8 @@ struct RoomGroup: Identifiable {
         case favourites
         case section(RoomSection)
         case rooms
+        /// Rooms flagged low priority that are in no section; always last, not movable
+        case lowPriority
     }
 
     let kind: Kind
@@ -32,6 +43,7 @@ struct RoomGroup: Identifiable {
         case .favourites: "favourites"
         case .section(let section): section.tag
         case .rooms: RoomListModel.roomsAnchor
+        case .lowPriority: "low-priority"
         }
     }
 }
@@ -45,11 +57,17 @@ struct UnreadState {
 final class RoomListModel: ObservableObject {
     @Published private(set) var joinedRooms: [RoomSummary] = [] { didSet { roomsCache = [:] } }
     @Published private(set) var invites: [RoomSummary] = []
+    /// Rooms asked to join by knocking, waiting for an answer
+    @Published private(set) var knockedIds: Set<String> = []
     @Published private(set) var mentionRooms: [RoomSummary] = []
+    /// Notification settings just picked here, shown until the room list catches up (as on the web)
+    @Published private var notificationOverrides: [String: NotificationMode?] = [:]
     @Published private(set) var spaces: [SpaceSummary] = []
     /// The space tree (children with their `order`), for the Modern list and the roles chain
     @Published private(set) var graph: [SpaceNode] = []
     @Published private(set) var spaceRooms: [String: Set<String>] = [:] { didSet { roomsCache = [:] } }
+    /// Every joined space, subspaces included
+    @Published private(set) var allSpaces: [SpaceSummary] = []
     @Published private(set) var isLoaded = false
     @Published private(set) var sections: [RoomSection] = []
     @Published private(set) var roomTags: [String: Set<String>] = [:]
@@ -109,6 +127,12 @@ final class RoomListModel: ObservableObject {
                     self.refreshGraph()
                 }
             },
+            client.watchAllSpaces { [weak self] diffs in
+                MainActor.assumeIsolated {
+                    guard let self else { return }
+                    diffs.forEach { $0.apply(to: &self.allSpaces) }
+                }
+            },
         ]
     }
 
@@ -135,6 +159,21 @@ final class RoomListModel: ObservableObject {
             try? await client.timeline(roomId: room.id).markAsRead()
         }
         try? await client.setMarkedUnread(roomId: room.id, unread: !read)
+    }
+
+    func notificationMode(of room: RoomSummary) -> NotificationMode? {
+        if let override = notificationOverrides[room.id] { return override }
+        return room.notificationMode
+    }
+
+    func setNotificationMode(_ room: RoomSummary, _ mode: NotificationMode?) async {
+        let previous = notificationOverrides[room.id]
+        notificationOverrides[room.id] = .some(mode)
+        do {
+            try await client.setRoomNotificationMode(roomId: room.id, mode: mode)
+        } catch {
+            notificationOverrides[room.id] = previous
+        }
     }
 
     func leave(_ room: RoomSummary) async {
@@ -200,8 +239,16 @@ final class RoomListModel: ObservableObject {
         }
         var bySection: [String: [RoomSummary]] = [:]
         var rest: [RoomSummary] = []
+        var lowPriority: [RoomSummary] = []
         for room in rooms where !room.isFavourite {
-            if let tag = sectionTag(of: room.id) { bySection[tag, default: []].append(room) } else { rest.append(room) }
+            let tag = sectionTag(of: room.id)
+            if RoomMenu.inLowPriorityGroup(flagged: room.isLowPriority, isFavourite: room.isFavourite, sectionTag: tag) {
+                lowPriority.append(room)
+            } else if let tag {
+                bySection[tag, default: []].append(room)
+            } else {
+                rest.append(room)
+            }
         }
         if selection == .home, !homeOrder.isEmpty {
             let position = Dictionary(homeOrder.enumerated().map { ($1, $0) }, uniquingKeysWith: { a, _ in a })
@@ -223,6 +270,7 @@ final class RoomListModel: ObservableObject {
         groups += block(above: true)
         groups.append(RoomGroup(kind: .rooms, rooms: rest))
         groups += block(above: false)
+        if !lowPriority.isEmpty { groups.append(RoomGroup(kind: .lowPriority, rooms: lowPriority)) }
         return groups
     }
 
@@ -238,8 +286,10 @@ final class RoomListModel: ObservableObject {
 
     func moveGroup(_ anchor: String, by offset: Int, in groups: [RoomGroup]) async throws {
         var anchors = groups.compactMap { group -> String? in
-            if case .favourites = group.kind { return nil }
-            return group.id
+            switch group.kind {
+            case .favourites, .lowPriority: return nil
+            default: return group.id
+            }
         }
         guard let index = anchors.firstIndex(of: anchor), anchors.indices.contains(index + offset) else { return }
         anchors.swapAt(index, index + offset)
@@ -292,7 +342,11 @@ final class RoomListModel: ObservableObject {
 
     private func apply(_ diffs: [ListDiff<RoomSummary>]) {
         diffs.forEach { $0.apply(to: &rooms) }
-        joinedRooms = rooms.filter { !$0.isInvite }
+        joinedRooms = rooms.filter { !$0.isInvite && !$0.isKnocked }
+        knockedIds = Set(rooms.filter { $0.isKnocked && !$0.isInvite }.map(\.id))
+        notificationOverrides = notificationOverrides.filter { id, mode in
+            joinedRooms.first { $0.id == id }?.notificationMode != mode
+        }
         invites = rooms.filter(\.isInvite)
         mentionRooms = joinedRooms.filter { $0.mentionCount > 0 }
         roomsReceived = true

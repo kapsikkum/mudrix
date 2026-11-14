@@ -1,0 +1,659 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_swift",
+      "label": "ProfileFieldsTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "label": "ProfileFieldsTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "label": ".json()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/ProfileFieldsTests.swift"
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatTests/ProfileFieldsTests.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "label": ".testReadsTheStableAndUnstableNames()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L10",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "label": ".testDropsWhatItCannotTrust()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L24",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "label": ".testHtmlBioIsOnlyAFallback()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L35",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "label": ".testActivitiesNeedAnExpiry()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testpronouninputissplitandcapped",
+      "label": ".testPronounInputIsSplitAndCapped()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L58",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "label": ".testLocalTimeOffsetIsRelativeToTheViewer()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L62",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "label": ".testSoftwareAndNotes()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L69",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testpronouninputissplitandcapped",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L36",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "target": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L73",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_json",
+      "callee": "decode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L11",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L17",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testreadsthestableandunstablenames",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L25",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testdropswhatitcannottrust",
+      "callee": "XCTAssertFalse",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L39",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L39",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testhtmlbioisonlyafallback",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L43",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L51",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "activities",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "XCTAssertTrue",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "live",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L54",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L55",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testactivitiesneedanexpiry",
+      "callee": "live",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L55",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testpronouninputissplitandcapped",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testpronouninputissplitandcapped",
+      "callee": "parsePronounInput",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L59",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L64",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "callee": "XCTUnwrap",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L65",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "callee": "localTime",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L65",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testlocaltimeoffsetisrelativetotheviewer",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L66",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "describeSoftware",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L70",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L71",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "describeSoftware",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L71",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "serverName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L72",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "parseNotes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L73",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L76",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "parseNotes",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L77",
+      "receiver": "ProfileFields"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_profilefieldstests_profilefieldstests_testsoftwareandnotes",
+      "callee": "notesValue",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/ProfileFieldsTests.swift",
+      "source_location": "L77",
+      "receiver": "ProfileFields"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatTests/ProfileFieldsTests.swift",
+    "table": { "text": "String", "now": "Date" },
+    "factory": { "profile": ["ProfileFields", "parse"], "notes": ["ProfileFields", "parseNotes"] }
+  }
+}

@@ -27,13 +27,13 @@
         "$value": "#050c11"
       },
       "hover": {
-        "$value": "#ffffff0f"
+        "$value": "rgba(255, 255, 255, 0.06)"
       },
       "active": {
-        "$value": "#1fb6c933"
+        "$value": "rgba(31, 182, 201, 0.2)"
       },
       "overlay": {
-        "$value": "#000000a6",
+        "$value": "rgba(0, 0, 0, 0.6)",
         "$description": "Dialog backdrop"
       }
     },
@@ -42,7 +42,7 @@
         "$value": "#dcf0f3"
       },
       "secondary": {
-        "$value": "#b1cdd2"
+        "$value": "#5b777e"
       },
       "muted": {
         "$value": "#86a9b1"
@@ -54,7 +54,7 @@
         "$value": "#ffffff"
       },
       "link": {
-        "$value": "#4ea8ff"
+        "$value": "#4EA8FF"
       }
     },
     "accent": {
@@ -65,15 +65,15 @@
         "$value": "#1995a5"
       },
       "soft": {
-        "$value": "#1fb6c926",
+        "$value": "rgba(31, 182, 201, 0.2)",
         "$description": "Tinted backgrounds, selected rows"
       },
       "glow1": {
-        "$value": "#1fb6c90d",
+        "$value": "rgba(31, 182, 201, 0.05)",
         "$description": "Background glow behind the app"
       },
       "glow2": {
-        "$value": "#1fb6c908"
+        "$value": "rgba(31, 182, 201, 0.03)"
       }
     },
     "border": {
@@ -81,15 +81,15 @@
         "$value": "#173540"
       },
       "strong": {
-        "$value": "#33525c"
+        "$value": "#173540"
       },
       "focus": {
-        "$value": "#6dd0dc"
+        "$value": "#1fb6c9"
       }
     },
     "status": {
       "danger": {
-        "$value": "#c93b3b"
+        "$value": "#b94a48"
       },
       "error": {
         "$value": "#ff6b6b"
@@ -101,7 +101,7 @@
         "$value": "#ff9d00"
       },
       "info": {
-        "$value": "#58a6ff"
+        "$value": "#4EA8FF"
       },
       "mention": {
         "$value": "#f06428"
@@ -121,30 +121,44 @@
         "$value": "#6b7280"
       }
     },
+    "role": {
+      "founder": {
+        "$value": "#a855f7"
+      },
+      "admin": {
+        "$value": "#ef4444"
+      },
+      "moderator": {
+        "$value": "#eab308"
+      },
+      "member": {
+        "$value": "#3b82f6"
+      }
+    },
     "logo": {
       "p0": {
-        "$value": "#6a329f"
+        "$value": "#4A301B"
       },
       "p1": {
-        "$value": "#784cc8"
+        "$value": "#644427"
       },
       "p2": {
-        "$value": "#6a329f"
+        "$value": "#7A5434"
       },
       "p3": {
-        "$value": "#784cc8"
+        "$value": "#8A6038"
       },
       "p4": {
-        "$value": "#5e3079"
+        "$value": "#A87B50"
       },
       "p5": {
-        "$value": "#885ee7"
+        "$value": "#CFA170"
       },
       "hover": {
-        "$value": "#9b75f0"
+        "$value": "#E2BC8E"
       },
       "hoverGlow": {
-        "$value": "#9b75f099"
+        "$value": "#E2BC8E99"
       }
     },
     "message": {

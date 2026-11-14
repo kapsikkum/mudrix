@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import org.wizardchat.android.LocalMedia
 import org.wizardchat.android.matrix.SpaceModern
 import org.wizardchat.android.ui.theme.theme
+import org.wizardchat.android.ui.tr
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.tokens.WZ
@@ -56,7 +57,7 @@ internal fun LazyListScope.modernRooms(
         if (category.spaceId != null) {
             item(key = "category-${category.spaceId}", contentType = "category") {
                 Text(
-                    (header ?: category.spaceId).uppercase(),
+                    (header ?: tr("nav.rooms")).uppercase(),
                     Modifier.fillMaxWidth().padding(start = WZ.Space.space6 + 12.dp * (category.depth - 1).coerceAtLeast(0), top = WZ.Space.space6, bottom = WZ.Space.space2),
                     style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                     color = theme.textMuted,

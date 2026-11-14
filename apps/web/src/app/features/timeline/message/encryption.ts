@@ -12,6 +12,7 @@ import {
   setCachedMedia,
   getCachedBlobUrl,
   setCachedBlobUrl,
+  deleteCachedBlobUrl,
 } from './mediaCache';
 import { getMediaBlobUrl, plainMediaUrl } from './media';
 import { fetchMediaBlobUrl, mediaBlobCacheKey } from '@/app/components/Avatar';
@@ -152,7 +153,8 @@ export function useDecryptedMedia(
   setMediaSrc: (url: string) => void;
   /** Click-to-download state for videos; null for everything else. */
   videoLoad: ManualVideoLoad | null;
-  requestFullRes: () => Promise<string | null>;
+  /** `force` skips the in-memory blob URL cache (its URL may have been revoked). */
+  requestFullRes: (force?: boolean) => Promise<string | null>;
 } {
   const { t } = useTranslation();
   const toast = useToast();
@@ -410,25 +412,30 @@ export function useDecryptedMedia(
   const fullRef = useRef(fullTarget);
   fullRef.current = fullTarget;
   const fullCacheKey = fullTarget?.key ?? null;
-  const requestFullRes = useCallback(async (): Promise<string | null> => {
-    const target = fullRef.current;
-    if (target && fullCacheKey) {
-      try {
-        return await resolveEncrypted(client, target);
-      } catch {
-        return null;
+  const requestFullRes = useCallback(
+    async (force = false): Promise<string | null> => {
+      const target = fullRef.current;
+      if (target && fullCacheKey) {
+        if (force) deleteCachedBlobUrl(fullCacheKey);
+        try {
+          return await resolveEncrypted(client, target);
+        } catch {
+          return null;
+        }
       }
-    }
 
-    if (mxcUrl) {
-      try {
-        return await fetchMediaBlobUrl(mxcUrl, client, 1);
-      } catch {
-        return null;
+      if (mxcUrl) {
+        if (force) deleteCachedBlobUrl(mediaBlobCacheKey(mxcUrl));
+        try {
+          return await fetchMediaBlobUrl(mxcUrl, client, 1);
+        } catch {
+          return null;
+        }
       }
-    }
-    return null;
-  }, [client, fullCacheKey, mxcUrl]);
+      return null;
+    },
+    [client, fullCacheKey, mxcUrl]
+  );
 
   // Cache entries are managed by mediaCache.ts: the in-memory blob URL cache
   // is an LRU (2000 entries) and the persistent decrypted-media store is

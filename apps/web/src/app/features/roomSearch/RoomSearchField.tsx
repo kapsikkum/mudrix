@@ -29,6 +29,7 @@ export function RoomSearchField() {
   const roomName = room?.name ?? '';
   const ownResults = results?.roomId === roomSearch.roomId ? results : null;
   const matchCount = ownResults?.matchCount ?? 0;
+  const showNav = ownResults?.showNav !== false;
   const hasQuery = roomSearch.query.trim() !== '';
   const close = () => setRoomSearch(null);
 
@@ -47,7 +48,7 @@ export function RoomSearchField() {
         onChange={(e) => setRoomSearch({ ...roomSearch, query: e.target.value })}
         onKeyDown={(e) => {
           if (e.key === 'Escape') close();
-          else if (e.key === 'Enter') {
+          else if (e.key === 'Enter' && showNav) {
             if (e.shiftKey) ownResults?.prev();
             else ownResults?.next();
           }
@@ -55,11 +56,11 @@ export function RoomSearchField() {
         autoComplete="off"
         spellCheck={false}
       />
-      {hasQuery && (
+      {hasQuery && showNav && (
         <>
           <span className={css.count}>
             {matchCount === 0
-              ? t('room.header.noResults')
+              ? t('common.noResults')
               : t('room.header.searchResultCount', {
                   active: (ownResults?.activeMatch ?? 0) + 1,
                   total: matchCount,

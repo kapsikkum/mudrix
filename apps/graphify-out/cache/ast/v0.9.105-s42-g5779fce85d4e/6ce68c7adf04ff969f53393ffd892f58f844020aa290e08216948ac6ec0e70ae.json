@@ -1,0 +1,671 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_swift",
+      "label": "IntegrationSignature.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "cryptokit",
+      "label": "CryptoKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "label": "IntegrationSignature",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L8",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L19",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "equatable",
+      "label": "Equatable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_ok",
+      "label": "ok",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L20"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_failed",
+      "label": "failed",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L21"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationSignature.swift"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationSignature.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_isok",
+      "label": ".isOK",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L23"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "label": ".base64ToBytes()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L27",
+      "_callable": true
+    },
+    {
+      "id": "data",
+      "label": "Data",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationSignature.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isvalidkey",
+      "label": ".isValidKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L46",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "label": ".fingerprint()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L51",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "label": ".verify()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L65",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkserial",
+      "label": ".checkSerial()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L81",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Integrations/IntegrationSignature.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "label": ".checkUpdate()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isofficialkey",
+      "label": ".isOfficialKey()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L94",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_swift",
+      "target": "cryptokit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_swift",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "equatable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_ok",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_failed",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result_isok",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isvalidkey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isvalidkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isvalidkey",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L46",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L65",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "target": "data",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L65",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkserial",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkserial",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkserial",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L81",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_result",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isofficialkey",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isofficialkey",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isofficialkey",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isvalidkey",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkupdate",
+      "target": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_checkserial",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L91",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_base64tobytes",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "hash",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L53",
+      "receiver": "SHA256"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L54",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L54",
+      "receiver": "digest"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "index",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L58",
+      "receiver": "hex"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "append",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L59",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "hex",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L59",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_fingerprint",
+      "callee": "joined",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L62",
+      "receiver": "groups"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "callee": "trimmingCharacters",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L69",
+      "receiver": "sigText"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "callee": "PublicKey",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L72",
+      "receiver": "Curve25519"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_verify",
+      "callee": "isValidSignature",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L75",
+      "receiver": "publicKey"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_integrations_integrationsignature_integrationsignature_isofficialkey",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Integrations/IntegrationSignature.swift",
+      "source_location": "L95",
+      "receiver": "officialKeys"
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Integrations/IntegrationSignature.swift",
+    "table": {
+      "isOK": "Bool",
+      "text": "String",
+      "keyB64": "String",
+      "bytes": "Data",
+      "sigText": "String",
+      "previous": "String",
+      "next": "String",
+      "digest": "Array"
+    }
+  }
+}

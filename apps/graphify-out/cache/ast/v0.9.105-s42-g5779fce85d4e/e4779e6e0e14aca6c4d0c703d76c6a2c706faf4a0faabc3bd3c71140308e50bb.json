@@ -1,0 +1,411 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_swift",
+      "label": "SignInIdentifierTests.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "xctest",
+      "label": "XCTest",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "wizardchat",
+      "label": "WizardChat",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "label": "SignInIdentifierTests",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "xctestcase",
+      "label": "XCTestCase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "label": ".testReadsWhatTheBoxCanHold()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L6",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testarunofdigitsisausername",
+      "label": ".testARunOfDigitsIsAUsername()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L15",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "label": ".testAnEmailOnTheServerNameIsAUserId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L19",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "label": ".testBecomesTheCoreIdentifier()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L24",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_swift",
+      "target": "xctest",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_swift",
+      "target": "wizardchat",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_swift",
+      "target": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "target": "xctestcase",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "target": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "target": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testarunofdigitsisausername",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "target": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests",
+      "target": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L24",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L7",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L7",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L8",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L8",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L9",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L9",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L10",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L10",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L11",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L11",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "XCTAssertNil",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L12",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testreadswhattheboxcanhold",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L12",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testarunofdigitsisausername",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L16",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testarunofdigitsisausername",
+      "callee": "parse",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L16",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L20",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "callee": "interpret",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L20",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L21",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testanemailontheservernameisauserid",
+      "callee": "interpret",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L21",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "toCore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "mxid",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L25",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "user",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L25",
+      "receiver": "LoginIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "toCore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L26",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "phone",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L26",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "phone",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L26",
+      "receiver": "LoginIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "XCTAssertEqual",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "toCore",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L27",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "email",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L27",
+      "receiver": "SignInIdentifier"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchattests_signinidentifiertests_signinidentifiertests_testbecomesthecoreidentifier",
+      "callee": "email",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatTests/SignInIdentifierTests.swift",
+      "source_location": "L27",
+      "receiver": "LoginIdentifier"
+    }
+  ]
+}

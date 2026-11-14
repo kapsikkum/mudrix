@@ -21,10 +21,9 @@ export const SWIPE_MEMBERS_ATTR = 'data-swipe-members';
 /** Marks the scrim behind a drawer; the swipe fades its own in step with the finger and hides this one meanwhile. */
 export const SWIPE_SCRIM_ATTR = 'data-swipe-scrim';
 
-// Travel before a swipe locks to horizontal, how far from the left edge a drawer swipe may start, when
-// releasing commits, and the timings. The Android system back gesture owns the screen edges.
+// Travel before a swipe locks to horizontal, how far from the screen edge it may start (the
+// Android system back gesture owns those edges) and when releasing commits.
 const LOCK_DISTANCE = 6;
-const LEFT_OPEN_ZONE = 48;
 const EDGE_GUARD = /Android/i.test(navigator.userAgent) ? 24 : 0;
 const COMMIT_FRACTION = 0.35;
 const FLICK_VELOCITY = 0.35; // px per ms
@@ -116,6 +115,7 @@ export function useSwipePanels(opts: SwipePanels) {
     let start: { x: number; y: number; t: number } | null = null;
     let lock: 'h' | 'v' | null = null;
     let target: Target | null = null;
+    let replyRow: Element | null = null;
 
     const makeTarget = (el: HTMLElement, side: 'left' | 'right', from: 'open' | 'closed') => {
       // The layout's scrim pops in and out with the panel's state; a temporary one follows the finger.
@@ -129,15 +129,15 @@ export function useSwipePanels(opts: SwipePanels) {
 
     const pickTarget = (dx: number): Target | null => {
       const o = ref.current;
+      // A left swipe on a message row replies to it (the row runs that itself), so no panel.
+      if (dx < 0 && replyRow) return null;
       const rights = Array.from(
         document.querySelectorAll<HTMLElement>(`[${SWIPE_DRAWER_ATTR}="right"]`)
       ).filter(onScreen);
       const leftEl = o.leftDrawer ? query(`[${SWIPE_DRAWER_ATTR}="left"]`) : null;
       if (dx > 0) {
         if (rights.length > 0) return makeTarget(rights[rights.length - 1], 'right', 'open');
-        if (leftEl && !o.leftOpen && start && start.x <= LEFT_OPEN_ZONE) {
-          return makeTarget(leftEl, 'left', 'closed');
-        }
+        if (leftEl && !o.leftOpen) return makeTarget(leftEl, 'left', 'closed');
         return null;
       }
       if (leftEl && o.leftOpen) return makeTarget(leftEl, 'left', 'open');
@@ -152,6 +152,7 @@ export function useSwipePanels(opts: SwipePanels) {
       start = null;
       lock = null;
       target = null;
+      replyRow = null;
       if (e.touches.length !== 1) return;
       // A dialog, menu or the image viewer on top owns every gesture.
       if (document.querySelector(OPEN_LAYER)) return;
@@ -160,6 +161,7 @@ export function useSwipePanels(opts: SwipePanels) {
       if (ref.current.leftEdgeOwned && touch.clientX <= 24) return;
       if (startsInSwipeBlocker(e.target)) return;
       start = { x: touch.clientX, y: touch.clientY, t: Date.now() };
+      replyRow = e.target instanceof Element ? e.target.closest('[data-swipe-reply]') : null;
     };
 
     const onMove = (e: TouchEvent) => {
@@ -190,6 +192,7 @@ export function useSwipePanels(opts: SwipePanels) {
       start = null;
       lock = null;
       target = null;
+      replyRow = null;
       if (!t || !s) return;
       const dx = cancelled ? 0 : e.changedTouches[0].clientX - s.x;
       const elapsed = Math.max(1, Date.now() - s.t);

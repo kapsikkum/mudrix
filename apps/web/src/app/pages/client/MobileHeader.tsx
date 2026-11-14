@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { CaretLeftIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { useLocation } from 'react-router-dom';
+import { ListIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import {
   mobileDrawerOpenAtom,
@@ -14,6 +15,7 @@ import {
 import { useRoomDetails } from '@/app/data';
 import { useMobileListOpen } from './hooks/useMobileListOpen';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { Inbox } from '@/app/features/inbox';
 import { UpdateButton } from '@/app/components/UpdateButton/UpdateButton';
 import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButton/EncryptionWarningButton';
 import { RoomSearchField } from '@/app/features/roomSearch';
@@ -31,19 +33,25 @@ export function MobileHeader() {
   const spaceDetails = useRoomDetails(sidebarView === 'space' ? currentSpaceId : null);
   const inboxOpen = useAtomValue(inboxOpenAtom);
   const youOpen = useAtomValue(mobileYouOpenAtom);
+  const location = useLocation();
+  const inRoomView = !!location.pathname.match(/^\/(?:r|dm)\//);
+
   // Inbox and the search field share global state, so they only mount here on mobile
   const isMobile = useMediaQuery('(max-width: 768px)');
   const searchingRoom = isMobile && !!roomSearch && roomSearch.roomId === currentRoomId;
 
+  // In a room the room header carries the menu button, the name and the actions.
+  if (inRoomView && !searchingRoom) return null;
+
   const listTitle = youOpen
-    ? t('settings.userSettings')
+    ? t('settings.title')
     : inboxOpen
       ? t('inbox.title')
       : sidebarView === 'dms'
         ? t('room.dm.directMessages')
         : sidebarView === 'space'
-          ? (spaceDetails?.name ?? t('mobileNav.spaces'))
-          : t('room.home');
+          ? (spaceDetails?.name ?? t('nav.spaces'))
+          : t('nav.home');
 
   return (
     <div className={css.mobileHeader}>
@@ -54,10 +62,9 @@ export function MobileHeader() {
           type="button"
           className={css.mobileMenuBtn}
           onClick={() => setDrawerOpen(true)}
-          aria-label={t('common.back')}
-          data-back-dismiss={isMobile || undefined}
+          aria-label={t('common.menu')}
         >
-          <CaretLeftIcon size={20} />
+          <ListIcon size={20} />
         </button>
       )}
       {searchingRoom ? (
@@ -74,12 +81,13 @@ export function MobileHeader() {
               type="button"
               className={css.mobileActionBtn}
               onClick={() => openGlobalSearch(true)}
-              aria-label={t('roomSwitcher.title')}
+              aria-label={t('search.switcher.title')}
             >
               <MagnifyingGlassIcon size={16} />
             </button>
             <UpdateButton />
             <EncryptionWarningButton />
+            {isMobile && !listOpen && <Inbox />}
           </div>
         </>
       )}

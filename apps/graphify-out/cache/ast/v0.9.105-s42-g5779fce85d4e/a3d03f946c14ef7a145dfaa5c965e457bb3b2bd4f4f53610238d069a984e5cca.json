@@ -1,0 +1,1497 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "label": "SpaceRolesView.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "wizardchatcore",
+      "label": "WizardChatCore",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "label": "RoleEdit",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L4",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "identifiable",
+      "label": "Identifiable",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_built",
+      "label": "built",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L5"
+    },
+    {
+      "id": "spacemodern",
+      "label": "SpaceModern",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_own",
+      "label": "own",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L6"
+    },
+    {
+      "id": "bool",
+      "label": "Bool",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_id",
+      "label": ".id",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "label": "SpaceRolesView",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L17",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "matrixsession",
+      "label": "MatrixSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "rolemanagement",
+      "label": "RoleManagement",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_management",
+      "label": ".management",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L27"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L29"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "label": ".editor()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L86",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "label": ".builtinName()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L137",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "label": ".newRoleId()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L146",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "label": ".roleJSON()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L151",
+      "_callable": true
+    },
+    {
+      "id": "jsonvalue",
+      "label": "JSONValue",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "label": ".content()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L158",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "label": ".save()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L172",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "label": ".delete()",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L185",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "label": "RoleRowLabel",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L217",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L223"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "target": "wizardchatcore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "identifiable",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_built",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L5",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_own",
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "bool",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit_id",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "matrixsession",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "rolemanagement",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_management",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L86",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_roleedit",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L86",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L137",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L137",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L146",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L146",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L151",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L158",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L158",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "target": "jsonvalue",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L158",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L172",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L185",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "target": "spacemodern",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L185",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_swift",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L217",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L218",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L219",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L220",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L223",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L70",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L78",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_builtinname",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L167",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L176",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "target": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L191",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "confirmationDialog",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "sheet",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "spaceRoleManager",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "navigationBarTitleDisplayMode",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "navigationTitle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Form",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L32",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "builtin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L33",
+      "receiver": "management"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L34",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "textCase",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L40",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Section",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "ForEach",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L44",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L45",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L45",
+      "receiver": "held"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "disabled",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L46",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "plural",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L48",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L53",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Role",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L54",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L54",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Label",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L57",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L62",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L73",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Binding",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L74",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L77",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L78",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L82",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "builtin",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L91",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "RoleEditSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "cleanRoleName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L97",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "builtin",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "BuiltinLook",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L99",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L100",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "builtin",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L106",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L107",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "firstIndex",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L111",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "RoleEditSheet",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L112",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "cleanRoleName",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L119",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "Role",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L121",
+      "receiver": "SpaceModern"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L123",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "swapAt",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L128",
+      "receiver": "next"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_editor",
+      "callee": "Task",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L129",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "callee": "chars",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_newroleid",
+      "callee": "random",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L148",
+      "receiver": "Int"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_rolejson",
+      "callee": "object",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L154",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L162",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "callee": "entry",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L163",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "callee": "looks",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L167",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_content",
+      "callee": "prefix",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L167",
+      "receiver": "roles"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L175",
+      "receiver": "MudrixRoomStates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "callee": "show",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L178",
+      "receiver": "CopyToast"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L178",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_save",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L181",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "set",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L189",
+      "receiver": "MudrixRoomStates"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L191",
+      "receiver": "current"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L194",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L198",
+      "receiver": "current"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "contains",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L198",
+      "receiver": "$0"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "saveMemberRoles",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L203",
+      "receiver": "SpaceRoleManager"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L204",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "filter",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L204",
+      "receiver": "held"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview_delete",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L212",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "contentShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L224",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "fill",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "Circle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L225",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "map",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L226",
+      "receiver": "color"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L228",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L229",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L231",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L231",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L231",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_rolerowlabel_body",
+      "callee": "Rectangle",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L234",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchat_views_people_spacerolesview_spacerolesview",
+      "callee": "SpaceRoleManager",
+      "is_member_call": false,
+      "source_file": "ios/WizardChat/Views/People/SpaceRolesView.swift",
+      "source_location": "L22",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChat/Views/People/SpaceRolesView.swift",
+    "table": {
+      "id": "String",
+      "spaceId": "String",
+      "session": "MatrixSession",
+      "manager": "SpaceRoleManager",
+      "editing": "RoleEdit",
+      "deleting": "SpaceModern",
+      "error": "String",
+      "management": "RoleManagement",
+      "body": "View",
+      "edit": "RoleEdit",
+      "key": "SpaceModern",
+      "role": "SpaceModern",
+      "roles": "SpaceModern",
+      "builtin": "SpaceModern",
+      "name": "String",
+      "color": "String",
+      "subtitle": "String",
+      "chars": "Array"
+    },
+    "factory": {
+      "fresh": ["SpaceModern", "Role"],
+      "updated": ["SpaceModern", "Role"],
+      "cleaned": ["SpaceModern", "cleanRoleName"]
+    }
+  }
+}

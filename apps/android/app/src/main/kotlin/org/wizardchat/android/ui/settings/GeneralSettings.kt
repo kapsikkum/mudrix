@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,22 +54,36 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.core.content.pm.PackageInfoCompat
 import java.util.Date
+import kotlinx.coroutines.launch
 import org.wizardchat.android.LocalPrefs
 import org.wizardchat.android.LocalSession
 import org.wizardchat.android.matrix.AppPreferences
 import org.wizardchat.android.matrix.DateFormatStyle
 import org.wizardchat.android.matrix.Density
 import org.wizardchat.android.matrix.EmojiOnlySize
+import org.wizardchat.android.matrix.InviteBlocking
+import org.wizardchat.android.matrix.PresenceChoice
 import org.wizardchat.android.matrix.MessageLayout
+import org.wizardchat.android.matrix.MessageMention
+import org.wizardchat.android.matrix.NavigationStyle
+import org.wizardchat.android.matrix.ProfileFields
 import org.wizardchat.android.matrix.ReducedMotion
 import org.wizardchat.android.matrix.StreamerMode
 import org.wizardchat.android.matrix.TimeFormat
 import org.wizardchat.android.matrix.deviceId
+import org.wizardchat.android.matrix.writeStatusMode
 import org.wizardchat.android.ui.Avatar
+import org.wizardchat.android.ui.CopyToast
+import org.wizardchat.android.ui.L10n
 import org.wizardchat.android.ui.PhIcon
+import org.wizardchat.android.ui.PhWeight
 import org.wizardchat.android.ui.WizardLogo
 import org.wizardchat.android.ui.theme.CustomTheme
 import org.wizardchat.android.ui.theme.Themes
+import org.wizardchat.android.ui.room.MentionColors
+import org.wizardchat.android.ui.room.MessageText
+import org.wizardchat.android.ui.theme.WizardTheme
+import org.wizardchat.android.ui.theme.nameColor
 import org.wizardchat.android.ui.theme.theme
 import org.wizardchat.android.ui.theme.wizardFont
 import org.wizardchat.android.ui.tr
@@ -130,10 +145,28 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             PickerRow(
                 tr("settings.appearance.messageLayoutMobile"),
                 prefs.messageLayout,
-                listOf(MessageLayout.modern to tr("settings.appearance.modern"), MessageLayout.classic to tr("settings.appearance.classic")),
+                listOf(
+                    MessageLayout.modern to tr("settings.appearance.modern"),
+                    MessageLayout.classic to tr("settings.appearance.classic"),
+                    MessageLayout.compact to tr("settings.appearance.compact"),
+                ),
                 { prefs.messageLayout = it },
                 note = tr("settings.appearance.messageLayoutMobileNote"),
             )
+            SettingsDivider()
+            SettingsItem(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                Text(tr("settings.appearance.navigation.title"), style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary)
+                NavigationOption(
+                    tr("settings.appearance.navigation.modern"),
+                    tr("settings.appearance.navigation.modernNote"),
+                    prefs.navigationStyle == NavigationStyle.rail,
+                ) { prefs.navigationStyle = NavigationStyle.rail }
+                NavigationOption(
+                    tr("settings.appearance.navigation.classic"),
+                    tr("settings.appearance.navigation.classicNote"),
+                    prefs.navigationStyle == NavigationStyle.classic,
+                ) { prefs.navigationStyle = NavigationStyle.classic }
+            }
             SettingsDivider()
             SettingsItem {
                 Row(
@@ -144,7 +177,7 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 ) {
                     Text(tr("settings.appearance.textSize"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                     Text(
-                        tr("settings.textSizePx", "${prefs.chatFontSize.toInt()}"),
+                        tr("settings.appearance.textSizePx", "${prefs.chatFontSize.toInt()}"),
                         style = wizardFont(WZ.FontSize.sm, FontWeight.Medium),
                         color = theme.textMuted,
                     )
@@ -167,6 +200,8 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
             SettingsDivider()
             PickerRow(tr("settings.appearance.density"), prefs.chatDensity, densityOptions(), { prefs.chatDensity = it })
             SettingsDivider()
+            ToggleRow(tr("settings.appearance.colorUsernames"), prefs.colorUsernames, { prefs.colorUsernames = it })
+            SettingsDivider()
             ToggleRow(
                 tr("settings.appearance.prettifyLinks"),
                 prefs.prettifyLinks,
@@ -179,6 +214,29 @@ internal fun AppearanceSettings(onBack: () -> Unit) {
                 prefs.groupImages,
                 { prefs.groupImages = it },
                 note = tr("settings.appearance.groupImagesNote"),
+            )
+            if (android.os.Build.VERSION.SDK_INT >= 31) {
+                SettingsDivider()
+                ToggleRow(
+                    tr("settings.appearance.systemAccent"),
+                    prefs.useSystemAccent,
+                    { prefs.useSystemAccent = it },
+                    note = tr("mobile.systemAccentNote"),
+                )
+            }
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.hideMembershipEvents"),
+                prefs.hideMembershipEvents,
+                { prefs.hideMembershipEvents = it },
+                note = tr("settings.appearance.hideMembershipEventsNote"),
+            )
+            SettingsDivider()
+            ToggleRow(
+                tr("settings.appearance.hideProfileEvents"),
+                prefs.hideProfileEvents,
+                { prefs.hideProfileEvents = it },
+                note = tr("settings.appearance.hideProfileEventsNote"),
             )
             SettingsDivider()
             // Android can't swap the launcher icon per theme, so this themes the in-app logo
@@ -269,37 +327,59 @@ private fun swatch(name: String, customs: List<CustomTheme>): Brush {
 private fun ChatPreview() {
     val session = LocalSession.current
     val now = remember { System.currentTimeMillis() }
-    val ownName = session.displayName ?: session.userId ?: ""
+    val ownName = session.displayName ?: session.userId ?: "You"
     Column(Modifier.fillMaxWidth().padding(vertical = WZ.Space.space4)) {
         PreviewMessage(
             "Merlin",
             null,
-            tr("settings.appearance.previewOtherMessage", ownName),
+            "settings.appearance.previewOtherMessage",
+            mention = mentionLabel(ownName),
+            mentionsMe = true,
             isOwn = false,
+            senderId = "@merlin:wizardchat.org",
             timestamp = now - 120_000,
         )
-        PreviewMessage(ownName, session.avatarUrl, tr("settings.appearance.previewOwnMessage", "Merlin"), isOwn = true, timestamp = now - 60_000)
+        PreviewMessage(
+            ownName,
+            session.avatarUrl,
+            "settings.appearance.previewOwnMessage",
+            mention = mentionLabel("Merlin"),
+            mentionsMe = false,
+            senderId = session.userId ?: "@you:wizardchat.org",
+            isOwn = true,
+            timestamp = now - 60_000,
+        )
     }
 }
 
+private fun mentionLabel(name: String) = if (name.startsWith("@")) name else "@$name"
+
 @Composable
-private fun PreviewMessage(sender: String, avatarUrl: String?, body: String, isOwn: Boolean, timestamp: Long) {
+private fun PreviewMessage(
+    sender: String,
+    avatarUrl: String?,
+    textKey: String,
+    mention: String,
+    mentionsMe: Boolean,
+    isOwn: Boolean,
+    senderId: String,
+    timestamp: Long,
+) {
+    val body = tr(textKey, mention)
     val prefs = LocalPrefs.current
     val context = LocalContext.current
     val scale = prefs.chatScale
     val spacing = prefs.chatSpacing
     val isClassic = prefs.messageLayout == MessageLayout.classic
     val linkColor = if (isClassic && isOwn && theme.isDark) theme.textOnAccent else theme.linkColor
-    val text = buildAnnotatedString {
-        val match = Regex("https?://\\S+").find(body)
-        if (match == null) {
-            append(body)
-        } else {
-            append(body.substring(0, match.range.first))
-            withStyle(SpanStyle(color = linkColor)) { append(match.value) }
-            append(body.substring(match.range.last + 1))
-        }
-    }
+    val text = MessageText.attributed(
+        body,
+        prefs.prettifyLinks,
+        linkColor,
+        mentions = listOf(MessageMention(mention, "", isOwn = mentionsMe)),
+        mentionColors = MentionColors(theme.mention, if (isClassic && isOwn && theme.isDark) theme.textOnAccent else theme.accent),
+        onMention = {},
+    )
     Row(
         Modifier
             .fillMaxWidth()
@@ -314,7 +394,7 @@ private fun PreviewMessage(sender: String, avatarUrl: String?, body: String, isO
                     sender,
                     Modifier.weight(1f, fill = false),
                     style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                    color = theme.accent,
+                    color = nameColor(senderId),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -374,6 +454,20 @@ internal fun AccessibilitySettings(onBack: () -> Unit) {
 @Composable
 internal fun PrivacySettings(onBack: () -> Unit) {
     val prefs = LocalPrefs.current
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    // Do not disturb lives in the extended-profile status field, so it is only offered where that exists
+    var statusMode by remember { mutableStateOf<String?>(null) }
+    var supportsStatus by remember { mutableStateOf(false) }
+    LaunchedEffect(session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        supportsStatus = runCatching { client.supportsExtendedProfiles() }.getOrDefault(false)
+        val me = session.userId
+        if (!supportsStatus || me == null) return@LaunchedEffect
+        statusMode = runCatching { client.profileFields(me) }.getOrNull()
+            ?.let(ProfileFields::parse)
+            ?.let { ProfileFields.activeStatus(it.status)?.mode }
+    }
     SettingsPage(tr("settings.privacy.title"), onBack) {
         SettingsSection(tr("settings.privacy.chat")) {
             ToggleRow(
@@ -383,7 +477,7 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                 note = tr("settings.privacy.typingIndicatorsNote"),
             )
             SettingsDivider()
-            ToggleRow(tr("settings.readReceipts"), prefs.sendReadReceipts, { prefs.sendReadReceipts = it }, note = tr("settings.letOtherUsersKnow"))
+            ToggleRow(tr("settings.privacy.readReceipts"), prefs.sendReadReceipts, { prefs.sendReadReceipts = it }, note = tr("settings.privacy.readReceiptsNote"))
         }
         SettingsSection(tr("settings.privacy.streamer.title")) {
             PickerRow(
@@ -400,6 +494,39 @@ internal fun PrivacySettings(onBack: () -> Unit) {
         }
         SettingsSection(tr("settings.privacy.other")) {
             ToggleRow(tr("settings.privacy.showPresence"), prefs.showPresence, { prefs.showPresence = it }, note = tr("settings.privacy.showPresenceNote"))
+            if (prefs.showPresence) {
+                SettingsDivider()
+                val statusDnd = statusMode == ProfileFields.STATUS_DND
+                PickerRow(
+                    tr("presence.changeStatus"),
+                    if (statusDnd) ProfileFields.STATUS_DND else prefs.presenceChoice.name,
+                    buildList {
+                        add(PresenceChoice.auto.name to tr("presence.auto"))
+                        add(PresenceChoice.online.name to tr("presence.online"))
+                        add(PresenceChoice.away.name to tr("presence.away"))
+                        add(PresenceChoice.invisible.name to tr("mobile.presence.invisible"))
+                        if (supportsStatus) add(ProfileFields.STATUS_DND to tr("profile.status.modeDnd"))
+                    },
+                    { choice ->
+                        if (choice == ProfileFields.STATUS_DND) {
+                            // Like the web: Matrix presence stays online and the dot comes from the status field
+                            prefs.presenceChoice = PresenceChoice.online
+                            scope.launch {
+                                runCatching { session.writeStatusMode(ProfileFields.STATUS_DND) }
+                                    .onSuccess { statusMode = ProfileFields.STATUS_DND }
+                                    .onFailure { CopyToast.show(L10n.format("common.saveFailed", it.message ?: "")) }
+                            }
+                        } else {
+                            prefs.presenceChoice = PresenceChoice.entries.firstOrNull { it.name == choice } ?: PresenceChoice.auto
+                            if (statusDnd) {
+                                scope.launch {
+                                    runCatching { session.writeStatusMode(null) }.onSuccess { statusMode = null }
+                                }
+                            }
+                        }
+                    },
+                )
+            }
             SettingsDivider()
             ToggleRow(
                 tr("settings.privacy.showHomeserverSoftware"),
@@ -407,8 +534,46 @@ internal fun PrivacySettings(onBack: () -> Unit) {
                 { prefs.showHomeserverSoftware = it },
                 note = tr("settings.privacy.showHomeserverSoftwareNote"),
             )
+            SettingsDivider()
+            ListeningRow()
+            BlockInvitesRow()
         }
     }
+}
+
+/** "Block all invites" (MSC4380); not shown when the homeserver has no such setting */
+@Composable
+private fun BlockInvitesRow() {
+    val session = LocalSession.current
+    val scope = rememberCoroutineScope()
+    var eventType by remember { mutableStateOf<String?>(null) }
+    var blocked by remember { mutableStateOf(false) }
+    LaunchedEffect(session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        val type = runCatching { InviteBlocking.eventType(client.serverFeatures().unstableFeatures) }.getOrNull() ?: return@LaunchedEffect
+        blocked = InviteBlocking.isBlocked(runCatching { client.accountData(type) }.getOrNull())
+        eventType = type
+    }
+    val type = eventType ?: return
+    SettingsDivider()
+    ToggleRow(
+        tr("settings.privacy.blockInvites"),
+        blocked,
+        { next ->
+            val client = session.client ?: return@ToggleRow
+            val before = blocked
+            blocked = next
+            scope.launch {
+                try {
+                    client.setAccountData(type, InviteBlocking.content(next))
+                } catch (e: Exception) {
+                    blocked = before
+                    CopyToast.show(L10n.format("settings.privacy.blockInvitesFailed", e.message ?: ""))
+                }
+            }
+        },
+        note = tr("settings.privacy.blockInvitesNote"),
+    )
 }
 
 /** The app language; Android applies it right away (per-app languages), so there's no "reopen" note */
@@ -434,13 +599,13 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
     val session = LocalSession.current
     var tokenExpanded by remember { mutableStateOf(false) }
     var showAccountData by remember { mutableStateOf(false) }
-    SettingsPage(tr("settings.developer.title"), onBack) {
+    SettingsPage(tr("developer.title"), onBack) {
         SettingsSection {
             ToggleRow(
-                tr("settings.developer.enable"),
+                tr("developer.enable"),
                 prefs.developerMode,
                 { prefs.developerMode = it },
-                note = tr("settings.developer.enableDescription"),
+                note = tr("developer.enableDescription"),
             )
         }
         if (prefs.developerMode) {
@@ -454,7 +619,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                         .padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(tr("settings.developer.accessToken"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
+                    Text(tr("developer.accessToken"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
                     Box(Modifier.rotate(rotation)) {
                         PhIcon("caret-right", org.wizardchat.android.ui.PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.accent)
                     }
@@ -466,13 +631,13 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                             horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
                         ) {
                             PhIcon("warning", size = WZ.SizeIcon.sm, tint = theme.warningColor)
-                            Text(tr("settings.developer.accessTokenWarning"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
+                            Text(tr("developer.accessTokenWarning"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
                         }
-                        CopyRow(tr("settings.developer.accessToken"), session.client?.session?.accessToken ?: "", secret = true)
+                        CopyRow(tr("developer.accessToken"), session.client?.session?.accessToken ?: "", secret = true)
                     }
                 }
                 SettingsDivider()
-                CopyRow(tr("settings.developer.homeserverUrl"), session.client?.session?.homeserverUrl ?: "")
+                CopyRow(tr("developer.homeserverUrl"), session.client?.session?.homeserverUrl ?: "")
                 session.deviceId?.let { deviceId ->
                     SettingsDivider()
                     CopyRow(tr("settings.sessions.deviceId"), deviceId)
@@ -480,7 +645,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
             }
             SettingsSection {
                 Text(
-                    tr("settings.developer.accountData"),
+                    tr("developer.accountData.title"),
                     Modifier
                         .fillMaxWidth()
                         .clickable { showAccountData = true }
@@ -490,6 +655,7 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
                     color = theme.textPrimary,
                 )
             }
+            DeveloperToolsSections()
         }
     }
     if (showAccountData) AccountDataSheet(onDismiss = { showAccountData = false })
@@ -512,18 +678,22 @@ internal fun AboutSettings(onBack: () -> Unit) {
             SettingsItem(horizontalAlignment = Alignment.CenterHorizontally) {
                 WizardLogo(size = WZ.Space.space12)
                 Text(tr("app.name"), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary)
-                Text(tr("welcome.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                Text(tr("auth.tagline"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 Text(version, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             }
-            SettingsDivider()
             SettingsItem {
-                LabelButton(tr("settings.downloadWizardchatForDesktop"), "download-simple", { uriHandler.openUri("https://github.com/kapsikkum/mudrix/releases/latest") })
                 LabelButton(
-                    tr("settings.about.viewSourceOnGitLab"),
+                    tr("settings.downloadMudrixForDesktop"),
+                    "download-simple",
+                    { uriHandler.openUri("https://github.com/kapsikkum/mudrix/releases/latest") },
+                )
+            }
+            SettingsItem {
+                LabelButton(
+                    tr("settings.about.viewSourceOnGitHub"),
                     "code",
                     { uriHandler.openUri("https://github.com/kapsikkum/mudrix") },
                 )
-                if (whatsNew != null) LabelButton(tr("whatsNew.title"), "sparkle", { showWhatsNew = true })
             }
         }
 
@@ -533,8 +703,56 @@ internal fun AboutSettings(onBack: () -> Unit) {
                 Credit("Roboto", "https://fonts.google.com/specimen/Roboto", tr("settings.about.creditRoboto"))
             }
         }
+
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6),
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space7),
+        ) {
+            if (whatsNew != null) FooterLink(tr("whatsNew.title"), "sparkle") { showWhatsNew = true }
+            FooterLink(tr("settings.about.privacyPolicy"), "shield-check") { uriHandler.openUri("https://github.com/kapsikkum/mudrix") }
+        }
     }
     if (showWhatsNew && whatsNew != null) WhatsNewSheet(whatsNew) { showWhatsNew = false }
+}
+
+@Composable
+private fun NavigationOption(title: String, note: String, selected: Boolean, onSelect: () -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .heightIn(min = WZ.Space.space11)
+            .clip(RoundedCornerShape(WZ.Radius.md))
+            .clickable(onClick = onSelect)
+            .semantics {
+                this.selected = selected
+                role = Role.RadioButton
+            }
+            .padding(horizontal = WZ.Space.space2, vertical = WZ.Space.space1),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
+    ) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
+            Text(
+                title,
+                style = wizardFont(WZ.FontSize.lg, if (selected) FontWeight.SemiBold else FontWeight.Normal),
+                color = theme.textPrimary,
+            )
+            Text(note, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        }
+        if (selected) PhIcon("check", PhWeight.bold, size = WZ.SizeIcon.sm, tint = theme.accent)
+    }
+}
+
+@Composable
+private fun FooterLink(text: String, icon: String, onClick: () -> Unit) {
+    Row(
+        Modifier.clickable(onClick = onClick).padding(vertical = WZ.Space.space3),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        PhIcon(icon, size = WZ.SizeIcon.sm, tint = theme.textMuted)
+        Text(text, style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+    }
 }
 
 @Composable

@@ -25,10 +25,11 @@ import {
   settingsPageAtom,
 } from '@/app/store/atoms';
 import { commandActionsAtom } from '@/app/store/atoms/call';
-import type { CallPresentation, SidebarView } from '@/app/store/atoms';
+import type { SidebarView } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { useMatrixToLinks } from '@/app/hooks/useMatrixToLinks';
 import { useSettingsSync } from '@/app/hooks/useSettingsSync';
+import { useActivitySharing } from '@/app/hooks/useActivitySharing';
 import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useVerification } from '@/app/hooks/useVerification';
 import { useSessionVerification } from '@/app/hooks/useSessionVerification';
@@ -65,6 +66,8 @@ import { registerNotificationServiceWorker } from '@/app/hooks/useNotifications'
 import { useUpdateCheck } from '@/app/hooks/useUpdateCheck';
 import { usePresenceSender } from '@/app/hooks/usePresenceSender';
 import { useBindFavouriteRooms } from '@/app/hooks/useBindFavouriteRooms';
+import { useSpaceNicknameSync } from '@/app/hooks/useSpaceNicknames';
+import { useMudrixStateWatch } from '@/app/features/space/mudrixRoomState';
 import { usePresenceListener } from '@/app/hooks/usePresenceListener';
 import { useConnectionStatusWatcher } from '@/app/hooks/useConnectionStatus';
 import { useCustomStatusSync } from '@/app/features/status/customStatus';
@@ -77,6 +80,7 @@ import { EncryptionWarningButton } from '@/app/components/EncryptionWarningButto
 import { SpacesList } from './SpacesList';
 import { MobileTabBar } from './MobileTabBar';
 import { useMobileListOpen } from './hooks/useMobileListOpen';
+import { isNativeApp } from '@/util/nativeApp';
 import { RoomListPanel } from './RoomListPanel';
 import { MembersSidebar } from './MembersSidebar';
 import * as sidebarCss from './MembersSidebar.css';
@@ -132,6 +136,7 @@ function SpaceOverviewPage() {
 export function ClientLayout() {
   const { t } = useTranslation();
   const client = getMatrixClientOrNull();
+  useActivitySharing(client);
   const [currentSpaceId, setCurrentSpaceId] = useAtom(currentSpaceIdAtom);
   const [sidebarView, setSidebarView] = useAtom(sidebarViewAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
@@ -240,6 +245,31 @@ export function ClientLayout() {
     setCurrentRoomId,
   ]);
 
+  // When space graph finishes loading asynchronously, ensure the room's parent space is selected
+  useEffect(() => {
+    if (stateSidebar !== undefined || stateSpaceId !== undefined) return;
+    const path = location.pathname;
+    const roomMatch = path.match(/^\/r\/(.+)/);
+    if (!roomMatch || !client) return;
+    const roomId = decodeURIComponent(roomMatch[1]);
+    const keepSpaceId =
+      currentSpaceIdRef.current && isChildOfSpace(roomId, currentSpaceIdRef.current, spaceGraph)
+        ? currentSpaceIdRef.current
+        : findParentSpaceId(roomId, spaceGraph);
+    if (keepSpaceId && keepSpaceId !== currentSpaceIdRef.current) {
+      setSidebarView('space');
+      setCurrentSpaceId(keepSpaceId);
+    }
+  }, [
+    spaceGraph,
+    location.pathname,
+    stateSidebar,
+    stateSpaceId,
+    client,
+    setSidebarView,
+    setCurrentSpaceId,
+  ]);
+
   const openGlobalSearch = useSetAtom(globalSearchOpenAtom);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -309,19 +339,15 @@ export function ClientLayout() {
   const callToggleMute = callActions?.toggleMute;
   const callToggleDeafen = callActions?.toggleDeafen;
   const callToggleVideo = callActions?.toggleVideo;
-
-  const startCallInRoom = useCallback(
-    async (roomId: string, presentation: CallPresentation) => {
-      if (!client || !startCall) return;
-      if (!roomsById.has(roomId)) return;
-      await startCall(roomId, { voiceOnly: true, presentation });
-    },
-    [client, startCall, roomsById]
-  );
+  const callToggleScreenShare = callActions?.toggleScreenshare;
 
   const placeCall = useCallback(
-    (roomId: string) => startCallInRoom(roomId, 'room'),
-    [startCallInRoom]
+    async (roomId: string) => {
+      if (!client || !startCall) return;
+      if (!roomsById.has(roomId)) return;
+      await startCall(roomId, { voiceOnly: true, presentation: 'room', ring: true });
+    },
+    [client, startCall, roomsById]
   );
 
   const joinVoiceRoom = useJoinVoiceRoom(client);
@@ -459,6 +485,7 @@ export function ClientLayout() {
     toggleDeafen: callToggleDeafen ?? (() => {}),
     toggleVideo: callToggleVideo ?? (() => {}),
     disconnect: hangupCall ?? (() => {}),
+    toggleScreenShare: callToggleScreenShare ?? (() => {}),
   });
 
   useClientNotifications();
@@ -474,6 +501,8 @@ export function ClientLayout() {
   usePresenceSender(client);
   useStreamerMode();
   useBindFavouriteRooms();
+  useSpaceNicknameSync(client);
+  useMudrixStateWatch(client);
   usePresenceListener(client);
   useConnectionStatusWatcher();
   useCustomStatusSync(client);
@@ -494,8 +523,9 @@ export function ClientLayout() {
   const tabletDrawerOpen = isTablet && drawerOpen;
   useSwipePanels({
     enabled: touchFirst && (isMobile || isTablet),
-    leftDrawer: isTablet,
-    leftOpen: tabletDrawerOpen,
+    // The sidebar is a drawer on touch tablets and in the browser's phone layout.
+    leftDrawer: isTablet || !isNativeApp(),
+    leftOpen: tabletDrawerOpen || drawerOpen,
     setLeftOpen: setDrawerOpen,
     canOpenRight:
       !mobileListOpen &&
@@ -510,8 +540,8 @@ export function ClientLayout() {
   const youOpen = useAtomValue(mobileYouOpenAtom);
   const sidebarClass = [
     css.sidebar,
-    mobileListOpen || tabletDrawerOpen ? css.sidebarOpen : null,
-    sidebarView !== 'space' ? css.sidebarNoRail : null,
+    mobileListOpen || drawerOpen ? css.sidebarOpen : null,
+    isNativeApp() && sidebarView !== 'space' ? css.sidebarNoRail : null,
   ]
     .filter(Boolean)
     .join(' ');
@@ -519,21 +549,21 @@ export function ClientLayout() {
   return (
     <>
       <AccountSwitchGuard client={client} />
-      <MobileHeader />
 
       <CallContainerProvider>
         <div className={css.appFrame}>
+          <MobileHeader />
           {!isMobile && (
             <TitleBar
               start={
                 <button
                   type="button"
                   className={css.titleBarMenuBtn}
-                  aria-label={t('room.navigation')}
+                  aria-label={t('common.menu')}
                   aria-expanded={tabletDrawerOpen}
                   onClick={() => setDrawerOpen((open) => !open)}
                 >
-                  <ListIcon size={18} />
+                  <ListIcon size={20} />
                 </button>
               }
               center={<TitleBarSearch />}
@@ -549,7 +579,7 @@ export function ClientLayout() {
           <div className={css.appShell}>
             {/* Sidebar: spaces column + room list panel */}
             <nav
-              aria-label={t('room.navigation')}
+              aria-label={t('nav.title')}
               className={sidebarClass}
               data-swipe-back-reveal
               {...{ [SWIPE_DRAWER_ATTR]: 'left' }}
@@ -561,7 +591,7 @@ export function ClientLayout() {
               />
               <RoomListPanel onVoiceJoin={joinVoiceRoom} />
             </nav>
-            {tabletDrawerOpen && (
+            {drawerOpen && !mobileListOpen && (
               <div
                 className={css.panelDrawerOverlay}
                 role="presentation"

@@ -60,16 +60,16 @@ export function useRecoveryKeyActions(client: MatrixClient | null) {
       const status = await getEncryptionSetupStatus(client);
       if (hasExistingEncryptionSetup(status)) {
         const ok = await confirm(
-          t('crypto.setupOverwritesTitle'),
-          t('crypto.setupOverwritesConfirm'),
+          t('verification.setupOverwritesTitle'),
+          t('verification.setupOverwritesConfirm'),
           true
         );
         if (!ok) return;
       }
     } catch {
       const ok = await confirm(
-        t('crypto.setupOverwritesTitle'),
-        t('crypto.setupOverwritesConfirm'),
+        t('verification.setupOverwritesTitle'),
+        t('verification.setupOverwritesConfirm'),
         true
       );
       if (!ok) return;

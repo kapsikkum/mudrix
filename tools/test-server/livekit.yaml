@@ -1,0 +1,15 @@
+# LiveKit SFU for tools/test-server. __HOST__ / __MEDIA_HOST__ are filled in by up.mjs.
+# bind_addresses keeps the service on the stack's own address; node_ip is what clients are told
+# to send media to (the same address, or 127.0.0.1 for a phone reached through forward.mjs).
+port: 7880
+bind_addresses:
+  - __HOST__
+rtc:
+  tcp_port: 7881
+  udp_port: 7882
+  use_external_ip: false
+  node_ip: __MEDIA_HOST__
+keys:
+  devkey: mudrix-test-secret-not-for-production-use
+logging:
+  level: info

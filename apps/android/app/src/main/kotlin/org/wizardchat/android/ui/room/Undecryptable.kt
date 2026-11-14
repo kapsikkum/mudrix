@@ -3,6 +3,9 @@ package org.wizardchat.android.ui.room
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -119,5 +122,18 @@ internal fun UndecryptableContent(roomId: String?, reason: String, label: @Compo
                 )
             }
         }
+    }
+}
+
+/** Shown at the top of the history when older messages stopped loading because this device can't read them */
+@Composable
+internal fun UndecryptableHistoryNotice(loading: Boolean, onLoadOlder: () -> Unit) {
+    Column(
+        Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space7, vertical = WZ.Space.space6),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+    ) {
+        Text(tr("timeline.undecryptable.historyPaused"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+        Text(tr("timeline.undecryptable.historyPausedReason"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+        SecondaryButton(tr("timeline.undecryptable.loadOlder"), onLoadOlder, enabled = !loading)
     }
 }

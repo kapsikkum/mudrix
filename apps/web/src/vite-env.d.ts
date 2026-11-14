@@ -4,6 +4,8 @@ interface ImportMetaEnv {
   readonly APP_VERSION: string;
   readonly APP_HOME_URL: string;
   readonly DESKTOP: boolean;
+  readonly VITE_GIPHY_API_KEY?: string;
+  readonly VITE_KLIPY_API_KEY?: string;
 }
 
 interface ImportMeta {
@@ -34,14 +36,23 @@ interface DesktopAPI {
     title: string;
     body: string;
     icon?: string;
+    /** The sender's avatar as PNG bytes; the Windows toast shows it in place of the app icon */
+    avatar?: Uint8Array;
     silent?: boolean;
     roomUrl?: string;
   }) => Promise<boolean>;
   onOpenRoom?: (cb: (url: string) => void) => void;
+  /** Flashes the taskbar entry or bounces the dock icon until the window is focused or `false` */
+  requestAttention?: (on: boolean) => void;
   getPendingRoom?: () => Promise<string | null>;
   getAppVersion?: () => Promise<string>;
-  setPushToTalkKey?: (code: string | null) => Promise<'active' | 'no-permission' | 'unsupported'>;
-  onPushToTalk?: (cb: (pressed: boolean) => void) => () => void;
+  setGlobalKey?: (
+    id: string,
+    code: string | null
+  ) => Promise<'active' | 'taken' | 'no-permission' | 'unsupported'>;
+  onGlobalKey?: (cb: (id: string, down: boolean) => void) => () => void;
+  /** Keeps the display on natively, as the webview's Wake Lock API isn't everywhere */
+  setKeepAwake?: (on: boolean) => Promise<void>;
   getPushToTalkPermission?: () => Promise<boolean>;
   requestPushToTalkPermission?: () => Promise<boolean>;
   getDesktopSources?: (options: {
@@ -53,22 +64,44 @@ interface DesktopAPI {
   /** Whether the in-app picker offers sharing system audio */
   screenShareAudioSupported?: () => Promise<boolean>;
   /** Native capture with the in-app picker; undefined when this platform has none */
-  startScreenShare?: () => Promise<
+  startScreenShare?: (settings: {
+    /** Longest side, in pixels, frames are scaled down to; null keeps the source's own size */
+    maxHeight: number | null;
+    fps: number;
+  }) => Promise<
     { video: MediaStreamTrack; audio: MediaStreamTrack | null; stop(): void } | null | undefined
   >;
   onUpdateDownloaded?: (cb: () => void) => void;
+  /** How far the update download has come; `percent` is absent while its size is unknown */
+  onUpdateProgress?: (
+    cb: (progress: { downloaded: number; total: number | null; percent: number | null }) => void
+  ) => () => void;
   installUpdate?: () => void;
+  /** Asks the update feed now (stable, or with pre-releases the `next` channel) */
+  checkForUpdate?: (
+    includePrereleases: boolean
+  ) => Promise<{ status: 'upToDate' | 'ready' } | { status: 'available'; version: string }>;
   /** Saves bytes into the Downloads folder and resolves with the saved path; needs a native command. */
   saveDownload?: (bytes: Uint8Array, filename: string) => Promise<string>;
+  /** The native save dialog for a room key export: the chosen path, or null when cancelled */
+  pickKeyFileToSave?: (defaultName: string) => Promise<string | null>;
+  /** The native open dialog for a room key file: the chosen path, or null when cancelled */
+  pickKeyFileToOpen?: () => Promise<string | null>;
   getSettings?: () => Promise<DesktopSettings>;
   setSettings?: (patch: Partial<DesktopSettings>) => Promise<DesktopSettings>;
   /** Called when the shell changes a setting itself (the tray's mute switch); returns a stopper */
   onSettingsChange?: (cb: (settings: DesktopSettings) => void) => () => void;
   /** Tray icon and tooltip, taskbar overlay and dock badge: unread messages and rooms with a mention */
   setUnreadCount?: (total: number, highlight: number) => void;
+  /** The window and tray icon follow the theme; null restores the bundled icons */
+  setAppIcon?: (logoUrl: string | null) => Promise<void>;
   getPlatform?: () => string;
   setTitleBarTheme?: (background: string, foreground: string) => void;
   onFullscreenChange?: (cb: (fullscreen: boolean) => void) => () => void;
+  /** Closes the call's window of its own, if the shell has one open */
+  hideCallPopout?: () => void;
+  /** The call's window is gone, however it went; returns a stopper */
+  onCallPopoutClosed?: (cb: () => void) => () => void;
 }
 
 interface Window {

@@ -1,6 +1,7 @@
-import { useState, useLayoutEffect, useCallback } from 'react';
+import { useState, useLayoutEffect, useCallback, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import { zIndex } from '@/theme/zIndex';
 import {
   SlidersIcon,
   ListBulletsIcon,
@@ -8,6 +9,7 @@ import {
   ShieldIcon,
   TagIcon,
   SmileyStickerIcon,
+  SparkleIcon,
   ClockCounterClockwiseIcon,
   XIcon,
   type Icon as PhosphorIcon,
@@ -31,11 +33,20 @@ import { PermissionsPanel } from '@/app/features/room/roomsettings/Permissions';
 import { RoomPermissionsMatrix } from '@/app/features/room/roomsettings/RoomPermissionsMatrix';
 import { EmojiStickerPanel } from '@/app/features/room/roomsettings/EmojiStickerPanel';
 import { AuditLogPanel } from '@/app/features/room/roomsettings/AuditLog';
-import { NarrowSettingsList, NarrowSettingsPage } from '@/app/components/Settings/NarrowSettings';
-import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import {
+  SettingsSearchInput,
+  SettingsSearchResults,
+  useHighlightSetting,
+  useSettingsSearch,
+  type SettingsSearchResult,
+} from '@/app/components/Settings/SettingsSearch';
+import {
+  SPACE_SETTINGS_INDEX,
+  type SpaceSettingsTab,
+} from '@/app/features/room/roomsettings/searchIndex';
 import * as css from '@/app/components/Settings/Settings.css';
 
-type Tab = 'general' | 'channels' | 'members' | 'roles' | 'permissions' | 'emojis' | 'audit';
+type Tab = SpaceSettingsTab | 'channels' | 'roles' | 'audit';
 
 const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
   { tab: 'general', labelKey: 'room.settings.general.title', Icon: SlidersIcon },
@@ -53,6 +64,11 @@ const NAV: { tab: Tab; labelKey: string; Icon: PhosphorIcon }[] = [
     Icon: SmileyStickerIcon,
   },
   {
+    tab: 'cosmetics',
+    labelKey: 'room.settings.cosmetics.title',
+    Icon: SparkleIcon,
+  },
+  {
     tab: 'audit',
     labelKey: 'room.settings.auditLog.title',
     Icon: ClockCounterClockwiseIcon,
@@ -64,9 +80,11 @@ export function SpaceSettings() {
   const [spaceId, setSpaceId] = useAtom(spaceSettingsRoomIdAtom);
   const client = getMatrixClientOrNull();
   const [selectedTab, setActiveTab] = useState<Tab>('general');
-  const isNarrow = useMediaQuery('(max-width: 768px)');
-  const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
-  const backToList = useCallback(() => setNarrowView('list'), []);
+  const [query, setQuery] = useState('');
+  const [highlight, setHighlight] = useState<string | null>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const clearHighlight = useCallback(() => setHighlight(null), []);
+  useHighlightSetting(pageRef, highlight, clearHighlight);
 
   const graph = useSpaceGraph();
   const details = useRoomDetails(spaceId);
@@ -86,11 +104,13 @@ export function SpaceSettings() {
   );
   // A tab goes away when the style changes under it; fall back to the first one.
   const activeTab = nav.some((item) => item.tab === selectedTab) ? selectedTab : 'general';
+  const pages = nav.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }));
+  const results = useSettingsSearch(pages, SPACE_SETTINGS_INDEX, query);
 
   useLayoutEffect(() => {
     if (spaceId) {
+      setQuery('');
       setActiveTab('general');
-      setNarrowView('list');
     }
   }, [spaceId]);
 
@@ -98,13 +118,21 @@ export function SpaceSettings() {
 
   const valid = Boolean(spaceId && space);
 
-  const showPage = isNarrow && narrowView === 'page';
-  const openTab = (tab: Tab) => {
-    setActiveTab(tab);
-    setNarrowView('page');
+  const openTab = (tab: Tab) => setActiveTab(tab);
+  const openResult = (result: SettingsSearchResult<Tab>) => {
+    openTab(result.page);
+    setHighlight(result.pageLabel ? result.label : null);
   };
+  const search = (className: string) => (
+    <SettingsSearchInput
+      className={className}
+      value={query}
+      onChange={setQuery}
+      onSubmit={() => results?.[0] && openResult(results[0])}
+    />
+  );
   const panel = (
-    <>
+    <div ref={pageRef}>
       {activeTab === 'general' && <GeneralPanel spaceId={spaceId!} />}
       {activeTab === 'channels' &&
         (modern ? <ChannelsPanel spaceId={spaceId!} /> : <MatrixRoomsPanel spaceId={spaceId!} />)}
@@ -114,58 +142,49 @@ export function SpaceSettings() {
       {activeTab === 'emojis' && space && client && (
         <EmojiStickerPanel roomId={spaceId!} client={client} />
       )}
+      {activeTab === 'cosmetics' && space && client && (
+        <EmojiStickerPanel roomId={spaceId!} client={client} scope="cosmetic" />
+      )}
       {activeTab === 'audit' && space && <AuditLogPanel roomId={spaceId!} />}
-    </>
+    </div>
   );
 
   return (
     <Dialog
       open={Boolean(spaceId)}
-      onClose={showPage ? backToList : close}
+      onClose={close}
       size="xl"
-      zIndex={7000}
+      zIndex={zIndex.modal}
       maxWidth="900px"
       height="640px"
       surface="primary"
       fullscreenOnMobile
-      bodyClassName={isNarrow ? `${css.dialogBody} ${css.dialogBodyColumn}` : css.dialogBody}
+      bodyClassName={css.dialogBody}
       ariaLabel={t('common.settings')}
     >
-      {!valid ? null : isNarrow ? (
-        showPage ? (
-          <NarrowSettingsPage
-            title={t(nav.find((item) => item.tab === activeTab)?.labelKey ?? '')}
-            onBack={backToList}
-            onClose={close}
-          >
-            {panel}
-          </NarrowSettingsPage>
-        ) : (
-          <NarrowSettingsList
-            title={space?.name ?? t('common.settings')}
-            items={nav.map((item) => ({ key: item.tab, label: t(item.labelKey), Icon: item.Icon }))}
-            onSelect={openTab}
-            onClose={close}
-          />
-        )
-      ) : (
+      {!valid ? null : (
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('common.settings')}</span>
-            {nav.map((item) => {
-              const isActive = activeTab === item.tab;
-              return (
-                <button
-                  key={item.tab}
-                  type="button"
-                  className={isActive ? css.navItemActive : css.navItem}
-                  onClick={() => setActiveTab(item.tab)}
-                >
-                  <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                  <span className={css.navLabelText}>{t(item.labelKey)}</span>
-                </button>
-              );
-            })}
+            {search(css.navSearch)}
+            {results ? (
+              <SettingsSearchResults results={results} onSelect={openResult} />
+            ) : (
+              nav.map((item) => {
+                const isActive = activeTab === item.tab;
+                return (
+                  <button
+                    key={item.tab}
+                    type="button"
+                    className={isActive ? css.navItemActive : css.navItem}
+                    onClick={() => setActiveTab(item.tab)}
+                  >
+                    <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                    <span className={css.navLabelText}>{t(item.labelKey)}</span>
+                  </button>
+                );
+              })
+            )}
           </nav>
 
           <div className={css.content}>
@@ -177,7 +196,7 @@ export function SpaceSettings() {
             >
               <XIcon size={18} />
             </button>
-            {panel}
+            <div className={css.scroller}>{panel}</div>
           </div>
         </>
       )}

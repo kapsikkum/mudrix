@@ -77,6 +77,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var showRecoveryKeyEntry by remember { mutableStateOf(false) }
+    var showLinkDevice by remember { mutableStateOf(false) }
     var verification by remember { mutableStateOf<VerificationModel?>(null) }
     var newRecoveryKey by remember { mutableStateOf<String?>(null) }
     var removing by remember { mutableStateOf<DeviceInfo?>(null) }
@@ -89,7 +90,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             devices = session.requireClient.devices().sortedByDescending { it.lastSeenTs ?: Long.MIN_VALUE }
             error = null
         } catch (failure: Exception) {
-            error = L10n.format("settings.couldNotLoadSessions", failure.text)
+            error = L10n.format("settings.sessions.loadSessionsFailed", failure.text)
         } finally {
             loading = false
         }
@@ -101,7 +102,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
                 session.requireClient.renameDevice(device.deviceId, name)
                 reload()
             } catch (failure: Exception) {
-                error = L10n.format("settings.failedToRenameSession", failure.text)
+                error = L10n.format("settings.sessions.renameSessionFailed", failure.text)
             }
         }
     }
@@ -110,7 +111,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
         try {
             newRecoveryKey = if (reset) session.resetRecoveryKey() else session.enableRecovery()
         } catch (failure: Exception) {
-            error = L10n.format("settings.setupFailed", failure.text)
+            error = L10n.format("settings.keyBackup.setupFailed", failure.text)
         }
     }
 
@@ -127,16 +128,16 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
                     PhIcon(
                         if (isVerified) "shield-check" else "shield-warning",
                         size = WZ.SizeIcon.md,
-                        tint = if (isVerified) theme.success else theme.warningColor,
+                        tint = if (isVerified) theme.success else theme.danger,
                     )
                     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
                         Text(
-                            if (isVerified) tr("settings.sessions.verified") else tr("settings.sessions.unverified"),
+                            if (isVerified) tr("common.verified") else tr("settings.sessions.unverified"),
                             style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
                             color = theme.textPrimary,
                         )
                         if (!isVerified) {
-                            Text(tr("settings.enterYourRecoveryKey"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+                            Text(tr("settings.encryption.enterRecoveryKeyNote"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                         }
                     }
                 }
@@ -144,16 +145,22 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             SettingsDivider()
             SettingsItem {
                 if (!isVerified) {
-                    LabelButton(tr("settings.verifyWithAnotherDevice"), "devices", { verification = VerificationModel(VerificationModel.Start.OwnDevice) }, primary = true)
+                    LabelButton(tr("settings.encryption.verifyWithDevice"), "devices", { verification = VerificationModel(VerificationModel.Start.OwnDevice) }, primary = true)
                 }
                 if (recoveryDisabled) {
-                    LabelButton(tr("settings.setUpRecoveryKey"), "key", { setUpRecovery(reset = false) })
+                    LabelButton(tr("settings.encryption.setUpRecoveryKey"), "key", { setUpRecovery(reset = false) })
                 } else {
                     LabelButton(tr("settings.keyBackup.enterRecoveryKeyTitle"), "lock-open", { showRecoveryKeyEntry = true })
                     if (isVerified) {
-                        LabelButton(tr("settings.resetEncryptionKeys"), "arrow-counter-clockwise", { setUpRecovery(reset = true) })
+                        LabelButton(tr("settings.encryption.resetKeys"), "arrow-counter-clockwise", { setUpRecovery(reset = true) })
                     }
                 }
+            }
+        }
+
+        SettingsSection {
+            SettingsItem {
+                LabelButton(tr("auth.qr.linkTitle"), "qr-code", { showLinkDevice = true })
             }
         }
 
@@ -190,6 +197,12 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
     }
 
     if (showRecoveryKeyEntry) RecoveryKeyEntrySheet { showRecoveryKeyEntry = false }
+    if (showLinkDevice) {
+        org.wizardchat.android.ui.login.LinkDeviceSheet {
+            showLinkDevice = false
+            scope.launch { reload() }
+        }
+    }
     verification?.let { model ->
         VerificationSheet(model) {
             verification = null
@@ -203,10 +216,10 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
         AlertDialog(
             onDismissRequest = { newRecoveryKey = null },
             containerColor = theme.bgTertiary,
-            title = { Text(tr("settings.setUpRecoveryKey"), style = wizardFont(WZ.FontSize.xl, FontWeight.SemiBold), color = theme.textPrimary) },
+            title = { Text(tr("settings.encryption.setUpRecoveryKey"), style = wizardFont(WZ.FontSize.xl, FontWeight.SemiBold), color = theme.textPrimary) },
             text = {
                 SelectionContainer {
-                    Text(tr("settings.recoveryKeySaveHint", key), Modifier.sensitive(), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+                    Text(tr("settings.encryption.recoveryKeySaveHint", key), Modifier.sensitive(), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
                 }
             },
             confirmButton = {
@@ -261,12 +274,12 @@ private fun DeviceRow(
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (verified != null) {
-                        val label = if (verified) tr("settings.sessions.verified") else tr("settings.sessions.unverified")
+                        val label = if (verified) tr("common.verified") else tr("settings.sessions.unverified")
                         Box(
                             Modifier
                                 .size(WZ.Space.space4)
                                 .clip(CircleShape)
-                                .background(if (verified) theme.success else theme.warningColor)
+                                .background(if (verified) theme.success else theme.danger)
                                 .semantics { contentDescription = label },
                         )
                     }
@@ -292,7 +305,7 @@ private fun DeviceRow(
                     { menuOpen = false },
                     buildList {
                         add(
-                            MenuItem(tr("settings.sessions.renameSession"), "pencil-simple") {
+                            MenuItem(tr("common.rename"), "pencil-simple") {
                                 newName = device.name ?: ""
                                 renaming = true
                             },
@@ -367,7 +380,7 @@ private fun RemoveDeviceSheet(device: DeviceInfo, onRemoved: suspend () -> Unit,
     var error by remember { mutableStateOf<String?>(null) }
 
     SmallSheet(tr("settings.sessions.removeSession"), onDismiss) {
-        Text(tr("settings.removeSessionThatDevice", device.name ?: device.deviceId), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
+        Text(tr("settings.sessions.removeConfirm", device.name ?: device.deviceId), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
         if (session.isOAuthAccount) {
             Text(tr("settings.sessions.sessionNotSupported"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
             PrimaryButton(tr("settings.account.manageAccount"), {
@@ -402,7 +415,7 @@ private fun RemoveDeviceSheet(device: DeviceInfo, onRemoved: suspend () -> Unit,
 }
 
 @Composable
-private fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
+internal fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var key by remember { mutableStateOf("") }
@@ -410,7 +423,7 @@ private fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
     var error by remember { mutableStateOf<String?>(null) }
 
     SmallSheet(tr("settings.keyBackup.enterRecoveryKeyTitle"), onDismiss) {
-        Text(tr("settings.enterYourRecoveryKey"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
+        Text(tr("settings.encryption.enterRecoveryKeyNote"), style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
         androidx.compose.material3.TextField(
             value = key,
             onValueChange = { key = it },
@@ -441,7 +454,7 @@ private fun RecoveryKeyEntrySheet(onDismiss: () -> Unit) {
                         session.recover(key)
                         onDismiss()
                     } catch (_: Exception) {
-                        error = L10n.format("settings.wrongDecryptionKeyPlease")
+                        error = L10n.format("settings.encryption.wrongKey")
                     } finally {
                         busy = false
                     }

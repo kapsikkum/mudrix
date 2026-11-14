@@ -1,8 +1,10 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use eyeball_im::VectorDiff;
 use futures_util::{pin_mut, stream, Stream, StreamExt};
 use matrix_sdk::{
+    deserialized_responses::TimelineEventKind,
+    latest_events::{LatestEventValue, LatestEvents, LocalLatestEventValue},
     ruma::RoomVersionId,
     ruma::{
         api::client::room::{
@@ -33,6 +35,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::{Error, ListDiff, Result, WizardClient};
+use matrix_sdk::notification_settings::RoomNotificationMode;
+use matrix_sdk_base::RoomInfoNotableUpdateReasons;
 
 /// What a room list row needs, without touching the SDK.
 #[derive(Clone, Debug, Serialize)]
@@ -61,8 +65,12 @@ pub struct RoomSummary {
     pub member_count: u64,
     /// The room's own notification setting, if it has one: `all`, `mentions` or `mute`
     pub notification_mode: Option<crate::NotificationMode>,
-    /// Users in the room's call, oldest first (a user appears once per device)
+    /// Users in the room's call, oldest first, once each
     pub call_participants: Vec<String>,
+    /// This device is in the room's call
+    pub in_call: bool,
+    /// The user is in the room's call on another device, not on this one
+    pub in_call_elsewhere: bool,
     /// Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
     /// "5 min ago"
     pub last_activity: Option<u64>,
@@ -72,6 +80,49 @@ pub struct RoomSummary {
     /// The other person's name in a direct chat (or the inviter's for a DM invite)
     pub dm_user_name: Option<String>,
     pub dm_user_avatar: Option<String>,
+    /// The latest message, for a one-line preview in the room list; `null` for a room with
+    /// nothing to show yet (an invite, or a latest event that isn't a message)
+    pub last_message: Option<LastMessage>,
+}
+
+/// What the latest message of a room is, so the app can show a localized label when [`body`] is
+/// empty.
+///
+/// [`body`]: LastMessage::body
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum LastMessageKind {
+    /// A text message (or a notice, or an emote); the only kind with a body
+    Text,
+    Image,
+    Video,
+    Audio,
+    File,
+    Sticker,
+    Poll,
+    /// A call invite or a call notification
+    Call,
+    /// Something else, or an event that must not be shown (not yet decrypted)
+    Other,
+}
+
+/// The one-line preview of a room's latest message
+#[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct LastMessage {
+    /// Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+    /// Empty for every non-text kind, and for an event that can't be shown.
+    pub body: String,
+    pub sender_id: String,
+    /// The sender's display name, omitted when it's the user's own message
+    pub sender_name: Option<String>,
+    /// Sent by the user, from this or another of their devices
+    pub is_own: bool,
+    /// Milliseconds since the Unix epoch of the message
+    pub timestamp: u64,
+    pub kind: LastMessageKind,
 }
 
 /// A DM without its own picture shows the other person's, from the room's heroes
@@ -95,9 +146,11 @@ pub(crate) struct RoomExtras {
     dm_user_avatar: Option<String>,
     unread: Option<UnreadCounts>,
     last_activity: Option<u64>,
+    last_message: Option<LastMessage>,
+    call: crate::calls::RoomCallState,
 }
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 struct UnreadCounts {
     notifications: u64,
     mentions: u64,
@@ -139,11 +192,11 @@ impl RoomSummary {
             is_voice: room
                 .room_type()
                 .is_some_and(|t| t.to_string() == crate::calls::VOICE_ROOM_TYPE),
-            call_participants: room
-                .active_room_call_participants()
-                .iter()
-                .map(ToString::to_string)
-                .collect(),
+            call_participants: extras
+                .map(|e| e.call.participants.clone())
+                .unwrap_or_default(),
+            in_call: extras.is_some_and(|e| e.call.joined),
+            in_call_elsewhere: extras.is_some_and(|e| e.call.joined_elsewhere),
             last_activity: extras
                 .and_then(|e| e.last_activity)
                 .or_else(|| room.latest_event_timestamp().map(|ts| u64::from(ts.0))),
@@ -151,6 +204,7 @@ impl RoomSummary {
             is_knocked: room.state() == RoomState::Knocked,
             dm_user_name: extras.and_then(|e| e.dm_user_name.clone()),
             dm_user_avatar: extras.and_then(|e| e.dm_user_avatar.clone()),
+            last_message: extras.and_then(|e| e.last_message.clone()),
         }
     }
 }
@@ -339,15 +393,106 @@ impl WizardClient {
             Diffs(Vec<eyeball_im::VectorDiff<RoomListItem>>),
             Filter(RoomFilter),
             SpacesChanged,
+            Tick,
+            PushRules,
+            /// A room's latest event or read receipts changed, so its row may have too
+            RowChanged(OwnedRoomId),
         }
+        // The SDK updates a room's notification mode without telling the room list, so a change
+        // from another device would only show after the room's next event
+        let settings = self.notification_settings().await;
+        let rule_changes = stream::unfold(settings.subscribe_to_changes(), |mut changes| async {
+            loop {
+                match changes.recv().await {
+                    Ok(()) => return Some((Update::PushRules, changes)),
+                    Err(tokio::sync::broadcast::error::RecvError::Lagged(_)) => continue,
+                    Err(tokio::sync::broadcast::error::RecvError::Closed) => return None,
+                }
+            }
+        });
+        // Call memberships also run out without a new event, so rooms in a call are checked
+        // again now and then
+        let ticks = stream::unfold((), |_| async {
+            matrix_sdk::sleep::sleep(std::time::Duration::from_secs(30)).await;
+            Some((Update::Tick, ()))
+        });
+        // A newer message doesn't always move its room in the list, so each room's latest event
+        // is watched on its own; the SDK computes it from the event cache (see
+        // `watch_latest_event`)
+        let latest_events = self.sdk().latest_events().await.clone();
+        let (latest_sender, latest_receiver) = futures_channel::mpsc::unbounded::<OwnedRoomId>();
+        // Read receipts change a room's unread counts without a new event, so its row is redone
+        let _read_receipts = watch_read_receipts(self.sdk().clone(), latest_sender.clone());
         let updates = stream::select(
             stream::select(entries.map(Update::Diffs), filters.map(Update::Filter)),
-            space_changes.map(|_| Update::SpacesChanged),
+            stream::select(
+                stream::select(
+                    space_changes.map(|_| Update::SpacesChanged),
+                    stream::select(ticks, rule_changes),
+                ),
+                latest_receiver.map(Update::RowChanged),
+            ),
         );
         pin_mut!(updates);
+        let mut shown: eyeball_im::Vector<RoomListItem> = eyeball_im::Vector::new();
+        let mut in_call: HashMap<OwnedRoomId, crate::calls::RoomCallState> = HashMap::new();
+        // One latest-event watcher per room in the list, dropped (which stops it) when the room
+        // leaves the list
+        let mut latest_watchers: HashMap<OwnedRoomId, matrix_sdk::executor::AbortOnDrop<()>> =
+            HashMap::new();
+        // The notification mode each room was last sent with. The SDK updates its cached mode
+        // before the change reaches us, so that cache can't tell what the app still shows.
+        let mut sent_modes: HashMap<OwnedRoomId, Option<RoomNotificationMode>> = HashMap::new();
         while let Some(update) = updates.next().await {
             match update {
+                Update::PushRules => {
+                    let mut changed = Vec::new();
+                    for (index, item) in shown.iter().enumerate() {
+                        let mode = settings
+                            .get_user_defined_room_notification_mode(item.room_id())
+                            .await;
+                        if sent_modes.get(item.room_id()) == Some(&mode) {
+                            continue;
+                        }
+                        match mode {
+                            Some(mode) => item.update_cached_user_defined_notification_mode(mode),
+                            None => item.clear_user_defined_notification_mode(),
+                        }
+                        sent_modes.insert(item.room_id().to_owned(), mode);
+                        let extras = room_extras(item).await;
+                        changed.push(ListDiff::Set {
+                            index,
+                            value: RoomSummary::with_extras(item, Some(&extras)),
+                        });
+                    }
+                    if !changed.is_empty() {
+                        on_update(changed);
+                    }
+                }
+                Update::Tick => {
+                    let mut changed = Vec::new();
+                    for (index, item) in shown.iter().enumerate() {
+                        let Some(before) = in_call.get(item.room_id()) else {
+                            continue;
+                        };
+                        if crate::calls::room_call_state(item).await != *before {
+                            let extras = room_extras(item).await;
+                            in_call.insert(item.room_id().to_owned(), extras.call.clone());
+                            changed.push(ListDiff::Set {
+                                index,
+                                value: RoomSummary::with_extras(item, Some(&extras)),
+                            });
+                        }
+                    }
+                    in_call.retain(|_, call| !call.participants.is_empty());
+                    if !changed.is_empty() {
+                        on_update(changed);
+                    }
+                }
                 Update::Diffs(diffs) => {
+                    for diff in &diffs {
+                        diff.clone().apply(&mut shown);
+                    }
                     let rooms: Vec<Room> = diffs
                         .iter()
                         .flat_map(|diff| match diff {
@@ -361,6 +506,12 @@ impl WizardClient {
                             _ => Vec::new(),
                         })
                         .collect();
+                    for room in &rooms {
+                        sent_modes.insert(
+                            room.room_id().to_owned(),
+                            room.cached_user_defined_notification_mode(),
+                        );
+                    }
                     let extras: HashMap<OwnedRoomId, RoomExtras> =
                         stream::iter(rooms)
                             .map(|room| async move {
@@ -369,6 +520,13 @@ impl WizardClient {
                             .buffer_unordered(16)
                             .collect()
                             .await;
+                    for (room_id, extras) in &extras {
+                        if extras.call.participants.is_empty() {
+                            in_call.remove(room_id);
+                        } else {
+                            in_call.insert(room_id.clone(), extras.call.clone());
+                        }
+                    }
                     on_update(
                         diffs
                             .into_iter()
@@ -380,6 +538,24 @@ impl WizardClient {
                             .collect(),
                     )
                 }
+                Update::RowChanged(room_id) => {
+                    let Some(index) = shown
+                        .iter()
+                        .position(|item| item.room_id().as_str() == room_id.as_str())
+                    else {
+                        continue;
+                    };
+                    let extras = room_extras(&shown[index]).await;
+                    if extras.call.participants.is_empty() {
+                        in_call.remove(&room_id);
+                    } else {
+                        in_call.insert(room_id.clone(), extras.call.clone());
+                    }
+                    on_update(vec![ListDiff::Set {
+                        index,
+                        value: RoomSummary::with_extras(&shown[index], Some(&extras)),
+                    }]);
+                }
                 Update::Filter(filter) => {
                     current = filter;
                     controller.set_filter(self.build_filter(&current).await);
@@ -389,6 +565,31 @@ impl WizardClient {
                 }
                 Update::SpacesChanged => {}
             }
+            let listed: HashSet<OwnedRoomId> =
+                shown.iter().map(|item| item.room_id().to_owned()).collect();
+            let gone: Vec<OwnedRoomId> = latest_watchers
+                .keys()
+                .filter(|room_id| !listed.contains(*room_id))
+                .cloned()
+                .collect();
+            for room_id in gone {
+                // Dropping the watcher stops it; the SDK keeps the last value it computed
+                latest_watchers.remove(&room_id);
+                latest_events.forget_room(&room_id).await;
+            }
+            for room_id in listed {
+                if latest_watchers.contains_key(&room_id) {
+                    continue;
+                }
+                latest_watchers.insert(
+                    room_id.clone(),
+                    watch_latest_event(latest_events.clone(), room_id, latest_sender.clone()),
+                );
+            }
+        }
+        // The list is gone with this call: stop watching its rooms
+        for room_id in latest_watchers.into_keys() {
+            latest_events.forget_room(&room_id).await;
         }
         Ok(())
     }
@@ -620,6 +821,14 @@ impl WizardClient {
             .await?)
     }
 
+    /// Tags or untags a room as low priority (favourite and low priority exclude each other)
+    pub async fn set_low_priority(&self, room_id: &str, low_priority: bool) -> Result<()> {
+        Ok(self
+            .room(room_id)?
+            .set_is_low_priority(low_priority, None)
+            .await?)
+    }
+
     pub async fn set_marked_unread(&self, room_id: &str, unread: bool) -> Result<()> {
         Ok(self.room(room_id)?.set_unread_flag(unread).await?)
     }
@@ -654,6 +863,12 @@ struct UnreadScan {
 
 fn str_at<'a>(value: &'a Value, pointer: &str) -> Option<&'a str> {
     value.pointer(pointer).and_then(Value::as_str)
+}
+
+/// Whether an event belongs to a thread. The server's counts include these, but they show under
+/// the thread, not on the room's badge.
+fn is_thread_reply(event: &Value) -> bool {
+    str_at(event, "/content/m.relates_to/rel_type") == Some("m.thread")
 }
 
 /// Walks the loaded events after the user's read receipts (or their own latest message), newest
@@ -726,10 +941,10 @@ async fn scan_unread(room: &Room, mention_limit: usize) -> Option<UnreadScan> {
         if str_at(event, "/sender") == Some(own.as_str()) {
             continue;
         }
-        let rel_type = str_at(event, "/content/m.relates_to/rel_type");
-        if rel_type == Some("m.thread") || event.pointer("/unsigned/redacted_because").is_some() {
+        if is_thread_reply(event) || event.pointer("/unsigned/redacted_because").is_some() {
             continue;
         }
+        let rel_type = str_at(event, "/content/m.relates_to/rel_type");
         let actions = match actions {
             Some(actions) => actions.clone(),
             None => {
@@ -777,8 +992,8 @@ fn is_muted(room: &Room) -> bool {
 }
 
 /// Unread counts the way the room list shows them: notifying messages after the read marker,
-/// nothing for muted rooms. The server can't read encrypted messages, so its count is only a
-/// floor there; when the marker isn't loaded, the SDK's own count stands in.
+/// nothing for muted rooms. Thread replies are left out. The server's counts include them, and
+/// the SDK doesn't ask the server to split them out, so the server's counts aren't used.
 async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if room.state() != RoomState::Joined {
         return None;
@@ -786,28 +1001,35 @@ async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if is_muted(room) {
         return Some(UnreadCounts::default());
     }
-    let server = room.unread_notification_counts().notification_count;
-    let encrypted = room.encryption_state().is_encrypted();
-    let fallback = if encrypted {
-        server.max(room.num_unread_notifications())
-    } else {
-        server
-    };
     if room.num_unread_messages() == 0 && room.read_receipts().latest_active.is_some() {
-        return Some(UnreadCounts {
-            notifications: if encrypted { fallback } else { 0 },
-            mentions: 0,
-        });
+        return Some(UnreadCounts::default());
     }
     let scan = scan_unread(room, MAX_SCANNED_EVENTS).await?;
-    Some(UnreadCounts {
-        notifications: match (scan.boundary_found, encrypted) {
-            (true, false) => scan.count,
-            (true, true) => scan.count.max(fallback),
-            (false, _) => fallback,
-        },
-        mentions: scan.mentions.len() as u64,
-    })
+    Some(unread_counts_from(
+        scan.boundary_found,
+        (scan.count, scan.mentions.len() as u64),
+        (room.num_unread_notifications(), room.num_unread_mentions()),
+    ))
+}
+
+/// The unread counts from the scan of the loaded timeline (`scanned`: notifications and mentions
+/// after the read marker) and the SDK's own counts (`sdk`: the same, as the SDK counts them). Both
+/// leave thread replies out. The scan decides once it has found the marker: it also finds a
+/// receipt that points at a thread reply, which a thread's read receipt does, and the SDK's counts
+/// skip that. Without the marker, the SDK's counts stand in: it isn't among the loaded messages,
+/// so they count every loaded one. The scan's mentions are kept when there are more.
+fn unread_counts_from(boundary_found: bool, scanned: (u64, u64), sdk: (u64, u64)) -> UnreadCounts {
+    let (count, mentions) = scanned;
+    if boundary_found {
+        return UnreadCounts {
+            notifications: count,
+            mentions,
+        };
+    }
+    UnreadCounts {
+        notifications: sdk.0,
+        mentions: mentions.max(sdk.1),
+    }
 }
 
 fn member_name(member: &matrix_sdk::room::RoomMember) -> String {
@@ -836,9 +1058,249 @@ async fn own_invite(room: &Room) -> Option<Value> {
     }
 }
 
+/// The most characters of a message a room list row shows
+const MAX_PREVIEW_CHARS: usize = 140;
+
+/// A reply's text without its fallback: the `>`-quoted lines at the start of the body that
+/// clients put in front of the real text, and the empty line after them.
+///
+/// Only call this for an event that actually replies to something (its content has an
+/// `m.in_reply_to`): a message that merely starts with `>` is quoting by hand and keeps it.
+fn strip_reply_fallback(body: &str) -> &str {
+    if !body.starts_with('>') {
+        return body;
+    }
+    let mut rest = body;
+    loop {
+        let (line, after) = match rest.find('\n') {
+            Some(end) => (&rest[..end], Some(&rest[end + 1..])),
+            None => (rest, None),
+        };
+        let Some(after) = after else {
+            // The body ends inside the fallback: nothing was written after it
+            return if line.starts_with('>') { "" } else { rest };
+        };
+        if line.starts_with('>') {
+            rest = after;
+            continue;
+        }
+        if line.trim().is_empty() {
+            rest = after;
+        }
+        return rest;
+    }
+}
+
+/// `body` as a one-line preview: whitespace collapsed, control characters dropped, at most
+/// [`MAX_PREVIEW_CHARS`] characters (the last one is `…` when the text was cut).
+fn preview_text(body: &str, is_reply: bool) -> String {
+    let body = if is_reply {
+        strip_reply_fallback(body)
+    } else {
+        body
+    };
+    let mut collapsed = String::with_capacity(body.len().min(MAX_PREVIEW_CHARS * 2));
+    for c in body.chars() {
+        if c.is_whitespace() {
+            if !collapsed.is_empty() && !collapsed.ends_with(' ') {
+                collapsed.push(' ');
+            }
+        } else if !c.is_control() {
+            collapsed.push(c);
+        }
+    }
+    let collapsed = collapsed.trim_end();
+    if collapsed.chars().count() <= MAX_PREVIEW_CHARS {
+        return collapsed.to_owned();
+    }
+    let mut text: String = collapsed.chars().take(MAX_PREVIEW_CHARS - 1).collect();
+    text.push('…');
+    text
+}
+
+/// What an event's type and content say for a room list row: its kind and the text to show,
+/// which is empty for every kind but a text message.
+fn preview_of_content(event_type: &str, content: &Value) -> Option<(LastMessageKind, String)> {
+    let text = || {
+        let is_reply = content
+            .pointer("/m.relates_to/m.in_reply_to/event_id")
+            .is_some();
+        preview_text(
+            content
+                .get("body")
+                .and_then(Value::as_str)
+                .unwrap_or_default(),
+            is_reply,
+        )
+    };
+    Some(match event_type {
+        "m.room.message" => match content
+            .get("msgtype")
+            .and_then(Value::as_str)
+            .unwrap_or_default()
+        {
+            "m.text" | "m.notice" | "m.emote" => (LastMessageKind::Text, text()),
+            "m.image" => (LastMessageKind::Image, String::new()),
+            "m.video" => (LastMessageKind::Video, String::new()),
+            "m.audio" => (LastMessageKind::Audio, String::new()),
+            "m.file" => (LastMessageKind::File, String::new()),
+            // A location, a verification request, ...: nothing the row can say
+            _ => (LastMessageKind::Other, String::new()),
+        },
+        "m.sticker" => (LastMessageKind::Sticker, String::new()),
+        "m.poll.start" | "org.matrix.msc3381.poll.start" => (LastMessageKind::Poll, String::new()),
+        "m.call.invite"
+        | "m.call.answer"
+        | "m.call.reject"
+        | "m.call.select_answer"
+        | "m.call.negotiate"
+        | "m.call.candidates"
+        | "m.call.hangup"
+        | "m.rtc.notification" => (LastMessageKind::Call, String::new()),
+        _ => return None,
+    })
+}
+
+/// The preview of a local message (this device is sending it, or it failed to send): its content
+/// wasn't encrypted, so it can always be read.
+fn local_message(value: &LocalLatestEventValue, own: &UserId) -> Option<LastMessage> {
+    let (raw, event_type) = value.content.raw();
+    let content: Value = raw.deserialize_as_unchecked().ok()?;
+    let (kind, body) = preview_of_content(event_type, &content)?;
+    Some(LastMessage {
+        body,
+        sender_id: own.to_string(),
+        sender_name: None,
+        is_own: true,
+        timestamp: u64::from(value.timestamp.0),
+        kind,
+    })
+}
+
+/// The room's one-line preview, from the SDK's latest event of the room.
+///
+/// That value is the last displayable event of the room, already decrypted when the room is
+/// encrypted, and recomputed from the event cache and the send queue (never with a request of
+/// its own): the SDK drops redactions, reactions, edits and still-encrypted events when it picks
+/// it. A latest event that can't be shown at all (an invite, a membership change, a redacted
+/// message) has no preview.
+async fn last_message(room: &Room) -> Option<LastMessage> {
+    let own = room.own_user_id();
+    match room.latest_event() {
+        LatestEventValue::Remote(event) => {
+            let timestamp = event.timestamp().map_or(0, |ts| u64::from(ts.0));
+            let sender_id = event.sender()?.to_string();
+            let is_own = sender_id == own.as_str();
+            if matches!(event.kind, TimelineEventKind::UnableToDecrypt { .. }) {
+                // Its keys haven't arrived: show nothing rather than the ciphertext. The app
+                // shows a generic label for `Other` with an empty body.
+                return Some(LastMessage {
+                    body: String::new(),
+                    sender_id,
+                    sender_name: None,
+                    is_own,
+                    timestamp,
+                    kind: LastMessageKind::Other,
+                });
+            }
+            let value: Value = event.raw().deserialize_as_unchecked().ok()?;
+            // State events (a join, a knock, a beacon) and redacted messages aren't messages
+            if value.get("state_key").is_some()
+                || value.pointer("/unsigned/redacted_because").is_some()
+            {
+                return None;
+            }
+            let (kind, body) =
+                preview_of_content(value.get("type")?.as_str()?, value.get("content")?)?;
+            let sender_name = if is_own {
+                None
+            } else {
+                match parse_user_id(&sender_id) {
+                    Ok(id) => room
+                        .get_member_no_sync(id)
+                        .await
+                        .ok()
+                        .flatten()
+                        .map(|m| member_name(&m)),
+                    Err(_) => None,
+                }
+            };
+            Some(LastMessage {
+                body,
+                sender_id,
+                sender_name,
+                is_own,
+                timestamp,
+                kind,
+            })
+        }
+        LatestEventValue::LocalIsSending(value)
+        | LatestEventValue::LocalHasBeenSent { value, .. }
+        | LatestEventValue::LocalCannotBeSent(value) => local_message(&value, own),
+        LatestEventValue::None | LatestEventValue::RemoteInvite { .. } => None,
+    }
+}
+
+/// Forwards every change of a room's latest event to `sender`, until dropped. This is what keeps
+/// a preview live when a message arrives in a room that doesn't move in the list.
+fn watch_latest_event(
+    latest_events: LatestEvents,
+    room_id: OwnedRoomId,
+    sender: futures_channel::mpsc::UnboundedSender<OwnedRoomId>,
+) -> matrix_sdk::executor::AbortOnDrop<()> {
+    matrix_sdk::executor::AbortOnDrop::new(matrix_sdk::executor::spawn(async move {
+        let Ok(Some(mut subscriber)) = latest_events.listen_and_subscribe_to_room(&room_id).await
+        else {
+            return;
+        };
+        // The value it has now is the one the summary was just built from
+        let _ = subscriber.next_now().await;
+        while subscriber.next().await.is_some() {
+            if sender.unbounded_send(room_id.clone()).is_err() {
+                return;
+            }
+        }
+    }))
+}
+
+/// Forwards every room whose read receipts changed to `sender`, until dropped: its unread counts
+/// may have changed. After a lag, every room is forwarded, as any of them may have changed.
+fn watch_read_receipts(
+    client: matrix_sdk::Client,
+    sender: futures_channel::mpsc::UnboundedSender<OwnedRoomId>,
+) -> matrix_sdk::executor::AbortOnDrop<()> {
+    use tokio::sync::broadcast::error::RecvError;
+    let mut updates = client.room_info_notable_update_receiver();
+    matrix_sdk::executor::AbortOnDrop::new(matrix_sdk::executor::spawn(async move {
+        loop {
+            let room_ids: Vec<OwnedRoomId> = match updates.recv().await {
+                Ok(update)
+                    if update
+                        .reasons
+                        .contains(RoomInfoNotableUpdateReasons::READ_RECEIPT) =>
+                {
+                    vec![update.room_id]
+                }
+                Ok(_) => continue,
+                Err(RecvError::Lagged(_)) => client
+                    .rooms()
+                    .iter()
+                    .map(|room| room.room_id().to_owned())
+                    .collect(),
+                Err(RecvError::Closed) => return,
+            };
+            for room_id in room_ids {
+                if sender.unbounded_send(room_id).is_err() {
+                    return;
+                }
+            }
+        }
+    }))
+}
+
 /// Reads what [`RoomSummary`] can't get synchronously: the DM partner (an invite with
-/// `is_direct` counts as a DM from its inviter), their name and picture, the unread counts and
-/// the time of the latest loaded event of any kind.
+/// `is_direct` counts as a DM from its inviter), their name and picture, the unread counts, the
+/// time of the latest loaded event of any kind and the latest message.
 pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     let mut extras = RoomExtras::default();
     let partner = if room.state() == RoomState::Invited {
@@ -874,6 +1336,8 @@ pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     }
     extras.dm_user_id = partner;
     extras.unread = unread_counts(room).await;
+    extras.last_message = last_message(room).await;
+    extras.call = crate::calls::room_call_state(room).await;
     if let Ok((cache, _handles)) = room.event_cache().await {
         extras.last_activity = cache
             .rfind_map_event_in_memory_by(|event| event.timestamp())
@@ -972,5 +1436,169 @@ impl WizardClient {
             }
             on_update(contents.clone().into_iter().collect());
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use serde_json::json;
+
+    use super::{
+        is_thread_reply, preview_of_content, preview_text, strip_reply_fallback,
+        unread_counts_from, LastMessageKind, UnreadCounts,
+    };
+
+    #[test]
+    fn a_loaded_read_marker_decides_the_unread_counts() {
+        let counts = unread_counts_from(true, (3, 1), (9, 4));
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 1
+            }
+        );
+        // A mention that was read is gone, even while the SDK still counts it
+        let counts = unread_counts_from(true, (3, 0), (3, 1));
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 0
+            }
+        );
+    }
+
+    #[test]
+    fn without_the_read_marker_the_sdk_counts_stand_in() {
+        let counts = unread_counts_from(false, (0, 0), (3, 1));
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 1
+            }
+        );
+        // Mentions the scan did find are kept, and never fewer than the SDK's
+        assert_eq!(unread_counts_from(false, (1, 2), (3, 1)).mentions, 2);
+        assert_eq!(unread_counts_from(false, (1, 0), (3, 2)).mentions, 2);
+        // No mention found: no mention
+        assert_eq!(unread_counts_from(false, (0, 0), (3, 0)).mentions, 0);
+    }
+
+    #[test]
+    fn a_thread_reply_is_not_a_reply_to_the_room() {
+        let thread = json!({
+            "content": { "m.relates_to": { "rel_type": "m.thread", "event_id": "$root" } }
+        });
+        let reply = json!({
+            "content": { "m.relates_to": { "m.in_reply_to": { "event_id": "$other" } } }
+        });
+        assert!(is_thread_reply(&thread));
+        assert!(!is_thread_reply(&reply));
+        assert!(!is_thread_reply(&json!({ "content": { "body": "plain" } })));
+    }
+
+    #[test]
+    fn a_preview_is_one_line_of_collapsed_text() {
+        assert_eq!(preview_text("hello\n\n  world\t!", false), "hello world !");
+        assert_eq!(preview_text("  padded  ", false), "padded");
+        assert_eq!(preview_text("", false), "");
+        assert_eq!(preview_text("a\u{0}b", false), "ab");
+    }
+
+    #[test]
+    fn a_reply_shows_what_was_said_not_the_quote() {
+        let reply = "> <@alice:example.org> the original\n> message\n\nmy answer";
+        assert_eq!(strip_reply_fallback(reply), "my answer");
+        assert_eq!(preview_text(reply, true), "my answer");
+        // Not a reply relation: the quote is the message
+        assert_eq!(
+            preview_text(reply, false),
+            "> <@alice:example.org> the original > message my answer"
+        );
+        // The same body once the fallback is stripped by hand
+        assert_eq!(preview_text("my answer", true), "my answer");
+    }
+
+    #[test]
+    fn a_reply_without_text_has_no_body() {
+        assert_eq!(preview_text("> <@alice:example.org> quoted only", true), "");
+        assert_eq!(preview_text("> quoted\n\n", true), "");
+    }
+
+    #[test]
+    fn a_long_body_is_cut_with_an_ellipsis() {
+        let long = "a".repeat(300);
+        let preview = preview_text(&long, false);
+        assert_eq!(preview.chars().count(), 140);
+        assert!(preview.ends_with('…'));
+        assert_eq!(preview.trim_end_matches('…'), "a".repeat(139));
+        // Exactly at the limit: nothing is cut
+        let exact = "b".repeat(140);
+        assert_eq!(preview_text(&exact, false), exact);
+    }
+
+    #[test]
+    fn message_kinds_come_from_the_msgtype() {
+        let kind = |msgtype: &str| {
+            preview_of_content(
+                "m.room.message",
+                &json!({ "msgtype": msgtype, "body": "x" }),
+            )
+            .map(|(kind, _)| kind)
+        };
+        assert_eq!(kind("m.text"), Some(LastMessageKind::Text));
+        assert_eq!(kind("m.notice"), Some(LastMessageKind::Text));
+        assert_eq!(kind("m.emote"), Some(LastMessageKind::Text));
+        assert_eq!(kind("m.image"), Some(LastMessageKind::Image));
+        assert_eq!(kind("m.video"), Some(LastMessageKind::Video));
+        assert_eq!(kind("m.audio"), Some(LastMessageKind::Audio));
+        assert_eq!(kind("m.file"), Some(LastMessageKind::File));
+        assert_eq!(kind("m.location"), Some(LastMessageKind::Other));
+        assert_eq!(
+            preview_of_content("m.sticker", &json!({ "body": "a cat" })),
+            Some((LastMessageKind::Sticker, String::new()))
+        );
+        assert_eq!(
+            preview_of_content("org.matrix.msc3381.poll.start", &json!({})),
+            Some((LastMessageKind::Poll, String::new()))
+        );
+        assert_eq!(
+            preview_of_content("m.call.invite", &json!({})),
+            Some((LastMessageKind::Call, String::new()))
+        );
+        // A reaction or a redaction never becomes a preview
+        assert_eq!(preview_of_content("m.reaction", &json!({})), None);
+    }
+
+    #[test]
+    fn only_text_messages_have_a_body() {
+        assert_eq!(
+            preview_of_content(
+                "m.room.message",
+                &json!({ "msgtype": "m.image", "body": "photo.jpg" })
+            ),
+            Some((LastMessageKind::Image, String::new()))
+        );
+        assert_eq!(
+            preview_of_content(
+                "m.room.message",
+                &json!({ "msgtype": "m.text", "body": "hi there" })
+            ),
+            Some((LastMessageKind::Text, "hi there".to_owned()))
+        );
+        // A text reply is previewed through its fallback rule
+        assert_eq!(
+            preview_of_content(
+                "m.room.message",
+                &json!({
+                    "msgtype": "m.text",
+                    "body": "> <@a:x> old\n\nnew",
+                    "m.relates_to": { "m.in_reply_to": { "event_id": "$old" } },
+                })
+            ),
+            Some((LastMessageKind::Text, "new".to_owned()))
+        );
     }
 }

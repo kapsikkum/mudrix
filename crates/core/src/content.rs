@@ -22,14 +22,20 @@ pub enum EntryContent {
     Text {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Notice {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Emote {
         body: String,
         html: Option<String>,
+        /// The formatting in `html` as blocks to draw; `None` when it has none
+        rich: Option<Vec<crate::rich_text::RichBlock>>,
     },
     Image {
         media: MediaInfo,
@@ -82,6 +88,10 @@ pub enum EntryContent {
     #[serde(rename_all = "camelCase")]
     ProfileChange {
         user_id: String,
+        /// Set when the display name changed
+        display_name: Option<DisplayNameChange>,
+        /// Set when the picture changed
+        avatar: Option<AvatarChange>,
     },
     /// Any other state change, with its content as sent
     #[serde(rename_all = "camelCase")]
@@ -91,6 +101,12 @@ pub enum EntryContent {
         content: Value,
         prev_content: Option<Value>,
     },
+    /// A call, shown on the first of its events
+    Call {
+        call: crate::call_history::CallHistoryView,
+    },
+    /// One of a call's other events: shown as part of its `call`
+    CallPart,
     Other,
 }
 
@@ -185,6 +201,24 @@ fn enrich_image(media: &mut MediaInfo, raw: &Value) {
         .map(ToOwned::to_owned);
 }
 
+/// A display name change: `from` is null when there was no name, `to` when it was removed
+#[derive(Clone, Debug, PartialEq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct DisplayNameChange {
+    pub from: Option<String>,
+    pub to: Option<String>,
+}
+
+/// What happened to a picture: the new one isn't named, as it is shown from the member list
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub enum AvatarChange {
+    Changed,
+    Removed,
+}
+
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
 #[serde(rename_all = "camelCase")]
@@ -250,6 +284,12 @@ fn sanitize(html: &str) -> String {
     let html = Html::parse(html);
     html.sanitize_with(&config);
     html.to_string()
+}
+
+/// The HTML a message's Markdown turns into, as sending it without HTML would produce; `None`
+/// when it has no formatting
+pub fn markdown_to_html(body: &str) -> Option<String> {
+    FormattedBody::markdown(body).map(|formatted| formatted.body)
 }
 
 /// Sanitised once here so every app renders the same safe subset
@@ -330,15 +370,18 @@ fn message_content(msgtype: &MessageType, body: &str, raw: Option<&Value>) -> En
     match msgtype {
         MessageType::Text(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Text { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Text { body, html, rich }
         }
         MessageType::Notice(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Notice { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Notice { body, html, rich }
         }
         MessageType::Emote(c) => {
             let (body, html) = text(c.formatted.as_ref());
-            EntryContent::Emote { body, html }
+            let rich = html.as_deref().and_then(crate::rich_text::rich_blocks);
+            EntryContent::Emote { body, html, rich }
         }
         MessageType::Image(_) => {
             media().map_or(EntryContent::Other, |media| EntryContent::Image { media })
@@ -370,6 +413,7 @@ fn message_content(msgtype: &MessageType, body: &str, raw: Option<&Value>) -> En
         _ => EntryContent::Text {
             body: body.to_owned(),
             html: None,
+            rich: None,
         },
     }
 }
@@ -491,6 +535,7 @@ pub(crate) fn content_of(
                 fallback_text(raw_content).map_or(EntryContent::Other, |body| EntryContent::Text {
                     body,
                     html: None,
+                    rich: None,
                 })
             }
             _ => EntryContent::Other,
@@ -506,7 +551,26 @@ pub(crate) fn content_of(
         },
         TimelineItemContent::ProfileChange(change) => EntryContent::ProfileChange {
             user_id: change.user_id().to_string(),
+            display_name: change.displayname_change().map(|c| DisplayNameChange {
+                from: c.old.clone().filter(|n| !n.is_empty()),
+                to: c.new.clone().filter(|n| !n.is_empty()),
+            }),
+            avatar: change.avatar_url_change().map(|c| {
+                if c.new.is_some() {
+                    AvatarChange::Changed
+                } else {
+                    AvatarChange::Removed
+                }
+            }),
         },
+        content
+            if crate::call_history::is_call_item(
+                content,
+                raw.and_then(|r| r.get("type")).and_then(Value::as_str),
+            ) =>
+        {
+            EntryContent::CallPart
+        }
         TimelineItemContent::OtherState(state) => EntryContent::State {
             event_type: raw
                 .and_then(|r| r.get("type"))
@@ -618,5 +682,17 @@ mod tests {
         );
         assert_eq!(info.filename, "cat.png");
         assert_eq!(info.caption.as_deref(), Some("look at this"));
+    }
+
+    #[test]
+    fn renders_markdown_like_sending_does() {
+        let html = markdown_to_html("**bold** and ~~gone~~").unwrap();
+        assert!(html.contains("<strong>bold</strong>"), "{html}");
+        assert!(html.contains("<del>gone</del>"), "{html}");
+        assert_eq!(markdown_to_html("just text"), None);
+        assert_eq!(
+            markdown_to_html("[smh](https://a.b)").as_deref(),
+            Some(r#"<a href="https://a.b">smh</a>"#)
+        );
     }
 }

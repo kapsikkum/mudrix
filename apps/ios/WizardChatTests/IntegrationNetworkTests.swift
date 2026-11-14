@@ -143,7 +143,8 @@ final class IntegrationNetworkTests: XCTestCase {
 
     func testTheRequestCarriesNoCookiesReferrerOrExtraHeaders() async {
         let s = Scripted(json(#"{"a":1}"#))
-        XCTAssertNotNil(success(await s.network.fetch(req())))
+        let outcome = await s.network.fetch(req())
+        XCTAssertNotNil(success(outcome))
         XCTAssertEqual(s.calls[0].method, "GET")
         XCTAssertNil(s.calls[0].body)
         XCTAssertEqual(Array(s.calls[0].headers.keys), ["Accept"])
@@ -151,7 +152,8 @@ final class IntegrationNetworkTests: XCTestCase {
 
     func testAConfirmedPostSendsExactlyItsJsonBodyAndNothingElse() async {
         let s = Scripted(json(#"{"url":"https://x.example.com/"}"#))
-        XCTAssertNotNil(success(await s.network.fetch(req(post: true, jsonBody: #"{"room":"!r:hs"}"#))))
+        let sent = await s.network.fetch(req(post: true, jsonBody: #"{"room":"!r:hs"}"#))
+        XCTAssertNotNil(success(sent))
         XCTAssertEqual(s.calls[0].method, "POST")
         XCTAssertEqual(s.calls[0].body.map { String(decoding: $0, as: UTF8.self) }, #"{"room":"!r:hs"}"#)
         XCTAssertEqual(Set(s.calls[0].headers.keys), ["Accept", "Content-Type"])
@@ -188,10 +190,12 @@ final class IntegrationNetworkTests: XCTestCase {
         XCTAssertEqual(followed?.url, "https://api.example.com/v2/things")
 
         let two = Scripted(redirect("https://cdn.example.com/x"), json(#"{"cdn":true}"#))
-        XCTAssertNotNil(success(await two.network.fetch(req(allow: ["api.example.com", "cdn.example.com"]))))
+        let crossed = await two.network.fetch(req(allow: ["api.example.com", "cdn.example.com"]))
+        XCTAssertNotNil(success(crossed))
 
         let away = Scripted(redirect("https://evil.example.net/steal"), json("{}"))
-        XCTAssertEqual(failure(await away.network.fetch(req())).reason, .redirect)
+        let refused = await away.network.fetch(req())
+        XCTAssertEqual(failure(refused).reason, .redirect)
         XCTAssertEqual(away.calls.count, 1)
     }
 
@@ -199,28 +203,35 @@ final class IntegrationNetworkTests: XCTestCase {
         for target in ["http://api.example.com/x", "https://api.example.com:8443/x", "https://user:pw@api.example.com/x",
                        "https://127.0.0.1/x", "javascript:alert(1)"] {
             let s = Scripted(redirect(target), json("{}"))
-            XCTAssertEqual(failure(await s.network.fetch(req())).reason, .redirect, target)
+            let outcome = await s.network.fetch(req())
+            XCTAssertEqual(failure(outcome).reason, .redirect, target)
             XCTAssertEqual(s.calls.count, 1, target)
         }
     }
 
     func testAMissingLocationAPostRedirectAndARedirectLoopAreRefused() async {
         let none = Scripted(redirect(nil))
-        XCTAssertEqual(failure(await none.network.fetch(req())).reason, .redirect)
+        let noneOutcome = await none.network.fetch(req())
+        XCTAssertEqual(failure(noneOutcome).reason, .redirect)
         let post = Scripted(redirect("/elsewhere", status: 307), json("{}"))
-        XCTAssertEqual(failure(await post.network.fetch(req(post: true, jsonBody: "{}"))).reason, .redirect)
+        let postOutcome = await post.network.fetch(req(post: true, jsonBody: "{}"))
+        XCTAssertEqual(failure(postOutcome).reason, .redirect)
         XCTAssertEqual(post.calls.count, 1)
         let loop = Scripted(redirect("/again"))
-        XCTAssertEqual(failure(await loop.network.fetch(req())).reason, .redirect)
+        let loopOutcome = await loop.network.fetch(req())
+        XCTAssertEqual(failure(loopOutcome).reason, .redirect)
         XCTAssertEqual(loop.calls.count, Net.maxRedirects + 1)
     }
 
     func testAnAnswerOverTheCapIsRefusedByItsDeclaredLengthAndWhileStreaming() async {
         let declared = Scripted(json(#"{"a":"x"}"#, ["content-length": "5000"]))
-        XCTAssertEqual(failure(await declared.network.fetch(req(maxBytes: 100))).reason, .tooLarge)
+        let declaredOutcome = await declared.network.fetch(req(maxBytes: 100))
+        XCTAssertEqual(failure(declaredOutcome).reason, .tooLarge)
         let streamed = Scripted(json("{\"pad\":\"" + String(repeating: "x", count: 2000) + "\"}"))
-        XCTAssertEqual(failure(await streamed.network.fetch(req(maxBytes: 100))).reason, .tooLarge)
-        XCTAssertNotNil(success(await Scripted(json(#"{"a":1}"#)).network.fetch(req(maxBytes: 100))))
+        let streamedOutcome = await streamed.network.fetch(req(maxBytes: 100))
+        XCTAssertEqual(failure(streamedOutcome).reason, .tooLarge)
+        let small = await Scripted(json(#"{"a":1}"#)).network.fetch(req(maxBytes: 100))
+        XCTAssertNotNil(success(small))
     }
 
     func testNothingAbove1MBIsAcceptedWhateverTheCallerAsksFor() async {
@@ -232,25 +243,32 @@ final class IntegrationNetworkTests: XCTestCase {
     func testTheAnswerMustBeJsonUnlessARepositoryFileOrASignatureWasAskedFor() async {
         let ok = success(await Scripted(json(#"{"a":1}"#)).network.fetch(req()))
         XCTAssertEqual(ok?.json, .object(["a": .number(1)]))
-        XCTAssertNotNil(success(await Scripted(json(#"{"a":1}"#, type: "application/vnd.api+json; charset=utf-8")).network.fetch(req())))
+        let vendor = await Scripted(json(#"{"a":1}"#, type: "application/vnd.api+json; charset=utf-8")).network.fetch(req())
+        XCTAssertNotNil(success(vendor))
         for type in ["text/html", "text/plain", "application/javascript", "image/png", nil] as [String?] {
             let outcome = await Scripted(json(#"{"a":1}"#, type: type)).network.fetch(req())
             XCTAssertEqual(failure(outcome).reason, .type, type ?? "(none)")
         }
         let file = success(await Scripted(json(#"{"a":1}"#, type: "text/plain; charset=utf-8")).network.fetch(req(expect: .jsonFile)))
         XCTAssertEqual(file?.json, .object(["a": .number(1)]))
-        XCTAssertEqual(failure(await Scripted(json(#"{"a":1}"#, type: "text/html")).network.fetch(req(expect: .jsonFile))).reason, .type)
+        let htmlFile = await Scripted(json(#"{"a":1}"#, type: "text/html")).network.fetch(req(expect: .jsonFile))
+        XCTAssertEqual(failure(htmlFile).reason, .type)
         let sig = success(await Scripted(json("c2ln", type: "text/plain")).network.fetch(req(expect: .signature)))
         XCTAssertEqual(sig?.text, "c2ln")
-        XCTAssertEqual(failure(await Scripted(json(#"{"a":1}"#)).network.fetch(req(expect: .signature))).reason, .type)
+        let jsonSig = await Scripted(json(#"{"a":1}"#)).network.fetch(req(expect: .signature))
+        XCTAssertEqual(failure(jsonSig).reason, .type)
     }
 
     func testAJsonAnswerThatDoesNotParseOrIsNotUtf8IsRefused() async {
-        XCTAssertEqual(failure(await Scripted(json("{\"a\":")).network.fetch(req())).reason, .invalid)
-        XCTAssertEqual(failure(await Scripted(json("<script>alert(1)</script>")).network.fetch(req())).reason, .invalid)
-        XCTAssertEqual(failure(await Scripted(json("nope")).network.fetch(req())).reason, .invalid)
+        let cut = await Scripted(json("{\"a\":")).network.fetch(req())
+        XCTAssertEqual(failure(cut).reason, .invalid)
+        let script = await Scripted(json("<script>alert(1)</script>")).network.fetch(req())
+        XCTAssertEqual(failure(script).reason, .invalid)
+        let word = await Scripted(json("nope")).network.fetch(req())
+        XCTAssertEqual(failure(word).reason, .invalid)
         let latin1 = answer(200, type: "application/json", body: Data([0x7b, 0x22, 0xe9, 0x22, 0x3a, 0x31, 0x7d]))
-        XCTAssertEqual(failure(await Scripted(latin1).network.fetch(req())).reason, .invalid)
+        let latin1Outcome = await Scripted(latin1).network.fetch(req())
+        XCTAssertEqual(failure(latin1Outcome).reason, .invalid)
     }
 
     func testAnHttpErrorReportsItsStatusAndA304IsPassedOn() async {
@@ -272,10 +290,13 @@ final class IntegrationNetworkTests: XCTestCase {
     func testRequestsNobodyAskedForAreRefusedWhileTheBlockerIsOnAskedOnesAreNot() async {
         let s = Scripted(json(#"{"a":1}"#))
         Net.setPassiveBlocked(true)
-        XCTAssertEqual(failure(await s.network.fetch(req(passive: true))).reason, .blocked)
+        let blocked = await s.network.fetch(req(passive: true))
+        XCTAssertEqual(failure(blocked).reason, .blocked)
         XCTAssertEqual(s.calls.count, 0)
-        XCTAssertNotNil(success(await s.network.fetch(req())))
+        let asked = await s.network.fetch(req())
+        XCTAssertNotNil(success(asked))
         Net.setPassiveBlocked(false)
-        XCTAssertNotNil(success(await s.network.fetch(req(passive: true))))
+        let unblocked = await s.network.fetch(req(passive: true))
+        XCTAssertNotNil(success(unblocked))
     }
 }

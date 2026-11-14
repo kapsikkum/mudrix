@@ -3,6 +3,7 @@ export const STORAGE_KEY_CREDENTIALS = 'mx_credentials';
 export const STORAGE_KEY_ACCOUNTS = 'wz_accounts';
 export const STORAGE_KEY_ACTIVE_ACCOUNT = 'wz_active_account';
 export const STORAGE_KEY_DEVICE_ID_PREFIX = 'wz_device_id_';
+export const STORAGE_KEY_ACCOUNT_PROFILE = 'wz_account_profile';
 
 export const STORAGE_KEY_SSO_HOMESERVER_URL = 'wz_sso_hs_url';
 export const STORAGE_KEY_SSO_STATE = 'wz_sso_state';
@@ -41,9 +42,11 @@ export const STORAGE_KEY_THREAD_LAST_SEEN = 'wz_thread_last_seen';
 export const STORAGE_KEY_HIDDEN_MEDIA = 'wz_hidden_media';
 export const STORAGE_KEY_THREAD_PANEL_WIDTH = 'wz_thread_panel_width';
 export const STORAGE_KEY_GIF_FAVOURITES = 'wz_gif_favourites';
+export const STORAGE_KEY_GIF_RECENT = 'wz_gif_recent';
 export const STORAGE_KEY_GIF_SEARCH_CONSENT = 'wz_gif_search_consent';
 export const STORAGE_KEY_YOUTUBE_CONSENT = 'wz_youtube_consent';
 export const STORAGE_KEY_CALL_RTC_OVERRIDE = 'wz_call_rtc_override';
+export const STORAGE_KEY_SPELLCHECK_WORDS = 'wz_spellcheck_words';
 
 // Developer
 export const STORAGE_KEY_DEVELOPER_MODE = 'wz_developer_mode';

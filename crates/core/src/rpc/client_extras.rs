@@ -4,9 +4,9 @@ use serde_json::Value;
 
 use super::{Bytes, Handle, Listener, Obj, Subscription};
 use crate::{
-    CallMember, CallSession, IncomingCall, Notification, QrLoginControl, QrLoginStatus,
-    ResolvedAlias, RoomSection, RoomTag, ServerFeatures, SfuConfig, SpaceNode, StateChange,
-    WizardClient,
+    CallMember, CallSession, IncomingCallEvent, Notification, PusherConfig, QrLoginControl,
+    QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures, ServerNotification,
+    SfuConfig, SpaceNode, StateChange, WizardClient,
 };
 
 rpc_methods! {
@@ -107,6 +107,19 @@ rpc_methods! {
             }))
         }
 
+        /// A page of a room's message-like events of one of `types`, newest first, decrypted in
+        /// encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+        /// page's `next` as `from` for the page before it; `next` is null at the start of the room.
+        /// A page can hold fewer events than `limit`, even none, while `next` is set.
+        call fn roomEvents(
+            room_id: String,
+            types: Vec<String>,
+            limit: u32,
+            from: Option<String>,
+        ) -> crate::RoomEventsPage {
+            this.room_events_page(&room_id, types, limit, from).await
+        }
+
         call fn serverFeatures() -> ServerFeatures {
             this.server_features().await
         }
@@ -114,6 +127,12 @@ rpc_methods! {
         /// Encrypts and uploads a file; returns the `file` object for message content.
         call fn uploadEncryptedMedia(data: Bytes) -> Value {
             this.upload_encrypted_media(data.0).await
+        }
+
+        /// The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+        /// mentions and custom emoji to it, which plain Markdown sending can't.
+        call fn markdownToHtml(body: String) -> Option<String> {
+            Ok(crate::content::markdown_to_html(&body))
         }
 
         /// The LiveKit service the homeserver offers for calls, if any
@@ -159,15 +178,11 @@ rpc_methods! {
             Ok(Handle::new(session))
         }
 
-        watch fn watchIncomingCalls(listener: Listener<IncomingCall>) -> Subscription {
+        /// Rings as they start and end: answered or declined on one of the user's devices, the
+        /// caller left, or it expired.
+        watch fn watchIncomingCalls(listener: Listener<IncomingCallEvent>) -> Subscription {
             Ok(listener.clone().watch(async move {
-                this.watch_incoming_calls(|c| listener.emit(&c)).await
-            }))
-        }
-
-        watch fn watchCallsHandledElsewhere(listener: Listener<String>) -> Subscription {
-            Ok(listener.clone().watch(async move {
-                this.watch_calls_handled_elsewhere(|room_id| listener.emit(&room_id)).await
+                this.watch_incoming_calls(|e| listener.emit(&e)).await
             }))
         }
 
@@ -181,6 +196,32 @@ rpc_methods! {
             Ok(listener.clone().watch(async move {
                 this.watch_notifications(|n| listener.emit(&n)).await
             }))
+        }
+
+        call fn setPusher(config: PusherConfig) -> () {
+            this.set_pusher(config).await
+        }
+
+        call fn removePusher(app_id: String, pushkey: String) -> () {
+            this.remove_pusher(app_id, pushkey).await
+        }
+
+        call fn pushedNotification(room_id: String, event_id: String) -> Option<Notification> {
+            this.pushed_notification(&room_id, &event_id).await
+        }
+
+        /// The server's notifications, newest first, read or not; `highlights` keeps only the
+        /// mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+        call fn serverNotifications(highlights: bool, limit: u32) -> Vec<ServerNotification> {
+            this.server_notifications(highlights, limit).await
+        }
+
+        /// Like `pushedNotification`, for the iOS notification service extension: a second
+        /// process restored over the same store with its own `StoreConfig.processName`, safe
+        /// while the app runs. It never starts the sync; an event whose keys this process
+        /// doesn't have comes back with `encrypted: true` and an empty body.
+        call fn pushedNotificationFromExtension(room_id: String, event_id: String) -> Option<Notification> {
+            this.pushed_notification_from_extension(&room_id, &event_id).await
         }
 
         call fn logout() -> () {

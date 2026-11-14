@@ -299,7 +299,7 @@ export function MediaLightbox({
       )}
       {onRemove && (
         <button type="button" className={css.actionBtn} onClick={onRemove}>
-          <TrashIcon size={14} /> {t('mediaLightbox.remove')}
+          <TrashIcon size={14} /> {t('common.remove')}
         </button>
       )}
       {curSrc && (
@@ -309,7 +309,7 @@ export function MediaLightbox({
           className={css.downloadBtn}
         >
           <DownloadSimpleIcon size={14} />
-          {t('mediaLightbox.download')}
+          {t('common.download')}
         </DownloadLink>
       )}
       {isCarousel && onSaveAll && (

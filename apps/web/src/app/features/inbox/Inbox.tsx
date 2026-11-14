@@ -25,8 +25,6 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import { formatRelativeTime } from '@/util/format';
 import { markRoomsAsRead } from '@/app/pages/client/spaceContextMenu';
-import { roomHasUnreadMention } from '@/util/mentions';
-import { useAllRooms } from '@/app/data';
 import { savedMessagesAtom, toggleSavedMessage } from '@/util/savedMessages';
 import { useInvites, type Invite } from './useInvites';
 import { useMentions, useHasUnreadMentions } from './useMentions';
@@ -54,10 +52,9 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
   const [tab, setTab] = useState<Tab>('invites');
   const [busyId, setBusyId] = useState<string | null>(null);
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
-  const rooms = useAllRooms();
 
   const invites = useInvites();
-  const { mentions, refresh: refreshMentions } = useMentions(true);
+  const { mentions, mentionRoomIds, refresh: refreshMentions } = useMentions(true);
   const hasUnreadMentions = useHasUnreadMentions();
   const saved = useAtomValue(savedMessagesAtom);
   const setPendingJump = useSetAtom(pendingEventJumpAtom);
@@ -81,17 +78,12 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
 
   const handleMarkRead = (roomId: string) => {
     if (!client) return;
-    markRoomsAsRead(client, sendReadReceipts, [roomId]);
-    refreshMentions();
+    void markRoomsAsRead(client, sendReadReceipts, [roomId]).then(refreshMentions);
   };
 
   const handleMarkAllRead = () => {
     if (!client) return;
-    const roomIds = rooms
-      .filter((room) => !room.isInvite && roomHasUnreadMention(room))
-      .map((room) => room.id);
-    markRoomsAsRead(client, sendReadReceipts, roomIds);
-    refreshMentions();
+    void markRoomsAsRead(client, sendReadReceipts, mentionRoomIds).then(refreshMentions);
   };
 
   const closeForRoom = () => {
@@ -129,7 +121,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
       await client.acceptInvite(invite.roomId);
       openRoom(invite.kind, invite.roomId);
     } catch (err) {
-      toast.error(t('invite.acceptFailed', { error: getErrorMessage(err) }));
+      toast.error(t('common.joinFailed', { error: getErrorMessage(err) }));
     } finally {
       setBusyId(null);
     }
@@ -299,7 +291,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
                       void handleAccept(invite);
                     }}
                   >
-                    {t('invite.accept')}
+                    {t('common.accept')}
                   </button>
                   <button
                     type="button"
@@ -310,7 +302,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
                       void handleDecline(invite);
                     }}
                   >
-                    {t('invite.decline')}
+                    {t('common.decline')}
                   </button>
                   {invite.inviterUserId && (
                     <Tooltip content={t('invite.declineAndBlock')}>

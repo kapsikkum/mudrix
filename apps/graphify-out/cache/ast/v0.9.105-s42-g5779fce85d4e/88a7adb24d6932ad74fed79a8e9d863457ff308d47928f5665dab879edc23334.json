@@ -1,0 +1,265 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_shared_l10n_swift",
+      "label": "L10n.swift",
+      "file_type": "code",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_ios_shared_l10n_l10n",
+      "label": "L10n",
+      "file_type": "code",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L3",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "label": ".format()",
+      "file_type": "code",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L4",
+      "_callable": true
+    },
+    {
+      "id": "string",
+      "label": "String",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/Shared/L10n.swift"
+    },
+    {
+      "id": "cvararg",
+      "label": "CVarArg",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/Shared/L10n.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "label": ".plural()",
+      "file_type": "code",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "_callable": true
+    },
+    {
+      "id": "int",
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/Shared/L10n.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "label": ".plain()",
+      "file_type": "code",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L13",
+      "_callable": true
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_shared_l10n_swift",
+      "target": "foundation",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_swift",
+      "target": "$graphify-root$_ios_shared_l10n_l10n",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n",
+      "target": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "target": "cvararg",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n",
+      "target": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "target": "int",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "target": "cvararg",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n",
+      "target": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "target": "cvararg",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "target": "string",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "context": "return_type",
+      "metadata": { "swift_plain_return": true }
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_shared_l10n_l10n_format",
+      "callee": "NSLocalizedString",
+      "is_member_call": false,
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L5",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_shared_l10n_l10n_plural",
+      "callee": "NSLocalizedString",
+      "is_member_call": false,
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L10",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "callee": "replacingOccurrences",
+      "is_member_call": true,
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L14",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_shared_l10n_l10n_plain",
+      "callee": "NSLocalizedString",
+      "is_member_call": false,
+      "source_file": "ios/Shared/L10n.swift",
+      "source_location": "L14",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/Shared/L10n.swift",
+    "table": { "key": "String", "args": "CVarArg", "count": "Int" }
+  }
+}

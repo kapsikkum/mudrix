@@ -8,6 +8,7 @@ import { Input } from '@/app/components/Input';
 import { Spinner } from '@/app/components/Spinner';
 import { QrCode } from './QrCode';
 import { decodeQrData, failureKey, reasonOf } from './failure';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 import * as css from './QrLogin.css';
 
 type Phase =
@@ -34,7 +35,7 @@ export function LinkDeviceModal({
 
   const openApproval = () => {
     const url = approveUrlRef.current;
-    if (url) window.open(url, '_blank', 'noopener,noreferrer');
+    if (url) openSafeExternalUrl(url);
   };
 
   useEffect(() => {
@@ -102,18 +103,18 @@ export function LinkDeviceModal({
       case 'showQr':
         return (
           <>
-            <QrCode data={phase.code} label={t('qrLogin.qrLabel')} />
+            <QrCode data={phase.code} label={t('auth.qr.qrLabel')} />
             <ol className={css.steps}>
-              <li>{t('qrLogin.linkStep1')}</li>
-              <li>{t('qrLogin.linkStep2')}</li>
-              <li>{t('qrLogin.linkStep3')}</li>
+              <li>{t('auth.qr.linkStep1')}</li>
+              <li>{t('auth.qr.linkStep2')}</li>
+              <li>{t('auth.qr.linkStep3')}</li>
             </ol>
           </>
         );
       case 'confirm':
         return (
           <>
-            <p className={css.text}>{t('qrLogin.enterCode')}</p>
+            <p className={css.text}>{t('auth.qr.enterCode')}</p>
             <Input
               className={css.codeInput}
               inputMode="numeric"
@@ -126,8 +127,8 @@ export function LinkDeviceModal({
               onKeyDown={(e) => {
                 if (e.key === 'Enter') void confirmCode();
               }}
-              error={codeError ? t('qrLogin.codeMismatch') : undefined}
-              aria-label={t('qrLogin.enterCode')}
+              error={codeError ? t('auth.qr.codeMismatch') : undefined}
+              aria-label={t('auth.qr.enterCode')}
               data-dialog-autofocus
             />
           </>
@@ -136,9 +137,9 @@ export function LinkDeviceModal({
         return (
           <>
             <Spinner />
-            <p className={css.text}>{t('qrLogin.approveInBrowser')}</p>
+            <p className={css.text}>{t('auth.qr.approveInBrowser')}</p>
             <Button variant="secondary" size="sm" onClick={openApproval}>
-              {t('qrLogin.openApproval')}
+              {t('auth.qr.openApproval')}
             </Button>
           </>
         );
@@ -146,7 +147,7 @@ export function LinkDeviceModal({
         return (
           <>
             <CheckCircleIcon size={40} weight="fill" />
-            <p className={css.text}>{t('qrLogin.linkDone')}</p>
+            <p className={css.text}>{t('auth.qr.linkDone')}</p>
           </>
         );
       case 'error':
@@ -158,7 +159,7 @@ export function LinkDeviceModal({
     phase.kind === 'confirm' ? (
       <>
         <Button variant="secondary" onClick={decline}>
-          {t('qrLogin.decline')}
+          {t('common.decline')}
         </Button>
         <Button variant="primary" disabled={enteredCode.length !== 2} onClick={confirmCode}>
           {t('common.continue')}
@@ -178,7 +179,7 @@ export function LinkDeviceModal({
       open
       onClose={phase.kind === 'done' || phase.kind === 'error' ? onClose : decline}
       size="sm"
-      title={t('qrLogin.linkTitle')}
+      title={t('auth.qr.linkTitle')}
       titleIcon={<QrCodeIcon size={18} />}
       footer={footer}
     >

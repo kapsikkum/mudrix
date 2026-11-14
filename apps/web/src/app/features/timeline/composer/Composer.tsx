@@ -12,6 +12,7 @@ import {
   GifIcon,
   MapPinIcon,
   MicrophoneIcon,
+  ClockIcon,
   SpinnerGapIcon,
 } from '@phosphor-icons/react';
 import { formatFileSize } from '@/util/format';
@@ -37,12 +38,14 @@ import { LinkInputPopover } from './LinkInputPopover';
 import { ComposerStatus } from './TypingIndicator';
 import { useComposer } from './useComposer';
 import { PollCreatorModal } from './PollCreatorModal';
+import { ScheduleMessageModal } from './ScheduleMessageModal';
 import { LocationShareModal } from './LocationShareModal';
 import { VoiceRecordComposerTile } from './VoiceRecordComposerTile';
 import { AttachmentTray } from './AttachmentTray';
 import { RichComposer } from './editor/RichComposer';
 import { insertEmoji } from './editor/insertEmoji';
 import { useComposerIntegrationItems } from '@/app/features/integrations/ui/useComposerIntegrationItems';
+import { useRoom } from '@/app/data';
 import { IntegrationDialogs } from '@/app/features/integrations/ui/IntegrationDialogs';
 import { isMod } from './editor/keyboard';
 import { ReactEditor } from 'slate-react';
@@ -53,7 +56,7 @@ import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom
 import { IdentityWarning } from './IdentityWarning';
 import { ComposerTimelineContext, useSendTimeline } from './composerTimeline';
 import type { ReplyTarget } from './sendMessageContent';
-import { keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
+import { DEFAULT_KEYBINDS, keybindsAtom, pushToTalkEnabledAtom } from '@/app/store/atoms';
 import { isInCallAtom } from '@/app/store/atoms/call';
 import { matchesComboDown, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import * as css from '../Composer.css';
@@ -87,6 +90,8 @@ export function Composer({
 }: Props) {
   const { t } = useTranslation();
   const { timeline, getTimeline } = useSendTimeline(client, roomId, threadId, providedTimeline);
+  const room = useRoom(roomId);
+  const roomEncrypted = room?.isEncrypted ?? false;
   const timelineContext = useMemo(
     () => ({ roomId, threadId: threadId ?? null, getTimeline }),
     [roomId, threadId, getTimeline]
@@ -107,6 +112,7 @@ export function Composer({
   const [pollOpen, setPollOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
   const [voiceOpen, setVoiceOpen] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const autocompleteListId = useId();
 
   const { openContextMenuAt } = useContextMenu();
@@ -137,6 +143,7 @@ export function Composer({
     submitLink,
     cancelLink,
     sendMessage,
+    scheduleSend,
     isEmpty,
     attachments,
     removeAttachment,
@@ -185,6 +192,11 @@ export function Composer({
           label: t('composer.voice.record'),
           icon: <MicrophoneIcon size={14} />,
           onClick: () => setVoiceOpen(true),
+        },
+        {
+          label: t('composer.schedule.menu'),
+          icon: <ClockIcon size={14} />,
+          onClick: () => setScheduleOpen(true),
         },
       ];
       if (stickerWidget) {
@@ -238,6 +250,7 @@ export function Composer({
         const bound = [
           keybinds.toggleMute,
           keybinds.toggleDeafen,
+          keybinds.toggleScreenShare ?? DEFAULT_KEYBINDS.toggleScreenShare ?? '',
           pushToTalk ? keybinds.pushToTalk : '',
         ];
         if (bound.some((combo) => matchesComboDown(e, parseCombo(combo)))) return;
@@ -391,7 +404,11 @@ export function Composer({
                 onKeyDown={handleEditorKeyDown}
                 onSelectionChange={updateToolbar}
                 onPaste={handlePaste}
-                placeholder={t('composer.typeMessage')}
+                placeholder={
+                  roomEncrypted
+                    ? t('encryption.composerEncrypted')
+                    : t('encryption.composerUnencrypted')
+                }
                 className={css.richEditor}
                 client={client}
                 ariaLabel={t('composer.messageInput')}
@@ -418,11 +435,11 @@ export function Composer({
                 />
               ) : (
                 <>
-                  <Tooltip content={t('composer.emoji')}>
+                  <Tooltip content={t('common.emoji')}>
                     <button
                       type="button"
                       className={emojiActive ? css.emojiBtnActive : css.emojiBtn}
-                      aria-label={t('composer.emoji')}
+                      aria-label={t('common.emoji')}
                       aria-pressed={emojiActive}
                       onClick={() => {
                         if (emojiActive) {
@@ -477,11 +494,11 @@ export function Composer({
                         </button>
                       </Tooltip>
 
-                      <Tooltip content={t('composer.moreOptions')}>
+                      <Tooltip content={t('common.moreOptions')}>
                         <button
                           type="button"
                           className={moreOpen ? css.moreBtnActive : css.moreBtn}
-                          aria-label={t('composer.moreOptions')}
+                          aria-label={t('common.moreOptions')}
                           aria-haspopup="menu"
                           aria-expanded={moreOpen}
                           onClick={openMoreMenu}
@@ -507,6 +524,22 @@ export function Composer({
                         // keyboard closes after every send.
                         onMouseDown={(e) => e.preventDefault()}
                         onClick={sendMessage}
+                        // The tools menu is hidden while there is a draft, so "Send later" for
+                        // that draft is on the send button's own menu.
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          openContextMenuAt(
+                            [
+                              {
+                                label: t('composer.schedule.menu'),
+                                icon: <ClockIcon size={14} />,
+                                onClick: () => setScheduleOpen(true),
+                              },
+                            ],
+                            anchorFromElement(e.currentTarget),
+                            e.currentTarget
+                          );
+                        }}
                         disabled={attachments.some((a) => a.oversized)}
                         aria-label={t('composer.send')}
                       >
@@ -569,8 +602,18 @@ export function Composer({
         threadId={threadId}
       />
 
+      <ScheduleMessageModal
+        open={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        client={client}
+        roomId={roomId}
+        draftPreview={draftText}
+        onSchedule={scheduleSend}
+      />
+
       <IntegrationDialogs
         owner={integrationOwner}
+        client={client}
         roomId={roomId}
         onInsertLink={insertIntegrationText}
       />

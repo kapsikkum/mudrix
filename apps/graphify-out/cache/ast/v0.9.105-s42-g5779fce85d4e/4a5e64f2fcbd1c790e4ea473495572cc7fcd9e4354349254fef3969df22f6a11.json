@@ -1,0 +1,1421 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "label": "CallLiveActivity.swift",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "activitykit",
+      "label": "ActivityKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L1"
+    },
+    {
+      "id": "appintents",
+      "label": "AppIntents",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L2"
+    },
+    {
+      "id": "swiftui",
+      "label": "SwiftUI",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L3"
+    },
+    {
+      "id": "widgetkit",
+      "label": "WidgetKit",
+      "file_type": "code",
+      "type": "module",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L4"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets",
+      "label": "WizardChatWidgets",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L6",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "widgetbundle",
+      "label": "WidgetBundle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "widget",
+      "label": "Widget",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L8"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "label": "CallLiveActivity",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L13",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "widgetconfiguration",
+      "label": "WidgetConfiguration",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L17"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "label": ".duration()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L67",
+      "_callable": true
+    },
+    {
+      "id": "activityviewcontext",
+      "label": "ActivityViewContext",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift"
+    },
+    {
+      "id": "callactivityattributes",
+      "label": "CallActivityAttributes",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift"
+    },
+    {
+      "id": "view",
+      "label": "View",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "label": ".compactStatus()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L76",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "label": ".statusLine()",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L89",
+      "_callable": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "label": "CallButtons",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L108",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L112"
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "label": "LockScreenCallView",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L140",
+      "_callable": true,
+      "_callable_class": true
+    },
+    {
+      "id": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "label": ".body",
+      "file_type": "code",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L143"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "activitykit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "appintents",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "swiftui",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "widgetkit",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets",
+      "target": "widgetbundle",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets",
+      "target": "widget",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L8",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "widget",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "widgetconfiguration",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L67",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "target": "activityviewcontext",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L67",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L76",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "target": "activityviewcontext",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L89",
+      "weight": 1.0,
+      "context": "return_type"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L108",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L109",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L112",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_swift",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "target": "view",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "target": "activityviewcontext",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "target": "callactivityattributes",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L141",
+      "weight": 1.0,
+      "context": "generic_arg"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "target": "view",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L143",
+      "weight": 1.0,
+      "context": "field"
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L143",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_wizardchatwidgets_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "target": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L172",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "ActivityConfiguration",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L18",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "activitySystemActionForegroundColor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "activityBackgroundTint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L19",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "opacity",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L20",
+      "receiver": "Color"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "keylineTint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "DynamicIsland",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L23",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "DynamicIslandExpandedRegion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L24",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "WizardLogoShape",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L25",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "DynamicIslandExpandedRegion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L29",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L30",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "monospacedDigit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L31",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "DynamicIslandExpandedRegion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L36",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L37",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "DynamicIslandExpandedRegion",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L42",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L43",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L50",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "WizardLogoShape",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L51",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "minimumScaleFactor",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L52",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_body",
+      "callee": "WizardLogoShape",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L61",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L70",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_duration",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L72",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L79",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L81",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L83",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_compactstatus",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L85",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L90",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L92",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L93",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L95",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L96",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L96",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L98",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L99",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callliveactivity_statusline",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L99",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "buttonBorderShape",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "buttonStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L113",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "ToggleMicIntent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L114",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L115",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "ToggleDeafenIntent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L120",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L121",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "accessibilityLabel",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "tint",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Button",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "LeaveCallIntent",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L126",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_callbuttons_body",
+      "callee": "Image",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L127",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "padding",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L144",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "HStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L145",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "WizardLogoShape",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L146",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "VStack",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L147",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L148",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "lineLimit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Group",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L151",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L153",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L155",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L155",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L157",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "format",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L157",
+      "receiver": "L10n"
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Spacer",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L164",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "frame",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "foregroundStyle",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "font",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "Text",
+      "is_member_call": false,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L166",
+      "receiver": null
+    },
+    {
+      "caller_nid": "$graphify-root$_ios_wizardchatwidgets_callliveactivity_lockscreencallview_body",
+      "callee": "monospacedDigit",
+      "is_member_call": true,
+      "source_file": "ios/WizardChatWidgets/CallLiveActivity.swift",
+      "source_location": "L167",
+      "receiver": null
+    }
+  ],
+  "swift_type_table": {
+    "path": "$graphify-root$/ios/WizardChatWidgets/CallLiveActivity.swift",
+    "table": { "body": "View", "context": "ActivityViewContext", "state": "CallActivityAttributes" }
+  }
+}

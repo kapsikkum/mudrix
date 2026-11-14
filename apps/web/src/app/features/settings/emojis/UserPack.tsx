@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PencilSimpleIcon, StickerIcon } from '@phosphor-icons/react';
 import type { WizardClient as MatrixClient } from '@wizardchat/core';
@@ -31,7 +31,13 @@ interface Props {
 
 function toImageEntry(
   shortcode: string,
-  img: { url: string; usage: string[]; body?: string; mimetype?: string }
+  img: {
+    url: string;
+    usage: string[];
+    body?: string;
+    mimetype?: string;
+    info?: Record<string, unknown>;
+  }
 ): ImageEntry {
   return {
     shortcode,
@@ -39,6 +45,7 @@ function toImageEntry(
     usage: img.usage,
     body: img.body,
     mimetype: img.mimetype,
+    info: img.info,
   };
 }
 
@@ -47,9 +54,12 @@ function packDataToContent(pack: PackData): UserPackData {
   for (const [key, img] of Object.entries(pack.images)) {
     imagesContent[key] = {
       url: img.url,
-      usage: pack.usage.length > 0 ? (pack.usage as PackUsage[]) : [],
+      // Keep each image's own usage (a decoration stays a decoration); an image without one
+      // inherits the pack's.
+      usage: img.usage.length > 0 ? (img.usage as PackUsage[]) : (pack.usage as PackUsage[]),
       body: img.body ?? key,
       mimetype: img.mimetype,
+      info: img.info,
     };
   }
   return {
@@ -65,26 +75,33 @@ export function UserPack({ client, editing, onEdit, onBack }: Props) {
   const userPack = useUserPack(client);
   const [saving, setSaving] = useState(false);
 
-  const firstImage = userPack && Object.values(userPack.images)[0];
+  const firstImage = useMemo(
+    () => (userPack ? Object.values(userPack.images)[0] : undefined),
+    [userPack]
+  );
 
-  const packData: PackData = userPack
-    ? {
-        stateKey: USER_PACK,
-        displayName: userPack.displayName,
-        usage: userPack.usage,
-        images: Object.fromEntries(
-          Object.entries(userPack.images).map(([shortcode, img]) => [
-            shortcode,
-            toImageEntry(shortcode, img),
-          ])
-        ),
-      }
-    : {
-        stateKey: USER_PACK,
-        displayName: 'personal',
-        usage: ['emoticon', 'sticker'] as PackUsage[],
-        images: {},
-      };
+  const packData: PackData = useMemo(
+    () =>
+      userPack
+        ? {
+            stateKey: USER_PACK,
+            displayName: userPack.displayName,
+            usage: userPack.usage,
+            images: Object.fromEntries(
+              Object.entries(userPack.images).map(([shortcode, img]) => [
+                shortcode,
+                toImageEntry(shortcode, img),
+              ])
+            ),
+          }
+        : {
+            stateKey: USER_PACK,
+            displayName: 'personal',
+            usage: ['emoticon', 'sticker'] as PackUsage[],
+            images: {},
+          },
+    [userPack]
+  );
 
   const handleSave = useCallback(
     async (updated: PackData) => {

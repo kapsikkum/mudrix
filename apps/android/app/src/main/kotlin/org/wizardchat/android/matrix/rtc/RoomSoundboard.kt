@@ -22,7 +22,7 @@ import org.wizardchat.core.WizardClient
  */
 object RoomSoundboards {
     private val DATA_TYPE = Namespace.mudrixKey("soundboard")
-    private val SETTINGS_TYPE = Namespace.mudrixKey("soundboard.settings")
+    val SETTINGS_TYPE = Namespace.mudrixKey("soundboard.settings")
 
     /** Kept this long: custom state is not part of what sync delivers */
     private const val CACHE_MS = 30_000L
@@ -114,6 +114,18 @@ object RoomSoundboards {
             if ((levelIn(data) ?: roomLevel) < settings.minPowerLevel) verdict = Access.forbidden
         }
         return verdict
+    }
+
+    /** Shows a change this device just wrote at once (the server's copy is read again after the cache runs out) */
+    fun remember(roomId: String, board: List<SoundboardSound>? = null, settings: Settings? = null) {
+        val current = cache[roomId]
+        cache[roomId] = Data(
+            board = board ?: current?.board.orEmpty(),
+            settings = settings ?: current?.settings,
+            powerLevels = current?.powerLevels,
+            creators = current?.creators.orEmpty(),
+            loadedAt = System.currentTimeMillis(),
+        )
     }
 
     /** Forgets what was read (tests, and after the account changes) */

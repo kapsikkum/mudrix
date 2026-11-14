@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.os.Build
 import android.util.Base64
 import android.util.Log
@@ -20,6 +21,7 @@ import io.livekit.android.e2ee.BaseKeyProvider
 import io.livekit.android.e2ee.E2EEOptions
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
+import io.livekit.android.room.Room as LiveKitRoom
 import io.livekit.android.room.participant.AudioTrackPublishDefaults
 import io.livekit.android.room.participant.Participant
 import io.livekit.android.room.participant.RemoteParticipant
@@ -36,18 +38,28 @@ import io.livekit.android.room.track.VideoPreset169
 import io.livekit.android.room.track.VideoTrack
 import io.livekit.android.room.track.screencapture.ScreenCaptureParams
 import kotlin.coroutines.cancellation.CancellationException
+import kotlin.coroutines.resume
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.JsonObject
 import livekit.org.webrtc.FrameCryptorKeyDerivationAlgorithm
+import livekit.org.webrtc.RTCStatsCollectorCallback
 import livekit.org.webrtc.RtpParameters
 import org.wizardchat.android.WizardApplication
 import org.wizardchat.android.matrix.rtc.CallActivityState
 import org.wizardchat.android.matrix.rtc.CallNotificationController
 import org.wizardchat.android.matrix.rtc.CallSounds
+import org.wizardchat.android.matrix.rtc.ConnectionStats
 import org.wizardchat.android.matrix.rtc.Soundboard
 import org.wizardchat.android.matrix.rtc.Sounds
 import org.wizardchat.android.matrix.rtc.WatchParticipant
@@ -57,10 +69,11 @@ import org.wizardchat.core.CallEvent
 import org.wizardchat.core.CallMember
 import org.wizardchat.core.CallSession
 import org.wizardchat.core.IncomingCall
+import org.wizardchat.core.IncomingCallEvent
+import org.wizardchat.core.RingEnd
 import org.wizardchat.core.RoomSummary
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
-import io.livekit.android.room.Room as LiveKitRoom
 
 /** One device in the call, with its media state */
 data class CallParticipantInfo(
@@ -68,6 +81,10 @@ data class CallParticipantInfo(
     val userId: String,
     val deviceId: String,
     val isLocal: Boolean,
+    val displayName: String? = null,
+    val avatarUrl: String? = null,
+    /** The user's own account on another of their devices */
+    val isOwnOtherDevice: Boolean = false,
     val connected: Boolean = false,
     val speaking: Boolean = false,
     val micMuted: Boolean = true,
@@ -90,6 +107,8 @@ data class RingingCall(
     val callerId: String,
     val callerName: String?,
     val voiceOnly: Boolean,
+    /** Rings audibly (DMs and small rooms), or only tells of a call in a larger room */
+    val ring: Boolean,
 )
 
 /** An emoji you can send into a call */
@@ -115,7 +134,7 @@ class CallManager {
         data object Idle : State
         data object Joining : State
         data object Joined : State
-        data class Failed(val message: String) : State
+        data class Failed(val message: String, val roomId: String? = null) : State
     }
 
     enum class RingState { ringing, declined, unanswered }
@@ -152,6 +171,22 @@ class CallManager {
             micMutedState = value
             defaults.edit().putBoolean("voice.micMuted", value).apply()
         }
+    var talking by mutableStateOf(false)
+        private set
+    val pushToTalk: Boolean
+        get() = context.getSharedPreferences("preferences", Context.MODE_PRIVATE).getBoolean("pushToTalk", false)
+    private var micTesting = false
+    private var micJob: Job? = null
+    private val micEnabled: Boolean
+        get() = !micTesting && (if (pushToTalk) talking && !deafened else !micMuted && !deafened)
+    private val micPublished: Boolean
+        get() = if (pushToTalk) !micTesting && !deafened else micEnabled
+    private val outputVolume: Double get() = defaults.getFloat("voice.outputVolume", 1f).toDouble()
+    private val cameraOptions: LocalVideoTrackOptions
+        get() = LocalVideoTrackOptions(
+            position = if (defaults.getString("voice.cameraPosition", "front") == "back") CameraPosition.BACK else CameraPosition.FRONT,
+            captureParams = VideoPreset169.H720.capture,
+        )
     private var deafenedState by mutableStateOf(defaults.getBoolean("voice.deafened", false))
     var deafened: Boolean
         get() = deafenedState
@@ -166,27 +201,34 @@ class CallManager {
     /** Asks to capture the screen: the result data for LiveKit's screen capture, or null */
     internal var screenCaptureRequester: (suspend () -> Intent?)? = null
 
-    private val scope = MainScope()
+    // Anything unexpected in the call's work ends the call with its message instead of the app
+    private val scope = MainScope() + CoroutineExceptionHandler { _, error ->
+        Log.e(TAG, "call failed", error)
+        fail(error.message ?: error.javaClass.simpleName, leave = true)
+    }
     private var ringback: CallSounds.Loop? = null
     private var ringtone: CallSounds.Loop? = null
-    private var incomingTimer: Job? = null
     private var knownOthers = setOf<String>()
     private val notification = CallNotificationController()
-    private val displayNames = mutableMapOf<String, String>()
 
     private var session: CallSession? = null
     private var run: Subscription? = null
     private var incomingWatch: Subscription? = null
-    private var handledElsewhereWatch: Subscription? = null
+    private var incomingClient: WizardClient? = null
     private var members by mutableStateOf(listOf<CallMember>())
     private var mutedBeforeDeafen = false
     private var client: WizardClient? = null
     private var keyProvider: BaseKeyProvider? = null
+    /** By call service; services leading to the same LiveKit room share one connection */
     private val connections = mutableMapOf<String, LiveKitRoom>()
-    private val connectionUrls = mutableMapOf<LiveKitRoom, String>()
+    private val connectionRooms = mutableMapOf<LiveKitRoom, String>()
     private val connectionJobs = mutableMapOf<LiveKitRoom, Job>()
     private val pendingServices = mutableSetOf<String>()
     private var refreshTimer: Job? = null
+    private var reconnectJob: Job? = null
+    private var subscribeRetry: Job? = null
+    /** Bumped on every join and leave, so a join that was left halfway stops */
+    private var attempt = 0
     private val userVolumes = mutableMapOf<String, Double>()
     private val mutedUsers = mutableSetOf<String>()
     private val appliedVolumes = mutableMapOf<String, Double>()
@@ -211,17 +253,26 @@ class CallManager {
         }
         requestPermissions(wanted)
         if (!hasPermission(Manifest.permission.RECORD_AUDIO)) {
-            state = State.Failed(L10n.format("call.micPermission"))
+            state = State.Failed(L10n.format("call.micPermission"), room.id)
             return
         }
         val client = session.client ?: return
+        val current = ++attempt
         this.room = room
         this.client = client
         state = State.Joining
+        var call: CallSession? = null
         try {
-            val call = client.joinCall(room.id, video = intent == "video", ring = ring)
-            this.session = call
-            if (call.encrypted()) {
+            val joined = client.joinCall(room.id, video = intent == "video", ring = ring)
+            call = joined
+            if (attempt != current) {
+                runCatching { joined.leave() }
+                return
+            }
+            this.session = joined
+            if (joined.encrypted()) {
+                // The key provider calls into WebRTC, which only LiveKit.init or the first connection loads
+                LiveKit.init(context)
                 keyProvider = BaseKeyProvider(
                     ratchetWindowSize = 10,
                     enableSharedKey = false,
@@ -229,9 +280,10 @@ class CallManager {
                     keyDerivationAlgorithm = FrameCryptorKeyDerivationAlgorithm.HKDF,
                 )
             }
-            run = call.run { handle(it) }
-            val publisher = connect(call.serviceUrl, publisher = true)
+            run = joined.run { handle(it) }
+            val publisher = withTimeout(CONNECT_TIMEOUT_MILLIS) { connect(joined.serviceUrl, publisher = true) }
             state = State.Joined
+            applyAudioDevice()
             watch = WatchTogether(
                 ownUserId = client.userId ?: "",
                 send = { sendData(it, WatchTogether.TOPIC) },
@@ -239,20 +291,35 @@ class CallManager {
                     participants.filter { it.connected }.map { WatchParticipant(it.identity, it.userId, it.isLocal) }
                 },
             )
-            runCatching { publisher.localParticipant.setMicrophoneEnabled(!micMuted && !deafened) }
+            if (pushToTalk) micMuted = false
+            runCatching { publisher.localParticipant.setMicrophoneEnabled(micPublished) }
+            silenceMic(publisher, pushToTalk && !micEnabled)
             startSoundboard(client, room.id)
             Sounds.play(SoundKind.Join)
             notification.start(room.displayName, room.isDirect, activityState)
             if (intent == "video") toggleCamera()
-            if (ring && room.isDirect && members.none { it.userId != client.userId }) startRinging()
+            // Someone may have answered before the media connected
+            if (joined.rang && knownOthers.isEmpty()) startRinging()
             syncRemoteConnections()
             startRefreshing()
-        } catch (error: Exception) {
-            val call = this.session
-            runCatching { call?.leave() }
-            tearDown()
-            state = State.Failed(error.message ?: L10n.format("common.somethingWentWrong"))
+        } catch (error: TimeoutCancellationException) {
+            failJoin(current, call, L10n.format("call.joinTimeout"))
+        } catch (error: CancellationException) {
+            // Left while joining: leaving already cleaned up
+            if (attempt == current && this.session === call) failJoin(current, call, null)
+        } catch (error: Throwable) {
+            Log.e(TAG, "join failed", error)
+            failJoin(current, call, error.message ?: error.javaClass.simpleName)
         }
+    }
+
+    private suspend fun failJoin(current: Int, call: CallSession?, message: String?) {
+        if (attempt != current) return
+        val roomId = room?.id
+        tearDown()
+        runCatching { call?.leave() }
+        room = null
+        state = if (message == null) State.Idle else State.Failed(message, roomId)
     }
 
     /** [join] in the background, so it goes on when the screen that started it goes away */
@@ -268,9 +335,30 @@ class CallManager {
         if (state == State.Joined) Sounds.play(if (room?.isVoice == true) SoundKind.Leave else SoundKind.CallEnd)
         val call = session
         tearDown()
-        runCatching { call?.leave() }
         state = State.Idle
         room = null
+        runCatching { call?.leave() }
+    }
+
+    /** The core already left (fatal error) or the call can't go on: show why */
+    private fun fail(message: String, leave: Boolean) {
+        val call = session ?: return
+        val roomId = room?.id
+        tearDown()
+        if (leave) scope.launch { runCatching { call.leave() } }
+        room = null
+        state = State.Failed(message, roomId)
+    }
+
+    /** Hides a shown call error, unless something newer replaced it */
+    fun dismissFailure(failed: State.Failed) {
+        if (state === failed) state = State.Idle
+    }
+
+    /** Signed out or switched accounts: nothing of this client's calls goes on */
+    fun signedOut() {
+        stopWatchingIncoming()
+        leave()
     }
 
     private var soundboardEvents: Subscription? = null
@@ -312,8 +400,8 @@ class CallManager {
         soundboardEvents = null
         Soundboard.link = null
         Soundboard.stopAll()
+        attempt++
         notification.end()
-        displayNames.clear()
         stopRinging()
         ring = null
         showCallScreen = false
@@ -322,9 +410,13 @@ class CallManager {
         watch = null
         refreshTimer?.cancel()
         refreshTimer = null
+        reconnectJob?.cancel()
+        reconnectJob = null
+        subscribeRetry?.cancel()
+        subscribeRetry = null
         run?.cancel()
         run = null
-        val rooms = connections.values.toList()
+        val rooms = connections.values.toSet()
         connections.clear()
         pendingServices.clear()
         rooms.forEach(::close)
@@ -344,9 +436,15 @@ class CallManager {
 
     private fun close(connection: LiveKitRoom) {
         connectionJobs.remove(connection)?.cancel()
-        connectionUrls.remove(connection)
+        connectionRooms.remove(connection)
         connection.disconnect()
         connection.release()
+    }
+
+    /** Forgets the connection under every service that used it, and closes it */
+    private fun drop(connection: LiveKitRoom) {
+        connections.entries.removeAll { it.value === connection }
+        close(connection)
     }
 
     private fun handle(event: CallEvent) {
@@ -364,20 +462,13 @@ class CallManager {
                 if (event.raised) raisedHands.add(event.identity) else raisedHands.remove(event.identity)
                 refresh()
             }
-            is CallEvent.Error -> Log.w(TAG, event.message)
+            is CallEvent.Error -> if (event.fatal) fail(event.message, leave = false) else Log.w(TAG, event.message)
         }
     }
 
     private fun membersChanged(members: List<CallMember>) {
         this.members = members
         val client = client ?: return
-        for (userId in members.map { it.userId }.toSet()) {
-            if (displayNames[userId] != null) continue
-            displayNames[userId] = userId.removePrefix("@").substringBefore(':')
-            scope.launch {
-                runCatching { client.userProfile(userId).displayName }.getOrNull()?.let { displayNames[userId] = it }
-            }
-        }
         val others = members.filter { it.userId != client.userId }.map { it.userId }.toSet()
         if (state == State.Joined) {
             if ((others - knownOthers).isNotEmpty()) {
@@ -397,10 +488,16 @@ class CallManager {
 
     private suspend fun connect(service: String, publisher: Boolean): LiveKitRoom {
         val session = session ?: throw CancellationException()
-        val client = client ?: throw CancellationException()
-        val room = room ?: throw CancellationException()
-        val sfu = client.sfuConfig(room.id, service)
-        connectionUrls.entries.firstOrNull { it.value == sfu.url }?.let { return it.key }
+        val sfu = session.sfuConfig(service, publisher)
+        if (this.session !== session) throw CancellationException()
+        val sfuRoom = "${sfu.url.trimEnd('/')}|${sfu.alias}"
+        if (!publisher) {
+            val shared = connectionRooms.entries.firstOrNull { it.value == sfuRoom && it.key in connections.values }?.key
+            if (shared != null) {
+                connections[service] = shared
+                return shared
+            }
+        }
         val options = RoomOptions(
             adaptiveStream = true,
             dynacast = true,
@@ -412,7 +509,7 @@ class CallManager {
                     autoGainControl = prefs.autoGainControl,
                 )
             },
-            videoTrackCaptureDefaults = LocalVideoTrackOptions(position = CameraPosition.FRONT, captureParams = VideoPreset169.H720.capture),
+            videoTrackCaptureDefaults = cameraOptions,
             screenShareTrackCaptureDefaults = LocalVideoTrackOptions(isScreencast = true, captureParams = VideoPreset169.H1080.capture),
             // No RED (redundant audio): browsers can't decrypt RED-wrapped frames
             audioTrackPublishDefaults = AudioTrackPublishDefaults(dtx = true, red = false),
@@ -431,11 +528,11 @@ class CallManager {
             LiveKitOverrides(audioOptions = AudioOptions(audioHandler = NoAudioHandler(), disableCommunicationModeWorkaround = true))
         }
         val livekit = LiveKit.create(context, options, overrides)
-        connectionUrls[livekit] = sfu.url
+        connectionRooms[livekit] = sfuRoom
         connectionJobs[livekit] = scope.launch { livekit.events.collect { roomEvent(livekit, it) } }
         try {
             livekit.connect(sfu.url, sfu.jwt)
-        } catch (error: Exception) {
+        } catch (error: Throwable) {
             close(livekit)
             throw error
         }
@@ -449,7 +546,7 @@ class CallManager {
 
     private fun syncRemoteConnections() {
         val session = session ?: return
-        if (state != State.Joined) return
+        if (state != State.Joined || reconnectJob != null) return
         val own = session.serviceUrl
         val wanted = members.mapNotNull { it.serviceUrl }.filter { it != own }.toSet()
         for (service in wanted) {
@@ -457,17 +554,71 @@ class CallManager {
             pendingServices.add(service)
             scope.launch {
                 try {
-                    connect(service, publisher = false)
+                    withTimeout(CONNECT_TIMEOUT_MILLIS) { connect(service, publisher = false) }
+                } catch (error: TimeoutCancellationException) {
+                    Log.w(TAG, "could not connect to $service: timed out")
+                    retrySubscribeSoon()
+                } catch (error: CancellationException) {
+                    throw error
                 } catch (error: Exception) {
                     Log.w(TAG, "could not connect to $service: $error")
+                    retrySubscribeSoon()
+                } finally {
+                    pendingServices.remove(service)
                 }
-                pendingServices.remove(service)
             }
         }
         for ((service, connection) in connections.toMap()) {
             if (service == own || service in wanted) continue
             connections.remove(service)
-            close(connection)
+            if (connection !in connections.values) close(connection)
+        }
+    }
+
+    private fun retrySubscribeSoon() {
+        if (session == null || subscribeRetry != null) return
+        subscribeRetry = scope.launch {
+            delay(SUBSCRIBE_RETRY_MILLIS)
+            subscribeRetry = null
+            syncRemoteConnections()
+        }
+    }
+
+    /** The publishing connection dropped: connect again with backoff, then give up */
+    private fun reconnect() {
+        val session = session ?: return
+        if (reconnectJob != null) return
+        reconnecting = true
+        reconnectJob = scope.launch {
+            val giveUpAt = System.currentTimeMillis() + RECONNECT_GIVE_UP_MILLIS
+            var backoff = 1000L
+            while (isActive && this@CallManager.session === session) {
+                try {
+                    val publisher = withTimeout(CONNECT_TIMEOUT_MILLIS) { connect(session.serviceUrl, publisher = true) }
+                    runCatching { publisher.localParticipant.setMicrophoneEnabled(micPublished) }
+                    silenceMic(publisher, pushToTalk && !micEnabled)
+                    if (cameraOn) runCatching { publisher.localParticipant.setCameraEnabled(true) }
+                    screenSharing = false
+                    reconnecting = false
+                    reconnectJob = null
+                    syncRemoteConnections()
+                    refresh()
+                    return@launch
+                } catch (error: TimeoutCancellationException) {
+                    Log.w(TAG, "reconnecting timed out, retrying")
+                } catch (error: CancellationException) {
+                    throw error
+                } catch (error: Exception) {
+                    Log.w(TAG, "reconnecting failed, retrying: $error")
+                }
+                if (System.currentTimeMillis() + backoff > giveUpAt) {
+                    reconnectJob = null
+                    fail(L10n.format("call.disconnected"), leave = true)
+                    return@launch
+                }
+                delay(backoff)
+                backoff = (backoff * 2).coerceAtMost(10_000L)
+            }
         }
     }
 
@@ -477,6 +628,28 @@ class CallManager {
     fun callStartedAt(): Long? = members.minOfOrNull { it.joinedAt }
 
     private val publisher: LiveKitRoom? get() = session?.let { connections[it.serviceUrl] }
+
+    /** A sample of the call's connection stats, for the connection info sheet; null when not connected */
+    suspend fun connectionStats(): ConnectionStats.Sample? {
+        val room = publisher ?: connections.values.firstOrNull() ?: return null
+        if (room.state != LiveKitRoom.State.CONNECTED) return null
+        val sent = runCatching { withTimeout(STATS_TIMEOUT_MILLIS) { rtcStats { room.getPublisherRTCStats(it) } } }.getOrDefault(emptyList())
+        val received = runCatching { withTimeout(STATS_TIMEOUT_MILLIS) { rtcStats { room.getSubscriberRTCStats(it) } } }.getOrDefault(emptyList())
+        if (sent.isEmpty() && received.isEmpty()) return null
+        val server = connectionRooms[room]?.substringBefore('|')?.let { url -> runCatching { java.net.URI(url).host }.getOrNull() }
+        return ConnectionStats.Sample(System.currentTimeMillis(), server, sent, received)
+    }
+
+    /** One stats report's entries, each with its type among its members */
+    private suspend fun rtcStats(get: (RTCStatsCollectorCallback) -> Unit): List<Map<String, Any?>> =
+        withContext(Dispatchers.Default) {
+            suspendCancellableCoroutine { continuation ->
+                get { report ->
+                    val entries = report.statsMap.values.map { stats -> stats.members + ("type" to stats.type) }
+                    if (continuation.isActive) continuation.resume(entries)
+                }
+            }
+        }
 
     private fun sendData(message: JsonObject, topic: String) {
         val publisher = publisher ?: return
@@ -509,13 +682,31 @@ class CallManager {
             micMuted = true
             Soundboard.stopAll()
         }
+        if (state == State.Joined) CallSounds.play(if (deafened) "deafen" else "undeafen")
         applyMic()
     }
 
-    private fun applyMic() {
-        val enabled = !micMuted
+    private fun silenceMic(publisher: LiveKitRoom, silenced: Boolean) {
+        publisher.localParticipant.getTrackPublication(Track.Source.MICROPHONE)?.track?.enabled = !silenced
+    }
+
+    fun holdToTalk(on: Boolean) {
+        if (!pushToTalk || talking == on) return
+        talking = on
+        applyMic()
+    }
+
+    fun applyMic() {
+        if (pushToTalk) micMuted = false else talking = false
+        val published = micPublished
+        val silenced = pushToTalk && !micEnabled
         val publisher = publisher
-        scope.launch { runCatching { publisher?.localParticipant?.setMicrophoneEnabled(enabled) } }
+        val previous = micJob
+        micJob = scope.launch {
+            previous?.join()
+            runCatching { publisher?.localParticipant?.setMicrophoneEnabled(published) }
+            if (published && publisher != null) silenceMic(publisher, silenced)
+        }
         refresh()
     }
 
@@ -527,6 +718,7 @@ class CallManager {
                 if (!hasPermission(Manifest.permission.CAMERA)) return@launch
             }
             try {
+                publisher?.videoTrackCaptureDefaults = cameraOptions
                 publisher?.localParticipant?.setCameraEnabled(enabled)
                 cameraOn = enabled
                 if (state == State.Joined) Sounds.play(if (enabled) SoundKind.CameraOn else SoundKind.CameraOff)
@@ -553,12 +745,32 @@ class CallManager {
                     local?.setScreenShareEnabled(false)
                     screenSharing = false
                 }
+                CallSounds.play(if (screenSharing) "screenshare_start" else "screenshare_stop")
             } catch (error: Exception) {
                 Log.w(TAG, "screen share: $error")
                 screenSharing = local?.isScreenShareEnabled ?: false
             }
             refresh()
         }
+    }
+
+    fun setOutputVolume(volume: Double) {
+        defaults.edit().putFloat("voice.outputVolume", volume.toFloat()).apply()
+        appliedVolumes.clear()
+        refresh()
+    }
+
+    fun applyAudioDevice() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+        val manager = context.getSystemService(AudioManager::class.java) ?: return
+        val id = defaults.getInt("voice.outputDevice", -1)
+        val device = manager.availableCommunicationDevices.firstOrNull { it.id == id }
+        if (device != null) manager.setCommunicationDevice(device) else if (id != -1) manager.clearCommunicationDevice()
+    }
+
+    fun setMicTesting(on: Boolean) {
+        micTesting = on
+        applyMic()
     }
 
     fun setVolume(volume: Double, userId: String) {
@@ -588,12 +800,14 @@ class CallManager {
         handRaised = !handRaised
         val raise = handRaised
         if (raise) raisedHands.add(session.identity) else raisedHands.remove(session.identity)
+        if (raise) CallSounds.play("raise_hand")
         refresh()
         scope.launch { runCatching { session.setHandRaised(raise) } }
     }
 
     private fun show(emoji: String, identity: String) {
         reactions[identity] = emoji
+        CallSounds.play("reaction")
         refresh()
         scope.launch {
             delay(REACTION_VISIBLE_MILLIS)
@@ -620,7 +834,7 @@ class CallManager {
             return
         }
         val remotes = mutableMapOf<String, Pair<RemoteParticipant, LiveKitRoom>>()
-        for (connection in connections.values) {
+        for (connection in connections.values.toSet()) {
             for ((identity, participant) in connection.remoteParticipants) remotes[identity.value] = participant to connection
         }
         val publisher = publisher
@@ -633,7 +847,15 @@ class CallManager {
             val isLocal = member.isOwnDevice
             val remote = if (isLocal) null else remotes[member.identity]
             val participant: Participant? = if (isLocal) local else remote?.first
-            var info = CallParticipantInfo(member.identity, member.userId, member.deviceId, isLocal)
+            var info = CallParticipantInfo(
+                member.identity,
+                member.userId,
+                member.deviceId,
+                isLocal,
+                displayName = member.displayName,
+                avatarUrl = member.avatarUrl,
+                isOwnOtherDevice = !isLocal && member.userId == client?.userId,
+            )
             if (participant != null) {
                 val videos = participant.trackPublications.values.filter { it.kind == Track.Kind.VIDEO && !it.muted }
                 info = info.copy(
@@ -645,7 +867,7 @@ class CallManager {
                     connection = if (isLocal) publisher else remote?.second,
                 )
             }
-            if (isLocal) info = info.copy(micMuted = micMuted, connected = state == State.Joined)
+            if (isLocal) info = info.copy(micMuted = !micPublished, connected = state == State.Joined)
             info = info.copy(
                 handRaised = member.identity in raisedHands,
                 reaction = reactions[member.identity],
@@ -656,7 +878,7 @@ class CallManager {
 
             // Deafen and per-person volume, applied only when they change
             if (participant is RemoteParticipant) {
-                val target = if (deafened || info.locallyMuted) 0.0 else info.volume
+                val target = if (deafened || info.locallyMuted) 0.0 else info.volume * outputVolume
                 for (publication in participant.trackPublications.values) {
                     val track = publication.track as? RemoteAudioTrack ?: continue
                     val key = "${member.identity}|${publication.sid}"
@@ -681,12 +903,15 @@ class CallManager {
                 if (event.topic == Soundboard.PLAY_TYPE) receiveSoundboard(identity, event.data)
             }
             is RoomEvent.Disconnected -> {
-                if (livekit !== publisher || state != State.Joined) return
-                val call = session
-                tearDown()
-                scope.launch { runCatching { call?.leave() } }
-                room = null
-                state = State.Failed(event.error?.message ?: L10n.format("call.disconnected"))
+                if (livekit !in connections.values || state != State.Joined) return
+                val wasPublisher = livekit === publisher
+                drop(livekit)
+                if (wasPublisher) {
+                    reconnect()
+                } else {
+                    syncRemoteConnections()
+                }
+                refresh()
             }
             else -> {}
         }
@@ -700,7 +925,7 @@ class CallManager {
                 micMuted = micMuted,
                 deafened = deafened,
                 othersSpeaking = speaker != null,
-                speakerName = speaker?.let { displayNames[it.userId] ?: it.userId },
+                speakerName = speaker?.let { it.displayName ?: it.userId },
                 participantCount = participants.map { it.userId }.toSet().size.coerceAtLeast(1),
                 ringing = ring == RingState.ringing,
             )
@@ -730,33 +955,53 @@ class CallManager {
         ringback = null
     }
 
+    /** Starts once per client, so the activity being recreated doesn't drop or repeat it */
     fun watchIncoming(client: WizardClient) {
+        if (incomingClient === client && incomingWatch != null) return
         incomingWatch?.cancel()
-        incomingWatch = client.watchIncomingCalls { ringIn(it) }
-        handledElsewhereWatch?.cancel()
-        handledElsewhereWatch = client.watchCallsHandledElsewhere { roomId ->
-            if (incoming?.roomId == roomId) dismissIncoming()
-        }
+        incomingClient = client
+        incomingWatch = client.watchIncomingCalls { incomingEvent(it) }
     }
 
     fun stopWatchingIncoming() {
         incomingWatch?.cancel()
         incomingWatch = null
-        handledElsewhereWatch?.cancel()
-        handledElsewhereWatch = null
+        incomingClient = null
         dismissIncoming()
     }
 
+    private fun incomingEvent(event: IncomingCallEvent) {
+        when (event) {
+            is IncomingCallEvent.Ringing -> ringIn(event.call)
+            is IncomingCallEvent.Ended -> ringEnded(event.call, event.reason)
+        }
+    }
+
+    /** A ring in the room already showing replaces it; one in another room is ignored meanwhile */
     private fun ringIn(call: IncomingCall) {
-        if (incoming != null || isInCall(call.roomId)) return
-        val remaining = call.expiresAt - System.currentTimeMillis()
-        if (remaining <= 0) return
-        incoming = RingingCall(call.roomId, call.eventId, call.sender, call.senderName, voiceOnly = call.intent == "audio")
-        if (call.ring) ringtone = Sounds.loop(SoundKind.Ring)
-        incomingTimer?.cancel()
-        incomingTimer = scope.launch {
-            delay(remaining)
-            dismissIncoming()
+        val shown = incoming
+        if ((shown != null && shown.roomId != call.roomId) || isInCall(call.roomId)) return
+        incoming = RingingCall(
+            call.roomId,
+            call.eventId,
+            call.sender,
+            call.senderName,
+            voiceOnly = call.intent != "video",
+            ring = call.ring,
+        )
+        if (call.ring) {
+            if (ringtone == null) ringtone = Sounds.loop(SoundKind.Ring)
+        } else {
+            ringtone?.stop()
+            ringtone = null
+        }
+    }
+
+    private fun ringEnded(call: IncomingCall, reason: RingEnd) {
+        if (incoming?.roomId == call.roomId) dismissIncoming()
+        val missed = reason == RingEnd.callerLeft || reason == RingEnd.expired
+        if (missed && call.ring) {
+            MessageNotifier.shared.missedCall(call.roomId, call.senderName ?: call.sender, call.roomName)
         }
     }
 
@@ -765,18 +1010,17 @@ class CallManager {
         val room = session.roomList?.room(call.roomId) ?: return
         dismissIncoming()
         showCallScreen = true
-        scope.launch { join(room, session, intent = if (call.voiceOnly) "audio" else "video") }
+        scope.launch { join(room, session, intent = if (call.voiceOnly) "audio" else "video", ring = false) }
     }
 
     fun declineIncoming(session: MatrixSession) {
         val call = incoming ?: return
         dismissIncoming()
+        if (!call.ring) return
         scope.launch { runCatching { session.client?.declineCall(call.roomId, call.eventId) } }
     }
 
     fun dismissIncoming() {
-        incomingTimer?.cancel()
-        incomingTimer = null
         ringtone?.stop()
         ringtone = null
         incoming = null
@@ -794,6 +1038,10 @@ class CallManager {
     companion object {
         private const val TAG = "WZCALL"
         private const val REACTION_VISIBLE_MILLIS = 3000L
+        private const val CONNECT_TIMEOUT_MILLIS = 30_000L
+        private const val RECONNECT_GIVE_UP_MILLIS = 120_000L
+        private const val SUBSCRIBE_RETRY_MILLIS = 5000L
+        private const val STATS_TIMEOUT_MILLIS = 3_000L
 
         val shared = CallManager()
     }

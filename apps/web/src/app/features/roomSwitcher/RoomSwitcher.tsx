@@ -77,13 +77,11 @@ async function addToSpace(
   if (!client) return;
   setLoadingId(entry.roomId);
   const isSubspace = addState.type === 'subspace';
-  const failKey = isSubspace
-    ? 'room.space.addExistingSubSpaceFailed'
-    : 'room.space.addExistingRoomFailed';
+  const failKey = isSubspace ? 'space.addExistingSubSpaceFailed' : 'space.addExistingRoomFailed';
   try {
     const settings = await client.roomSettings(addState.spaceId);
     if (!canSendState(settings, client.userId() ?? '', 'm.space.child')) {
-      toast.error(t('room.space.addExistingRoomFailed', { error: 'insufficient permissions' }));
+      toast.error(t('space.addExistingRoomFailed', { error: 'insufficient permissions' }));
       return;
     }
     await client.addToSpace(addState.spaceId, entry.roomId, false);
@@ -253,7 +251,7 @@ export function RoomSwitcher() {
       title={
         inForwardMode
           ? t('timeline.forwardPickerTitle')
-          : t(isSubspace ? 'room.space.addExistingSubSpace' : 'room.space.addExistingRoom', {
+          : t(isSubspace ? 'space.addExistingSubSpace' : 'space.addExistingRoom', {
               name: spaceName,
             })
       }
@@ -276,8 +274,8 @@ export function RoomSwitcher() {
               ? t('timeline.forwardSearchPlaceholder')
               : t(
                   isSubspace
-                    ? 'room.space.addExistingSubSpaceSearchPlaceholder'
-                    : 'room.space.addExistingRoomSearchPlaceholder'
+                    ? 'space.addExistingSubSpaceSearchPlaceholder'
+                    : 'space.addExistingRoomSearchPlaceholder'
                 )
           }
           value={query}
@@ -297,18 +295,14 @@ export function RoomSwitcher() {
         {displayed.length === 0 ? (
           <div className={css.emptyState}>
             {inForwardMode
-              ? t('roomSwitcher.noResults')
+              ? t('search.switcher.noResults')
               : query
                 ? t(
                     isSubspace
-                      ? 'room.space.addExistingSubSpaceNoResults'
-                      : 'room.space.addExistingRoomNoResults'
+                      ? 'space.addExistingSubSpaceNoResults'
+                      : 'space.addExistingRoomNoResults'
                   )
-                : t(
-                    isSubspace
-                      ? 'room.space.addExistingSubSpaceEmpty'
-                      : 'room.space.addExistingRoomEmpty'
-                  )}
+                : t(isSubspace ? 'space.addExistingSubSpaceEmpty' : 'space.addExistingRoomEmpty')}
           </div>
         ) : (
           displayed.map((entry, idx) => {
@@ -361,15 +355,15 @@ export function RoomSwitcher() {
         <div className={css.footer}>
           <span className={css.footerHint}>
             <KeyCaps keys={['↑', '↓']} size="sm" />
-            {t('roomSwitcher.hintNavigate')}
+            {t('common.navigate')}
           </span>
           <span className={css.footerHint}>
             <KeyCaps keys={['↵']} size="sm" />
-            {inForwardMode ? t('timeline.forwardHint') : t('roomSwitcher.hintOpen')}
+            {inForwardMode ? t('timeline.forwardHint') : t('search.switcher.hintOpen')}
           </span>
           <span className={css.footerHint}>
             <KeyCaps keys={['Esc']} size="sm" />
-            {t('roomSwitcher.hintClose')}
+            {t('search.switcher.hintClose')}
           </span>
         </div>
       )}

@@ -122,7 +122,7 @@ internal fun SpaceChannelsScreen(spaceId: String, roomList: RoomListModel, onBac
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            (categoryId?.let { id -> roomList.space(id)?.name } ?: tr("room.title")).uppercase(),
+                            (categoryId?.let { id -> roomList.space(id)?.name } ?: tr("nav.rooms")).uppercase(),
                             Modifier.weight(1f),
                             style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                             color = theme.textMuted,
@@ -161,7 +161,7 @@ internal fun SpaceChannelsScreen(spaceId: String, roomList: RoomListModel, onBac
                                     { moving = null },
                                     categories.filter { it != category }.map { target ->
                                         MenuItem(
-                                            target.spaceId?.let { id -> roomList.space(id)?.name } ?: tr("room.title"),
+                                            target.spaceId?.let { id -> roomList.space(id)?.name } ?: tr("nav.rooms"),
                                             "arrow-right",
                                         ) { moveToCategory(roomId, categoryId ?: spaceId, target.spaceId ?: spaceId) }
                                     },

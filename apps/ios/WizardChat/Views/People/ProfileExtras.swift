@@ -9,19 +9,30 @@ extension Color {
     }
 }
 
-/// The profile picture, with a ring in the person's accent colour when they chose one
+/// The profile picture, with a ring in the person's accent colour when they chose one, inside their frame
 struct AccentAvatar: View {
     let name: String
     let url: String?
     let accent: String?
+    var decoration: CosmeticValue? = nil
+    var frame: CosmeticValue? = nil
 
     var body: some View {
+        ZStack {
+            CosmeticFramePieces(value: frame, layer: "back", size: WZ.SizeAvatar.xl)
+            picture
+            CosmeticFramePieces(value: frame, layer: "front", size: WZ.SizeAvatar.xl)
+        }
+    }
+
+    @ViewBuilder
+    private var picture: some View {
         if let color = Color.accent(accent) {
-            AvatarView(name: name, url: url, size: WZ.SizeAvatar.xl)
+            AvatarView(name: name, url: url, size: WZ.SizeAvatar.xl, decoration: decoration)
                 .padding(3)
                 .overlay(Circle().strokeBorder(color, lineWidth: 3))
         } else {
-            AvatarView(name: name, url: url, size: WZ.SizeAvatar.xl)
+            AvatarView(name: name, url: url, size: WZ.SizeAvatar.xl, decoration: decoration)
         }
     }
 }

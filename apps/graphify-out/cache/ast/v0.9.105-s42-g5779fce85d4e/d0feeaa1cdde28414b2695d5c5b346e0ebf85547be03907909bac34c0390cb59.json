@@ -1,0 +1,749 @@
+{
+  "nodes": [
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "label": "downloads.rs",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L1"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "label": "sanitize_file_name()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L7"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_is_invisible_format",
+      "label": "is_invisible_format()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L37"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "label": "is_reserved_device_name()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L47"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "label": "mark_downloaded()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L59"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "label": "unique_path()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L66"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "label": "save_download()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L94"
+    },
+    {
+      "id": "apphandle",
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/downloads.rs",
+      "_rust_use_roots": ["tauri"]
+    },
+    {
+      "id": "request",
+      "label": "Request",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "origin_file": "$graphify-root$/desktop/src-tauri/src/downloads.rs"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "label": "percent_decode()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L117"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_file_names_are_made_safe",
+      "label": "file_names_are_made_safe()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L141"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_windows_device_names_are_prefixed",
+      "label": "windows_device_names_are_prefixed()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L149"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_trailing_spaces_and_dots_are_removed",
+      "label": "trailing_spaces_and_dots_are_removed()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L160"
+    },
+    {
+      "id": "$graphify-root$_desktop_src_tauri_src_downloads_header_names_are_percent_decoded",
+      "label": "header_names_are_percent_decoded()",
+      "file_type": "code",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L166"
+    }
+  ],
+  "edges": [
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "tauri",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_group": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "apphandle",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "manager",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_binding": true
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_is_invisible_format",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L37",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L59",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "apphandle",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "request",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L94",
+      "weight": 1.0,
+      "context": "parameter_type"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "super",
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L138",
+      "weight": 1.0,
+      "context": "import",
+      "_rust_use_name": "super"
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_file_names_are_made_safe",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L141",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_windows_device_names_are_prefixed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L149",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_trailing_spaces_and_dots_are_removed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_rs",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_header_names_are_percent_decoded",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L166",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_is_invisible_format",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L112",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_file_names_are_made_safe",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_windows_device_names_are_prefixed",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_trailing_spaces_and_dots_are_removed",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "$graphify-root$_desktop_src_tauri_src_downloads_header_names_are_percent_decoded",
+      "target": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "relation": "calls",
+      "context": "macro_argument_call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L168",
+      "weight": 1.0
+    }
+  ],
+  "raw_calls": [
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "chars",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L8"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L8"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "rsplit",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L8"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "is_control",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L15"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "trim_matches",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L19"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "trim",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L19"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_sanitize_file_name",
+      "callee": "trim_end_matches",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L26"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "trim_end",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "split",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L48"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "to_ascii_uppercase",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L49"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_is_reserved_device_name",
+      "callee": "starts_with",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L51"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "callee": "to_os_string",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "callee": "as_os_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L60"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "callee": "write",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_mark_downloaded",
+      "callee": "replace",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L62"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L67"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "exists",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L68"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "new",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::path::Path",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L71"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "file_stem",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L72"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "to_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L74"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "extension",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "to_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L76"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L82"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "exists",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L83"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_unique_path",
+      "callee": "join",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L87"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "body",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L95"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "and_then",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "headers",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L98"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "to_str",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L101"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "download_dir",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "path",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L104"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "create_dir_all",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L108"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "map_err",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "write",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::fs",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L110"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "into_owned",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L113"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_save_download",
+      "callee": "to_string_lossy",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L113"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "as_bytes",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L118"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "with_capacity",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "Vec",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L119"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "unwrap_or",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "from_utf8",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "std::str",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L123"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "from_str_radix",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "u8",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L124"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "into_owned",
+      "is_member_call": true,
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L133"
+    },
+    {
+      "caller_nid": "$graphify-root$_desktop_src_tauri_src_downloads_percent_decode",
+      "callee": "from_utf8_lossy",
+      "is_member_call": false,
+      "is_scoped_call": true,
+      "scope_qualifier": "String",
+      "source_file": "desktop/src-tauri/src/downloads.rs",
+      "source_location": "L133"
+    }
+  ]
+}

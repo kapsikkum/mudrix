@@ -15,8 +15,6 @@ import { soundboardRuntime } from './runtime';
 import { typeAndLegacy } from '@/util/namespace';
 import { SOUNDBOARD_PLAY_EVENT_TYPE, type SoundboardPlayContent } from './types';
 
-/** How long what a room says about the soundboard is trusted before it is asked again. */
-const REFRESH_MS = 30_000;
 /** How far a sender's clock may be ahead of ours before its presses look older than the call. */
 const CLOCK_SKEW_MS = 5_000;
 
@@ -71,14 +69,11 @@ export function useSoundboardReceiver(client: WizardClient | null): void {
   // Know what the room and its spaces say before the first press.
   useEffect(() => {
     if (!client || !callRoomId || !enabled) return undefined;
-    const warm = () => {
-      for (const id of boardRoomIds(spaceGraphRef.current, callRoomId)) {
-        void loadRoomSoundboardData(client, id, true).catch(() => {});
-      }
-    };
-    warm();
-    const timer = window.setInterval(warm, REFRESH_MS);
-    return () => window.clearInterval(timer);
+    // Once is enough: the state store follows changes by itself.
+    for (const id of boardRoomIds(spaceGraphRef.current, callRoomId)) {
+      void loadRoomSoundboardData(client, id).catch(() => {});
+    }
+    return undefined;
   }, [client, callRoomId, enabled]);
 
   useEffect(() => {

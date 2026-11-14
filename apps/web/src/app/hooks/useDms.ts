@@ -11,6 +11,7 @@ export interface DmEntry {
   partnerId: string;
   partnerName: string;
   partnerAvatarMxc: string | null;
+  avatarMxc: string | null;
   unreadCount: number;
   hasNotif: boolean;
 }
@@ -28,6 +29,7 @@ export function useDms(): DmEntry[] {
           partnerId: room.dmUserId ?? '',
           partnerName: room.dmUserName ?? formatUserId(room.dmUserId ?? room.id),
           partnerAvatarMxc: room.dmUserAvatar,
+          avatarMxc: room.avatarUrl ?? room.dmUserAvatar,
           unreadCount: getRoomUnreadCount(room),
           hasNotif: roomHasUnreadMention(room),
         }))
