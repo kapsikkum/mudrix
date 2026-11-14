@@ -54,3 +54,6 @@ tools/parity/*.json
 tools/test-server/.generated/
 
 /target-*/
+
+# graphify knowledge-graph output (local tool cache)
+graphify-out/
