@@ -235,15 +235,13 @@ export function markSpaceAsRead(
   );
 }
 
-export function markRoomsAsRead(
+export async function markRoomsAsRead(
   client: WizardClient | null,
   sendReadReceipts: boolean,
   roomIds: string[]
-): void {
+): Promise<void> {
   if (!client) return;
-  for (const roomId of roomIds) {
-    void markRoomAsRead(client, roomId, sendReadReceipts);
-  }
+  await Promise.all(roomIds.map((roomId) => markRoomAsRead(client, roomId, sendReadReceipts)));
 }
 
 export function getHomeRoomIds(rooms: RoomSummary[], graph: SpaceNode[]): string[] {
