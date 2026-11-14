@@ -31,9 +31,16 @@ the stack runs at a time.
 
 ```sh
 npm run test-server          # start (or restart); writes .generated/env.json
-npm run test-server:seed     # accounts, rooms, spaces, fixtures (once)
+npm run test-server:seed     # accounts, rooms, spaces, fixtures (see below)
 npm run dev                  # the web app, http://localhost:5180
 ```
+
+Running the seed again on a server it already filled exits straight away (the seeded marker is
+set). If an earlier run was interrupted before that marker, the next run reuses the fixture rooms
+it already made (each carries an `io.github.kapsikkum.mudrix.test.fixture` state event with its
+key) and any DM ash already has with a fixture person (from `m.direct`), instead of creating
+them again, and fills in what is missing. Space children are written with a zero-padded `order`
+("01", "02", ...), so the rooms sort in the order the seed gives them.
 
 `up.mjs` uses `podman` when it is installed and `docker` otherwise; set `MUDRIX_TEST_RUNTIME` to
 force one. It pulls four images the first time (`tuwunel`, `livekit-server`, `lk-jwt-service`,

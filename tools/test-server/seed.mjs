@@ -31,6 +31,10 @@ const NS = 'io.github.kapsikkum.mudrix';
 const LEGACY_NS = 'chat.mudrix';
 /** How many rooms the R10 space fixture gets (a big space must not feel slow to expand). */
 const SPACE_ROOMS = Number(process.env.MUDRIX_SEED_SPACE_ROOMS ?? 40);
+/** Width of the zero-padded `m.space.child` order ("01".."40"), so string order is room order. */
+const ORDER_WIDTH = Math.max(2, String(SPACE_ROOMS).length);
+/** The state event that tags each fixture room with its name, so a re-run finds it again. */
+const FIXTURE_STATE = `${NS}.test.fixture`;
 const HS = env.homeserver;
 
 // ── tiny PNG writer, for generated avatars ──
@@ -309,8 +313,58 @@ if (marker?.done) {
   process.exit(0);
 }
 
+/** Fixture rooms from an earlier, interrupted run; they are reused and get nothing new. */
+const existing = await findFixtures(ash);
+if (existing.size > 0) console.log(`Reusing ${existing.size} fixture room(s) from an earlier run.`);
+/** Rooms this run created (by room id). Rooms it found from an earlier run get no new messages. */
+const created = new Set();
+
+const fixtureTag = (key) => ({ type: FIXTURE_STATE, state_key: '', content: { key } });
+
+async function joinedRoomIds(u) {
+  const { joined_rooms: ids } = await api(u.token, 'GET', '/_matrix/client/v3/joined_rooms');
+  return ids;
+}
+
+/** The fixture rooms `u` is in, by key. A room without the tag was not made by this seed. */
+async function findFixtures(u) {
+  const found = new Map();
+  for (const roomId of await joinedRoomIds(u)) {
+    const tag = await api(
+      u.token,
+      'GET',
+      `/_matrix/client/v3/rooms/${enc(roomId)}/state/${enc(FIXTURE_STATE)}/`
+    ).catch((e) => {
+      if (e.status === 404) return null;
+      throw e;
+    });
+    if (tag?.key) found.set(tag.key, roomId);
+  }
+  return found;
+}
+
+async function makeRoom(owner, key, body) {
+  const { room_id: roomId } = await api(owner.token, 'POST', '/_matrix/client/v3/createRoom', {
+    ...body,
+    initial_state: [...(body.initial_state ?? []), fixtureTag(key)],
+  });
+  created.add(roomId);
+  return roomId;
+}
+
 async function dm(a, b) {
-  const { room_id: roomId } = await api(a.token, 'POST', '/_matrix/client/v3/createRoom', {
+  const key = `dm with ${b.user}`;
+  if (existing.has(key)) return existing.get(key);
+  // A DM with this person made some other way (or before the tags) is reused, not doubled.
+  const direct = await api(
+    a.token,
+    'GET',
+    `/_matrix/client/v3/user/${enc(a.id)}/account_data/m.direct`
+  ).catch(() => ({}));
+  const joinedIds = new Set(await joinedRoomIds(a));
+  const reuse = (direct[b.id] ?? []).find((id) => joinedIds.has(id));
+  if (reuse) return reuse;
+  const roomId = await makeRoom(a, key, {
     preset: 'trusted_private_chat',
     is_direct: true,
     invite: [b.id],
@@ -337,7 +391,8 @@ async function dm(a, b) {
 }
 
 async function room(owner, name, members, extra = {}) {
-  const { room_id: roomId } = await api(owner.token, 'POST', '/_matrix/client/v3/createRoom', {
+  if (existing.has(name)) return existing.get(name);
+  const roomId = await makeRoom(owner, name, {
     preset: 'public_chat',
     name,
     // Like Element: anyone in the room may join its calls.
@@ -350,30 +405,39 @@ async function room(owner, name, members, extra = {}) {
   return roomId;
 }
 
+/** `order` is 1-based; written zero-padded so that string order matches room order. */
 async function spaceChild(owner, spaceId, childId, order) {
   await api(
     owner.token,
     'PUT',
     `/_matrix/client/v3/rooms/${enc(spaceId)}/state/m.space.child/${enc(childId)}`,
-    { via: [env.serverName], suggested: true, order: String(order) }
+    {
+      via: [env.serverName],
+      suggested: true,
+      order: String(order).padStart(ORDER_WIDTH, '0'),
+    }
   );
 }
 
 // ── DMs and group rooms (README screenshots, calls, rich timeline) ──
 const dmJuno = await dm(ash, juno);
-await text(juno, dmJuno, 'are we still on for tonight?');
-await text(ash, dmJuno, 'yes! bringing snacks 🍿');
-const q = await text(juno, dmJuno, 'perfect, I will set up the call');
-await send(
-  ash,
-  dmJuno,
-  { 'm.relates_to': { rel_type: 'm.annotation', event_id: q.event_id, key: '💜' } },
-  'm.reaction'
-);
+if (created.has(dmJuno)) {
+  await text(juno, dmJuno, 'are we still on for tonight?');
+  await text(ash, dmJuno, 'yes! bringing snacks 🍿');
+  const q = await text(juno, dmJuno, 'perfect, I will set up the call');
+  await send(
+    ash,
+    dmJuno,
+    { 'm.relates_to': { rel_type: 'm.annotation', event_id: q.event_id, key: '💜' } },
+    'm.reaction'
+  );
+}
 
 const dmTheo = await dm(ash, theo);
-await text(theo, dmTheo, 'did you see the new sound packs?');
-await text(ash, dmTheo, 'the NES one is so good');
+if (created.has(dmTheo)) {
+  await text(theo, dmTheo, 'did you see the new sound packs?');
+  await text(ash, dmTheo, 'the NES one is so good');
+}
 
 const everyone = [juno, theo, mira, wren, sable];
 const general = await room(ash, 'general', everyone, { topic: 'Say hi 👋' });
@@ -387,52 +451,58 @@ const space = await room(ash, 'Mud Club', everyone, {
   topic: 'A test space for Mudrix',
 });
 for (const [i, child] of [general, art, voice].entries()) {
-  await spaceChild(ash, space, child, i);
+  await spaceChild(ash, space, child, i + 1);
 }
 
-const chat = [
-  [mira, 'morning everyone ☀️'],
-  [wren, 'morning! who is around for a call later?'],
-  [sable, 'me, after 6'],
-  [juno, 'same. testing the new call layout'],
-  [theo, 'my avatar is still a mud blob 😅'],
-  [ash, 'it suits you'],
-  [
-    mira,
-    '```js\nconsole.log("hello from Mudrix");\n```',
-    '<pre><code class="language-js">console.log("hello from Mudrix");\n</code></pre>',
-  ],
-  [wren, 'see you in Hangout at 6 then'],
-];
-let last;
-for (const [who, body, html] of chat) last = await text(who, general, body, html);
-for (const [who, key] of [
-  [ash, '👍'],
-  [juno, '👍'],
-  [sable, '🎉'],
-]) {
-  await send(
-    who,
-    general,
-    { 'm.relates_to': { rel_type: 'm.annotation', event_id: last.event_id, key } },
-    'm.reaction'
-  );
+if (created.has(general)) {
+  const chat = [
+    [mira, 'morning everyone ☀️'],
+    [wren, 'morning! who is around for a call later?'],
+    [sable, 'me, after 6'],
+    [juno, 'same. testing the new call layout'],
+    [theo, 'my avatar is still a mud blob 😅'],
+    [ash, 'it suits you'],
+    [
+      mira,
+      '```js\nconsole.log("hello from Mudrix");\n```',
+      '<pre><code class="language-js">console.log("hello from Mudrix");\n</code></pre>',
+    ],
+    [wren, 'see you in Hangout at 6 then'],
+  ];
+  let last;
+  for (const [who, body, html] of chat) last = await text(who, general, body, html);
+  for (const [who, key] of [
+    [ash, '👍'],
+    [juno, '👍'],
+    [sable, '🎉'],
+  ]) {
+    await send(
+      who,
+      general,
+      { 'm.relates_to': { rel_type: 'm.annotation', event_id: last.event_id, key } },
+      'm.reaction'
+    );
+  }
 }
-await text(sable, art, 'new wallpaper, thoughts?');
-await text(mira, art, 'the colours 😍');
+if (created.has(art)) {
+  await text(sable, art, 'new wallpaper, thoughts?');
+  await text(mira, art, 'the colours 😍');
+}
 
 // ── R8: what counts as a direct message ──
 /** A DM whose other member left: the m.direct entry stays, so it must still read as a DM. */
 const dmLeft = await dm(ash, sable);
-await text(sable, dmLeft, 'goodnight!');
-await leave(sable, dmLeft);
+if (created.has(dmLeft)) {
+  await text(sable, dmLeft, 'goodnight!');
+  await leave(sable, dmLeft);
+}
 /** A named two-person room that was never a DM: no is_direct, no m.direct entry. */
 const pairNamed = await room(ash, 'Two people, not a DM', [juno]);
 /** An unnamed two-person room: the old JavaScript client guessed "DM", the core does not. */
-const { room_id: pairUnnamed } = await api(ash.token, 'POST', '/_matrix/client/v3/createRoom', {
-  preset: 'public_chat',
-});
-await join(juno, pairUnnamed);
+const unnamedKey = 'unnamed two-person room';
+const pairUnnamed =
+  existing.get(unnamedKey) ?? (await makeRoom(ash, unnamedKey, { preset: 'public_chat' }));
+if (created.has(pairUnnamed)) await join(juno, pairUnnamed);
 
 // ── N4: unread and mention counts ──
 // Each fixture room starts with a message ash has already read, so the counts below are exactly
@@ -440,93 +510,103 @@ await join(juno, pairUnnamed);
 const n4 = {};
 
 const unread = await room(ash, 'n4 unread (3 messages)', [juno]);
-await notifyEverything(ash, unread, 'mudrix-n4-unread');
-let anchor = await text(ash, unread, 'read up to here');
-await readUpTo(ash, unread, anchor.event_id);
-for (const body of ['one', 'two', 'three']) await text(juno, unread, body);
+if (created.has(unread)) {
+  await notifyEverything(ash, unread, 'mudrix-n4-unread');
+  const anchor = await text(ash, unread, 'read up to here');
+  await readUpTo(ash, unread, anchor.event_id);
+  for (const body of ['one', 'two', 'three']) await text(juno, unread, body);
+}
 n4.unread = unread;
 
 const mention = await room(ash, 'n4 mention', [juno, wren]);
-await notifyEverything(ash, mention, 'mudrix-n4-mention');
-anchor = await text(ash, mention, 'read up to here');
-await readUpTo(ash, mention, anchor.event_id);
-await text(juno, mention, 'the build is green again');
-await text(juno, mention, `${ash.id} can you look at the badge?`, undefined, [ash.id]);
-await text(wren, mention, 'and at the spacing?');
+if (created.has(mention)) {
+  await notifyEverything(ash, mention, 'mudrix-n4-mention');
+  const anchor = await text(ash, mention, 'read up to here');
+  await readUpTo(ash, mention, anchor.event_id);
+  await text(juno, mention, 'the build is green again');
+  await text(juno, mention, `${ash.id} can you look at the badge?`, undefined, [ash.id]);
+  await text(wren, mention, 'and at the spacing?');
+}
 n4.mention = mention;
 
 const thread = await room(ash, 'n4 thread', [juno]);
-await notifyEverything(ash, thread, 'mudrix-n4-thread');
-anchor = await text(ash, thread, 'thread root');
-await readUpTo(ash, thread, anchor.event_id);
-await send(
-  juno,
-  thread,
-  {
-    msgtype: 'm.text',
-    body: 'a reply in the thread',
-    'm.relates_to': {
-      rel_type: 'm.thread',
-      event_id: anchor.event_id,
-      is_falling_back: true,
-      'm.in_reply_to': { event_id: anchor.event_id },
+if (created.has(thread)) {
+  await notifyEverything(ash, thread, 'mudrix-n4-thread');
+  const anchor = await text(ash, thread, 'thread root');
+  await readUpTo(ash, thread, anchor.event_id);
+  await send(
+    juno,
+    thread,
+    {
+      msgtype: 'm.text',
+      body: 'a reply in the thread',
+      'm.relates_to': {
+        rel_type: 'm.thread',
+        event_id: anchor.event_id,
+        is_falling_back: true,
+        'm.in_reply_to': { event_id: anchor.event_id },
+      },
     },
-  },
-  'm.room.message'
-);
-await send(
-  juno,
-  thread,
-  {
-    msgtype: 'm.text',
-    body: `${ash.id} and one that mentions you`,
-    'm.mentions': { user_ids: [ash.id] },
-    'm.relates_to': {
-      rel_type: 'm.thread',
-      event_id: anchor.event_id,
-      is_falling_back: true,
-      'm.in_reply_to': { event_id: anchor.event_id },
+    'm.room.message'
+  );
+  await send(
+    juno,
+    thread,
+    {
+      msgtype: 'm.text',
+      body: `${ash.id} and one that mentions you`,
+      'm.mentions': { user_ids: [ash.id] },
+      'm.relates_to': {
+        rel_type: 'm.thread',
+        event_id: anchor.event_id,
+        is_falling_back: true,
+        'm.in_reply_to': { event_id: anchor.event_id },
+      },
     },
-  },
-  'm.room.message'
-);
+    'm.room.message'
+  );
+}
 n4.thread = thread;
 
 /** Membership and call events after the read marker: none of them may count as unread. */
 const quiet = await room(ash, 'n4 quiet (join/leave/call only)', [juno]);
-await text(juno, quiet, 'nothing to see here');
-const quietAnchor = await text(ash, quiet, 'read up to here');
-await readUpTo(ash, quiet, quietAnchor.event_id);
-await leave(juno, quiet);
-await join(juno, quiet);
-// The same state key shape the clients use for a call membership (MSC3401, legacy `_` prefix).
-const callStateKey = `_${juno.id}_${sessions.juno.device_id}_m.call`;
-await api(
-  juno.token,
-  'PUT',
-  `/_matrix/client/v3/rooms/${enc(quiet)}/state/org.matrix.msc3401.call.member/${enc(callStateKey)}`,
-  {
-    application: 'm.call',
-    call_id: '',
-    scope: 'm.room',
-    device_id: sessions.juno.device_id,
-    foci_preferred: [],
-    created_ts: Date.now(),
-  }
-);
-await api(
-  juno.token,
-  'PUT',
-  `/_matrix/client/v3/rooms/${enc(quiet)}/state/org.matrix.msc3401.call.member/${enc(callStateKey)}`,
-  {}
-);
+if (created.has(quiet)) {
+  await text(juno, quiet, 'nothing to see here');
+  const quietAnchor = await text(ash, quiet, 'read up to here');
+  await readUpTo(ash, quiet, quietAnchor.event_id);
+  await leave(juno, quiet);
+  await join(juno, quiet);
+  // The same state key shape the clients use for a call membership (MSC3401, legacy `_` prefix).
+  const callStateKey = `_${juno.id}_${sessions.juno.device_id}_m.call`;
+  await api(
+    juno.token,
+    'PUT',
+    `/_matrix/client/v3/rooms/${enc(quiet)}/state/org.matrix.msc3401.call.member/${enc(callStateKey)}`,
+    {
+      application: 'm.call',
+      call_id: '',
+      scope: 'm.room',
+      device_id: sessions.juno.device_id,
+      foci_preferred: [],
+      created_ts: Date.now(),
+    }
+  );
+  await api(
+    juno.token,
+    'PUT',
+    `/_matrix/client/v3/rooms/${enc(quiet)}/state/org.matrix.msc3401.call.member/${enc(callStateKey)}`,
+    {}
+  );
+}
 n4.quiet = quiet;
 
 /** Everything read: the "mark unread" half of the scenario starts from a zero badge here. */
 const readDemo = await room(ash, 'n4 read (mark unread from here)', [juno]);
-await notifyEverything(ash, readDemo, 'mudrix-n4-read');
-const readAnchor = await text(juno, readDemo, 'all caught up');
-await readUpTo(ash, readDemo, readAnchor.event_id);
+if (created.has(readDemo)) {
+  await notifyEverything(ash, readDemo, 'mudrix-n4-read');
+  const readAnchor = await text(juno, readDemo, 'all caught up');
+  await readUpTo(ash, readDemo, readAnchor.event_id);
+}
 n4.read = readDemo;
 
 // ── R10: a space with many rooms, to time the hierarchy load ──
@@ -541,14 +621,14 @@ for (const [i, label] of [
   'Parity Category C',
 ].entries()) {
   const category = await room(ash, label, [], { creation_content: { type: 'm.space' } });
-  await spaceChild(ash, bigSpace, category, i);
+  await spaceChild(ash, bigSpace, category, i + 1);
   categories.push(category);
 }
-console.log(`creating ${SPACE_ROOMS} rooms under Parity Space...`);
+console.log(`making or finding ${SPACE_ROOMS} rooms under Parity Space...`);
 for (let i = 0; i < SPACE_ROOMS; i += 1) {
   const name = `parity-room-${String(i + 1).padStart(2, '0')}`;
   const child = await room(ash, name, []);
-  await spaceChild(ash, categories[i % categories.length], child, i);
+  await spaceChild(ash, categories[i % categories.length], child, i + 1);
   if ((i + 1) % 10 === 0) console.log(`  ${i + 1}/${SPACE_ROOMS}`);
 }
 
