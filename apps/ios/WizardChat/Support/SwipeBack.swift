@@ -4,12 +4,12 @@ import UIKit
 /// gesture off then), and never starts it on the root screen.
 @MainActor
 extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = self
     }
 
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         viewControllers.count > 1
     }
 }
