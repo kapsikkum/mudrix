@@ -5,7 +5,7 @@
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use wizardchat_core::{Session, StoreConfig, WizardClient};
+use mudrix_core::{Session, StoreConfig, WizardClient};
 
 pub type BoxError = Box<dyn std::error::Error>;
 

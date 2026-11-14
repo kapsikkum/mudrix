@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useMemo, KeyboardEvent } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import type { PublicRoom, WizardClient as MatrixClient } from '@wizardchat/core';
+import type { PublicRoom, WizardClient as MatrixClient } from '@mudrix/core';
 import {
   MagnifyingGlassIcon,
   CompassIcon,

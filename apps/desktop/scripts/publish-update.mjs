@@ -1,6 +1,6 @@
 // Publishes a desktop release from the CI build artifacts: uploads the installers and update bundles
-// to the GitLab package registry (`wizardchat-desktop/<tag>/`) and writes the update feed the apps
-// check (`wizardchat-desktop/<channel>/latest.json`), stable releases to stable and next releases to
+// to the GitLab package registry (`mudrix-desktop/<tag>/`) and writes the update feed the apps
+// check (`mudrix-desktop/<channel>/latest.json`), stable releases to stable and next releases to
 // next. The installers are listed in desktop-assets.json for the release page.
 // The Linux tarball's PKGBUILD goes next to the feed (`<channel>/PKGBUILD`) for Arch users.
 // The Android APK is uploaded and listed with the installers for people who don't use Google Play.
@@ -19,7 +19,7 @@ if (!api || !project || !token || !tag) throw new Error('run this in a CI tag pi
 
 const version = tag.replace(/^v/, '');
 const bundle = 'target/release/bundle';
-const registry = `${api}/projects/${project}/packages/generic/wizardchat-desktop`;
+const registry = `${api}/projects/${project}/packages/generic/mudrix-desktop`;
 
 const macBundle = (arch) => `target/${arch}-apple-darwin/release/bundle`;
 const windowsBundle = 'target/x86_64-pc-windows-msvc/release/bundle';

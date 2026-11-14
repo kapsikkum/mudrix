@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { fetchMediaBlobUrl, mediaBlobCacheKey } from './fetchMediaBlobUrl';
 import { deleteCachedBlobUrl, getCachedBlobUrl } from '@/app/features/timeline/message/mediaCache';
 

@@ -1,5 +1,5 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
-import type { Member } from '@wizardchat/core';
+import type { Member } from '@mudrix/core';
 import { queryKeys } from '@/app/data';
 
 const byIdCache = new WeakMap<Member[], Map<string, Member>>();

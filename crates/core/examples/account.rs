@@ -1,12 +1,12 @@
 //! End-to-end check of account management: registration, availability, password change,
 //! profile fields (banner) and deactivation, on a fresh throwaway account.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example account
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example account
 
 #![recursion_limit = "256"]
 
+use mudrix_core::{StoreConfig, UiaAuth, UiaOutcome, WizardClient};
 use serde_json::json;
-use wizardchat_core::{StoreConfig, UiaAuth, UiaOutcome, WizardClient};
 
 type BoxError = Box<dyn std::error::Error>;
 
@@ -66,7 +66,7 @@ async fn main() -> Result<(), BoxError> {
                 }),
             )
             .await,
-        Err(wizardchat_core::Error::InvalidCredentials)
+        Err(mudrix_core::Error::InvalidCredentials)
     ));
     let UiaOutcome::AuthRequired {
         session: uia_session,
@@ -158,7 +158,7 @@ async fn main() -> Result<(), BoxError> {
     again.logout().await.ok();
     assert!(matches!(
         client.deactivate_account(None, false).await,
-        Err(wizardchat_core::Error::PasswordRequired)
+        Err(mudrix_core::Error::PasswordRequired)
     ));
     client.deactivate_account(Some(&new_password), true).await?;
     assert!(

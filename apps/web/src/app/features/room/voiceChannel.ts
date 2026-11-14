@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useSpaceGraph } from '@/app/data';
 import { findParentSpaceId } from '@/util/matrix';
 import { mudrixKey } from '@/util/namespace';

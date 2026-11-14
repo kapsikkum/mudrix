@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { RoomTimeline } from '@wizardchat/core';
+import type { RoomTimeline } from '@mudrix/core';
 import { ChartBarHorizontalIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import type { EventEntry } from './entry';

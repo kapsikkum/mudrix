@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom, useStore } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import {
   PlusIcon,

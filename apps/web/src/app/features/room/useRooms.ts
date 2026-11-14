@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import type { InviteInfo, RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { InviteInfo, RoomSummary, SpaceNode } from '@mudrix/core';
 import { useHomeOrder, sortByHomeOrder } from './roomOrder';
 import { pinnedSubSpacesAtom } from '@/app/store/atoms/rooms';
 import { callRoomIdAtom } from '@/app/store/atoms/call';

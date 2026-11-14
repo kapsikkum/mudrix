@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckIcon, StickerIcon } from '@phosphor-icons/react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import {
   useAllRoomsPacks,
   packKindOf,

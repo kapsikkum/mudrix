@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useExtendedProfile, useStatusLine } from '@/app/hooks/useExtendedProfile';

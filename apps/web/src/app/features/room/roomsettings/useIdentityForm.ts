@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { JoinRule } from '@wizardchat/core';
+import type { JoinRule } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import {
   refreshRoomSettings,

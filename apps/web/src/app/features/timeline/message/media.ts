@@ -1,4 +1,4 @@
-import type { MediaInfo, WizardClient } from '@wizardchat/core';
+import type { MediaInfo, WizardClient } from '@mudrix/core';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { getCachedBlobUrl } from './mediaCache';
 

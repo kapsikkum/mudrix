@@ -1,7 +1,7 @@
 //! End-to-end check of timeline behaviour: read markers, sanitising, hidden event types, polls,
 //! locations, pre-uploaded files, reports and joining an upgraded room.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example timeline
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example timeline
 
 #![recursion_limit = "256"]
 
@@ -10,11 +10,11 @@ mod common;
 
 use std::time::Duration;
 
-use serde_json::{json, Value};
-use tokio::sync::oneshot;
-use wizardchat_core::{
+use mudrix_core::{
     CreateRoomOptions, EntryContent, RoomTimeline, TimelineEntry, UploadedAttachment,
 };
+use serde_json::{json, Value};
+use tokio::sync::oneshot;
 
 use common::BoxError;
 
@@ -55,7 +55,7 @@ fn event_id_of(entries: &[TimelineEntry], body: &str) -> Option<String> {
     })
 }
 
-async fn fully_read(session: &wizardchat_core::Session, room_id: &str) -> Result<Value, BoxError> {
+async fn fully_read(session: &mudrix_core::Session, room_id: &str) -> Result<Value, BoxError> {
     let url = format!(
         "{}/_matrix/client/v3/user/{}/rooms/{}/account_data/m.fully_read",
         common::server(),
@@ -130,7 +130,7 @@ async fn main() -> Result<(), BoxError> {
     println!("bob's unthreaded receipt shows on the message");
 
     a.send_message(
-        wizardchat_core::MessageKind::Text,
+        mudrix_core::MessageKind::Text,
         "emoji",
         Some(r#"<img data-mx-emoticon src="mxc://localhost/abc" alt=":e:"> <a href="matrix:r/room:localhost">room</a>"#),
         None,

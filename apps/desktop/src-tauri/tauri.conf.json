@@ -4,9 +4,9 @@
   "version": "../../../package.json",
   "identifier": "chat.mudrix.desktop",
   "build": {
-    "beforeDevCommand": "npm run dev:desktop --workspace @wizardchat/web",
+    "beforeDevCommand": "npm run dev:desktop --workspace @mudrix/web",
     "devUrl": "http://localhost:5190",
-    "beforeBuildCommand": "npm run build:desktop --workspace @wizardchat/web",
+    "beforeBuildCommand": "npm run build:desktop --workspace @mudrix/web",
     "frontendDist": "../../web/dist-desktop"
   },
   "app": {

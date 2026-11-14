@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import type { RoomSummary } from '@wizardchat/core';
+import type { RoomSummary } from '@mudrix/core';
 import { favouriteRoomsAtom, lowPriorityRoomsAtom } from '@/app/store/atoms';
 import { useAllRooms } from '@/app/data';
 

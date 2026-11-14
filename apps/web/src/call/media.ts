@@ -22,7 +22,7 @@ import type {
   CallSession,
   Subscription,
   WizardClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
 import { mudrixKey, wizardchatKey } from '@/util/namespace';

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
-import { WizardClient, type StateEventView } from '@wizardchat/core';
+import { WizardClient, type StateEventView } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { mudrixKey, typeAndLegacy } from '@/util/namespace';
 import { forgetVoiceChannelFlags, rememberVoiceChannelFlag } from '@/util/voiceChannelFlags';

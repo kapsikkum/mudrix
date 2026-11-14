@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import {
   themeAtom,
   customThemesAtom,

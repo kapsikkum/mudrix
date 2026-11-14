@@ -1,4 +1,4 @@
-import type { RoomSummary } from '@wizardchat/core';
+import type { RoomSummary } from '@mudrix/core';
 import { useRoom } from '@/app/data';
 
 /** The room as it is now, or null while it isn't known (yet) */

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { RoomSummary, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode, WizardClient } from '@mudrix/core';
 import { currentRoomIdAtom, pendingEventJumpAtom, userProfileAtom } from '@/app/store/atoms';
 import { STORAGE_KEY_PENDING_LINK } from '@/const/storageKeys';
 import { parseMatrixToFragment, parseMatrixToUrl, type MatrixToTarget } from '@/util/matrixTo';

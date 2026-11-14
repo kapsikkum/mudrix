@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import type React from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { UploadSimpleIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';

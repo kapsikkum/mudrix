@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import type { RoomSettings, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSettings, SpaceNode, WizardClient } from '@mudrix/core';
 import { useRoomSettings, useSpaceGraph, useUserId } from '@/app/data';
 import { getRoomCreators } from '@/app/features/room/memberRoles';
 import { findParentSpaceId } from '@/util/matrix';

@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useAllJoinedSpaces, useAllRooms, useMembers, useRoom } from '@/app/data';
 import { makeRoomPermalink } from '@/util/matrix';
 import { Editor, Transforms, Range } from 'slate';

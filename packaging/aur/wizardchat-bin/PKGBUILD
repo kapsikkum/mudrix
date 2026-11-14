@@ -12,7 +12,7 @@ optdepends=('gst-plugins-bad: voice and video calls' 'gst-libav: more video form
 provides=('wizardchat')
 conflicts=('wizardchat')
 options=('!debug')
-source=("https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/wizardchat-desktop/v${_version}/wizardchat-${_version}-linux-x86_64.tar.gz")
+source=("https://gitlab.com/api/v4/projects/wizardchat%2Fwizardchat/packages/generic/mudrix-desktop/v${_version}/wizardchat-${_version}-linux-x86_64.tar.gz")
 sha256sums=('SKIP')
 
 package() {

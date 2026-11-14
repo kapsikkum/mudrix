@@ -1,4 +1,4 @@
-import type { LoginIdentifier } from '@wizardchat/core';
+import type { LoginIdentifier } from '@mudrix/core';
 
 export type SignInIdentifier =
   | { kind: 'user'; user: string }

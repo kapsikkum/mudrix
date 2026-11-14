@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { useStore } from 'jotai';
 import type { RenderElementProps, RenderLeafProps } from 'slate-react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import type { CustomElement, CustomText, EmoticonElement, RoomMentionElement } from './types';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { knownRoomName } from '../../roomPills';

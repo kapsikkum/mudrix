@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import type { EntryContent, TimelineEntry, WizardClient } from '@wizardchat/core';
+import type { EntryContent, TimelineEntry, WizardClient } from '@mudrix/core';
 import {
   XIcon,
   ArrowLeftIcon,

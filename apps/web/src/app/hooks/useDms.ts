@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { RoomSummary } from '@wizardchat/core';
+import type { RoomSummary } from '@mudrix/core';
 import { getMatrixClient } from '@/client/initMatrix';
 import { useAllRooms } from '@/app/data';
 import { formatUserId } from '@/util/matrix';

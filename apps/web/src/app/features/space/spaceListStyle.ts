@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { atom } from 'jotai';
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, WizardClient } from '@mudrix/core';
 import { useSpaceGraph } from '@/app/data';
 import { mudrixKey } from '@/util/namespace';
 import { setMudrixRoomState, useMudrixRoomState, type MudrixRoomState } from './mudrixRoomState';

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { presetCss, type SpaceBanner } from './spaceBanner';
 import * as css from './SpaceBanner.css';

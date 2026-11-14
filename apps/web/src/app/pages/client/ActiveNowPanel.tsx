@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';

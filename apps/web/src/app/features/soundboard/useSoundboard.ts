@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useAccountData, spaceGraphAtom } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { callUiAtom } from '@/app/store/atoms/call';

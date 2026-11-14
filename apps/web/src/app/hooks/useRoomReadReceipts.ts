@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import type { RoomTimeline, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, WizardClient } from '@mudrix/core';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import { markRoomAsRead } from '@/app/pages/client/markAsRead';
 

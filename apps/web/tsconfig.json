@@ -15,7 +15,7 @@
     "types": ["vite/client"],
     "paths": {
       "@/*": ["./src/*"],
-      "@wizardchat/core": ["./src/core/rpc/web.ts"]
+      "@mudrix/core": ["./src/core/rpc/web.ts"]
     }
   },
   "include": ["src", "vite.config.ts"]

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds wizardchat-core for Android: the native libraries (jniLibs) and UniFFI's Kotlin bindings.
+# Builds mudrix-core for Android: the native libraries (jniLibs) and UniFFI's Kotlin bindings.
 # `--debug` builds faster, unoptimised libraries for development; `--all` adds x86_64 (older
 # emulators and Chromebooks) to arm64.
 set -euo pipefail
@@ -35,20 +35,20 @@ rustup target add aarch64-linux-android x86_64-linux-android >/dev/null
 
 rm -rf "$CORE/src/main/jniLibs"
 CARGO_PROFILE_DEV_DEBUG=line-tables-only cargo ndk "${ABIS[@]}" -P 26 -o "$CORE/src/main/jniLibs" \
-  build -p wizardchat-core-ffi --lib ${PROFILE_ARGS[@]+"${PROFILE_ARGS[@]}"}
+  build -p mudrix-core-ffi --lib ${PROFILE_ARGS[@]+"${PROFILE_ARGS[@]}"}
 
 # Debug info makes the library hundreds of MB
 "$(ls "$ANDROID_NDK_HOME"/toolchains/llvm/prebuilt/*/bin/llvm-strip | head -1)" --strip-unneeded "$CORE"/src/main/jniLibs/*/*.so
 
 # The bindings come from the library's metadata, read from a host build
 case "$(uname -s)" in
-  Darwin) HOST_LIB=libwizardchat_core_ffi.dylib ;;
-  MINGW*|MSYS*|CYGWIN*) HOST_LIB=wizardchat_core_ffi.dll ;;
-  *) HOST_LIB=libwizardchat_core_ffi.so ;;
+  Darwin) HOST_LIB=libmudrix_core_ffi.dylib ;;
+  MINGW*|MSYS*|CYGWIN*) HOST_LIB=mudrix_core_ffi.dll ;;
+  *) HOST_LIB=libmudrix_core_ffi.so ;;
 esac
-cargo build -p wizardchat-core-ffi --lib
+cargo build -p mudrix-core-ffi --lib
 rm -rf "$CORE/build/generated/uniffi"
-cargo run -q -p wizardchat-core-ffi --features bindgen --bin uniffi-bindgen -- \
+cargo run -q -p mudrix-core-ffi --features bindgen --bin uniffi-bindgen -- \
   generate --library "$ROOT/target/debug/$HOST_LIB" --language kotlin \
   --out-dir "$CORE/build/generated/uniffi" --no-format
 

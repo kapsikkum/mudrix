@@ -5,7 +5,7 @@ import type {
   TimelineKind,
   TypingUser,
   WizardClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { applyDiffs } from './listDiff';
 
 const PAGE = 30;

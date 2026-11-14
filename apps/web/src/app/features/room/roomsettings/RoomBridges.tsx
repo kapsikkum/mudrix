@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { ArrowSquareOutIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { useClient } from '@/app/data';

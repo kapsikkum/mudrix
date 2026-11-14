@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { ROOM_PACK_TYPES } from '@/app/features/settings/emojis/imagePackTypes';
 import { getImageDimensions } from '@/app/features/timeline/encryptedMedia';
 import { probeIsAnimated } from '@/app/features/timeline/utils/imageAnimation';

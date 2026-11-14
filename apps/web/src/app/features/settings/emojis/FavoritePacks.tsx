@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon, StickerIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useRoomNames } from './roomNames';
 import {
   useFavoritePacks,

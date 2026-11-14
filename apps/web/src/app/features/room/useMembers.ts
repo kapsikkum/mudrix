@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import type { Member, MemberEntry as CoreMemberEntry, WizardClient } from '@wizardchat/core';
+import type { Member, MemberEntry as CoreMemberEntry, WizardClient } from '@mudrix/core';
 import { presenceMapAtom } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
 import { useMembers as useCoreMembers, useMembersIn } from '@/app/data';

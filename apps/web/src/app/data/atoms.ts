@@ -5,7 +5,7 @@ import type {
   SpaceNode,
   SpaceSummary,
   SyncState,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 
 /** The core's room list as it streams in: joined, invited (spaces too) and knocked rooms */
 export const roomListAtom = atom<RoomSummary[]>([]);

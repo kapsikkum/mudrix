@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { UtdReason } from '@wizardchat/core';
+import type { UtdReason } from '@mudrix/core';
 
 /** Runs of at least this many consecutive undecryptable messages are folded into one row. */
 export const UNDECRYPTABLE_RUN_THRESHOLD = 3;

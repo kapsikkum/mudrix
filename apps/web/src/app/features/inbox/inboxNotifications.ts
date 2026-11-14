@@ -1,4 +1,4 @@
-import type { ServerNotification } from '@wizardchat/core';
+import type { ServerNotification } from '@mudrix/core';
 
 /** Unread main-timeline notifications the server keeps, counted per room (thread replies left out) */
 export function unreadCountsByRoom(

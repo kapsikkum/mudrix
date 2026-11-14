@@ -23,9 +23,9 @@ workflow cancels a superseded run on the same ref (`concurrency`) and asks for `
 Three jobs on `ubuntu-latest`:
 
 - **web**: `npm ci --ignore-scripts`, `npm run tokens`, `npm run i18n`, the wasm core (`npm run core:web:dev` on pull
-  requests, `npm run core:web` (release, `wasm-opt -Oz`) on pushes to `main`), `npm run typecheck -w @wizardchat/web`,
+  requests, `npm run core:web` (release, `wasm-opt -Oz`) on pushes to `main`), `npm run typecheck -w @mudrix/web`,
   `npm run lint`, `npm run format:check`, `vite build` for the web app. wasm-pack 0.15.0 is the version upstream pins.
-- **web-tests**: `npm test -w @wizardchat/web` (Node's test runner over `apps/web/tests`). Not part of `npm run check`.
+- **web-tests**: `npm test -w @mudrix/web` (Node's test runner over `apps/web/tests`). Not part of `npm run check`.
 - **rust**: `cargo fmt --all --check`, `cargo clippy --workspace --all-targets --all-features -- -D warnings`, and
   clippy for the core and wasm crates on `wasm32-unknown-unknown`. The workspace includes the Tauri crate, so the job
   installs Tauri's Linux libraries and creates an empty `apps/web/dist-desktop` (the Tauri macro fails to compile
@@ -72,8 +72,8 @@ Run by hand: Actions -> iOS -> Run workflow.
 ### desktop.yml
 
 Matrix `windows-latest`, `ubuntu-latest`, `macos-latest` (`fail-fast: false`). Each: `npm ci --ignore-scripts`,
-`npm run tokens`, `npm run tauri -w @wizardchat/desktop -- build --debug --no-bundle` (Tauri's `beforeBuildCommand`
-runs `tsc` and `vite build --mode desktop`), then uploads `target/debug/wizardchat-desktop[.exe]` (+ `.pdb` on Windows)
+`npm run tokens`, `npm run tauri -w @mudrix/desktop -- build --debug --no-bundle` (Tauri's `beforeBuildCommand`
+runs `tsc` and `vite build --mode desktop`), then uploads `target/debug/mudrix-desktop[.exe]` (+ `.pdb` on Windows)
 as `mudrix-desktop-debug-<OS>`. Ubuntu installs `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev
 librsvg2-dev libx11-dev libxi-dev libxtst-dev libxdo-dev libssl-dev patchelf`.
 
@@ -165,4 +165,4 @@ The workflows were written from reading the repository and upstream's pipeline; 
 - `maxim-lobanov/setup-xcode` finds Xcode 16.4 on `macos-15`; if the image changes, pass another `xcode-version`.
 - `xcodebuild` with `CODE_SIGNING_ALLOWED=NO` while `project.yml` sets `DEVELOPMENT_TEAM` and entitlements (app group)
   is expected to build for the Simulator; the LiveKit Swift package is resolved from GitHub on the first run.
-- the `desktop.yml` binary name `wizardchat-desktop` comes from the Cargo package name.
+- the `desktop.yml` binary name `mudrix-desktop` comes from the Cargo package name.

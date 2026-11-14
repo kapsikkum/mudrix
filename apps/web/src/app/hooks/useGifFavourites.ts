@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
 import { accountStorageKey } from '@/const/accountStorage';
 import { useAccountData, useSyncReady } from '@/app/data';

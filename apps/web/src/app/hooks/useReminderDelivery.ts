@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useAllRooms } from '@/app/data';
 import { pendingEventJumpAtom } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';

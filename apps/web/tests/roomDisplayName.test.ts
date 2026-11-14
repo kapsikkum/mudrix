@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import type { RoomSummary } from '@wizardchat/core';
+import type { RoomSummary } from '@mudrix/core';
 import { getRoomDisplayName } from '../src/util/matrix.ts';
 
 const room = (fields: Partial<RoomSummary>) => fields as RoomSummary;

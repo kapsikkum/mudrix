@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import type { RoomTimeline, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, WizardClient } from '@mudrix/core';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   typingIndicatorsAtom,

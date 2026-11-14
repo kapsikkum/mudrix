@@ -1,4 +1,4 @@
-import type { RoomTimeline } from '@wizardchat/core';
+import type { RoomTimeline } from '@mudrix/core';
 import { getMediaCacheKey, setCachedBlobUrl } from '../message/mediaCache';
 import type { ReplyTarget } from './sendMessageContent';
 import { VOICE_MIMETYPE } from './useVoiceRecorder';

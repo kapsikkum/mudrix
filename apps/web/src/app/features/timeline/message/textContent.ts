@@ -1,4 +1,4 @@
-import type { MediaInfo } from '@wizardchat/core';
+import type { MediaInfo } from '@mudrix/core';
 import { markdownToHtml, plainTextToHtml } from '@/util/markdownToHtml';
 import {
   entryBody,

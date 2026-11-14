@@ -1,4 +1,4 @@
-import type { RoomDetails, RoomSettings } from '@wizardchat/core';
+import type { RoomDetails, RoomSettings } from '@mudrix/core';
 import { canSendEvent } from '@/app/data';
 import type { EventEntry } from './entry';
 

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { PuzzlePieceIcon, PencilSimpleIcon, TrashIcon, PlusIcon } from '@phosphor-icons/react';
 import { Button, IconButton } from '@/app/components/Button';

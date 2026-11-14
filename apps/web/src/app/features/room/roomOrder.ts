@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, WizardClient } from '@mudrix/core';
 import { useAccountData, useClient } from '@/app/data';
 import { mudrixKey, wizardchatKey } from '@/util/namespace';
 

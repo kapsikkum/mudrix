@@ -1,4 +1,4 @@
-import type { Mentions, MessageKind, RoomTimeline } from '@wizardchat/core';
+import type { Mentions, MessageKind, RoomTimeline } from '@mudrix/core';
 import type { EventEntry } from '../message/entry';
 
 export type ReplyTarget = EventEntry;

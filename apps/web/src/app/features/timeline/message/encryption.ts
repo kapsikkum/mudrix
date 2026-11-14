@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WizardClient } from '@wizardchat/core';
-import type { DownloadProgress, MediaInfo, MediaSource } from '@wizardchat/core';
+import { WizardClient } from '@mudrix/core';
+import type { DownloadProgress, MediaInfo, MediaSource } from '@mudrix/core';
 import { useSyncState } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';

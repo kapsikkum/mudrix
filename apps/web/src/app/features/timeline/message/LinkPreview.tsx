@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';

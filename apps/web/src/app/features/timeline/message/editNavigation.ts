@@ -1,4 +1,4 @@
-import type { TimelineEntry, WizardClient } from '@wizardchat/core';
+import type { TimelineEntry, WizardClient } from '@mudrix/core';
 import { composerDraftKey, type EditMessageState } from '@/app/store/atoms';
 import { entryEventId, entryMsgtype, entryText, isEventEntry, type EventEntry } from './entry';
 import { editableBody } from './textContent';

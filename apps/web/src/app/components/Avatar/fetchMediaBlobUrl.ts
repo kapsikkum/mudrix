@@ -1,4 +1,4 @@
-import { WizardClient } from '@wizardchat/core';
+import { WizardClient } from '@mudrix/core';
 import { getCachedBlobUrl, setCachedBlobUrl } from '@/app/features/timeline/message/mediaCache';
 import { getSafeMimeType } from '@/util/safeMimeType';
 

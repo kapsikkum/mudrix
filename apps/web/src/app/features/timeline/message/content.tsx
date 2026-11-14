@@ -8,7 +8,7 @@ import type {
   RoomTimeline,
   UtdReason,
   WizardClient as MatrixClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import {
   FileTextIcon,
   DownloadSimpleIcon,

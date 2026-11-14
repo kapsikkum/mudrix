@@ -6,7 +6,7 @@ import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { Input } from '@/app/components/Input';
 import { Button } from '@/app/components/Button';
-import type { UiaOutcome } from '@wizardchat/core';
+import type { UiaOutcome } from '@mudrix/core';
 import {
   UiaPanel,
   confirmWithSso,

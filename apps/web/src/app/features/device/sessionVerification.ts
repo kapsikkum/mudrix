@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import type { SessionVerificationState } from '@/app/store/atoms';
 import { errorCode } from '@/core/client';
 import { startSasVerification } from './startSasVerification';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { CheckCircleIcon, WarningCircleIcon } from '@phosphor-icons/react';
 import type { RoomWidget } from '@/app/hooks/useWidgets';
 import { normalizeUrl } from '@/client/initMatrix';

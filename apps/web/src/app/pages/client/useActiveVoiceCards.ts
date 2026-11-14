@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useDms } from '@/app/hooks/useDms';
 import { parentSpacesOf, useAllRooms, useJoinedSpaces, useSpaceGraph } from '@/app/data';
 import { formatUserId } from '@/util/matrix';

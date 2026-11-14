@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { NotificationMode } from '@wizardchat/core';
+import type { NotificationMode } from '@mudrix/core';
 import { roomNotifLevelAtom } from '@/app/store/atoms/notifications';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useRoom } from '@/app/data';

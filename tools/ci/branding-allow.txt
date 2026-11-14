@@ -27,7 +27,7 @@ docs/WEB_LOOK_FIXES.md :: org\.wizardchat
 # The mobile behaviour notes quote Android source paths, which still use the unrenamed internal package until the rename.
 docs/MOBILE_BEHAVIOUR_NOTES.md :: org[/.]wizardchat
 
-# Build docs quote the unrenamed internal names (WizardChat.app, the wizardchat-core crate, upstream's feed) that the
+# Build docs quote the unrenamed internal names (WizardChat.app, the mudrix-core crate, upstream's feed) that the
 # build still produces. Remove these entries together with the internal rename.
 docs/BUILDING.md
-docs/DEVELOPMENT.md :: wizardchat-core
+docs/DEVELOPMENT.md :: mudrix-core

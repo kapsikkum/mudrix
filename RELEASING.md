@@ -91,7 +91,7 @@ No secret values belong in this repository or in this file.
   updates signed by that key; if it is lost or replaced, installed apps cannot update in place and users must reinstall.
   A local `npm run desktop:release` also needs those two variables in the environment, because
   `tauri.release.conf.json` turns on `createUpdaterArtifacts`. A fresh key pair comes from
-  `npx -w @wizardchat/desktop tauri signer generate -w ~/.tauri/mudrix-updater.key`; put the public half into the
+  `npx -w @mudrix/desktop tauri signer generate -w ~/.tauri/mudrix-updater.key`; put the public half into the
   config and the private half into the secrets.
 - **Android** is signed with a keystore you create once and must keep safe: losing it means installed apps cannot be
   updated in place. Create it with `keytool -genkeypair -v -keystore mudrix-release.keystore -alias mudrix -keyalg RSA

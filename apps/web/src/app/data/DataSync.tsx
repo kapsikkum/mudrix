@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { applyDiffs } from '@/core/listDiff';
 import { invalidateImagePacks } from '@/app/hooks/useUserPacks';
 import {

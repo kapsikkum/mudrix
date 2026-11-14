@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useAccountData, useAllRooms } from '@/app/data';
 import {
   EMOTE_ROOMS_STABLE,

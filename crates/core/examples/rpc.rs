@@ -1,15 +1,15 @@
 //! End-to-end check of the RPC layer the apps use: a throwaway account, sync, the room list and
 //! its filter, a timeline, binary upload and download, handles and errors.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example rpc
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example rpc
 
 #![recursion_limit = "256"]
 
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+use mudrix_core::rpc::Rpc;
 use serde_json::{json, Value};
 use tokio::sync::mpsc;
-use wizardchat_core::rpc::Rpc;
 
 type BoxError = Box<dyn std::error::Error>;
 

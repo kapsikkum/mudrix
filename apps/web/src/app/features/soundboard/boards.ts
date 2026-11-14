@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, WizardClient } from '@mudrix/core';
 import { canSendState, parentSpacesOf, powerLevelOf } from '@/app/data';
 import { legacyTypeOf } from '@/util/namespace';
 import {

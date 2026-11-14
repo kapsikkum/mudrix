@@ -10,7 +10,7 @@ import type {
   RoomEvent,
   Subscription,
   WizardClient as MatrixClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { isDeclaredEventType, validateCustomEventContent } from '../customEvents';
 import { mergeRoomEvents } from '../widgetEvents';
 import { resolveCapabilities } from '../widget';

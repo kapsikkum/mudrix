@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CaretRightIcon, UsersThreeIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { Modal } from '@/app/components/Modal';
 import { useMutualRooms, type MutualRoom } from '@/app/hooks/useMutualRooms';

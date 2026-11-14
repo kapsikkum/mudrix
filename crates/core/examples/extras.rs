@@ -1,7 +1,7 @@
 //! End-to-end check of timeline extras, threads, spaces, the directory, trust and push rules,
 //! with two accounts.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example extras
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example extras
 
 #![recursion_limit = "256"]
 
@@ -13,11 +13,11 @@ use std::{
     time::Duration,
 };
 
-use serde_json::json;
-use wizardchat_core::{
+use mudrix_core::{
     Attachment, CreateRoomOptions, EntryContent, ListDiff, MentionsInput, MessageKind,
     NotificationMode, StoreConfig, TimelineEntry, WizardClient,
 };
+use serde_json::json;
 
 use common::BoxError;
 
@@ -39,7 +39,7 @@ type Entries = Arc<Mutex<Vec<TimelineEntry>>>;
 async fn watch(
     client: &WizardClient,
     room: &str,
-) -> Result<(Arc<wizardchat_core::RoomTimeline>, Entries), BoxError> {
+) -> Result<(Arc<mudrix_core::RoomTimeline>, Entries), BoxError> {
     let timeline = Arc::new(client.timeline(room).await?);
     let entries: Entries = Arc::default();
     {
@@ -180,7 +180,7 @@ async fn main() -> Result<(), BoxError> {
     let thread = other
         .timeline_of(
             &room,
-            wizardchat_core::TimelineKind::Thread {
+            mudrix_core::TimelineKind::Thread {
                 root_event_id: root.clone(),
             },
         )
@@ -316,7 +316,7 @@ async fn main() -> Result<(), BoxError> {
     assert_eq!(me.room_notification_mode(&room).await?, None);
     println!("room \"mentions & keywords\" adds its own mention rules; default removes them");
 
-    let notifications: Arc<Mutex<Vec<wizardchat_core::Notification>>> = Arc::default();
+    let notifications: Arc<Mutex<Vec<mudrix_core::Notification>>> = Arc::default();
     let collected = notifications.clone();
     let watcher = other.watch_notifications(move |n| collected.lock().unwrap().push(n));
     let checks = async {

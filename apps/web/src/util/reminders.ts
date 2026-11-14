@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { formatTime } from '@/util/format';
 import { legacyMudrixKey, mudrixKey } from '@/util/namespace';
 import { readFirstAccountData } from '@/app/hooks/useFirstAccountData';

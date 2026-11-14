@@ -16,7 +16,7 @@ import type { PresenceState } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { Avatar } from '@/app/components/Avatar';
 import { useSyncReady } from '@/app/hooks/useSync';
-import type { RoomSettings } from '@wizardchat/core';
+import type { RoomSettings } from '@mudrix/core';
 import { useRoomSettings } from '@/app/data';
 import {
   activityText,

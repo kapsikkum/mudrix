@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOutSimpleIcon, CodeIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
-import type { MediaSource, WizardClient } from '@wizardchat/core';
+import type { MediaSource, WizardClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';

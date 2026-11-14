@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { verificationBannerAtom } from '@/app/store/atoms';
 
 export function useVerification(client: MatrixClient | null) {

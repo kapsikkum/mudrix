@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { QrLoginControl, WizardClient } from '@wizardchat/core';
+import { QrLoginControl, WizardClient } from '@mudrix/core';
 import { QrCodeIcon } from '@phosphor-icons/react';
 import { credentialsAtom } from '@/app/store/atoms';
 import { Modal } from '@/app/components/Modal';

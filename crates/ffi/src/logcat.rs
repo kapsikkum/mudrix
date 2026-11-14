@@ -15,7 +15,7 @@ const CHUNK: usize = 4000;
 /// left out, they flood logcat). `WIZARDCHAT_LOG` takes a tracing filter
 pub fn init() {
     let default = if cfg!(debug_assertions) {
-        "info,wizardchat_core=debug,matrix_sdk_ui=debug"
+        "info,mudrix_core=debug,matrix_sdk_ui=debug"
     } else {
         "info"
     };

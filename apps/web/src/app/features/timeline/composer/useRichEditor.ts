@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type KeyboardEvent } from 'react';
 import { createEditor, Transforms, type Descendant, Node, Element } from 'slate';
 import { withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useAutocomplete } from '../useAutocomplete';
 import type { Suggestion } from '../useAutocomplete';
 import { useFormatToolbar } from './useFormatToolbar';

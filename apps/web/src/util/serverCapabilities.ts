@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { DEFAULT_MAX_UPLOAD_BYTES } from '@/app/store/atoms/auth';
 
 export async function fetchServerUploadLimit(client: WizardClient): Promise<number> {

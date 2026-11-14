@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { StackIcon } from '@phosphor-icons/react';
 import { createCategoryOpenAtom } from '@/app/store/atoms';
 import { getMatrixClient } from '@/client/initMatrix';

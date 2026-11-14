@@ -127,10 +127,10 @@ export default defineConfig(({ mode }) => {
         // rollup rejects at runtime; its CommonJS build is fine (see src/util/spellcheck/spellcheckCore.ts).
         'emscripten-wasm-loader': packageFile('emscripten-wasm-loader/dist/cjs/index.js'),
         // The generated core API, over Tauri IPC on desktop or the wasm build (`npm run core:web`)
-        '@wizardchat/core': fileURLToPath(
+        '@mudrix/core': fileURLToPath(
           new URL(desktop ? './src/core/rpc/desktop.ts' : './src/core/rpc/web.ts', import.meta.url)
         ),
-        '@wizardchat/core-wasm': `${corePkg}wizardchat_core.js`,
+        '@mudrix/core-wasm': `${corePkg}mudrix_core.js`,
         // Release notes for every app, at the repo root
         '@whatsnew': fileURLToPath(new URL('../../whatsnew', import.meta.url)),
       },
@@ -147,7 +147,7 @@ export default defineConfig(({ mode }) => {
         packageJson.homepage ?? 'https://github.com/kapsikkum/mudrix'
       ),
     },
-    optimizeDeps: { exclude: ['@wizardchat/core-wasm'] },
+    optimizeDeps: { exclude: ['@mudrix/core-wasm'] },
     build: { target: 'es2022', outDir: desktop ? 'dist-desktop' : 'dist' },
   };
 });

@@ -1,4 +1,4 @@
-import type { SearchHit } from '@wizardchat/core';
+import type { SearchHit } from '@mudrix/core';
 
 /** The hits of both pages, first come first served: the server can repeat one across pages. */
 export function mergeHits(existing: SearchHit[], more: SearchHit[]): SearchHit[] {

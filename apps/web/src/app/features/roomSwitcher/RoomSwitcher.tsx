@@ -9,7 +9,7 @@ import {
   CubeIcon,
   ArrowBendUpRightIcon,
 } from '@phosphor-icons/react';
-import type { SpaceNode } from '@wizardchat/core';
+import type { SpaceNode } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { canSendState, childrenOf, useSpaceGraph } from '@/app/data';
 import {

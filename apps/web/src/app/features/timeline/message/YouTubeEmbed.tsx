@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { PlayIcon } from '@phosphor-icons/react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { youtubeEmbedsAtom } from '@/app/store/atoms';

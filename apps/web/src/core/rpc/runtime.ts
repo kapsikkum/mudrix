@@ -61,7 +61,7 @@ export function dispatchEvent(listener: number, json: string) {
   try {
     handler(decode(JSON.parse(json), []));
   } catch (error) {
-    console.error('[wizardchat-core] listener failed', error);
+    console.error('[mudrix-core] listener failed', error);
   }
 }
 
@@ -168,7 +168,7 @@ export const runtime = {
     });
     send(method, self, registered, []).catch((error) => {
       listeners.delete(id);
-      console.error(`[wizardchat-core] ${method} failed`, error);
+      console.error(`[mudrix-core] ${method} failed`, error);
     });
     return new Sub(id);
   },
@@ -265,7 +265,7 @@ export class Subscription {
 export class RoomListSubscription extends Subscription {
   setFilter(filter: unknown) {
     runtime.setFilter(this.listener, filter).catch((error) => {
-      console.error('[wizardchat-core] setFilter failed', error);
+      console.error('[mudrix-core] setFilter failed', error);
     });
   }
 }

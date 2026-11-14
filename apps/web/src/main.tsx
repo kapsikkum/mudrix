@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import '@wizardchat/design-tokens/tokens.css';
+import '@mudrix/design-tokens/tokens.css';
 import { App } from './App';
 import { SessionProvider } from '@/app/SessionProvider';
 import { handleAuthCallbackPopup, loadCore } from '@/core/client';

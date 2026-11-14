@@ -6,7 +6,7 @@ import {
   hideMembershipEventsAtom,
   hideProfileEventsAtom,
 } from '@/app/store/atoms/settings';
-import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@mudrix/core';
 import {
   useMembers,
   useRoomDetails,

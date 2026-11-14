@@ -4,7 +4,7 @@ import type {
   RoomSummary,
   RoomTimeline,
   WizardClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { Text, type Descendant } from 'slate';
 import { fromMarkdown, type MentionResolver } from './editor/fromMarkdown';
 import { buildTextContent } from './editor/buildTextContent';

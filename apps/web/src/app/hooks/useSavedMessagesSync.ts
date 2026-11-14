@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { SAVED_TYPES, parseSavedMessages, savedMessagesAtom } from '@/util/savedMessages';
 import { useFirstAccountData } from './useFirstAccountData';
 

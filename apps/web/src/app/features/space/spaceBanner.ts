@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { mudrixKey } from '@/util/namespace';
 import { setMudrixRoomState, useMudrixRoomState, type MudrixRoomState } from './mudrixRoomState';
 

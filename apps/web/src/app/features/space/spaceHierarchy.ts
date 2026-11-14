@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
-import type { SpaceChild, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceChild, SpaceNode, WizardClient } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllJoinedSpaces, useSpaceGraph } from '@/app/data';
 import { useThrottle } from '@/app/hooks/useThrottle';

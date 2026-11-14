@@ -1,4 +1,4 @@
-import type { RoomSettings, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSettings, SpaceNode, WizardClient } from '@mudrix/core';
 import { canSendState } from '@/app/data';
 import {
   getSpaceChildOrders,

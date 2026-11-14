@@ -1,4 +1,4 @@
-import type { RoomSection } from '@wizardchat/core';
+import type { RoomSection } from '@mudrix/core';
 
 export type { RoomSection };
 

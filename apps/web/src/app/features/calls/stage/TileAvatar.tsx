@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { useExtendedProfile } from '@/app/hooks/useExtendedProfile';

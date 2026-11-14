@@ -1,4 +1,4 @@
-import type { RoomTimeline, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, WizardClient } from '@mudrix/core';
 import { probeIsAnimated } from '../utils/imageAnimation';
 import { getImageDimensions } from './imageDimensions';
 import { sendRawEvent, type ReplyTarget } from './sendMessageContent';

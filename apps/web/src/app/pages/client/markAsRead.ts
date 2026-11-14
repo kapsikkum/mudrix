@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 
 /** "Mark as read": moves the read receipt and the fully-read marker to the room's latest message */
 export async function markRoomAsRead(

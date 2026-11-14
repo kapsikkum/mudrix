@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ServerNotification } from '@wizardchat/core';
+import type { ServerNotification } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 
 const NOTIFICATION_LIMIT = 100;

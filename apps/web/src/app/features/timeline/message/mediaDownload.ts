@@ -1,4 +1,4 @@
-import type { DownloadProgress, MediaSource, WizardClient } from '@wizardchat/core';
+import type { DownloadProgress, MediaSource, WizardClient } from '@mudrix/core';
 
 /** No byte for this long after the first ones arrived: the download is stalled. */
 export const DOWNLOAD_STALL_MS = 30_000;

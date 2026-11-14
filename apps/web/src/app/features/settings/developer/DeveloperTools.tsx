@@ -6,7 +6,7 @@ import type {
   EncryptionStatus,
   ServerFeatures,
   WizardClient as MatrixClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { syncStateAtom } from '@/app/store/atoms';
 import { slidingSyncAtom } from '@/app/store/atoms/settings';
 import { useAllRooms } from '@/app/data';

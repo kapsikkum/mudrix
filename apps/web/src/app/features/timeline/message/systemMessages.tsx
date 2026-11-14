@@ -1,6 +1,6 @@
 import { Trans } from 'react-i18next';
 import { useSetAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { userProfileAtom } from '@/app/store/atoms';
 import type { EventEntry } from './entry';

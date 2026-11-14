@@ -1,4 +1,4 @@
-import type { EncryptionStatus, WizardClient as MatrixClient } from '@wizardchat/core';
+import type { EncryptionStatus, WizardClient as MatrixClient } from '@mudrix/core';
 
 export interface EncryptionSetupStatus {
   recovery: EncryptionStatus['recovery'];

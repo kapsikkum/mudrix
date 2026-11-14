@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { getPublishedEntries, localEchoEntryId, subscribePublishedEntries } from './editNavigation';
 
 const DEFAULT_TIMEOUT_MS = 10_000;

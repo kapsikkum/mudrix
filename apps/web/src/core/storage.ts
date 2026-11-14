@@ -1,4 +1,4 @@
-import type { Session, StoreConfig } from '@wizardchat/core';
+import type { Session, StoreConfig } from '@mudrix/core';
 import { deleteDesktopStore, isDesktop } from '@/bridge/desktop';
 import { STORAGE_KEY_ACTIVE_ACCOUNT } from '@/const/storageKeys';
 

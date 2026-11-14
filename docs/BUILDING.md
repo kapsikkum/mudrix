@@ -21,6 +21,6 @@ The Android app has two flavours: `gplay` (push notifications through Firebase; 
 How versions, tags and signing work, and which parts of the release process are not automated yet, is in
 [RELEASING.md](../RELEASING.md). There is no GitHub Actions workflow in this repository yet. `.gitlab-ci.yml` and
 `apps/desktop/scripts/publish-update.mjs` are upstream's GitLab release pipeline (GitLab package registry, Cloudflare
-Pages, `wizardchat-desktop` feed); they are not used here and will be replaced.
+Pages, `mudrix-desktop` feed); they are not used here and will be replaced.
 
 The "What's new" notes in the apps come from `whatsnew/<version>.md`.

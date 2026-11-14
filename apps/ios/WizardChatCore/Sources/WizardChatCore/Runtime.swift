@@ -22,7 +22,7 @@ public final class Runtime: @unchecked Sendable {
                 _ = try await send(method, this: this, args)
             } catch {
                 self.forget(id)
-                print("[wizardchat-core] \(method) failed: \(error)")
+                print("[mudrix-core] \(method) failed: \(error)")
             }
         }
         return S(listener: id)
@@ -63,7 +63,7 @@ public final class Runtime: @unchecked Sendable {
             do {
                 handler(try self.decode(T.self, json: json, blobs: []))
             } catch {
-                print("[wizardchat-core] listener \(id) got \(T.self) it can't read: \(error)")
+                print("[mudrix-core] listener \(id) got \(T.self) it can't read: \(error)")
             }
         }
         return id
@@ -238,7 +238,7 @@ public final class RoomListSubscription: Subscription, @unchecked Sendable {
             do {
                 _ = try await Runtime.shared.call("RoomListSubscription.setFilter", this: nil, [.value(listener), .value(filter)]) as Empty
             } catch {
-                print("[wizardchat-core] setFilter failed: \(error)")
+                print("[mudrix-core] setFilter failed: \(error)")
             }
         }
     }

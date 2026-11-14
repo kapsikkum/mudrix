@@ -8,7 +8,7 @@ import {
   PencilSimpleIcon,
   UploadSimpleIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';

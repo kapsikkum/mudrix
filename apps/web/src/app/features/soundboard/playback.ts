@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { STORAGE_KEY_CALL_DEVICES } from '@/const/storageKeys';
 import { getSoundboardDevicePrefs, soundboardRuntime } from './runtime';
 import {

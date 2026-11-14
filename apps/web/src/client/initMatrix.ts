@@ -1,4 +1,4 @@
-import { WizardClient, type LoginIdentifier, type PendingLogin } from '@wizardchat/core';
+import { WizardClient, type LoginIdentifier, type PendingLogin } from '@mudrix/core';
 import { setStoredUserId } from '@/const/accountStorage';
 import {
   DEVICE_NAME,

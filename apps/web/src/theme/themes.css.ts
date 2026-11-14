@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { defaultThemeId, themeColors, themes } from '@wizardchat/design-tokens';
+import { defaultThemeId, themeColors, themes } from '@mudrix/design-tokens';
 import { logoVars, themeVars } from './themeTokens';
 
 const themeClass = (id: (typeof themes)[number]['id']) =>

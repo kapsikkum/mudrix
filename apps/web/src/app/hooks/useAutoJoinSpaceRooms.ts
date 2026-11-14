@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { SpaceChild, WizardClient } from '@wizardchat/core';
+import type { SpaceChild, WizardClient } from '@mudrix/core';
 import { useAllJoinedSpaces, useSpaceGraph, useSyncReady } from '@/app/data';
 import { explicitAutoJoinOf } from '@/app/features/space/spaceAutoJoin';
 import { useMudrixRoomStates } from '@/app/features/space/mudrixRoomState';

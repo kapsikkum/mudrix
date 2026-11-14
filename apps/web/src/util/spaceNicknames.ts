@@ -1,4 +1,4 @@
-import type { SpaceNode } from '@wizardchat/core';
+import type { SpaceNode } from '@mudrix/core';
 import { legacyMudrixKey, mudrixKey } from '@/util/namespace';
 
 // Matrix names you per room, not per space, so a "nickname in this space" is kept as a wish in

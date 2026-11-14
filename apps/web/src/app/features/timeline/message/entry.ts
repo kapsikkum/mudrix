@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { EntryContent, MediaInfo, TimelineEntry } from '@wizardchat/core';
+import type { EntryContent, MediaInfo, TimelineEntry } from '@mudrix/core';
 
 export type EventEntry = Extract<TimelineEntry, { kind: 'event' }>;
 export type TextEntryContent = Extract<EntryContent, { type: 'text' | 'notice' | 'emote' }>;

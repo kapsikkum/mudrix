@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import type { ShieldView } from '@wizardchat/core';
+import type { ShieldView } from '@mudrix/core';
 import { ShieldIcon, ShieldWarningIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { shieldDisplay } from './shield';

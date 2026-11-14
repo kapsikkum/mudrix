@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { formatUserId } from '@/util/matrix';
 import { useAccountData, useAllRooms } from '@/app/data';
 import { recentInvitesAtom } from '@/app/store/atoms';

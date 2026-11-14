@@ -692,7 +692,7 @@ Every Android and iOS file listed under "Conflicted files" above, plus `Sounds.s
 - `PrivacyInfo.xcprivacy` files.
 - Android Firebase config and the push gateway (see above).
 - `apps/web/public/desktop/latest*.yml` still point at the old WizardChat GitLab feed.
-- Intentionally kept: `*.wizardchat.org` runtime hosts (e.g. the youtube-player host), LICENSE, upstream copyright and the "Based on WizardChat" attribution, and internal identifiers (`wizardchat-core`, `org.wizardchat.*`, `WizardChat/` iOS dir).
+- Intentionally kept: `*.wizardchat.org` runtime hosts (e.g. the youtube-player host), LICENSE, upstream copyright and the "Based on WizardChat" attribution, and internal identifiers (`mudrix-core`, `org.wizardchat.*`, `WizardChat/` iOS dir).
 - Done: `whatsnew/26.12.2.md` and `.de.md`, root `CONTRIBUTING.md`, README, GetApps, WhatsNew.
 
 ## Verification (worktree `E:\code\web\mudrix-sync2`)
@@ -706,7 +706,7 @@ Every Android and iOS file listed under "Conflicted files" above, plus `Sounds.s
 | `npx eslint .` (apps/web)                                                                     | 14 problems (0 errors, 14 warnings)                                             |
 | typegen + `api.gen` diff vs upstream                                                          | only Mudrix RPC additions                                                       |
 | `cargo check --workspace -j 4`                                                                | Finished                                                                        |
-| `cargo check -p wizardchat-core -p wizardchat-core-wasm --target wasm32-unknown-unknown -j 4` | Finished                                                                        |
+| `cargo check -p mudrix-core -p mudrix-core-wasm --target wasm32-unknown-unknown -j 4` | Finished                                                                        |
 | `npm run core:web:dev`                                                                        | Done                                                                            |
 | `npx vite build`                                                                              | built in 10.16s                                                                 |
 | `cargo fmt --all --check`                                                                     | clean                                                                           |

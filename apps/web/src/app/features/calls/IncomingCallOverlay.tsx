@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { PhoneIcon, PhoneXIcon, VideoCameraIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useProfile } from '@/app/data';
 import { STORAGE_KEY_CALL_INCOMING_POSITION } from '@/const/storageKeys';
 import * as css from './IncomingCallOverlay.css';

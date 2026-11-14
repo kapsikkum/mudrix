@@ -1,4 +1,4 @@
-import type { RoomSummary, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode, WizardClient } from '@mudrix/core';
 import { markRoomAsRead } from './markAsRead';
 import {
   ChecksIcon,

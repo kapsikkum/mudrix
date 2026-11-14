@@ -1,4 +1,4 @@
-import type { ShieldCode, ShieldView } from '@wizardchat/core';
+import type { ShieldCode, ShieldView } from '@mudrix/core';
 
 export type ShieldKind = 'grey' | 'warning' | 'red';
 

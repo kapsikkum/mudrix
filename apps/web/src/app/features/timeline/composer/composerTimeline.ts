@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import type { RoomTimeline, TimelineKind, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, TimelineKind, WizardClient } from '@mudrix/core';
 
 export interface ComposerTimeline {
   roomId: string;

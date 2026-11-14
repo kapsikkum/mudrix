@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useAllRooms, useAllJoinedSpaces, useSpaceGraph, parentSpacesOf } from '@/app/data';
 
 export interface MutualRoom {

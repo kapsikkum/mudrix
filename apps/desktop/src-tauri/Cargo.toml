@@ -1,12 +1,12 @@
 [package]
-name = "wizardchat-desktop"
+name = "mudrix-desktop"
 description = "Mudrix Desktop: a Matrix client"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
 [lib]
-name = "wizardchat_desktop"
+name = "mudrix_desktop"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -14,7 +14,7 @@ serde_json = "1"
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-wizardchat-core = { path = "../../../crates/core" }
+mudrix-core = { path = "../../../crates/core" }
 tauri = { version = "2", features = ["tray-icon", "image-png"] }
 tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }

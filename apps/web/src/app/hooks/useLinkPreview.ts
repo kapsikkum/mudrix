@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { UrlPreview, WizardClient } from '@wizardchat/core';
+import type { UrlPreview, WizardClient } from '@mudrix/core';
 
 export function useLinkPreview(
   client: WizardClient | null,

@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, WizardClient } from '@mudrix/core';
 import { DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { STORAGE_KEY_PREFERENCES } from '@/const/storageKeys';
 import type { SoundboardPlayContent } from './types';

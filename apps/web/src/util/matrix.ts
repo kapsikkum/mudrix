@@ -1,5 +1,5 @@
 import { isFlaggedVoiceChannel } from './voiceChannelFlags';
-import type { RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode } from '@mudrix/core';
 
 export function formatUserId(userId: string | null | undefined): string {
   if (!userId) return '';

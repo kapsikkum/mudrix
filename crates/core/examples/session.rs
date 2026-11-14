@@ -2,7 +2,7 @@
 //! data, server error texts, in-room verification requests, trust changes, identity reset with
 //! user-interactive auth, avatar thumbnails and signing out a stored session:
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example session
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example session
 
 #![recursion_limit = "256"]
 
@@ -12,10 +12,10 @@ mod common;
 use std::{sync::Arc, time::Duration};
 
 use base64::Engine;
-use tokio::sync::mpsc;
-use wizardchat_core::{
+use mudrix_core::{
     sniff_mime_type, Error, LoadState, UiaAuth, UiaOutcome, VerificationStatus, WizardClient,
 };
+use tokio::sync::mpsc;
 
 use common::BoxError;
 

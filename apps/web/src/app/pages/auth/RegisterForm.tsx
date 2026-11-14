@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WizardClient } from '@wizardchat/core';
+import { WizardClient } from '@mudrix/core';
 import { loadCore, register } from '@/client/initMatrix';
 import { useSetAtom } from 'jotai';
 import { credentialsAtom } from '@/app/store/atoms';

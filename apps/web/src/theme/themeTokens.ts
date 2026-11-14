@@ -1,4 +1,4 @@
-import { themeColors, themes, type ThemeId } from '@wizardchat/design-tokens';
+import { themeColors, themes, type ThemeId } from '@mudrix/design-tokens';
 import { hexToRgb, isHexColor, isLightColor, mixHex, readableAccent, withAlpha } from './colorMath';
 
 /**

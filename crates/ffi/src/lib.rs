@@ -4,7 +4,7 @@
 
 use std::sync::{Arc, LazyLock};
 
-use wizardchat_core::rpc::{Rpc, RpcError};
+use mudrix_core::rpc::{Rpc, RpcError};
 
 uniffi::setup_scaffolding!();
 
@@ -12,7 +12,7 @@ uniffi::setup_scaffolding!();
 static RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(|| {
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
-        .thread_name("wizardchat-core")
+        .thread_name("mudrix-core")
         .build()
         .expect("a Tokio runtime")
 });

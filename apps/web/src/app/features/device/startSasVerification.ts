@@ -1,4 +1,4 @@
-import type { VerificationFlow } from '@wizardchat/core';
+import type { VerificationFlow } from '@mudrix/core';
 import type { SetStateAction } from 'jotai';
 import type { EmojiVerificationState } from '@/app/store/atoms';
 

@@ -11,7 +11,7 @@ import type {
   SpaceSummary,
   UserProfile,
   WizardClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { applyDiffs } from '@/core/listDiff';
 import {

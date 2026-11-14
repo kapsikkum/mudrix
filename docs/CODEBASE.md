@@ -100,10 +100,10 @@ simulator. For core changes, also run the example for the area you changed (see 
 Renaming these would touch hundreds of files and make merging upstream changes painful, and no user sees them, so they
 still say WizardChat (or Wizard). Do not rename them without a decision to drop upstream merges.
 
-- **Rust:** the crates `wizardchat-core`, `wizardchat-core-ffi`, `wizardchat-core-wasm` and `wizardchat-desktop` (lib
-  `wizardchat_desktop`), their modules and the `WizardClient` type of the generated API; the wasm output name
-  `wizardchat_core` and the JNI class `org.wizardchat.core.CoreInit`.
-- **npm workspaces:** the root `wizardchat` and `@wizardchat/{web,desktop,design-tokens,i18n,emoji,icons,sounds,core}`.
+- **Rust:** the crates `mudrix-core`, `mudrix-core-ffi`, `mudrix-core-wasm` and `mudrix-desktop` (lib
+  `mudrix_desktop`), their modules and the `WizardClient` type of the generated API; the wasm output name
+  `mudrix_core` and the JNI class `org.wizardchat.core.CoreInit`.
+- **npm workspaces:** the root `wizardchat` and `@mudrix/{web,desktop,design-tokens,i18n,emoji,icons,sounds,core}`.
 - **Android:** the Kotlin `namespace` and packages `org.wizardchat.android` and `org.wizardchat.core`, `WizardApplication`,
   `WizardLogo`, `Theme.WizardChat`, intent action strings and the Gradle project name. The `applicationId` is
   `chat.mudrix.mobile`.
@@ -112,7 +112,7 @@ still say WizardChat (or Wizard). Do not rename them without a decision to drop 
   and `WizardChatTokens`. The `WZ_*` build settings (`WZ_TEAM`, `WZ_BUNDLE_PREFIX`, `WZ_APP_GROUP`) keep their names;
   their values are Mudrix's, except `WZ_TEAM`, which is still upstream's Apple team id and has to be set to your own.
 - **Web:** `WizardMark` (the component draws the Mudrix logo), `wizardchat:state` and similar DOM event names,
-  `wizardchat.*` storage keys, `wizardchat-*` channel and log prefixes, the `@wizardchat/core` import alias and the
+  `wizardchat.*` storage keys, `wizardchat-*` channel and log prefixes, the `@mudrix/core` import alias and the
   `WizardChat` native bridge name.
 - **Protocol and compatibility, on purpose:** the `org.wizardchat.*` account-data and profile-field names that are still
   read (and, where `util/namespace.ts` says so, written) so accounts move over from WizardChat, the `org.wizardchat`

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { DelayedEvent, WizardClient } from '@wizardchat/core';
+import type { DelayedEvent, WizardClient } from '@mudrix/core';
 
 // MSC4140 delayed events ("send later"): the homeserver holds the event and sends it when the
 // time comes. It has to advertise `org.matrix.msc4140` in its unstable features.

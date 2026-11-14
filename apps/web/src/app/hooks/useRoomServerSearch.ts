@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { SearchHit, WizardClient as MatrixClient } from '@wizardchat/core';
+import type { SearchHit, WizardClient as MatrixClient } from '@mudrix/core';
 import { getErrorMessage } from '@/util/error';
 import { mergeHits } from './mergeSearchHits';
 

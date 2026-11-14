@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { useEffect, useRef } from 'react';
 import type { MouseEvent, RefObject } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { computePosition, autoUpdate, flip, shift, offset } from '@floating-ui/dom';
 import { Avatar } from '@/app/components/Avatar';
 import type { AutocompleteState, Suggestion } from './useAutocomplete';

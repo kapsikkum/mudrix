@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { SearchHit } from '@wizardchat/core';
+import type { SearchHit } from '@mudrix/core';
 import { highlightQuery } from '@/app/hooks/useSearch';
 import type { ServerSearchStatus } from '@/app/hooks/useRoomServerSearch';
 import { useMembers } from '@/app/data';

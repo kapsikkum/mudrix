@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { resetIdentityWithUia } from '@/app/features/keybackup/crossSigningUia';

@@ -3,7 +3,7 @@ import { getThemeLogoAssets } from '@/theme/themeLogos';
 import i18n from '@/i18n';
 import { isStreamerModeActive } from '@/util/streamerMode';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 
 export type NotifLevel = 'default' | 'all' | 'mentions' | 'mute';
 

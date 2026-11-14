@@ -1,5 +1,5 @@
 {
-  "name": "@wizardchat/desktop",
+  "name": "@mudrix/desktop",
   "license": "AGPL-3.0",
   "description": "Mudrix Desktop: a Matrix client",
   "scripts": {

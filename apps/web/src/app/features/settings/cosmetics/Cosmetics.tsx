@@ -2,7 +2,7 @@ import { Fragment, useCallback, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { SparkleIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { showCosmeticPacksAtom } from '@/app/store/atoms';
 import { useExtendedProfile, useExtendedProfileMutations } from '@/app/hooks/useExtendedProfile';

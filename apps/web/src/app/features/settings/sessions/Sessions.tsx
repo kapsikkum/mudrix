@@ -1,4 +1,4 @@
-import { WizardClient, type UiaAuth, type UiaOutcome } from '@wizardchat/core';
+import { WizardClient, type UiaAuth, type UiaOutcome } from '@mudrix/core';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom, useAtomValue } from 'jotai';

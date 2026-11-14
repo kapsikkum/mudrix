@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { normalizeMimetype } from './builtIn';
 import {
   SOUNDBOARD_MAX_DURATION_MS,

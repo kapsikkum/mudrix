@@ -13,7 +13,7 @@ import {
   notificationAvatar,
   playNotificationSound,
 } from '@/app/hooks/useNotifications';
-import type { Notification as CoreNotification } from '@wizardchat/core';
+import type { Notification as CoreNotification } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllRooms } from '@/app/data';
 import { formatUserId } from '@/util/matrix';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useAccountData, useAllRooms, useSpaceGraph, useSyncReady } from '@/app/data';
 import { usePrompt } from '@/app/hooks/usePrompt';
 import { useToast } from '@/app/hooks/useToast';

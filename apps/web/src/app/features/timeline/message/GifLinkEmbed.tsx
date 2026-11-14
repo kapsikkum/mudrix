@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { AnimatedImage } from './AnimatedImage';
 import { GifFavouriteButton } from './GifFavouriteButton';
 import {

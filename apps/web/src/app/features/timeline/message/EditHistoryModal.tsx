@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { EventVersion, WizardClient as MatrixClient } from '@wizardchat/core';
+import type { EventVersion, WizardClient as MatrixClient } from '@mudrix/core';
 import { ClockCounterClockwiseIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '@/app/components/Modal';

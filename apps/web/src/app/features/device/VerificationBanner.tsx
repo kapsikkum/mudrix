@@ -3,7 +3,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { ShieldIcon } from '@phosphor-icons/react';
 import { verificationBannerAtom, emojiVerificationAtom } from '@/app/store/atoms';
-import type { VerificationFlow } from '@wizardchat/core';
+import type { VerificationFlow } from '@mudrix/core';
 import { startSasVerification } from './startSasVerification';
 import * as css from './VerificationBanner.css';
 

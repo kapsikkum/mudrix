@@ -1,4 +1,4 @@
-import { WizardClient, type HomeserverSoftware, type IdentityProvider } from '@wizardchat/core';
+import { WizardClient, type HomeserverSoftware, type IdentityProvider } from '@mudrix/core';
 import { appInfo, loadCore, loginWithPopup } from '@/client/initMatrix';
 import type { MatrixCredentials } from '@/client/types';
 import { matrixErrcode } from '@/app/features/auth/matrixError';

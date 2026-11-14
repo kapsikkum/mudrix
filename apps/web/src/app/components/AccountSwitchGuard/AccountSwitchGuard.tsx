@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { LogoLoader } from '@/app/components/AppLoading/LogoLoader';
 import { Button } from '@/app/components/Button';
 import { getActiveAccountId } from '@/client/accounts';

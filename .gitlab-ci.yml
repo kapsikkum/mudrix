@@ -316,7 +316,7 @@ build-desktop-mac:
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run tokens
-    - npm run build:release -w @wizardchat/desktop -- --target "$TARGET"
+    - npm run build:release -w @mudrix/desktop -- --target "$TARGET"
     - sccache --show-stats
 
 build-desktop-linux:
@@ -334,11 +334,11 @@ build-desktop-linux:
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run tokens
-    - npm run build:release -w @wizardchat/desktop -- --bundles appimage,deb
+    - npm run build:release -w @mudrix/desktop -- --bundles appimage,deb
     # RPM versions can't contain '-': a pre-release 26.12.1-next.1 becomes 26.12.1 with release 0.next.1
     - |
       RPM_CONFIG=$(node -p "const [v, pre] = require('./package.json').version.split('-'); JSON.stringify(pre ? { version: v, bundle: { linux: { rpm: { release: '0.' + pre } } } } : {})")
-      npm run tauri -w @wizardchat/desktop -- bundle --bundles rpm --config src-tauri/tauri.release.conf.json --config "$RPM_CONFIG"
+      npm run tauri -w @mudrix/desktop -- bundle --bundles rpm --config src-tauri/tauri.release.conf.json --config "$RPM_CONFIG"
     - node apps/desktop/scripts/package-linux.mjs
     - sccache --show-stats
 
@@ -379,7 +379,7 @@ build-desktop-win:
     - npm ci --ignore-scripts
     - node apps/desktop/scripts/release-config.mjs
     - npm run tokens
-    - npm run build:release -w @wizardchat/desktop -- --runner cargo-xwin --target x86_64-pc-windows-msvc
+    - npm run build:release -w @mudrix/desktop -- --runner cargo-xwin --target x86_64-pc-windows-msvc
     - sccache --show-stats
 
 build-android:

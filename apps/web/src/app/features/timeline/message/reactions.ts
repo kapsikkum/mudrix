@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import type { RoomTimeline } from '@wizardchat/core';
+import type { RoomTimeline } from '@mudrix/core';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { formatUserId } from '@/util/matrix';

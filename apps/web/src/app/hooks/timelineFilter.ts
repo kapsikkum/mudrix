@@ -1,4 +1,4 @@
-import type { TimelineEntry } from '@wizardchat/core';
+import type { TimelineEntry } from '@mudrix/core';
 import type { EventEntry } from '@/app/features/timeline/message/entry';
 
 /** The appearance settings that hide some of a room's system lines. */

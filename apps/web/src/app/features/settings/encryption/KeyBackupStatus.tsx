@@ -6,7 +6,7 @@ import type {
   EncryptionStatus,
   KeyRestoreProgress,
   WizardClient as MatrixClient,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import { Button } from '@/app/components/Button';
 import { useToast } from '@/app/hooks/useToast';
 import { sessionVerificationAtom } from '@/app/store/atoms';

@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { useLocation, useNavigate } from 'react-router-dom';
-import type { RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode } from '@mudrix/core';
 import {
   currentRoomIdAtom,
   currentSpaceIdAtom,

@@ -7,7 +7,7 @@ import {
   ImageIcon,
   CameraIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { Button, IconButton } from '@/app/components/Button';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BookmarkSimpleIcon, ChatDotsIcon } from '@phosphor-icons/react';
-import type { RoomSummary, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, WizardClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useProfile, useRoom } from '@/app/data';

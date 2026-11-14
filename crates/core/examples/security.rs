@@ -1,7 +1,7 @@
 //! End-to-end check of sign-in discovery, recovery, device verification and sessions,
 //! using two devices of the same account:
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example security
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example security
 
 #![recursion_limit = "256"]
 
@@ -10,10 +10,10 @@ mod common;
 
 use std::{sync::Arc, time::Duration};
 
-use tokio::sync::mpsc;
-use wizardchat_core::{
+use mudrix_core::{
     StoreConfig, UiaAuth, UiaOutcome, VerificationFlow, VerificationStatus, WizardClient,
 };
+use tokio::sync::mpsc;
 
 use common::BoxError;
 
@@ -118,8 +118,7 @@ async fn main() -> Result<(), BoxError> {
         WizardClient::login_password(&server, &user, &password, "security test B", store("b"))
             .await?;
     b.start_sync().await?;
-    let own =
-        |devices: Vec<wizardchat_core::DeviceInfo>| devices.into_iter().find(|d| d.is_current);
+    let own = |devices: Vec<mudrix_core::DeviceInfo>| devices.into_iter().find(|d| d.is_current);
     assert!(
         !own(b.devices().await?).is_some_and(|d| d.is_verified),
         "a fresh device must not be listed as verified"

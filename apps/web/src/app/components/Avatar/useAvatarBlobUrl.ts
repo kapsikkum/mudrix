@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { useMediaBlobUrl } from './useMediaBlobUrl';
 
 export function useAvatarBlobUrl(

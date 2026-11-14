@@ -33,9 +33,9 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
 import kotlinx.serialization.json.put
 import kotlinx.serialization.serializer
-import uniffi.wizardchat_core_ffi.Core
-import uniffi.wizardchat_core_ffi.CoreException
-import uniffi.wizardchat_core_ffi.EventSink
+import uniffi.mudrix_core_ffi.Core
+import uniffi.mudrix_core_ffi.CoreException
+import uniffi.mudrix_core_ffi.EventSink
 
 /** How the generated API reads and writes the core's JSON */
 val CoreJson = Json {
@@ -51,7 +51,7 @@ object CoreInit {
     @Synchronized
     fun load(context: Context) {
         if (loaded) return
-        System.loadLibrary("wizardchat_core_ffi")
+        System.loadLibrary("mudrix_core_ffi")
         init(context.applicationContext)
         loaded = true
     }
@@ -165,7 +165,7 @@ abstract class JsonUnionSerializer<T>(name: String) : KSerializer<T> {
 }
 
 object Runtime {
-    private const val TAG = "wizardchat-core"
+    private const val TAG = "mudrix-core"
     private val listeners = ConcurrentHashMap<Long, (String) -> Unit>()
     private val nextListener = AtomicLong(1)
     private val main = Handler(Looper.getMainLooper())
@@ -350,7 +350,7 @@ class RoomListSubscription(listener: Long) : Subscription(listener) {
                     listOf(Arg.value(listener), Arg.value(filter)),
                 )
             } catch (error: Exception) {
-                Log.w("wizardchat-core", "setFilter failed", error)
+                Log.w("mudrix-core", "setFilter failed", error)
             }
         }
     }

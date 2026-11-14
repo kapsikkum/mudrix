@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { PresenceInfo, WizardClient } from '@wizardchat/core';
+import type { PresenceInfo, WizardClient } from '@mudrix/core';
 import {
   currentRoomIdAtom,
   presenceMapAtom,

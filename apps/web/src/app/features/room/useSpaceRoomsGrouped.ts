@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { useStore } from 'jotai';
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import type { RoomSummary as CoreRoomSummary, SpaceNode } from '@wizardchat/core';
+import type { RoomSummary as CoreRoomSummary, SpaceNode } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import {
   childrenOf,

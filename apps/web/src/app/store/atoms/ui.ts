@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import type { VerificationEmoji, VerificationFlow, WizardClient } from '@wizardchat/core';
+import type { VerificationEmoji, VerificationFlow, WizardClient } from '@mudrix/core';
 import {
   STORAGE_KEY_SIDEBAR_VIEW,
   STORAGE_KEY_CLOSED_NAV_CATEGORIES,
@@ -16,7 +16,7 @@ import {
 } from '@/const/storageKeys';
 import { atomWithAccountStorage } from './accountStorage';
 
-export type { SyncState } from '@wizardchat/core';
+export type { SyncState } from '@mudrix/core';
 export { syncStateAtom } from '@/app/data/atoms';
 
 // Mobile

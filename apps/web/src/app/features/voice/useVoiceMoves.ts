@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { roomsByIdAtom, spaceGraphAtom } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { allowVoiceMovesAtom } from '@/app/store/atoms/settings';

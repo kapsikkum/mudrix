@@ -1,4 +1,4 @@
-import type { TimelineEntry } from '@wizardchat/core';
+import type { TimelineEntry } from '@mudrix/core';
 import { formatUserId } from '@/util/matrix';
 import { mudrixKey, typeAndLegacy } from '@/util/namespace';
 import type { StateEntry } from '@/app/features/space/mudrixStateEntries';

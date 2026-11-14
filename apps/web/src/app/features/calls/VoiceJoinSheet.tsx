@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Popover } from '@/app/components/Popover/Popover';

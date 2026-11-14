@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Trans, useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import {
   BellRingingIcon,
   CameraIcon,

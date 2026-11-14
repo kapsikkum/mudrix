@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, WizardClient } from '@mudrix/core';
 import { canSendState } from '@/app/data';
 import { legacyTypeOf, mudrixKey } from '@/util/namespace';
 

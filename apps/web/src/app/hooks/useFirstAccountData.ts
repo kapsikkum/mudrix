@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 
 /**
  * The content of the first of `types` the account has data for, kept current. Lists that moved

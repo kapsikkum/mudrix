@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DownloadSimpleIcon, UploadSimpleIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { useToast } from '@/app/hooks/useToast';

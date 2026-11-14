@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import type { Widget, WizardClient } from '@wizardchat/core';
+import type { Widget, WizardClient } from '@mudrix/core';
 import { useAccountData } from '@/app/data';
 
 export const WIDGET_TYPES = {

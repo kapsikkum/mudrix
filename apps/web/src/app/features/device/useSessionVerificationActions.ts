@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import {
   emojiVerificationAtom,
   enterRecoveryKeyModalAtom,

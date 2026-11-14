@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue } from 'jotai';
-import type { ThreadInfo, WizardClient } from '@wizardchat/core';
+import type { ThreadInfo, WizardClient } from '@mudrix/core';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import {
   ChatDotsIcon,

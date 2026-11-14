@@ -2,7 +2,7 @@
 //! media key exchange, membership renewal, the delayed leave (also when the server loses it),
 //! rejoining after the membership vanished, and ringing another account. Needs no SFU.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example calls
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example calls
 
 #![recursion_limit = "256"]
 
@@ -11,9 +11,9 @@ mod common;
 
 use std::{sync::Arc, time::Duration};
 
+use mudrix_core::{CallEvent, CallTimings, CreateRoomOptions, IncomingCallEvent, RingEnd};
 use serde_json::json;
 use tokio::{sync::mpsc, task::JoinHandle};
-use wizardchat_core::{CallEvent, CallTimings, CreateRoomOptions, IncomingCallEvent, RingEnd};
 
 use common::BoxError;
 
@@ -38,7 +38,7 @@ async fn next_matching(
 }
 
 fn run(
-    session: Arc<wizardchat_core::CallSession>,
+    session: Arc<mudrix_core::CallSession>,
 ) -> (mpsc::UnboundedReceiver<CallEvent>, JoinHandle<()>) {
     let (tx, rx) = mpsc::unbounded_channel();
     let task = tokio::spawn(async move { session.run(|event| drop(tx.send(event))).await });

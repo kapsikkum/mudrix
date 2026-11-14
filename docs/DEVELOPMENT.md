@@ -103,7 +103,7 @@ The examples in `crates/core/examples` drive the core end to end against a homes
 accounts. They need a server with open registration and sliding sync (Synapse 1.114+), such as a local one:
 
 ```sh
-WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example smoke
+WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example smoke
 ```
 
 `smoke` covers the basics; `account`, `admin`, `calls`, `extras`, `rooms`, `rpc`, `security`, `session` and `timeline`

@@ -22,7 +22,7 @@ for (const file of [deb, find('rpm', '.rpm')]) {
   if (existsSync(`${file}.sig`)) continue;
   execFileSync(
     'npm',
-    ['exec', '-w', '@wizardchat/desktop', '--', 'tauri', 'signer', 'sign', resolve(file)],
+    ['exec', '-w', '@mudrix/desktop', '--', 'tauri', 'signer', 'sign', resolve(file)],
     { stdio: 'inherit' }
   );
 }

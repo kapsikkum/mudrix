@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WizardClient, type MediaSource } from '@wizardchat/core';
+import { WizardClient, type MediaSource } from '@mudrix/core';
 import { getSafeMimeType } from '@/util/safeMimeType';
 
 const cache = new Map<string, Promise<string | null>>();

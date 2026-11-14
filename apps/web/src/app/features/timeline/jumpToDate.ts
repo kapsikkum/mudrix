@@ -1,4 +1,4 @@
-import type { SearchDirection, TimestampEvent } from '@wizardchat/core';
+import type { SearchDirection, TimestampEvent } from '@mudrix/core';
 
 /** Formats a Date as the `YYYY-MM-DD` value a date input expects (local time). */
 export function toDateInputValue(d: Date): string {

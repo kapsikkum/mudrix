@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { EXTENDED_PROFILE_KEY, fetchExtendedProfileFields } from '@/app/hooks/useExtendedProfile';
 import { useDms } from '@/app/hooks/useDms';
 import { isActivityExpired, type ProfileActivity } from '@/util/profileActivity';

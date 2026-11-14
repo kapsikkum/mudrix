@@ -3,7 +3,7 @@ import init, {
   type LoginIdentifier,
   type PendingLogin,
   type Session,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import {
   activeAccount,
   deleteStore,

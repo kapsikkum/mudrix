@@ -8,7 +8,7 @@ import {
   VideoCameraIcon,
   VideoCameraSlashIcon,
 } from '@phosphor-icons/react';
-import type { CallHistoryView, CallOutcome, WizardClient as MatrixClient } from '@wizardchat/core';
+import type { CallHistoryView, CallOutcome, WizardClient as MatrixClient } from '@mudrix/core';
 import { useRoom } from '@/app/data';
 import { callActionsAtom, callUiAtom } from '@/app/store/atoms/call';
 import { ReceiptAvatar } from './receiptAvatar';

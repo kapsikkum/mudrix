@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { IncomingCall as CoreIncomingCall, WizardClient } from '@wizardchat/core';
+import type { IncomingCall as CoreIncomingCall, WizardClient } from '@mudrix/core';
 import { roomsByIdAtom } from '@/app/data';
 import { callActionsAtom, callUiAtom, type IncomingCall } from '@/app/store/atoms/call';
 import { notificationBannersAtom } from '@/app/store/atoms/settings';

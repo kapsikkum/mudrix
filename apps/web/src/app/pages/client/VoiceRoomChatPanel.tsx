@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { HashStraightIcon, XIcon } from '@phosphor-icons/react';
-import type { WizardClient } from '@wizardchat/core';
+import type { WizardClient } from '@mudrix/core';
 import { useRoom } from '@/app/data';
 import { Tooltip } from '@/app/components/Tooltip';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';

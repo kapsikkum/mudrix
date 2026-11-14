@@ -1,4 +1,4 @@
-import { vars as tokens } from '@wizardchat/design-tokens';
+import { vars as tokens } from '@mudrix/design-tokens';
 
 /**
  * The WizardChat style contract, backed by the shared design tokens (CSS variables set per

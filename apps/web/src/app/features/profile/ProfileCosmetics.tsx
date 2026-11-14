@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { HardDrivesIcon, SealCheckIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { WizardClient as MatrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { showCosmeticPacksAtom, showHomeserverSoftwareAtom } from '@/app/store/atoms';
 import { resolveCosmetic } from '@/util/cosmeticPacks';
