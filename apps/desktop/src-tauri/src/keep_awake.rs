@@ -17,7 +17,7 @@ pub fn keep_awake(on: bool, state: State<'_, KeepAwake>) -> Result<(), String> {
             .display(true)
             .idle(true)
             .reason("In a call")
-            .app_name("WizardChat")
+            .app_name("Mudrix")
             .app_reverse_domain("chat.mudrix.desktop")
             .create()
             .map_err(|e| e.to_string())?;

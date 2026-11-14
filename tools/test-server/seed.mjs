@@ -732,7 +732,11 @@ if (created.has(s2Thread)) {
 const s3Media = await room(ash, 's3 media', [juno], { topic: 'Images, video, files and voice' });
 if (created.has(s3Media)) {
   await image(juno, s3Media, avatarPng([255, 87, 34], [255, 193, 7], 21), 'parity-photo.png');
-  const last = await text(juno, s3Media, 'upload an image, a video or file, then a voice message below');
+  const last = await text(
+    juno,
+    s3Media,
+    'upload an image, a video or file, then a voice message below'
+  );
   await readUpTo(ash, s3Media, last.event_id);
 }
 

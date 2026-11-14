@@ -2,8 +2,12 @@ import type { Session, StoreConfig } from '@mudrix/core';
 import { deleteDesktopStore, isDesktop } from '@/bridge/desktop';
 import { STORAGE_KEY_ACTIVE_ACCOUNT } from '@/const/storageKeys';
 
-export const ACCOUNTS_KEY = 'wizardchat.accounts';
-const LEGACY_ACCOUNT_KEY = 'wizardchat.account';
+import { UPSTREAM_ACCOUNTS_KEY, UPSTREAM_SINGLE_ACCOUNT_KEY } from '@/util/namespace';
+
+export const ACCOUNTS_KEY = 'mudrix.accounts';
+/** Where installs from before the rename keep their accounts; moved to ACCOUNTS_KEY on first read */
+const LEGACY_ACCOUNTS_KEY = UPSTREAM_ACCOUNTS_KEY;
+const LEGACY_ACCOUNT_KEY = UPSTREAM_SINGLE_ACCOUNT_KEY;
 
 export interface StoredAccount {
   session: Session;
@@ -19,6 +23,13 @@ function read(): AccountsState {
   try {
     const raw = localStorage.getItem(ACCOUNTS_KEY);
     if (raw) return JSON.parse(raw) as AccountsState;
+    const previous = localStorage.getItem(LEGACY_ACCOUNTS_KEY);
+    if (previous) {
+      const migrated = JSON.parse(previous) as AccountsState;
+      write(migrated);
+      localStorage.removeItem(LEGACY_ACCOUNTS_KEY);
+      return migrated;
+    }
     const legacy = localStorage.getItem(LEGACY_ACCOUNT_KEY);
     if (legacy) {
       const account = JSON.parse(legacy) as StoredAccount;
@@ -91,7 +102,7 @@ export function removeAccount(userId: string): StoredAccount | null {
 export function newStoreConfig(): StoreConfig {
   const bytes = crypto.getRandomValues(new Uint8Array(32));
   return {
-    location: `wizardchat-${crypto.randomUUID()}`,
+    location: `mudrix-${crypto.randomUUID()}`,
     passphrase: btoa(String.fromCharCode(...bytes)),
     manualEncryptionSetup: true,
   };

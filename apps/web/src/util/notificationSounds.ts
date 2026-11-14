@@ -92,8 +92,8 @@ export const SOUND_PACKS: readonly SoundPack[] = [
   mudrixPack('megadrive2', 'Velvet'),
   mudrixPack('nes2', 'Shuffle'),
   mudrixPack('sms', 'Chirp'),
-  // The base's own alert is the message sound of the WizardChat pack
-  clientPack('wizardchat', 'WizardChat', { message: 'alert.wav' }),
+  // The base's own alert is the message sound of the Original pack
+  clientPack('wizardchat', 'Original', { message: 'alert.wav' }),
   clientPack('element', 'Element', {
     message: 'mp3',
     ring: 'mp3',

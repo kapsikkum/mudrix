@@ -99,10 +99,10 @@ export function RoomBridges({ roomId }: { roomId: string }) {
       const detail = (event as CustomEvent<{ roomId: string; eventType: string }>).detail;
       if (detail.roomId === roomId && BRIDGE_EVENT_TYPES.includes(detail.eventType)) load();
     };
-    window.addEventListener('wizardchat:state', onState);
+    window.addEventListener('mudrix:state', onState);
     return () => {
       cancelled = true;
-      window.removeEventListener('wizardchat:state', onState);
+      window.removeEventListener('mudrix:state', onState);
     };
   }, [client, roomId]);
 

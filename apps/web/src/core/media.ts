@@ -17,7 +17,7 @@ function load(key: string, fetchBytes: () => Promise<Uint8Array>, mimetype?: str
       })
       .catch((error: unknown) => {
         cache.delete(key);
-        console.warn('[wizardchat] media failed to load', error);
+        console.warn('[mudrix] media failed to load', error);
         return null;
       });
     cache.set(key, request);

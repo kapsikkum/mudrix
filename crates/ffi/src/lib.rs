@@ -26,11 +26,11 @@ fn init_logging() {
     logcat::init();
 }
 
-/// Debug builds log the SDK to stderr (the Xcode console); `WIZARDCHAT_LOG` takes a tracing filter
+/// Debug builds log the SDK to stderr (the Xcode console); `MUDRIX_LOG` takes a tracing filter
 #[cfg(not(target_os = "android"))]
 fn init_logging() {
     if cfg!(debug_assertions) {
-        let filter = std::env::var("WIZARDCHAT_LOG")
+        let filter = std::env::var("MUDRIX_LOG")
             .unwrap_or_else(|_| "warn,matrix_sdk_crypto::verification=debug".into());
         let _ = tracing_subscriber::fmt()
             .with_env_filter(tracing_subscriber::EnvFilter::new(filter))

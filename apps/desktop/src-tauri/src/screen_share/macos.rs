@@ -271,7 +271,7 @@ struct OutputIvars {
 define_class!(
     /// Receives the stream's frames and audio
     #[unsafe(super(NSObject))]
-    #[name = "WizardChatScreenShareOutput"]
+    #[name = "MudrixScreenShareOutput"]
     #[ivars = OutputIvars]
     struct Output;
 

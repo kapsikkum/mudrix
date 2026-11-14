@@ -339,7 +339,7 @@ async function captureAppScreens(appName, port, screens, seed, env, sessions, na
     });
 
     const theo = sessions.theo;
-    const storeLocation = 'wizardchat-session-' + theo.user_id.replace(/[^a-zA-Z0-9]/g, '_');
+    const storeLocation = 'mudrix-session-' + theo.user_id.replace(/[^a-zA-Z0-9]/g, '_');
     const storePassphrase = btoa('12345678901234567890123456789012');
     // The newest release notes each app ships; the dialog opens when this is not the version seen.
     const wnVersion = appName === 'new' ? '26.12.2' : '26.10.18';
@@ -347,7 +347,7 @@ async function captureAppScreens(appName, port, screens, seed, env, sessions, na
     await authCtx.addInitScript(
       ({ token, hs, userId, deviceId, storeLocation, storePassphrase, wnVersion }) => {
         localStorage.setItem(
-          'wizardchat.accounts',
+          'mudrix.accounts',
           JSON.stringify({
             active: userId,
             accounts: {

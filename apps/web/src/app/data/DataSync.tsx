@@ -83,9 +83,7 @@ export function DataSync({ client }: { client: WizardClient }) {
         if (eventType === 'm.space.child' || eventType === 'm.space.parent') refreshGraph();
         if (/^(im\.ponies\.room_emotes|m\.room\.image_pack|m\.space\.parent)$/.test(eventType))
           invalidateImagePacks();
-        window.dispatchEvent(
-          new CustomEvent('wizardchat:state', { detail: { roomId, eventType } })
-        );
+        window.dispatchEvent(new CustomEvent('mudrix:state', { detail: { roomId, eventType } }));
       }),
     ];
     return () => {

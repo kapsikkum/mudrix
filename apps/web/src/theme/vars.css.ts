@@ -1,7 +1,7 @@
 import { vars as tokens } from '@mudrix/design-tokens';
 
 /**
- * The WizardChat style contract, backed by the shared design tokens (CSS variables set per
+ * The style contract, backed by the shared design tokens (CSS variables set per
  * theme in themes.css.ts).
  */
 export const vars = {

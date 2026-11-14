@@ -19,7 +19,7 @@ import E2EEWorker from 'livekit-client/e2ee-worker?worker';
 import type { CallEvent, CallMember, CallSession, Subscription, WizardClient } from '@mudrix/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
-import { mudrixKey, wizardchatKey } from '@/util/namespace';
+import { mudrixKey, upstreamKey } from '@/util/namespace';
 
 export type CallPhase = 'joining' | 'joined' | 'left' | 'error';
 export type RingState = 'ringing' | 'declined' | 'unanswered';
@@ -222,7 +222,7 @@ interface InboundStats {
 }
 
 const STREAM_WATCH_TOPIC = mudrixKey('stream-watch');
-const WIZARDCHAT_STREAM_WATCH_TOPIC = wizardchatKey('stream-watch');
+const UPSTREAM_STREAM_WATCH_TOPIC = upstreamKey('stream-watch');
 
 export function listDevices(
   kind: DeviceKind,
@@ -868,7 +868,7 @@ export class CallMedia {
       .on(RoomEvent.EncryptionError, (error: Error, participant?: Participant) => {
         const reason = /^(InvalidKey|MissingKey|InternalError):/.exec(error.message)?.[1];
         const identity = participant?.identity;
-        console.warn('[wizardchat-call] media encryption error', { identity, reason });
+        console.warn('[mudrix-call] media encryption error', { identity, reason });
         if (identity && (reason === 'MissingKey' || reason === 'InvalidKey')) {
           if (!this.keyIssues.has(identity)) {
             this.keyIssues.add(identity);
@@ -900,7 +900,7 @@ export class CallMedia {
         } catch {
           return;
         }
-        if (topic === STREAM_WATCH_TOPIC || topic === WIZARDCHAT_STREAM_WATCH_TOPIC) {
+        if (topic === STREAM_WATCH_TOPIC || topic === UPSTREAM_STREAM_WATCH_TOPIC) {
           this.onStreamWatch(payload, from);
           return;
         }

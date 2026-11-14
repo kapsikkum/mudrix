@@ -70,7 +70,7 @@ export function useNativeTabBar(ref: RefObject<HTMLElement | null>): boolean {
   useEffect(() => {
     if (!enabled) return;
     const subscription = window.Capacitor?.addListener?.<{ id?: string }>(
-      'WizardChat',
+      'Mudrix',
       'tabBarTap',
       (data) => {
         if (!data?.id) return;

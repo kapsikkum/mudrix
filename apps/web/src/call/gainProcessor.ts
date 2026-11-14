@@ -1,7 +1,7 @@
 import type { AudioProcessorOptions, Track, TrackProcessor } from 'livekit-client';
 
 export class GainProcessor implements TrackProcessor<Track.Kind.Audio, AudioProcessorOptions> {
-  readonly name = 'wizardchat-gain';
+  readonly name = 'mudrix-gain';
   processedTrack?: MediaStreamTrack;
   private gain: number;
   private source?: MediaStreamAudioSourceNode;

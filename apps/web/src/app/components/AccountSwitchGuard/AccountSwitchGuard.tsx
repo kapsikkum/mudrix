@@ -5,10 +5,10 @@ import { LogoLoader } from '@/app/components/AppLoading/LogoLoader';
 import { Button } from '@/app/components/Button';
 import { getActiveAccountId } from '@/client/accounts';
 import { endSessionForOtherTab } from '@/client/initMatrix';
+import { ACCOUNTS_KEY } from '@/core/storage';
 import * as css from './AccountSwitchGuard.css';
 
 const RELOAD_DELAY_MS = 3000;
-const ACCOUNTS_KEY = 'wizardchat.accounts';
 
 function localpart(userId: string): string {
   return userId.replace(/^@/, '').split(':')[0];

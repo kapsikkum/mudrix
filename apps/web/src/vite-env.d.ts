@@ -112,5 +112,5 @@ interface Window {
     nativePromise?: <T>(plugin: string, method: string, options?: unknown) => Promise<T>;
     addListener?: <T>(plugin: string, event: string, callback: (data: T) => void) => unknown;
   };
-  wizardchatNativeBack?: () => boolean;
+  mudrixNativeBack?: () => boolean;
 }

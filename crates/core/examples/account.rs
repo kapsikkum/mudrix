@@ -11,8 +11,7 @@ use serde_json::json;
 type BoxError = Box<dyn std::error::Error>;
 
 fn store(name: &str) -> StoreConfig {
-    let dir =
-        std::env::temp_dir().join(format!("wizardchat-account-{}-{name}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("mudrix-account-{}-{name}", std::process::id()));
     StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some("account-test".into()),

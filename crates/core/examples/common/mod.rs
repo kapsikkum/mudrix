@@ -15,10 +15,8 @@ pub fn server() -> String {
 
 /// A fresh store directory for one device of an example
 pub fn store(example: &str, device: &str) -> StoreConfig {
-    let dir = std::env::temp_dir().join(format!(
-        "wizardchat-{example}-{}-{device}",
-        std::process::id()
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("mudrix-{example}-{}-{device}", std::process::id()));
     StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some(format!("{example}-test")),

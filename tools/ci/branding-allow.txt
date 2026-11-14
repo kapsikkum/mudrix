@@ -31,3 +31,28 @@ docs/MOBILE_BEHAVIOUR_NOTES.md :: org[/.]wizardchat
 # build still produces. Remove these entries together with the internal rename.
 docs/BUILDING.md
 docs/DEVELOPMENT.md :: mudrix-core
+
+# Data compatibility (web): the upstream base's namespace, settings event and localStorage account keys, still read so
+# existing installs and accounts keep their data. This file is the single place on the web that spells them out.
+apps/web/src/util/namespace.ts :: 'org\.wizardchat'|'io\.gitlab\.wizardchat\.settings'|'wizardchat\.accounts?'
+
+# The custom-status profile field the upstream base wrote; the core still reads it (never writes it), and its tests.
+crates/core/src/profile.rs :: "org\.wizardchat\.status"
+
+# The stored id of the upstream message-sound pack: a value inside users' synced settings (notificationSoundPack).
+# Renaming it would silently change their sound. Its display name is "Original".
+apps/web/src/util/notificationSounds.ts :: clientPack\('wizardchat', 'Original'
+
+# Watch-together YouTube bridge: the player page and its postMessage source are hosted by the upstream project and
+# can't be renamed from here.
+apps/web/src/app/features/calls/watchTogether/youtube.ts :: wizardchat-youtube|\.wizardchat\.org/youtube-player\.html
+apps/web/public/youtube-player.html :: wizardchat-youtube
+
+# Desktop update feeds for already-installed old desktop builds: they point at real published asset names.
+apps/web/public/desktop/latest*.yml :: /WizardChat-
+
+# About page credit link to the upstream project (AGPL attribution, see docs/DECISIONS.md).
+apps/web/src/app/features/settings/about/About.tsx :: WIZARDCHAT_URL|gitlab\.com/wizardchat/wizardchat-web|^\s*WizardChat\s*$
+
+# Test asserting the exported key file name contains no upstream name.
+apps/web/tests/roomKeys.test.ts :: !/wizardchat/i\.test

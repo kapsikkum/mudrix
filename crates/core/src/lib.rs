@@ -1,6 +1,6 @@
-//! WizardChat's client core.
+//! Mudrix's client core.
 //!
-//! Everything a WizardChat app needs that isn't UI: signing in, syncing, the room list and room
+//! Everything a Mudrix app needs that isn't UI: signing in, syncing, the room list and room
 //! timelines, built on matrix-rust-sdk. Apps talk to it only through [`WizardClient`] and get
 //! state pushed to them as [`ListDiff`]s of plain, serialisable view models, so the same core can
 //! sit behind the web app (wasm), desktop (Tauri), iOS (SwiftUI) and Android (Compose).

@@ -521,8 +521,8 @@ back to TCP media.
    In a voice room the participant is not removed by muting, only marked muted. Deafening is local
    to the deafened client.
 4. Leave from one client. The other stays in the call with **1 participant** and no error. The last
-   one leaves: the call ends and the web client shows its "only one here" countdown before leaving,
-   with **Stay** and **Leave now**. No ghost participant remains after the countdown.
+   one leaves: the call ends and the remaining client shows its "only one here" countdown before
+   leaving, with **Stay** and **Leave now**. No ghost participant remains after the countdown.
 5. Rejoin: the same accounts can join again, and a second device signed in as ash shows the "in this
    call on another device" notice with **Join here** rather than silently joining twice.
 6. Declining: start a DM call from Juno and decline on ash. Juno sees "declined"; the room timeline
@@ -572,8 +572,9 @@ the homeserver admin can.
 Synced: `theme`, `customThemes`, `messageLayout`, `messageLayoutMobile`, `language`, and the
 preferences that are choices rather than facts about a device - for example `typingIndicators`,
 `sendReadReceipts`, `showPresence`, time/date formats, notification sound packs and
-`showCosmeticPacks`. Not synced (device-only): UI scale/zoom, streamer mode, reduced-motion state,
-the notification-banner permission, soundboard listening choices, and spellcheck settings.
+`showCosmeticPacks`; every preference not in the device-only list below travels with them. Not synced
+(device-only): UI scale/zoom, streamer mode, reduced-motion state, the notification-banner permission,
+soundboard listening choices, and spellcheck settings.
 
 1. On web as ash, Settings → Appearance: choose **Gruvbox** and message layout **Compact**. Change
    one preference too, for example turn **Show presence** off in Privacy. If the phone has its own

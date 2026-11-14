@@ -141,7 +141,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
 function openSignInPopup(): Window | null {
   // The desktop app signs in through the system browser
   if (isDesktop) return null;
-  return window.open('about:blank', 'wizardchat-sign-in');
+  return window.open('about:blank', 'mudrix-sign-in');
 }
 
 /** Signs in on the server's own page (OAuth). Call synchronously from the click handler. */

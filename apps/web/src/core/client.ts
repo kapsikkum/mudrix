@@ -19,8 +19,8 @@ let ready: Promise<unknown> | null = null;
 
 export const DEVICE_NAME = isDesktop ? 'Mudrix Desktop' : 'Mudrix Web';
 export const AUTH_CALLBACK_PATH = '/auth/callback';
-const AUTH_MESSAGE = 'wizardchat-auth-callback';
-const AUTH_CHANNEL = 'wizardchat-auth';
+const AUTH_MESSAGE = 'mudrix-auth-callback';
+const AUTH_CHANNEL = 'mudrix-auth';
 
 /** Loads and starts the wasm core once */
 export function loadCore(): Promise<unknown> {

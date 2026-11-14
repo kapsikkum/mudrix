@@ -42,12 +42,12 @@ for (const name of readdirSync(bin)) {
   if (cleared !== text) writeFileSync(file, cleared, 'latin1');
 }
 
-const tarball = join(out, `wizardchat-${version}-linux-x86_64.tar.gz`);
+const tarball = join(out, `mudrix-${version}-linux-x86_64.tar.gz`);
 execFileSync('tar', ['-czf', tarball, '-C', stage, 'usr', 'LICENSE']);
 rmSync(stage, { recursive: true });
 
 const sha256 = createHash('sha256').update(readFileSync(tarball)).digest('hex');
-const pkgbuild = readFileSync('packaging/aur/wizardchat-bin/PKGBUILD', 'utf8')
+const pkgbuild = readFileSync('packaging/aur/mudrix-bin/PKGBUILD', 'utf8')
   .replace(/^#.*\n/, '')
   .replace(/^_version=.*$/m, `_version=${version}`)
   .replace(/^pkgver=.*$/m, `pkgver=${version.replaceAll('-', '_')}`)

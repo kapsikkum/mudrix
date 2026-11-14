@@ -86,7 +86,7 @@ async fn main() -> Result<(), BoxError> {
     let stamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos();
     let username = format!("rpc{stamp}");
     let password = format!("pw-{stamp:x}-{}", std::process::id());
-    let dir = std::env::temp_dir().join(format!("wizardchat-rpc-{stamp}"));
+    let dir = std::env::temp_dir().join(format!("mudrix-rpc-{stamp}"));
     let store = json!({ "location": dir.to_string_lossy(), "passphrase": null });
     let client = h
         .call(

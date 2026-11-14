@@ -312,7 +312,7 @@ for (const [i, spec] of names.entries()) {
     },
   };
   const localKeys = {
-    wizardchat_accounts: JSON.stringify(stored),
+    mudrix_accounts: JSON.stringify(stored),
     wz_accounts: JSON.stringify({ [creds.userId]: creds }),
     wz_active_account: creds.userId,
     wz_last_homeserver: creds.homeserverUrl,
@@ -324,7 +324,7 @@ for (const [i, spec] of names.entries()) {
   await evaluate(`(() => {
     const values = ${JSON.stringify(localKeys)};
     for (const [key, value] of Object.entries(values)) {
-      const name = key === 'wizardchat_accounts' ? 'wizardchat.accounts' : key;
+      const name = key === 'mudrix_accounts' ? 'mudrix.accounts' : key;
       localStorage.setItem(name, value);
     }
     return true;

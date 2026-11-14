@@ -256,10 +256,10 @@ export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
         })
         .catch(() => {});
     };
-    window.addEventListener('wizardchat:state', onState);
+    window.addEventListener('mudrix:state', onState);
     return () => {
       cancelled = true;
-      window.removeEventListener('wizardchat:state', onState);
+      window.removeEventListener('mudrix:state', onState);
     };
   }, [client, roomId]);
 

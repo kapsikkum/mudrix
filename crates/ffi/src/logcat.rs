@@ -12,14 +12,14 @@ const TAG: &CStr = c"MudrixCore";
 const CHUNK: usize = 4000;
 
 /// Info in release builds; debug builds add the core and the timelines (the SDK's own timers are
-/// left out, they flood logcat). `WIZARDCHAT_LOG` takes a tracing filter
+/// left out, they flood logcat). `MUDRIX_LOG` takes a tracing filter
 pub fn init() {
     let default = if cfg!(debug_assertions) {
         "info,mudrix_core=debug,matrix_sdk_ui=debug"
     } else {
         "info"
     };
-    let filter = std::env::var("WIZARDCHAT_LOG").unwrap_or_else(|_| default.into());
+    let filter = std::env::var("MUDRIX_LOG").unwrap_or_else(|_| default.into());
     let _ = tracing_subscriber::fmt()
         .with_env_filter(EnvFilter::new(filter))
         .with_writer(Logcat)

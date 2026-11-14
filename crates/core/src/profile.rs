@@ -11,7 +11,7 @@ use crate::{rooms::parse_user_id, Error, Result, WizardClient};
 
 /// The custom status, stored as an extended profile field (MSC4133)
 pub const STATUS_FIELD: &str = "io.github.kapsikkum.mudrix.status";
-/// Where earlier Mudrix versions and WizardChat kept it: still read, never written
+/// Where earlier Mudrix versions and the upstream base kept it: still read, never written
 const LEGACY_STATUS_FIELDS: [&str; 2] = ["chat.mudrix.status", "org.wizardchat.status"];
 pub const MAX_STATUS_LENGTH: usize = 128;
 
