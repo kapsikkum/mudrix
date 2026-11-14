@@ -49,6 +49,18 @@ enum PhotoUploadSize: String, CaseIterable {
 /// YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all)
 enum YouTubeEmbeds: String, CaseIterable { case ask, on, off }
 
+/// Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline)
+enum PresenceChoice: String, CaseIterable, Hashable {
+    case auto, online, away, invisible
+
+    /// What to tell the server; sharing off always reads as offline
+    func presence(shared: Bool) -> Presence {
+        if !shared || self == .invisible { return .offline }
+        if self == .away { return .unavailable }
+        return .online
+    }
+}
+
 /// Streamer mode: hide private details always, or only while this device is being recorded or mirrored
 enum StreamerMode: String, CaseIterable { case off, on, auto }
 
@@ -129,6 +141,7 @@ final class AppPreferences: ObservableObject {
     @Published private(set) var screenCaptured = false
 
     @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
+    @Published var presenceChoice: PresenceChoice { didSet { save("presenceChoice", presenceChoice.rawValue) } }
     @Published var showHomeserverSoftware: Bool { didSet { save("showHomeserverSoftware", showHomeserverSoftware); syncIfNeeded() } }
     /// Draw cosmetics that come from packs, anyone's; built-in ones always draw
     @Published var showCosmeticPacks: Bool { didSet { save("showCosmeticPacks", showCosmeticPacks); syncIfNeeded() } }
@@ -241,6 +254,10 @@ final class AppPreferences: ObservableObject {
         streamerMode = Self.stored(d, "streamerMode", .auto)
         // Off until chosen, like Mudrix: you appear offline and nobody sees your status
         showPresence = d.object(forKey: "showPresence") as? Bool ?? false
+        presenceChoice = Self.initialPresenceChoice(
+            storedChoice: d.string(forKey: "presenceChoice"),
+            storedShowPresence: d.object(forKey: "showPresence") as? Bool
+        )
         showHomeserverSoftware = d.object(forKey: "showHomeserverSoftware") as? Bool ?? true
         showCosmeticPacks = d.object(forKey: "showCosmeticPacks") as? Bool ?? true
         notificationSounds = d.object(forKey: "notificationSounds") as? Bool ?? true
@@ -281,6 +298,17 @@ final class AppPreferences: ObservableObject {
     private static func stored<E: RawRepresentable>(_ d: UserDefaults, _ key: String, _ fallback: E) -> E
     where E.RawValue == String {
         E(rawValue: d.string(forKey: key) ?? "") ?? fallback
+    }
+
+    /// Migrates an explicit off switch to Invisible when no presence choice has been saved yet
+    static func initialPresenceChoice(storedChoice: String?, storedShowPresence: Bool?) -> PresenceChoice {
+        if let storedChoice, let choice = PresenceChoice(rawValue: storedChoice) {
+            return choice
+        }
+        if storedShowPresence == false {
+            return .invisible
+        }
+        return .auto
     }
 
     /// The layout in use on this device: its own phone choice, else the account's main one

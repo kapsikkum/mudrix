@@ -152,13 +152,17 @@ struct IdentifiedString: Identifiable, Hashable { let id: String }
 
 private struct MemberRow: View {
     let member: Member
+    @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @Environment(\.roomRoles) private var roomRoles
+    @State private var presence: Presence?
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
             CosmeticAvatar(userId: member.userId, name: member.displayName ?? member.userId,
-                           url: member.avatarUrl, size: WZ.SizeAvatar.md)
+                           url: member.avatarUrl, size: WZ.SizeAvatar.md,
+                           presence: presence, presenceRingColor: theme.groupedRow)
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 CosmeticName(userId: member.userId) {
                     Text(member.displayName ?? member.userId)
@@ -174,6 +178,17 @@ private struct MemberRow: View {
             RoleBadge(level: member.level)
         }
         .contentShape(Rectangle())
+        .task(id: "\(member.userId)|\(prefs.showPresence)") {
+            guard prefs.showPresence else {
+                presence = nil
+                return
+            }
+            if let cached = PresenceCache.shared.cached(member.userId) {
+                presence = cached
+            } else {
+                presence = await session.presence(of: member.userId)
+            }
+        }
     }
 }
 

@@ -106,6 +106,38 @@ struct CosmeticDecoration: View {
     }
 }
 
+/// The presence dot on an avatar's corner (online green, away amber, offline none), gated on `prefs.showPresence`
+struct PresenceDot: View {
+    let presence: Presence?
+    var size: CGFloat = WZ.SizeAvatar.md
+    var ringColor: Color? = nil
+
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+
+    private var color: Color? {
+        guard prefs.showPresence else { return nil }
+        switch presence {
+        case .online: return theme.presenceOnline
+        case .unavailable: return theme.presenceAway
+        case .offline, nil: return nil
+        }
+    }
+
+    var body: some View {
+        if let color {
+            let diameter = max(8, size * 0.3)
+            let inset = max(1.5, diameter * 0.14)
+            Circle()
+                .fill(color)
+                .padding(inset)
+                .frame(width: diameter, height: diameter)
+                .background(ringColor ?? theme.bgPrimary, in: Circle())
+                .allowsHitTesting(false)
+        }
+    }
+}
+
 /// The avatar of a person, with their decoration when cosmetic packs are on
 struct CosmeticAvatar: View {
     let userId: String
@@ -113,6 +145,8 @@ struct CosmeticAvatar: View {
     let url: String?
     var size: CGFloat = WZ.SizeAvatar.md
     var cornerRadius: CGFloat? = nil
+    var presence: Presence? = nil
+    var presenceRingColor: Color? = nil
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -121,6 +155,11 @@ struct CosmeticAvatar: View {
     var body: some View {
         AvatarView(name: name, url: url, size: size, cornerRadius: cornerRadius,
                    decoration: CosmeticPacks.resolve(profile?.avatarDecoration, showPacks: prefs.showCosmeticPacks))
+            .overlay(alignment: .bottomTrailing) {
+                if let presence {
+                    PresenceDot(presence: presence, size: size, ringColor: presenceRingColor)
+                }
+            }
             .task(id: "\(userId)|\(prefs.showCosmeticPacks)") {
                 guard prefs.showCosmeticPacks, !userId.isEmpty, let client = session.client else { return }
                 if let cached = CosmeticCache.shared.cached(userId) {

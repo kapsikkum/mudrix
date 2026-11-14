@@ -258,6 +258,17 @@ struct PrivacySettings: View {
                 ToggleRow(label: "settings.privacy.showPresence",
                           note: "settings.privacy.showPresenceNote",
                           isOn: $prefs.showPresence)
+                if prefs.showPresence {
+                    SettingsDivider()
+                    PickerRow(label: "presence.changeStatus",
+                              selection: $prefs.presenceChoice,
+                              options: [
+                                  (.auto, "presence.auto"),
+                                  (.online, "presence.online"),
+                                  (.away, "presence.away"),
+                                  (.invisible, "presence.invisible"),
+                              ])
+                }
                 ToggleRow(label: "settings.privacy.showHomeserverSoftware",
                           note: "settings.privacy.showHomeserverSoftwareNote",
                           isOn: $prefs.showHomeserverSoftware)

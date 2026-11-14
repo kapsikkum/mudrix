@@ -20,6 +20,7 @@ struct MainTabView: View {
     @State private var showInbox = false
     @State private var showExplore = false
     @State private var showSettings = false
+    @State private var settingsInitialPage: SettingsView.Page?
     @State private var railSelection: SidebarSelection = .home
     @State private var railPath: [Route] = []
     @State private var whatsNew: WhatsNew.Entry?
@@ -32,7 +33,11 @@ struct MainTabView: View {
                 ModernShell(roomList: roomList, selection: $railSelection, path: $railPath,
                             onOpenInbox: { showInbox = true }, onCreateSpace: { showCreateSpace = true },
                             onExplore: { showExplore = true }, onOpenCall: openCall,
-                            onOpenSettings: { showSettings = true })
+                            onOpenSettings: { showSettings = true },
+                            onEditProfile: {
+                                settingsInitialPage = .account
+                                showSettings = true
+                            })
             } else {
                 tabView
             }
@@ -114,8 +119,8 @@ struct MainTabView: View {
             }
         }
         // Presented here, above the Modern/Classic switch, so changing the navigation in Settings keeps it open
-        .fullScreenCover(isPresented: $showSettings) {
-            SettingsView(isTab: false)
+        .fullScreenCover(isPresented: $showSettings, onDismiss: { settingsInitialPage = nil }) {
+            SettingsView(isTab: false, initialPage: settingsInitialPage)
         }
         .onChange(of: prefs.navigationStyle) { _, style in
             // Settings from the You tab moves to the same cover, which then survives the switch to the Modern shell

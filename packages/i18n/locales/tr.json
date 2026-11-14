@@ -3027,6 +3027,8 @@
     "online": "Çevrimiçi",
     "away": "Uzakta",
     "offline": "Çevrimdışı",
+    "invisible": "Görünmez",
+    "editProfile": "Profili düzenle",
     "unsupported": "Çevrimiçi durumu kullanılamıyor",
     "unsupportedTitle": "Çevrimiçi durumu kullanılamıyor",
     "unsupportedMessage": "Ana sunucunda ({{server}}) çevrimiçi durumu (presence) kapalı, bu yüzden kimse çevrimiçi, uzakta veya çevrimdışı olduğunu göremez, sen de başkaları için göremezsin. Burada seçtiğin durum, açıldığında kullanılmak üzere saklanır. Sunucun profil alanlarını destekliyorsa özel durumun profilinde yine görünür."

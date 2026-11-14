@@ -3027,6 +3027,8 @@
     "online": "Online",
     "away": "Ausente",
     "offline": "Offline",
+    "invisible": "Invisível",
+    "editProfile": "Editar perfil",
     "unsupported": "Estado online indisponível",
     "unsupportedTitle": "O estado online não está disponível",
     "unsupportedMessage": "O teu homeserver ({{server}}) tem o estado online (presença) desativado, por isso ninguém pode ver se estás online, ausente ou offline, e tu também não o vês nos outros. O que escolheres aqui fica guardado para quando for ativado. O teu estado personalizado continua a aparecer no teu perfil se o servidor suportar campos de perfil."

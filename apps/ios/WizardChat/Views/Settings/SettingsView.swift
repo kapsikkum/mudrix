@@ -4,11 +4,19 @@ struct SettingsView: View {
     var isTab = false
     /// Changes when the You tab is tapped again, to go back to the list
     var popToRoot = 0
-    @State private var path: [Page] = []
+    var initialPage: Page? = nil
+    @State private var path: [Page]
     @State private var search = ""
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.dismiss) private var dismiss
+
+    init(isTab: Bool = false, popToRoot: Int = 0, initialPage: Page? = nil) {
+        self.isTab = isTab
+        self.popToRoot = popToRoot
+        self.initialPage = initialPage
+        _path = State(initialValue: initialPage.map { [$0] } ?? [])
+    }
 
     enum Page: Hashable, CaseIterable {
         case account, privacy, media, integrations, emojis, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about

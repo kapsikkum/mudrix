@@ -3027,6 +3027,8 @@
     "online": "En ligne",
     "away": "Absent",
     "offline": "Hors ligne",
+    "invisible": "Invisible",
+    "editProfile": "Modifier le profil",
     "unsupported": "Statut en ligne indisponible",
     "unsupportedTitle": "Le statut en ligne n'est pas disponible",
     "unsupportedMessage": "Ton serveur ({{server}}) a désactivé le statut en ligne (présence) : personne ne peut voir si tu es en ligne, absent ou hors ligne, et tu ne le verras pas non plus pour les autres. Ce que tu choisis ici est conservé pour le jour où il sera activé. Ton statut personnalisé reste visible sur ton profil si ton serveur prend en charge les champs de profil."

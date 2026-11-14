@@ -3027,6 +3027,8 @@
     "online": "Online",
     "away": "Zaraz wracam",
     "offline": "Offline",
+    "invisible": "Niewidoczny",
+    "editProfile": "Edytuj profil",
     "unsupported": "Status online niedostępny",
     "unsupportedTitle": "Status online jest niedostępny",
     "unsupportedMessage": "Twój serwer domowy ({{server}}) ma wyłączony status online (presence), więc nikt nie widzi, czy jesteś online, zaraz wracasz czy offline, a Ty też nie widzisz tego u innych. To, co tu wybierzesz, zostanie zapamiętane na wypadek włączenia. Twój własny status nadal będzie widoczny w profilu, jeśli serwer obsługuje pola profilu."

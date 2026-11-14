@@ -3027,6 +3027,8 @@
     "online": "Online",
     "away": "Afwezig",
     "offline": "Offline",
+    "invisible": "Onzichtbaar",
+    "editProfile": "Profiel bewerken",
     "unsupported": "Onlinestatus niet beschikbaar",
     "unsupportedTitle": "Onlinestatus is niet beschikbaar",
     "unsupportedMessage": "Op je homeserver ({{server}}) is de onlinestatus (presence) uitgeschakeld, dus niemand kan zien of je online, afwezig of offline bent, en jij ziet het ook niet bij anderen. Wat je hier kiest, wordt bewaard voor als het wordt ingeschakeld. Je aangepaste status blijft op je profiel staan als je server profielvelden ondersteunt."

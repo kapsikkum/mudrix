@@ -28,6 +28,7 @@ struct ModernShell: View {
     let onExplore: () -> Void
     let onOpenCall: () -> Void
     let onOpenSettings: () -> Void
+    let onEditProfile: () -> Void
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -152,7 +153,9 @@ struct ModernShell: View {
             if !keyboardShown {
                 ModernUserCard(inboxBadge: !roomList.mentionRooms.isEmpty || !roomList.invites.isEmpty,
                                inboxMention: !roomList.mentionRooms.isEmpty,
-                               onProfile: { showOwnProfile = true }, onInbox: onOpenInbox)
+                               onProfile: { showOwnProfile = true },
+                               onEditProfile: onEditProfile,
+                               onInbox: onOpenInbox)
             }
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { dockHeight = $0 }
@@ -330,11 +333,12 @@ private struct RailAddButton: View {
     }
 }
 
-/// Your card floating over the bottom: your avatar and status open your profile, the bell opens the inbox
+/// Your card floating over the bottom: tapping your avatar opens the presence menu, tapping your name opens your profile, and the bell opens the inbox
 private struct ModernUserCard: View {
     let inboxBadge: Bool
     let inboxMention: Bool
     let onProfile: () -> Void
+    let onEditProfile: () -> Void
     let onInbox: () -> Void
 
     @EnvironmentObject private var session: MatrixSession
@@ -343,35 +347,61 @@ private struct ModernUserCard: View {
 
     private var name: String { session.displayName ?? session.userId ?? "" }
 
+    private var ownPresence: Presence {
+        prefs.presenceChoice.presence(shared: prefs.showPresence)
+    }
+
     private var status: String {
         if let custom = session.customStatus, custom.expiresAt.map({ Double($0) / 1000 > Date.now.timeIntervalSince1970 }) ?? true {
             return custom.text
         }
-        return prefs.showPresence ? String(localized: "presence.online") : String(localized: "presence.offline")
+        switch ownPresence {
+        case .online: return String(localized: "presence.online")
+        case .unavailable: return String(localized: "presence.away")
+        case .offline: return String(localized: "presence.offline")
+        }
+    }
+
+    private var menuChoice: Binding<PresenceChoice> {
+        Binding(
+            get: { prefs.showPresence ? prefs.presenceChoice : .invisible },
+            set: { next in
+                if next != .invisible && !prefs.showPresence {
+                    prefs.showPresence = true
+                }
+                prefs.presenceChoice = next
+            }
+        )
     }
 
     var body: some View {
         HStack(spacing: WZ.Space.space3) {
+            Menu {
+                presenceMenuItems
+            } label: {
+                CosmeticAvatar(userId: session.userId ?? "", name: name, url: session.avatarUrl,
+                               size: WZ.SizeAvatar.md, presence: ownPresence, presenceRingColor: theme.bgTertiary)
+                    .frame(minWidth: WZ.Size.touchTarget, minHeight: WZ.Size.touchTarget)
+                    .contentShape(Circle())
+            }
+            .accessibilityLabel(String(localized: "presence.changeStatus"))
             Button(action: onProfile) {
-                HStack(spacing: WZ.Space.space3) {
-                    CosmeticAvatar(userId: session.userId ?? "", name: name, url: session.avatarUrl, size: WZ.SizeAvatar.md)
-                    VStack(alignment: .leading, spacing: WZ.Space.space0) {
-                        Text(name)
-                            .font(.wizard(WZ.FontSize.md, .bold))
-                            .foregroundStyle(theme.textPrimary)
-                            .lineLimit(1)
-                        Text(status)
-                            .font(.wizard(WZ.FontSize.xs))
-                            .foregroundStyle(theme.textMuted)
-                            .lineLimit(1)
-                    }
+                VStack(alignment: .leading, spacing: WZ.Space.space0) {
+                    Text(name)
+                        .font(.wizard(WZ.FontSize.md, .bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                    Text(status)
+                        .font(.wizard(WZ.FontSize.xs))
+                        .foregroundStyle(theme.textMuted)
+                        .lineLimit(1)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, WZ.Space.space2)
                 .padding(.vertical, WZ.Space.space1)
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .contextMenu { presenceMenuItems }
             Button(action: onInbox) {
                 Icon("bell", size: WZ.SizeIcon.md)
                     .foregroundStyle(theme.textMuted)
@@ -395,6 +425,21 @@ private struct ModernUserCard: View {
         .shadow(color: WZ.Shadow.md.color, radius: WZ.Shadow.md.blur / 2, x: WZ.Shadow.md.x, y: WZ.Shadow.md.y)
         .padding(.horizontal, WZ.Space.space4)
         .padding(.bottom, WZ.Space.space4)
+    }
+
+    @ViewBuilder
+    private var presenceMenuItems: some View {
+        Picker(String(localized: "presence.changeStatus"), selection: menuChoice) {
+            Text(String(localized: "presence.auto")).tag(PresenceChoice.auto)
+            Text(String(localized: "presence.online")).tag(PresenceChoice.online)
+            Text(String(localized: "presence.away")).tag(PresenceChoice.away)
+            Text(String(localized: "presence.invisible")).tag(PresenceChoice.invisible)
+        }
+        .pickerStyle(.inline)
+        Divider()
+        Button(action: onEditProfile) {
+            Label(menu: String(localized: "presence.editProfile"), icon: "ph-user-regular")
+        }
     }
 }
 

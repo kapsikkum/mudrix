@@ -39,6 +39,46 @@ final class CosmeticCache {
     }
 }
 
+/// Other people's presence, cached briefly and deduplicated so lists do not spam the homeserver
+@MainActor
+final class PresenceCache {
+    static let shared = PresenceCache()
+    private static let lifetime: TimeInterval = 60
+
+    private struct Entry {
+        let at: Date
+        let state: Presence?
+    }
+
+    private var entries: [String: Entry] = [:]
+    private var pending: [String: Task<Presence?, Never>] = [:]
+
+    func cached(_ userId: String) -> Presence? {
+        guard let entry = entries[userId], Date().timeIntervalSince(entry.at) < Self.lifetime else { return nil }
+        return entry.state
+    }
+
+    func reset() {
+        entries = [:]
+        pending = [:]
+    }
+
+    func state(of userId: String, client: WizardClient) async -> Presence? {
+        if let entry = entries[userId], Date().timeIntervalSince(entry.at) < Self.lifetime {
+            return entry.state
+        }
+        if let task = pending[userId] { return await task.value }
+        let task = Task<Presence?, Never> {
+            (try? await client.presence(userId: userId))?.state
+        }
+        pending[userId] = task
+        let state = await task.value
+        pending[userId] = nil
+        entries[userId] = Entry(at: Date(), state: state)
+        return state
+    }
+}
+
 /// Reads cosmetic packs and their subscriptions from the session, and writes both subscription events
 @MainActor
 enum CosmeticPackLibrary {

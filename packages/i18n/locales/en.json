@@ -3027,6 +3027,8 @@
     "online": "Online",
     "away": "Away",
     "offline": "Offline",
+    "invisible": "Invisible",
+    "editProfile": "Edit profile",
     "unsupported": "Online status unavailable",
     "unsupportedTitle": "Online status isn't available",
     "unsupportedMessage": "Your homeserver ({{server}}) has online status (presence) turned off, so nobody can see whether you're online, away or offline, and you won't see it for others either. What you pick here is kept for when it's turned on. Your custom status still shows on your profile if your server supports profile fields."

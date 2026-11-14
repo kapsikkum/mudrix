@@ -90,7 +90,10 @@ struct WizardChatApp: App {
                 ShareInbox.saveHideContent(active)
             }
             .onChange(of: prefs.showPresence) { _, visible in
-                Task { await session.applyPresence(visible) }
+                Task { await session.applyPresence(visible, choice: prefs.presenceChoice) }
+            }
+            .onChange(of: prefs.presenceChoice) { _, choice in
+                Task { await session.applyPresence(prefs.showPresence, choice: choice) }
             }
             // The notification service extension can't read these, and the gateway's alerts would
             // otherwise always play the system sound
@@ -122,6 +125,7 @@ struct WizardChatApp: App {
         VoiceMoves.stop()
         verificationRequests.stop()
         MemberDirectory.shared.reset()
+        PresenceCache.shared.reset()
         syncer?.stop()
         syncer = nil
         guard session.state == .loggedIn, session.client != nil else { return }
@@ -131,7 +135,7 @@ struct WizardChatApp: App {
             syncer = next
             next.start()
         }
-        await session.applyPresence(prefs.showPresence)
+        await session.applyPresence(prefs.showPresence, choice: prefs.presenceChoice)
         await session.ensureMudrixUserFlag()
         if let roomList = session.roomList {
             notifier.start(roomList: roomList, prefs: prefs)

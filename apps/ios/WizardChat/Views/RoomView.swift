@@ -891,7 +891,8 @@ private struct RoomChatTitle: View {
     @ViewBuilder
     private var avatar: some View {
         if let partnerId {
-            CosmeticAvatar(userId: partnerId, name: room.displayName, url: partner?.avatarUrl ?? room.dmUserAvatar, size: WZ.SizeAvatar.sm)
+            CosmeticAvatar(userId: partnerId, name: room.displayName, url: partner?.avatarUrl ?? room.dmUserAvatar,
+                           size: WZ.SizeAvatar.sm, presence: partner?.presence?.state, presenceRingColor: theme.bgSecondary)
         } else if prefs.showRoomAvatars || room.isDirect {
             AvatarView(name: room.displayName, url: room.avatarUrl ?? room.dmUserAvatar, size: WZ.SizeAvatar.sm)
         } else {

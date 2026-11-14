@@ -168,6 +168,11 @@ extension MatrixSession {
         try? await client?.userProfile(userId: userId)
     }
 
+    func presence(of userId: String) async -> Presence? {
+        guard let client, !userId.isEmpty else { return nil }
+        return await PresenceCache.shared.state(of: userId, client: client)
+    }
+
     func ignore(_ userId: String) async throws {
         try await requireClient.ignoreUser(userId: userId)
     }

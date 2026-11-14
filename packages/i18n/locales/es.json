@@ -3027,6 +3027,8 @@
     "online": "En línea",
     "away": "Ausente",
     "offline": "Desconectado",
+    "invisible": "Invisible",
+    "editProfile": "Editar perfil",
     "unsupported": "Estado en línea no disponible",
     "unsupportedTitle": "El estado en línea no está disponible",
     "unsupportedMessage": "Tu servidor ({{server}}) tiene desactivado el estado en línea (presencia), así que nadie puede ver si estás conectado, ausente o desconectado, y tú tampoco lo verás de los demás. Lo que elijas aquí se conserva para cuando se active. Tu estado personalizado sigue apareciendo en tu perfil si tu servidor admite campos de perfil."

@@ -664,8 +664,10 @@ struct RoomRow: View {
     /// Overrides `room.isVoice` (Modern spaces also treat rooms flagged as voice channels in their state as voice)
     var isVoice: Bool?
     var muted = false
+    @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
+    @State private var partnerPresence: Presence?
 
     private var avatarSize: CGFloat { prefs.roomAvatarSize }
     private var voice: Bool { isVoice ?? room.isVoice }
@@ -711,7 +713,8 @@ struct RoomRow: View {
                     .frame(width: avatarSize, height: avatarSize)
                     .background(theme.fill, in: Circle())
             } else {
-                CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: avatarSize)
+                CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: avatarSize,
+                               presence: (!room.isDirect || inCall) ? nil : partnerPresence)
                     .overlay(alignment: .bottomTrailing) {
                         if !room.isDirect || inCall {
                             typeIcon(size: WZ.SizeIcon.xs)
@@ -753,6 +756,17 @@ struct RoomRow: View {
         }
         .padding(.vertical, prefs.roomRowPadding)
         .contentShape(Rectangle())
+        .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {
+            guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty else {
+                partnerPresence = nil
+                return
+            }
+            if let cached = PresenceCache.shared.cached(partnerId) {
+                partnerPresence = cached
+            } else {
+                partnerPresence = await session.presence(of: partnerId)
+            }
+        }
     }
 }
 

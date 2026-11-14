@@ -17,7 +17,7 @@ final class MatrixSession: ObservableObject {
     @Published var displayName: String? { didSet { rememberProfile() } }
     @Published var avatarUrl: String? { didSet { rememberProfile() } }
     @Published private(set) var customStatus: CustomStatus?
-    private var presenceVisible = true
+    private var presence: Presence = .online
     private var statusExpiry: Task<Void, Never>?
     @Published private(set) var syncState: SyncState = .idle
     @Published private(set) var connectionLost = false
@@ -304,14 +304,13 @@ final class MatrixSession: ObservableObject {
         if let stored { await forget(stored) }
     }
 
-    func applyPresence(_ visible: Bool) async {
-        presenceVisible = visible
-        try? await client?.setPresence(presence: visible ? .online : .offline, statusMsg: customStatus?.text)
+    func applyPresence(_ visible: Bool, choice: PresenceChoice = .auto) async {
+        presence = choice.presence(shared: visible)
+        try? await client?.setPresence(presence: presence, statusMsg: customStatus?.text)
     }
 
     func setCustomStatus(_ text: String, expiresAt: Date?) async throws {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        let presence: Presence = presenceVisible ? .online : .offline
         if trimmed.isEmpty {
             try await requireClient.clearCustomStatus(presence: presence)
             showCustomStatus(nil)
@@ -371,6 +370,7 @@ final class MatrixSession: ObservableObject {
         avatarUrl = nil
         statusExpiry?.cancel()
         customStatus = nil
+        presence = .online
         encryption = nil
         needsEncryptionSetup = false
         needsVerification = false
