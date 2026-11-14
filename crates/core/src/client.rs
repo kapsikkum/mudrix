@@ -30,6 +30,10 @@ use serde_json::Value;
 
 use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
 
+/// Events the room list keeps per room from sync. The SDK's default of one never reaches a
+/// room's read marker, so unread counts would only be the server's, which include thread replies.
+const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
+
 /// The state of the background sync, as shown to the user.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
@@ -297,6 +301,7 @@ impl WizardClient {
         let service = Arc::new(
             SyncService::builder(self.client.clone())
                 .with_offline_mode()
+                .with_room_list_timeline_limit(ROOM_LIST_TIMELINE_LIMIT)
                 .build()
                 .await?,
         );

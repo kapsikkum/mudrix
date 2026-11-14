@@ -149,7 +149,7 @@ pub(crate) struct RoomExtras {
     call: crate::calls::RoomCallState,
 }
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 struct UnreadCounts {
     notifications: u64,
     mentions: u64,
@@ -862,6 +862,12 @@ fn str_at<'a>(value: &'a Value, pointer: &str) -> Option<&'a str> {
     value.pointer(pointer).and_then(Value::as_str)
 }
 
+/// Whether an event belongs to a thread. The server's counts include these, but they show under
+/// the thread, not on the room's badge.
+fn is_thread_reply(event: &Value) -> bool {
+    str_at(event, "/content/m.relates_to/rel_type") == Some("m.thread")
+}
+
 /// Walks the loaded events after the user's read receipts (or their own latest message), newest
 /// first, counting notifying messages and collecting the ones that mention the user: a highlight
 /// from the push rules, an intentional mention or a reply to one of their messages.
@@ -932,10 +938,10 @@ async fn scan_unread(room: &Room, mention_limit: usize) -> Option<UnreadScan> {
         if str_at(event, "/sender") == Some(own.as_str()) {
             continue;
         }
-        let rel_type = str_at(event, "/content/m.relates_to/rel_type");
-        if rel_type == Some("m.thread") || event.pointer("/unsigned/redacted_because").is_some() {
+        if is_thread_reply(event) || event.pointer("/unsigned/redacted_because").is_some() {
             continue;
         }
+        let rel_type = str_at(event, "/content/m.relates_to/rel_type");
         let actions = match actions {
             Some(actions) => actions.clone(),
             None => {
@@ -984,7 +990,7 @@ fn is_muted(room: &Room) -> bool {
 
 /// Unread counts the way the room list shows them: notifying messages after the read marker,
 /// nothing for muted rooms. The server can't read encrypted messages, so its count is only a
-/// floor there; when the marker isn't loaded, the SDK's own count stands in.
+/// floor there; when the marker isn't loaded, the server's counts stand in.
 async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if room.state() != RoomState::Joined {
         return None;
@@ -992,12 +998,14 @@ async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if is_muted(room) {
         return Some(UnreadCounts::default());
     }
-    let server = room.unread_notification_counts().notification_count;
+    let server = room.unread_notification_counts();
     let encrypted = room.encryption_state().is_encrypted();
     let fallback = if encrypted {
-        server.max(room.num_unread_notifications())
-    } else {
         server
+            .notification_count
+            .max(room.num_unread_notifications())
+    } else {
+        server.notification_count
     };
     if room.num_unread_messages() == 0 && room.read_receipts().latest_active.is_some() {
         return Some(UnreadCounts {
@@ -1006,14 +1014,41 @@ async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
         });
     }
     let scan = scan_unread(room, MAX_SCANNED_EVENTS).await?;
-    Some(UnreadCounts {
-        notifications: match (scan.boundary_found, encrypted) {
-            (true, false) => scan.count,
-            (true, true) => scan.count.max(fallback),
-            (false, _) => fallback,
+    Some(unread_counts_from(
+        scan.boundary_found,
+        (scan.count, scan.mentions.len() as u64),
+        fallback,
+        server.highlight_count,
+        encrypted,
+    ))
+}
+
+/// The unread counts from the scan of the loaded timeline (`scanned`: notifications and mentions
+/// after the read marker) and the server's counts. The scan is complete only once the marker is
+/// loaded, and then it decides. Until then the server's notification count stands in, and its
+/// highlights are the mentions, since the scan can't see the ones past the loaded events.
+fn unread_counts_from(
+    boundary_found: bool,
+    scanned: (u64, u64),
+    fallback: u64,
+    highlights: u64,
+    encrypted: bool,
+) -> UnreadCounts {
+    let (count, mentions) = scanned;
+    if !boundary_found {
+        return UnreadCounts {
+            notifications: fallback,
+            mentions: mentions.max(highlights),
+        };
+    }
+    UnreadCounts {
+        notifications: if encrypted {
+            count.max(fallback)
+        } else {
+            count
         },
-        mentions: scan.mentions.len() as u64,
-    })
+        mentions,
+    }
 }
 
 fn member_name(member: &matrix_sdk::room::RoomMember) -> String {
@@ -1392,7 +1427,71 @@ impl WizardClient {
 mod tests {
     use serde_json::json;
 
-    use super::{preview_of_content, preview_text, strip_reply_fallback, LastMessageKind};
+    use super::{
+        is_thread_reply, preview_of_content, preview_text, strip_reply_fallback,
+        unread_counts_from, LastMessageKind, UnreadCounts,
+    };
+
+    #[test]
+    fn a_loaded_read_marker_decides_the_unread_counts() {
+        let counts = unread_counts_from(true, (3, 1), 5, 2, false);
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 1
+            }
+        );
+        // A mention that was read is gone, even while the server still counts a highlight
+        let counts = unread_counts_from(true, (3, 0), 3, 1, false);
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 0
+            }
+        );
+        // An encrypted room's server count is only a floor
+        assert_eq!(
+            unread_counts_from(true, (1, 0), 2, 0, true).notifications,
+            2
+        );
+        assert_eq!(
+            unread_counts_from(true, (1, 0), 2, 0, false).notifications,
+            1
+        );
+    }
+
+    #[test]
+    fn without_the_read_marker_the_server_counts_stand_in() {
+        // A mention the scan can't see is one of the server's highlights
+        let counts = unread_counts_from(false, (0, 0), 3, 1, false);
+        assert_eq!(
+            counts,
+            UnreadCounts {
+                notifications: 3,
+                mentions: 1
+            }
+        );
+        // Mentions the scan did find are kept, and never fewer than the highlights
+        assert_eq!(unread_counts_from(false, (1, 2), 3, 1, false).mentions, 2);
+        assert_eq!(unread_counts_from(false, (1, 0), 3, 2, false).mentions, 2);
+        // No highlight and no mention found: no mention
+        assert_eq!(unread_counts_from(false, (0, 0), 3, 0, false).mentions, 0);
+    }
+
+    #[test]
+    fn a_thread_reply_is_not_a_reply_to_the_room() {
+        let thread = json!({
+            "content": { "m.relates_to": { "rel_type": "m.thread", "event_id": "$root" } }
+        });
+        let reply = json!({
+            "content": { "m.relates_to": { "m.in_reply_to": { "event_id": "$other" } } }
+        });
+        assert!(is_thread_reply(&thread));
+        assert!(!is_thread_reply(&reply));
+        assert!(!is_thread_reply(&json!({ "content": { "body": "plain" } })));
+    }
 
     #[test]
     fn a_preview_is_one_line_of_collapsed_text() {

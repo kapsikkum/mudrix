@@ -5,8 +5,8 @@ use serde_json::Value;
 use super::{Bytes, Handle, Listener, Obj, Subscription};
 use crate::{
     CallMember, CallSession, IncomingCallEvent, Notification, PusherConfig, QrLoginControl,
-    QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures, SfuConfig, SpaceNode,
-    StateChange, WizardClient,
+    QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures, ServerNotification,
+    SfuConfig, SpaceNode, StateChange, WizardClient,
 };
 
 rpc_methods! {
@@ -208,6 +208,12 @@ rpc_methods! {
 
         call fn pushedNotification(room_id: String, event_id: String) -> Option<Notification> {
             this.pushed_notification(&room_id, &event_id).await
+        }
+
+        /// The server's notifications, newest first, read or not; `highlights` keeps only the
+        /// mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+        call fn serverNotifications(highlights: bool, limit: u32) -> Vec<ServerNotification> {
+            this.server_notifications(highlights, limit).await
         }
 
         /// Like `pushedNotification`, for the iOS notification service extension: a second

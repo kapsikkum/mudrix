@@ -6,6 +6,7 @@ use matrix_sdk::{
     ruma::{
         api::client::{
             filter::RoomEventFilter,
+            push::get_notifications::v3::Request as NotificationsRequest,
             search::search_events::v3::{Categories, Criteria, Request as SearchRequest},
             state::get_state_events,
         },
@@ -94,6 +95,22 @@ pub struct Notification {
     pub highlight: bool,
     pub sound: bool,
     pub is_direct: bool,
+}
+
+/// A notification the server keeps for the user, read or not
+#[derive(Clone, Debug, Serialize)]
+#[cfg_attr(feature = "typegen", derive(specta::Type))]
+#[serde(rename_all = "camelCase")]
+pub struct ServerNotification {
+    pub room_id: String,
+    pub event_id: String,
+    pub sender: String,
+    /// Milliseconds since the Unix epoch of the event
+    pub timestamp: u64,
+    /// The user has read up to this event
+    pub read: bool,
+    /// The thread the event is a reply in
+    pub thread_root_id: Option<String>,
 }
 
 const ROOM_PACK_TYPES: [&str; 2] = ["im.ponies.room_emotes", "m.room.image_pack"];
@@ -423,6 +440,45 @@ impl WizardClient {
                 on_notification(notification);
             }
         }
+    }
+}
+
+impl WizardClient {
+    /// The server's notification history, newest first, read or not (`GET /notifications`).
+    /// `highlights` keeps only the mentions and keywords. Unlike the room counts, this does not
+    /// need the messages to be loaded locally.
+    pub async fn server_notifications(
+        &self,
+        highlights: bool,
+        limit: u32,
+    ) -> Result<Vec<ServerNotification>> {
+        let mut request = NotificationsRequest::new();
+        request.limit = Some(UInt::from(limit));
+        if highlights {
+            request.only = Some("highlight".to_owned());
+        }
+        let response = self.sdk().send(request).await?;
+        Ok(response
+            .notifications
+            .into_iter()
+            .filter_map(|notification| {
+                let event: Value = notification.event.deserialize_as().ok()?;
+                let relates = event.pointer("/content/m.relates_to").filter(|relates| {
+                    relates.get("rel_type").and_then(Value::as_str) == Some("m.thread")
+                });
+                Some(ServerNotification {
+                    room_id: notification.room_id.to_string(),
+                    event_id: event.get("event_id")?.as_str()?.to_owned(),
+                    sender: event.get("sender")?.as_str()?.to_owned(),
+                    timestamp: u64::from(notification.ts.0),
+                    read: notification.read,
+                    thread_root_id: relates
+                        .and_then(|relates| relates.get("event_id"))
+                        .and_then(Value::as_str)
+                        .map(ToOwned::to_owned),
+                })
+            })
+            .collect())
     }
 }
 

@@ -1408,6 +1408,20 @@ data class ServerInfo(
     val software: HomeserverSoftware? = null,
 )
 
+/** A notification the server keeps for the user, read or not */
+@Serializable
+data class ServerNotification(
+    val roomId: String,
+    val eventId: String,
+    val sender: String,
+    /** Milliseconds since the Unix epoch of the event */
+    val timestamp: Long,
+    /** The user has read up to this event */
+    val read: Boolean,
+    /** The thread the event is a reply in */
+    val threadRootId: String? = null,
+)
+
 /**
  * Everything needed to restore a signed-in client. Apps store it securely and hand it back to
  * [`crate::WizardClient::restore`] on the next start.
@@ -2768,6 +2782,13 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
 
     suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
         Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+
+    /**
+     * The server's notifications, newest first, read or not; `highlights` keeps only the
+     * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+     */
+    suspend fun serverNotifications(highlights: Boolean, limit: Long): List<ServerNotification> =
+        Runtime.call("WizardClient.serverNotifications", handle, listOf(Arg.value<Boolean>(highlights), Arg.value<Long>(limit)))
 
     /**
      * Like `pushedNotification`, for the iOS notification service extension: a second

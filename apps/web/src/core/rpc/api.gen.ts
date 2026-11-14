@@ -1215,6 +1215,27 @@ export type ServerInfo = {
 };
 
 /**
+ * A notification the server keeps for the user, read or not
+ */
+export type ServerNotification = {
+  roomId: string;
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch of the event
+   */
+  timestamp: number;
+  /**
+   * The user has read up to this event
+   */
+  read: boolean;
+  /**
+   * The thread the event is a reply in
+   */
+  threadRootId: string | null;
+};
+
+/**
  * Everything needed to restore a signed-in client. Apps store it securely and hand it back to
  * [`crate::WizardClient::restore`] on the next start.
  */
@@ -2738,6 +2759,16 @@ export class WizardClient extends Remote {
       roomId,
       eventId,
     ]) as Promise<Notification | null>;
+  }
+
+  /**
+   * The server's notifications, newest first, read or not; `highlights` keeps only the
+   * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+   */
+  serverNotifications(highlights: boolean, limit: number): Promise<Array<ServerNotification>> {
+    return runtime.call('WizardClient.serverNotifications', this, [highlights, limit]) as Promise<
+      Array<ServerNotification>
+    >;
   }
 
   /**

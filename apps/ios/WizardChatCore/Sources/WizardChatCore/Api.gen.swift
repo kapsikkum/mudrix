@@ -2169,6 +2169,28 @@ public struct ServerInfo: Codable, Hashable, Sendable {
     }
 }
 
+/// A notification the server keeps for the user, read or not
+public struct ServerNotification: Codable, Hashable, Sendable {
+    public var roomId: String
+    public var eventId: String
+    public var sender: String
+    /// Milliseconds since the Unix epoch of the event
+    public var timestamp: Int
+    /// The user has read up to this event
+    public var read: Bool
+    /// The thread the event is a reply in
+    public var threadRootId: String?
+
+    public init(roomId: String, eventId: String, sender: String, timestamp: Int, read: Bool, threadRootId: String? = nil) {
+        self.roomId = roomId
+        self.eventId = eventId
+        self.sender = sender
+        self.timestamp = timestamp
+        self.read = read
+        self.threadRootId = threadRootId
+    }
+}
+
 /// Everything needed to restore a signed-in client. Apps store it securely and hand it back to
 /// [`crate::WizardClient::restore`] on the next start.
 public struct Session: Codable, Hashable, Sendable {
@@ -3859,6 +3881,12 @@ public final class WizardClient: Remote, @unchecked Sendable {
 
     public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
         try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
+    }
+
+    /// The server's notifications, newest first, read or not; `highlights` keeps only the
+    /// mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+    public func serverNotifications(highlights: Bool, limit: Int) async throws -> [ServerNotification] {
+        try await call("WizardClient.serverNotifications", [.value(highlights), .value(limit)])
     }
 
     /// Like `pushedNotification`, for the iOS notification service extension: a second
