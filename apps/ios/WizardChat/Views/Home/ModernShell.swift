@@ -27,6 +27,7 @@ struct ModernShell: View {
     let onCreateSpace: () -> Void
     let onExplore: () -> Void
     let onOpenCall: () -> Void
+    let onOpenSettings: () -> Void
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -35,6 +36,8 @@ struct ModernShell: View {
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var dockHeight: CGFloat = 0
     @State private var showOwnProfile = false
+    @State private var settingsAfterProfile = false
+    @State private var keyboardShown = false
     @State private var restored = false
 
     private var reduceMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
@@ -74,14 +77,27 @@ struct ModernShell: View {
         }
         .background(theme.bgPrimary.ignoresSafeArea())
         .animation(reduceMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal), value: chatOpen)
-        .fullScreenCover(isPresented: $showOwnProfile) {
+        .fullScreenCover(isPresented: $showOwnProfile, onDismiss: {
+            guard settingsAfterProfile else { return }
+            settingsAfterProfile = false
+            onOpenSettings()
+        }) {
             if let userId = session.userId {
-                ModernOwnProfile(userId: userId)
+                ModernOwnProfile(userId: userId, onOpenSettings: {
+                    settingsAfterProfile = true
+                    showOwnProfile = false
+                })
             }
         }
         .onChange(of: selection) { _, next in RailSelectionStore.save(next) }
         .onChange(of: roomList.isLoaded, initial: true) { _, _ in syncRailWithSpaces() }
         .onChange(of: roomList.spaces.map(\.id)) { _, _ in syncRailWithSpaces() }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in
+            withAnimation(reduceMotion ? nil : .easeOut(duration: WZ.MotionDuration.fast)) { keyboardShown = true }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            withAnimation(reduceMotion ? nil : .easeOut(duration: WZ.MotionDuration.fast)) { keyboardShown = false }
+        }
     }
 
     private var pane: some View {
@@ -133,9 +149,11 @@ struct ModernShell: View {
                 CallBar(onOpen: onOpenCall)
                     .padding(.horizontal, WZ.Space.space6)
             }
-            ModernUserCard(inboxBadge: !roomList.mentionRooms.isEmpty || !roomList.invites.isEmpty,
-                           inboxMention: !roomList.mentionRooms.isEmpty,
-                           onProfile: { showOwnProfile = true }, onInbox: onOpenInbox)
+            if !keyboardShown {
+                ModernUserCard(inboxBadge: !roomList.mentionRooms.isEmpty || !roomList.invites.isEmpty,
+                               inboxMention: !roomList.mentionRooms.isEmpty,
+                               onProfile: { showOwnProfile = true }, onInbox: onOpenInbox)
+            }
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { dockHeight = $0 }
     }
@@ -383,12 +401,9 @@ private struct ModernUserCard: View {
 /// Your profile full screen, with Settings one tap away
 private struct ModernOwnProfile: View {
     let userId: String
-    @State private var showSettings = false
+    let onOpenSettings: () -> Void
 
     var body: some View {
-        UserProfileSheet(userId: userId, onOpenSettings: { showSettings = true })
-            .fullScreenCover(isPresented: $showSettings) {
-                SettingsView(isTab: false)
-            }
+        UserProfileSheet(userId: userId, onOpenSettings: onOpenSettings)
     }
 }
