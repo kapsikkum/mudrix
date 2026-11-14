@@ -36,6 +36,7 @@ use serde_json::Value;
 
 use crate::{Error, ListDiff, Result, WizardClient};
 use matrix_sdk::notification_settings::RoomNotificationMode;
+use matrix_sdk_base::RoomInfoNotableUpdateReasons;
 
 /// What a room list row needs, without touching the SDK.
 #[derive(Clone, Debug, Serialize)]
@@ -394,8 +395,8 @@ impl WizardClient {
             SpacesChanged,
             Tick,
             PushRules,
-            /// A room's latest event changed, so its last-message preview may have too
-            LatestEvent(OwnedRoomId),
+            /// A room's latest event or read receipts changed, so its row may have too
+            RowChanged(OwnedRoomId),
         }
         // The SDK updates a room's notification mode without telling the room list, so a change
         // from another device would only show after the room's next event
@@ -420,6 +421,8 @@ impl WizardClient {
         // `watch_latest_event`)
         let latest_events = self.sdk().latest_events().await.clone();
         let (latest_sender, latest_receiver) = futures_channel::mpsc::unbounded::<OwnedRoomId>();
+        // Read receipts change a room's unread counts without a new event, so its row is redone
+        let _read_receipts = watch_read_receipts(self.sdk().clone(), latest_sender.clone());
         let updates = stream::select(
             stream::select(entries.map(Update::Diffs), filters.map(Update::Filter)),
             stream::select(
@@ -427,7 +430,7 @@ impl WizardClient {
                     space_changes.map(|_| Update::SpacesChanged),
                     stream::select(ticks, rule_changes),
                 ),
-                latest_receiver.map(Update::LatestEvent),
+                latest_receiver.map(Update::RowChanged),
             ),
         );
         pin_mut!(updates);
@@ -535,7 +538,7 @@ impl WizardClient {
                             .collect(),
                     )
                 }
-                Update::LatestEvent(room_id) => {
+                Update::RowChanged(room_id) => {
                     let Some(index) = shown
                         .iter()
                         .position(|item| item.room_id().as_str() == room_id.as_str())
@@ -989,8 +992,8 @@ fn is_muted(room: &Room) -> bool {
 }
 
 /// Unread counts the way the room list shows them: notifying messages after the read marker,
-/// nothing for muted rooms. The server can't read encrypted messages, so its count is only a
-/// floor there; when the marker isn't loaded, the server's counts stand in.
+/// nothing for muted rooms. Thread replies are left out. The server's counts include them, and
+/// the SDK doesn't ask the server to split them out, so the server's counts aren't used.
 async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if room.state() != RoomState::Joined {
         return None;
@@ -998,56 +1001,34 @@ async fn unread_counts(room: &Room) -> Option<UnreadCounts> {
     if is_muted(room) {
         return Some(UnreadCounts::default());
     }
-    let server = room.unread_notification_counts();
-    let encrypted = room.encryption_state().is_encrypted();
-    let fallback = if encrypted {
-        server
-            .notification_count
-            .max(room.num_unread_notifications())
-    } else {
-        server.notification_count
-    };
     if room.num_unread_messages() == 0 && room.read_receipts().latest_active.is_some() {
-        return Some(UnreadCounts {
-            notifications: if encrypted { fallback } else { 0 },
-            mentions: 0,
-        });
+        return Some(UnreadCounts::default());
     }
     let scan = scan_unread(room, MAX_SCANNED_EVENTS).await?;
     Some(unread_counts_from(
         scan.boundary_found,
         (scan.count, scan.mentions.len() as u64),
-        fallback,
-        server.highlight_count,
-        encrypted,
+        (room.num_unread_notifications(), room.num_unread_mentions()),
     ))
 }
 
 /// The unread counts from the scan of the loaded timeline (`scanned`: notifications and mentions
-/// after the read marker) and the server's counts. The scan is complete only once the marker is
-/// loaded, and then it decides. Until then the server's notification count stands in, and its
-/// highlights are the mentions, since the scan can't see the ones past the loaded events.
-fn unread_counts_from(
-    boundary_found: bool,
-    scanned: (u64, u64),
-    fallback: u64,
-    highlights: u64,
-    encrypted: bool,
-) -> UnreadCounts {
+/// after the read marker) and the SDK's own counts (`sdk`: the same, as the SDK counts them). Both
+/// leave thread replies out. The scan decides once it has found the marker: it also finds a
+/// receipt that points at a thread reply, which a thread's read receipt does, and the SDK's counts
+/// skip that. Without the marker, the SDK's counts stand in: it isn't among the loaded messages,
+/// so they count every loaded one. The scan's mentions are kept when there are more.
+fn unread_counts_from(boundary_found: bool, scanned: (u64, u64), sdk: (u64, u64)) -> UnreadCounts {
     let (count, mentions) = scanned;
-    if !boundary_found {
+    if boundary_found {
         return UnreadCounts {
-            notifications: fallback,
-            mentions: mentions.max(highlights),
+            notifications: count,
+            mentions,
         };
     }
     UnreadCounts {
-        notifications: if encrypted {
-            count.max(fallback)
-        } else {
-            count
-        },
-        mentions,
+        notifications: sdk.0,
+        mentions: mentions.max(sdk.1),
     }
 }
 
@@ -1282,6 +1263,41 @@ fn watch_latest_event(
     }))
 }
 
+/// Forwards every room whose read receipts changed to `sender`, until dropped: its unread counts
+/// may have changed. After a lag, every room is forwarded, as any of them may have changed.
+fn watch_read_receipts(
+    client: matrix_sdk::Client,
+    sender: futures_channel::mpsc::UnboundedSender<OwnedRoomId>,
+) -> matrix_sdk::executor::AbortOnDrop<()> {
+    use tokio::sync::broadcast::error::RecvError;
+    let mut updates = client.room_info_notable_update_receiver();
+    matrix_sdk::executor::AbortOnDrop::new(matrix_sdk::executor::spawn(async move {
+        loop {
+            let room_ids: Vec<OwnedRoomId> = match updates.recv().await {
+                Ok(update)
+                    if update
+                        .reasons
+                        .contains(RoomInfoNotableUpdateReasons::READ_RECEIPT) =>
+                {
+                    vec![update.room_id]
+                }
+                Ok(_) => continue,
+                Err(RecvError::Lagged(_)) => client
+                    .rooms()
+                    .iter()
+                    .map(|room| room.room_id().to_owned())
+                    .collect(),
+                Err(RecvError::Closed) => return,
+            };
+            for room_id in room_ids {
+                if sender.unbounded_send(room_id).is_err() {
+                    return;
+                }
+            }
+        }
+    }))
+}
+
 /// Reads what [`RoomSummary`] can't get synchronously: the DM partner (an invite with
 /// `is_direct` counts as a DM from its inviter), their name and picture, the unread counts, the
 /// time of the latest loaded event of any kind and the latest message.
@@ -1434,7 +1450,7 @@ mod tests {
 
     #[test]
     fn a_loaded_read_marker_decides_the_unread_counts() {
-        let counts = unread_counts_from(true, (3, 1), 5, 2, false);
+        let counts = unread_counts_from(true, (3, 1), (9, 4));
         assert_eq!(
             counts,
             UnreadCounts {
@@ -1442,8 +1458,8 @@ mod tests {
                 mentions: 1
             }
         );
-        // A mention that was read is gone, even while the server still counts a highlight
-        let counts = unread_counts_from(true, (3, 0), 3, 1, false);
+        // A mention that was read is gone, even while the SDK still counts it
+        let counts = unread_counts_from(true, (3, 0), (3, 1));
         assert_eq!(
             counts,
             UnreadCounts {
@@ -1451,21 +1467,11 @@ mod tests {
                 mentions: 0
             }
         );
-        // An encrypted room's server count is only a floor
-        assert_eq!(
-            unread_counts_from(true, (1, 0), 2, 0, true).notifications,
-            2
-        );
-        assert_eq!(
-            unread_counts_from(true, (1, 0), 2, 0, false).notifications,
-            1
-        );
     }
 
     #[test]
-    fn without_the_read_marker_the_server_counts_stand_in() {
-        // A mention the scan can't see is one of the server's highlights
-        let counts = unread_counts_from(false, (0, 0), 3, 1, false);
+    fn without_the_read_marker_the_sdk_counts_stand_in() {
+        let counts = unread_counts_from(false, (0, 0), (3, 1));
         assert_eq!(
             counts,
             UnreadCounts {
@@ -1473,11 +1479,11 @@ mod tests {
                 mentions: 1
             }
         );
-        // Mentions the scan did find are kept, and never fewer than the highlights
-        assert_eq!(unread_counts_from(false, (1, 2), 3, 1, false).mentions, 2);
-        assert_eq!(unread_counts_from(false, (1, 0), 3, 2, false).mentions, 2);
-        // No highlight and no mention found: no mention
-        assert_eq!(unread_counts_from(false, (0, 0), 3, 0, false).mentions, 0);
+        // Mentions the scan did find are kept, and never fewer than the SDK's
+        assert_eq!(unread_counts_from(false, (1, 2), (3, 1)).mentions, 2);
+        assert_eq!(unread_counts_from(false, (1, 0), (3, 2)).mentions, 2);
+        // No mention found: no mention
+        assert_eq!(unread_counts_from(false, (0, 0), (3, 0)).mentions, 0);
     }
 
     #[test]

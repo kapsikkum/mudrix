@@ -8353,6 +8353,7 @@ dependencies = [
  "futures-util",
  "getrandom 0.4.3",
  "matrix-sdk",
+ "matrix-sdk-base",
  "matrix-sdk-crypto",
  "matrix-sdk-sqlite",
  "matrix-sdk-ui",

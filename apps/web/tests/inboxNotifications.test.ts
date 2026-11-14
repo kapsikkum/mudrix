@@ -20,11 +20,12 @@ const note = (
   threadRootId: extra.threadRootId ?? null,
 });
 
-test('unread notifications are counted per room, read ones are not', () => {
+test('unread notifications are counted per room, read ones and thread replies are not', () => {
   const counts = unreadCountsByRoom([
     note('!a'),
     note('!a'),
     note('!a', { read: true }),
+    note('!a', { threadRootId: '$root' }),
     note('!b'),
   ]);
   assert.deepEqual(Object.fromEntries(counts), { '!a': 2, '!b': 1 });

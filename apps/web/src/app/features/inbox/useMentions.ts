@@ -84,7 +84,7 @@ export function useMentions(enabled: boolean): UseMentionsResult {
     // Older mentions in rooms whose messages are not loaded only the server knows about
     for (const n of server?.highlights ?? []) {
       const label = labels.get(n.roomId);
-      if (n.read || !label || seen.has(n.eventId)) continue;
+      if (n.read || n.threadRootId != null || !label || seen.has(n.eventId)) continue;
       seen.add(n.eventId);
       list.push({
         eventId: n.eventId,

@@ -1,12 +1,12 @@
 import type { ServerNotification } from '@wizardchat/core';
 
-/** Unread notifications the server keeps, counted per room */
+/** Unread main-timeline notifications the server keeps, counted per room (thread replies left out) */
 export function unreadCountsByRoom(
   notifications: readonly ServerNotification[]
 ): Map<string, number> {
   const counts = new Map<string, number>();
   for (const n of notifications) {
-    if (!n.read) counts.set(n.roomId, (counts.get(n.roomId) ?? 0) + 1);
+    if (!n.read && n.threadRootId == null) counts.set(n.roomId, (counts.get(n.roomId) ?? 0) + 1);
   }
   return counts;
 }

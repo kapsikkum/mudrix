@@ -18,7 +18,7 @@ use matrix_sdk::{
         },
         OwnedDeviceId, OwnedMxcUri, OwnedUserId, TransactionId, UInt,
     },
-    Client, ClientBuilder, SessionMeta,
+    Client, ClientBuilder, SessionMeta, ThreadingSupport,
 };
 use matrix_sdk_ui::{
     room_list_service,
@@ -31,7 +31,7 @@ use serde_json::Value;
 use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
 
 /// Events the room list keeps per room from sync. The SDK's default of one never reaches a
-/// room's read marker, so unread counts would only be the server's, which include thread replies.
+/// room's read marker, so unread counts would only see one message.
 const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
 
 /// The state of the background sync, as shown to the user.
@@ -113,14 +113,18 @@ impl WizardClient {
     }
 
     async fn finish_build(builder: ClientBuilder, store: &StoreConfig) -> Result<Client> {
-        let builder =
-            builder
-                .handle_refresh_tokens()
-                .with_encryption_settings(EncryptionSettings {
-                    auto_enable_cross_signing: !store.manual_encryption_setup,
-                    backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
-                    auto_enable_backups: !store.manual_encryption_setup,
-                });
+        let builder = builder
+            .handle_refresh_tokens()
+            .with_encryption_settings(EncryptionSettings {
+                auto_enable_cross_signing: !store.manual_encryption_setup,
+                backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
+                auto_enable_backups: !store.manual_encryption_setup,
+            })
+            // Thread replies stay out of the SDK's read-receipt counts (`Room::num_unread_*`);
+            // thread subscriptions stay off
+            .with_threading_support(ThreadingSupport::Enabled {
+                with_subscriptions: false,
+            });
         // Another process on this store (the iOS notification extension) must not share our lock
         // holder name, or the SDK's locks would let both write at once
         let builder = match store.process_name.as_deref() {

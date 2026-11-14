@@ -168,7 +168,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
         val highlights = runCatching { client.serverNotifications(true, NOTIFICATION_LIMIT) }.getOrNull()
         val all = runCatching { client.serverNotifications(false, NOTIFICATION_LIMIT) }.getOrNull()
         if (highlights != null) {
-            serverMentions = highlights.filter { !it.read }.groupingBy { it.roomId }.eachCount()
+            serverMentions = highlights.filter { !it.read && it.threadRootId == null }.groupingBy { it.roomId }.eachCount()
         }
         if (all != null) {
             threadRoomIds = all.filter { !it.read && it.threadRootId != null }.mapTo(mutableSetOf()) { it.roomId }
