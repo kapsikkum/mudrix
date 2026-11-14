@@ -41,7 +41,6 @@ import org.wizardchat.android.matrix.RoomListModel
 import org.wizardchat.android.matrix.SavedMessages
 import org.wizardchat.android.matrix.displayName
 import org.wizardchat.android.matrix.ignore
-import org.wizardchat.android.matrix.mentionCount
 import org.wizardchat.android.ui.Avatar
 import org.wizardchat.android.ui.BarTextButton
 import org.wizardchat.android.ui.GroupedRow
@@ -72,6 +71,7 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
     val inviters = remember { mutableStateMapOf<String, String>() }
     val inviterIds = remember { mutableStateMapOf<String, String>() }
     var blocking by remember { mutableStateOf<RoomSummary?>(null) }
+    LaunchedEffect(Unit) { roomList.refreshNotifications() }
 
     fun declineAndBlock(invite: RoomSummary) {
         val inviter = inviterIds[invite.id] ?: return
@@ -179,6 +179,7 @@ fun InboxSheet(roomList: RoomListModel, onDismiss: () -> Unit, onOpenRoom: (Stri
                                         if (index > 0) RowDivider()
                                         MentionRow(
                                             room,
+                                            roomList.mentionCountOf(room),
                                             onOpen = {
                                                 onOpenRoom(room.id)
                                                 onDismiss()
@@ -402,7 +403,7 @@ private fun LabelledButton(icon: String, label: String, background: Color, tint:
 }
 
 @Composable
-private fun MentionRow(room: RoomSummary, onOpen: () -> Unit, onMarkRead: () -> Unit) {
+private fun MentionRow(room: RoomSummary, count: Int, onOpen: () -> Unit, onMarkRead: () -> Unit) {
     Row(
         Modifier.fillMaxWidth().clickable(onClick = onOpen).padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
         verticalAlignment = Alignment.CenterVertically,
@@ -418,13 +419,13 @@ private fun MentionRow(room: RoomSummary, onOpen: () -> Unit, onMarkRead: () -> 
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                if (room.mentionCount == 1) tr("inbox.youWereMentioned") else tr("inbox.youWereMentionedTimes", room.mentionCount),
+                if (count == 1) tr("inbox.youWereMentioned") else tr("inbox.youWereMentionedTimes", count),
                 style = wizardFont(WZ.FontSize.sm),
                 color = theme.textMuted,
                 maxLines = 1,
             )
         }
-        UnreadBadge(room.mentionCount, isMention = true)
+        UnreadBadge(count, isMention = true)
         RoundButton("check", tr("common.markRead"), theme.fill, theme.textMuted, true, onMarkRead)
     }
 }

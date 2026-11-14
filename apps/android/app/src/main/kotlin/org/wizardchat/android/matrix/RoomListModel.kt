@@ -21,7 +21,14 @@ import org.wizardchat.core.SpaceSummary
 import org.wizardchat.core.Subscription
 import org.wizardchat.core.WizardClient
 
-val RoomSummary.displayName: String get() = name ?: canonicalAlias ?: id
+val RoomSummary.displayName: String get() = roomDisplayName(isDirect, dmUserName, name, canonicalAlias, id)
+
+/**
+ * A DM is named after the other person: the SDK's own name reads "Empty Room (was X)" once they have left.
+ */
+internal fun roomDisplayName(isDirect: Boolean, dmUserName: String?, name: String?, canonicalAlias: String?, id: String): String =
+    (if (isDirect) dmUserName?.takeIf { it.isNotBlank() } else null) ?: name ?: canonicalAlias ?: id
+
 /** Messages that notify under the room's notification setting (as on the web), or 1 when marked unread */
 val RoomSummary.unreadCount: Int get() = if (unreadNotifications > 0) unreadNotifications.toInt() else if (markedUnread) 1 else 0
 val RoomSummary.mentionCount: Int get() = unreadMentions.toInt()
@@ -72,11 +79,20 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     private var subscriptions = listOf<Subscription>()
     private var graphJob: Job? = null
 
+    /** Unread mentions per room as the server counts them, for messages the local counts haven't loaded (see [refreshNotifications]) */
+    private var serverMentions = mapOf<String, Int>()
+    /** Rooms with unread thread replies, as the server's notifications show them */
+    var threadRoomIds by mutableStateOf(setOf<String>())
+        private set
+    var notificationsLoaded by mutableStateOf(false)
+        private set
+
     // The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
     private var mudrixHomeOrder: List<String>? = null
     private var wizardchatHomeOrder: List<String>? = null
 
     fun start() {
+        scope.launch { refreshNotifications() }
         subscriptions = listOf(
             client.watchRooms(5000) { diffs -> apply(diffs) },
             client.watchRoomSections { sections = it },
@@ -138,6 +154,27 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
 
     suspend fun markAsRead(rooms: List<RoomSummary>) {
         rooms.forEach { setRead(it, true) }
+        refreshNotifications()
+    }
+
+    /** Unread mentions in the room: its own count, or the server's when that is higher */
+    fun mentionCountOf(room: RoomSummary): Int = maxOf(room.mentionCount, serverMentions[room.id] ?: 0)
+
+    /**
+     * Asks the server for its notifications: the unread mentions, and the rooms with unread thread replies. The room
+     * counts only see messages loaded since the app started, so older unread ones are found this way.
+     */
+    suspend fun refreshNotifications() {
+        val highlights = runCatching { client.serverNotifications(true, NOTIFICATION_LIMIT) }.getOrNull()
+        val all = runCatching { client.serverNotifications(false, NOTIFICATION_LIMIT) }.getOrNull()
+        if (highlights != null) {
+            serverMentions = highlights.filter { !it.read }.groupingBy { it.roomId }.eachCount()
+        }
+        if (all != null) {
+            threadRoomIds = all.filter { !it.read && it.threadRootId != null }.mapTo(mutableSetOf()) { it.roomId }
+        }
+        notificationsLoaded = true
+        mentionRooms = joinedRooms.filter { mentionCountOf(it) > 0 }
     }
 
     fun isJoined(roomId: String) = joinedRooms.any { it.id == roomId } || spaces.any { it.id == roomId }
@@ -265,7 +302,7 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
             }
         }
         invites = rooms.filter { it.isInvite }
-        mentionRooms = joinedRooms.filter { it.mentionCount > 0 }
+        mentionRooms = joinedRooms.filter { mentionCountOf(it) > 0 }
         isLoaded = true
         refreshGraph()
     }
@@ -312,6 +349,7 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
 
 const val ROOMS_ANCHOR = "chats"
 const val HOME_SPACE = "home-space"
+private const val NOTIFICATION_LIMIT = 100L
 private val HOME_ORDER_EVENT = Namespace.mudrixKey("home_order")
 private val WIZARDCHAT_HOME_ORDER_EVENT = Namespace.wizardchatKey("home_order")
 

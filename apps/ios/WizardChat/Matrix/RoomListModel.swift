@@ -1,8 +1,16 @@
 import Foundation
 import WizardChatCore
 
+/// A DM is named after the other person: the SDK's own name reads "Empty Room (was X)" once they have left
+func roomDisplayName(isDirect: Bool, dmUserName: String?, name: String?, canonicalAlias: String?, id: String) -> String {
+    if isDirect, let partner = dmUserName, !partner.isEmpty { return partner }
+    return name ?? canonicalAlias ?? id
+}
+
 extension RoomSummary: @retroactive Identifiable {
-    var displayName: String { name ?? canonicalAlias ?? id }
+    var displayName: String {
+        roomDisplayName(isDirect: isDirect, dmUserName: dmUserName, name: name, canonicalAlias: canonicalAlias, id: id)
+    }
     /// Messages that notify under the room's notification setting (as on the web), or 1 when marked unread
     var unreadCount: Int { unreadNotifications > 0 ? unreadNotifications : markedUnread ? 1 : 0 }
     var mentionCount: Int { unreadMentions }

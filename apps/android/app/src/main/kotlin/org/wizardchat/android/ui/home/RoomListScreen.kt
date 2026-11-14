@@ -849,7 +849,7 @@ fun RoomRow(
             if (room.mentionCount > 0 || room.unreadCount > 0) Spacer(Modifier.width(WZ.Space.space3))
         }
         when {
-            room.mentionCount > 0 -> UnreadBadge(room.mentionCount, isMention = true)
+            room.mentionCount > 0 -> UnreadBadge(maxOf(room.unreadCount, room.mentionCount), isMention = true)
             room.unreadCount > 0 -> UnreadBadge(room.unreadCount, isMention = false)
         }
     }

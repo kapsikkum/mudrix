@@ -15,6 +15,7 @@ import {
 import { Tooltip } from '@/app/components/Tooltip';
 import { callUiAtom, callActionsAtom } from '@/app/store/atoms/call';
 import { useRoom } from '@/app/data';
+import { getRoomDisplayName } from '@/util/matrix';
 import { useReturnToCall } from './useReturnToCall';
 import { useCallTileVisible } from './useCallParticipants';
 import { useCallSnapshot } from './stage/useCallSnapshot';
@@ -42,7 +43,7 @@ export function CallBar() {
 
   const roomId = ui.roomId;
   const room = useRoom(roomId);
-  const roomName = room?.name ?? roomId ?? '';
+  const roomName = getRoomDisplayName(room) ?? roomId ?? '';
 
   const joined = ui.phase === 'joined';
   const tileVisible = useCallTileVisible();

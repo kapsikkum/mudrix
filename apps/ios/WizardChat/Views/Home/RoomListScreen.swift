@@ -746,7 +746,7 @@ struct RoomRow: View {
                     .accessibilityLabel(String(localized: "room.notifications.mute"))
             }
             if room.mentionCount > 0 {
-                UnreadBadge(count: room.mentionCount, isMention: true)
+                UnreadBadge(count: max(room.unreadCount, room.mentionCount), isMention: true)
             } else if room.unreadCount > 0 {
                 UnreadBadge(count: room.unreadCount, isMention: false)
             }

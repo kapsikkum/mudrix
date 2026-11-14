@@ -30,7 +30,7 @@ import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useHasUnreadThreads } from '@/app/hooks/useHasUnreadThreads';
 import { useRoom } from '@/app/data';
-import { isVoiceRoom } from '@/util/matrix';
+import { getRoomDisplayName, isVoiceRoom } from '@/util/matrix';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { PinnedMessagesPopover } from './PinnedMessagesPopover';
 import { JumpToDateModal } from './JumpToDateModal';
@@ -151,7 +151,7 @@ export function RoomHeader({
     setShowJumpToDate(false);
   }, [roomId]);
 
-  const roomName = room?.name ?? roomId;
+  const roomName = getRoomDisplayName(room) ?? roomId;
   const topic = room?.topic?.trim() ?? '';
 
   return (
