@@ -146,8 +146,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build \
-            -project WizardChat.xcodeproj \
-            -scheme WizardChat \
+            -project Mudrix.xcodeproj \
+            -scheme Mudrix \
             -configuration Debug \
             -destination "platform=iOS Simulator,id=$SIM_ID" \
             -derivedDataPath build \
@@ -163,8 +163,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test \
-            -project WizardChat.xcodeproj \
-            -scheme WizardChat \
+            -project Mudrix.xcodeproj \
+            -scheme Mudrix \
             -configuration Debug \
             -destination "platform=iOS Simulator,id=$SIM_ID" \
             -derivedDataPath build \

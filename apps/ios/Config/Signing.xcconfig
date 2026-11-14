@@ -7,8 +7,8 @@ WZ_APP_GROUP = group.$(WZ_BUNDLE_PREFIX).mobile
 // the team prefix comes from the provisioning profile at build time and lands in Info.plist
 WZ_KEYCHAIN_GROUP = $(WZ_BUNDLE_PREFIX).mobile
 
-// apns mode: point this at WizardChat/WizardChat-Push.entitlements (adds the Push Notifications capability)
-WZ_ENTITLEMENTS = WizardChat/WizardChat.entitlements
+// apns mode: point this at Mudrix/Mudrix-Push.entitlements (adds the Push Notifications capability)
+WZ_ENTITLEMENTS = Mudrix/Mudrix.entitlements
 WZ_PUSH_MODE = keepalive
 #include? "Local.xcconfig"
 // Build-time API keys (see Secrets.example.xcconfig); the file is optional

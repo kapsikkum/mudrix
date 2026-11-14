@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-PKG="$ROOT/apps/ios/WizardChatCore"
+PKG="$ROOT/apps/ios/MudrixCore"
 OUT="$PKG/build"
 PROFILE=release
 PROFILE_DIR=release
@@ -27,12 +27,12 @@ cargo run -q -p mudrix-core-ffi --features bindgen --bin uniffi-bindgen -- \
   generate --library "$ROOT/target/debug/libmudrix_core_ffi.dylib" --language swift --out-dir "$OUT/bindings"
 cp "$OUT/bindings/"*.h "$OUT/headers/"
 cp "$OUT/bindings/mudrix_core_ffiFFI.modulemap" "$OUT/headers/module.modulemap"
-cp "$OUT/bindings/mudrix_core_ffi.swift" "$PKG/Sources/WizardChatCore/Bridge.gen.swift"
+cp "$OUT/bindings/mudrix_core_ffi.swift" "$PKG/Sources/MudrixCore/Bridge.gen.swift"
 
-rm -rf "$PKG/WizardChatCoreFFI.xcframework"
+rm -rf "$PKG/MudrixCoreFFI.xcframework"
 xcodebuild -create-xcframework \
   -library "$ROOT/target/aarch64-apple-ios/$PROFILE_DIR/libmudrix_core_ffi.a" -headers "$OUT/headers" \
   -library "$ROOT/target/aarch64-apple-ios-sim/$PROFILE_DIR/libmudrix_core_ffi.a" -headers "$OUT/headers" \
-  -output "$PKG/WizardChatCoreFFI.xcframework" >/dev/null
+  -output "$PKG/MudrixCoreFFI.xcframework" >/dev/null
 
-echo "WizardChatCore is ready ($PROFILE_DIR)"
+echo "MudrixCore is ready ($PROFILE_DIR)"

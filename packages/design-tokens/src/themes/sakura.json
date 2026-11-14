@@ -1,7 +1,7 @@
 {
   "$description": "Sakura (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "sakura",
       "name": "Sakura",
       "scheme": "light",

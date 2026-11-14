@@ -47,7 +47,7 @@ val pushMode: String = (providers.gradleProperty("mudrix.push").orNull ?: "keepa
 }
 
 android {
-    namespace = "org.wizardchat.android"
+    namespace = "chat.mudrix.android"
     compileSdk = 36
 
     defaultConfig {

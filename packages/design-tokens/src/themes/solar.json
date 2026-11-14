@@ -1,7 +1,7 @@
 {
   "$description": "Solar (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "solar",
       "name": "Solar",
       "scheme": "dark",

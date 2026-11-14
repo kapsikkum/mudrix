@@ -31,6 +31,12 @@ const NS = 'io.github.kapsikkum.mudrix';
 const LEGACY_NS = 'chat.mudrix';
 /** How many rooms the R10 space fixture gets (a big space must not feel slow to expand). */
 const SPACE_ROOMS = Number(process.env.MUDRIX_SEED_SPACE_ROOMS ?? 40);
+/** S4's search phrase, and how many fixture messages contain it (two server pages of 30). */
+const S4_SEARCH_TERM = 'parity needle';
+const S4_SEARCH_MATCHES = 36;
+/** S8's room image pack: its state key, display name, and the art it carries. */
+const S8_PACK_KEY = 'parity-art';
+const S8_PACK_NAME = 'Parity Art Pack';
 /** Width of the zero-padded `m.space.child` order ("01".."40"), so string order is room order. */
 const ORDER_WIDTH = Math.max(2, String(SPACE_ROOMS).length);
 /** The state event that tags each fixture room with its name, so a re-run finds it again. */
@@ -165,6 +171,88 @@ async function readUpTo(u, roomId, eventId) {
     'm.fully_read': eventId,
     'm.read': eventId,
   });
+}
+
+/** Writes a room state event, replacing whatever the room had under that type and key. */
+const setState = (u, roomId, type, stateKey, content) =>
+  api(
+    u.token,
+    'PUT',
+    `/_matrix/client/v3/rooms/${enc(roomId)}/state/${enc(type)}/${enc(stateKey)}`,
+    content
+  );
+
+/** Uploads bytes and returns the `mxc://` URL they got. */
+const upload = async (u, bytes, filename, contentType) => {
+  const { content_uri: mxc } = await api(
+    u.token,
+    'POST',
+    `/_matrix/media/v3/upload?filename=${enc(filename)}`,
+    bytes,
+    { raw: true, contentType }
+  );
+  return mxc;
+};
+
+/** A text message replying to `eventId`: clients draw the quoted preview from the relation. */
+const reply = (u, roomId, eventId, body) =>
+  send(u, roomId, {
+    msgtype: 'm.text',
+    body,
+    'm.relates_to': { 'm.in_reply_to': { event_id: eventId } },
+  });
+
+/** A reply inside the thread on `rootId` (MSC3440), with the reply fallback clients expect. */
+const threadReply = (u, roomId, rootId, body, mentions) =>
+  send(u, roomId, {
+    msgtype: 'm.text',
+    body,
+    ...(mentions ? { 'm.mentions': { user_ids: mentions } } : {}),
+    'm.relates_to': {
+      rel_type: 'm.thread',
+      event_id: rootId,
+      is_falling_back: true,
+      'm.in_reply_to': { event_id: rootId },
+    },
+  });
+
+const react = (u, roomId, eventId, key) =>
+  send(
+    u,
+    roomId,
+    { 'm.relates_to': { rel_type: 'm.annotation', event_id: eventId, key } },
+    'm.reaction'
+  );
+
+/** An `m.image` message: `png` is the file itself. */
+const image = async (u, roomId, png, filename) => {
+  const url = await upload(u, png, filename, 'image/png');
+  return send(u, roomId, {
+    msgtype: 'm.image',
+    body: filename,
+    url,
+    info: { mimetype: 'image/png', w: 256, h: 256, size: png.length },
+  });
+};
+
+/**
+ * Subscribes an account to a room's image pack, in both account data names clients read, so the
+ * pack's cosmetic art is offered in Settings > Cosmetics.
+ */
+async function subscribePack(u, roomId, stateKey) {
+  for (const type of ['im.ponies.emote_rooms', 'm.image_pack.rooms']) {
+    const current = await api(
+      u.token,
+      'GET',
+      `/_matrix/client/v3/user/${enc(u.id)}/account_data/${enc(type)}`
+    ).catch(() => ({}));
+    const rooms = { ...(current.rooms ?? {}) };
+    rooms[roomId] = { ...(rooms[roomId] ?? {}), [stateKey]: {} };
+    await api(u.token, 'PUT', `/_matrix/client/v3/user/${enc(u.id)}/account_data/${enc(type)}`, {
+      ...current,
+      rooms,
+    });
+  }
 }
 
 /**
@@ -609,6 +697,123 @@ if (created.has(readDemo)) {
 }
 n4.read = readDemo;
 
+// ── S1-S8: fixtures for the feature scenarios (README "Feature scenarios") ──
+// "ash" is the viewer in every scenario; "juno" is the account the steps drive from a second
+// client. Rooms start with no unread of their own unless the scenario says otherwise.
+
+// S1: replies, edits, deletions and reactions.
+const s1Chat = await room(ash, 's1 chat', [juno], { topic: 'Replies, edits and reactions' });
+if (created.has(s1Chat)) {
+  await text(juno, s1Chat, 'welcome to S1: reply, edit me, then delete me');
+  const replyTarget = await text(ash, s1Chat, 'this message has a reply under it');
+  await reply(juno, s1Chat, replyTarget.event_id, 'a reply with a quoted preview');
+  const oneReaction = await text(juno, s1Chat, 'one reaction on this line shows no number');
+  await react(ash, s1Chat, oneReaction.event_id, '👍');
+  const twoReactions = await text(juno, s1Chat, 'two reactions on this line show a count');
+  await react(ash, s1Chat, twoReactions.event_id, '🎉');
+  await react(juno, s1Chat, twoReactions.event_id, '🎉');
+  const last = await text(ash, s1Chat, 'edit this line during the scenario');
+  await readUpTo(ash, s1Chat, last.event_id);
+}
+
+// S2: a thread on a root ash has read; its replies must not badge the room.
+const s2Thread = await room(ash, 's2 thread', [juno], { topic: 'Threads and the Inbox' });
+if (created.has(s2Thread)) {
+  await notifyEverything(ash, s2Thread, 'mudrix-s2-thread');
+  const root = await text(ash, s2Thread, 'thread root: what should the thread test cover?');
+  await readUpTo(ash, s2Thread, root.event_id);
+  await threadReply(juno, s2Thread, root.event_id, 'first reply from Juno');
+  await threadReply(juno, s2Thread, root.event_id, `${ash.id} second reply, with a mention`, [
+    ash.id,
+  ]);
+}
+
+// S3: uploads land here; one image and a line to read first.
+const s3Media = await room(ash, 's3 media', [juno], { topic: 'Images, video, files and voice' });
+if (created.has(s3Media)) {
+  await image(juno, s3Media, avatarPng([255, 87, 34], [255, 193, 7], 21), 'parity-photo.png');
+  const last = await text(juno, s3Media, 'upload an image, a video or file, then a voice message below');
+  await readUpTo(ash, s3Media, last.event_id);
+}
+
+// S4: many matches for one phrase, so a room search has two server pages.
+const s4Search = await room(ash, 's4 search', [juno], { topic: 'Search paging fixture' });
+if (created.has(s4Search)) {
+  for (let i = 1; i <= S4_SEARCH_MATCHES - 1; i += 1) {
+    await text(juno, s4Search, `${S4_SEARCH_TERM} ${String(i).padStart(2, '0')}`);
+  }
+  const last = await text(ash, s4Search, `${S4_SEARCH_TERM} from ash, the newest match`);
+  await readUpTo(ash, s4Search, last.event_id);
+}
+
+// S5: one room mention, one plain message, and one unread thread on a read root.
+const s5Inbox = await room(ash, 's5 inbox', [juno, wren], { topic: 'Mentions and threads' });
+if (created.has(s5Inbox)) {
+  await notifyEverything(ash, s5Inbox, 'mudrix-s5-inbox');
+  const root = await text(ash, s5Inbox, 'thread root for the Inbox');
+  await readUpTo(ash, s5Inbox, root.event_id);
+  await text(wren, s5Inbox, 'a plain message after the read marker');
+  await text(juno, s5Inbox, `${ash.id} this mention belongs in Mentions`, undefined, [ash.id]);
+  await threadReply(juno, s5Inbox, root.event_id, 'a thread reply after the marker');
+  await threadReply(juno, s5Inbox, root.event_id, `${ash.id} and a thread mention`, [ash.id]);
+}
+
+// S6: the scenario sends the messages, so the room starts read and quiet.
+const s6Notify = await room(ash, 's6 notifications', [juno], { topic: 'Notification fixtures' });
+if (created.has(s6Notify)) {
+  await notifyEverything(ash, s6Notify, 'mudrix-s6-notifications');
+  const anchor = await text(ash, s6Notify, 'read up to here; anything sent now notifies');
+  await readUpTo(ash, s6Notify, anchor.event_id);
+}
+
+// S8: a room image pack with one decoration and one nameplate, subscribed by both accounts.
+const s8Pack = await room(ash, 's8 cosmetic pack', [juno], {
+  topic: 'A room image pack with cosmetic art',
+});
+const s8PackState = await api(
+  ash.token,
+  'GET',
+  `/_matrix/client/v3/rooms/${enc(s8Pack)}/state/m.room.image_pack/${enc(S8_PACK_KEY)}`
+).catch((e) => (e.status === 404 ? null : Promise.reject(e)));
+if (!s8PackState) {
+  const decorationUrl = await upload(
+    ash,
+    avatarPng([255, 64, 129], [255, 214, 0], 22),
+    'parity-sparkle.png',
+    'image/png'
+  );
+  const nameplateUrl = await upload(
+    ash,
+    avatarPng([30, 144, 255], [138, 43, 226], 23),
+    'parity-nameplate.png',
+    'image/png'
+  );
+  await setState(ash, s8Pack, 'm.room.image_pack', S8_PACK_KEY, {
+    pack: {
+      display_name: S8_PACK_NAME,
+      usage: ['avatar_decoration', 'nameplate'],
+      attribution: 'Mudrix test fixtures',
+    },
+    images: {
+      'parity-sparkle': {
+        url: decorationUrl,
+        body: 'Parity Sparkle',
+        mimetype: 'image/png',
+        usage: ['avatar_decoration'],
+      },
+      'parity-nameplate': {
+        url: nameplateUrl,
+        body: 'Parity Nameplate',
+        mimetype: 'image/png',
+        usage: ['nameplate'],
+        info: { palette: '120, 80, 255' },
+      },
+    },
+  });
+}
+await subscribePack(ash, s8Pack, S8_PACK_KEY);
+await subscribePack(juno, s8Pack, S8_PACK_KEY);
+
 // ── R10: a space with many rooms, to time the hierarchy load ──
 const bigSpace = await room(ash, 'Parity Space', [juno], {
   creation_content: { type: 'm.space' },
@@ -657,6 +862,13 @@ const summary = {
     thread,
     quiet,
     readDemo,
+    s1Chat,
+    s2Thread,
+    s3Media,
+    s4Search,
+    s5Inbox,
+    s6Notify,
+    s8Pack,
     bigSpace,
     ...Object.fromEntries(categories.map((id, i) => [`bigSpaceCategory${i + 1}`, id])),
   },
@@ -681,6 +893,62 @@ const summary = {
       categories,
       roomCount: SPACE_ROOMS,
     },
+    s1: {
+      viewer: ash.id,
+      actor: juno.id,
+      room: s1Chat,
+    },
+    s2: {
+      viewer: ash.id,
+      actor: juno.id,
+      room: s2Thread,
+      threadReplies: 2,
+      expectedNotifications: 0,
+    },
+    s3: {
+      viewer: ash.id,
+      actor: juno.id,
+      room: s3Media,
+    },
+    s4: {
+      viewer: ash.id,
+      actor: juno.id,
+      room: s4Search,
+      term: S4_SEARCH_TERM,
+      matches: S4_SEARCH_MATCHES,
+      pageSize: 30,
+    },
+    s5: {
+      viewer: ash.id,
+      actors: [juno.id, wren.id],
+      room: s5Inbox,
+      expectedNotifications: 2,
+      expectedMentions: 1,
+      threadReplies: 2,
+    },
+    s6: {
+      viewer: ash.id,
+      actor: juno.id,
+      room: s6Notify,
+    },
+    s7: {
+      viewer: ash.id,
+      actor: juno.id,
+      voiceRoom: voice,
+      dm: dmJuno,
+    },
+    s8: {
+      viewer: ash.id,
+      actor: juno.id,
+      packRoom: s8Pack,
+      packStateKey: S8_PACK_KEY,
+      packName: S8_PACK_NAME,
+      subscribers: [ash.id, juno.id],
+    },
+    s9: {
+      viewer: ash.id,
+      syncedSettingsEvent: `${NS}.settings`,
+    },
   },
 };
 writeFileSync(joinPath(generated, 'seed.json'), `${JSON.stringify(summary, null, 2)}\n`);
@@ -701,6 +969,8 @@ for (const [name, roomId] of Object.entries({
   thread,
   quiet,
   read: readDemo,
+  s5: s5Inbox,
+  s6: s6Notify,
 })) {
   console.log(`  ${name.padEnd(8)} ${counts(roomId)}`);
 }
@@ -713,6 +983,12 @@ console.log(
   `R8: m.direct lists ${Object.keys(direct).length} user(s): ${Object.keys(direct).join(', ')}`
 );
 console.log(`R10: Parity Space has ${SPACE_ROOMS} rooms in ${categories.length} categories.`);
+console.log(
+  `S4: s4 search has ${S4_SEARCH_MATCHES} matches for "${S4_SEARCH_TERM}" (server pages of 30).`
+);
+console.log(
+  `S8: image pack "${S8_PACK_NAME}" covers ash and juno; its art hides when showCosmeticPacks is off.`
+);
 console.log(
   `\nSeeded. Sign in as ash / ${PASSWORD} with the server ${env.host}:6167\n` +
     `(web: http://localhost:5180/welcome/${env.host}:6167).`

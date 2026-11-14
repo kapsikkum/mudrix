@@ -16,13 +16,7 @@ import {
   type ScreenShareCaptureOptions,
 } from 'livekit-client';
 import E2EEWorker from 'livekit-client/e2ee-worker?worker';
-import type {
-  CallEvent,
-  CallMember,
-  CallSession,
-  Subscription,
-  WizardClient,
-} from '@mudrix/core';
+import type { CallEvent, CallMember, CallSession, Subscription, WizardClient } from '@mudrix/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
 import { mudrixKey, wizardchatKey } from '@/util/namespace';

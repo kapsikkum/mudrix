@@ -19,7 +19,7 @@
  * Old-only (not compared): accentRgb (derived from accent), shadow.*, scrim.{soft,base,deep,media},
  * radius.*, font.body (new keeps those in base.json, not per theme; a global section below lists
  * radius and scrim.modal against base.json). New-only tokens are listed once as a count/name list.
- * Themes are matched by lower-cased id (new: $extensions["org.wizardchat.theme"].id) / old name.
+ * Themes are matched by lower-cased id (new: $extensions["chat.mudrix.theme"].id) / old name.
  * Colours are compared after parsing to rgba, so `#fff`, `#ffffff`, `rgb(255,255,255)` and
  * `rgba(255, 255, 255, 1)` are equal and `#E2BC8E99` equals `rgba(226, 188, 142, 0.6)`.
  */
@@ -127,7 +127,7 @@ function loadNew() {
   const themes = {};
   for (const file of readdirSync(NEW_THEMES).filter((f) => f.endsWith('.json'))) {
     const json = JSON.parse(readFileSync(join(NEW_THEMES, file), 'utf8'));
-    const meta = json.$extensions?.['org.wizardchat.theme'] ?? {};
+    const meta = json.$extensions?.['chat.mudrix.theme'] ?? {};
     const id = (meta.id ?? file.replace(/\.json$/, '')).toLowerCase();
     themes[id] = { name: meta.name ?? id, tokens: Object.fromEntries(flatten(json)) };
   }

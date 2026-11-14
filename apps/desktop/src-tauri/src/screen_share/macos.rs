@@ -364,7 +364,7 @@ pub fn start(id: &str, with_audio: bool, sink: Sink) -> Result<Box<dyn Session>,
         SCStream::initWithFilter_configuration_delegate(SCStream::alloc(), &filter, &config, None)
     };
     let output = Output::new(sink);
-    let queue = DispatchQueue::new("org.wizardchat.screen-share", None);
+    let queue = DispatchQueue::new("chat.mudrix.screen-share", None);
     let handler = ProtocolObject::from_ref(&*output);
     unsafe {
         stream

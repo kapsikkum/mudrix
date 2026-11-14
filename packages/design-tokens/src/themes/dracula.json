@@ -1,7 +1,7 @@
 {
   "$description": "Dracula (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "dracula",
       "name": "Dracula",
       "scheme": "dark",

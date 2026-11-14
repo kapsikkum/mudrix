@@ -1,7 +1,7 @@
 {
   "$description": "Tokyo (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "tokyo",
       "name": "Tokyo",
       "scheme": "dark",

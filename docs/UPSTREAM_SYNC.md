@@ -697,20 +697,20 @@ Every Android and iOS file listed under "Conflicted files" above, plus `Sounds.s
 
 ## Verification (worktree `E:\code\web\mudrix-sync2`)
 
-| Check                                                                                         | Result                                                                          |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `npm install`                                                                                 | OK                                                                              |
-| `npm run tokens`                                                                              | OK (29 themes; upstream `color.role.*` block added to our 20 extra themes)      |
-| `npm run i18n`                                                                                | 2217 keys in de, en, es, fr, it, ja, nl, pl, pt, ru, tr, all languages complete |
-| `npx tsc --noEmit` (apps/web)                                                                 | clean                                                                           |
-| `npx eslint .` (apps/web)                                                                     | 14 problems (0 errors, 14 warnings)                                             |
-| typegen + `api.gen` diff vs upstream                                                          | only Mudrix RPC additions                                                       |
-| `cargo check --workspace -j 4`                                                                | Finished                                                                        |
+| Check                                                                                 | Result                                                                          |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `npm install`                                                                         | OK                                                                              |
+| `npm run tokens`                                                                      | OK (29 themes; upstream `color.role.*` block added to our 20 extra themes)      |
+| `npm run i18n`                                                                        | 2217 keys in de, en, es, fr, it, ja, nl, pl, pt, ru, tr, all languages complete |
+| `npx tsc --noEmit` (apps/web)                                                         | clean                                                                           |
+| `npx eslint .` (apps/web)                                                             | 14 problems (0 errors, 14 warnings)                                             |
+| typegen + `api.gen` diff vs upstream                                                  | only Mudrix RPC additions                                                       |
+| `cargo check --workspace -j 4`                                                        | Finished                                                                        |
 | `cargo check -p mudrix-core -p mudrix-core-wasm --target wasm32-unknown-unknown -j 4` | Finished                                                                        |
-| `npm run core:web:dev`                                                                        | Done                                                                            |
-| `npx vite build`                                                                              | built in 10.16s                                                                 |
-| `cargo fmt --all --check`                                                                     | clean                                                                           |
-| Android / iOS                                                                                 | not built (by instruction)                                                      |
+| `npm run core:web:dev`                                                                | Done                                                                            |
+| `npx vite build`                                                                      | built in 10.16s                                                                 |
+| `cargo fmt --all --check`                                                             | clean                                                                           |
+| Android / iOS                                                                         | not built (by instruction)                                                      |
 
 ## Merge into web-look
 

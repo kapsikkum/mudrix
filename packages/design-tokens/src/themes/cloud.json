@@ -1,7 +1,7 @@
 {
   "$description": "Cloud (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "cloud",
       "name": "Cloud",
       "scheme": "light",

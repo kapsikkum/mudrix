@@ -1,7 +1,7 @@
 {
   "$description": "OLED (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "oled",
       "name": "OLED",
       "scheme": "dark",

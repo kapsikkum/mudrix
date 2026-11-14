@@ -1,6 +1,6 @@
 import Foundation
 import UserNotifications
-import WizardChatCore
+import MudrixCore
 
 /// Fills in a push before iOS shows it: the decrypted message and the keys a tap needs, or the
 /// room's name from the app group when the message itself can't be reached.

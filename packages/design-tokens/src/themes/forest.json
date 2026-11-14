@@ -1,7 +1,7 @@
 {
   "$description": "Forest (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "forest",
       "name": "Forest",
       "scheme": "dark",

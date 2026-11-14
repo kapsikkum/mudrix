@@ -1,4 +1,4 @@
-name: WizardChat
+name: Mudrix
 options:
   deploymentTarget:
     iOS: '18.0'
@@ -6,8 +6,8 @@ options:
   developmentLanguage: en
 
 packages:
-  WizardChatCore:
-    path: WizardChatCore
+  MudrixCore:
+    path: MudrixCore
   LiveKit:
     url: https://github.com/livekit/client-sdk-swift
     exactVersion: 2.19.0
@@ -28,13 +28,13 @@ settings:
     TARGETED_DEVICE_FAMILY: '1'
 
 targets:
-  WizardChat:
+  Mudrix:
     type: application
     platform: iOS
     sources:
-      - WizardChat
+      - Mudrix
       - Shared
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/design-tokens/dist/apple/Tokens.xcassets
       - ../../packages/icons/dist/apple/Icons.xcassets
       - ../../packages/icons/dist/apple/Cosmetics.xcassets
@@ -49,7 +49,7 @@ targets:
         type: folder
         buildPhase: resources
     info:
-      path: WizardChat/Info.plist
+      path: Mudrix/Info.plist
       properties:
         # The theme's background, so launching doesn't flash white before the first frame
         UILaunchScreen:
@@ -77,14 +77,14 @@ targets:
         # End-to-end encryption uses standard algorithms in open-source code, which is exempt
         ITSAppUsesNonExemptEncryption: false
     dependencies:
-      - package: WizardChatCore
+      - package: MudrixCore
       - package: LiveKit
-      - target: WizardChatWidgets
-      - target: WizardChatShare
+      - target: MudrixWidgets
+      - target: MudrixShare
       - target: NotificationService
     scheme:
       testTargets:
-        - WizardChatTests
+        - MudrixTests
     postBuildScripts:
       - name: Version from package.json
         script: ./scripts/set-version.sh
@@ -108,20 +108,20 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # Live Activities: the call in the Dynamic Island and on the lock screen
-  WizardChatWidgets:
+  MudrixWidgets:
     type: app-extension
     platform: iOS
     sources:
-      - WizardChatWidgets
+      - MudrixWidgets
       # The account store helper needs the core package, which the widgets don't link
       - path: Shared
         excludes:
           - StoredSession.swift
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/icons/dist/apple/Icons.xcassets
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
-      path: WizardChatWidgets/Info.plist
+      path: MudrixWidgets/Info.plist
       properties:
         CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -140,17 +140,17 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # "Share -> Mudrix" from Photos, Safari and other apps
-  WizardChatShare:
+  MudrixShare:
     type: app-extension
     platform: iOS
     sources:
-      - WizardChatShare
+      - MudrixShare
       - path: Shared/ShareInbox.swift
       - path: Shared/L10n.swift
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
-      path: WizardChatShare/Info.plist
+      path: MudrixShare/Info.plist
       properties:
         CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -173,7 +173,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.share
-        CODE_SIGN_ENTITLEMENTS: WizardChatShare/WizardChatShare.entitlements
+        CODE_SIGN_ENTITLEMENTS: MudrixShare/MudrixShare.entitlements
         SKIP_INSTALL: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
@@ -188,7 +188,7 @@ targets:
       - path: Shared/PushPayload.swift
       - path: Shared/NotificationPreview.swift
       - path: Shared/StoredSession.swift
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
       path: NotificationService/Info.plist
@@ -202,7 +202,7 @@ targets:
           NSExtensionPointIdentifier: com.apple.usernotifications.service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).NotificationService
     dependencies:
-      - package: WizardChatCore
+      - package: MudrixCore
     postBuildScripts:
       - name: Version from package.json
         script: ./scripts/set-version.sh
@@ -215,14 +215,14 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # Unit tests of the pure parts (theme derivation, settings sync, video plan, image strip), run inside the app
-  WizardChatTests:
+  MudrixTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - WizardChatTests
+      - MudrixTests
     dependencies:
-      - target: WizardChat
-      - package: WizardChatCore
+      - target: Mudrix
+      - package: MudrixCore
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

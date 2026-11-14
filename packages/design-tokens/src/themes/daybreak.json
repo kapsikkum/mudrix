@@ -1,7 +1,7 @@
 {
   "$description": "Daybreak (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "daybreak",
       "name": "Daybreak",
       "scheme": "light",

@@ -1,10 +1,4 @@
-import type {
-  Member,
-  MessageKind,
-  RoomSummary,
-  RoomTimeline,
-  WizardClient,
-} from '@mudrix/core';
+import type { Member, MessageKind, RoomSummary, RoomTimeline, WizardClient } from '@mudrix/core';
 import { Text, type Descendant } from 'slate';
 import { fromMarkdown, type MentionResolver } from './editor/fromMarkdown';
 import { buildTextContent } from './editor/buildTextContent';

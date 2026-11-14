@@ -1,7 +1,7 @@
 {
   "$description": "Eclipse (from the original WizardChat themes)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "eclipse",
       "name": "Eclipse",
       "scheme": "dark",

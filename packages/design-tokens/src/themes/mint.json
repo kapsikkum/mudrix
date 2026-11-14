@@ -1,7 +1,7 @@
 {
   "$description": "Mint (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "mint",
       "name": "Mint",
       "scheme": "light",

@@ -16,11 +16,11 @@ fn main() {
             mudrix_core::rpc::typegen::typescript(),
         ),
         (
-            "apps/ios/WizardChatCore/Sources/WizardChatCore/Api.gen.swift",
+            "apps/ios/MudrixCore/Sources/MudrixCore/Api.gen.swift",
             mudrix_core::rpc::typegen::swift(),
         ),
         (
-            "apps/android/core/src/main/kotlin/org/wizardchat/core/Api.gen.kt",
+            "apps/android/core/src/main/kotlin/chat/mudrix/core/Api.gen.kt",
             mudrix_core::rpc::typegen::kotlin(),
         ),
     ];

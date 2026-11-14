@@ -20,10 +20,16 @@ if (!stage) {
   console.error(`unknown stage "${stageName}"; stages: ${Object.keys(stages).join(', ')}`);
   process.exit(1);
 }
-const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 1 << 28 });
-const inScope = (file, prefixes) => !prefixes || prefixes.some((p) => file === p || file.startsWith(p));
-const skipped = (file) => (stage.skip ?? []).some((s) => (s instanceof RegExp ? s.test(file) : file === s || file.startsWith(s)));
-const BINARY = /\.(png|jpe?g|gif|webp|ico|icns|wav|mp3|ogg|ttf|otf|woff2?|jar|so|a|dylib|dll|zip|gz|keystore|jks|car|xcframework)$/i;
+const git = (...args) =>
+  execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 1 << 28 });
+const inScope = (file, prefixes) =>
+  !prefixes || prefixes.some((p) => file === p || file.startsWith(p));
+const skipped = (file) =>
+  (stage.skip ?? []).some((s) =>
+    s instanceof RegExp ? s.test(file) : file === s || file.startsWith(s)
+  );
+const BINARY =
+  /\.(png|jpe?g|gif|webp|ico|icns|wav|mp3|ogg|ttf|otf|woff2?|jar|so|a|dylib|dll|zip|gz|keystore|jks|car|xcframework)$/i;
 
 // 1. Content
 let files = git('ls-files').split('\n').filter(Boolean);
@@ -55,23 +61,23 @@ for (const file of files) {
     if (!dry) writeFileSync(abs, after);
   }
 }
-console.log(`${stageName}: ${replacements} replacements in ${changedFiles} files${dry ? ' (dry run)' : ''}`);
+console.log(
+  `${stageName}: ${replacements} replacements in ${changedFiles} files${dry ? ' (dry run)' : ''}`
+);
 
-// 2. Paths (longest prefix first so nested moves resolve)
+// 2. Paths: every tracked path is rewritten with the stage's ordered `move` rules (literal substrings)
 files = git('ls-files').split('\n').filter(Boolean);
 let moved = 0;
-for (const [from, to] of [...(stage.move ?? [])].sort((a, b) => b[0].length - a[0].length)) {
-  const matches = files.filter((f) => f === from || f.startsWith(from.endsWith('/') ? from : from + '/'));
-  for (const f of matches) {
-    const target = to + f.slice(from.length);
-    if (dry) {
-      moved++;
-      continue;
-    }
-    mkdirSync(join(root, dirname(target)), { recursive: true });
-    git('mv', f, target);
-    moved++;
+for (const f of files) {
+  let target = f;
+  for (const [from, to] of stage.move ?? []) target = target.split(from).join(to);
+  if (target === f) continue;
+  moved++;
+  if (dry) {
+    if (moved <= 15) console.log(`  ${f} -> ${target}`);
+    continue;
   }
-  files = git('ls-files').split('\n').filter(Boolean);
+  mkdirSync(join(root, dirname(target)), { recursive: true });
+  git('mv', f, target);
 }
 console.log(`${stageName}: ${moved} paths moved${dry ? ' (dry run)' : ''}`);

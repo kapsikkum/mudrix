@@ -12,11 +12,11 @@ crates/wasm/pkg*/
 apps/desktop/src-tauri/gen/
 
 # Built by apps/ios/scripts/build-core.sh
-apps/ios/WizardChatCore/build/
-apps/ios/WizardChatCore/WizardChatCoreFFI.xcframework/
-apps/ios/WizardChatCore/Sources/WizardChatCore/Bridge.gen.swift
-apps/ios/WizardChat.xcodeproj/
-apps/ios/WizardChatCore/.swiftpm/
+apps/ios/MudrixCore/build/
+apps/ios/MudrixCore/MudrixCoreFFI.xcframework/
+apps/ios/MudrixCore/Sources/MudrixCore/Bridge.gen.swift
+apps/ios/Mudrix.xcodeproj/
+apps/ios/MudrixCore/.swiftpm/
 
 # iOS builds from the command line (-derivedDataPath build)
 apps/ios/build/

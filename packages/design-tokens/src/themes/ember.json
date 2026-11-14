@@ -1,7 +1,7 @@
 {
   "$description": "Ember (from Mudrix)",
   "$extensions": {
-    "org.wizardchat.theme": {
+    "chat.mudrix.theme": {
       "id": "ember",
       "name": "Ember",
       "scheme": "dark",

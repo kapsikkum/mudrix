@@ -120,7 +120,7 @@ impl Core {
 
 /// Android: `CoreInit.init(context)` runs this once, before the first network request
 #[cfg(target_os = "android")]
-#[jni::jni_mangle("org.wizardchat.core.CoreInit")]
+#[jni::jni_mangle("chat.mudrix.core.CoreInit")]
 pub fn init<'caller>(
     mut env: jni::EnvUnowned<'caller>,
     _class: jni::objects::JClass<'caller>,

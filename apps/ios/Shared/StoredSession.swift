@@ -1,6 +1,6 @@
 import Foundation
 import Security
-import WizardChatCore
+import MudrixCore
 
 /// An account as the keychain keeps it: the session, where its store is and how to unlock it.
 struct StoredSession: Codable {
