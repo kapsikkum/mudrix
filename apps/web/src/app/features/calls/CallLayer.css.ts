@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { ROOM_HEADER_HEIGHT } from '@/app/features/timeline/RoomHeader.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const DOCKED_HEADER_HEIGHT = 49;
 
@@ -116,7 +117,7 @@ export const headerTitle = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   overflow: 'hidden',
   textOverflow: 'ellipsis',

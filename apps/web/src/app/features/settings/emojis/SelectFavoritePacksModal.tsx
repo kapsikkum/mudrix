@@ -16,6 +16,7 @@ import { Input } from '@/app/components/Input';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { vars } from '@/theme/vars.css';
 import * as css from './EmojisStickers.css';
+import { fontSize } from '@/theme/typeScale';
 
 interface Props {
   client: MatrixClient;
@@ -163,7 +164,7 @@ function PackPickerList({ client, kind, current, onSave }: PickerListProps) {
         >
           {t('settings.emojisStickers.unsubscribeAll')}
         </Button>
-        <span style={{ marginLeft: 'auto', fontSize: '0.72rem', color: vars.color.textMuted }}>
+        <span style={{ marginLeft: 'auto', fontSize: fontSize.xs, color: vars.color.textMuted }}>
           {selectedVisible}/{visiblePacks.length}
         </span>
       </div>

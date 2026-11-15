@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const typeList = style({
   display: 'flex',
@@ -20,7 +21,7 @@ const typeOptionBase = style({
   background: vars.color.bgSecondary,
   color: vars.color.textPrimary,
   fontFamily: vars.font.body,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   lineHeight: '1.2',
   textAlign: 'left',
@@ -63,7 +64,7 @@ export const typeText = style({
 
 export const typeNote = style({
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 400,
   lineHeight: '1.3',
 });

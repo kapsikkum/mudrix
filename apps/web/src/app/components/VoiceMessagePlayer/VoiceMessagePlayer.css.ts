@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const player = style({
   display: 'flex',
@@ -46,7 +47,7 @@ export const waveformLoading = style({
 });
 
 export const time = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   fontVariantNumeric: 'tabular-nums',
   flexShrink: 0,

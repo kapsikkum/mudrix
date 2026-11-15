@@ -107,6 +107,10 @@
         "$value": "#f06428"
       }
     },
+    "live": {
+      "$value": "#593695",
+      "$description": "Live badge on calls and streams"
+    },
     "presence": {
       "online": {
         "$value": "#22c55e"

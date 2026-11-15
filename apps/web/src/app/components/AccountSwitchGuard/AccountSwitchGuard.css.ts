@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const overlay = style({
   position: 'fixed',
@@ -24,14 +25,14 @@ export const box = style({
 });
 
 export const heading = style({
-  fontSize: '1.15rem',
+  fontSize: fontSize.lg,
   fontWeight: 600,
   color: vars.color.textPrimary,
   margin: 0,
 });
 
 export const message = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   lineHeight: 1.5,
   margin: 0,

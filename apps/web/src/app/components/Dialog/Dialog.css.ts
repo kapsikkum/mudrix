@@ -96,7 +96,7 @@ export const titleGroup = style({
 });
 
 export const subtitle = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
 });
 

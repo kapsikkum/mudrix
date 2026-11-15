@@ -8,6 +8,7 @@ import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input';
 import { vars } from '@/theme/vars.css';
 import { openSafeExternalUrl } from '@/util/safeUrl';
+import { fontSize } from '@/theme/typeScale';
 
 type CloseResult =
   { type: 'password'; password: string } | { type: 'sso' } | { type: 'reset' } | null;
@@ -67,7 +68,7 @@ export function CrossSigningUiaModal() {
           </div>
         }
       >
-        <p style={{ fontSize: '0.9rem', color: vars.color.textMuted }}>
+        <p style={{ fontSize: fontSize.sm, color: vars.color.textMuted }}>
           {t('settings.keyBackup.uiaResetDescription')}
         </p>
       </Modal>
@@ -98,7 +99,7 @@ export function CrossSigningUiaModal() {
         </div>
       }
     >
-      <p style={{ marginBottom: 16, fontSize: '0.9rem', color: vars.color.textMuted }}>
+      <p style={{ marginBottom: 16, fontSize: fontSize.sm, color: vars.color.textMuted }}>
         {t('settings.keyBackup.uiaDescription')}
       </p>
 
@@ -115,7 +116,7 @@ export function CrossSigningUiaModal() {
           data-dialog-autofocus
         />
         {state.error && (
-          <p style={{ color: vars.color.error, fontSize: '0.85rem', marginTop: 6 }}>
+          <p style={{ color: vars.color.error, fontSize: fontSize.sm, marginTop: 6 }}>
             {state.error}
           </p>
         )}
@@ -123,7 +124,7 @@ export function CrossSigningUiaModal() {
 
       {state.offerSso && (
         <div style={{ marginTop: 16, borderTop: `1px solid ${vars.color.border}`, paddingTop: 16 }}>
-          <p style={{ fontSize: '0.85rem', color: vars.color.textMuted, marginBottom: 8 }}>
+          <p style={{ fontSize: fontSize.sm, color: vars.color.textMuted, marginBottom: 8 }}>
             {t('common.or')}
           </p>
           <Button variant="secondary" onClick={() => close({ type: 'sso' })}>

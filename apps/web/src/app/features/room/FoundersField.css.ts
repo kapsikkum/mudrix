@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const field = style({
   display: 'flex',
@@ -35,7 +36,7 @@ export const info = style({
 });
 
 export const name = style({
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -44,7 +45,7 @@ export const name = style({
 });
 
 export const userId = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',

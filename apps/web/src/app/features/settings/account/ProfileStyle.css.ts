@@ -163,7 +163,7 @@ export const previewBody = style({
 });
 
 export const previewDisplayName = style({
-  fontSize: '1.15rem',
+  fontSize: fontSize.lg,
   fontWeight: 600,
   color: vars.color.textPrimary,
   lineHeight: 1.25,

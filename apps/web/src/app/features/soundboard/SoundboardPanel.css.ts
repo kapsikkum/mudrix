@@ -1,6 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const panel = style({
   display: 'flex',
@@ -21,7 +22,7 @@ export const header = style({
   gap: '8px',
   color: vars.color.textPrimary,
   fontWeight: 600,
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   padding: '2px 2px 0',
 });
 
@@ -69,11 +70,11 @@ export const search = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   outline: 'none',
   ':focus': { borderColor: vars.color.accent },
   '@media': {
-    '(pointer: coarse)': { height: '44px', fontSize: '16px' },
+    '(pointer: coarse)': { height: '44px', fontSize: fontSize.md },
   },
 });
 
@@ -90,7 +91,7 @@ export const body = style({
 
 export const sectionLabel = style({
   color: vars.color.textMuted,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   margin: '0 0 6px 2px',
 });
@@ -160,7 +161,7 @@ export const padEditing = style([
 ]);
 
 export const padEmoji = style({
-  fontSize: '1.5rem',
+  fontSize: fontSize.xl,
   lineHeight: 1,
 });
 
@@ -169,7 +170,7 @@ export const padName = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
 });
 
@@ -206,7 +207,7 @@ export const addPad = style([
 export const hint = style({
   margin: '0 0 6px 2px',
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.35,
 });
 
@@ -218,7 +219,7 @@ export const empty = style({
   gap: '6px',
   padding: '24px 12px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   textAlign: 'center',
 });
 
@@ -237,7 +238,7 @@ export const skeleton = style({
 
 export const notice = style({
   minHeight: '18px',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.warning,
   padding: '0 2px',
 });
@@ -261,7 +262,7 @@ export const footerLink = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   cursor: 'pointer',
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
   ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '1px' },
@@ -270,7 +271,7 @@ export const footerLink = style({
 
 export const footerNote = style({
   color: vars.color.textMuted,
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
 });
 
 /* Add / edit form */
@@ -295,7 +296,7 @@ export const fieldRow = style({
 
 export const label = style({
   color: vars.color.textMuted,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
 });
 
@@ -324,7 +325,7 @@ export const filePick = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   cursor: 'pointer',
   textAlign: 'left',
   ':hover': { backgroundColor: vars.color.bgHover },
@@ -342,7 +343,7 @@ export const fileName = style({
 
 export const error = style({
   color: vars.color.error,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
 });
 
 export const actions = style({
@@ -362,7 +363,7 @@ const actionBase = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
   ':hover': { backgroundColor: vars.color.bgHover },
@@ -389,7 +390,7 @@ export const actionDanger = style([
 
 export const credit = style({
   color: vars.color.textMuted,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
 });
 
 /* Playing chip (participant rows and call tiles) */
@@ -403,9 +404,9 @@ export const chip = style({
   borderRadius: '999px',
   backgroundColor: vars.color.accent,
   color: '#fff',
-  fontSize: '0.64rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  lineHeight: '15px',
+  lineHeight: 1.25,
   flexShrink: 0,
 });
 

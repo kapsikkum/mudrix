@@ -3,6 +3,7 @@ import { TABLET_QUERY } from '@/const/breakpoints';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const base = {
   width: '260px',
@@ -118,7 +119,7 @@ export const membersSidebarHeader = style({
 
 export const membersSidebarTitle = style({
   flex: 1,
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',

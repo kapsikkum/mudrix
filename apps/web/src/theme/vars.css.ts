@@ -28,6 +28,7 @@ export const vars = {
     danger: tokens.color.status.danger,
     success: tokens.color.status.success,
     warning: tokens.color.status.warning,
+    live: tokens.color.live,
     bgAccentGlow1: tokens.color.accent.glow1,
     bgAccentGlow2: tokens.color.accent.glow2,
   },

@@ -28,6 +28,7 @@ import { publicUrl } from '@/util/publicUrl';
 import { useNameplatePacks } from '@/app/hooks/useUserPacks';
 import { useRestartingSrc } from './useRestartingSrc';
 import * as css from './ProfileCard.css';
+import { fontSize } from '@/theme/typeScale';
 
 /** Label of each built-in avatar decoration (i18n keys under `profile.decoration`). */
 export const DECORATION_LABEL_KEYS: Record<string, string> = {
@@ -91,11 +92,11 @@ function HomeserverBadgeIcon({ software }: { software: HomeserverSoftware }) {
                 color: known.color,
                 borderColor: `color-mix(in srgb, ${known.color} 55%, transparent)`,
                 backgroundColor: `color-mix(in srgb, ${known.color} 18%, transparent)`,
-                fontSize: known.glyph.length > 1 ? 9 : 11,
+                fontSize: fontSize.xs,
                 fontWeight: 800,
                 lineHeight: 1,
               }
-            : { fontSize: 13, lineHeight: 1 }
+            : { fontSize: fontSize.sm, lineHeight: 1 }
         }
       >
         {known.logo ? (

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const wrap = style({
   position: 'relative',
@@ -19,7 +20,7 @@ export const bubble = style({
   border: `1px solid ${vars.color.border}`,
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
   color: vars.color.textPrimary,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   fontVariantNumeric: 'tabular-nums',
   whiteSpace: 'nowrap',

@@ -195,9 +195,13 @@ const kebab = (key: string) => key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}
 /** Every theme colour as the CSS variables the design tokens define (`--wz-color-bg-app`, ...). */
 export function themeVars(colors: ThemeColors): Record<string, string> {
   const out: Record<string, string> = {};
-  for (const [group, values] of Object.entries(colors))
-    for (const [name, value] of Object.entries(values as Record<string, string>))
-      out[`--wz-color-${group}-${kebab(name)}`] = value;
+  for (const [group, values] of Object.entries(colors)) {
+    // Most groups are a set of named colours; `live` is one colour on its own.
+    if (typeof values === 'string') out[`--wz-color-${kebab(group)}`] = values;
+    else
+      for (const [name, value] of Object.entries(values as Record<string, string>))
+        out[`--wz-color-${group}-${kebab(name)}`] = value;
+  }
   out['--wz-accent-rgb'] = hexToRgb(colors.accent.default).join(', ');
   return out;
 }

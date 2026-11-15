@@ -1,6 +1,7 @@
 import { globalStyle, style, styleVariants } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const split = style({
   display: 'inline-flex',
@@ -61,7 +62,7 @@ export const item = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '0.86rem',
+  fontSize: fontSize.sm,
   textAlign: 'left',
   cursor: 'pointer',
   transition: `background-color ${fast}`,
@@ -115,7 +116,7 @@ export const rowCurrent = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 

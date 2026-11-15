@@ -1,6 +1,7 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { slow } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const fadeOut = keyframes({
   from: { opacity: 1 },
@@ -28,5 +29,5 @@ export const overlayHiding = style({
 
 export const text = style({
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const headerAction = style({
   display: 'flex',
@@ -37,7 +38,7 @@ export const threadTab = style({
   border: 'none',
   background: 'transparent',
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   cursor: 'pointer',
   borderBottom: '2px solid transparent',
@@ -61,9 +62,9 @@ export const threadTabCount = style({
   borderRadius: '8px',
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
-  fontSize: '0.68rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  lineHeight: '16px',
+  lineHeight: 1.33,
   textAlign: 'center',
 });
 
@@ -89,7 +90,7 @@ export const threadListEmpty = style({
   justifyContent: 'center',
   padding: '32px 16px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   flex: 1,
 });
 
@@ -125,7 +126,7 @@ export const threadItemMeta = style({
 });
 
 export const threadItemSender = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -134,14 +135,14 @@ export const threadItemSender = style({
 });
 
 export const threadItemTime = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   flexShrink: 0,
   whiteSpace: 'nowrap',
 });
 
 export const threadItemBody = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   lineHeight: '1.4',
   overflow: 'hidden',
@@ -156,7 +157,7 @@ export const threadItemBodyUndecryptable = style({
   alignItems: 'center',
   gap: '4px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadItemFooter = style({
@@ -187,7 +188,7 @@ export const markReadButton = style({
 });
 
 export const threadItemReplyCount = style({
-  fontSize: '0.74rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',

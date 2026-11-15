@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const keyBox = style({
   display: 'flex',
@@ -20,7 +21,7 @@ export const keyActions = style({
 
 export const keyText = style({
   fontFamily: 'monospace',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   wordBreak: 'break-all',
   flex: 1,
@@ -40,7 +41,7 @@ export const copyBtn = style({
   flexShrink: 0,
   padding: '4px 10px',
   borderRadius: vars.radius.sm,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
   cursor: 'pointer',
   border: `1px solid ${vars.color.border}`,
@@ -59,7 +60,7 @@ export const downloadBtn = style([
 const alertBase = style({
   borderRadius: vars.radius.sm,
   padding: '10px 16px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   display: 'flex',
   gap: '8px',
   alignItems: 'flex-start',
@@ -85,7 +86,7 @@ export const alertDanger = style([
 ]);
 
 export const hint = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   lineHeight: '1.55',
 });

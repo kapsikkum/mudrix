@@ -34,12 +34,12 @@ export const home = style({
   display: 'flex',
   flexDirection: 'column',
   padding:
-    '32px max(24px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left))',
+    '24px max(24px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left))',
   color: vars.color.textPrimary,
   '@media': {
     '(max-width: 768px)': {
       padding:
-        '20px max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))',
+        '16px max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))',
     },
   },
 });
@@ -53,48 +53,6 @@ export const inner = style({
   gap: '24px',
   containerType: 'inline-size',
   '@media': { [PHONE]: { gap: '20px' } },
-});
-
-// ---------- hero ----------
-
-/** A compact welcome: the mound, the greeting and the tagline. */
-export const hero = style({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '16px',
-  padding: '16px 24px',
-  borderRadius: vars.radius.lg,
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgPrimary,
-  '@media': { [PHONE]: { gap: '12px', padding: '12px 16px' } },
-});
-
-export const heroText = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-  minWidth: 0,
-});
-
-export const logo = style({
-  display: 'flex',
-  flexShrink: 0,
-});
-
-export const title = style({
-  fontSize: fontSize.rem160,
-  fontWeight: 600,
-  lineHeight: 1.2,
-  color: vars.color.textPrimary,
-  overflowWrap: 'anywhere',
-  '@media': { [PHONE]: { fontSize: fontSize.rem130 } },
-});
-
-export const tagline = style({
-  color: vars.color.textMuted,
-  fontSize: fontSize.rem92,
-  lineHeight: 1.4,
 });
 
 // ---------- sections ----------
@@ -130,7 +88,7 @@ export const sectionLabel = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: fontSize.rem78,
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
@@ -205,14 +163,14 @@ export const cardText = style({
 });
 
 export const cardTitle = style({
-  fontSize: fontSize.rem95,
+  fontSize: fontSize.md,
   fontWeight: 600,
   lineHeight: 1.3,
   color: vars.color.textPrimary,
 });
 
 export const cardDesc = style({
-  fontSize: fontSize.rem83,
+  fontSize: fontSize.sm,
   lineHeight: 1.4,
   color: vars.color.textMuted,
 });
@@ -341,7 +299,7 @@ export const panelTitle = style({
   flex: 1,
   minWidth: 0,
   margin: 0,
-  fontSize: fontSize.rem95,
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -357,7 +315,7 @@ export const panelAction = style({
   background: 'none',
   color: vars.color.accent,
   font: 'inherit',
-  fontSize: fontSize.rem83,
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
   ':hover': { backgroundColor: `rgba(${vars.color.accentRgb}, 0.12)` },
@@ -404,7 +362,7 @@ export const rowTitle = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: fontSize.rem92,
+  fontSize: fontSize.sm,
   fontWeight: 600,
   lineHeight: 1.3,
   color: vars.color.textPrimary,
@@ -414,7 +372,7 @@ export const rowSub = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: fontSize.rem80,
+  fontSize: fontSize.xs,
   lineHeight: 1.35,
   color: vars.color.textMuted,
 });
@@ -424,7 +382,7 @@ export const rowTag = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: fontSize.rem75,
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -482,7 +440,7 @@ const badgeBase = {
   minWidth: '22px',
   padding: '2px 8px',
   borderRadius: vars.radius.pill,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   lineHeight: 1.4,
   textAlign: 'center',
@@ -527,7 +485,7 @@ export const chip = style({
   backgroundColor: vars.color.bgPrimary,
   color: vars.color.textPrimary,
   font: 'inherit',
-  fontSize: fontSize.rem82,
+  fontSize: fontSize.sm,
   fontWeight: 600,
   lineHeight: 1.25,
   textAlign: 'center',
@@ -572,7 +530,7 @@ export const stackItem = style({
 
 export const stackMore = style({
   marginLeft: '6px',
-  fontSize: fontSize.rem75,
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
@@ -587,7 +545,7 @@ export const versionPill = style({
   flexShrink: 0,
   padding: '2px 10px',
   borderRadius: vars.radius.pill,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.accent,
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.16)`,
@@ -605,7 +563,7 @@ export const notes = style({
 export const note = style({
   position: 'relative',
   paddingInlineStart: '16px',
-  fontSize: '0.86rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.45,
   color: vars.color.textSecondary,
   '::before': {
@@ -626,7 +584,7 @@ globalStyle(`${whatsNew} > button`, { alignSelf: 'flex-start', marginInline: '14
 
 export const hint = style({
   textAlign: 'center',
-  fontSize: fontSize.rem83,
+  fontSize: fontSize.sm,
   lineHeight: 1.6,
   color: vars.color.textMuted,
   '@media': { [TOUCH]: { display: 'none' } },
@@ -637,7 +595,7 @@ export const kbd = style({
   margin: '0 2px',
   padding: '1px 6px',
   fontFamily: 'inherit',
-  fontSize: fontSize.rem75,
+  fontSize: fontSize.xs,
   lineHeight: 1.5,
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,

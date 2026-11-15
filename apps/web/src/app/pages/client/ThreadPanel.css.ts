@@ -3,6 +3,7 @@ import { TABLET_QUERY } from '@/const/breakpoints';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { vars } from '@/theme/vars.css';
 import { med, slideInRight, slideInUp } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const base = {
   width: '450px',
@@ -94,7 +95,7 @@ export const threadPanelHeader = style({
   alignItems: 'center',
   gap: '8px',
   padding: '12px',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
@@ -163,7 +164,7 @@ export const threadRootWrap = style({
   padding: '12px',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadRootMeta = style({
@@ -176,18 +177,18 @@ export const threadRootMeta = style({
 export const threadRootSender = style({
   fontWeight: 600,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadRootTime = style({
   color: vars.color.textMuted,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   flexShrink: 0,
 });
 
 export const threadRootContent = style({
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   lineHeight: '1.5',
   wordBreak: 'break-word',
   overflow: 'hidden',
@@ -201,7 +202,7 @@ export const threadRootUndecryptable = style({
   alignItems: 'center',
   gap: '4px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadReplyList = style({
@@ -218,7 +219,7 @@ export const dateSeparator = style({
   alignItems: 'center',
   gap: '10px',
   padding: '12px 12px 4px',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   fontWeight: 600,
   letterSpacing: '0.01em',
@@ -232,7 +233,7 @@ export const threadLoading = style({
   justifyContent: 'center',
   padding: '24px',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   flex: 1,
 });
 
@@ -242,7 +243,7 @@ export const threadEmpty = style({
   justifyContent: 'center',
   padding: '32px 16px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   flex: 1,
 });
 

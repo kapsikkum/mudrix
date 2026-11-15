@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const avatarWrap = style({
   position: 'relative',
@@ -30,7 +31,7 @@ export const avatar = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: '#fff',
   flexShrink: 0,
@@ -38,17 +39,17 @@ export const avatar = style({
   userSelect: 'none',
 });
 
-export const avatarXs = style([avatar, { width: '20px', height: '20px', fontSize: '0.6rem' }]);
-export const avatarSm = style([avatar, { width: '28px', height: '28px', fontSize: '0.75rem' }]);
-export const avatarLg = style([avatar, { width: '56px', height: '56px', fontSize: '1.4rem' }]);
-export const avatarXl = style([avatar, { width: '80px', height: '80px', fontSize: '2rem' }]);
+export const avatarXs = style([avatar, { width: '20px', height: '20px', fontSize: fontSize.xs }]);
+export const avatarSm = style([avatar, { width: '28px', height: '28px', fontSize: fontSize.xs }]);
+export const avatarLg = style([avatar, { width: '56px', height: '56px', fontSize: fontSize.xl }]);
+export const avatarXl = style([avatar, { width: '80px', height: '80px', fontSize: fontSize.xxl }]);
 
 export const avatarFill = style([
   avatar,
   {
     width: '100%',
     height: '100%',
-    fontSize: '1rem',
+    fontSize: fontSize.md,
     borderRadius: 'inherit',
   },
 ]);

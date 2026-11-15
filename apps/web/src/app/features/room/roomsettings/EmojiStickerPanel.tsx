@@ -52,6 +52,7 @@ import { CosmeticPackPreview } from './CosmeticPackPreview';
 import * as previewCss from './CosmeticPackPreview.css';
 import * as css from './RoomSettingsEmojiSticker.css';
 import * as panelCss from '@/app/components/Settings/Settings.css';
+import { fontSize } from '@/theme/typeScale';
 
 const PONIES_ROOM_EMOTES = 'im.ponies.room_emotes';
 const ALLOWED_MIME_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp', 'image/apng'];
@@ -776,7 +777,7 @@ export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
                   : t('room.settings.emojis.addImages')}
               </Button>
               {uploadFiles.length > 0 && uploadPlan.packCount > 1 && (
-                <span style={{ fontSize: '0.78rem', color: vars.color.warning }}>
+                <span style={{ fontSize: fontSize.xs, color: vars.color.warning }}>
                   {t('room.settings.emojis.willSplit', {
                     packs: uploadPlan.packCount,
                     per: uploadPlan.perPack,
@@ -785,7 +786,7 @@ export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
               )}
               {uploadProgress && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  <span style={{ fontSize: '0.8rem', color: vars.color.textSecondary }}>
+                  <span style={{ fontSize: fontSize.xs, color: vars.color.textSecondary }}>
                     {t(
                       uploadProgress.phase === 'save'
                         ? 'room.settings.emojis.savingPacksProgress'
@@ -802,7 +803,7 @@ export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
                 </div>
               )}
               {!uploading && uploadFailed.length > 0 && (
-                <span style={{ fontSize: '0.78rem', color: vars.color.danger }}>
+                <span style={{ fontSize: fontSize.xs, color: vars.color.danger }}>
                   {t('room.settings.emojis.retryFailed', { count: uploadFailed.length })}
                 </span>
               )}
@@ -811,7 +812,7 @@ export function EmojiStickerPanel({ client, roomId, scope = 'emoji' }: Props) {
                   style={{
                     maxHeight: '140px',
                     overflowY: 'auto',
-                    fontSize: '0.78rem',
+                    fontSize: fontSize.xs,
                     color: vars.color.textSecondary,
                     backgroundColor: vars.color.bgTertiary,
                     padding: '8px 12px',

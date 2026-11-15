@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css';
 import { pickerNaked, pickerPopover } from '@/theme/pickerShell';
 import { vars } from '@/theme/vars.css';
 import { pulse } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const popoverNaked = style(pickerNaked);
 
@@ -28,7 +29,7 @@ export const searchInput = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   outline: 'none',
   '::placeholder': {
     color: vars.color.textMuted,
@@ -102,7 +103,7 @@ export const navBtn = style({
   cursor: 'pointer',
   border: 'none',
   background: 'none',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   lineHeight: 1,
   padding: 0,
   position: 'relative',
@@ -175,7 +176,7 @@ export const packSection = style({
 });
 
 export const packLabel = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
   padding: '4px 8px',
@@ -221,7 +222,7 @@ export const emptyState = style({
   padding: '24px 16px',
   textAlign: 'center',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const emptyLink = style({
@@ -230,7 +231,7 @@ export const emptyLink = style({
   textDecoration: 'underline',
   background: 'none',
   border: 'none',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   padding: 0,
   ':hover': { color: vars.color.accentHover },
 });

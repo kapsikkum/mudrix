@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const activeBadge = style({
   display: 'inline-flex',
@@ -8,7 +9,7 @@ export const activeBadge = style({
   flexShrink: 0,
   padding: '4px 10px',
   borderRadius: '999px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.success,
   backgroundColor: `color-mix(in srgb, ${vars.color.success} 14%, transparent)`,

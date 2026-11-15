@@ -162,7 +162,7 @@ export const tabCount = style({
   color: vars.color.textMuted,
   fontSize: fontSize.rem68,
   fontWeight: 600,
-  lineHeight: '16px',
+  lineHeight: 1.33,
   textAlign: 'center',
 });
 
@@ -254,7 +254,7 @@ export const kindPrefix = style({
   justifyContent: 'center',
   marginRight: '4px',
   color: vars.color.textMuted,
-  fontSize: '0.95em',
+  fontSize: fontSize.md,
   fontWeight: 600,
   verticalAlign: 'middle',
 });

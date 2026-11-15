@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const rows = style({
   display: 'flex',
@@ -13,7 +14,7 @@ export const row = style({
   alignItems: 'baseline',
   justifyContent: 'space-between',
   gap: '12px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const label = style({
@@ -39,7 +40,7 @@ export const actions = style({
 });
 
 export const error = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.danger,
   margin: '0 0 8px',
 });

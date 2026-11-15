@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const panel = style({
   marginTop: '12px',
@@ -20,7 +21,7 @@ export const toolbar = style({
 });
 
 export const count = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -53,7 +54,7 @@ export const row = style({
 export const rowType = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -74,14 +75,14 @@ export const typeRow = style({
 export const typeValue = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
 });
 
 export const jsonEditor = style({
   fontFamily: 'monospace',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.45,
   whiteSpace: 'pre',
   resize: 'vertical',
@@ -101,7 +102,7 @@ export const jsonView = style({
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
   fontFamily: 'monospace',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.45,
   color: vars.color.textPrimary,
   whiteSpace: 'pre',

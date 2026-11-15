@@ -1,5 +1,6 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const caps = style({
   display: 'inline-flex',
@@ -32,7 +33,7 @@ export const key = styleVariants({
       height: '22px',
       padding: '0 6px',
       borderRadius: '6px',
-      fontSize: '0.75rem',
+      fontSize: fontSize.xs,
     },
   ],
   sm: [
@@ -42,7 +43,7 @@ export const key = styleVariants({
       height: '18px',
       padding: '0 4px',
       borderRadius: '4px',
-      fontSize: '0.68rem',
+      fontSize: fontSize.xs,
     },
   ],
 });

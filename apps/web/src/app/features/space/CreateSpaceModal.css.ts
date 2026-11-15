@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const header = style({
   display: 'flex',
@@ -12,7 +13,7 @@ export const header = style({
 });
 
 export const title = style({
-  fontSize: '1.2rem',
+  fontSize: fontSize.lg,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -28,7 +29,7 @@ export const tabs = style({
 export const tab = style({
   flex: 1,
   padding: '8px 0',
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   display: 'flex',
   alignItems: 'center',
@@ -59,7 +60,7 @@ export const panel = style({
 });
 
 export const hint = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   marginTop: '-8px',
 });

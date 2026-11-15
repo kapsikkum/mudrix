@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const deviceList = style({
   display: 'flex',
@@ -48,7 +49,7 @@ export const deviceIcon = style({
   alignItems: 'center',
   justifyContent: 'center',
   color: vars.color.textMuted,
-  fontSize: '1rem',
+  fontSize: fontSize.md,
 });
 
 export const deviceDotUnverified = style({
@@ -86,7 +87,7 @@ export const deviceInfo = style({
 });
 
 export const deviceName = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   display: 'flex',
@@ -126,7 +127,7 @@ export const nameInput = style({
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   outline: 'none',
   width: '100%',
   boxSizing: 'border-box',
@@ -143,7 +144,7 @@ export const editActions = style({
 export const editCancelBtn = style({
   padding: '6px 10px',
   borderRadius: vars.radius.sm,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
   cursor: 'pointer',
   border: 'none',
@@ -154,7 +155,7 @@ export const editCancelBtn = style({
 });
 
 export const renameHint = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   margin: 0,
   lineHeight: '1.4',
@@ -173,7 +174,7 @@ export const detailRow = style({
   display: 'flex',
   alignItems: 'baseline',
   gap: '12px',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
 });
 
 export const detailLabel = style({
@@ -192,7 +193,7 @@ export const detailValue = style({
 
 export const detailValueMono = style({
   fontFamily: 'monospace',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
 });
 
 export const actions = style({
@@ -204,7 +205,7 @@ export const actions = style({
 const actionBtnBase = style({
   padding: '6px 12px',
   borderRadius: vars.radius.sm,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
   cursor: 'pointer',
   border: 'none',
@@ -260,7 +261,7 @@ export const recoveryKeyBox = style({
 });
 
 export const recoveryKeyHint = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   lineHeight: '1.5',
 });
@@ -287,13 +288,13 @@ export const uiaPanelHeader = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
 export const uiaPanelDesc = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   lineHeight: '1.55',
 });
@@ -311,7 +312,7 @@ export const uiaActions = style({
 });
 
 export const uiaError = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.error,
 });
 
@@ -322,7 +323,7 @@ export const uiaSso = style({
 });
 
 export const uiaSsoDivider = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   textAlign: 'center',
 });
@@ -331,12 +332,12 @@ export const uiaUnsupported = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
 });
 
 export const emptyState = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   textAlign: 'center',
   padding: '24px 0',

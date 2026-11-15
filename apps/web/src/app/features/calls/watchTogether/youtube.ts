@@ -26,7 +26,10 @@ export interface YTPlayer {
   destroy(): void;
 }
 
-const SOURCE = 'wizardchat-youtube';
+const SOURCE = 'mudrix-youtube';
+// Desktop and the native apps still load the upstream-hosted bridge, which speaks the old id.
+// Accept both ids on receive, and address the bridge with the id it knows.
+const LEGACY_SOURCE = 'wizardchat-youtube';
 const BRIDGE_TIMEOUT_MS = 10_000;
 
 function bridgeUrl(): URL {
@@ -34,6 +37,8 @@ function bridgeUrl(): URL {
   const host = import.meta.env.APP_VERSION?.includes('-next') ? 'next' : 'app';
   return new URL(`https://${host}.wizardchat.org/youtube-player.html`);
 }
+
+const bridgeSource = () => (window.desktopAPI ? LEGACY_SOURCE : SOURCE);
 
 interface PlayerOptions {
   videoId: string;
@@ -69,12 +74,12 @@ export function createYouTubePlayer(host: HTMLElement, options: PlayerOptions): 
     reportsRate: false,
   };
   const send = (command: Record<string, unknown>) =>
-    iframe.contentWindow?.postMessage({ ...command, target: SOURCE }, url.origin);
+    iframe.contentWindow?.postMessage({ ...command, target: bridgeSource() }, url.origin);
 
   const onMessage = (event: MessageEvent) => {
     if (event.source !== iframe.contentWindow || event.origin !== url.origin) return;
     const data = event.data as Record<string, unknown> | null;
-    if (!data || data.source !== SOURCE) return;
+    if (!data || (data.source !== SOURCE && data.source !== LEGACY_SOURCE)) return;
     if (data.type === 'loaded') {
       clearTimeout(bridgeTimeout);
       iframe.style.visibility = '';

@@ -1,6 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const slideIn = keyframes({
   from: { opacity: 0, transform: 'translateY(8px)' },
@@ -49,7 +50,7 @@ export const callerInfo = style({
 });
 
 export const callerName = style({
-  fontSize: '0.92rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -62,7 +63,7 @@ export const callKind = style({
   alignItems: 'center',
   gap: '4px',
   minWidth: 0,
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   whiteSpace: 'nowrap',
 });
@@ -73,7 +74,7 @@ export const ellipsis = style({
 });
 
 export const roomName = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',

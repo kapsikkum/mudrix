@@ -142,7 +142,7 @@ export const message = style({
   minHeight: '20px',
   padding: '4px 0 1px',
   fontSize: fontSize.rem80,
-  lineHeight: '16px',
+  lineHeight: 1.33,
   color: vars.color.textMuted,
   overflowWrap: 'anywhere',
 });
@@ -287,7 +287,7 @@ export const status = style({
   height: '18px',
   minWidth: 0,
   fontSize: fontSize.rem80,
-  lineHeight: '18px',
+  lineHeight: 1.5,
   color: vars.color.textMuted,
   transition: 'opacity 150ms',
 });
@@ -528,13 +528,13 @@ export const logo = style({
 
 export const tagline = style({
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   textAlign: 'center',
   marginBottom: '8px',
 });
 
 export const footerLink = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   textDecoration: 'none',
   ':hover': {
@@ -550,7 +550,7 @@ export const formSection = style({
 });
 
 export const formTitle = style({
-  fontSize: '1.1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -568,20 +568,20 @@ export const checkingServer = style({
   gap: '10px',
   minHeight: '120px',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });
 
 export const statusSuccess = style([statusText, { color: vars.color.success }]);
 
 export const infoText = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   textAlign: 'center',
   minHeight: '20px',
 });
 
 export const switchText = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   textAlign: 'center',
 });
@@ -607,14 +607,14 @@ export const serverLabelRow = style({
 });
 
 export const serverLabel = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
 
 export const serverDone = style({
   ...linkLike,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   padding: '4px 6px',
   margin: '-4px -6px',
@@ -633,7 +633,7 @@ export const serverChange = style({
   background: 'none',
   color: vars.color.accent,
   font: 'inherit',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   whiteSpace: 'nowrap',
   cursor: 'pointer',
@@ -656,7 +656,7 @@ export const serverPreset = style({
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.textPrimary,
   font: 'inherit',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   cursor: 'pointer',
   ':hover': { backgroundColor: vars.color.bgHover },
   ':disabled': { opacity: 0.5, cursor: 'default' },
@@ -679,8 +679,8 @@ export const serverStatus = style({
   gap: '6px',
   height: '18px',
   minWidth: 0,
-  fontSize: '0.8rem',
-  lineHeight: '18px',
+  fontSize: fontSize.xs,
+  lineHeight: 1.5,
   color: vars.color.textMuted,
   transition: 'opacity 150ms',
 });
@@ -720,7 +720,7 @@ export const serverSpinner = style({
   '@media': { [NO_MOTION]: { animation: `${spin} 2s linear infinite` } },
 });
 
-export const serverRetry = style({ ...linkLike, flexShrink: 0, fontSize: '0.8rem' });
+export const serverRetry = style({ ...linkLike, flexShrink: 0, fontSize: fontSize.xs });
 
 /** Read by screen readers, not shown. */
 export const serverSrOnly = style({
@@ -747,7 +747,7 @@ export const backButton = style({
   borderRadius: vars.radius.sm,
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   cursor: 'pointer',
   ':hover': {

@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const button = style({
   position: 'relative',
@@ -24,7 +25,7 @@ export const button = style({
 });
 
 export const percent = style({
-  fontSize: '0.7rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   fontVariantNumeric: 'tabular-nums',
 });

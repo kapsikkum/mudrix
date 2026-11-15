@@ -1,6 +1,7 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const CONTROL_BAR_SPACE = 76;
 const DISCORD_SPEAKING = '#23a55a';
@@ -215,7 +216,7 @@ export const label = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
   color: '#fff',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
 });
 
@@ -244,9 +245,9 @@ export const viewersChip = style({
   borderRadius: '999px',
   background: 'rgba(0, 0, 0, 0.6)',
   color: '#ffffff',
-  fontSize: '0.68rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  lineHeight: '18px',
+  lineHeight: 1.5,
   fontVariantNumeric: 'tabular-nums',
   userSelect: 'none',
 });
@@ -254,11 +255,11 @@ export const viewersChip = style({
 export const liveBadge = style({
   padding: '0 8px',
   borderRadius: '999px',
-  background: '#593695',
-  color: '#ffffff',
-  fontSize: '0.75rem',
+  background: vars.color.live,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  lineHeight: '18px',
+  lineHeight: 1.5,
   userSelect: 'none',
 });
 
@@ -275,7 +276,7 @@ export const keyMissing = style({
   borderRadius: '999px',
   backgroundColor: 'rgba(0, 0, 0, 0.65)',
   color: '#ffd166',
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -308,7 +309,7 @@ export const reaction = style({
   position: 'absolute',
   top: '8px',
   right: '10px',
-  fontSize: '2rem',
+  fontSize: fontSize.xxl,
   animation: `${pop} 3s ease-out forwards`,
   pointerEvents: 'none',
 });
@@ -384,20 +385,20 @@ export const bubbleHand = style({
 
 export const bubbleReaction = style([
   reaction,
-  { top: '-10px', right: '-14px', fontSize: '1.6rem' },
+  { top: '-10px', right: '-14px', fontSize: fontSize.xl },
 ]);
 
 export const previewHidden = style({
   padding: '0 16px',
   color: 'rgba(255, 255, 255, 0.7)',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   textAlign: 'center',
 });
 
 export const empty = style({
   margin: 'auto',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });
 
 export const tileMenuBtn = style({
@@ -465,7 +466,7 @@ export const watchBtn = style({
   borderRadius: '999px',
   backgroundColor: 'rgba(255, 255, 255, 0.92)',
   color: '#111',
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
@@ -489,7 +490,7 @@ export const userMenu = style({
 
 export const userMenuName = style({
   padding: '6px 8px 4px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -511,7 +512,7 @@ export const userMenuIcon = style({ flexShrink: 0, color: vars.color.textMuted }
 export const userMenuText = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
 });
 
@@ -567,7 +568,7 @@ export const userMenuItem = style({
   border: 'none',
   background: 'none',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   textAlign: 'left',
   cursor: 'pointer',
   transition: `background-color ${fast}`,
@@ -604,7 +605,7 @@ export const callingRow = style({
 
 export const callingStatus = style({
   color: vars.color.textPrimary,
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   textAlign: 'center',
 });

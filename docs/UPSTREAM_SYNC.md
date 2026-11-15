@@ -691,7 +691,8 @@ Every Android and iOS file listed under "Conflicted files" above, plus `Sounds.s
 - Extra iOS alternate app icons `AppIcon-{Ethereal,Pewter,Umbra,Eclipse,Garnet,Blossom}.icon` (hat logo).
 - `PrivacyInfo.xcprivacy` files.
 - Android Firebase config and the push gateway (see above).
-- `apps/web/public/desktop/latest*.yml` still point at the old WizardChat GitLab feed.
+- Removed: `apps/web/public/desktop/latest*.yml` pointed at the old WizardChat GitLab feed but nothing read them
+  (the desktop updater uses GitHub `latest.json`).
 - Intentionally kept: `*.wizardchat.org` runtime hosts (e.g. the youtube-player host), LICENSE, upstream copyright and the "Based on WizardChat" attribution, and internal identifiers (`mudrix-core`, `org.wizardchat.*`, `WizardChat/` iOS dir).
 - Done: `whatsnew/26.12.2.md` and `.de.md`, root `CONTRIBUTING.md`, README, GetApps, WhatsNew.
 

@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const card = style({
   display: 'flex',
@@ -49,7 +50,7 @@ export const titleRow = style({
 export const name = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -59,7 +60,7 @@ export const name = style({
 
 export const size = style({
   flexShrink: 0,
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   whiteSpace: 'nowrap',
 });
@@ -88,7 +89,7 @@ export const timelineFill = style({
 
 export const time = style({
   flexShrink: 0,
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   fontVariantNumeric: 'tabular-nums',
   minWidth: '34px',

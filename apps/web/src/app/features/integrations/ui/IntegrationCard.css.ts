@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const card = style({
   display: 'flex',
@@ -30,20 +31,20 @@ export const text = style({
 });
 
 export const title = style({
-  fontSize: '13px',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
 });
 
 export const subtitle = style({
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textSecondary,
   overflowWrap: 'anywhere',
 });
 
 export const via = style({
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -52,7 +53,7 @@ export const button = style({
   padding: '4px 10px',
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.accent,
   textDecoration: 'none',
   ':hover': { backgroundColor: vars.color.bgHover },
@@ -79,7 +80,7 @@ export const richHeader = style({
 
 export const linkLine = style({
   fontFamily: 'monospace',
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textSecondary,
   padding: '4px 8px',
   borderRadius: vars.radius.md,
@@ -88,13 +89,13 @@ export const linkLine = style({
 });
 
 export const note = style({
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
 /** Looked-up description: at most three lines. */
 export const description = style({
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
   display: '-webkit-box',
@@ -107,7 +108,7 @@ export const facts = style({
   display: 'flex',
   flexWrap: 'wrap',
   gap: '4px 12px',
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.textPrimary,
 });
 
@@ -125,7 +126,7 @@ export const askButton = style({
   border: 'none',
   background: 'none',
   cursor: 'pointer',
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   color: vars.color.accent,
   textAlign: 'left',
   ':hover': { textDecoration: 'underline' },

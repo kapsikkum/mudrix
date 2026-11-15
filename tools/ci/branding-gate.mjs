@@ -161,6 +161,65 @@ function listFiles() {
 const read = (file) => readFileSync(join(root, file), 'utf8');
 const lineOf = (text, index) => text.slice(0, index).split('\n').length;
 
+// ---- logo art ----------------------------------------------------------------------------------------------
+// The old upstream mark is a purple hexagon-looking shape; the Mudrix mark is the brown faceted mound. Neither
+// contains the word "wizardchat", so the name scan cannot see a splash logo left behind. The checks below know
+// the mound's colours (read from logo.svg itself) and one of its facet geometries.
+
+const LOGO_FILE = 'apps/web/public/assets/images/logo.svg';
+const MUD_MOUND_FACET = '60,200 130,120 125,205'; // first facet in theme/mudMoundGeometry.ts
+const logoText = existsSync(join(root, LOGO_FILE)) ? read(LOGO_FILE) : '';
+const logoColours = new Set(
+  (logoText.match(/#[0-9a-f]{6}(?:[0-9a-f]{2})?/gi) ?? []).map((c) => c.toLowerCase())
+);
+
+/** Every static logo asset (all themes) must be the Mudrix mound, not the upstream mark. */
+function checkLogoAssets(files) {
+  const logos = files.filter((f) => /^apps\/web\/public\/assets\/images\/logo[^/]*\.svg$/i.test(f));
+  for (const file of logos) {
+    if (!read(file).includes(MUD_MOUND_FACET)) {
+      hits.push({
+        file,
+        line: 1,
+        text: 'logo is not the Mudrix mound (facet geometry missing)',
+        where: 'web logo',
+      });
+    }
+  }
+  if (!logoText || !logoColours.has('#9a6f47')) {
+    hits.push({
+      file: LOGO_FILE,
+      line: 1,
+      text: 'logo.svg is missing or has no Mudrix mound palette',
+      where: 'web logo',
+    });
+  }
+}
+
+/**
+ * Logo-sized inline SVGs in a web page must use the Mudrix palette (or currentColor / theme variables). This
+ * catches the old upstream splash mark, which had its own purple palette and no name in the markup.
+ */
+function checkInlineSvg(file, text, where) {
+  for (const match of text.matchAll(/<svg\b[^>]*>[\s\S]*?<\/svg>/gi)) {
+    const block = match[0];
+    const width = /\bwidth\s*=\s*["']?([\d.]+)/i.exec(block)?.[1];
+    const height = /\bheight\s*=\s*["']?([\d.]+)/i.exec(block)?.[1];
+    const viewBox = /\bviewBox\s*=\s*["']([^"']+)/i.exec(block)?.[1]?.trim();
+    const logoShaped = Number(width) >= 48 || Number(height) >= 48 || viewBox === '0 0 400 400';
+    if (!logoShaped) continue;
+    const colours = block.match(/#[0-9a-f]{6}(?:[0-9a-f]{2})?/gi) ?? [];
+    if (colours.length && !colours.some((c) => logoColours.has(c.toLowerCase()))) {
+      hits.push({
+        file,
+        line: lineOf(text, match.index),
+        text: `inline SVG is not the Mudrix mark (palette ${[...new Set(colours)].slice(0, 4).join(', ')})`,
+        where,
+      });
+    }
+  }
+}
+
 // ---- hits --------------------------------------------------------------------------------------------------
 
 const hits = [];
@@ -253,8 +312,13 @@ const surfaces = [
     where: 'web page',
     test: (f) =>
       f === 'apps/web/index.html' ||
+      // public HTML and update-feed YAML are user-facing too (the old splash and desktop feeds lived here)
+      /^apps\/web\/public\/.*\.(?:html|ya?ml)$/i.test(f) ||
       /^apps\/web\/public\/(?:.*\/)?(?:manifest[^/]*|[^/]*\.webmanifest)$/.test(f),
-    scan: (f, t) => checkLines(f, t, 'web page'),
+    scan: (f, t) => {
+      checkLines(f, t, 'web page');
+      if (/\.html$/i.test(f)) checkInlineSvg(f, t, 'web page');
+    },
   },
   {
     where: 'tauri',
@@ -330,13 +394,16 @@ function scanStrict(files) {
     if (statSync(full).size > 2 * 1024 * 1024) continue;
     const buf = readFileSync(full);
     if (buf.subarray(0, 8192).includes(0)) continue;
-    checkLines(file, buf.toString('utf8'), 'strict');
+    const text = buf.toString('utf8');
+    checkLines(file, text, 'strict');
+    if (/\.html$/i.test(file)) checkInlineSvg(file, text, 'strict');
   }
 }
 
 // ---- run ---------------------------------------------------------------------------------------------------
 
 const files = listFiles();
+checkLogoAssets(files);
 if (strict) scanStrict(files);
 else {
   for (const file of files) {

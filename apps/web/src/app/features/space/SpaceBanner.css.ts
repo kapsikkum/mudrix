@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 const sweep = keyframes({
   from: { transform: 'translateX(-100%)' },
@@ -59,7 +60,7 @@ export const picker = style({
 
 export const pickerTitle = style({
   margin: 0,
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });

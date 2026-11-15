@@ -3,6 +3,7 @@ import { TABLET_QUERY } from '@/const/breakpoints';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { vars } from '@/theme/vars.css';
 import { med, slideInRight, slideInUp } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const base = {
   width: '450px',
@@ -94,7 +95,7 @@ export const sidePanelHeader = style({
   alignItems: 'center',
   gap: '8px',
   padding: '12px',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',

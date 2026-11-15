@@ -34,7 +34,6 @@ import {
 } from '@/app/store/atoms';
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
-import { LogoHover } from '@/app/components/AppLoading';
 import { parentSpacesOf, useAllJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
 import { activityText } from '@/app/hooks/useExtendedProfile';
 import { useInvites, type Invite } from '@/app/features/inbox/useInvites';
@@ -173,9 +172,6 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   const { mentions } = useMentions(true);
   const friends = useFriendActivities(client);
 
-  const name = profile?.displayName || undefined;
-  const greeting = name ? t('timeline.home.greeting', { name }) : t('timeline.welcomeTitle');
-
   const openSettings = (page: SettingsPage) => {
     setSettingsPage(page);
     setSettingsOpen(true);
@@ -282,7 +278,7 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   }
 
   // Each block that shows takes the next place in the entrance.
-  let place = 2;
+  let place = 1;
   const next = () => place++;
 
   const catchUpIndex = hasCatchUp ? next() : 0;
@@ -326,26 +322,16 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   return (
     <div className={css.home}>
       <div className={css.inner}>
-        <header className={`${css.hero} ${css.enter}`} style={step(0)}>
-          <div className={css.logo} aria-hidden>
-            <LogoHover size={56} />
-          </div>
-          <div className={css.heroText}>
-            <h1 className={css.title}>{greeting}</h1>
-            <p className={css.tagline}>{t('auth.tagline')}</p>
-          </div>
-        </header>
-
         {setup.length > 0 && (
           <section className={css.section} aria-labelledby="home-setup-heading">
             <h2
               id="home-setup-heading"
               className={`${css.sectionLabel} ${css.enter}`}
-              style={step(1)}
+              style={step(0)}
             >
               {t('timeline.home.setupHeading')}
             </h2>
-            <ul className={`${css.setupList} ${css.enter}`} style={step(1)}>
+            <ul className={`${css.setupList} ${css.enter}`} style={step(0)}>
               {setup.map((action) => (
                 <li key={action.id} className={css.setupItem}>
                   <button type="button" className={css.setupRow} onClick={action.onClick}>

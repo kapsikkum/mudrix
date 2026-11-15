@@ -117,8 +117,9 @@ compatibility decision.
   `WZ_BUNDLE_PREFIX`, `WZ_APP_GROUP`, `WZ_PUSH_MODE`, ...) keep their names; their values are Mudrix's, except
   `WZ_TEAM`, which is still upstream's Apple team id and has to be set to your own.
 - **Web:** the `WizardMark` component (it draws the Mudrix logo), the `wz_*` localStorage and sessionStorage keys
-  (renaming them would sign people out and lose their layout), the `WizardChat` credit line in About and the
-  `wizardchat-youtube` iframe source. `@mudrix/core` is the wasm package alias.
+  (renaming them would sign people out and lose their layout), and the `WizardChat` credit line in About. The
+  YouTube bridge source is now `mudrix-youtube`, but the old `wizardchat-youtube` id is still accepted on receive
+  because desktop and the native apps load the upstream-hosted bridge. `@mudrix/core` is the wasm package alias.
 - **Protocol and compatibility, on purpose:** the `org.wizardchat.*` account-data and profile-field names (read, and
   written only where `util/namespace.ts` says another device may still need one), the `org.wizardchat` OAuth/SSO
   callback scheme (registered next to `chat.mudrix` in `apps/android/app/src/main/AndroidManifest.xml` and

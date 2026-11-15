@@ -268,24 +268,25 @@
       }
     },
     "size": {
+      "$description": "Six steps: 12, 14, 16, 20, 24, 32. display is an alias of xxl kept for existing call sites.",
       "$type": "dimension",
       "xs": {
-        "$value": "11px"
+        "$value": "12px"
       },
       "sm": {
-        "$value": "13px"
+        "$value": "14px"
       },
       "md": {
-        "$value": "15px"
+        "$value": "16px"
       },
       "lg": {
-        "$value": "17px"
-      },
-      "xl": {
         "$value": "20px"
       },
-      "xxl": {
+      "xl": {
         "$value": "24px"
+      },
+      "xxl": {
+        "$value": "32px"
       },
       "display": {
         "$value": "32px"

@@ -451,7 +451,7 @@ export const navListHeader = style({
 });
 
 export const navListTitle = style({
-  fontSize: '1.3rem',
+  fontSize: fontSize.lg,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -474,7 +474,7 @@ export const navRow = style({
   background: 'none',
   color: vars.color.textPrimary,
   fontFamily: 'inherit',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 500,
   textAlign: 'left',
   cursor: 'pointer',
@@ -518,7 +518,7 @@ const ellipsis = {
   whiteSpace: 'nowrap',
 } as const;
 
-export const accountCardName = style({ ...ellipsis, fontSize: '0.9rem', fontWeight: 600 });
+export const accountCardName = style({ ...ellipsis, fontSize: fontSize.sm, fontWeight: 600 });
 
 export const accountCardCaret = style({ flexShrink: 0, color: vars.color.textMuted });
 
@@ -607,7 +607,7 @@ export const navListSearch = style({
 
 export const navNoMatches = style({
   padding: '8px 12px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
 });
 
@@ -626,7 +626,7 @@ export const navResult = style({
 });
 
 export const navResultPage = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 400,
   color: vars.color.textMuted,
 });

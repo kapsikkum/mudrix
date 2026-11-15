@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const field = style({
   display: 'flex',
@@ -26,7 +27,7 @@ export const scope = style({
   borderRadius: vars.radius.sm,
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.15)`,
   color: vars.color.textPrimary,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
 });
 
@@ -43,13 +44,13 @@ export const input = style({
   background: 'none',
   outline: 'none',
   color: vars.color.textPrimary,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   '::placeholder': { color: vars.color.textMuted },
 });
 
 export const count = style({
   flexShrink: 0,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   whiteSpace: 'nowrap',
 });
 

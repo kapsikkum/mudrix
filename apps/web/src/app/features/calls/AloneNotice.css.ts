@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const backdrop = style({
   position: 'absolute',
@@ -46,13 +47,13 @@ export const copy = style({
 
 export const title = style({
   color: vars.color.textPrimary,
-  fontSize: '1.05rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
 });
 
 export const subtitle = style({
   color: vars.color.textMuted,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontVariantNumeric: 'tabular-nums',
 });
 

@@ -1,5 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const toolbar = style({ display: 'flex', gap: '8px', margin: '12px 0' });
 
@@ -11,7 +12,7 @@ export const category = style({
 });
 
 export const categoryName = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textSecondary,
   margin: '0 0 2px',
@@ -56,7 +57,7 @@ export const actionsSingle = style({ gridTemplateColumns: '1fr' });
 globalStyle(`${actions} > *`, { width: '100%', minWidth: 0, justifyContent: 'center' });
 globalStyle(`${actions} > button`, {
   padding: '8px 12px',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 400,
   backgroundColor: vars.color.bgInput,
   border: `1px solid ${vars.color.border}`,

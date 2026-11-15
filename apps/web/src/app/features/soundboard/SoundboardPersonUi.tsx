@@ -8,6 +8,7 @@ import { soundboardEnabledAtom } from '@/app/store/atoms/settings';
 import { useSoundboardMute } from './mute';
 import { soundboardPlayingAtom, type SoundboardPlayingEntry } from './playing';
 import * as css from './SoundboardPanel.css';
+import { fontSize } from '@/theme/typeScale';
 
 /** The clip this person is playing right now (the newest), or null. */
 export function useSoundboardPlayingFor(
@@ -100,9 +101,9 @@ export function SoundboardTileChip({ userId }: { userId: string }) {
         borderRadius: 999,
         background: 'rgba(0,0,0,.65)',
         color: '#fff',
-        fontSize: 12,
+        fontSize: fontSize.xs,
         fontWeight: 600,
-        lineHeight: '16px',
+        lineHeight: 1.33,
         pointerEvents: 'none',
       }}
     >

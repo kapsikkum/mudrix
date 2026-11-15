@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const bioLink = style({
   color: vars.color.accent,
@@ -30,7 +31,7 @@ export const notesLabel = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
@@ -44,7 +45,7 @@ export const notesTextarea = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontFamily: 'inherit',
   lineHeight: 1.4,
   selectors: {
@@ -54,7 +55,7 @@ export const notesTextarea = style({
 });
 
 export const notesSaved = style({
-  fontSize: '0.7rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   alignSelf: 'flex-end',
   opacity: 0,
@@ -69,7 +70,7 @@ export const detailRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textSecondary,
 });
 
@@ -80,7 +81,7 @@ export const detailIcon = style({
 });
 
 export const pronouns = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 

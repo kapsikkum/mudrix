@@ -900,7 +900,7 @@ export const status = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: '8px 16px 16px 8px',
   backgroundColor: vars.color.bgSecondary,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.35,
   color: vars.color.textPrimary,
   '::before': {

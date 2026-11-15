@@ -32,6 +32,7 @@ import {
 } from './packSize';
 import { fileResumeKey, uploadFilesPooled, uploadPackFile, type UploadedImage } from './packUpload';
 import { PackBar } from './PackStatus';
+import { fontSize } from '@/theme/typeScale';
 
 export type ImageEntry = {
   shortcode: string;
@@ -523,7 +524,7 @@ export function PackEditor({
 
       <div className={css.editorSection}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '0.9rem', fontWeight: 600, color: vars.color.textPrimary }}>
+          <span style={{ fontSize: fontSize.sm, fontWeight: 600, color: vars.color.textPrimary }}>
             {t('room.settings.emojis.images')} ({imageCount})
           </span>
           <Button
@@ -554,7 +555,7 @@ export function PackEditor({
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 gap: 12,
-                fontSize: '0.8rem',
+                fontSize: fontSize.xs,
                 color: vars.color.textSecondary,
               }}
             >
@@ -626,7 +627,7 @@ export function PackEditor({
                     data-dialog-autofocus
                     style={{
                       width: '100%',
-                      fontSize: '0.76rem',
+                      fontSize: fontSize.xs,
                       textAlign: 'center',
                       border: `1px solid ${vars.color.accent}`,
                       borderRadius: 4,
@@ -674,7 +675,7 @@ export function PackEditor({
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: 12,
-              fontSize: '0.8rem',
+              fontSize: fontSize.xs,
               color: overCap
                 ? vars.color.danger
                 : nearCap
@@ -708,12 +709,12 @@ export function PackEditor({
             />
           )}
           {overCap && (
-            <span style={{ fontSize: '0.78rem', color: vars.color.danger }}>
+            <span style={{ fontSize: fontSize.xs, color: vars.color.danger }}>
               {t('room.settings.emojis.sizeOver')}
             </span>
           )}
           {nearCap && (
-            <span style={{ fontSize: '0.78rem', color: vars.color.warning }}>
+            <span style={{ fontSize: fontSize.xs, color: vars.color.warning }}>
               {t('room.settings.emojis.sizeWarn')}
             </span>
           )}

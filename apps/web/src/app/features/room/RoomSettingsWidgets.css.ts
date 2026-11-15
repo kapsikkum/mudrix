@@ -1,8 +1,9 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const sectionTitle = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   letterSpacing: '0.01em',
   color: vars.color.textMuted,
@@ -38,7 +39,7 @@ export const cardInfo = style({
 });
 
 export const cardName = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -67,7 +68,7 @@ export const widgetRowIcon = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.accent,
   flexShrink: 0,
 });
@@ -81,13 +82,13 @@ export const widgetRowInfo = style({
 });
 
 export const widgetRowName = style({
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
 export const widgetRowUrl = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -106,7 +107,7 @@ export const emptyState = style({
   padding: '20px',
   textAlign: 'center',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   backgroundColor: vars.color.bgSecondary,
   border: `1px dashed ${vars.color.border}`,
   borderRadius: vars.radius.md,
@@ -125,7 +126,7 @@ export const jsonTextarea = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
   fontFamily: 'monospace',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   lineHeight: '1.5',
   resize: 'vertical',
   outline: 'none',

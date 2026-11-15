@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const body = style({
   display: 'flex',
@@ -16,7 +17,7 @@ export const section = style({
 
 export const sectionTitle = style({
   margin: 0,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
@@ -66,7 +67,7 @@ export const badge = style({
   borderRadius: '999px',
   backgroundColor: vars.color.accent,
   color: vars.color.onAccent,
-  fontSize: '0.7rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   whiteSpace: 'nowrap',
 });
@@ -81,7 +82,7 @@ export const badgeMuted = style([
 
 export const note = style({
   margin: 0,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.4,
   color: vars.color.textMuted,
 });
@@ -103,7 +104,7 @@ export const button = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   textDecoration: 'none',
   selectors: {
@@ -140,7 +141,7 @@ export const menuItem = style({
   padding: '8px 10px',
   borderRadius: vars.radius.sm,
   color: vars.color.textPrimary,
-  fontSize: '0.86rem',
+  fontSize: fontSize.sm,
   textDecoration: 'none',
   selectors: {
     '&:hover, &:focus-visible': {
@@ -154,12 +155,12 @@ export const installed = style({
   alignItems: 'center',
   gap: '6px',
   padding: '8px 0',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.success,
 });
 
 export const link = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.link,
   textDecoration: 'none',
   selectors: {
@@ -174,6 +175,6 @@ export const footer = style({
   alignItems: 'center',
   justifyContent: 'flex-end',
   gap: '12px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });

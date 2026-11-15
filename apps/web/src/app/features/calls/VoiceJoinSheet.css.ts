@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const sheet = style({
   gap: '8px',
@@ -11,7 +12,7 @@ export const title = style({
   alignItems: 'center',
   gap: '8px',
   color: vars.color.textPrimary,
-  fontSize: '1.1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
 });
 
@@ -24,7 +25,7 @@ export const roomName = style({
 
 export const sectionLabel = style({
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
 });
 
@@ -58,7 +59,7 @@ const button = style({
   minHeight: '48px',
   border: 'none',
   borderRadius: vars.radius.md,
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   cursor: 'pointer',
 });

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const panel = style({
   width: '340px',
@@ -25,7 +26,7 @@ export const list = style({
 export const empty = style({
   padding: '16px 4px',
   textAlign: 'center',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.5,
   color: vars.color.textMuted,
 });
@@ -58,7 +59,7 @@ export const roomName = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -69,7 +70,7 @@ export const roomNameText = style({ ...ellipsis, minWidth: 0 });
 
 export const spaceName = style({
   ...ellipsis,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -84,7 +85,7 @@ export const person = style({
   alignItems: 'center',
   gap: '8px',
   minWidth: 0,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.textSecondary,
 });
 
@@ -93,7 +94,7 @@ export const personKnown = style([person, { color: vars.color.textPrimary }]);
 export const personName = style({ ...ellipsis, minWidth: 0 });
 
 export const more = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   paddingLeft: '28px',
 });
