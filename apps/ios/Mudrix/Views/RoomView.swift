@@ -1091,9 +1091,12 @@ struct MessageRow: View {
                             .foregroundStyle(roomRoles.color(of: entry.sender) ?? senderColor)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
-                        Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
-                            .font(.wizard(WZ.FontSize.sm * scale))
-                            .foregroundStyle(theme.textMuted)
+                        // A media-only bubble shows its time in the pill over the media instead.
+                        if !showsMediaOnlyBubbleTime {
+                            Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
+                                .font(.wizard(WZ.FontSize.sm * scale))
+                                .foregroundStyle(theme.textMuted)
+                        }
                         if let eventId = entry.eventId, actions?.pinnedIds.contains(eventId) == true {
                             Image("ph-push-pin-regular")
                                 .font(.system(size: WZ.SizeIcon.xs * scale, weight: .semibold))
@@ -1114,14 +1117,9 @@ struct MessageRow: View {
                                 UploadProgressRing(progress: nil)
                             }
                         }
-                    if let shield = Shields.display(entry.shield) {
-                        Button { CopyToast.shared.show(L10n.format(shield.reasonKey)) } label: {
-                            Image(shield.kind == .grey ? "ph-shield-check-regular" : "ph-shield-warning-regular")
-                                .font(.system(size: WZ.SizeIcon.xs * scale))
-                                .foregroundStyle(shield.kind == .red ? theme.danger : shield.kind == .warning ? theme.warningColor : theme.textMuted)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(L10n.format(shield.reasonKey))
+                    // In the bubble layout the shield sits inside the bubble, next to its time.
+                    if !isClassic, let shield = Shields.display(entry.shield) {
+                        MessageShieldButton(display: shield, scale: scale)
                     }
                     if entry.sendFailed {
                         Button { showFailed = true } label: {
@@ -1200,14 +1198,40 @@ struct MessageRow: View {
     }
 
     /// Messages of only emoji are shown larger, like on the web
+    private var isEmojiOnlyMessage: Bool {
+        guard case .message(let body, let isEmote, _) = entry.kind, !isEmote else { return false }
+        return DisplayFormats.isOnlyEmoji(body)
+    }
+
     private var emojiOnlyFontSize: CGFloat? {
-        guard case .message(let body, let isEmote, _) = entry.kind, !isEmote, DisplayFormats.isOnlyEmoji(body) else {
-            return nil
-        }
+        guard isEmojiOnlyMessage else { return nil }
         switch prefs.emojiOnlySize {
         case .normal: return nil
         case .large: return 40
         case .jumbo: return 56
+        }
+    }
+
+    /// The caption a picture or video shows under itself
+    private var mediaCaption: String? {
+        switch entry.kind {
+        case .image(let media), .video(let media):
+            guard let caption = media.caption, !caption.isEmpty else { return nil }
+            return caption
+        default:
+            return nil
+        }
+    }
+
+    /// Bubble layout: a picture or video with no caption is the bubble itself, so its time sits in
+    /// the pill over the media instead of beside the sender above it.
+    private var showsMediaOnlyBubbleTime: Bool {
+        guard isClassic else { return false }
+        switch entry.kind {
+        case .image, .video:
+            return mediaCaption == nil
+        default:
+            return false
         }
     }
 
@@ -1216,23 +1240,87 @@ struct MessageRow: View {
         if isText {
             if let item = gifLoader.item {
                 GifLinkPicture(item: item)
+            } else if isClassic {
+                VStack(alignment: .trailing, spacing: 2) {
+                    textContent
+                        .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
+                        .lineSpacing(3 * scale)
+                        .tint(entry.isOwn && theme.colorScheme == .dark && !isEmojiOnlyMessage
+                              ? theme.textOnAccent : theme.linkColor)
+                    if entry.isGrouped || Shields.display(entry.shield) != nil {
+                        HStack(spacing: WZ.Space.space2) {
+                            if entry.isGrouped {
+                                Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
+                                    .font(.wizard(WZ.FontSize.xs * scale))
+                                    .foregroundStyle((entry.isOwn ? theme.textOnAccent : theme.textPrimary).opacity(0.65))
+                            }
+                            if let shield = Shields.display(entry.shield) {
+                                MessageShieldButton(display: shield, scale: scale)
+                            }
+                        }
+                    }
+                }
+                // Emoji-only messages are just the big emoji, with no coloured bubble.
+                .padding(.horizontal, isEmojiOnlyMessage ? 0 : WZ.Space.space5)
+                .padding(.vertical, isEmojiOnlyMessage ? 0 : WZ.Space.space4)
+                .background {
+                    if !isEmojiOnlyMessage {
+                        RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
+                            .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+                    }
+                }
             } else {
                 textContent
                     .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
                     .lineSpacing(3 * scale)
-                    .tint(isClassic && entry.isOwn && theme.colorScheme == .dark ? theme.textOnAccent : theme.linkColor)
-                    .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
-                    .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
-                    .background {
-                        if isClassic {
-                            RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
-                                .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
-                        }
-                    }
+                    .tint(theme.linkColor)
             }
         } else {
             mediaContent
+                .overlay(alignment: .bottomTrailing) {
+                    if showsMediaOnlyBubbleTime {
+                        HStack(spacing: WZ.Space.space2) {
+                            if let shield = Shields.display(entry.shield) {
+                                MessageShieldButton(display: shield, onOverlay: true, scale: scale)
+                            }
+                            BubbleTimePill(time: Formats.time(entry.timestamp, prefs.timeFormat))
+                        }
+                        .padding(WZ.Space.space3)
+                    }
+                }
         }
+    }
+
+    /// The bubble around a picture, video or gallery: media goes edge to edge and only a caption
+    /// (and a warning shield) gets padding. Media-only bubbles keep no coloured frame.
+    private func mediaBubble<Content: View>(hasCaption: Bool,
+                                            @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: isClassic && hasCaption ? 0 : WZ.Space.space2) {
+            content()
+            if isClassic, hasCaption, let shield = Shields.display(entry.shield) {
+                HStack(spacing: 0) {
+                    Spacer(minLength: 0)
+                    MessageShieldButton(display: shield, scale: scale)
+                }
+                .padding(.horizontal, WZ.Space.space5)
+                .padding(.bottom, WZ.Space.space3)
+            }
+        }
+        .background {
+            if isClassic && hasCaption {
+                RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
+                    .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+            }
+        }
+    }
+
+    /// A caption under media: padded inside the bubble in the bubble layout, a plain line otherwise.
+    private func captionText(_ caption: String) -> some View {
+        Text(caption)
+            .font(.wizard(WZ.FontSize.lg * scale))
+            .foregroundStyle(isClassic && entry.isOwn ? theme.textOnAccent : theme.textPrimary)
+            .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
+            .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
     }
 
     private var swipeToReply: SwipeToReplyGesture {
@@ -1334,22 +1422,27 @@ struct MessageRow: View {
     private var mediaContent: some View {
         switch entry.kind {
         case .image(let media):
-            VStack(alignment: .leading, spacing: WZ.Space.space2) {
+            mediaBubble(hasCaption: mediaCaption != nil) {
                 if entry.galleryItems.count >= 2 {
-                    GalleryGridView(items: entry.galleryItems, isPrivateRoom: isPrivateRoom)
+                    GalleryGridView(items: entry.galleryItems, isPrivateRoom: isPrivateRoom,
+                                    cornerRadius: isClassic ? WZ.Radius.xl : WZ.Radius.lg)
                 } else {
                     ImageMessageView(media: media, isPrivateRoom: isPrivateRoom, spoiler: entry.mediaSpoiler,
-                                     eventIds: entry.mediaEventIds, roomId: actions?.roomId)
+                                     eventIds: entry.mediaEventIds, roomId: actions?.roomId,
+                                     cornerRadius: isClassic ? WZ.Radius.xl : 14)
                 }
-                if let caption = media.caption { Text(caption).font(.wizard(WZ.FontSize.lg * scale)).foregroundStyle(theme.textPrimary) }
+                if let caption = media.caption, !caption.isEmpty { captionText(caption) }
             }
         case .sticker(let media):
+            // Stickers keep no bubble background in any layout.
             ImageMessageView(media: media, isSticker: true, isPrivateRoom: isPrivateRoom,
                              eventIds: entry.mediaEventIds, roomId: actions?.roomId)
         case .video(let media):
-            VStack(alignment: .leading, spacing: WZ.Space.space2) {
-                VideoMessageView(media: media, spoiler: entry.mediaSpoiler, eventIds: entry.mediaEventIds)
-                if let caption = media.caption { Text(caption).font(.wizard(WZ.FontSize.lg * scale)).foregroundStyle(theme.textPrimary) }
+            mediaBubble(hasCaption: mediaCaption != nil) {
+                VideoMessageView(media: media, spoiler: entry.mediaSpoiler, eventIds: entry.mediaEventIds,
+                                 cornerRadius: isClassic ? WZ.Radius.xl : WZ.Radius.lg,
+                                 durationAtLeading: showsMediaOnlyBubbleTime)
+                if let caption = media.caption, !caption.isEmpty { captionText(caption) }
             }
         case .audio(let media, let isVoice, let waveform):
             AudioMessageView(media: media, isVoice: isVoice, waveform: waveform)
@@ -1363,6 +1456,53 @@ struct MessageRow: View {
         default:
             EmptyView()
         }
+    }
+}
+
+/// The small encryption shield on a message; tapping it says why it is there.
+private struct MessageShieldButton: View {
+    let display: Shields.Display
+    var onOverlay = false
+    var scale: CGFloat = 1
+    @Environment(\.theme) private var theme
+
+    private var tint: Color {
+        switch display.kind {
+        case .red: theme.danger
+        case .warning: theme.warningColor
+        case .grey: theme.textMuted
+        }
+    }
+
+    var body: some View {
+        Button { CopyToast.shared.show(L10n.format(display.reasonKey)) } label: {
+            Image(display.kind == .grey ? "ph-shield-check-regular" : "ph-shield-warning-regular")
+                .font(.system(size: WZ.SizeIcon.xs * scale))
+                .foregroundStyle(onOverlay ? theme.textOnAccent : tint)
+                .padding(onOverlay ? WZ.Space.space1 : 0)
+                .background {
+                    if onOverlay {
+                        Circle().fill(theme.overlay)
+                    }
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(L10n.format(display.reasonKey))
+    }
+}
+
+/// The time over a media-only bubble, in a small translucent pill.
+private struct BubbleTimePill: View {
+    let time: String
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Text(time)
+            .font(.wizard(WZ.FontSize.xs, .semibold))
+            .foregroundStyle(theme.textOnAccent)
+            .padding(.horizontal, WZ.Space.space3)
+            .padding(.vertical, WZ.Space.space1)
+            .background(theme.overlay, in: Capsule())
     }
 }
 

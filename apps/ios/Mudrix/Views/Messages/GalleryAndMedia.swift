@@ -49,6 +49,8 @@ extension MessageText {
 struct GalleryGridView: View {
     let items: [ChatEntry]
     var isPrivateRoom = true
+    /// The bubble layout clips the grid with the bubble's own corner radius
+    var cornerRadius: CGFloat = WZ.Radius.lg
 
     @State private var openIndex: Int?
     private static let maxVisible = 8
@@ -80,7 +82,7 @@ struct GalleryGridView: View {
             }
         }
         .frame(width: width, alignment: .leading)
-        .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .fullScreenCover(item: Binding(get: { openIndex.map(IdentifiedInt.init) }, set: { openIndex = $0?.id })) { start in
             MediaPagerView(items: all.map(\.media), startIndex: start.id)
         }

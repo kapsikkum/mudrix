@@ -2544,18 +2544,68 @@ export const bubbleStatusRow = style({
   color: vars.color.textMuted,
 });
 export const bubbleStatusRowOwn = style({ alignSelf: 'flex-end' });
+
+// Bubble layout: pictures, videos, GIFs and galleries sit edge to edge in the bubble. The bubble
+// loses its padding and clips the media with its own corner radius; a caption is padded below.
+export const bubbleMedia = style({});
+export const bubbleMediaOnly = style({});
+export const bubbleSticker = style({});
+
+// The time (and a warning shield) under the text of a grouped bubble, right-aligned.
+export const bubbleMetaRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  gap: '4px',
+  alignSelf: 'stretch',
+  marginTop: '2px',
+});
+
+// A media-only bubble is the picture itself: no frame, the time and any warning sit over it.
+export const bubbleMediaOverlay = style({
+  position: 'absolute',
+  right: '8px',
+  bottom: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  pointerEvents: 'none',
+  zIndex: 1,
+});
+
+// A video keeps its native controls along the bottom edge, so its pill sits just above them.
+export const bubbleMediaOverlayVideo = style({ bottom: '42px' });
+
+export const bubbleTimePill = style({
+  padding: '1px 7px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  color: '#fff',
+  fontSize: fontSize.rem66,
+  lineHeight: 1.4,
+  fontVariantNumeric: 'tabular-nums',
+  pointerEvents: 'none',
+});
+
+export const bubbleOverlayShield = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '3px',
+  borderRadius: '999px',
+  backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  pointerEvents: 'auto',
+});
 globalStyle(`:root[data-bubble-layout] ${bubbleStatusRow} ${readReceiptRow}`, {
   width: 'auto',
   minHeight: 0,
 });
 
 export const bubbleGroupedTime = style({
-  display: 'block',
-  alignSelf: 'flex-end',
+  display: 'inline-block',
   textAlign: 'right',
   fontSize: fontSize.rem66,
   opacity: 0.65,
-  marginTop: 2,
 });
 
 // Your own replies sit on the right, so their quote hugs the right edge with the accent bar on its
@@ -2599,6 +2649,52 @@ globalStyle(
 // height follows the aspect ratio rather than being squashed.
 globalStyle(bubbleClasses.map((c) => `:root[data-bubble-layout] ${c} ${mediaBox}`).join(', '), {
   height: 'auto !important',
+});
+
+// Messenger/Instagram-style media bubbles: no inner padding, the picture or grid is clipped by the
+// bubble's rounded corners instead of its own.
+globalStyle(`:root[data-bubble-layout] ${bubbleMedia}`, {
+  padding: 0,
+  overflow: 'hidden',
+});
+// A media-only bubble has no coloured frame: the media is the bubble.
+globalStyle(`:root[data-bubble-layout] ${bubbleMediaOnly}`, {
+  backgroundColor: 'transparent',
+});
+globalStyle(
+  `:root[data-bubble-layout] ${bubbleMedia} ${mediaBox}, :root[data-bubble-layout] ${bubbleMedia} ${gallery}`,
+  { borderRadius: 0 }
+);
+globalStyle(`:root[data-bubble-layout] ${bubbleMedia} ${gallery}`, {
+  padding: 0,
+  gap: '2px',
+  maxWidth: '100%',
+});
+globalStyle(`:root[data-bubble-layout] ${bubbleMedia} ${galleryTile}`, { borderRadius: 0 });
+// A caption keeps normal padding on the bubble below the full-bleed media.
+globalStyle(`:root[data-bubble-layout] ${bubbleMedia} ${mediaCaption}`, {
+  padding: '8px 12px',
+  marginTop: 0,
+});
+globalStyle(`:root[data-bubble-layout] ${bubbleMedia} ${bubbleMetaRow}`, {
+  padding: '0 12px 8px',
+});
+globalStyle(`${bubbleOverlayShield} svg`, { color: '#fff' });
+
+// Emoji-only messages are just the big emoji on the bubble's side: no coloured pill, no padding.
+globalStyle(
+  bubbleClasses.map((c) => `:root[data-bubble-layout] ${c}:has(${emojiOnly})`).join(', '),
+  {
+    backgroundColor: 'transparent',
+    padding: 0,
+    color: vars.color.textPrimary,
+  }
+);
+
+// Stickers never get a bubble background or padding.
+globalStyle(`:root[data-bubble-layout] ${bubbleSticker}`, {
+  padding: 0,
+  backgroundColor: 'transparent',
 });
 
 // Message text stays selectable and copyable even though the rest of the UI is not.

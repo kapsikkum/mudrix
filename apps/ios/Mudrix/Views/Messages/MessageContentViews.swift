@@ -14,6 +14,8 @@ struct ImageMessageView: View {
     var eventIds: [String] = []
     /// The room the message is in, where the sticker's pack is looked for first
     var roomId: String?
+    /// The bubble layout clips a picture with the bubble's own corner radius
+    var cornerRadius: CGFloat = 14
 
     @EnvironmentObject private var prefs: AppPreferences
     @EnvironmentObject private var session: MatrixSession
@@ -111,7 +113,7 @@ struct ImageMessageView: View {
             }
         }
         .frame(width: displaySize.width, height: displaySize.height)
-        .clipShape(RoundedRectangle(cornerRadius: isSticker ? 0 : 14, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: isSticker ? 0 : cornerRadius, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture {
             if hidden {
@@ -229,6 +231,10 @@ struct VideoMessageView: View {
     var spoiler: String?
     /// The event ids this video is covered with ("Hide media")
     var eventIds: [String] = []
+    /// The bubble layout clips the video with the bubble's own corner radius
+    var cornerRadius: CGFloat = WZ.Radius.lg
+    /// Keep the bottom-right corner free for the bubble layout's time pill
+    var durationAtLeading = false
     @State private var revealed = false
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
@@ -279,12 +285,13 @@ struct VideoMessageView: View {
                     .foregroundStyle(theme.textOnAccent)
                     .padding(.horizontal, WZ.Space.space3).padding(.vertical, WZ.Space.space1)
                     .background(theme.overlay, in: Capsule())
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity,
+                           alignment: durationAtLeading ? .bottomLeading : .bottomTrailing)
                     .padding(WZ.Space.space4)
             }
         }
         .frame(width: width, height: min(width * ratio, 340))
-        .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .onTapGesture {
             if hidden {
                 withAnimation { revealed = true }

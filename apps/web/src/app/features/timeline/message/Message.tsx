@@ -96,6 +96,7 @@ function formatReactors(names: string[]): string {
 
 import {
   buildReplyContent,
+  getMediaCaption,
   isCaptionEditable,
   isEditableEvent,
   type ReplyContent,
@@ -361,6 +362,13 @@ export const Message = memo(function Message({
   const isMediaType = contentType === 'image' || contentType === 'video';
   const isGallery = galleryEvents != null && galleryEvents.length >= 2;
   const hasMedia = isMediaType || isGallery;
+
+  // Bubble layout only: media fills the bubble, and a media-only bubble is the picture itself.
+  const isBubble = variant === 'classic';
+  const mediaCaption = !isGallery && media ? getMediaCaption(media) : undefined;
+  const bubbleMedia = isBubble && hasMedia;
+  const bubbleMediaOnly = bubbleMedia && (isGallery || !mediaCaption);
+  const bubbleSticker = isBubble && contentType === 'sticker';
 
   const hiddenMedia = useAtomValue(hiddenMediaAtom);
   const setHiddenMedia = useSetAtom(hiddenMediaAtom);
@@ -1107,6 +1115,17 @@ export const Message = memo(function Message({
     .filter(Boolean)
     .join(' ');
 
+  const bubbleExtraClass = [
+    bubbleMedia ? css.bubbleMedia : null,
+    bubbleMediaOnly ? css.bubbleMediaOnly : null,
+    bubbleSticker ? css.bubbleSticker : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
+  const bubbleContentClass = bubbleExtraClass
+    ? `${contentClass} ${bubbleExtraClass}`
+    : contentClass;
+
   return (
     <div
       ref={msgRowRef}
@@ -1199,7 +1218,10 @@ export const Message = memo(function Message({
               >
                 {senderName}
               </button>
-              <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
+              {/* A media-only bubble carries its time in the overlay pill instead. */}
+              {!bubbleMediaOnly && (
+                <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
+              )}
               {isEdited && (
                 <button
                   type="button"
@@ -1243,29 +1265,70 @@ export const Message = memo(function Message({
               </>
             ) : null
           ) : !isEditing ? (
-            <div className={contentClass}>
-              {showShield ? (
-                <div className={css.msgContentShieldRow}>
-                  <div className={css.msgContentShieldBody}>{messageContent}</div>
-                  <EventShield shield={event.shield} />
-                </div>
+            <div className={bubbleContentClass}>
+              {isBubble ? (
+                <>
+                  {messageContent}
+                  {/* A media-only bubble overlays its time (and any warning) on the picture. */}
+                  {bubbleMediaOnly && (
+                    <div
+                      className={[
+                        css.bubbleMediaOverlay,
+                        contentType === 'video' ? css.bubbleMediaOverlayVideo : null,
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {showShield && (
+                        <span className={css.bubbleOverlayShield}>
+                          <EventShield shield={event.shield} />
+                        </span>
+                      )}
+                      <span className={css.bubbleTimePill}>{formatTime(ts, i18n.language)}</span>
+                    </div>
+                  )}
+                  {!bubbleMediaOnly && (isGrouped || showShield) && (
+                    <div className={css.bubbleMetaRow}>
+                      {isGrouped && (
+                        <span className={css.bubbleGroupedTime}>
+                          {formatTime(ts, i18n.language)}
+                        </span>
+                      )}
+                      {showShield && <EventShield shield={event.shield} />}
+                    </div>
+                  )}
+                  {isGrouped && isEdited && (
+                    <button
+                      type="button"
+                      className={css.editedMarkerGroupedClassic}
+                      onClick={() => setEditHistoryId(event.eventId)}
+                      title={t('timeline.editHistory.open')}
+                    >
+                      {t('timeline.edited')}
+                    </button>
+                  )}
+                </>
               ) : (
-                messageContent
-              )}
-              {isGrouped && variant === 'classic' && (
-                <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
-              )}
-              {isGrouped && isEdited && (
-                <button
-                  type="button"
-                  className={
-                    variant === 'classic' ? css.editedMarkerGroupedClassic : css.editedMarkerGrouped
-                  }
-                  onClick={() => setEditHistoryId(event.eventId)}
-                  title={t('timeline.editHistory.open')}
-                >
-                  {t('timeline.edited')}
-                </button>
+                <>
+                  {showShield ? (
+                    <div className={css.msgContentShieldRow}>
+                      <div className={css.msgContentShieldBody}>{messageContent}</div>
+                      <EventShield shield={event.shield} />
+                    </div>
+                  ) : (
+                    messageContent
+                  )}
+                  {isGrouped && isEdited && (
+                    <button
+                      type="button"
+                      className={css.editedMarkerGrouped}
+                      onClick={() => setEditHistoryId(event.eventId)}
+                      title={t('timeline.editHistory.open')}
+                    >
+                      {t('timeline.edited')}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           ) : null}
