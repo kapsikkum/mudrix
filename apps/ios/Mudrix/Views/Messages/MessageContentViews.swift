@@ -20,6 +20,7 @@ struct ImageMessageView: View {
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
     @Environment(\.animatesMedia) private var animatesMedia
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @State private var image: UIImage?
     @State private var revealed = false
@@ -53,6 +54,16 @@ struct ImageMessageView: View {
 
     private var animate: Bool { canAnimate && (prefs.autoplayGifs || playing || holding || animatesMedia) }
     private var playsFromTap: Bool { playing && !(prefs.autoplayGifs || holding || animatesMedia) }
+    private var reducedMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
+
+    /// A picture fades in the first time it lands, unless motion is reduced
+    private func fadeIn(_ loaded: UIImage) {
+        guard image == nil else {
+            image = loaded
+            return
+        }
+        withAnimation(reducedMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal)) { image = loaded }
+    }
 
     private var displaySize: CGSize {
         let maxWidth: CGFloat = isSticker ? 160 : 260
@@ -65,14 +76,17 @@ struct ImageMessageView: View {
     var body: some View {
         ZStack {
             if let image {
-                if image.images != nil {
-                    AnimatedImageView(image: image, contentMode: isSticker ? .scaleAspectFit : .scaleAspectFill,
-                                      loops: playsFromTap ? Self.tapPlays : 0)
-                } else {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: isSticker ? .fit : .fill)
+                Group {
+                    if image.images != nil {
+                        AnimatedImageView(image: image, contentMode: isSticker ? .scaleAspectFit : .scaleAspectFill,
+                                          loops: playsFromTap ? Self.tapPlays : 0)
+                    } else {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: isSticker ? .fit : .fill)
+                    }
                 }
+                .transition(.opacity)
             } else if failed && !hidden {
                 FailedPictureTile()
             } else {
@@ -119,7 +133,7 @@ struct ImageMessageView: View {
             guard !hidden, let mediaLoader else { return }
             let loaded = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)
             guard !Task.isCancelled else { return }
-            if let loaded { image = loaded }
+            if let loaded { fadeIn(loaded) }
             failed = loaded == nil && image == nil
             guard playing, !prefs.autoplayGifs, !animatesMedia, let loaded, loaded.images != nil else { return }
             try? await Task.sleep(for: .seconds(loaded.duration * Double(Self.tapPlays)))

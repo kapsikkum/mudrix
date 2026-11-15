@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import MudrixCore
 
@@ -37,6 +38,14 @@ enum StatusFields {
     /// The mode the account's own status field has; nil when it has none or cannot be read
     static func read(client: WizardClient) async -> StatusMode? {
         guard let userId = client.userId else { return nil }
+        let mode = await read(client: client, userId: userId)
+        // The shell's own avatar follows what this read found
+        await MainActor.run { StatusModeStore.shared.set(mode) }
+        return mode
+    }
+
+    /// The mode another person's status field has; nil when it has none or cannot be read
+    static func read(client: WizardClient, userId: String) async -> StatusMode? {
         for key in keys {
             let stored = (try? await client.profileField(userId: userId, field: key)) ?? nil
             if let stored { return mode(of: stored) }
@@ -59,6 +68,7 @@ enum StatusFields {
         guard let next = value(mode: mode, in: current) else {
             // Nothing but the mode was there, so the whole status goes
             for key in keys { try? await client.deleteProfileField(field: key) }
+            await MainActor.run { StatusModeStore.shared.set(nil) }
             return
         }
         var landed = 0
@@ -72,6 +82,7 @@ enum StatusFields {
             }
         }
         if landed == 0, let failure { throw failure }
+        await MainActor.run { StatusModeStore.shared.set(mode) }
     }
 
     /// The colour a presence dot takes once the status mode is applied, like the web's
@@ -100,5 +111,23 @@ enum DotPresence: String, CaseIterable {
         case .unavailable: self = .unavailable
         case .offline: self = .offline
         }
+    }
+}
+
+/// The account's own custom-status mode, kept here as it is read and written so the avatar in the shell
+/// follows a change without asking the server again. Other people's modes are read where they are drawn.
+@MainActor
+final class StatusModeStore: ObservableObject {
+    static let shared = StatusModeStore()
+
+    @Published private(set) var own: StatusMode?
+
+    func set(_ mode: StatusMode?) {
+        own = mode
+    }
+
+    /// Reads the account's mode once for a session
+    func load(client: WizardClient) async {
+        own = await StatusFields.read(client: client)
     }
 }

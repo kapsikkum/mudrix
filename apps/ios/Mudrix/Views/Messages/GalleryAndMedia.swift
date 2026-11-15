@@ -102,12 +102,24 @@ private struct GalleryTile: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @State private var image: UIImage?
     @State private var revealed = false
     @State private var failed = false
     /// Bumped by a tap on a failed tile, to load it again
     @State private var attempt = 0
+
+    private var reducedMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
+
+    /// A picture fades in the first time it lands, unless motion is reduced
+    private func fadeIn(_ loaded: UIImage) {
+        guard image == nil else {
+            image = loaded
+            return
+        }
+        withAnimation(reducedMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal)) { image = loaded }
+    }
 
     private var hidden: Bool {
         guard !revealed else { return false }
@@ -125,6 +137,7 @@ private struct GalleryTile: View {
             theme.fill
             if let image {
                 Image(uiImage: image).resizable().scaledToFill()
+                    .transition(.opacity)
             } else if failed && !hidden {
                 Image("ph-warning-circle-regular")
                     .font(.system(size: WZ.SizeIcon.md))
@@ -160,7 +173,7 @@ private struct GalleryTile: View {
             guard !hidden, let mediaLoader else { return }
             let loaded = await mediaLoader.image(for: media.thumbnail ?? media.source, thumbnailSize: 400, animated: false)
             guard !Task.isCancelled else { return }
-            if let loaded { image = loaded }
+            if let loaded { fadeIn(loaded) }
             failed = loaded == nil && image == nil
         }
     }
@@ -365,16 +378,30 @@ private struct MediaPage: View {
     let onTap: () -> Void
     let onLongPress: () -> Void
     let onDismiss: () -> Void
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var image: UIImage?
+    @State private var failed = false
+    /// Bumped by a tap on the failed tile, to load the picture again
+    @State private var attempt = 0
     @StateObject private var download = VideoDownloader()
+
+    private var reducedMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
 
     var body: some View {
         ZStack {
             if let image {
                 ZoomableImage(image: image, isZoomed: $isZoomed, progress: progress,
                               onTap: onTap, onLongPress: onLongPress, onDismiss: onDismiss)
+                    .transition(.opacity)
+            } else if failed && !isVideo {
+                FailedPictureTile()
+                    .onTapGesture {
+                        failed = false
+                        attempt += 1
+                    }
             } else {
                 ProgressView().tint(theme.textOnAccent)
             }
@@ -391,16 +418,29 @@ private struct MediaPage: View {
                 }
             }
         }
-        .task {
+        .task(id: attempt) {
             guard let mediaLoader else { return }
             if isVideo {
                 if let thumbnail = media.thumbnail {
-                    image = await mediaLoader.image(for: thumbnail, thumbnailSize: 800, animated: false)
+                    let loaded = await mediaLoader.image(for: thumbnail, thumbnailSize: 800, animated: false)
+                    if let loaded { fadeIn(loaded) }
                 }
             } else {
-                image = await mediaLoader.image(for: media.source, thumbnailSize: nil, animated: media.isAnimated)
+                let loaded = await mediaLoader.image(for: media.source, thumbnailSize: nil, animated: media.isAnimated)
+                guard !Task.isCancelled else { return }
+                if let loaded { fadeIn(loaded) }
+                failed = loaded == nil && image == nil
             }
         }
+    }
+
+    /// The picture fades in the first time it lands, unless motion is reduced
+    private func fadeIn(_ loaded: UIImage) {
+        guard image == nil else {
+            image = loaded
+            return
+        }
+        withAnimation(reducedMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal)) { image = loaded }
     }
 
     private func playVideo() async {
@@ -519,9 +559,8 @@ private struct MediaGrid: View {
             LazyVStack(spacing: WZ.Space.space0) {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: WZ.Space.space1), count: 3), spacing: WZ.Space.space1) {
                     ForEach(Array(items.enumerated()), id: \.element.entry.id) { index, item in
-                        MediaThumb(media: item.media, isVideo: item.isVideo)
+                        MediaThumb(media: item.media, isVideo: item.isVideo) { openIndex = index }
                             .aspectRatio(1, contentMode: .fill)
-                            .onTapGesture { openIndex = index }
                     }
                 }
                 LoadMoreFooter(model: model, isEmpty: items.isEmpty, emptyText: "timeline.noPhotosOrVideos", emptyIcon: "ph-images-regular")
@@ -536,16 +575,39 @@ private struct MediaGrid: View {
 private struct MediaThumb: View {
     let media: ChatEntry.MediaContent
     let isVideo: Bool
+    /// Opening the viewer; a failed tile retries instead, like `FailedPictureTile`
+    let onOpen: () -> Void
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @State private var image: UIImage?
+    @State private var failed = false
+    /// Bumped by a tap on a failed tile, to load it again
+    @State private var attempt = 0
+
+    private var reducedMotion: Bool { prefs.reducesMotion(systemSetting: systemReduceMotion) }
+
+    /// A tile fades in the first time it lands, unless motion is reduced
+    private func fadeIn(_ loaded: UIImage) {
+        guard image == nil else {
+            image = loaded
+            return
+        }
+        withAnimation(reducedMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal)) { image = loaded }
+    }
 
     var body: some View {
         Color.clear
             .overlay {
                 ZStack {
                     theme.fill
-                    if let image { Image(uiImage: image).resizable().scaledToFill() }
+                    if let image {
+                        Image(uiImage: image).resizable().scaledToFill()
+                            .transition(.opacity)
+                    } else if failed {
+                        FailedPictureTile()
+                    }
                 }
             }
             .overlay(alignment: .bottomLeading) {
@@ -564,9 +626,20 @@ private struct MediaThumb: View {
             }
             .clipped()
             .contentShape(Rectangle())
-            .task {
+            .onTapGesture {
+                if failed {
+                    failed = false
+                    attempt += 1
+                } else {
+                    onOpen()
+                }
+            }
+            .task(id: attempt) {
                 guard let mediaLoader, let source = isVideo ? media.thumbnail : (media.thumbnail ?? media.source) else { return }
-                image = await mediaLoader.image(for: source, thumbnailSize: 300, animated: false)
+                let loaded = await mediaLoader.image(for: source, thumbnailSize: 300, animated: false)
+                guard !Task.isCancelled else { return }
+                if let loaded { fadeIn(loaded) }
+                failed = loaded == nil && image == nil
             }
             .accessibilityLabel(isVideo ? String(localized: "timeline.summary.video") : String(localized: "timeline.photo"))
             .accessibilityAddTraits(.isButton)

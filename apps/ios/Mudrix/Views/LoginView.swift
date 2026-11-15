@@ -32,6 +32,8 @@ struct LoginView: View {
     @State private var busy = false
     @State private var errorMessage: String?
     @State private var showQrSignIn = false
+    /// The server line is one quiet row by default; "Change" unfolds the picker and address box
+    @State private var serverExpanded = false
 
     private var server: String {
         serverChoice == Self.custom ? customServer.trimmingCharacters(in: .whitespaces) : serverChoice
@@ -71,19 +73,7 @@ struct LoginView: View {
 
                     serverPicker
 
-                    if checking {
-                        HStack(spacing: WZ.Space.space3) {
-                            ProgressView()
-                            Text(String(localized: "auth.checkingServer"))
-                                .font(.wizard(WZ.FontSize.sm))
-                                .foregroundStyle(theme.textMuted)
-                        }
-                        .frame(maxWidth: .infinity)
-                    } else if notMatrix {
-                        note(String(localized: "welcome.serverNotFound"))
-                    } else if unreachable {
-                        note(String(localized: "auth.serverUnreachable"))
-                    } else if let info {
+                    if let info, !checking, !notMatrix, !unreachable {
                         if mode == .login {
                             loginOptions(info)
                         } else {
@@ -121,26 +111,95 @@ struct LoginView: View {
     // MARK: Sections
 
     private var serverPicker: some View {
-        VStack(spacing: WZ.Space.space3) {
-            Picker(String(localized: "auth.customServer"), selection: $serverChoice) {
-                ForEach(Self.presets, id: \.self) { preset in
-                    Text(URL(string: preset)?.host ?? preset).tag(preset)
+        VStack(alignment: .leading, spacing: WZ.Space.space3) {
+            if serverExpanded {
+                HStack {
+                    Text(String(localized: "welcome.serverAddress"))
+                        .font(.wizard(WZ.FontSize.sm, .semibold))
+                        .foregroundStyle(theme.textMuted)
+                    Spacer()
+                    Button(String(localized: "welcome.serverDone")) {
+                        withAnimation(.easeInOut(duration: WZ.MotionDuration.fast)) { serverExpanded = false }
+                    }
+                    .font(.wizard(WZ.FontSize.sm, .semibold))
+                    .foregroundStyle(theme.accent)
                 }
-                Text(String(localized: "auth.customServer")).tag(Self.custom)
-            }
-            .pickerStyle(.menu)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .wizardField()
 
-            if serverChoice == Self.custom {
-                TextField("", text: $customServer, prompt: Text(String(localized: "auth.serverUrl")).foregroundColor(theme.textMuted))
-                    .textContentType(.URL)
-                    .keyboardType(.URL)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .wizardField()
+                Picker(String(localized: "auth.customServer"), selection: $serverChoice) {
+                    ForEach(Self.presets, id: \.self) { preset in
+                        Text(URL(string: preset)?.host ?? preset).tag(preset)
+                    }
+                    Text(String(localized: "auth.customServer")).tag(Self.custom)
+                }
+                .pickerStyle(.menu)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .wizardField()
+
+                if serverChoice == Self.custom {
+                    TextField("", text: $customServer, prompt: Text(String(localized: "auth.serverUrl")).foregroundColor(theme.textMuted))
+                        .textContentType(.URL)
+                        .keyboardType(.URL)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .wizardField()
+                }
+
+                serverStatus
+                    .padding(.horizontal, WZ.Space.space2)
+            } else {
+                HStack(spacing: WZ.Space.space3) {
+                    Icon("globe-simple", size: WZ.SizeIcon.md)
+                        .foregroundStyle(theme.textMuted)
+                    VStack(alignment: .leading, spacing: WZ.Space.space1) {
+                        Text(serverName.isEmpty ? String(localized: "welcome.serverNone") : serverName)
+                            .font(.wizard(WZ.FontSize.md, .medium))
+                            .foregroundStyle(theme.textPrimary)
+                            .lineLimit(1)
+                        serverStatus
+                    }
+                    Spacer(minLength: WZ.Space.space3)
+                    Button(String(localized: "welcome.serverChange")) {
+                        withAnimation(.easeInOut(duration: WZ.MotionDuration.fast)) { serverExpanded = true }
+                    }
+                    .font(.wizard(WZ.FontSize.sm, .semibold))
+                    .foregroundStyle(theme.accent)
+                    .accessibilityLabel(serverName.isEmpty
+                        ? String(localized: "welcome.serverChange")
+                        : L10n.format("welcome.serverChangeLabel", serverName))
+                }
+                .padding(.horizontal, WZ.Space.space4)
+                .padding(.vertical, WZ.Space.space3)
+                .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
             }
         }
+    }
+
+    /// The line under the host: what the server answered, or why nothing came back yet
+    private var serverStatus: some View {
+        HStack(spacing: WZ.Space.space2) {
+            if checking {
+                ProgressView().controlSize(.mini)
+            }
+            Text(serverStatusText)
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(serverStatusColor)
+                .lineLimit(1)
+                .accessibilityLabel(serverStatusText)
+        }
+    }
+
+    private var serverStatusText: String {
+        if checking { return String(localized: "auth.checkingServer") }
+        if notMatrix { return String(localized: "welcome.serverNotFound") }
+        if unreachable { return String(localized: "auth.serverUnreachable") }
+        if let info { return softwareLine(info) }
+        return String(localized: "welcome.serverChecking")
+    }
+
+    private var serverStatusColor: Color {
+        if notMatrix || unreachable { return theme.error }
+        if info != nil && !checking { return theme.success }
+        return theme.textMuted
     }
 
     private func softwareLine(_ info: ServerInfo) -> String {
@@ -154,8 +213,6 @@ struct LoginView: View {
 
     @ViewBuilder
     private func loginOptions(_ info: ServerInfo) -> some View {
-        note(softwareLine(info))
-
         if info.oauth {
             Button(busy ? String(localized: "auth.redirecting") : String(localized: "auth.oidcLogin")) {
                 Task { await signInWithBrowser() }

@@ -1,3 +1,4 @@
+import MudrixCore
 import SwiftUI
 
 struct GiphyGif: Identifiable, Codable, Hashable {
@@ -22,15 +23,19 @@ struct GifPicker: View {
 
     @Environment(\.theme) private var theme
     @AppStorage("gifConsent") private var consented = false
-    @AppStorage("gifFavourites") private var favouritesData = Data()
+    /// The starred GIFs live in the account's data (`GifFavourites`), not on this device
+    @ObservedObject private var favourites = GifFavourites.shared
     @State private var search = ""
     @State private var showFavourites = false
     @State private var results: [GiphyGif] = []
     @State private var loading = false
     @State private var sending = false
 
-    private var favourites: [GiphyGif] {
-        (try? JSONDecoder().decode([GiphyGif].self, from: favouritesData)) ?? []
+    /// A favourite is only its URL, as the web's `favouriteGifItem`: no Giphy id or dimensions
+    private var favouriteGifs: [GiphyGif] {
+        favourites.urls.map { url in
+            GiphyGif(id: url, title: String(localized: "composer.gif"), url: url, previewUrl: url, width: 0, height: 0)
+        }
     }
 
     var body: some View {
@@ -76,8 +81,12 @@ struct GifPicker: View {
                     .accessibilityLabel(String(localized: "nav.favourites"))
                 }
                 ZStack {
-                    grid(showFavourites ? favourites : results)
-                    if showFavourites && favourites.isEmpty {
+                    if showFavourites {
+                        favouritesGrid
+                    } else {
+                        grid(results)
+                    }
+                    if showFavourites && favourites.urls.isEmpty {
                         Text(String(localized: "composer.noFavourites"))
                             .font(.wizard(WZ.FontSize.md))
                             .foregroundStyle(theme.textMuted)
@@ -117,18 +126,13 @@ struct GifPicker: View {
                         .allowsHitTesting(false)
                         .contentShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
                         .onTapGesture {
-                            guard !sending else { return }
-                            Task {
-                                sending = true
-                                await onPick(gif)
-                                sending = false
-                            }
+                            send(gif)
                         }
                         .accessibilityAddTraits(.isButton)
                         .overlay(alignment: .topTrailing) {
-                            let isFavourite = favourites.contains(gif)
+                            let isFavourite = favourites.isFavourite(gif.url)
                             Button {
-                                toggleFavourite(gif)
+                                Task { await favourites.toggle(gif.url) }
                             } label: {
                                 Image(isFavourite ? "ph-star-fill" : "ph-star-regular")
                                     .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
@@ -143,6 +147,51 @@ struct GifPicker: View {
                 }
             }
             .padding(.horizontal, WZ.Space.space5)
+        }
+    }
+
+    /// The starred GIFs: square tiles drawn from their URL alone, since only the URL is kept
+    private var favouritesGrid: some View {
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: WZ.Space.space3), GridItem(.flexible(), spacing: WZ.Space.space3)], spacing: WZ.Space.space3) {
+                ForEach(favouriteGifs) { gif in
+                    RemoteAnimatedImage(url: gif.previewUrl)
+                        .aspectRatio(1, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+                        .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+                        // A Button around the UIKit image view misses taps, so the cell takes them
+                        .allowsHitTesting(false)
+                        .contentShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+                        .onTapGesture {
+                            send(gif)
+                        }
+                        .accessibilityAddTraits(.isButton)
+                        .overlay(alignment: .topTrailing) {
+                            Button {
+                                Task { await favourites.toggle(gif.url) }
+                            } label: {
+                                Image("ph-star-fill")
+                                    .font(.system(size: WZ.SizeIcon.xs, weight: .semibold))
+                                    .foregroundStyle(theme.warningColor)
+                                    .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                                    .background(theme.overlay, in: Circle())
+                            }
+                            .padding(WZ.Space.space2)
+                            .accessibilityLabel(String(localized: "room.removeFavourite"))
+                        }
+                        .accessibilityLabel(gif.title)
+                }
+            }
+            .padding(.horizontal, WZ.Space.space5)
+        }
+    }
+
+    private func send(_ gif: GiphyGif) {
+        guard !sending else { return }
+        Task {
+            sending = true
+            await onPick(gif)
+            sending = false
         }
     }
 
@@ -167,17 +216,12 @@ struct GifPicker: View {
                             height: Int(full?["height"] as? String ?? "") ?? 200)
         }
     }
-
-    private func toggleFavourite(_ gif: GiphyGif) {
-        var list = favourites
-        if let index = list.firstIndex(of: gif) { list.remove(at: index) } else { list.insert(gif, at: 0) }
-        favouritesData = (try? JSONEncoder().encode(Array(list.prefix(50)))) ?? Data()
-    }
 }
 
 struct RemoteAnimatedImage: View {
     let url: String
     @Environment(\.theme) private var theme
+    @Environment(\.mediaLoader) private var mediaLoader
     @State private var image: UIImage?
 
     var body: some View {
@@ -185,6 +229,12 @@ struct RemoteAnimatedImage: View {
             if let image { AnimatedImageView(image: image) } else { theme.fill }
         }
         .task(id: url) {
+            // A GIF favourited from a message lives on the homeserver, where only the account can fetch it
+            if url.hasPrefix("mxc://") {
+                let source: MediaSource = .object(["url": .string(url)])
+                image = await mediaLoader?.image(for: source, thumbnailSize: nil, animated: true)
+                return
+            }
             guard let url = URL(string: url), let (data, _) = try? await URLSession.shared.data(from: url) else { return }
             image = AnimatedImage.image(from: data, animated: true)
         }

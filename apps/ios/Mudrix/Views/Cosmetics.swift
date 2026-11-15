@@ -106,20 +106,28 @@ struct CosmeticDecoration: View {
     }
 }
 
-/// The presence dot on an avatar's corner (online green, away amber, offline none), gated on `prefs.showPresence`
+/// The presence dot on an avatar's corner (online green, away amber, busy red, offline none), gated on
+/// `prefs.showPresence`. `dot` carries a custom status's mode (`StatusFields.dot`); without one the
+/// plain presence decides.
 struct PresenceDot: View {
     let presence: Presence?
+    var dot: DotPresence? = nil
     var size: CGFloat = WZ.SizeAvatar.md
     var ringColor: Color? = nil
 
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
+    private var resolved: DotPresence? {
+        dot ?? presence.map { DotPresence($0) }
+    }
+
     private var color: Color? {
         guard prefs.showPresence else { return nil }
-        switch presence {
+        switch resolved {
         case .online: return theme.presenceOnline
         case .unavailable: return theme.presenceAway
+        case .dnd: return theme.presenceBusy
         case .offline, nil: return nil
         }
     }
@@ -147,6 +155,8 @@ struct CosmeticAvatar: View {
     var cornerRadius: CGFloat? = nil
     var presence: Presence? = nil
     var presenceRingColor: Color? = nil
+    /// The dot once a custom status's mode is applied (`StatusFields.dot`), which wins over `presence`
+    var dot: DotPresence? = nil
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -156,8 +166,8 @@ struct CosmeticAvatar: View {
         AvatarView(name: name, url: url, size: size, cornerRadius: cornerRadius,
                    decoration: CosmeticPacks.resolve(profile?.avatarDecoration, showPacks: prefs.showCosmeticPacks))
             .overlay(alignment: .bottomTrailing) {
-                if let presence {
-                    PresenceDot(presence: presence, size: size, ringColor: presenceRingColor)
+                if dot != nil || presence != nil {
+                    PresenceDot(presence: presence, dot: dot, size: size, ringColor: presenceRingColor)
                 }
             }
             .task(id: "\(userId)|\(prefs.showCosmeticPacks)") {

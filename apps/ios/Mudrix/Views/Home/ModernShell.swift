@@ -147,6 +147,8 @@ struct ModernShell: View {
     private var dock: some View {
         VStack(spacing: WZ.Space.space2) {
             if calls.isInCall, calls.room != nil {
+                // The alone notice follows a minimised call too, so nobody is hung up on unannounced
+                if calls.aloneCounting { AloneNotice() }
                 CallBar(onOpen: onOpenCall)
                     .padding(.horizontal, WZ.Space.space6)
             }
@@ -344,6 +346,8 @@ private struct ModernUserCard: View {
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
+    /// The account's own custom-status mode, kept in `StatusModeStore` so an edit follows at once
+    @ObservedObject private var statusStore = StatusModeStore.shared
 
     private var name: String { session.displayName ?? session.userId ?? "" }
 
@@ -380,7 +384,8 @@ private struct ModernUserCard: View {
                 presenceMenuItems
             } label: {
                 CosmeticAvatar(userId: session.userId ?? "", name: name, url: session.avatarUrl,
-                               size: WZ.SizeAvatar.md, presence: ownPresence, presenceRingColor: theme.bgTertiary)
+                               size: WZ.SizeAvatar.md, presence: ownPresence, presenceRingColor: theme.bgTertiary,
+                               dot: StatusFields.dot(ownPresence, mode: statusStore.own))
                     .frame(minWidth: WZ.Size.touchTarget, minHeight: WZ.Size.touchTarget)
                     .contentShape(Circle())
             }
@@ -425,6 +430,10 @@ private struct ModernUserCard: View {
         .shadow(color: WZ.Shadow.md.color, radius: WZ.Shadow.md.blur / 2, x: WZ.Shadow.md.x, y: WZ.Shadow.md.y)
         .padding(.horizontal, WZ.Space.space4)
         .padding(.bottom, WZ.Space.space4)
+        .task(id: session.userId) {
+            guard let client = session.client else { return }
+            await statusStore.load(client: client)
+        }
     }
 
     @ViewBuilder

@@ -122,6 +122,7 @@ struct MudrixApp: App {
         calls.leave()
         recentEmoji.stop()
         MudrixRoomStates.shared.stop()
+        GifFavourites.shared.stop()
         VoiceMoves.stop()
         verificationRequests.stop()
         MemberDirectory.shared.reset()
@@ -149,6 +150,8 @@ struct MudrixApp: App {
             let notifier = notifier
             calls.watchIncoming(client, session: session) { [weak notifier] call in notifier?.notifyMissedCall(call) }
             SavedMessages.shared.start(client: client)
+            GifFavourites.shared.start(client: client)
+            Task { await GifFavourites.shared.migrateLegacy() }
             Reminders.shared.start(client: client) { session.roomList?.room(id: $0)?.displayName }
             recentEmoji.start(client: client)
             MudrixRoomStates.shared.start(client: client)

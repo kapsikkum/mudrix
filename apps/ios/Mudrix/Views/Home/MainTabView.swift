@@ -236,10 +236,14 @@ struct MainTabView: View {
     @ViewBuilder
     private func callBar(in item: Tab) -> some View {
         if !CallAccessoryModifier.supported, showsCallBar(in: item) {
-            CallBar(onOpen: openCall)
-            .padding(.horizontal, WZ.Space.space6)
-            .padding(.bottom, WZ.Space.space2)
-            .transition(.move(edge: .bottom).combined(with: .opacity))
+            VStack(spacing: WZ.Space.space2) {
+                // A minimised call can still be one nobody else is in: the notice has to follow the bar
+                if calls.aloneCounting { AloneNotice() }
+                CallBar(onOpen: openCall)
+                    .padding(.horizontal, WZ.Space.space6)
+                    .padding(.bottom, WZ.Space.space2)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
         }
     }
 

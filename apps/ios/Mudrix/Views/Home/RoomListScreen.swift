@@ -709,6 +709,7 @@ struct RoomRow: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var partnerPresence: Presence?
+    @State private var partnerStatusMode: StatusMode?
 
     private var avatarSize: CGFloat { prefs.roomAvatarSize }
     private var voice: Bool { isVoice ?? room.isVoice }
@@ -755,7 +756,8 @@ struct RoomRow: View {
                     .background(theme.fill, in: Circle())
             } else {
                 CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: avatarSize,
-                               presence: (!room.isDirect || inCall) ? nil : partnerPresence)
+                               presence: (!room.isDirect || inCall) ? nil : partnerPresence,
+                               dot: (!room.isDirect || inCall) ? nil : StatusFields.dot(partnerPresence, mode: partnerStatusMode))
                     .overlay(alignment: .bottomTrailing) {
                         if !room.isDirect || inCall {
                             typeIcon(size: WZ.SizeIcon.xs)
@@ -798,8 +800,10 @@ struct RoomRow: View {
         .padding(.vertical, prefs.roomRowPadding)
         .contentShape(Rectangle())
         .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {
-            guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty else {
+            guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty,
+                  let client = session.client else {
                 partnerPresence = nil
+                partnerStatusMode = nil
                 return
             }
             if let cached = PresenceCache.shared.cached(partnerId) {
@@ -807,6 +811,7 @@ struct RoomRow: View {
             } else {
                 partnerPresence = await session.presence(of: partnerId)
             }
+            partnerStatusMode = await StatusFields.read(client: client, userId: partnerId)
         }
     }
 }

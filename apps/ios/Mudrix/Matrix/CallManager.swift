@@ -62,6 +62,8 @@ final class CallManager: NSObject, ObservableObject {
     @Published private(set) var ring: RingState?
     /// "You're the only one here": counts down and ends a direct call nobody else is in
     let alone = AloneTracker()
+    /// `alone.isCounting` as a published value, so the minimised call bar shows the notice at the right moment
+    @Published private(set) var aloneCounting = false
     private var aloneTask: Task<Void, Never>?
     /// People whose media cannot be decrypted yet, by identity: the tile shows `call.keyMissing`
     private var keyIssues: Set<String> = []
@@ -260,6 +262,7 @@ final class CallManager: NSObject, ObservableObject {
         AudioManager.shared.isMicrophoneMuted = false
         aloneTask?.cancel()
         aloneTask = nil
+        aloneCounting = false
         keyIssues = []
         statsTracks = []
         if let id = callId {
@@ -590,6 +593,7 @@ final class CallManager: NSObject, ObservableObject {
                 let now = Self.nowMillis
                 self.alone.update(isDirect: self.room?.isDirect == true, joined: self.state == .joined,
                                   others: self.othersConnected, ring: self.ring, now: now)
+                if self.aloneCounting != self.alone.isCounting { self.aloneCounting = self.alone.isCounting }
                 if self.alone.tick(now: now) {
                     self.leave()
                     return

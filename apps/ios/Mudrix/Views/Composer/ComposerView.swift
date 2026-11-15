@@ -979,9 +979,28 @@ struct ComposerView: View {
     }
 
     private func sendGif(_ gif: GiphyGif) async {
-        guard let url = URL(string: gif.url),
-              let (data, _) = try? await URLSession.shared.data(from: url),
-              await timeline.sendGif(data, width: gif.width, height: gif.height, replyTo: replyTo?.eventId) else {
+        // A favourite is only its URL: it may live on the homeserver (`mxc://`) or be an ordinary link
+        let data: Data?
+        if gif.url.hasPrefix("mxc://") {
+            let source: MediaSource = .object(["url": .string(gif.url)])
+            data = try? await timeline.client.media(source: source)
+        } else if let url = URL(string: gif.url), let fetched = try? await URLSession.shared.data(from: url) {
+            data = fetched.0
+        } else {
+            data = nil
+        }
+        guard let data else {
+            timeline.sendError = String(localized: "composer.gifSendFailed")
+            return
+        }
+        // Favourites carry no Giphy metadata, so their size comes from the downloaded picture
+        var width = gif.width
+        var height = gif.height
+        if width <= 0 || height <= 0, let size = UIImage(data: data)?.size, size.width > 0, size.height > 0 {
+            width = Int(size.width.rounded())
+            height = Int(size.height.rounded())
+        }
+        guard await timeline.sendGif(data, width: width, height: height, replyTo: replyTo?.eventId) else {
             timeline.sendError = String(localized: "composer.gifSendFailed")
             return
         }

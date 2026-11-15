@@ -69,6 +69,7 @@ struct CallStageView: View {
 private struct ParticipantTile: View {
     let roomId: String
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     let participant: CallParticipantInfo
     @Environment(\.theme) private var theme
     @State private var name: String?
@@ -100,7 +101,7 @@ private struct ParticipantTile: View {
                                url: avatarUrl, size: WZ.SizeAvatar.lg)
                     .opacity(participant.connected ? 1 : 0.5)
             }
-            if let reaction = participant.reaction {
+            if prefs.showCallReactions, let reaction = participant.reaction {
                 Text(reaction)
                     .font(.system(size: WZ.SizeIcon.xxl))
                     .transition(.scale.combined(with: .opacity))
@@ -139,7 +140,7 @@ private struct ParticipantTile: View {
             .padding(WZ.Space.space4)
         }
         .overlay(alignment: .topTrailing) {
-            if participant.handRaised {
+            if prefs.showCallReactions, participant.handRaised {
                 Text("🖐️")
                     .font(.system(size: WZ.SizeIcon.md))
                     .frame(width: WZ.Space.space9, height: WZ.Space.space9)

@@ -72,7 +72,8 @@ enum Formats {
         if let text = numericText(date, style) {
             return text + " " + time(date, timeFormat)
         }
-        return date.formatted(date: .abbreviated, time: .shortened)
+        // A long date still follows the time format setting, as numeric dates do
+        return date.formatted(date: .abbreviated, time: .omitted) + " " + time(date, timeFormat)
     }
 
     /// "October 31, 2026"

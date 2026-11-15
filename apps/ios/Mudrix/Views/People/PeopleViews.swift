@@ -157,12 +157,14 @@ private struct MemberRow: View {
     @Environment(\.theme) private var theme
     @Environment(\.roomRoles) private var roomRoles
     @State private var presence: Presence?
+    @State private var statusMode: StatusMode?
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
             CosmeticAvatar(userId: member.userId, name: member.displayName ?? member.userId,
                            url: member.avatarUrl, size: WZ.SizeAvatar.md,
-                           presence: presence, presenceRingColor: theme.groupedRow)
+                           presence: presence, presenceRingColor: theme.groupedRow,
+                           dot: StatusFields.dot(presence, mode: statusMode))
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 CosmeticName(userId: member.userId) {
                     Text(member.displayName ?? member.userId)
@@ -179,8 +181,9 @@ private struct MemberRow: View {
         }
         .contentShape(Rectangle())
         .task(id: "\(member.userId)|\(prefs.showPresence)") {
-            guard prefs.showPresence else {
+            guard prefs.showPresence, let client = session.client else {
                 presence = nil
+                statusMode = nil
                 return
             }
             if let cached = PresenceCache.shared.cached(member.userId) {
@@ -188,6 +191,7 @@ private struct MemberRow: View {
             } else {
                 presence = await session.presence(of: member.userId)
             }
+            statusMode = await StatusFields.read(client: client, userId: member.userId)
         }
     }
 }

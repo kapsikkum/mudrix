@@ -264,7 +264,7 @@ struct GlobalSearchResults: View {
             HStack {
                 Text(hit.roomName).font(.wizard(WZ.FontSize.sm, .semibold)).foregroundStyle(theme.textMuted)
                 Spacer()
-                Text(verbatim: Formats.abbreviatedDate(hit.date, prefs.dateFormat)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+                Text(verbatim: Formats.abbreviatedDate(hit.date, prefs.dateFormat) + " " + Formats.time(hit.date, prefs.timeFormat)).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
             }
             HighlightedText(text: hit.body.snippet(around: text), query: text)
                 .foregroundStyle(theme.textPrimary)
