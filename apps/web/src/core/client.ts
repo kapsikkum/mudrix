@@ -1,5 +1,5 @@
 import init, {
-  WizardClient,
+  MudrixClient,
   type LoginIdentifier,
   type PendingLogin,
   type Session,
@@ -67,7 +67,7 @@ export function rememberSignIn(session: Session, store: ReturnType<typeof newSto
 }
 
 /** Saves the sign-in; the session is restored from storage, so this handle isn't needed */
-function remember(client: WizardClient, store: ReturnType<typeof newStoreConfig>) {
+function remember(client: MudrixClient, store: ReturnType<typeof newStoreConfig>) {
   rememberSignIn(client.session(), store);
   client.free();
 }
@@ -81,7 +81,7 @@ export async function signInWithPassword(
   const store = newStoreConfig();
   try {
     remember(
-      await WizardClient.loginPassword(server, identifier, password, DEVICE_NAME, store),
+      await MudrixClient.loginPassword(server, identifier, password, DEVICE_NAME, store),
       store
     );
   } catch (error) {

@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { SmileyStickerIcon, StickerIcon } from '@phosphor-icons/react';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import * as css from './AuthMediaImg.css';

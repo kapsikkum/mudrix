@@ -11,7 +11,7 @@ import {
   LockOpenIcon,
   ShieldCheckIcon,
 } from '@phosphor-icons/react';
-import type { KeyRestoreProgress, UtdReason, WizardClient as MatrixClient } from '@mudrix/core';
+import type { KeyRestoreProgress, UtdReason, MudrixClient as MatrixClient } from '@mudrix/core';
 import { Button } from '@/app/components/Button';
 import { sessionVerificationAtom } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';

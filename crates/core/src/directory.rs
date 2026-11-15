@@ -4,7 +4,7 @@ use matrix_sdk::ruma::{
 };
 use serde::Serialize;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
@@ -30,7 +30,7 @@ pub struct UserResult {
     pub avatar_url: Option<String>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Searches a server's public room directory (the user's own server by default).
     pub async fn search_public_rooms(
         &self,
@@ -93,7 +93,7 @@ pub struct PublicRoomsPage {
     pub total: Option<u64>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// A page of a server's room directory; `kind` narrows to `spaces` or `rooms`.
     pub async fn public_rooms_page(
         &self,

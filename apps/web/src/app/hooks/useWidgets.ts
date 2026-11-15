@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
-import type { Widget, WizardClient } from '@mudrix/core';
+import type { Widget, MudrixClient } from '@mudrix/core';
 import { useAccountData } from '@/app/data';
 
 export const WIDGET_TYPES = {
@@ -20,7 +20,7 @@ const USER_WIDGETS_EVENT = 'm.widgets';
 type UserWidgetsContent = Record<string, { content?: Record<string, unknown>; sender?: string }>;
 
 function readUserStickerWidget(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   content: UserWidgetsContent | null
 ): RoomWidget | undefined {
   for (const [id, entry] of Object.entries(content ?? {})) {
@@ -50,7 +50,7 @@ function toRoomWidget(widget: Widget): RoomWidget {
   };
 }
 
-export function useWidgets(client: WizardClient | null, roomId: string | null) {
+export function useWidgets(client: MudrixClient | null, roomId: string | null) {
   const [roomWidgets, setRoomWidgets] = useState<Widget[]>([]);
 
   useEffect(() => {

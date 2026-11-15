@@ -15,7 +15,7 @@ use std::{
 
 use mudrix_core::{
     Attachment, CreateRoomOptions, EntryContent, ListDiff, MentionsInput, MessageKind,
-    NotificationMode, StoreConfig, TimelineEntry, WizardClient,
+    MudrixClient, NotificationMode, StoreConfig, TimelineEntry,
 };
 use serde_json::json;
 
@@ -37,7 +37,7 @@ async fn eventually<T>(
 type Entries = Arc<Mutex<Vec<TimelineEntry>>>;
 
 async fn watch(
-    client: &WizardClient,
+    client: &MudrixClient,
     room: &str,
 ) -> Result<(Arc<mudrix_core::RoomTimeline>, Entries), BoxError> {
     let timeline = Arc::new(client.timeline(room).await?);

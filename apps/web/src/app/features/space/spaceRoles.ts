@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import type { RoomSettings, SpaceNode, WizardClient } from '@mudrix/core';
+import type { RoomSettings, SpaceNode, MudrixClient } from '@mudrix/core';
 import { useRoomSettings, useSpaceGraph, useUserId } from '@/app/data';
 import { getRoomCreators } from '@/app/features/room/memberRoles';
 import { findParentSpaceId } from '@/util/matrix';
@@ -265,7 +265,7 @@ export function useRoleNameColor(
 // --- writing ----------------------------------------------------------------------------------
 
 export function saveSpaceRoles(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   roles: SpaceRole[],
   builtin: BuiltinRoleLooks
@@ -277,7 +277,7 @@ export function saveSpaceRoles(
 }
 
 export function saveMemberRoles(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   userId: string,
   roleIds: string[]
@@ -314,7 +314,7 @@ export class RoleCleanupError extends Error {
  * gone, a leftover assignment refers to nothing and is ignored, so failures there are only untidy.
  */
 export async function deleteSpaceRole(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   current: SpaceRoles,
   roleId: string

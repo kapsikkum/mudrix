@@ -1,16 +1,16 @@
-//! `WizardClient`: QR grant, spaces, account data, tags, aliases, calls, notifications
+//! `MudrixClient`: QR grant, spaces, account data, tags, aliases, calls, notifications
 
 use serde_json::Value;
 
 use super::{Bytes, Handle, Listener, Obj, Subscription};
 use crate::{
-    CallMember, CallSession, IncomingCallEvent, Notification, PusherConfig, QrLoginControl,
-    QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures, ServerNotification,
-    SfuConfig, SpaceNode, StateChange, WizardClient,
+    CallMember, CallSession, IncomingCallEvent, MudrixClient, Notification, PusherConfig,
+    QrLoginControl, QrLoginStatus, ResolvedAlias, RoomSection, RoomTag, ServerFeatures,
+    ServerNotification, SfuConfig, SpaceNode, StateChange,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// Lets a new device sign in to this account through this one (QR code).
         call fn grantLoginWithQr(
             scanned: Option<Bytes>,

@@ -16,7 +16,7 @@ import chat.mudrix.android.ui.L10n
 import chat.mudrix.core.RoomEvent
 import chat.mudrix.core.SpaceNode
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /**
  * Call membership belongs to the person who joined, so nobody else can move them. Someone who manages a space asks
@@ -37,7 +37,7 @@ object VoiceMoves {
     private val seen = LinkedHashSet<String>()
 
     /** Asks [userId], who is in [fromRoomId], to join [toRoomId] (the sender must manage a space containing both) */
-    suspend fun request(client: WizardClient, fromRoomId: String, userId: String, toRoomId: String) {
+    suspend fun request(client: MudrixClient, fromRoomId: String, userId: String, toRoomId: String) {
         val content = JsonObject(
             mapOf(
                 "user_id" to JsonPrimitive(userId),
@@ -50,7 +50,7 @@ object VoiceMoves {
         runCatching { client.sendEvent(fromRoomId, MudrixTypes.typeAndLegacy(MudrixTypes.VOICE_MOVE)[1], content) }
     }
 
-    fun start(client: WizardClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel) {
+    fun start(client: MudrixClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel) {
         stop()
         val me = client.userId ?: return
         val own = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -68,7 +68,7 @@ object VoiceMoves {
         seen.clear()
     }
 
-    private suspend fun handle(client: WizardClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel, me: String, event: RoomEvent) {
+    private suspend fun handle(client: MudrixClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel, me: String, event: RoomEvent) {
         val request = event.content as? JsonObject ?: return
         // One move arrives under both type names; it is acted on once
         val key = (request["move_id"] as? JsonPrimitive)?.takeIf { it.isString }?.content?.let { "m:$it" } ?: event.eventId
@@ -97,7 +97,7 @@ object VoiceMoves {
         return age <= MAX_AGE_MS && age >= -MAX_CLOCK_SKEW_MS
     }
 
-    private suspend fun isFlaggedVoice(client: WizardClient, roomId: String): Boolean =
+    private suspend fun isFlaggedVoice(client: MudrixClient, roomId: String): Boolean =
         runCatching {
             SpaceModern.isVoiceChannelFlagged(
                 MudrixRoomState.from(client.stateEventsOfTypes(roomId, MudrixTypes.typeAndLegacy(MudrixTypes.VOICE_CHANNEL))),
@@ -109,7 +109,7 @@ object VoiceMoves {
      * somebody else's room, so the room has to name the space back with an `m.space.parent`, which only people with power
      * in the room can send. A room that predates that still counts when the sender could have set it.
      */
-    private suspend fun confirmsParent(client: WizardClient, roomId: String, spaceId: String, senderId: String): Boolean {
+    private suspend fun confirmsParent(client: MudrixClient, roomId: String, spaceId: String, senderId: String): Boolean {
         val parent = client.stateEvent(roomId, "m.space.parent", spaceId) as? JsonObject
         if ((parent?.get("via") as? JsonArray)?.isNotEmpty() == true) return true
         val settings = client.localRoomSettings(roomId)
@@ -117,7 +117,7 @@ object VoiceMoves {
     }
 
     /** The spaces above [roomId], following only links both sides agree on and only through spaces we are in */
-    private suspend fun ancestorSpaces(client: WizardClient, graph: List<SpaceNode>, roomId: String, senderId: String): Set<String> {
+    private suspend fun ancestorSpaces(client: MudrixClient, graph: List<SpaceNode>, roomId: String, senderId: String): Set<String> {
         val found = mutableSetOf<String>()
         val queue = ArrayDeque(listOf(roomId))
         while (queue.isNotEmpty()) {
@@ -134,7 +134,7 @@ object VoiceMoves {
     }
 
     /** Whether [userId] is in, and manages (can edit the children of), a space that contains both channels */
-    suspend fun mayMoveBetween(client: WizardClient, graph: List<SpaceNode>, userId: String, fromRoomId: String, toRoomId: String): Boolean {
+    suspend fun mayMoveBetween(client: MudrixClient, graph: List<SpaceNode>, userId: String, fromRoomId: String, toRoomId: String): Boolean {
         if (fromRoomId == toRoomId) return false
         val above = ancestorSpaces(client, graph, toRoomId, userId)
         for (spaceId in ancestorSpaces(client, graph, fromRoomId, userId)) {

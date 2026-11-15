@@ -62,7 +62,7 @@ struct ThemeSpec: Equatable {
     }
 
     /// The colours of a theme in editable form (used to start a custom theme from it)
-    static func of(_ theme: WizardTheme) -> ThemeSpec {
+    static func of(_ theme: MudrixTheme) -> ThemeSpec {
         ThemeSpec(
             bgPrimary: ThemeDerive.hexOf(theme.bgPrimary),
             bgSecondary: ThemeDerive.hexOf(theme.bgSecondary),

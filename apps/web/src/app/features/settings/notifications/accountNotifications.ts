@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 
 export type PushRuleKind = 'override' | 'underride' | 'content' | 'room' | 'sender';
 

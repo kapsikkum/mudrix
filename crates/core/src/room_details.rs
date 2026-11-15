@@ -4,7 +4,7 @@ use matrix_sdk::{
 };
 use serde::Serialize;
 
-use crate::{Result, WizardClient};
+use crate::{MudrixClient, Result};
 
 /// What the user may do in a room, for showing or hiding actions
 #[derive(Clone, Debug, Default, Serialize)]
@@ -115,7 +115,7 @@ async fn details_of(room: &Room) -> RoomDetails {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn room_details(&self, room_id: &str) -> Result<RoomDetails> {
         Ok(details_of(&self.room(room_id)?).await)
     }

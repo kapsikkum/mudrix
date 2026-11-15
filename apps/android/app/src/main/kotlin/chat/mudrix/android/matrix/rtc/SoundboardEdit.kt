@@ -6,7 +6,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import chat.mudrix.android.matrix.SpaceModern
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Adding, changing and removing clips of a personal, room or space board (the web's `boards.ts` writes and `upload.ts`) */
 object SoundboardEdit {
@@ -93,7 +93,7 @@ object SoundboardEdit {
 
     /** Uploads the file and returns the clip to add to a board (it is not saved yet) */
     suspend fun upload(
-        client: WizardClient,
+        client: MudrixClient,
         bytes: ByteArray,
         mimetype: String,
         durationMs: Long,
@@ -109,7 +109,7 @@ object SoundboardEdit {
         return SoundboardSound(newId(), cleanName(name).ifEmpty { "Sound" }, cleanEmoji(emoji.orEmpty()), url, mimetype, durationMs, bytes.size.toLong(), volume.coerceIn(0f, 1f))
     }
 
-    suspend fun writePersonal(client: WizardClient, board: List<SoundboardSound>) {
+    suspend fun writePersonal(client: MudrixClient, board: List<SoundboardSound>) {
         try {
             client.setAccountData(Soundboard.BOARD_TYPE, content(board))
         } catch (e: Exception) {
@@ -123,7 +123,7 @@ object SoundboardEdit {
         return SpaceModern.canSendState(levels, data.creators, userId, type)
     }
 
-    suspend fun writeRoom(client: WizardClient, roomId: String, userId: String, board: List<SoundboardSound>) {
+    suspend fun writeRoom(client: MudrixClient, roomId: String, userId: String, board: List<SoundboardSound>) {
         val data = RoomSoundboards.load(client, roomId)
         if (!canManage(data, userId, Soundboard.BOARD_TYPE)) throw Failure(Problem.Forbidden)
         try {
@@ -134,7 +134,7 @@ object SoundboardEdit {
         RoomSoundboards.remember(roomId, board = board)
     }
 
-    suspend fun writeRoomSettings(client: WizardClient, roomId: String, enabled: Boolean, minPowerLevel: Double) {
+    suspend fun writeRoomSettings(client: MudrixClient, roomId: String, enabled: Boolean, minPowerLevel: Double) {
         client.setStateEvent(roomId, RoomSoundboards.SETTINGS_TYPE, "", settingsContent(enabled, minPowerLevel))
         RoomSoundboards.remember(roomId, settings = RoomSoundboards.Settings(enabled, minPowerLevel))
     }

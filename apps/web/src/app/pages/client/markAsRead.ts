@@ -1,8 +1,8 @@
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 
 /** "Mark as read": moves the read receipt and the fully-read marker to the room's latest message */
 export async function markRoomAsRead(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   sendReadReceipts: boolean
 ): Promise<void> {

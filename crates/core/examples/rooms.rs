@@ -12,7 +12,7 @@ mod common;
 use std::time::Duration;
 
 use futures_channel::oneshot;
-use mudrix_core::{CreateRoomOptions, RoomSummary, SpaceSummary, WizardClient};
+use mudrix_core::{CreateRoomOptions, MudrixClient, RoomSummary, SpaceSummary};
 use serde_json::{json, Value};
 
 use common::BoxError;
@@ -32,7 +32,7 @@ async fn eventually<T>(
 
 /// Watches the room list until `done` holds for it
 async fn room_list_until(
-    client: &WizardClient,
+    client: &MudrixClient,
     what: &str,
     done: impl Fn(&[RoomSummary]) -> bool,
 ) -> Result<Vec<RoomSummary>, BoxError> {
@@ -57,7 +57,7 @@ async fn room_list_until(
 }
 
 async fn spaces_until(
-    client: &WizardClient,
+    client: &MudrixClient,
     what: &str,
     done: impl Fn(&[SpaceSummary]) -> bool,
 ) -> Result<Vec<SpaceSummary>, BoxError> {

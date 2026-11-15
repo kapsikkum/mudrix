@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import type { UrlPreview, WizardClient } from '@mudrix/core';
+import type { UrlPreview, MudrixClient } from '@mudrix/core';
 
 export function useLinkPreview(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   url: string | null,
   isEncrypted: boolean
 ): { data: UrlPreview | null | undefined; isLoading: boolean } {

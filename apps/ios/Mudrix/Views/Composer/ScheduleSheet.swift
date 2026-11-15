@@ -4,7 +4,7 @@ import MudrixCore
 /// "Send later": schedules the draft as a delayed event on the homeserver (MSC4140) and lists, sends or
 /// cancels the room's scheduled messages
 struct ScheduleSheet: View {
-    let client: WizardClient
+    let client: MudrixClient
     let roomId: String
     let roomEncrypted: Bool
     /// The draft to schedule, as text and HTML

@@ -8,7 +8,7 @@ import {
   type ComponentProps,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { CaretDownIcon, UploadIcon, ChatTeardropTextIcon, XIcon } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
@@ -76,7 +76,7 @@ import * as css from './Timeline.css';
 import { scrollBehavior } from '@/app/hooks/useReducedMotion';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   hideHeader?: boolean;
 }

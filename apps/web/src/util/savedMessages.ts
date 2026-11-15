@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { EventSource, WizardClient } from '@mudrix/core';
+import type { EventSource, MudrixClient } from '@mudrix/core';
 import { legacyMudrixKey, mudrixKey } from '@/util/namespace';
 import { readFirstAccountData } from '@/app/hooks/useFirstAccountData';
 
@@ -40,7 +40,7 @@ export function parseSavedMessages(content: unknown): SavedMessage[] {
 
 /** Saves the message, or removes it from the saved list when it already is there. */
 export async function toggleSavedMessage(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   eventId: string
 ): Promise<boolean> {
@@ -81,7 +81,7 @@ export function previewOfSource(source: EventSource): EventPreview {
 
 /** Looks a saved message up from the core (it decrypts), null when the message cannot be fetched. */
 export async function resolveSavedEvent(
-  client: WizardClient,
+  client: MudrixClient,
   saved: Pick<SavedMessage, 'roomId' | 'eventId'>
 ): Promise<EventPreview | null> {
   try {

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOutSimpleIcon, CodeIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
-import type { MediaSource, WizardClient } from '@mudrix/core';
+import type { MediaSource, MudrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';
@@ -116,7 +116,7 @@ export function TextFileCard({
   size,
   loadFull,
 }: {
-  client: WizardClient;
+  client: MudrixClient;
   source: MediaSource;
   filename: string;
   size?: number;

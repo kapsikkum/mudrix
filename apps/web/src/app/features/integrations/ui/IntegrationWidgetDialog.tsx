@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { SpinnerGapIcon } from '@phosphor-icons/react';
 import { ClientWidgetApi, Widget } from 'matrix-widget-api';
 import type { IRoomEvent } from 'matrix-widget-api';
-import type { RoomEvent, WizardClient as MatrixClient } from '@mudrix/core';
+import type { RoomEvent, MudrixClient as MatrixClient } from '@mudrix/core';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import { effectiveThemeAtom } from '@/app/store/atoms';
 import { useProfile } from '@/app/hooks/useProfile';

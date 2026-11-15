@@ -1,10 +1,10 @@
-import type { MediaInfo, WizardClient } from '@mudrix/core';
+import type { MediaInfo, MudrixClient } from '@mudrix/core';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { getCachedBlobUrl } from './mediaCache';
 
 export function getMediaBlobUrl(
   mxcUrl: string,
-  client: WizardClient,
+  client: MudrixClient,
   setState: (url: string) => void
 ): string | null {
   if (!mxcUrl) return null;

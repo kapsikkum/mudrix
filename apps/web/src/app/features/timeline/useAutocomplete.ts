@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useAllJoinedSpaces, useAllRooms, useMembers, useRoom } from '@/app/data';
 import { makeRoomPermalink } from '@/util/matrix';
 import { Editor, Transforms, Range } from 'slate';
@@ -125,7 +125,7 @@ const CLOSED: AutocompleteState = {
 };
 
 export function useAutocomplete(
-  _client: WizardClient,
+  _client: MudrixClient,
   roomId: string,
   options?: { disableCommands?: boolean }
 ) {

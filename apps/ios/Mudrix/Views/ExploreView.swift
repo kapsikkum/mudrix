@@ -241,7 +241,7 @@ private struct RoomCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: WZ.Space.space4) {
             HStack(alignment: .top, spacing: WZ.Space.space4) {
-                AvatarView(name: name, url: room.avatarUrl, size: WZ.SizeAvatar.md, cornerRadius: WizardTheme.radiusSm)
+                AvatarView(name: name, url: room.avatarUrl, size: WZ.SizeAvatar.md, cornerRadius: MudrixTheme.radiusSm)
                 VStack(alignment: .leading, spacing: WZ.Space.space1) {
                     Text(name)
                         .font(.wizard(WZ.FontSize.md, .semibold))
@@ -278,15 +278,15 @@ private struct RoomCard: View {
                         .padding(.horizontal, WZ.Space.space5)
                         .frame(height: WZ.Space.space9)
                         .background(isJoined || isKnocked ? theme.bgTertiary : theme.accent,
-                                    in: RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
+                                    in: RoundedRectangle(cornerRadius: MudrixTheme.radiusSm))
                 }
                 .buttonStyle(.plain)
                 .disabled(isJoining || isKnocked)
             }
         }
         .padding(WZ.Space.space5)
-        .background(theme.bgPrimary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
-        .overlay(RoundedRectangle(cornerRadius: WizardTheme.radiusMd).stroke(theme.border))
+        .background(theme.bgPrimary, in: RoundedRectangle(cornerRadius: MudrixTheme.radiusMd))
+        .overlay(RoundedRectangle(cornerRadius: MudrixTheme.radiusMd).stroke(theme.border))
     }
 
     private static func format(_ count: Int) -> String {

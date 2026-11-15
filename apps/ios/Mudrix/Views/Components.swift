@@ -190,7 +190,7 @@ extension ToolbarContent {
     }
 }
 
-extension WizardTheme {
+extension MudrixTheme {
     var fill: Color { bgHover }
     var groupedBackground: Color { colorScheme == .dark ? bgPrimary : bgSecondary }
     var groupedRow: Color { colorScheme == .dark ? bgSecondary : bgPrimary }

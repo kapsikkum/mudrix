@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import type { RoomTimeline, TimelineKind, WizardClient } from '@mudrix/core';
+import type { RoomTimeline, TimelineKind, MudrixClient } from '@mudrix/core';
 
 export interface ComposerTimeline {
   roomId: string;
@@ -14,7 +14,7 @@ function kindOf(threadId: string | null | undefined): TimelineKind {
 }
 
 export function useSendTimeline(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   threadId: string | null | undefined,
   provided?: RoomTimeline | null,
@@ -63,7 +63,7 @@ export function useSendTimeline(
 }
 
 export function useComposerTimeline(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   threadId: string | null | undefined
 ): () => Promise<RoomTimeline> {

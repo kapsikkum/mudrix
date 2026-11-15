@@ -3,7 +3,7 @@ import MudrixCore
 
 /// "Edit history": every version of a message, newest first, with the current text and the original marked
 struct EditHistorySheet: View {
-    let client: WizardClient
+    let client: MudrixClient
     let roomId: String
     let eventId: String
     @Environment(\.dismiss) private var dismiss

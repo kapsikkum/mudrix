@@ -8,10 +8,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import chat.mudrix.core.PublicRoom
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Pages through a server's public room directory */
-class ExploreModel(private val client: WizardClient, private val scope: CoroutineScope) {
+class ExploreModel(private val client: MudrixClient, private val scope: CoroutineScope) {
     var rooms by mutableStateOf(listOf<PublicRoom>())
         private set
     var isLoading by mutableStateOf(false)

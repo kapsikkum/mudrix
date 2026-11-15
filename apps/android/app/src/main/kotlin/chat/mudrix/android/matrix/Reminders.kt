@@ -19,7 +19,7 @@ import kotlinx.serialization.json.put
 import chat.mudrix.android.ui.CopyToast
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 data class Reminder(val id: String, val roomId: String, val eventId: String, val at: Long)
 
@@ -45,9 +45,9 @@ class Reminders private constructor() {
     private val contents = HashMap<String, JsonElement?>()
     private val timers = HashMap<String, Job>()
     private val delivering = HashSet<String>()
-    private var client: WizardClient? = null
+    private var client: MudrixClient? = null
 
-    fun start(client: WizardClient) {
+    fun start(client: MudrixClient) {
         stop()
         this.client = client
         for (type in TYPES) {
@@ -71,14 +71,14 @@ class Reminders private constructor() {
         client = null
     }
 
-    suspend fun add(client: WizardClient, roomId: String, eventId: String, at: Long): Reminder {
+    suspend fun add(client: MudrixClient, roomId: String, eventId: String, at: Long): Reminder {
         val reminder = Reminder(newId(), roomId, eventId, at)
         client.setAccountData(TYPE, toContent(parse(client.firstAccountData(TYPES)) + reminder))
         return reminder
     }
 
     /** Removes a reminder; false when it was already gone (another device delivered or cancelled it) */
-    suspend fun remove(client: WizardClient, id: String): Boolean {
+    suspend fun remove(client: MudrixClient, id: String): Boolean {
         val current = parse(client.firstAccountData(TYPES))
         if (current.none { it.id == id }) return false
         client.setAccountData(TYPE, toContent(current.filter { it.id != id }))

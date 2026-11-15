@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { userProfileAtom } from '@/app/store/atoms';
 import { formatShortDateLabel, formatTime } from '@/util/format';
 import { formatUserId } from '@/util/matrix';

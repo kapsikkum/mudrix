@@ -82,7 +82,7 @@ final class RoomListModel: ObservableObject {
     private var mudrixHomeOrder: [String]?
     private var upstreamHomeOrder: [String]?
 
-    let client: WizardClient
+    let client: MudrixClient
     private var rooms: [RoomSummary] = []
     /// rooms(for:) runs for every space in the sidebar and again for the open list on each evaluation;
     /// it only changes with the rooms or the space graph
@@ -92,7 +92,7 @@ final class RoomListModel: ObservableObject {
     private var roomsReceived = false
     private var spacesReceived = false
 
-    init(client: WizardClient) {
+    init(client: MudrixClient) {
         self.client = client
     }
 

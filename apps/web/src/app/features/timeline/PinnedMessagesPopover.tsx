@@ -1,6 +1,6 @@
 import { useMemo, useState, type RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { RoomTimeline, WizardClient as MatrixClient } from '@mudrix/core';
+import type { RoomTimeline, MudrixClient as MatrixClient } from '@mudrix/core';
 import { ArrowBendDownRightIcon, PushPinIcon, PushPinSlashIcon } from '@phosphor-icons/react';
 import { Popover } from '@/app/components/Popover/Popover';
 import { Tooltip } from '@/app/components/Tooltip';

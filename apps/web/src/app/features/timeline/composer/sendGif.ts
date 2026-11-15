@@ -1,4 +1,4 @@
-import type { RoomTimeline, WizardClient } from '@mudrix/core';
+import type { RoomTimeline, MudrixClient } from '@mudrix/core';
 import { probeIsAnimated } from '../utils/imageAnimation';
 import { getImageDimensions } from './imageDimensions';
 import { sendRawEvent, type ReplyTarget } from './sendMessageContent';
@@ -8,7 +8,7 @@ import { downloadGif, type GifItem } from './gifProviders';
 export const GIF_SOURCE_FIELD = 'xyz.mudrix.gif';
 
 export interface SendGifOptions {
-  client: WizardClient;
+  client: MudrixClient;
   timeline: RoomTimeline;
   isEncrypted: boolean;
   threadId?: string | null;

@@ -309,12 +309,12 @@ rpc_methods! {
     }
 }
 
-/// `WizardClient` methods of the timeline area
+/// `MudrixClient` methods of the timeline area
 pub(super) mod client {
-    use crate::WizardClient;
+    use crate::MudrixClient;
 
     rpc_methods! {
-        WizardClient(this: WizardClient) {
+        MudrixClient(this: MudrixClient) {
             /// "Mark as read": moves the unthreaded read receipt and the fully-read marker to
             /// the room's latest message. Private receipts aren't shown to others.
             call fn markRoomAsRead(room_id: String, private: Option<bool>) -> () {

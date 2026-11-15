@@ -10,7 +10,7 @@ import type {
   SpaceNode,
   SpaceSummary,
   UserProfile,
-  WizardClient,
+  MudrixClient,
 } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { applyDiffs } from '@/core/listDiff';
@@ -33,7 +33,7 @@ export { useTimeline, useTypingUsers } from '@/core/hooks';
 export { useMediaUrl, downloadMedia } from '@/core/media';
 
 /** The signed-in client; only use below the auth guard */
-export function useClient(): WizardClient {
+export function useClient(): MudrixClient {
   const client = getMatrixClientOrNull();
   if (!client) throw new Error('useClient outside a signed-in session');
   return client;
@@ -67,7 +67,7 @@ export const useMarkRoomLeft = () => useSetAtom(markRoomLeftAtom);
 export const allJoinedSpacesAtom = atom<SpaceSummary[]>([]);
 const allSpacesAtom = allJoinedSpacesAtom;
 let allSpacesWatch: {
-  client: WizardClient;
+  client: MudrixClient;
   store: ReturnType<typeof useStore>;
   users: number;
   cancel: () => void;
@@ -161,7 +161,7 @@ export const queryKeys = {
 
 function useCoreQuery<T>(
   key: readonly unknown[],
-  fetch: (client: WizardClient) => Promise<T>,
+  fetch: (client: MudrixClient) => Promise<T>,
   enabled = true,
   staleTime = 30_000
 ) {

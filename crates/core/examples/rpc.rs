@@ -77,7 +77,7 @@ async fn main() -> Result<(), BoxError> {
     let started = std::time::Instant::now();
 
     let error = h
-        .call_with("WizardClient.nope", None, json!([]), vec![])
+        .call_with("MudrixClient.nope", None, json!([]), vec![])
         .await
         .unwrap_err();
     assert_eq!(error["code"], "sdk");
@@ -90,7 +90,7 @@ async fn main() -> Result<(), BoxError> {
     let store = json!({ "location": dir.to_string_lossy(), "passphrase": null });
     let client = h
         .call(
-            "WizardClient.register",
+            "MudrixClient.register",
             None,
             json!([server, username, password, "RPC test", null, store]),
         )
@@ -106,16 +106,16 @@ async fn main() -> Result<(), BoxError> {
     let client = handle(&client);
     println!("registered {user_id} (handle {client})");
 
-    h.call("WizardClient.startSync", Some(client), json!([]))
+    h.call("MudrixClient.startSync", Some(client), json!([]))
         .await?;
-    h.call("WizardClient.watchSyncState", Some(client), json!([1]))
+    h.call("MudrixClient.watchSyncState", Some(client), json!([1]))
         .await?;
     h.event(1, |state| state == "running").await?;
     println!("sync running, reported through a listener");
 
     let room_id = h
         .call(
-            "WizardClient.createRoom",
+            "MudrixClient.createRoom",
             Some(client),
             json!([{ "name": "RPC room" }]),
         )
@@ -123,7 +123,7 @@ async fn main() -> Result<(), BoxError> {
         .as_str()
         .unwrap()
         .to_owned();
-    h.call("WizardClient.watchRooms", Some(client), json!([50, 2]))
+    h.call("MudrixClient.watchRooms", Some(client), json!([50, 2]))
         .await?;
     h.event(2, |diffs| diffs.to_string().contains(&room_id))
         .await?;
@@ -138,7 +138,7 @@ async fn main() -> Result<(), BoxError> {
     println!("room list shows the new room, and the filter applies");
 
     let timeline = handle(
-        &h.call("WizardClient.timeline", Some(client), json!([room_id]))
+        &h.call("MudrixClient.timeline", Some(client), json!([room_id]))
             .await?,
     );
     h.call("RoomTimeline.watch", Some(timeline), json!([3]))
@@ -156,7 +156,7 @@ async fn main() -> Result<(), BoxError> {
     let data: Vec<u8> = (0..=255).cycle().take(70_000).collect();
     let (url, _) = h
         .call_with(
-            "WizardClient.uploadMedia",
+            "MudrixClient.uploadMedia",
             Some(client),
             json!([{ "$bytes": 0 }, "application/octet-stream"]),
             vec![data.clone()],
@@ -165,7 +165,7 @@ async fn main() -> Result<(), BoxError> {
         .map_err(|e| format!("upload failed: {e}"))?;
     let (reply, blobs) = h
         .call_with(
-            "WizardClient.media",
+            "MudrixClient.media",
             Some(client),
             json!([{ "url": url }, null, null]),
             vec![],
@@ -193,7 +193,7 @@ async fn main() -> Result<(), BoxError> {
         .contains("released"));
     println!("released handles are rejected");
 
-    h.call("WizardClient.logout", Some(client), json!([]))
+    h.call("MudrixClient.logout", Some(client), json!([]))
         .await?;
     // Let the stores close before the runtime and their directory go away
     h.rpc.reset();

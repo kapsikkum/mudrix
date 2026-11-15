@@ -45,12 +45,12 @@ final class Reminders: ObservableObject {
     private var timers: [String: Task<Void, Never>] = [:]
     private var scheduled: Set<String> = []
     private var delivering: Set<String> = []
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var userId = ""
     private var roomName: (String) -> String? = { _ in nil }
 
     /// `roomName` gives a room's name for the notification's title
-    func start(client: WizardClient, roomName: @escaping (String) -> String?) {
+    func start(client: MudrixClient, roomName: @escaping (String) -> String?) {
         stop()
         self.client = client
         self.roomName = roomName
@@ -80,7 +80,7 @@ final class Reminders: ObservableObject {
         client = nil
     }
 
-    func add(client: WizardClient, roomId: String, eventId: String, at: Int64) async throws {
+    func add(client: MudrixClient, roomId: String, eventId: String, at: Int64) async throws {
         let reminder = Reminder(id: Self.newId(), roomId: roomId, eventId: eventId, at: at)
         let current = Self.parse(await client.firstAccountData(Self.types))
         try await client.setAccountData(eventType: Self.type, content: Self.toContent(current + [reminder]))
@@ -88,7 +88,7 @@ final class Reminders: ObservableObject {
 
     /// Removes a reminder; false when it was already gone (another device delivered or cancelled it)
     @discardableResult
-    func remove(client: WizardClient, id: String) async throws -> Bool {
+    func remove(client: MudrixClient, id: String) async throws -> Bool {
         let current = Self.parse(await client.firstAccountData(Self.types))
         guard current.contains(where: { $0.id == id }) else { return false }
         try await client.setAccountData(eventType: Self.type, content: Self.toContent(current.filter { $0.id != id }))

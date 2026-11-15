@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { ImageIcon, TrashIcon } from '@phosphor-icons/react';
 import { Button } from '@/app/components/Button';
 import { useToast } from '@/app/hooks/useToast';
@@ -10,7 +10,7 @@ import { SPACE_BANNER_PRESETS, setSpaceBanner, useSpaceBanner } from './spaceBan
 import * as css from './SpaceBanner.css';
 
 interface SpaceBannerPickerProps {
-  client: WizardClient | null;
+  client: MudrixClient | null;
   spaceId: string;
   /** Whether the signed-in user may change the banner. */
   canEdit: boolean;

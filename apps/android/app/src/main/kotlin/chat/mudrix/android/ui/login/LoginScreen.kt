@@ -54,7 +54,7 @@ import chat.mudrix.android.ui.tr
 import chat.mudrix.core.IdentityProvider
 import chat.mudrix.core.RegistrationInfo
 import chat.mudrix.core.ServerInfo
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.core.WizardError
 import chat.mudrix.tokens.WZ
 
@@ -189,7 +189,7 @@ fun LoginScreen() {
             delay(400)
             val discovered = session.discover(server)
             try {
-                registration = WizardClient.registrationInfo(discovered.homeserverUrl)
+                registration = MudrixClient.registrationInfo(discovered.homeserverUrl)
             } catch (error: WizardError) {
                 registrationRateLimited = error.errcode == "M_LIMIT_EXCEEDED"
             } catch (_: Exception) {
@@ -218,7 +218,7 @@ fun LoginScreen() {
         usernameState = UsernameState.Checking
         delay(500)
         usernameState = try {
-            if (WizardClient.usernameAvailable(server, username)) UsernameState.Available else UsernameState.Taken
+            if (MudrixClient.usernameAvailable(server, username)) UsernameState.Available else UsernameState.Taken
         } catch (error: WizardError) {
             when (error.errcode) {
                 "M_USER_IN_USE" -> UsernameState.Taken

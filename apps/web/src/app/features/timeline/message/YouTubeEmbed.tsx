@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
 import { PlayIcon } from '@phosphor-icons/react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { youtubeEmbedsAtom } from '@/app/store/atoms';
@@ -13,7 +13,7 @@ import * as css from './LinkPreview.css';
 interface YouTubeEmbedProps {
   url: string;
   video: YouTubeVideo;
-  client: WizardClient;
+  client: MudrixClient;
   isEncrypted: boolean;
 }
 

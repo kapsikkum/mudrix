@@ -37,14 +37,14 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.SpaceNode
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /**
  * Writes the `order` the children of [spaceId] need to read as [orderedIds]: a four digit number per place, and only where a
  * child's own order differs (so a list that is already right writes nothing).
  */
-internal suspend fun saveChildOrder(client: WizardClient, node: SpaceNode?, spaceId: String, orderedIds: List<String>) {
+internal suspend fun saveChildOrder(client: MudrixClient, node: SpaceNode?, spaceId: String, orderedIds: List<String>) {
     val current = node?.children?.associate { it.roomId to it.order }.orEmpty()
     orderedIds.forEachIndexed { index, childId ->
         val order = "%04d".format((index + 1) * 10)
@@ -72,7 +72,7 @@ internal fun SpaceChannelsScreen(spaceId: String, roomList: RoomListModel, onBac
     var moving by remember { mutableStateOf<Pair<String, String?>?>(null) }
     LaunchedEffect(spaceId, session.client) { canManage = session.canSendState("m.space.child", spaceId) }
 
-    fun run(work: suspend (WizardClient) -> Unit) {
+    fun run(work: suspend (MudrixClient) -> Unit) {
         val client = session.client ?: return
         scope.launch {
             try {

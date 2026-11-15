@@ -3,7 +3,7 @@ import MudrixCore
 
 struct RoomWidgetsView: View {
     let roomId: String
-    let client: WizardClient
+    let client: MudrixClient
     let canManage: Bool
 
     @EnvironmentObject private var prefs: AppPreferences
@@ -180,7 +180,7 @@ struct RoomBridge: Identifiable {
     let network: Part?
     let channel: Part
 
-    static func load(client: WizardClient, roomId: String) async -> [RoomBridge] {
+    static func load(client: MudrixClient, roomId: String) async -> [RoomBridge] {
         var byKey: [String: RoomBridge] = [:]
         var order: [String] = []
         for type in ["m.bridge", "uk.half-shot.bridge"] {

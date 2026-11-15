@@ -40,7 +40,7 @@ import chat.mudrix.core.Subscription
 import chat.mudrix.core.VerificationEmoji
 import chat.mudrix.core.VerificationFlow
 import chat.mudrix.core.VerificationStatus
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 internal class VerificationModel(val start: Start) {
@@ -74,7 +74,7 @@ internal class VerificationModel(val start: Start) {
     private var sasAccepted = false
     private var scope: CoroutineScope? = null
 
-    suspend fun begin(client: WizardClient?, scope: CoroutineScope) {
+    suspend fun begin(client: MudrixClient?, scope: CoroutineScope) {
         if (begun) return
         begun = true
         this.scope = scope
@@ -273,7 +273,7 @@ internal class VerificationRequests private constructor() {
     private val scope = MainScope()
     private var subscription: Subscription? = null
 
-    fun start(client: WizardClient) {
+    fun start(client: MudrixClient) {
         subscription = client.watchVerificationRequests { flow -> scope.launch { received(flow) } }
     }
 

@@ -3,7 +3,7 @@ import { useStore } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { StickerIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';

@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { useTranslation } from 'react-i18next';
 import type { InviteAutocompleteState, UserSuggestion } from './useInviteAutocomplete';

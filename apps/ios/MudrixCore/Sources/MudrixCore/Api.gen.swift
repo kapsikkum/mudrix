@@ -437,7 +437,7 @@ public struct EncryptionStatus: Codable, Hashable, Sendable {
 }
 
 /// What a message shows. Media keeps its source opaque; pass it to
-/// [`crate::WizardClient::media`] to get the (decrypted) bytes.
+/// [`crate::MudrixClient::media`] to get the (decrypted) bytes.
 public enum EntryContent: Codable, Hashable, Sendable {
     public struct Text: Codable, Hashable, Sendable {
         public var body: String
@@ -2192,7 +2192,7 @@ public struct ServerNotification: Codable, Hashable, Sendable {
 }
 
 /// Everything needed to restore a signed-in client. Apps store it securely and hand it back to
-/// [`crate::WizardClient::restore`] on the next start.
+/// [`crate::MudrixClient::restore`] on the next start.
 public struct Session: Codable, Hashable, Sendable {
     public var homeserverUrl: String
     public var userId: String
@@ -3123,8 +3123,8 @@ public struct Widget: Codable, Hashable, Sendable {
     }
 }
 
-public final class WizardClient: Remote, @unchecked Sendable {
-    override public class var className: String { "WizardClient" }
+public final class MudrixClient: Remote, @unchecked Sendable {
+    override public class var className: String { "MudrixClient" }
 
     public var session: Session {
         prop("session")
@@ -3135,150 +3135,150 @@ public final class WizardClient: Remote, @unchecked Sendable {
     }
 
     public func startSync() async throws {
-        _ = try await call("WizardClient.startSync", []) as Empty
+        _ = try await call("MudrixClient.startSync", []) as Empty
     }
 
     public func stopSync() async throws {
-        _ = try await call("WizardClient.stopSync", []) as Empty
+        _ = try await call("MudrixClient.stopSync", []) as Empty
     }
 
     /// Calls `listener` with the sync state now and on every change.
     @discardableResult
     public func watchSyncState(listener: @escaping @Sendable (SyncState) -> Void) -> Subscription {
-        watch("WizardClient.watchSyncState", [.listener(SyncState.self, listener)])
+        watch("MudrixClient.watchSyncState", [.listener(SyncState.self, listener)])
     }
 
     /// Calls `listener` with how far the account has loaded (cached data, then the first sync).
     @discardableResult
     public func watchLoadState(listener: @escaping @Sendable (LoadState) -> Void) -> Subscription {
-        watch("WizardClient.watchLoadState", [.listener(LoadState.self, listener)])
+        watch("MudrixClient.watchLoadState", [.listener(LoadState.self, listener)])
     }
 
     /// Account data as this device stored it at the last sync (no request to the server).
     public func cachedAccountData(eventType: String) async throws -> JSONValue? {
-        try await call("WizardClient.cachedAccountData", [.value(eventType)])
+        try await call("MudrixClient.cachedAccountData", [.value(eventType)])
     }
 
     /// Hands over a session another tab on the same store saved after refreshing its tokens.
     public func adoptSession(session: Session) async throws {
-        _ = try await call("WizardClient.adoptSession", [.value(session)]) as Empty
+        _ = try await call("MudrixClient.adoptSession", [.value(session)]) as Empty
     }
 
     /// Calls `listener` with room list diffs, starting with the current list.
     @discardableResult
     public func watchRooms(pageSize: Int, listener: @escaping @Sendable ([ListDiff<RoomSummary>]) -> Void) -> RoomListSubscription {
-        watch("WizardClient.watchRooms", [.value(pageSize), .listener([ListDiff<RoomSummary>].self, listener)])
+        watch("MudrixClient.watchRooms", [.value(pageSize), .listener([ListDiff<RoomSummary>].self, listener)])
     }
 
     /// Calls `listener` with diffs of the top-level joined spaces.
     @discardableResult
     public func watchSpaces(listener: @escaping @Sendable ([ListDiff<SpaceSummary>]) -> Void) -> Subscription {
-        watch("WizardClient.watchSpaces", [.listener([ListDiff<SpaceSummary>].self, listener)])
+        watch("MudrixClient.watchSpaces", [.listener([ListDiff<SpaceSummary>].self, listener)])
     }
 
     public func spaceChildren(spaceId: String) async throws -> [SpaceChild] {
-        try await call("WizardClient.spaceChildren", [.value(spaceId)])
+        try await call("MudrixClient.spaceChildren", [.value(spaceId)])
     }
 
     /// Joins by room ID or alias; resolves to the room ID.
     public func join(idOrAlias: String, via: [String]? = nil) async throws -> String {
-        try await call("WizardClient.join", [.value(idOrAlias), .value(via)])
+        try await call("MudrixClient.join", [.value(idOrAlias), .value(via)])
     }
 
     public func leave(roomId: String) async throws {
-        _ = try await call("WizardClient.leave", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.leave", [.value(roomId)]) as Empty
     }
 
     public func acceptInvite(roomId: String) async throws {
-        _ = try await call("WizardClient.acceptInvite", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.acceptInvite", [.value(roomId)]) as Empty
     }
 
     public func declineInvite(roomId: String) async throws {
-        _ = try await call("WizardClient.declineInvite", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.declineInvite", [.value(roomId)]) as Empty
     }
 
     public func inviteInfo(roomId: String) async throws -> InviteInfo {
-        try await call("WizardClient.inviteInfo", [.value(roomId)])
+        try await call("MudrixClient.inviteInfo", [.value(roomId)])
     }
 
     /// Creates a room or space; resolves to its ID.
     public func createRoom(options: CreateRoomOptions) async throws -> String {
-        try await call("WizardClient.createRoom", [.value(options)])
+        try await call("MudrixClient.createRoom", [.value(options)])
     }
 
     /// Opens or creates the direct chat with a user; resolves to the room ID.
     public func startDm(userId: String) async throws -> String {
-        try await call("WizardClient.startDm", [.value(userId)])
+        try await call("MudrixClient.startDm", [.value(userId)])
     }
 
     public func invite(roomId: String, userId: String) async throws {
-        _ = try await call("WizardClient.invite", [.value(roomId), .value(userId)]) as Empty
+        _ = try await call("MudrixClient.invite", [.value(roomId), .value(userId)]) as Empty
     }
 
     public func setFavourite(roomId: String, favourite: Bool) async throws {
-        _ = try await call("WizardClient.setFavourite", [.value(roomId), .value(favourite)]) as Empty
+        _ = try await call("MudrixClient.setFavourite", [.value(roomId), .value(favourite)]) as Empty
     }
 
     /// Moves a room to the low priority group (or back); a favourite stops being one.
     public func setLowPriority(roomId: String, lowPriority: Bool) async throws {
-        _ = try await call("WizardClient.setLowPriority", [.value(roomId), .value(lowPriority)]) as Empty
+        _ = try await call("MudrixClient.setLowPriority", [.value(roomId), .value(lowPriority)]) as Empty
     }
 
     public func setMarkedUnread(roomId: String, unread: Bool) async throws {
-        _ = try await call("WizardClient.setMarkedUnread", [.value(roomId), .value(unread)]) as Empty
+        _ = try await call("MudrixClient.setMarkedUnread", [.value(roomId), .value(unread)]) as Empty
     }
 
     public func roomDetails(roomId: String) async throws -> RoomDetails {
-        try await call("WizardClient.roomDetails", [.value(roomId)])
+        try await call("MudrixClient.roomDetails", [.value(roomId)])
     }
 
     /// Calls `listener` with the room's details now and on every change.
     @discardableResult
     public func watchRoomDetails(roomId: String, listener: @escaping @Sendable (RoomDetails) -> Void) -> Subscription {
-        watch("WizardClient.watchRoomDetails", [.value(roomId), .listener(RoomDetails.self, listener)])
+        watch("MudrixClient.watchRoomDetails", [.value(roomId), .listener(RoomDetails.self, listener)])
     }
 
     public func members(roomId: String) async throws -> [Member] {
-        try await call("WizardClient.members", [.value(roomId)])
+        try await call("MudrixClient.members", [.value(roomId)])
     }
 
     public func kick(roomId: String, userId: String, reason: String? = nil) async throws {
-        _ = try await call("WizardClient.kick", [.value(roomId), .value(userId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.kick", [.value(roomId), .value(userId), .value(reason)]) as Empty
     }
 
     public func ban(roomId: String, userId: String, reason: String? = nil) async throws {
-        _ = try await call("WizardClient.ban", [.value(roomId), .value(userId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.ban", [.value(roomId), .value(userId), .value(reason)]) as Empty
     }
 
     public func setRoomName(roomId: String, name: String) async throws {
-        _ = try await call("WizardClient.setRoomName", [.value(roomId), .value(name)]) as Empty
+        _ = try await call("MudrixClient.setRoomName", [.value(roomId), .value(name)]) as Empty
     }
 
     public func setRoomTopic(roomId: String, topic: String) async throws {
-        _ = try await call("WizardClient.setRoomTopic", [.value(roomId), .value(topic)]) as Empty
+        _ = try await call("MudrixClient.setRoomTopic", [.value(roomId), .value(topic)]) as Empty
     }
 
     public func searchPublicRooms(query: String, server: String? = nil, limit: Int? = nil) async throws -> [PublicRoom] {
-        try await call("WizardClient.searchPublicRooms", [.value(query), .value(server), .value(limit)])
+        try await call("MudrixClient.searchPublicRooms", [.value(query), .value(server), .value(limit)])
     }
 
     public func searchUsers(query: String, limit: Int? = nil) async throws -> [UserResult] {
-        try await call("WizardClient.searchUsers", [.value(query), .value(limit)])
+        try await call("MudrixClient.searchUsers", [.value(query), .value(limit)])
     }
 
     /// A thread's or the pinned messages' timeline (or the main one).
     public func timelineOf(roomId: String, kind: TimelineKind) async throws -> RoomTimeline {
-        try await call("WizardClient.timelineOf", [.value(roomId), .value(kind)])
+        try await call("MudrixClient.timelineOf", [.value(roomId), .value(kind)])
     }
 
     public func timeline(roomId: String) async throws -> RoomTimeline {
-        try await call("WizardClient.timeline", [.value(roomId)])
+        try await call("MudrixClient.timeline", [.value(roomId)])
     }
 
     /// Bytes of a message's media, decrypted if needed. With a size, a server-side thumbnail
     /// of unencrypted media is fetched instead of the full file.
     public func media(source: MediaSource, width: Int? = nil, height: Int? = nil) async throws -> Data {
-        try await call("WizardClient.media", [.value(source), .value(width), .value(height)])
+        try await call("MudrixClient.media", [.value(source), .value(width), .value(height)])
     }
 
     /// Like `media`, with the progress of the download (`listener`) and a way to stop it:
@@ -3286,509 +3286,509 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// with code `cancelled`. `sizeHint` (the size in the message's info) stands in for the
     /// total when the server's own length isn't readable, as in a browser.
     public func mediaDownload(source: MediaSource, sizeHint: Int?, token: String, listener: @escaping @Sendable (DownloadProgress) -> Void) async throws -> Data {
-        try await call("WizardClient.mediaDownload", [.value(source), .value(sizeHint), .value(token), .listener(DownloadProgress.self, listener)])
+        try await call("MudrixClient.mediaDownload", [.value(source), .value(sizeHint), .value(token), .listener(DownloadProgress.self, listener)])
     }
 
     /// Stops the `mediaDownload` that was started with `token`.
     public func cancelMediaDownload(token: String) async throws {
-        _ = try await call("WizardClient.cancelMediaDownload", [.value(token)]) as Empty
+        _ = try await call("MudrixClient.cancelMediaDownload", [.value(token)]) as Empty
     }
 
     /// The first `length` bytes of a message's media (all of it when shorter), without
     /// downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
     public func mediaHead(source: MediaSource, length: Int) async throws -> Data {
-        try await call("WizardClient.mediaHead", [.value(source), .value(length)])
+        try await call("MudrixClient.mediaHead", [.value(source), .value(length)])
     }
 
     /// Bytes of a thumbnail for an `mxc://` URI, fetched with this account's credentials;
     /// scaled to fit unless `crop` is set.
     public func thumbnail(mxc: String, width: Int, height: Int, crop: Bool? = nil) async throws -> Data {
-        try await call("WizardClient.thumbnail", [.value(mxc), .value(width), .value(height), .value(crop)])
+        try await call("MudrixClient.thumbnail", [.value(mxc), .value(width), .value(height), .value(crop)])
     }
 
     /// The MIME type of media bytes, from their first bytes (images, audio, video, PDF).
     public static func sniffMimeType(head: Data) async throws -> String? {
-        try await Runtime.shared.call("WizardClient.sniffMimeType", this: nil, [.bytes(head)])
+        try await Runtime.shared.call("MudrixClient.sniffMimeType", this: nil, [.bytes(head)])
     }
 
     public func userProfile(userId: String) async throws -> UserProfile {
-        try await call("WizardClient.userProfile", [.value(userId)])
+        try await call("MudrixClient.userProfile", [.value(userId)])
     }
 
     public func ownProfile() async throws -> UserProfile {
-        try await call("WizardClient.ownProfile", [])
+        try await call("MudrixClient.ownProfile", [])
     }
 
     public func presence(userId: String) async throws -> PresenceInfo? {
-        try await call("WizardClient.presence", [.value(userId)])
+        try await call("MudrixClient.presence", [.value(userId)])
     }
 
     public func setDisplayName(name: String) async throws {
-        _ = try await call("WizardClient.setDisplayName", [.value(name)]) as Empty
+        _ = try await call("MudrixClient.setDisplayName", [.value(name)]) as Empty
     }
 
     /// Uploads and sets a new avatar; resolves to its mxc:// URI.
     public func setAvatar(bytes: Data, mimetype: String) async throws -> String {
-        try await call("WizardClient.setAvatar", [.bytes(bytes), .value(mimetype)])
+        try await call("MudrixClient.setAvatar", [.bytes(bytes), .value(mimetype)])
     }
 
     public func removeAvatar() async throws {
-        _ = try await call("WizardClient.removeAvatar", []) as Empty
+        _ = try await call("MudrixClient.removeAvatar", []) as Empty
     }
 
     public func setCustomStatus(text: String, expiresAt: Double?, presence: Presence) async throws {
-        _ = try await call("WizardClient.setCustomStatus", [.value(text), .value(expiresAt), .value(presence)]) as Empty
+        _ = try await call("MudrixClient.setCustomStatus", [.value(text), .value(expiresAt), .value(presence)]) as Empty
     }
 
     public func clearCustomStatus(presence: Presence) async throws {
-        _ = try await call("WizardClient.clearCustomStatus", [.value(presence)]) as Empty
+        _ = try await call("MudrixClient.clearCustomStatus", [.value(presence)]) as Empty
     }
 
     public func setPresence(presence: Presence, statusMsg: String? = nil) async throws {
-        _ = try await call("WizardClient.setPresence", [.value(presence), .value(statusMsg)]) as Empty
+        _ = try await call("MudrixClient.setPresence", [.value(presence), .value(statusMsg)]) as Empty
     }
 
     public func presenceSupported() async throws -> Bool {
-        try await call("WizardClient.presenceSupported", [])
+        try await call("MudrixClient.presenceSupported", [])
     }
 
     public func ignoreUser(userId: String) async throws {
-        _ = try await call("WizardClient.ignoreUser", [.value(userId)]) as Empty
+        _ = try await call("MudrixClient.ignoreUser", [.value(userId)]) as Empty
     }
 
     public func unignoreUser(userId: String) async throws {
-        _ = try await call("WizardClient.unignoreUser", [.value(userId)]) as Empty
+        _ = try await call("MudrixClient.unignoreUser", [.value(userId)]) as Empty
     }
 
     public func setPowerLevel(roomId: String, userId: String, level: Double) async throws {
-        _ = try await call("WizardClient.setPowerLevel", [.value(roomId), .value(userId), .value(level)]) as Empty
+        _ = try await call("MudrixClient.setPowerLevel", [.value(roomId), .value(userId), .value(level)]) as Empty
     }
 
     public func notificationPrefs() async throws -> NotificationPrefs {
-        try await call("WizardClient.notificationPrefs", [])
+        try await call("MudrixClient.notificationPrefs", [])
     }
 
     public func setDefaultNotificationMode(direct: Bool, mode: NotificationMode) async throws {
-        _ = try await call("WizardClient.setDefaultNotificationMode", [.value(direct), .value(mode)]) as Empty
+        _ = try await call("MudrixClient.setDefaultNotificationMode", [.value(direct), .value(mode)]) as Empty
     }
 
     public func setMentionRule(rule: MentionRule, enabled: Bool) async throws {
-        _ = try await call("WizardClient.setMentionRule", [.value(rule), .value(enabled)]) as Empty
+        _ = try await call("MudrixClient.setMentionRule", [.value(rule), .value(enabled)]) as Empty
     }
 
     public func addNotificationKeyword(keyword: String) async throws {
-        _ = try await call("WizardClient.addNotificationKeyword", [.value(keyword)]) as Empty
+        _ = try await call("MudrixClient.addNotificationKeyword", [.value(keyword)]) as Empty
     }
 
     public func removeNotificationKeyword(keyword: String) async throws {
-        _ = try await call("WizardClient.removeNotificationKeyword", [.value(keyword)]) as Empty
+        _ = try await call("MudrixClient.removeNotificationKeyword", [.value(keyword)]) as Empty
     }
 
     public func roomNotificationMode(roomId: String) async throws -> NotificationMode? {
-        try await call("WizardClient.roomNotificationMode", [.value(roomId)])
+        try await call("MudrixClient.roomNotificationMode", [.value(roomId)])
     }
 
     /// Sets the room's own notification mode; `null` goes back to the default.
     public func setRoomNotificationMode(roomId: String, mode: NotificationMode? = nil) async throws {
-        _ = try await call("WizardClient.setRoomNotificationMode", [.value(roomId), .value(mode)]) as Empty
+        _ = try await call("MudrixClient.setRoomNotificationMode", [.value(roomId), .value(mode)]) as Empty
     }
 
     /// Reads an account data document (synced across the account's devices).
     public func accountData(eventType: String) async throws -> JSONValue? {
-        try await call("WizardClient.accountData", [.value(eventType)])
+        try await call("MudrixClient.accountData", [.value(eventType)])
     }
 
     public func setAccountData(eventType: String, content: JSONValue) async throws {
-        _ = try await call("WizardClient.setAccountData", [.value(eventType), .value(content)]) as Empty
+        _ = try await call("MudrixClient.setAccountData", [.value(eventType), .value(content)]) as Empty
     }
 
     /// Every global account data type the account has (asks the server).
     public func accountDataTypes() async throws -> [String] {
-        try await call("WizardClient.accountDataTypes", [])
+        try await call("MudrixClient.accountDataTypes", [])
     }
 
     /// Changes the password; without `auth` it tries unconfirmed first and reports what
     /// the server asks for.
     public func changePasswordWithAuth(newPassword: String, auth: UiaAuth? = nil) async throws -> UiaOutcome {
-        try await call("WizardClient.changePasswordWithAuth", [.value(newPassword), .value(auth)])
+        try await call("MudrixClient.changePasswordWithAuth", [.value(newPassword), .value(auth)])
     }
 
     /// Deactivates the account for good; `erase` also asks the server to forget its messages.
     public func deactivateAccountWithAuth(erase: Bool, auth: UiaAuth? = nil) async throws -> UiaOutcome {
-        try await call("WizardClient.deactivateAccountWithAuth", [.value(erase), .value(auth)])
+        try await call("MudrixClient.deactivateAccountWithAuth", [.value(erase), .value(auth)])
     }
 
     /// Signs other devices out, reporting what the server asks for to confirm it.
     public func deleteDevicesWithAuth(deviceIds: [String], auth: UiaAuth? = nil) async throws -> UiaOutcome {
-        try await call("WizardClient.deleteDevicesWithAuth", [.value(deviceIds), .value(auth)])
+        try await call("MudrixClient.deleteDevicesWithAuth", [.value(deviceIds), .value(auth)])
     }
 
     /// Adds the email once it's confirmed; `token` is the code from the email.
     public func addEmailWithAuth(secret: String, sid: String, token: String? = nil, auth: UiaAuth? = nil) async throws -> UiaOutcome {
-        try await call("WizardClient.addEmailWithAuth", [.value(secret), .value(sid), .value(token), .value(auth)])
+        try await call("MudrixClient.addEmailWithAuth", [.value(secret), .value(sid), .value(token), .value(auth)])
     }
 
     /// The account page for removing a device, on servers with next-generation auth.
     public func deviceManagementUrl(deviceId: String) async throws -> String? {
-        try await call("WizardClient.deviceManagementUrl", [.value(deviceId)])
+        try await call("MudrixClient.deviceManagementUrl", [.value(deviceId)])
     }
 
     /// The homeserver URL from the server name's `.well-known`, if any.
     public func wellKnownHomeserverUrl() async throws -> String? {
-        try await call("WizardClient.wellKnownHomeserverUrl", [])
+        try await call("MudrixClient.wellKnownHomeserverUrl", [])
     }
 
     public func keyBackupExistsOnServer() async throws -> Bool {
-        try await call("WizardClient.keyBackupExistsOnServer", [])
+        try await call("MudrixClient.keyBackupExistsOnServer", [])
     }
 
     /// Calls `listener` whenever the account's own devices change.
     @discardableResult
     public func watchOwnDevices(listener: @escaping @Sendable () -> Void) -> Subscription {
-        watch("WizardClient.watchOwnDevices", [.listener(Empty.self) { _ in listener() }])
+        watch("MudrixClient.watchOwnDevices", [.listener(Empty.self) { _ in listener() }])
     }
 
     /// Searches messages on the server (not possible for encrypted rooms).
     public func searchMessages(term: String, roomId: String? = nil) async throws -> [SearchHit] {
-        try await call("WizardClient.searchMessages", [.value(term), .value(roomId)])
+        try await call("MudrixClient.searchMessages", [.value(term), .value(roomId)])
     }
 
     /// Searches messages on the server one page at a time (not possible for encrypted
     /// rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
     /// last page has been read.
     public func searchMessagesPage(term: String, roomId: String? = nil, from: String? = nil) async throws -> SearchResults {
-        try await call("WizardClient.searchMessagesPage", [.value(term), .value(roomId), .value(from)])
+        try await call("MudrixClient.searchMessagesPage", [.value(term), .value(roomId), .value(from)])
     }
 
     public func emojiPacks(roomId: String? = nil) async throws -> [EmojiPack] {
-        try await call("WizardClient.emojiPacks", [.value(roomId)])
+        try await call("MudrixClient.emojiPacks", [.value(roomId)])
     }
 
     public func widgets(roomId: String) async throws -> [Widget] {
-        try await call("WizardClient.widgets", [.value(roomId)])
+        try await call("MudrixClient.widgets", [.value(roomId)])
     }
 
     @discardableResult
     public func watchWidgets(roomId: String, listener: @escaping @Sendable ([Widget]) -> Void) -> Subscription {
-        watch("WizardClient.watchWidgets", [.value(roomId), .listener([Widget].self, listener)])
+        watch("MudrixClient.watchWidgets", [.value(roomId), .listener([Widget].self, listener)])
     }
 
     /// Adds a web page widget (or replaces the one with `id`); returns its id.
     public func setWidget(roomId: String, id: String?, name: String, url: String) async throws -> String {
-        try await call("WizardClient.setWidget", [.value(roomId), .value(id), .value(name), .value(url)])
+        try await call("MudrixClient.setWidget", [.value(roomId), .value(id), .value(name), .value(url)])
     }
 
     public func removeWidget(roomId: String, id: String) async throws {
-        _ = try await call("WizardClient.removeWidget", [.value(roomId), .value(id)]) as Empty
+        _ = try await call("MudrixClient.removeWidget", [.value(roomId), .value(id)]) as Empty
     }
 
     /// The URL to load for a widget, with the user's and room's details filled in.
     public func widgetUrl(roomId: String, widget: Widget, theme: String, language: String) async throws -> String {
-        try await call("WizardClient.widgetUrl", [.value(roomId), .value(widget), .value(theme), .value(language)])
+        try await call("MudrixClient.widgetUrl", [.value(roomId), .value(widget), .value(theme), .value(language)])
     }
 
     /// The room's full settings, fetched from the server.
     public func roomSettings(roomId: String) async throws -> RoomSettings {
-        try await call("WizardClient.roomSettings", [.value(roomId)])
+        try await call("MudrixClient.roomSettings", [.value(roomId)])
     }
 
     /// The settings as far as local state has them (no request): permissions and toggles
     /// right away; `published` and `localAliases` stay empty.
     public func localRoomSettings(roomId: String) async throws -> RoomSettings {
-        try await call("WizardClient.localRoomSettings", [.value(roomId)])
+        try await call("MudrixClient.localRoomSettings", [.value(roomId)])
     }
 
     /// Unread messages in a room that mention the user (highlights, intentional mentions,
     /// replies to them), newest first.
     public func unreadMentions(roomId: String, limit: Int) async throws -> [UnreadMention] {
-        try await call("WizardClient.unreadMentions", [.value(roomId), .value(limit)])
+        try await call("MudrixClient.unreadMentions", [.value(roomId), .value(limit)])
     }
 
     /// Calls `listener` with diffs of every joined space, subspaces included.
     @discardableResult
     public func watchAllSpaces(listener: @escaping @Sendable ([ListDiff<SpaceSummary>]) -> Void) -> Subscription {
-        watch("WizardClient.watchAllSpaces", [.listener([ListDiff<SpaceSummary>].self, listener)])
+        watch("MudrixClient.watchAllSpaces", [.listener([ListDiff<SpaceSummary>].self, listener)])
     }
 
     /// A space and its direct children from the server; partial when a page failed.
     public func spaceHierarchy(spaceId: String) async throws -> SpaceHierarchy {
-        try await call("WizardClient.spaceHierarchy", [.value(spaceId)])
+        try await call("MudrixClient.spaceHierarchy", [.value(spaceId)])
     }
 
     /// Calls `listener` with every room's account data of a type as [roomId, content]
     /// pairs, now and on every change (e.g. `m.tag` for favourite orders).
     @discardableResult
     public func watchRoomAccountData(eventType: String, listener: @escaping @Sendable ([[JSONValue]]) -> Void) -> Subscription {
-        watch("WizardClient.watchRoomAccountData", [.value(eventType), .listener([[JSONValue]].self, listener)])
+        watch("MudrixClient.watchRoomAccountData", [.value(eventType), .listener([[JSONValue]].self, listener)])
     }
 
     /// Whether the server lets the user set this extended profile field.
     public func canSetProfileField(field: String) async throws -> Bool {
-        try await call("WizardClient.canSetProfileField", [.value(field)])
+        try await call("MudrixClient.canSetProfileField", [.value(field)])
     }
 
     /// IDs of the loaded, not yet deleted messages a user sent in a room, oldest first.
     public func recentUserMessages(roomId: String, userId: String) async throws -> [String] {
-        try await call("WizardClient.recentUserMessages", [.value(roomId), .value(userId)])
+        try await call("MudrixClient.recentUserMessages", [.value(roomId), .value(userId)])
     }
 
     /// Deletes these events.
     public func redactEvents(roomId: String, eventIds: [String], reason: String? = nil) async throws {
-        _ = try await call("WizardClient.redactEvents", [.value(roomId), .value(eventIds), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.redactEvents", [.value(roomId), .value(eventIds), .value(reason)]) as Empty
     }
 
     public func setJoinRule(roomId: String, rule: JoinRule, allowedSpaces: [String]) async throws {
-        _ = try await call("WizardClient.setJoinRule", [.value(roomId), .value(rule), .value(allowedSpaces)]) as Empty
+        _ = try await call("MudrixClient.setJoinRule", [.value(roomId), .value(rule), .value(allowedSpaces)]) as Empty
     }
 
     public func setHistoryVisibility(roomId: String, visibility: HistoryVisibility) async throws {
-        _ = try await call("WizardClient.setHistoryVisibility", [.value(roomId), .value(visibility)]) as Empty
+        _ = try await call("MudrixClient.setHistoryVisibility", [.value(roomId), .value(visibility)]) as Empty
     }
 
     public func setGuestAccess(roomId: String, allowed: Bool) async throws {
-        _ = try await call("WizardClient.setGuestAccess", [.value(roomId), .value(allowed)]) as Empty
+        _ = try await call("MudrixClient.setGuestAccess", [.value(roomId), .value(allowed)]) as Empty
     }
 
     /// Lists the room in the server's directory (often admins only).
     public func setPublished(roomId: String, published: Bool) async throws {
-        _ = try await call("WizardClient.setPublished", [.value(roomId), .value(published)]) as Empty
+        _ = try await call("MudrixClient.setPublished", [.value(roomId), .value(published)]) as Empty
     }
 
     public func enableEncryption(roomId: String) async throws {
-        _ = try await call("WizardClient.enableEncryption", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.enableEncryption", [.value(roomId)]) as Empty
     }
 
     public func setRoomAvatar(roomId: String, data: Data, mimetype: String) async throws {
-        _ = try await call("WizardClient.setRoomAvatar", [.value(roomId), .bytes(data), .value(mimetype)]) as Empty
+        _ = try await call("MudrixClient.setRoomAvatar", [.value(roomId), .bytes(data), .value(mimetype)]) as Empty
     }
 
     public func removeRoomAvatar(roomId: String) async throws {
-        _ = try await call("WizardClient.removeRoomAvatar", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.removeRoomAvatar", [.value(roomId)]) as Empty
     }
 
     public func addRoomAlias(roomId: String, alias: String) async throws {
-        _ = try await call("WizardClient.addRoomAlias", [.value(roomId), .value(alias)]) as Empty
+        _ = try await call("MudrixClient.addRoomAlias", [.value(roomId), .value(alias)]) as Empty
     }
 
     public func removeRoomAlias(alias: String) async throws {
-        _ = try await call("WizardClient.removeRoomAlias", [.value(alias)]) as Empty
+        _ = try await call("MudrixClient.removeRoomAlias", [.value(alias)]) as Empty
     }
 
     public func setCanonicalAlias(roomId: String, alias: String?, altAliases: [String]) async throws {
-        _ = try await call("WizardClient.setCanonicalAlias", [.value(roomId), .value(alias), .value(altAliases)]) as Empty
+        _ = try await call("MudrixClient.setCanonicalAlias", [.value(roomId), .value(alias), .value(altAliases)]) as Empty
     }
 
     public func setPowerLevels(roomId: String, content: JSONValue) async throws {
-        _ = try await call("WizardClient.setPowerLevels", [.value(roomId), .value(content)]) as Empty
+        _ = try await call("MudrixClient.setPowerLevels", [.value(roomId), .value(content)]) as Empty
     }
 
     /// Moves the room to a new version; returns the new room's id.
     public func upgradeRoom(roomId: String, version: String) async throws -> String {
-        try await call("WizardClient.upgradeRoom", [.value(roomId), .value(version)])
+        try await call("MudrixClient.upgradeRoom", [.value(roomId), .value(version)])
     }
 
     public func serverCapabilities() async throws -> ServerCapabilities {
-        try await call("WizardClient.serverCapabilities", [])
+        try await call("MudrixClient.serverCapabilities", [])
     }
 
     /// Banned (`ban`), knocking (`knock`) or invited (`invite`) people.
     public func membersInState(roomId: String, membership: String) async throws -> [MemberEntry] {
-        try await call("WizardClient.membersInState", [.value(roomId), .value(membership)])
+        try await call("MudrixClient.membersInState", [.value(roomId), .value(membership)])
     }
 
     public func unban(roomId: String, userId: String, reason: String? = nil) async throws {
-        _ = try await call("WizardClient.unban", [.value(roomId), .value(userId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.unban", [.value(roomId), .value(userId), .value(reason)]) as Empty
     }
 
     public func acceptKnock(roomId: String, userId: String) async throws {
-        _ = try await call("WizardClient.acceptKnock", [.value(roomId), .value(userId)]) as Empty
+        _ = try await call("MudrixClient.acceptKnock", [.value(roomId), .value(userId)]) as Empty
     }
 
     public func rejectKnock(roomId: String, userId: String, reason: String? = nil) async throws {
-        _ = try await call("WizardClient.rejectKnock", [.value(roomId), .value(userId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.rejectKnock", [.value(roomId), .value(userId), .value(reason)]) as Empty
     }
 
     /// Asks to join; returns the room id.
     public func knock(roomIdOrAlias: String, reason: String?, via: [String]) async throws -> String {
-        try await call("WizardClient.knock", [.value(roomIdOrAlias), .value(reason), .value(via)])
+        try await call("MudrixClient.knock", [.value(roomIdOrAlias), .value(reason), .value(via)])
     }
 
     public func reportEvent(roomId: String, eventId: String, reason: String? = nil) async throws {
-        _ = try await call("WizardClient.reportEvent", [.value(roomId), .value(eventId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.reportEvent", [.value(roomId), .value(eventId), .value(reason)]) as Empty
     }
 
     public func reportRoom(roomId: String, reason: String) async throws {
-        _ = try await call("WizardClient.reportRoom", [.value(roomId), .value(reason)]) as Empty
+        _ = try await call("MudrixClient.reportRoom", [.value(roomId), .value(reason)]) as Empty
     }
 
     /// One state event's content from the server, or null.
     public func stateEvent(roomId: String, eventType: String, stateKey: String) async throws -> JSONValue? {
-        try await call("WizardClient.stateEvent", [.value(roomId), .value(eventType), .value(stateKey)])
+        try await call("MudrixClient.stateEvent", [.value(roomId), .value(eventType), .value(stateKey)])
     }
 
     /// Every state event of a type as [stateKey, content] pairs.
     public func stateEventsOfType(roomId: String, eventType: String) async throws -> [[JSONValue]] {
-        try await call("WizardClient.stateEventsOfType", [.value(roomId), .value(eventType)])
+        try await call("MudrixClient.stateEventsOfType", [.value(roomId), .value(eventType)])
     }
 
     /// Every state event of the given types as [type, stateKey, content], with one request
     /// to the server at most.
     public func stateEventsOfTypes(roomId: String, eventTypes: [String]) async throws -> [[JSONValue]] {
-        try await call("WizardClient.stateEventsOfTypes", [.value(roomId), .value(eventTypes)])
+        try await call("MudrixClient.stateEventsOfTypes", [.value(roomId), .value(eventTypes)])
     }
 
     /// Every current state event of the room in full, for exploring it.
     public func roomState(roomId: String) async throws -> [JSONValue] {
-        try await call("WizardClient.roomState", [.value(roomId)])
+        try await call("MudrixClient.roomState", [.value(roomId)])
     }
 
     public func setStateEvent(roomId: String, eventType: String, stateKey: String, content: JSONValue) async throws {
-        _ = try await call("WizardClient.setStateEvent", [.value(roomId), .value(eventType), .value(stateKey), .value(content)]) as Empty
+        _ = try await call("MudrixClient.setStateEvent", [.value(roomId), .value(eventType), .value(stateKey), .value(content)]) as Empty
     }
 
     /// Sends any message-like event; returns its id.
     public func sendEvent(roomId: String, eventType: String, content: JSONValue) async throws -> String {
-        try await call("WizardClient.sendEvent", [.value(roomId), .value(eventType), .value(content)])
+        try await call("MudrixClient.sendEvent", [.value(roomId), .value(eventType), .value(content)])
     }
 
     /// Uploads a file; returns its `mxc://` URI.
     public func uploadMedia(data: Data, mimetype: String) async throws -> String {
-        try await call("WizardClient.uploadMedia", [.bytes(data), .value(mimetype)])
+        try await call("MudrixClient.uploadMedia", [.bytes(data), .value(mimetype)])
     }
 
     public func eventSource(roomId: String, eventId: String) async throws -> EventSource {
-        try await call("WizardClient.eventSource", [.value(roomId), .value(eventId)])
+        try await call("MudrixClient.eventSource", [.value(roomId), .value(eventId)])
     }
 
     public func forwardEvent(fromRoomId: String, eventId: String, toRoomId: String) async throws {
-        _ = try await call("WizardClient.forwardEvent", [.value(fromRoomId), .value(eventId), .value(toRoomId)]) as Empty
+        _ = try await call("MudrixClient.forwardEvent", [.value(fromRoomId), .value(eventId), .value(toRoomId)]) as Empty
     }
 
     public func emailAddresses() async throws -> [ThirdPartyId] {
-        try await call("WizardClient.emailAddresses", [])
+        try await call("MudrixClient.emailAddresses", [])
     }
 
     /// Sends a verification email; returns the session id for `addEmail`.
     public func requestEmailToken(email: String, secret: String, attempt: Int) async throws -> String {
-        try await call("WizardClient.requestEmailToken", [.value(email), .value(secret), .value(attempt)])
+        try await call("MudrixClient.requestEmailToken", [.value(email), .value(secret), .value(attempt)])
     }
 
     public func removeEmail(address: String) async throws {
-        _ = try await call("WizardClient.removeEmail", [.value(address)]) as Empty
+        _ = try await call("MudrixClient.removeEmail", [.value(address)]) as Empty
     }
 
     /// Any extended profile field (MSC4133), or null.
     public func profileField(userId: String, field: String) async throws -> JSONValue? {
-        try await call("WizardClient.profileField", [.value(userId), .value(field)])
+        try await call("MudrixClient.profileField", [.value(userId), .value(field)])
     }
 
     /// A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
     /// as one object, from one request.
     public func profileFields(userId: String) async throws -> JSONValue {
-        try await call("WizardClient.profileFields", [.value(userId)])
+        try await call("MudrixClient.profileFields", [.value(userId)])
     }
 
     /// Whether the homeserver supports extended profile fields (MSC4133).
     public func supportsExtendedProfiles() async throws -> Bool {
-        try await call("WizardClient.supportsExtendedProfiles", [])
+        try await call("MudrixClient.supportsExtendedProfiles", [])
     }
 
     /// The software and version the server named `serverName` runs (`{ name, version }`),
     /// asked of that server over federation, or null when it can't be asked. A browser can
     /// only ask servers that allow cross-site requests; native apps can ask any public one.
     public func homeserverSoftware(serverName: String) async throws -> HomeserverSoftware? {
-        try await call("WizardClient.homeserverSoftware", [.value(serverName)])
+        try await call("MudrixClient.homeserverSoftware", [.value(serverName)])
     }
 
     public func setProfileField(field: String, value: JSONValue) async throws {
-        _ = try await call("WizardClient.setProfileField", [.value(field), .value(value)]) as Empty
+        _ = try await call("MudrixClient.setProfileField", [.value(field), .value(value)]) as Empty
     }
 
     public func deleteProfileField(field: String) async throws {
-        _ = try await call("WizardClient.deleteProfileField", [.value(field)]) as Empty
+        _ = try await call("MudrixClient.deleteProfileField", [.value(field)]) as Empty
     }
 
     /// A user's profile banner (`mxc://`), or null.
     public func banner(userId: String) async throws -> String? {
-        try await call("WizardClient.banner", [.value(userId)])
+        try await call("MudrixClient.banner", [.value(userId)])
     }
 
     /// Uploads and sets the own banner; with no data it removes it.
     public func setBanner(data: Data? = nil, mimetype: String? = nil) async throws {
-        _ = try await call("WizardClient.setBanner", [.value(data), .value(mimetype)]) as Empty
+        _ = try await call("MudrixClient.setBanner", [.value(data), .value(mimetype)]) as Empty
     }
 
     /// Lets a new device sign in to this account through this one (QR code).
     public func grantLoginWithQr(scanned: Data?, control: QrLoginControl, listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws {
-        _ = try await call("WizardClient.grantLoginWithQr", [.value(scanned), .value(control), .listener(QrLoginStatus.self, listener)]) as Empty
+        _ = try await call("MudrixClient.grantLoginWithQr", [.value(scanned), .value(control), .listener(QrLoginStatus.self, listener)]) as Empty
     }
 
     /// Every joined space with its children (local state; call again on changes).
     public func spaceGraph() async throws -> [SpaceNode] {
-        try await call("WizardClient.spaceGraph", [])
+        try await call("MudrixClient.spaceGraph", [])
     }
 
     /// Calls `listener` with an account data event's content now and on every change.
     @discardableResult
     public func watchAccountData(eventType: String, listener: @escaping @Sendable (JSONValue?) -> Void) -> Subscription {
-        watch("WizardClient.watchAccountData", [.value(eventType), .listener(JSONValue?.self, listener)])
+        watch("MudrixClient.watchAccountData", [.value(eventType), .listener(JSONValue?.self, listener)])
     }
 
     public func roomTags(roomId: String) async throws -> [RoomTag] {
-        try await call("WizardClient.roomTags", [.value(roomId)])
+        try await call("MudrixClient.roomTags", [.value(roomId)])
     }
 
     /// Favourites the room at a position (0-1, lower first).
     public func setFavouriteOrder(roomId: String, order: Double? = nil) async throws {
-        _ = try await call("WizardClient.setFavouriteOrder", [.value(roomId), .value(order)]) as Empty
+        _ = try await call("MudrixClient.setFavouriteOrder", [.value(roomId), .value(order)]) as Empty
     }
 
     /// Calls `listener` with the room list sections in order, now and on every change.
     @discardableResult
     public func watchRoomSections(listener: @escaping @Sendable ([RoomSection]) -> Void) -> Subscription {
-        watch("WizardClient.watchRoomSections", [.listener([RoomSection].self, listener)])
+        watch("MudrixClient.watchRoomSections", [.listener([RoomSection].self, listener)])
     }
 
     /// Adds a room list section (Element compatible); returns its tag.
     public func createRoomSection(name: String, spaceId: String) async throws -> String {
-        try await call("WizardClient.createRoomSection", [.value(name), .value(spaceId)])
+        try await call("MudrixClient.createRoomSection", [.value(name), .value(spaceId)])
     }
 
     public func renameRoomSection(tag: String, name: String) async throws {
-        _ = try await call("WizardClient.renameRoomSection", [.value(tag), .value(name)]) as Empty
+        _ = try await call("MudrixClient.renameRoomSection", [.value(tag), .value(name)]) as Empty
     }
 
     /// Reorders the given sections; `chats` stands for the rooms in no section.
     public func setRoomSectionOrder(tags: [String]) async throws {
-        _ = try await call("WizardClient.setRoomSectionOrder", [.value(tags)]) as Empty
+        _ = try await call("MudrixClient.setRoomSectionOrder", [.value(tags)]) as Empty
     }
 
     /// Deletes a section and takes its tag off every room.
     public func deleteRoomSection(tag: String) async throws {
-        _ = try await call("WizardClient.deleteRoomSection", [.value(tag)]) as Empty
+        _ = try await call("MudrixClient.deleteRoomSection", [.value(tag)]) as Empty
     }
 
     /// Moves a room into a section, or out of its section with `null`.
     public func setRoomSection(roomId: String, tag: String? = nil) async throws {
-        _ = try await call("WizardClient.setRoomSection", [.value(roomId), .value(tag)]) as Empty
+        _ = try await call("MudrixClient.setRoomSection", [.value(roomId), .value(tag)]) as Empty
     }
 
     public func roomAccountData(roomId: String, eventType: String) async throws -> JSONValue? {
-        try await call("WizardClient.roomAccountData", [.value(roomId), .value(eventType)])
+        try await call("MudrixClient.roomAccountData", [.value(roomId), .value(eventType)])
     }
 
     public func setRoomAccountData(roomId: String, eventType: String, content: JSONValue) async throws {
-        _ = try await call("WizardClient.setRoomAccountData", [.value(roomId), .value(eventType), .value(content)]) as Empty
+        _ = try await call("MudrixClient.setRoomAccountData", [.value(roomId), .value(eventType), .value(content)]) as Empty
     }
 
     public func resolveAlias(alias: String) async throws -> ResolvedAlias {
-        try await call("WizardClient.resolveAlias", [.value(alias)])
+        try await call("MudrixClient.resolveAlias", [.value(alias)])
     }
 
     /// Reports every state change arriving through sync (to refresh cached settings).
     @discardableResult
     public func watchStateChanges(listener: @escaping @Sendable (StateChange) -> Void) -> Subscription {
-        watch("WizardClient.watchStateChanges", [.listener(StateChange.self, listener)])
+        watch("MudrixClient.watchStateChanges", [.listener(StateChange.self, listener)])
     }
 
     /// Calls `listener` with every message-like event (not state) of one of `types` that
@@ -3796,7 +3796,7 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// recent history sync also delivers.
     @discardableResult
     public func watchRoomEvents(types: [String], listener: @escaping @Sendable (RoomEvent) -> Void) -> Subscription {
-        watch("WizardClient.watchRoomEvents", [.value(types), .listener(RoomEvent.self, listener)])
+        watch("MudrixClient.watchRoomEvents", [.value(types), .listener(RoomEvent.self, listener)])
     }
 
     /// A page of a room's message-like events of one of `types`, newest first, decrypted in
@@ -3804,89 +3804,89 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// page's `next` as `from` for the page before it; `next` is null at the start of the room.
     /// A page can hold fewer events than `limit`, even none, while `next` is set.
     public func roomEvents(roomId: String, types: [String], limit: Int, from: String? = nil) async throws -> RoomEventsPage {
-        try await call("WizardClient.roomEvents", [.value(roomId), .value(types), .value(limit), .value(from)])
+        try await call("MudrixClient.roomEvents", [.value(roomId), .value(types), .value(limit), .value(from)])
     }
 
     public func serverFeatures() async throws -> ServerFeatures {
-        try await call("WizardClient.serverFeatures", [])
+        try await call("MudrixClient.serverFeatures", [])
     }
 
     /// Encrypts and uploads a file; returns the `file` object for message content.
     public func uploadEncryptedMedia(data: Data) async throws -> JSONValue {
-        try await call("WizardClient.uploadEncryptedMedia", [.bytes(data)])
+        try await call("MudrixClient.uploadEncryptedMedia", [.bytes(data)])
     }
 
     /// The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
     /// mentions and custom emoji to it, which plain Markdown sending can't.
     public func markdownToHtml(body: String) async throws -> String? {
-        try await call("WizardClient.markdownToHtml", [.value(body)])
+        try await call("MudrixClient.markdownToHtml", [.value(body)])
     }
 
     /// The LiveKit service the homeserver offers for calls, if any
     public func rtcServiceUrl() async throws -> String? {
-        try await call("WizardClient.rtcServiceUrl", [])
+        try await call("MudrixClient.rtcServiceUrl", [])
     }
 
     /// Whether calls can work on this server (lenient: unknown counts as yes)
     public func rtcSupported() async throws -> Bool {
-        try await call("WizardClient.rtcSupported", [])
+        try await call("MudrixClient.rtcSupported", [])
     }
 
     public func callMembers(roomId: String) async throws -> [CallMember] {
-        try await call("WizardClient.callMembers", [.value(roomId)])
+        try await call("MudrixClient.callMembers", [.value(roomId)])
     }
 
     /// Calls `listener` with the room's call members now and on every change.
     @discardableResult
     public func watchCallMembers(roomId: String, listener: @escaping @Sendable ([CallMember]) -> Void) -> Subscription {
-        watch("WizardClient.watchCallMembers", [.value(roomId), .listener([CallMember].self, listener)])
+        watch("MudrixClient.watchCallMembers", [.value(roomId), .listener([CallMember].self, listener)])
     }
 
     /// A token for a LiveKit service, for this device in the room's call.
     public func sfuConfig(roomId: String, serviceUrl: String) async throws -> SfuConfig {
-        try await call("WizardClient.sfuConfig", [.value(roomId), .value(serviceUrl)])
+        try await call("MudrixClient.sfuConfig", [.value(roomId), .value(serviceUrl)])
     }
 
     /// Joins the room's call; `ring` notifies the others when nobody is in it yet.
     /// `serviceUrl` overrides the homeserver's call server.
     public func joinCall(roomId: String, video: Bool, ring: Bool, serviceUrl: String? = nil) async throws -> CallSession {
-        try await call("WizardClient.joinCall", [.value(roomId), .value(video), .value(ring), .value(serviceUrl)])
+        try await call("MudrixClient.joinCall", [.value(roomId), .value(video), .value(ring), .value(serviceUrl)])
     }
 
     /// Rings as they start and end: answered or declined on one of the user's devices, the
     /// caller left, or it expired.
     @discardableResult
     public func watchIncomingCalls(listener: @escaping @Sendable (IncomingCallEvent) -> Void) -> Subscription {
-        watch("WizardClient.watchIncomingCalls", [.listener(IncomingCallEvent.self, listener)])
+        watch("MudrixClient.watchIncomingCalls", [.listener(IncomingCallEvent.self, listener)])
     }
 
     public func declineCall(roomId: String, eventId: String) async throws {
-        _ = try await call("WizardClient.declineCall", [.value(roomId), .value(eventId)]) as Empty
+        _ = try await call("MudrixClient.declineCall", [.value(roomId), .value(eventId)]) as Empty
     }
 
     /// Calls `listener` for each new message that should notify (push rules, replies to
     /// the user, messages decrypted later).
     @discardableResult
     public func watchNotifications(listener: @escaping @Sendable (Notification) -> Void) -> Subscription {
-        watch("WizardClient.watchNotifications", [.listener(Notification.self, listener)])
+        watch("MudrixClient.watchNotifications", [.listener(Notification.self, listener)])
     }
 
     public func setPusher(config: PusherConfig) async throws {
-        _ = try await call("WizardClient.setPusher", [.value(config)]) as Empty
+        _ = try await call("MudrixClient.setPusher", [.value(config)]) as Empty
     }
 
     public func removePusher(appId: String, pushkey: String) async throws {
-        _ = try await call("WizardClient.removePusher", [.value(appId), .value(pushkey)]) as Empty
+        _ = try await call("MudrixClient.removePusher", [.value(appId), .value(pushkey)]) as Empty
     }
 
     public func pushedNotification(roomId: String, eventId: String) async throws -> Notification? {
-        try await call("WizardClient.pushedNotification", [.value(roomId), .value(eventId)])
+        try await call("MudrixClient.pushedNotification", [.value(roomId), .value(eventId)])
     }
 
     /// The server's notifications, newest first, read or not; `highlights` keeps only the
     /// mentions and keywords. Unlike the room counts, these don't need the messages loaded.
     public func serverNotifications(highlights: Bool, limit: Int) async throws -> [ServerNotification] {
-        try await call("WizardClient.serverNotifications", [.value(highlights), .value(limit)])
+        try await call("MudrixClient.serverNotifications", [.value(highlights), .value(limit)])
     }
 
     /// Like `pushedNotification`, for the iOS notification service extension: a second
@@ -3894,11 +3894,11 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// while the app runs. It never starts the sync; an event whose keys this process
     /// doesn't have comes back with `encrypted: true` and an empty body.
     public func pushedNotificationFromExtension(roomId: String, eventId: String) async throws -> Notification? {
-        try await call("WizardClient.pushedNotificationFromExtension", [.value(roomId), .value(eventId)])
+        try await call("MudrixClient.pushedNotificationFromExtension", [.value(roomId), .value(eventId)])
     }
 
     public func logout() async throws {
-        _ = try await call("WizardClient.logout", []) as Empty
+        _ = try await call("MudrixClient.logout", []) as Empty
     }
 
     /// Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
@@ -3907,13 +3907,13 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
     /// server would have to send the plain event).
     public func sendDelayedEvent(roomId: String, eventType: String, content: JSONValue, delayMs: Int, stateKey: String? = nil) async throws -> String {
-        try await call("WizardClient.sendDelayedEvent", [.value(roomId), .value(eventType), .value(content), .value(delayMs), .value(stateKey)])
+        try await call("MudrixClient.sendDelayedEvent", [.value(roomId), .value(eventType), .value(content), .value(delayMs), .value(stateKey)])
     }
 
     /// The user's scheduled delayed events, soonest first; only a room's with `roomId`.
     /// Rejects with `unsupportedByServer` like `sendDelayedEvent`.
     public func listDelayedEvents(roomId: String? = nil) async throws -> [DelayedEvent] {
-        try await call("WizardClient.listDelayedEvents", [.value(roomId)])
+        try await call("MudrixClient.listDelayedEvents", [.value(roomId)])
     }
 
     /// The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
@@ -3921,33 +3921,33 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
     /// `unsupportedByServer` when the homeserver can't look up dates.
     public func timestampToEvent(roomId: String, timestamp: Int, direction: SearchDirection) async throws -> TimestampEvent? {
-        try await call("WizardClient.timestampToEvent", [.value(roomId), .value(timestamp), .value(direction)])
+        try await call("MudrixClient.timestampToEvent", [.value(roomId), .value(timestamp), .value(direction)])
     }
 
     /// Every version of a message, oldest first: the original (`isOriginal`) and its edits,
     /// decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
     /// left out).
     public func eventEditHistory(roomId: String, eventId: String) async throws -> [EventVersion] {
-        try await call("WizardClient.eventEditHistory", [.value(roomId), .value(eventId)])
+        try await call("MudrixClient.eventEditHistory", [.value(roomId), .value(eventId)])
     }
 
     /// A person's name and picture in one room or space (its `m.room.member` event), which
     /// can differ from their account profile. Works for any user; the server answers for
     /// people this device hasn't loaded.
     public func roomMemberProfile(roomId: String, userId: String) async throws -> RoomMemberProfile {
-        try await call("WizardClient.roomMemberProfile", [.value(roomId), .value(userId)])
+        try await call("MudrixClient.roomMemberProfile", [.value(roomId), .value(userId)])
     }
 
     /// Sets the own name in one room or space only (the member event's `displayname`); null
     /// or empty goes back to the account's display name. Needs a joined room.
     public func setRoomNickname(roomId: String, displayname: String? = nil) async throws {
-        _ = try await call("WizardClient.setRoomNickname", [.value(roomId), .value(displayname)]) as Empty
+        _ = try await call("MudrixClient.setRoomNickname", [.value(roomId), .value(displayname)]) as Empty
     }
 
     /// Sets the own picture in one room or space only; without `data` it goes back to the
     /// account's picture. Needs a joined room.
     public func setRoomMemberAvatar(roomId: String, data: Data? = nil, mimetype: String? = nil) async throws {
-        _ = try await call("WizardClient.setRoomMemberAvatar", [.value(roomId), .value(data), .value(mimetype)]) as Empty
+        _ = try await call("MudrixClient.setRoomMemberAvatar", [.value(roomId), .value(data), .value(mimetype)]) as Empty
     }
 
     /// Every state event of the given types in a room, with who set it and when (the sender
@@ -3955,7 +3955,7 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// and the older `chat.mudrix.*`) and space children come from this device; the server
     /// is asked once when there are none there or for other types.
     public func stateEventsWithSender(roomId: String, eventTypes: [String]) async throws -> [StateEventView] {
-        try await call("WizardClient.stateEventsWithSender", [.value(roomId), .value(eventTypes)])
+        try await call("MudrixClient.stateEventsWithSender", [.value(roomId), .value(eventTypes)])
     }
 
     /// Calls `listener` with every state event of one of `types` arriving in a joined room,
@@ -3964,251 +3964,251 @@ public final class WizardClient: Remote, @unchecked Sendable {
     /// list's), so this hears them without polling.
     @discardableResult
     public func watchStateEvents(types: [String], listener: @escaping @Sendable (StateEventView) -> Void) -> Subscription {
-        watch("WizardClient.watchStateEvents", [.value(types), .listener(StateEventView.self, listener)])
+        watch("MudrixClient.watchStateEvents", [.value(types), .listener(StateEventView.self, listener)])
     }
 
     /// The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
     /// `stateEventsWithSender` or `watchStateEvents`.
     public static func mudrixStateTypes() async throws -> [String] {
-        try await Runtime.shared.call("WizardClient.mudrixStateTypes", this: nil, [])
+        try await Runtime.shared.call("MudrixClient.mudrixStateTypes", this: nil, [])
     }
 
     /// Writes every room key this device has to a file, encrypted with `passphrase`
     /// (Element's key file format). Desktop and mobile only: in the browser it rejects with
     /// `unsupported`.
     public func exportRoomKeys(path: String, passphrase: String) async throws {
-        _ = try await call("WizardClient.exportRoomKeys", [.value(path), .value(passphrase)]) as Empty
+        _ = try await call("MudrixClient.exportRoomKeys", [.value(path), .value(passphrase)]) as Empty
     }
 
     /// Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
     /// unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
     /// Desktop and mobile only: in the browser it rejects with `unsupported`.
     public func importRoomKeys(path: String, passphrase: String) async throws -> KeyImportResult {
-        try await call("WizardClient.importRoomKeys", [.value(path), .value(passphrase)])
+        try await call("MudrixClient.importRoomKeys", [.value(path), .value(passphrase)])
     }
 
     /// Calls a delayed event off so it is never sent.
     public func cancelDelayedEvent(delayId: String) async throws {
-        _ = try await call("WizardClient.cancelDelayedEvent", [.value(delayId)]) as Empty
+        _ = try await call("MudrixClient.cancelDelayedEvent", [.value(delayId)]) as Empty
     }
 
     /// Has the server send a delayed event right now.
     public func sendDelayedEventNow(delayId: String) async throws {
-        _ = try await call("WizardClient.sendDelayedEventNow", [.value(delayId)]) as Empty
+        _ = try await call("MudrixClient.sendDelayedEventNow", [.value(delayId)]) as Empty
     }
 
     /// Calls `listener` when tokens are refreshed (store the new session) or the session ends.
     @discardableResult
     public func watchSession(listener: @escaping @Sendable (SessionEvent) -> Void) -> Subscription {
-        watch("WizardClient.watchSession", [.listener(SessionEvent.self, listener)])
+        watch("MudrixClient.watchSession", [.listener(SessionEvent.self, listener)])
     }
 
     public func accountManagementUrl() async throws -> String? {
-        try await call("WizardClient.accountManagementUrl", [])
+        try await call("MudrixClient.accountManagementUrl", [])
     }
 
     public func encryptionStatus() async throws -> EncryptionStatus {
-        try await call("WizardClient.encryptionStatus", [])
+        try await call("MudrixClient.encryptionStatus", [])
     }
 
     @discardableResult
     public func watchEncryptionStatus(listener: @escaping @Sendable (EncryptionStatus) -> Void) -> Subscription {
-        watch("WizardClient.watchEncryptionStatus", [.listener(EncryptionStatus.self, listener)])
+        watch("MudrixClient.watchEncryptionStatus", [.listener(EncryptionStatus.self, listener)])
     }
 
     /// Sets up recovery; resolves to the new recovery key (show it once).
     public func enableRecovery() async throws -> String {
-        try await call("WizardClient.enableRecovery", [])
+        try await call("MudrixClient.enableRecovery", [])
     }
 
     public func resetRecoveryKey() async throws -> String {
-        try await call("WizardClient.resetRecoveryKey", [])
+        try await call("MudrixClient.resetRecoveryKey", [])
     }
 
     /// Unlocks (and verifies) this device with the recovery key.
     public func recover(recoveryKey: String) async throws {
-        _ = try await call("WizardClient.recover", [.value(recoveryKey)]) as Empty
+        _ = try await call("MudrixClient.recover", [.value(recoveryKey)]) as Empty
     }
 
     /// Makes the room's messages that couldn't be decrypted try again, after fetching the
     /// room's keys from the key backup when this device can read it. What decrypts shows up
     /// in the room's timelines by itself.
     public func retryDecryption(roomId: String) async throws {
-        _ = try await call("WizardClient.retryDecryption", [.value(roomId)]) as Empty
+        _ = try await call("MudrixClient.retryDecryption", [.value(roomId)]) as Empty
     }
 
     /// Fetches the room keys of every encrypted room from the key backup (needs the backup's
     /// key on this device: error `noKeyBackup` otherwise, enter the recovery key first).
     /// `listener` hears the progress after each room; resolves to the final one.
     public func restoreKeyBackup(listener: @escaping @Sendable (KeyRestoreProgress) -> Void) async throws -> KeyRestoreProgress {
-        try await call("WizardClient.restoreKeyBackup", [.listener(KeyRestoreProgress.self, listener)])
+        try await call("MudrixClient.restoreKeyBackup", [.listener(KeyRestoreProgress.self, listener)])
     }
 
     public func requestSelfVerification() async throws -> VerificationFlow {
-        try await call("WizardClient.requestSelfVerification", [])
+        try await call("MudrixClient.requestSelfVerification", [])
     }
 
     public func userTrust(userId: String) async throws -> UserTrust {
-        try await call("WizardClient.userTrust", [.value(userId)])
+        try await call("MudrixClient.userTrust", [.value(userId)])
     }
 
     /// Starts emoji verification with another person.
     public func requestUserVerification(userId: String) async throws -> VerificationFlow {
-        try await call("WizardClient.requestUserVerification", [.value(userId)])
+        try await call("MudrixClient.requestUserVerification", [.value(userId)])
     }
 
     /// Starts emoji verification with one of the own other devices.
     public func requestDeviceVerification(deviceId: String) async throws -> VerificationFlow {
-        try await call("WizardClient.requestDeviceVerification", [.value(deviceId)])
+        try await call("MudrixClient.requestDeviceVerification", [.value(deviceId)])
     }
 
     /// Accepts someone's changed identity so messages can be sent again.
     public func acknowledgeIdentity(userId: String) async throws {
-        _ = try await call("WizardClient.acknowledgeIdentity", [.value(userId)]) as Empty
+        _ = try await call("MudrixClient.acknowledgeIdentity", [.value(userId)]) as Empty
     }
 
     /// Reports room members whose identity changed.
     @discardableResult
     public func watchIdentityChanges(roomId: String, listener: @escaping @Sendable ([IdentityChange]) -> Void) -> Subscription {
-        watch("WizardClient.watchIdentityChanges", [.value(roomId), .listener([IdentityChange].self, listener)])
+        watch("MudrixClient.watchIdentityChanges", [.value(roomId), .listener([IdentityChange].self, listener)])
     }
 
     /// Starts over with a new identity; without `auth` it reports what the server asks for
     /// (password or single sign-on). `onApprovalUrl` gets the page to approve it on OAuth
     /// servers, where it waits until approved or `cancelIdentityReset`.
     public func resetIdentityWithAuth(auth: UiaAuth?, onApprovalUrl: @escaping @Sendable (String) -> Void) async throws -> UiaOutcome {
-        try await call("WizardClient.resetIdentityWithAuth", [.value(auth), .listener(String.self, onApprovalUrl)])
+        try await call("MudrixClient.resetIdentityWithAuth", [.value(auth), .listener(String.self, onApprovalUrl)])
     }
 
     public func cancelIdentityReset() async throws {
-        _ = try await call("WizardClient.cancelIdentityReset", []) as Empty
+        _ = try await call("MudrixClient.cancelIdentityReset", []) as Empty
     }
 
     /// Calls `listener` with the users whose devices or identity (and so their trust) changed.
     @discardableResult
     public func watchTrustChanges(listener: @escaping @Sendable ([String]) -> Void) -> Subscription {
-        watch("WizardClient.watchTrustChanges", [.listener([String].self, listener)])
+        watch("MudrixClient.watchTrustChanges", [.listener([String].self, listener)])
     }
 
     public func pushRules() async throws -> JSONValue {
-        try await call("WizardClient.pushRules", [])
+        try await call("MudrixClient.pushRules", [])
     }
 
     /// `off`, `silent`, `loud` or `highlight` for a push rule.
     public func setPushRuleLevel(kind: String, ruleId: String, level: String) async throws {
-        _ = try await call("WizardClient.setPushRuleLevel", [.value(kind), .value(ruleId), .value(level)]) as Empty
+        _ = try await call("MudrixClient.setPushRuleLevel", [.value(kind), .value(ruleId), .value(level)]) as Empty
     }
 
     public func urlPreview(url: String) async throws -> UrlPreview? {
-        try await call("WizardClient.urlPreview", [.value(url)])
+        try await call("MudrixClient.urlPreview", [.value(url)])
     }
 
     /// The room's threads; `mine` only those the user took part in.
     public func threads(roomId: String, mine: Bool, from: String? = nil) async throws -> ThreadPage {
-        try await call("WizardClient.threads", [.value(roomId), .value(mine), .value(from)])
+        try await call("MudrixClient.threads", [.value(roomId), .value(mine), .value(from)])
     }
 
     public func addToSpace(spaceId: String, childId: String, suggested: Bool) async throws {
-        _ = try await call("WizardClient.addToSpace", [.value(spaceId), .value(childId), .value(suggested)]) as Empty
+        _ = try await call("MudrixClient.addToSpace", [.value(spaceId), .value(childId), .value(suggested)]) as Empty
     }
 
     public func removeFromSpace(spaceId: String, childId: String) async throws {
-        _ = try await call("WizardClient.removeFromSpace", [.value(spaceId), .value(childId)]) as Empty
+        _ = try await call("MudrixClient.removeFromSpace", [.value(spaceId), .value(childId)]) as Empty
     }
 
     /// Sets a child's `suggested` flag and/or `order` (pass `clearOrder` to remove it).
     public func updateSpaceChild(spaceId: String, childId: String, suggested: Bool?, order: String?, clearOrder: Bool) async throws {
-        _ = try await call("WizardClient.updateSpaceChild", [.value(spaceId), .value(childId), .value(suggested), .value(order), .value(clearOrder)]) as Empty
+        _ = try await call("MudrixClient.updateSpaceChild", [.value(spaceId), .value(childId), .value(suggested), .value(order), .value(clearOrder)]) as Empty
     }
 
     /// A page of a server's room directory; `kind` narrows to `spaces` or `rooms`.
     public func publicRoomsPage(query: String, server: String?, kind: String?, limit: Int, since: String? = nil) async throws -> PublicRoomsPage {
-        try await call("WizardClient.publicRoomsPage", [.value(query), .value(server), .value(kind), .value(limit), .value(since)])
+        try await call("MudrixClient.publicRoomsPage", [.value(query), .value(server), .value(kind), .value(limit), .value(since)])
     }
 
     /// Calls `listener` with a `VerificationFlow` for every incoming verification request.
     @discardableResult
     public func watchVerificationRequests(listener: @escaping @Sendable (VerificationFlow) -> Void) -> Subscription {
-        watch("WizardClient.watchVerificationRequests", [.listener(VerificationFlow.self, listener)])
+        watch("MudrixClient.watchVerificationRequests", [.listener(VerificationFlow.self, listener)])
     }
 
     public func devices() async throws -> [DeviceInfo] {
-        try await call("WizardClient.devices", [])
+        try await call("MudrixClient.devices", [])
     }
 
     public func renameDevice(deviceId: String, name: String) async throws {
-        _ = try await call("WizardClient.renameDevice", [.value(deviceId), .value(name)]) as Empty
+        _ = try await call("MudrixClient.renameDevice", [.value(deviceId), .value(name)]) as Empty
     }
 
     /// Signs in with a password. `server` may be a server name or a homeserver URL;
     /// `identifier` is a username (or full Matrix ID), or an email address or phone number
     /// bound to the account.
-    public static func loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig) async throws -> WizardClient {
-        try await Runtime.shared.call("WizardClient.loginPassword", this: nil, [.value(server), .value(identifier), .value(password), .value(deviceName), .value(store)])
+    public static func loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig) async throws -> MudrixClient {
+        try await Runtime.shared.call("MudrixClient.loginPassword", this: nil, [.value(server), .value(identifier), .value(password), .value(deviceName), .value(store)])
     }
 
     /// Whether and how the server lets people register.
     public static func registrationInfo(server: String) async throws -> RegistrationInfo {
-        try await Runtime.shared.call("WizardClient.registrationInfo", this: nil, [.value(server)])
+        try await Runtime.shared.call("MudrixClient.registrationInfo", this: nil, [.value(server)])
     }
 
     public static func usernameAvailable(server: String, username: String) async throws -> Bool {
-        try await Runtime.shared.call("WizardClient.usernameAvailable", this: nil, [.value(server), .value(username)])
+        try await Runtime.shared.call("MudrixClient.usernameAvailable", this: nil, [.value(server), .value(username)])
     }
 
     /// Creates an account and signs in.
-    public static func register(server: String, username: String, password: String, deviceName: String, token: String?, store: StoreConfig) async throws -> WizardClient {
-        try await Runtime.shared.call("WizardClient.register", this: nil, [.value(server), .value(username), .value(password), .value(deviceName), .value(token), .value(store)])
+    public static func register(server: String, username: String, password: String, deviceName: String, token: String?, store: StoreConfig) async throws -> MudrixClient {
+        try await Runtime.shared.call("MudrixClient.register", this: nil, [.value(server), .value(username), .value(password), .value(deviceName), .value(token), .value(store)])
     }
 
     /// Emails a reset link; returns the session id for `resetPassword`.
     public static func requestPasswordReset(server: String, email: String, secret: String, attempt: Int) async throws -> String {
-        try await Runtime.shared.call("WizardClient.requestPasswordReset", this: nil, [.value(server), .value(email), .value(secret), .value(attempt)])
+        try await Runtime.shared.call("MudrixClient.requestPasswordReset", this: nil, [.value(server), .value(email), .value(secret), .value(attempt)])
     }
 
     public static func resetPassword(server: String, newPassword: String, secret: String, sid: String, logoutDevices: Bool) async throws {
-        _ = try await Runtime.shared.call("WizardClient.resetPassword", this: nil, [.value(server), .value(newPassword), .value(secret), .value(sid), .value(logoutDevices)]) as Empty
+        _ = try await Runtime.shared.call("MudrixClient.resetPassword", this: nil, [.value(server), .value(newPassword), .value(secret), .value(sid), .value(logoutDevices)]) as Empty
     }
 
     /// Signs this new device in through an existing one (QR code). Pass the other device's
     /// code bytes to join it, or nothing to show a code of our own.
-    public static func loginWithQr(server: String, store: StoreConfig, app: AppInfo, scanned: Data?, control: QrLoginControl, listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws -> WizardClient {
-        try await Runtime.shared.call("WizardClient.loginWithQr", this: nil, [.value(server), .value(store), .value(app), .value(scanned), .value(control), .listener(QrLoginStatus.self, listener)])
+    public static func loginWithQr(server: String, store: StoreConfig, app: AppInfo, scanned: Data?, control: QrLoginControl, listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws -> MudrixClient {
+        try await Runtime.shared.call("MudrixClient.loginWithQr", this: nil, [.value(server), .value(store), .value(app), .value(scanned), .value(control), .listener(QrLoginStatus.self, listener)])
     }
 
     /// Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
     /// the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
     public static func discover(server: String) async throws -> ServerInfo {
-        try await Runtime.shared.call("WizardClient.discover", this: nil, [.value(server)])
+        try await Runtime.shared.call("MudrixClient.discover", this: nil, [.value(server)])
     }
 
     public static func startOAuthLogin(server: String, store: StoreConfig, redirectUri: String, app: AppInfo, createAccount: Bool? = nil, knownClients: [String: String]? = nil) async throws -> PendingLogin {
-        try await Runtime.shared.call("WizardClient.startOAuthLogin", this: nil, [.value(server), .value(store), .value(redirectUri), .value(app), .value(createAccount), .value(knownClients)])
+        try await Runtime.shared.call("MudrixClient.startOAuthLogin", this: nil, [.value(server), .value(store), .value(redirectUri), .value(app), .value(createAccount), .value(knownClients)])
     }
 
     public static func startSsoLogin(server: String, store: StoreConfig, redirectUri: String, idpId: String? = nil) async throws -> PendingLogin {
-        try await Runtime.shared.call("WizardClient.startSsoLogin", this: nil, [.value(server), .value(store), .value(redirectUri), .value(idpId)])
+        try await Runtime.shared.call("MudrixClient.startSsoLogin", this: nil, [.value(server), .value(store), .value(redirectUri), .value(idpId)])
     }
 
     /// Ends a stored session on the server without restoring it (when restoring failed).
     public static func logoutSession(session: Session) async throws {
-        _ = try await Runtime.shared.call("WizardClient.logoutSession", this: nil, [.value(session)]) as Empty
+        _ = try await Runtime.shared.call("MudrixClient.logoutSession", this: nil, [.value(session)]) as Empty
     }
 
     /// Restores a session previously returned by `session()`.
-    public static func restore(session: Session, store: StoreConfig) async throws -> WizardClient {
-        try await Runtime.shared.call("WizardClient.restore", this: nil, [.value(session), .value(store)])
+    public static func restore(session: Session, store: StoreConfig) async throws -> MudrixClient {
+        try await Runtime.shared.call("MudrixClient.restore", this: nil, [.value(session), .value(store)])
     }
 
     /// "Mark as read": moves the unthreaded read receipt and the fully-read marker to
     /// the room's latest message. Private receipts aren't shown to others.
     public func markRoomAsRead(roomId: String, _private: Bool? = nil) async throws {
-        _ = try await call("WizardClient.markRoomAsRead", [.value(roomId), .value(_private)]) as Empty
+        _ = try await call("MudrixClient.markRoomAsRead", [.value(roomId), .value(_private)]) as Empty
     }
 
     /// Joins the room that replaced an upgraded room; resolves to its ID.
     public func joinUpgradedRoom(roomId: String) async throws -> String {
-        try await call("WizardClient.joinUpgradedRoom", [.value(roomId)])
+        try await call("MudrixClient.joinUpgradedRoom", [.value(roomId)])
     }
 }
 
@@ -4221,7 +4221,7 @@ public final class PendingLogin: Remote, @unchecked Sendable {
     }
 
     /// Completes the sign-in with the URL the server redirected back to.
-    public func finish(callbackUrl: String, deviceName: String) async throws -> WizardClient {
+    public func finish(callbackUrl: String, deviceName: String) async throws -> MudrixClient {
         try await call("PendingLogin.finish", [.value(callbackUrl), .value(deviceName)])
     }
 
@@ -4478,4 +4478,4 @@ public final class CallSession: Remote, @unchecked Sendable {
 }
 
 /// Every object class, so handles from the core turn into the right Swift class
-public let remoteClasses: [Remote.Type] = [WizardClient.self, PendingLogin.self, QrLoginControl.self, RoomTimeline.self, VerificationFlow.self, CallSession.self]
+public let remoteClasses: [Remote.Type] = [MudrixClient.self, PendingLogin.self, QrLoginControl.self, RoomTimeline.self, VerificationFlow.self, CallSession.self]

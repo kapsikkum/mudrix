@@ -47,12 +47,12 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.RoomSummary
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** The room's pinned messages, newest first */
 @Composable
-fun PinnedMessagesScreen(room: RoomSummary, client: WizardClient, canPin: Boolean, onBack: () -> Unit) {
+fun PinnedMessagesScreen(room: RoomSummary, client: MudrixClient, canPin: Boolean, onBack: () -> Unit) {
     val timeline = remember(room.id) { TimelineModel(client, room.id, pinnedOnly = true) }
     DisposableEffect(timeline) { onDispose { timeline.close() } }
     LaunchedEffect(timeline) { timeline.start() }

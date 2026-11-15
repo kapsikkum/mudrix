@@ -73,7 +73,7 @@ struct PushRules {
     }
 
     /// Mention rules keep their highlight; the rest only change sound
-    func setLevel(_ level: NotifLevel, for rules: [ManagedRule], client: WizardClient) async throws {
+    func setLevel(_ level: NotifLevel, for rules: [ManagedRule], client: MudrixClient) async throws {
         for managed in rules {
             guard let rule = rule(managed) else { continue }
             let highlight = Self.hasTweak("highlight", rule["actions"])

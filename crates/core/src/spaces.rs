@@ -10,7 +10,7 @@ use matrix_sdk::{
 use matrix_sdk_ui::spaces::SpaceService;
 use serde::Serialize;
 
-use crate::{Error, ListDiff, Result, WizardClient};
+use crate::{Error, ListDiff, MudrixClient, Result};
 
 /// A space the user has joined, for the space rail
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -66,7 +66,7 @@ pub struct SpaceHierarchy {
 const HIERARCHY_PAGE_LIMIT: u32 = 100;
 const HIERARCHY_MAX_PAGES: usize = 50;
 
-impl WizardClient {
+impl MudrixClient {
     pub(crate) async fn space_service(&self) -> Arc<SpaceService> {
         if let Some(service) = self.spaces.lock().unwrap().clone() {
             return service;
@@ -293,7 +293,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Adds a room or sub-space to a space (and links it back as its parent when allowed).
     pub async fn add_to_space(
         &self,
@@ -445,7 +445,7 @@ async fn child_links(room: &Room) -> Vec<SpaceLink> {
     children
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Every joined space with its children, read from local state (cheap; call on changes).
     pub async fn space_graph(&self) -> Result<Vec<SpaceNode>> {
         let mut nodes = Vec::new();

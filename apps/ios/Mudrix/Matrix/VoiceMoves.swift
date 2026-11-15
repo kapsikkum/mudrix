@@ -24,7 +24,7 @@ enum VoiceMoves {
     }
 
     /// Asks `userId`, who is in `fromRoomId`, to join `toRoomId` (the sender must manage a space containing both)
-    static func request(client: WizardClient, fromRoomId: String, userId: String, toRoomId: String) async throws {
+    static func request(client: MudrixClient, fromRoomId: String, userId: String, toRoomId: String) async throws {
         let content: JSONValue = .object([
             "user_id": .string(userId),
             "to_room_id": .string(toRoomId),
@@ -35,7 +35,7 @@ enum VoiceMoves {
         _ = try? await client.sendEvent(roomId: fromRoomId, eventType: MudrixTypes.typeAndLegacy(MudrixTypes.voiceMove)[1], content: content)
     }
 
-    static func start(client: WizardClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel, prefs: AppPreferences) {
+    static func start(client: MudrixClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel, prefs: AppPreferences) {
         stop()
         guard let me = client.userId else { return }
         subscription = client.watchRoomEvents(types: MudrixTypes.typeAndLegacy(MudrixTypes.voiceMove)) { event in
@@ -51,7 +51,7 @@ enum VoiceMoves {
         seen = []
     }
 
-    private static func handle(client: WizardClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel,
+    private static func handle(client: MudrixClient, calls: CallManager, session: MatrixSession, roomList: RoomListModel,
                                prefs: AppPreferences, me: String, event: RoomEvent) async {
         guard let request = event.content.object else { return }
         // One move arrives under both type names; it is acted on once
@@ -76,7 +76,7 @@ enum VoiceMoves {
         await calls.join(target, session: session, intent: "audio")
     }
 
-    private static func isFlaggedVoice(client: WizardClient, roomId: String) async -> Bool {
+    private static func isFlaggedVoice(client: MudrixClient, roomId: String) async -> Bool {
         guard let raw = try? await client.stateEventsOfTypes(roomId: roomId, eventTypes: MudrixTypes.typeAndLegacy(MudrixTypes.voiceChannel)) else {
             return false
         }
@@ -86,7 +86,7 @@ enum VoiceMoves {
     /// Whether `roomId` agrees that `spaceId` is its parent. A child link alone is one-sided: any admin of a space can list
     /// somebody else's room, so the room has to name the space back with an `m.space.parent`, which only people with power
     /// in the room can send. A room that predates that still counts when the sender could have set it.
-    private static func confirmsParent(client: WizardClient, roomId: String, spaceId: String, senderId: String) async -> Bool {
+    private static func confirmsParent(client: MudrixClient, roomId: String, spaceId: String, senderId: String) async -> Bool {
         if let parent = try? await client.stateEvent(roomId: roomId, eventType: "m.space.parent", stateKey: spaceId),
            let via = parent["via"]?.array, !via.isEmpty {
             return true
@@ -96,7 +96,7 @@ enum VoiceMoves {
     }
 
     /// The spaces above `roomId`, following only links both sides agree on and only through spaces we are in
-    private static func ancestorSpaces(client: WizardClient, graph: [SpaceNode], roomId: String, senderId: String) async -> Set<String> {
+    private static func ancestorSpaces(client: MudrixClient, graph: [SpaceNode], roomId: String, senderId: String) async -> Set<String> {
         var found = Set<String>()
         var queue = [roomId]
         while let child = queue.popLast() {
@@ -111,7 +111,7 @@ enum VoiceMoves {
     }
 
     /// Whether `userId` is in, and manages (can edit the children of), a space that contains both channels
-    static func mayMoveBetween(client: WizardClient, graph: [SpaceNode], userId: String, fromRoomId: String, toRoomId: String) async -> Bool {
+    static func mayMoveBetween(client: MudrixClient, graph: [SpaceNode], userId: String, fromRoomId: String, toRoomId: String) async -> Bool {
         if fromRoomId == toRoomId { return false }
         let above = await ancestorSpaces(client: client, graph: graph, roomId: toRoomId, senderId: userId)
         for spaceId in await ancestorSpaces(client: client, graph: graph, roomId: fromRoomId, senderId: userId) where above.contains(spaceId) {

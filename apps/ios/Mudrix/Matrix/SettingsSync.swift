@@ -103,7 +103,7 @@ enum SettingsSync {
 /// (live), and writes local changes after a short pause.
 @MainActor
 final class SettingsSyncer {
-    private let client: WizardClient
+    private let client: MudrixClient
     private let prefs: AppPreferences
     private var contents: [String: JSONValue] = [:]
     private var subscriptions: [Subscription] = []
@@ -113,7 +113,7 @@ final class SettingsSyncer {
     /// would be taken for a new one
     private var ready = false
 
-    init(client: WizardClient, prefs: AppPreferences) {
+    init(client: MudrixClient, prefs: AppPreferences) {
         self.client = client
         self.prefs = prefs
     }

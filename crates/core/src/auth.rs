@@ -23,7 +23,7 @@ use matrix_sdk::{
 use serde::{Deserialize, Serialize};
 use url::Url;
 
-use crate::{Error, RegistrationInfo, Result, Session, StoreConfig, WizardClient};
+use crate::{Error, MudrixClient, RegistrationInfo, Result, Session, StoreConfig};
 
 /// How a homeserver lets people sign in
 #[derive(Clone, Debug, Serialize)]
@@ -175,7 +175,7 @@ enum PendingKind {
     Sso,
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Finds out which sign-in methods a server offers and what it runs (without signing in).
     /// Fails with `wellKnownInvalid` when the server's `.well-known` points nowhere usable,
     /// `notMatrix` when the address answers but isn't a Matrix server, and `homeserver` when
@@ -555,7 +555,7 @@ impl PendingLogin {
         self,
         callback_url: &str,
         device_name: &str,
-    ) -> Result<(WizardClient, Session)> {
+    ) -> Result<(MudrixClient, Session)> {
         let callback = parse_url(callback_url)?;
         match self.kind {
             PendingKind::OAuth { .. } => {
@@ -579,7 +579,7 @@ impl PendingLogin {
                     .await?;
             }
         }
-        let client = WizardClient::from_sdk(self.client);
+        let client = MudrixClient::from_sdk(self.client);
         let session = client.session()?;
         Ok((client, session))
     }

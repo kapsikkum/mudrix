@@ -1,13 +1,13 @@
-//! Signing in: `WizardClient`'s static methods, `PendingLogin` and `QrLoginControl`
+//! Signing in: `MudrixClient`'s static methods, `PendingLogin` and `QrLoginControl`
 
 use super::{Handle, Listener, Obj, PendingLoginCell};
 use crate::{
-    AppInfo, LoginIdentifier, QrLoginControl, QrLoginStatus, RegistrationInfo, ServerInfo, Session,
-    StoreConfig, WizardClient,
+    AppInfo, LoginIdentifier, MudrixClient, QrLoginControl, QrLoginStatus, RegistrationInfo,
+    ServerInfo, Session, StoreConfig,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// Signs in with a password. `server` may be a server name or a homeserver URL;
         /// `identifier` is a username (or full Matrix ID), or an email address or phone number
         /// bound to the account.
@@ -17,8 +17,8 @@ rpc_methods! {
             password: String,
             device_name: String,
             store: StoreConfig,
-        ) -> Handle<WizardClient> {
-            let (client, _) = WizardClient::login_with_identifier(
+        ) -> Handle<MudrixClient> {
+            let (client, _) = MudrixClient::login_with_identifier(
                 &server,
                 &identifier,
                 &password,
@@ -31,11 +31,11 @@ rpc_methods! {
 
         /// Whether and how the server lets people register.
         bare fn registrationInfo(server: String) -> RegistrationInfo {
-            WizardClient::sign_up_info(&server).await
+            MudrixClient::sign_up_info(&server).await
         }
 
         bare fn usernameAvailable(server: String, username: String) -> bool {
-            WizardClient::username_available(&server, &username).await
+            MudrixClient::username_available(&server, &username).await
         }
 
         /// Creates an account and signs in.
@@ -46,8 +46,8 @@ rpc_methods! {
             device_name: String,
             token: Option<String>,
             store: StoreConfig,
-        ) -> Handle<WizardClient> {
-            let (client, _) = WizardClient::create_account(
+        ) -> Handle<MudrixClient> {
+            let (client, _) = MudrixClient::create_account(
                 &server,
                 &username,
                 &password,
@@ -61,7 +61,7 @@ rpc_methods! {
 
         /// Emails a reset link; returns the session id for `resetPassword`.
         bare fn requestPasswordReset(server: String, email: String, secret: String, attempt: u32) -> String {
-            WizardClient::request_password_reset(&server, &email, &secret, attempt).await
+            MudrixClient::request_password_reset(&server, &email, &secret, attempt).await
         }
 
         bare fn resetPassword(
@@ -71,7 +71,7 @@ rpc_methods! {
             sid: String,
             logout_devices: bool,
         ) -> () {
-            WizardClient::reset_password(&server, &new_password, &secret, &sid, logout_devices).await
+            MudrixClient::reset_password(&server, &new_password, &secret, &sid, logout_devices).await
         }
 
         /// Signs this new device in through an existing one (QR code). Pass the other device's
@@ -83,8 +83,8 @@ rpc_methods! {
             scanned: Option<super::Bytes>,
             control: Obj<QrLoginControl>,
             listener: Listener<QrLoginStatus>,
-        ) -> Handle<WizardClient> {
-            let (client, _) = WizardClient::login_with_qr(
+        ) -> Handle<MudrixClient> {
+            let (client, _) = MudrixClient::login_with_qr(
                 &server,
                 store,
                 app,
@@ -99,7 +99,7 @@ rpc_methods! {
         /// Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
         /// the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
         bare fn discover(server: String) -> ServerInfo {
-            WizardClient::discover(&server).await
+            MudrixClient::discover(&server).await
         }
 
         bare fn startOAuthLogin(
@@ -110,7 +110,7 @@ rpc_methods! {
             create_account: Option<bool>,
             known_clients: Option<std::collections::HashMap<String, String>>,
         ) -> Handle<PendingLoginCell> {
-            let login = WizardClient::start_oauth_login(
+            let login = MudrixClient::start_oauth_login(
                 &server,
                 store,
                 &redirect_uri,
@@ -129,18 +129,18 @@ rpc_methods! {
             idp_id: Option<String>,
         ) -> Handle<PendingLoginCell> {
             let login =
-                WizardClient::start_sso_login(&server, store, &redirect_uri, idp_id.as_deref()).await?;
+                MudrixClient::start_sso_login(&server, store, &redirect_uri, idp_id.as_deref()).await?;
             Ok(Handle::new(PendingLoginCell::new(login)))
         }
 
         /// Ends a stored session on the server without restoring it (when restoring failed).
         bare fn logoutSession(session: Session) -> () {
-            WizardClient::logout_session(session).await
+            MudrixClient::logout_session(session).await
         }
 
         /// Restores a session previously returned by `session()`.
-        bare fn restore(session: Session, store: StoreConfig) -> Handle<WizardClient> {
-            Ok(Handle::new(WizardClient::restore(session, store).await?))
+        bare fn restore(session: Session, store: StoreConfig) -> Handle<MudrixClient> {
+            Ok(Handle::new(MudrixClient::restore(session, store).await?))
         }
     }
 }
@@ -156,7 +156,7 @@ pub(super) mod pending {
             }
 
             /// Completes the sign-in with the URL the server redirected back to.
-            call fn finish(callback_url: String, device_name: String) -> Handle<WizardClient> {
+            call fn finish(callback_url: String, device_name: String) -> Handle<MudrixClient> {
                 let (client, _) = this.take()?.finish(&callback_url, &device_name).await?;
                 Ok(Handle::new(client))
             }

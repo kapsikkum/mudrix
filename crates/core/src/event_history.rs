@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::{
-    rooms::parse_room_id, timeline::parse_event_id, Error, EventSource, Result, WizardClient,
+    rooms::parse_room_id, timeline::parse_event_id, Error, EventSource, MudrixClient, Result,
 };
 
 /// How many edits are read at most
@@ -111,7 +111,7 @@ fn versions(original: &Value, edits: &[Value]) -> Vec<EventVersion> {
         .collect()
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The ID of the event closest to `timestamp` (milliseconds) in the room, looking
     /// `direction` from it; `None` when the room has no event that way. Fails with
     /// `unsupportedByServer` when the homeserver can't look up dates.

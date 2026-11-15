@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useSpaceGraph } from '@/app/data';
 import { mudrixKey } from '@/util/namespace';
 import { setMudrixRoomState, useMudrixRoomState, type MudrixRoomState } from './mudrixRoomState';
@@ -21,7 +21,7 @@ export function explicitAutoJoinOf(state: MudrixRoomState | null | undefined): b
 }
 
 export function setSpaceAutoJoin(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   enabled: boolean
 ): Promise<void> {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import {
   ArrowClockwiseIcon,
   CaretDownIcon,
@@ -45,7 +45,7 @@ function parseObject(
   }
 }
 
-export function DeveloperPanel({ roomId, client }: { roomId: string; client: WizardClient }) {
+export function DeveloperPanel({ roomId, client }: { roomId: string; client: MudrixClient }) {
   const { t } = useTranslation();
   const toast = useToast();
   const [events, setEvents] = useState<StateEvent[] | null>(null);
@@ -264,7 +264,7 @@ function SendEventModal({
   onSent,
 }: {
   roomId: string;
-  client: WizardClient;
+  client: MudrixClient;
   initial: { type: string; stateKey: string; content: string; state: boolean };
   onClose: () => void;
   onSent: (state: boolean) => void;

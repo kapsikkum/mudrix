@@ -15,10 +15,10 @@ import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
 import chat.mudrix.core.EventSource
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** The content of the first of these account data types that exists, like the web's `readFirstAccountData` */
-suspend fun WizardClient.firstAccountData(types: List<String>): JsonElement? {
+suspend fun MudrixClient.firstAccountData(types: List<String>): JsonElement? {
     for (type in types) runCatching { accountData(type) }.getOrNull()?.let { return it }
     return null
 }
@@ -42,7 +42,7 @@ class SavedMessages private constructor() {
     private val subscriptions = mutableListOf<Subscription>()
     private val contents = HashMap<String, JsonElement?>()
 
-    fun start(client: WizardClient) {
+    fun start(client: MudrixClient) {
         stop()
         for (type in TYPES) {
             subscriptions += client.watchAccountData(type) { content ->
@@ -62,7 +62,7 @@ class SavedMessages private constructor() {
     }
 
     /** Saves the message, or removes it when it already is saved; true when it is saved now */
-    suspend fun toggle(client: WizardClient, roomId: String, eventId: String): Boolean {
+    suspend fun toggle(client: MudrixClient, roomId: String, eventId: String): Boolean {
         val current = parse(client.firstAccountData(TYPES))
         val (next, saved) = toggled(current, roomId, eventId, System.currentTimeMillis())
         client.setAccountData(TYPE, toContent(next))
@@ -129,7 +129,7 @@ class SavedMessages private constructor() {
         }
 
         /** Looks a saved message up from the core (it decrypts); null when it cannot be fetched */
-        suspend fun resolve(client: WizardClient, saved: SavedMessage): EventPreview? =
+        suspend fun resolve(client: MudrixClient, saved: SavedMessage): EventPreview? =
             runCatching { preview(client.eventSource(saved.roomId, saved.eventId)) }.getOrNull()
     }
 }

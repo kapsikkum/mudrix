@@ -3,7 +3,7 @@
 
 use serde::Serialize;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// What an import found
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -17,7 +17,7 @@ pub struct KeyImportResult {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
-impl WizardClient {
+impl MudrixClient {
     /// Writes every room key this device has to `path`, encrypted with `passphrase`.
     pub async fn export_room_keys(&self, path: &str, passphrase: &str) -> Result<()> {
         if passphrase.is_empty() {
@@ -51,7 +51,7 @@ impl WizardClient {
 }
 
 #[cfg(target_arch = "wasm32")]
-impl WizardClient {
+impl MudrixClient {
     pub async fn export_room_keys(&self, _path: &str, _passphrase: &str) -> Result<()> {
         Err(unsupported())
     }

@@ -52,7 +52,7 @@ import chat.mudrix.android.ui.room.Formats
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** What the Modern room list adds to a space's settings: style, auto-join and a banner, set by whoever can change the space's state */
@@ -130,7 +130,7 @@ internal fun SpaceModernSection(spaceId: String, canManage: Boolean) {
 @Composable
 internal fun AuditLogScreen(roomId: String, onBack: () -> Unit) {
     val session = LocalSession.current
-    val client: WizardClient? = session.client
+    val client: MudrixClient? = session.client
     val timeline = remember(roomId, client) { client?.let { TimelineModel(it, roomId) } }
     androidx.compose.runtime.DisposableEffect(timeline) { onDispose { timeline?.close() } }
     LaunchedEffect(timeline) {

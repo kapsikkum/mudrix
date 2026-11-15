@@ -32,7 +32,7 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.EventVersion
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /**
@@ -41,7 +41,7 @@ import chat.mudrix.tokens.WZ
  */
 @Composable
 fun EditHistorySheet(
-    client: WizardClient,
+    client: MudrixClient,
     roomId: String,
     eventId: String,
     onDismiss: () -> Unit,

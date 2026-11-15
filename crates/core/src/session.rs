@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Everything needed to restore a signed-in client. Apps store it securely and hand it back to
-/// [`crate::WizardClient::restore`] on the next start.
+/// [`crate::MudrixClient::restore`] on the next start.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
 #[serde(rename_all = "camelCase")]

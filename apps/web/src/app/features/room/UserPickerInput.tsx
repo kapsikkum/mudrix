@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Input } from '@/app/components/Input';
 import { useInviteAutocomplete, type UserSuggestion } from './useInviteAutocomplete';
 import { InviteAutocompleteDropdown } from './InviteAutocompleteDropdown';

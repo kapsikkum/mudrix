@@ -39,7 +39,7 @@ import chat.mudrix.core.Notification
 import chat.mudrix.core.NotificationMode
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /**
  * Shows a notification for new messages while the app runs (there's no push server). Tapping one
@@ -94,7 +94,7 @@ class MessageNotifier {
         scope.launch { show(notification, roomList.client, roomAvatar) }
     }
 
-    suspend fun show(notification: Notification, client: WizardClient, roomAvatar: String? = notification.roomAvatarUrl) {
+    suspend fun show(notification: Notification, client: MudrixClient, roomAvatar: String? = notification.roomAvatarUrl) {
         val prefs = prefs ?: MudrixApplication.instance.prefs
         if (!(prefs.notificationBanners || prefs.notificationSounds) || notification.roomId == activeRoomId) return
         if (!canPost()) return
@@ -193,7 +193,7 @@ class MessageNotifier {
         }
     }
 
-    private suspend fun avatarBitmap(mxc: String?, client: WizardClient): Bitmap? {
+    private suspend fun avatarBitmap(mxc: String?, client: MudrixClient): Bitmap? {
         mxc ?: return null
         val data = runCatching { client.thumbnail(mxc, 192, 192, true) }.getOrNull() ?: return null
         val source = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null

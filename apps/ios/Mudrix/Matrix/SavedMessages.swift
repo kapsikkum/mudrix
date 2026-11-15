@@ -1,7 +1,7 @@
 import Foundation
 import MudrixCore
 
-extension WizardClient {
+extension MudrixClient {
     /// The content of the first of these account data types that exists, like the web's `readFirstAccountData`
     func firstAccountData(_ types: [String]) async -> JSONValue? {
         for type in types {
@@ -45,7 +45,7 @@ final class SavedMessages: ObservableObject {
     private var subscriptions: [Subscription] = []
     private var contents: [String: JSONValue] = [:]
 
-    func start(client: WizardClient) {
+    func start(client: MudrixClient) {
         stop()
         for type in Self.types {
             let subscription = client.watchAccountData(eventType: type) { [weak self] content in
@@ -67,7 +67,7 @@ final class SavedMessages: ObservableObject {
     }
 
     /// Saves the message, or removes it when it already is saved; true when it is saved now
-    func toggle(client: WizardClient, roomId: String, eventId: String) async throws -> Bool {
+    func toggle(client: MudrixClient, roomId: String, eventId: String) async throws -> Bool {
         let current = Self.parse(await client.firstAccountData(Self.types))
         let (next, saved) = Self.toggled(current, roomId: roomId, eventId: eventId, now: Self.nowMs)
         try await client.setAccountData(eventType: Self.type, content: Self.toContent(next))
@@ -111,7 +111,7 @@ final class SavedMessages: ObservableObject {
     }
 
     /// Looks a saved message up from the core (it decrypts); nil when it cannot be fetched
-    static func resolve(client: WizardClient, roomId: String, eventId: String) async -> EventPreview? {
+    static func resolve(client: MudrixClient, roomId: String, eventId: String) async -> EventPreview? {
         guard let source = try? await client.eventSource(roomId: roomId, eventId: eventId) else { return nil }
         return preview(source)
     }

@@ -48,7 +48,7 @@ use matrix_sdk_crypto::CollectStrategy;
 use serde::Serialize;
 use serde_json::{json, Value};
 
-use crate::{rooms::parse_room_id, Error, Result, WizardClient};
+use crate::{rooms::parse_room_id, Error, MudrixClient, Result};
 
 pub(crate) const CALL_MEMBER_EVENT: &str = "org.matrix.msc3401.call.member";
 pub(crate) const VOICE_ROOM_TYPE: &str = "org.matrix.msc3417.call";
@@ -596,7 +596,7 @@ async fn request_sfu_config(
     })
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The LiveKit service the homeserver offers for calls, if any: the client well-known
     /// first, then the server's RTC transports.
     pub async fn rtc_service_url(&self) -> Option<String> {

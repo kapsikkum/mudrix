@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { ChatTextIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { useRoom } from '@/app/data';
 import { openRoomChatAtom } from '@/app/store/atoms';
@@ -14,7 +14,7 @@ import { buildCallBackground } from '@/app/features/calls/callBackground';
 import * as css from './VoiceRoomStage.css';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
 }
 

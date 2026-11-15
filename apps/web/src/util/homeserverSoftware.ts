@@ -2,7 +2,7 @@
  * How the software a homeserver runs is drawn on a profile card. The lookup itself is the
  * core's `homeserverSoftware` call (the server is asked directly, never a third party).
  */
-import type { WizardClient as MatrixClient, HomeserverSoftware } from '@mudrix/core';
+import type { MudrixClient as MatrixClient, HomeserverSoftware } from '@mudrix/core';
 
 export type { HomeserverSoftware };
 

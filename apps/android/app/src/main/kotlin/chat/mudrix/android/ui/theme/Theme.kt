@@ -40,13 +40,13 @@ object Themes {
     fun exists(name: String, customs: List<CustomTheme>) = builtin(name) != null || CustomThemes.find(name, customs) != null
 
     /** The theme [name] refers to; a name that does not exist falls back to the default */
-    fun resolve(name: String, customs: List<CustomTheme>): WizardTheme {
-        builtin(name)?.let { return WizardTheme(it) }
+    fun resolve(name: String, customs: List<CustomTheme>): MudrixTheme {
+        builtin(name)?.let { return MudrixTheme(it) }
         CustomThemes.find(name, customs)?.let { custom ->
             val colors = ThemeDerive.build(custom.colors)
-            return WizardTheme(colors, isDark = !ThemeDerive.isLightColor(custom.colors.bgPrimary))
+            return MudrixTheme(colors, isDark = !ThemeDerive.isLightColor(custom.colors.bgPrimary))
         }
-        return WizardTheme.default
+        return MudrixTheme.default
     }
 
     fun label(name: String, customs: List<CustomTheme>): String = CustomThemes.find(name, customs)?.name ?: name
@@ -56,7 +56,7 @@ object Themes {
 }
 
 @Immutable
-class WizardTheme(val colors: WZ.ThemeColors, val isDark: Boolean) {
+class MudrixTheme(val colors: WZ.ThemeColors, val isDark: Boolean) {
     constructor(id: WZ.Theme) : this(id.colors, id.isDark)
 
     val bgPrimary get() = colors.bgApp
@@ -107,15 +107,15 @@ class WizardTheme(val colors: WZ.ThemeColors, val isDark: Boolean) {
     val groupedRow get() = if (isDark) bgSecondary else bgPrimary
 
     companion object {
-        val default = WizardTheme(WZ.Theme.default)
+        val default = MudrixTheme(WZ.Theme.default)
         val baseLogo get() = default.logo
     }
 }
 
-val LocalTheme = staticCompositionLocalOf { WizardTheme.default }
+val LocalTheme = staticCompositionLocalOf { MudrixTheme.default }
 
 /** The current theme */
-val theme: WizardTheme
+val theme: MudrixTheme
     @Composable get() = LocalTheme.current
 
 @Composable
@@ -137,7 +137,7 @@ fun withNameColors(text: String, names: List<Pair<String, Color>>): AnnotatedStr
 fun wizardFont(size: TextUnit, weight: FontWeight = FontWeight.Normal) = TextStyle(fontSize = size, fontWeight = weight)
 
 @Composable
-fun WizardThemeRoot(resolved: WizardTheme, content: @Composable () -> Unit) {
+fun MudrixThemeRoot(resolved: MudrixTheme, content: @Composable () -> Unit) {
     val scheme = if (resolved.isDark) {
         darkColorScheme(
             primary = resolved.accent,
@@ -189,7 +189,7 @@ fun hueColor(name: String): Color {
 
 /** The theme in use, following the system's light and dark mode when the settings say so */
 @Composable
-fun rememberAppTheme(prefs: AppPreferences): WizardTheme {
+fun rememberAppTheme(prefs: AppPreferences): MudrixTheme {
     val name = prefs.effectiveThemeName(isSystemInDarkTheme())
     val customs = prefs.customThemes
     val base = remember(name, customs) { Themes.resolve(name, customs) }
@@ -203,6 +203,6 @@ fun rememberAppTheme(prefs: AppPreferences): WizardTheme {
         null
     }
     return remember(base, systemAccent) {
-        if (systemAccent == null) base else WizardTheme(ThemeDerive.withAccent(base.colors, systemAccent, light = !dark), dark)
+        if (systemAccent == null) base else MudrixTheme(ThemeDerive.withAccent(base.colors, systemAccent, light = !dark), dark)
     }
 }

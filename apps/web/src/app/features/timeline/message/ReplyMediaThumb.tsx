@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import type { ReactNode } from 'react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import {
   EyeSlashIcon,
   FileTextIcon,

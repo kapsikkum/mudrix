@@ -179,7 +179,7 @@ import chat.mudrix.core.RichBlock
 import chat.mudrix.core.RichSpan
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.UserProfile
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** What a message row can do; null actions (settings preview, pinned list) make it read-only */
@@ -218,7 +218,7 @@ class MessageActions(
 
 /** A room's timeline and composer, or with `threadRoot` one of its threads */
 @Composable
-fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, threadRoot: String? = null) {
+fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, threadRoot: String? = null) {
     val prefs = LocalPrefs.current
     val session = LocalSession.current
     val calls = LocalCalls.current

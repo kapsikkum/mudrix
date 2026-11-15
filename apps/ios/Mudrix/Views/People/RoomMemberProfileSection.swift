@@ -18,7 +18,7 @@ struct SquareCrop: Equatable {
 /// account's name and picture. The web app has the same section in `MemberProfileSection.tsx`.
 struct RoomMemberProfileSection: View {
     let roomId: String
-    let client: WizardClient
+    let client: MudrixClient
     var onError: (String) -> Void
 
     @EnvironmentObject private var session: MatrixSession

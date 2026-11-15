@@ -42,11 +42,11 @@ import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.trPlural
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.ThreadInfo
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 @Composable
-fun ThreadListSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit, onOpen: (String) -> Unit) {
+fun ThreadListSheet(room: RoomSummary, client: MudrixClient, onDismiss: () -> Unit, onOpen: (String) -> Unit) {
     val scope = rememberCoroutineScope()
     var mine by remember { mutableStateOf(false) }
     var threads by remember { mutableStateOf<List<ThreadInfo>>(emptyList()) }

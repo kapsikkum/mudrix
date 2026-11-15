@@ -7,7 +7,7 @@ import type {
   MediaInfo,
   RoomTimeline,
   UtdReason,
-  WizardClient as MatrixClient,
+  MudrixClient as MatrixClient,
 } from '@mudrix/core';
 import {
   FileTextIcon,

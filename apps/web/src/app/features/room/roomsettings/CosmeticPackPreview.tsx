@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';

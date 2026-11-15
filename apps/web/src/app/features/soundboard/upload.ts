@@ -1,4 +1,4 @@
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { normalizeMimetype } from './builtIn';
 import {
   SOUNDBOARD_MAX_DURATION_MS,
@@ -72,7 +72,7 @@ export function cleanSoundName(name: string): string {
 
 /** Validates a file and uploads it to the homeserver. The returned sound is not saved to a board yet. */
 export async function uploadSoundFile(
-  client: WizardClient,
+  client: MudrixClient,
   file: File,
   meta: { name: string; emoji?: string; volume?: number },
   validated?: ValidatedSoundFile

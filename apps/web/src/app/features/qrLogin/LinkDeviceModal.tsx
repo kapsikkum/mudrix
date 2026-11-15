@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { QrLoginControl, type WizardClient as MatrixClient } from '@mudrix/core';
+import { QrLoginControl, type MudrixClient as MatrixClient } from '@mudrix/core';
 import { CheckCircleIcon, QrCodeIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';

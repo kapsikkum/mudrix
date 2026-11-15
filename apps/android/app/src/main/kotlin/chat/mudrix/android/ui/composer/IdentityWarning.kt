@@ -29,11 +29,11 @@ import chat.mudrix.android.ui.PhIcon
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 @Composable
-fun IdentityWarning(roomId: String, client: WizardClient, encrypted: Boolean) {
+fun IdentityWarning(roomId: String, client: MudrixClient, encrypted: Boolean) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     val violations = remember(roomId) { mutableStateMapOf<String, Boolean>() }

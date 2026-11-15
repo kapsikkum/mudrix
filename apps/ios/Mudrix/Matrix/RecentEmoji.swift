@@ -21,7 +21,7 @@ final class RecentEmoji: ObservableObject {
     private static let quickCount = 6
     private static let defaultReactions = ["👍", "❤️", "😂", "😮", "😢", "🎉"]
 
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var subscription: Subscription?
     private var saveTask: Task<Void, Never>?
     /// Set while a pick is waiting to be written, so an older copy from the server doesn't undo it
@@ -33,7 +33,7 @@ final class RecentEmoji: ObservableObject {
         return (recent + Self.defaultReactions).filter { seen.insert($0).inserted }.prefix(Self.quickCount).map { $0 }
     }
 
-    func start(client: WizardClient) {
+    func start(client: MudrixClient) {
         self.client = client
         subscription = client.watchAccountData(eventType: Self.eventType) { [weak self] content in
             MainActor.assumeIsolated { self?.apply(content) }

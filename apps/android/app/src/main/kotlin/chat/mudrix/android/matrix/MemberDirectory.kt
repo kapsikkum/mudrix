@@ -2,7 +2,7 @@ package chat.mudrix.android.matrix
 
 import kotlinx.coroutines.CompletableDeferred
 import chat.mudrix.core.Member
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Display names and avatars of room members and other users, loaded once per room/user */
 object MemberDirectory {
@@ -12,7 +12,7 @@ object MemberDirectory {
     private val users = HashMap<String, CompletableDeferred<Profile>>()
 
     /** Call from the main thread */
-    suspend fun profile(userId: String, roomId: String?, client: WizardClient): Profile {
+    suspend fun profile(userId: String, roomId: String?, client: MudrixClient): Profile {
         if (roomId != null) {
             val members = rooms[roomId]?.await() ?: run {
                 val deferred = CompletableDeferred<Map<String, Member>>()

@@ -6,7 +6,7 @@ import MudrixCore
 final class KeyRestoreModel: ObservableObject {
     @Published private(set) var progress: KeyRestoreProgress?
 
-    func restore(with client: WizardClient) async throws -> KeyRestoreProgress {
+    func restore(with client: MudrixClient) async throws -> KeyRestoreProgress {
         progress = KeyRestoreProgress(roomsDone: 0, roomsTotal: 0, keysRestored: 0)
         defer { progress = nil }
         return try await client.restoreKeyBackup { [weak self] update in

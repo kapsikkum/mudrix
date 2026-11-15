@@ -1,4 +1,4 @@
-import type { TimelineEntry, WizardClient } from '@mudrix/core';
+import type { TimelineEntry, MudrixClient } from '@mudrix/core';
 import { composerDraftKey, type EditMessageState } from '@/app/store/atoms';
 import { entryEventId, entryMsgtype, entryText, isEventEntry, type EventEntry } from './entry';
 import { editableBody } from './textContent';
@@ -70,7 +70,7 @@ function getEditableMessages(roomId: string, threadId?: string | null): EventEnt
 }
 
 export function findAdjacentEditableMessage(
-  _client: WizardClient,
+  _client: MudrixClient,
   roomId: string,
   threadId: string | null | undefined,
   fromEventId: string | null,

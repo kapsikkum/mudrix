@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StickerIcon, XIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useToast } from '@/app/hooks/useToast';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { usePickerDrawer } from '@/app/hooks/usePickerShell';

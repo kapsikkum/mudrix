@@ -43,7 +43,7 @@ import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 data class LinkPreviewData(
@@ -58,7 +58,7 @@ data class LinkPreviewData(
  * Fetches and caches link previews from the homeserver through the core. Only used in unencrypted
  * rooms, so the server never sees links from encrypted chats.
  */
-class LinkPreviewLoader(val client: WizardClient) {
+class LinkPreviewLoader(val client: MudrixClient) {
     /** Call from the main thread */
     suspend fun preview(url: String): LinkPreviewData? {
         if (cache.containsKey(url)) return cache[url]

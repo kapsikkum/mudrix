@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StarIcon } from '@phosphor-icons/react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useCoarsePointer } from '@/app/hooks/useCoarsePointer';
 import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
 import * as css from '../Timeline.css';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   /** The GIF's own address: an mxc URL on the homeserver, or the provider's. */
   url: string;
 }

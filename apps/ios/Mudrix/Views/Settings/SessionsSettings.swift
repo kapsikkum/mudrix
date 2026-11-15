@@ -327,7 +327,7 @@ private struct RemoveDeviceSheet: View {
                         .font(.wizard(WZ.FontSize.md, .semibold))
                         .foregroundStyle(theme.textOnAccent)
                         .frame(maxWidth: .infinity, minHeight: WZ.Space.space10)
-                        .background(theme.danger, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
+                        .background(theme.danger, in: RoundedRectangle(cornerRadius: MudrixTheme.radiusMd))
                         .disabled(busy || password.isEmpty)
                 }
                 if let error { StatusText(text: error) }

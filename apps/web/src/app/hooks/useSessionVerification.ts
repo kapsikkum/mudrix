@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { sessionVerificationAtom } from '@/app/store/atoms';
 import { evaluateSessionVerification } from '@/app/features/device/sessionVerification';
 

@@ -8,7 +8,7 @@ import {
   Widget,
   WidgetApiFromWidgetAction,
 } from 'matrix-widget-api';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { stickerPickerAtom, effectiveThemeAtom, ThemeName } from '@/app/store/atoms';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';

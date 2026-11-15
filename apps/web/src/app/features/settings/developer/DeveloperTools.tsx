@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
-import type { EncryptionStatus, ServerFeatures, WizardClient as MatrixClient } from '@mudrix/core';
+import type { EncryptionStatus, ServerFeatures, MudrixClient as MatrixClient } from '@mudrix/core';
 import { syncStateAtom } from '@/app/store/atoms';
 import { slidingSyncAtom } from '@/app/store/atoms/settings';
 import { useAllRooms } from '@/app/data';

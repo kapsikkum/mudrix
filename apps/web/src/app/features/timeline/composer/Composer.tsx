@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useLayoutEffect, useId, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { RoomTimeline, WizardClient as MatrixClient } from '@mudrix/core';
+import type { RoomTimeline, MudrixClient as MatrixClient } from '@mudrix/core';
 import {
   PlusIcon,
   SmileyIcon,

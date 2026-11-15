@@ -12,7 +12,7 @@ import chat.mudrix.android.matrix.Namespace
 import chat.mudrix.android.matrix.MudrixTypes
 import chat.mudrix.android.matrix.SpaceModern
 import chat.mudrix.core.SpaceNode
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /**
  * The boards of rooms and spaces and who may play in them (read only here; editing is not done on Android). A room's board is
@@ -54,7 +54,7 @@ object RoomSoundboards {
     }
 
     /** The room's board, settings and power levels (kept for 30 seconds unless [force]) */
-    suspend fun load(client: WizardClient, roomId: String, force: Boolean = false, now: Long = System.currentTimeMillis()): Data {
+    suspend fun load(client: MudrixClient, roomId: String, force: Boolean = false, now: Long = System.currentTimeMillis()): Data {
         cache[roomId]?.let { if (!force && now - it.loadedAt < CACHE_MS) return it }
         val types = MudrixTypes.typeAndLegacy(DATA_TYPE) + MudrixTypes.typeAndLegacy(SETTINGS_TYPE)
         val (events, room) = coroutineScope {
@@ -80,7 +80,7 @@ object RoomSoundboards {
         (SpaceModern.rolesChainOf(graph, roomId).filter { it != roomId }.reversed() + roomId)
 
     /** Every room and space board that applies in [roomId] (the room's own clip wins over a space's with the same id) */
-    suspend fun clips(client: WizardClient, graph: List<SpaceNode>, roomId: String): List<RoomClip> {
+    suspend fun clips(client: MudrixClient, graph: List<SpaceNode>, roomId: String): List<RoomClip> {
         val ids = boardRoomIds(graph, roomId)
         val all = coroutineScope { ids.map { id -> async { load(client, id) } }.map { it.await() } }
         val out = ArrayList<RoomClip>()
@@ -98,7 +98,7 @@ object RoomSoundboards {
      * (a setting never made counts as on), and the person needs the highest "who can play" level among them, checked against
      * their level in the room that set it (their level in the call room when that is unknown).
      */
-    suspend fun access(client: WizardClient, graph: List<SpaceNode>, roomId: String, userId: String): Access {
+    suspend fun access(client: MudrixClient, graph: List<SpaceNode>, roomId: String, userId: String): Access {
         val ids = boardRoomIds(graph, roomId)
         val all = coroutineScope { ids.map { id -> async { load(client, id) } }.map { it.await() } }
         fun levelIn(data: Data): Double? = data.powerLevels?.let { if (userId in data.creators) Double.MAX_VALUE else SpaceModern.powerLevelOf(it, userId) }

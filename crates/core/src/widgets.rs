@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use url::Url;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// What the original app reads and writes
 pub(crate) const WIDGET_EVENT: &str = "m.room.widget";
@@ -86,7 +86,7 @@ pub(crate) fn fill_url(widget: &Widget, values: &[(&str, &str)]) -> String {
     url
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Read from the server: sliding sync doesn't send widget state.
     pub async fn widgets(&self, room_id: &str) -> Result<Vec<Widget>> {
         let room = self.room(room_id)?;

@@ -19,7 +19,7 @@ import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
 import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.Namespace
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** A bundled clip; the ids are what other clients know them by, and the files are `sb_<id>` in `res/raw` */
 data class BuiltInClip(val id: String, val name: String, val emoji: String, val durationMs: Long) {
@@ -190,7 +190,7 @@ object Soundboard {
         SoundboardClip(sound.id, sound.name, sound.emoji, false, sound.url, sound.mimetype, sound.durationMs, sound.volume)
 
     /** The personal board: the current name wins, the earlier Mudrix one fills in */
-    suspend fun personalBoard(client: WizardClient): List<SoundboardSound> {
+    suspend fun personalBoard(client: MudrixClient): List<SoundboardSound> {
         val current = runCatching { client.cachedAccountData(BOARD_TYPE) }.getOrNull()
         val board = parseBoard(current)
         if (board.isNotEmpty() || current != null) return board
@@ -238,7 +238,7 @@ object Soundboard {
 
     /** Set by the call while joined: the room, who is in it, whether we are deafened and how to send */
     class CallLink(
-        val client: WizardClient,
+        val client: MudrixClient,
         val roomId: String,
         val userId: String,
         val inCall: (String) -> Boolean,
@@ -282,7 +282,7 @@ object Soundboard {
     }
 
     /** Plays a clip here only (the editor's preview); nothing is sent */
-    fun preview(client: WizardClient, clip: SoundboardClip) {
+    fun preview(client: MudrixClient, clip: SoundboardClip) {
         play(client, "preview", clip.id, clip.builtIn, clip.resource, clip.url, clip.volume, clip.durationMs)
     }
 
@@ -305,7 +305,7 @@ object Soundboard {
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun play(client: WizardClient, sender: String, id: String, builtIn: Boolean, resource: String?, url: String, volume: Float, durationMs: Long?) {
+    private fun play(client: MudrixClient, sender: String, id: String, builtIn: Boolean, resource: String?, url: String, volume: Float, durationMs: Long?) {
         scope.launch {
             try {
                 if (active.size >= MAX_CONCURRENT) return@launch
@@ -345,7 +345,7 @@ object Soundboard {
     }
 
     @SuppressLint("DiscouragedApi")
-    private suspend fun open(client: WizardClient, builtIn: Boolean, resource: String?, url: String): MediaPlayer? {
+    private suspend fun open(client: MudrixClient, builtIn: Boolean, resource: String?, url: String): MediaPlayer? {
         val context = MudrixApplication.instance
         val attributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION_SIGNALLING)
@@ -369,7 +369,7 @@ object Soundboard {
     }
 
     /** A custom clip on disk, downloaded once (and decrypted when the room's media is) */
-    private suspend fun download(client: WizardClient, url: String): File {
+    private suspend fun download(client: MudrixClient, url: String): File {
         val name = MessageDigest.getInstance("SHA-256").digest(url.encodeToByteArray()).joinToString("") { "%02x".format(it) }.take(32)
         val file = File(files, name)
         if (file.exists()) return file

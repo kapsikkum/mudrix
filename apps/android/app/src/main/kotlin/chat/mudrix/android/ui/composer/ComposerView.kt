@@ -153,7 +153,7 @@ import chat.mudrix.android.ui.tr
 import chat.mudrix.core.Member
 import chat.mudrix.core.PackImage
 import chat.mudrix.core.RoomSummary
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** A file waiting in the composer's tray until the message is sent */
@@ -909,7 +909,7 @@ internal suspend fun richHtml(
     text: String,
     emotes: Map<String, PackImage>,
     mentions: Map<String, String>,
-    client: WizardClient,
+    client: MudrixClient,
     roomLinks: Map<String, String> = emptyMap(),
 ): String? {
     val usedEmotes = emotes.filter { text.contains(":${it.key}:") }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { IdentityChange, WizardClient as MatrixClient } from '@mudrix/core';
+import type { IdentityChange, MudrixClient as MatrixClient } from '@mudrix/core';
 import { WarningIcon } from '@phosphor-icons/react';
 import { Button } from '@/app/components/Button';
 import { useToast } from '@/app/hooks/useToast';

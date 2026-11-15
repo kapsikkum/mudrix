@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
-import type { SpaceNode, WizardClient } from '@mudrix/core';
+import type { SpaceNode, MudrixClient } from '@mudrix/core';
 import { useAccountData, useClient } from '@/app/data';
 import { mudrixKey, upstreamKey } from '@/util/namespace';
 
@@ -102,7 +102,7 @@ export function getSpaceChildOrders(
 }
 
 export async function saveSpaceChildOrders(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   updates: ReadonlyMap<string, string>
 ): Promise<void> {
@@ -125,7 +125,7 @@ export function useHomeOrder(): string[] {
   return useMemo(() => getHomeOrder(mudrix ?? upstream), [mudrix, upstream]);
 }
 
-export async function saveHomeOrder(client: WizardClient, roomIds: string[]): Promise<void> {
+export async function saveHomeOrder(client: MudrixClient, roomIds: string[]): Promise<void> {
   await client.setAccountData(HOME_ORDER_EVENT, { rooms: roomIds });
 }
 
@@ -152,7 +152,7 @@ const OPTIMISTIC_MS = 15_000;
 
 /** Orders the core streams from room account data, kept in memory so the sorters can stay synchronous */
 function createOrderStore<T>(eventType: string, extract: (content: unknown) => T | undefined) {
-  let owner: WizardClient | null = null;
+  let owner: MudrixClient | null = null;
   let stop: (() => void) | null = null;
   let users = 0;
   const loaded = new Map<string, T>();
@@ -165,7 +165,7 @@ function createOrderStore<T>(eventType: string, extract: (content: unknown) => T
     listeners.forEach((l) => l());
   };
 
-  const bind = (client: WizardClient) => {
+  const bind = (client: MudrixClient) => {
     if (owner === client) return;
     stop?.();
     owner = client;
@@ -188,7 +188,7 @@ function createOrderStore<T>(eventType: string, extract: (content: unknown) => T
     if (pending && pending.until > Date.now()) return pending.value;
     return loaded.get(id);
   };
-  const setOptimistic = (client: WizardClient, id: string, value: T) => {
+  const setOptimistic = (client: MudrixClient, id: string, value: T) => {
     bind(client);
     optimistic.set(id, { value, until: Date.now() + OPTIMISTIC_MS });
     notify();
@@ -258,7 +258,7 @@ export function sortFavourites<T>(
   });
 }
 
-export async function saveFavouriteOrder(client: WizardClient, roomIds: string[]): Promise<void> {
+export async function saveFavouriteOrder(client: MudrixClient, roomIds: string[]): Promise<void> {
   const count = roomIds.length;
   for (let i = 0; i < count; i++) {
     const order = (i + 1) / (count + 1);
@@ -287,7 +287,7 @@ export function sortSpaceBar<T>(items: T[], roomIdOf: (item: T) => string | null
 }
 
 export async function saveSpaceBarOrders(
-  client: WizardClient,
+  client: MudrixClient,
   updates: ReadonlyMap<string, string>
 ): Promise<void> {
   for (const [spaceId, order] of updates) {

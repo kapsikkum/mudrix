@@ -3,7 +3,7 @@ import MudrixCore
 
 struct IdentityWarning: View {
     let roomId: String
-    let client: WizardClient
+    let client: MudrixClient
     let encrypted: Bool
 
     @EnvironmentObject private var session: MatrixSession

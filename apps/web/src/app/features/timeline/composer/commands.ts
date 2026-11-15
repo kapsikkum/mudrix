@@ -1,4 +1,4 @@
-import type { Member, MessageKind, RoomSummary, RoomTimeline, WizardClient } from '@mudrix/core';
+import type { Member, MessageKind, RoomSummary, RoomTimeline, MudrixClient } from '@mudrix/core';
 import { Text, type Descendant } from 'slate';
 import { fromMarkdown, type MentionResolver } from './editor/fromMarkdown';
 import { buildTextContent } from './editor/buildTextContent';
@@ -7,7 +7,7 @@ import { viaServersFor } from '@/util/matrix';
 import type { CustomElement, EmoticonElement } from './editor/types';
 
 export interface CommandContext {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   threadId?: string | null;
   replyTo?: ReplyTarget | null;

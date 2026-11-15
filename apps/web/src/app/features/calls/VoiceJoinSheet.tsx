@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Popover } from '@/app/components/Popover/Popover';
@@ -9,7 +9,7 @@ import { useMemberLookup } from './useMemberLookup';
 import * as css from './VoiceJoinSheet.css';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   onJoin: () => void;
   onClose: () => void;

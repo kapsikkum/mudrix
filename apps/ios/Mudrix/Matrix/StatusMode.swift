@@ -36,7 +36,7 @@ enum StatusFields {
     }
 
     /// The mode the account's own status field has; nil when it has none or cannot be read
-    static func read(client: WizardClient) async -> StatusMode? {
+    static func read(client: MudrixClient) async -> StatusMode? {
         guard let userId = client.userId else { return nil }
         let mode = await read(client: client, userId: userId)
         // The shell's own avatar follows what this read found
@@ -45,7 +45,7 @@ enum StatusFields {
     }
 
     /// The mode another person's status field has; nil when it has none or cannot be read
-    static func read(client: WizardClient, userId: String) async -> StatusMode? {
+    static func read(client: MudrixClient, userId: String) async -> StatusMode? {
         for key in keys {
             let stored = (try? await client.profileField(userId: userId, field: key)) ?? nil
             if let stored { return mode(of: stored) }
@@ -55,7 +55,7 @@ enum StatusFields {
 
     /// Writes the mode under both names so a client that knows only one of them sees it. Succeeds when at
     /// least one write lands, like Android's `writeProfileField`; throws when none does.
-    static func write(client: WizardClient, mode: StatusMode?) async throws {
+    static func write(client: MudrixClient, mode: StatusMode?) async throws {
         guard let userId = client.userId else { return }
         var current: JSONValue?
         for key in keys {
@@ -127,7 +127,7 @@ final class StatusModeStore: ObservableObject {
     }
 
     /// Reads the account's mode once for a session
-    func load(client: WizardClient) async {
+    func load(client: MudrixClient) async {
         own = await StatusFields.read(client: client)
     }
 }

@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import * as css from './PickerPreviewBar.css';
 

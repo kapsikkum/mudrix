@@ -1,5 +1,5 @@
 import { Trans, useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { ArrowBendUpLeftIcon, XIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { formatUserId } from '@/util/matrix';

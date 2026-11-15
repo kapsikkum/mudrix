@@ -7,12 +7,12 @@ use serde_json::{json, Value};
 
 use super::RpcObject;
 use crate::{
-    CallSession, Error, PendingLogin, QrLoginControl, Result, RoomFilter, RoomTimeline,
-    VerificationFlow, WizardClient,
+    CallSession, Error, MudrixClient, PendingLogin, QrLoginControl, Result, RoomFilter,
+    RoomTimeline, VerificationFlow,
 };
 
-impl RpcObject for WizardClient {
-    const CLASS: &'static str = "WizardClient";
+impl RpcObject for MudrixClient {
+    const CLASS: &'static str = "MudrixClient";
     fn props(&self) -> Value {
         json!({ "userId": self.user_id(), "session": self.session().ok() })
     }

@@ -4,7 +4,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import chat.mudrix.core.EmojiPack
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Finds the pack a sticker in the timeline came from, as the web's sticker preview does */
 object StickerPacks {
@@ -31,7 +31,7 @@ object StickerPacks {
         (listOfNotNull(current?.takeIf { it.isNotEmpty() }) + others.filter { it != current }).distinct()
 
     /** The room pack among [roomIds] that holds [url]; a pack in a room that isn't public stays hidden */
-    suspend fun find(client: WizardClient, url: String, roomIds: List<String>): Lookup {
+    suspend fun find(client: MudrixClient, url: String, roomIds: List<String>): Lookup {
         for (roomId in roomIds) {
             // A room's packs include its spaces' packs and the ones the account subscribes to; the "user" pack is not a room
             val packs = runCatching { client.emojiPacks(roomId) }.getOrNull().orEmpty()

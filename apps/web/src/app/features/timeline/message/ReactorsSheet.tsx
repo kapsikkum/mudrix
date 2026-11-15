@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject } from 'react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { Popover } from '@/app/components/Popover/Popover';
 import { Avatar } from '@/app/components/Avatar';

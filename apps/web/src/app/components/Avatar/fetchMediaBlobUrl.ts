@@ -1,4 +1,4 @@
-import { WizardClient } from '@mudrix/core';
+import { MudrixClient } from '@mudrix/core';
 import { getCachedBlobUrl, setCachedBlobUrl } from '@/app/features/timeline/message/mediaCache';
 import { getSafeMimeType } from '@/util/safeMimeType';
 
@@ -20,7 +20,7 @@ export function mediaBlobCacheKey(
 
 export async function fetchMediaBlobUrl(
   mxcUrl: string,
-  client: WizardClient,
+  client: MudrixClient,
   retries = 2,
   width?: number,
   height?: number,
@@ -54,7 +54,7 @@ export async function fetchMediaBlobUrl(
                 resizeMethod === 'crop'
               )
             : await client.media({ url: mxcUrl });
-        const type = await WizardClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null);
+        const type = await MudrixClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null);
         // Never trust the content type: an SVG/HTML blob opened in a tab would run as the app
         const blob = new Blob([bytes as BlobPart], { type: getSafeMimeType(type ?? '') });
         const blobUrl = URL.createObjectURL(blob);

@@ -59,7 +59,7 @@ import chat.mudrix.core.TimelineEntry
 import chat.mudrix.core.TimelineKind
 import chat.mudrix.core.UploadedFile
 import chat.mudrix.core.UploadedThumbnail
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** A row of the timeline. Immutable: changes make copies. */
 data class PendingUpload(
@@ -226,7 +226,7 @@ data class ChatEntry(
 
 /** A room's timeline. Call [close] when the screen goes away. */
 class TimelineModel(
-    val client: WizardClient,
+    val client: MudrixClient,
     val roomId: String,
     threadRoot: String? = null,
     pinnedOnly: Boolean = false,

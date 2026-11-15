@@ -1,5 +1,5 @@
 import { useCallback, memo } from 'react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useAtomValue } from 'jotai';
 import { showPresenceAtom, showPresenceDotsAtom } from '@/app/store/atoms/settings';
 import type { PresenceState } from '@/app/store/atoms';

@@ -29,11 +29,11 @@ final class GifFavourites: ObservableObject {
     private var contents: [String: JSONValue] = [:]
     /// `Combine` is imported too, so the core's watcher class is named in full
     private var subscriptions: [MudrixCore.Subscription] = []
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var migrated = false
 
     /// Follows the account's list; call when a session starts
-    func start(client: WizardClient) {
+    func start(client: MudrixClient) {
         stop()
         self.client = client
         for type in Self.readTypes {

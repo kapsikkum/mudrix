@@ -13,7 +13,7 @@ final class MemberDirectory {
     private var rooms: [String: Task<[String: Member], Never>] = [:]
     private var users: [String: Task<Profile, Never>] = [:]
 
-    func profile(_ userId: String, in roomId: String?, client: WizardClient) async -> Profile {
+    func profile(_ userId: String, in roomId: String?, client: MudrixClient) async -> Profile {
         if let roomId {
             let task = rooms[roomId] ?? Task {
                 let members = (try? await client.members(roomId: roomId)) ?? []

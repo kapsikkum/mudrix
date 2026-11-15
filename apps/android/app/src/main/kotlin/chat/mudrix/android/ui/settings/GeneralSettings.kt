@@ -82,7 +82,7 @@ import chat.mudrix.android.ui.theme.CustomTheme
 import chat.mudrix.android.ui.theme.Themes
 import chat.mudrix.android.ui.room.MentionColors
 import chat.mudrix.android.ui.room.MessageText
-import chat.mudrix.android.ui.theme.WizardTheme
+import chat.mudrix.android.ui.theme.MudrixTheme
 import chat.mudrix.android.ui.theme.nameColor
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont

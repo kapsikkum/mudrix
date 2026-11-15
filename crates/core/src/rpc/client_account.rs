@@ -1,15 +1,15 @@
-//! `WizardClient`: profile, presence, notification settings, account data, search, emoji packs, widgets
+//! `MudrixClient`: profile, presence, notification settings, account data, search, emoji packs, widgets
 
 use serde_json::Value;
 
 use super::{Bytes, Listener, Subscription};
 use crate::{
-    EmojiPack, MentionRule, NotificationMode, NotificationPrefs, Presence, PresenceInfo, SearchHit,
-    UiaAuth, UiaOutcome, UserProfile, Widget, WizardClient,
+    EmojiPack, MentionRule, MudrixClient, NotificationMode, NotificationPrefs, Presence,
+    PresenceInfo, SearchHit, UiaAuth, UiaOutcome, UserProfile, Widget,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         call fn userProfile(user_id: String) -> UserProfile {
             this.user_profile(&user_id).await
         }

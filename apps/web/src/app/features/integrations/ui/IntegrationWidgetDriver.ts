@@ -9,7 +9,7 @@ import type {
   JsonValue,
   RoomEvent,
   Subscription,
-  WizardClient as MatrixClient,
+  MudrixClient as MatrixClient,
 } from '@mudrix/core';
 import { isDeclaredEventType, validateCustomEventContent } from '../customEvents';
 import { mergeRoomEvents } from '../widgetEvents';

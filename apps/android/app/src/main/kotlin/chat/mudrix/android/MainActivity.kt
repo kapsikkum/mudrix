@@ -49,7 +49,7 @@ import chat.mudrix.android.ui.PrimaryButton
 import chat.mudrix.android.ui.WizardLogo
 import chat.mudrix.android.ui.home.MainScreen
 import chat.mudrix.android.ui.login.LoginScreen
-import chat.mudrix.android.ui.theme.WizardThemeRoot
+import chat.mudrix.android.ui.theme.MudrixThemeRoot
 import chat.mudrix.android.ui.theme.rememberAppTheme
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 else window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
             }
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
-                WizardThemeRoot(resolved) { Root() }
+                MudrixThemeRoot(resolved) { Root() }
             }
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {

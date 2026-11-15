@@ -5,7 +5,7 @@
 
 #![recursion_limit = "256"]
 
-use mudrix_core::{StoreConfig, UiaAuth, UiaOutcome, WizardClient};
+use mudrix_core::{MudrixClient, StoreConfig, UiaAuth, UiaOutcome};
 use serde_json::json;
 
 type BoxError = Box<dyn std::error::Error>;
@@ -25,17 +25,17 @@ fn store(name: &str) -> StoreConfig {
 async fn main() -> Result<(), BoxError> {
     let server = std::env::var("WZ_SERVER")?;
     let name = format!("wzreg{}", std::process::id());
-    let info = WizardClient::registration_info(&server).await?;
+    let info = MudrixClient::registration_info(&server).await?;
     println!(
         "registration enabled: {}, flows {:?}",
         info.enabled, info.flows
     );
-    assert!(WizardClient::username_available(&server, &name).await?);
+    assert!(MudrixClient::username_available(&server, &name).await?);
     // A throwaway password for a throwaway account; never printed
     let password = format!("pw-{}-{}", std::process::id(), name.len() * 7919);
     let (client, session) =
-        WizardClient::register(&server, &name, &password, "account test", None, store("a")).await?;
-    assert!(!WizardClient::username_available(&server, &name).await?);
+        MudrixClient::register(&server, &name, &password, "account test", None, store("a")).await?;
+    assert!(!MudrixClient::username_available(&server, &name).await?);
     println!("registered {} and the name is taken now", session.user_id);
 
     let types = client.account_data_types().await?;
@@ -90,7 +90,7 @@ async fn main() -> Result<(), BoxError> {
     println!("password change asks for auth first (flows {flows:?}), refuses a wrong password");
 
     let (extra, extra_session) =
-        WizardClient::login_password(&server, &name, &password, "account test x", store("x"))
+        MudrixClient::login_password(&server, &name, &password, "account test x", store("x"))
             .await?;
     let device = vec![extra_session.device_id.clone()];
     let UiaOutcome::AuthRequired {
@@ -122,7 +122,7 @@ async fn main() -> Result<(), BoxError> {
         .is_err());
     client.change_password(&password, &new_password).await?;
     let (again, _) =
-        WizardClient::login_password(&server, &name, &new_password, "account test 2", store("b"))
+        MudrixClient::login_password(&server, &name, &new_password, "account test 2", store("b"))
             .await?;
     println!("wrong current password refused; changed it and signed in with the new one");
 
@@ -161,7 +161,7 @@ async fn main() -> Result<(), BoxError> {
     ));
     client.deactivate_account(Some(&new_password), true).await?;
     assert!(
-        WizardClient::login_password(&server, &name, &new_password, "x", store("c"))
+        MudrixClient::login_password(&server, &name, &new_password, "x", store("c"))
             .await
             .is_err()
     );

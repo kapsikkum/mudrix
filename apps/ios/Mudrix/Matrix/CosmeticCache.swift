@@ -24,7 +24,7 @@ final class CosmeticCache {
         entries[userId] = nil
     }
 
-    func profile(_ userId: String, client: WizardClient) async -> ExtendedProfile? {
+    func profile(_ userId: String, client: MudrixClient) async -> ExtendedProfile? {
         if let profile = cached(userId) { return profile }
         if let task = pending[userId] { return await task.value }
         let task = Task<ExtendedProfile?, Never> {
@@ -63,7 +63,7 @@ final class PresenceCache {
         pending = [:]
     }
 
-    func state(of userId: String, client: WizardClient) async -> Presence? {
+    func state(of userId: String, client: MudrixClient) async -> Presence? {
         if let entry = entries[userId], Date().timeIntervalSince(entry.at) < Self.lifetime {
             return entry.state
         }

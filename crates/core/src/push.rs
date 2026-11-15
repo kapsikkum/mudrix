@@ -13,7 +13,7 @@ use serde_json::json;
 
 use crate::{
     features::notification_for, rooms::parse_room_id, timeline::parse_event_id, Error,
-    Notification, Result, WizardClient,
+    MudrixClient, Notification, Result,
 };
 
 #[derive(Clone, Debug, Deserialize)]
@@ -32,7 +32,7 @@ pub struct PusherConfig {
     pub default_payload: Option<serde_json::Value>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn set_pusher(&self, config: PusherConfig) -> Result<()> {
         let user_id = self.user_id().ok_or(Error::NotSignedIn)?;
         let mut data = HttpPusherData::new(config.gateway_url);
@@ -76,7 +76,7 @@ impl WizardClient {
     /// The notification for a push, in a second process that restored the same account and store
     /// (the iOS `NotificationService` extension).
     ///
-    /// Restore the client with [`crate::WizardClient::restore`] over the app's store path and
+    /// Restore the client with [`crate::MudrixClient::restore`] over the app's store path and
     /// session first, with a [`crate::StoreConfig::process_name`] of its own, then call this. It
     /// never creates or starts the background sync: it makes one short sliding-sync request for
     /// the notified event (with a `/context` fallback), and, if the event is still encrypted,

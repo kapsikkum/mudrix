@@ -5,7 +5,7 @@ import UIKit
 @MainActor
 enum AvatarImage {
     /// The picture at [url], else [fallback], else the initial placeholder
-    static func circular(_ url: String?, name: String, media: MediaLoader?, theme: WizardTheme,
+    static func circular(_ url: String?, name: String, media: MediaLoader?, theme: MudrixTheme,
                          side: CGFloat, fallback: UIImage? = nil) async -> UIImage? {
         var image: UIImage?
         if let url, let media {

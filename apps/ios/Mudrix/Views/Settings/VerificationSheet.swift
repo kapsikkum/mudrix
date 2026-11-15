@@ -34,7 +34,7 @@ final class VerificationModel: ObservableObject, Identifiable {
         }
     }
 
-    func begin(client: WizardClient?) async {
+    func begin(client: MudrixClient?) async {
         guard !begun else { return }
         begun = true
         do {
@@ -239,7 +239,7 @@ final class VerificationRequests: ObservableObject {
     @Published var presented: VerificationModel?
     private var subscription: Subscription?
 
-    func start(client: WizardClient) {
+    func start(client: MudrixClient) {
         subscription = client.watchVerificationRequests { [weak self] flow in
             MainActor.assumeIsolated { self?.received(flow) }
         }

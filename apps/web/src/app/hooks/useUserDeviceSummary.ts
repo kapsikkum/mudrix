@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 
 export interface UserDeviceSummary {
   count: number;

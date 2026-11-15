@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@mudrix/core';
+import type { SpaceNode, MudrixClient } from '@mudrix/core';
 import { canSendState, parentSpacesOf, powerLevelOf } from '@/app/data';
 import { legacyTypeOf } from '@/util/namespace';
 import {
@@ -68,7 +68,7 @@ export function parsePersonalBoard(current: unknown, legacy?: unknown): Soundboa
 }
 
 /** The personal board as stored now, read again just before a change so nothing is overwritten. */
-export async function readPersonalBoard(client: WizardClient): Promise<SoundboardSound[]> {
+export async function readPersonalBoard(client: MudrixClient): Promise<SoundboardSound[]> {
   const [current, legacy] = await Promise.all([
     client.cachedAccountData(SOUNDBOARD_DATA_TYPE).catch(() => null),
     client.cachedAccountData(legacyTypeOf(SOUNDBOARD_DATA_TYPE)).catch(() => null),
@@ -77,7 +77,7 @@ export async function readPersonalBoard(client: WizardClient): Promise<Soundboar
 }
 
 export async function writePersonalBoard(
-  client: WizardClient,
+  client: MudrixClient,
   sounds: SoundboardSound[]
 ): Promise<void> {
   try {
@@ -137,7 +137,7 @@ function dataFrom(roomId: string, state: MudrixRoomState | null): RoomSoundboard
  * for callers that used to ask for a fresh read.
  */
 export async function loadRoomSoundboardData(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   _force = false
 ): Promise<RoomSoundboardData> {
@@ -183,7 +183,7 @@ export function canManageSoundboard(
 }
 
 export async function writeRoomBoard(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   sounds: SoundboardSound[]
 ): Promise<void> {
@@ -198,7 +198,7 @@ export async function writeRoomBoard(
 }
 
 export async function writeRoomSoundboardSettings(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   settings: SoundboardRoomSettings
 ): Promise<void> {
@@ -215,7 +215,7 @@ export function boardRoomIds(spaceGraph: SpaceNode[], roomId: string): string[] 
 
 /** Every room/space board that applies in `roomId`, as clips (a space's clips are shared with its rooms). */
 export async function loadRoomClips(
-  client: WizardClient,
+  client: MudrixClient,
   spaceGraph: SpaceNode[],
   roomId: string
 ): Promise<SoundboardClip[]> {
@@ -242,7 +242,7 @@ export type SoundboardAccess = 'ok' | 'room-disabled' | 'forbidden';
  * power level in the room that set them (falling back to their level in the call room).
  */
 export async function evaluateSoundboardAccess(
-  client: WizardClient,
+  client: MudrixClient,
   spaceGraph: SpaceNode[],
   roomId: string,
   userId: string

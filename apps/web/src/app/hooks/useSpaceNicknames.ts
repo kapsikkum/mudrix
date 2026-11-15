@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useAccountData, useAllRooms, useSpaceGraph, useSyncReady } from '@/app/data';
 import { usePrompt } from '@/app/hooks/usePrompt';
 import { useToast } from '@/app/hooks/useToast';
@@ -39,7 +39,7 @@ function useJoinedIds(): ReadonlySet<string> {
  * already show it are skipped; resolves to how many were changed.
  */
 export async function applyDisplayName(
-  client: WizardClient,
+  client: MudrixClient,
   roomIds: readonly string[],
   nickname: string | null,
   accountName: string | null
@@ -63,7 +63,7 @@ export async function applyDisplayName(
  * nickname is set on another device, and for rooms you join in the space later. (A profile rename
  * on this account puts the room names back only when this runs again, at the next start.)
  */
-export function useSpaceNicknameSync(client: WizardClient | null): void {
+export function useSpaceNicknameSync(client: MudrixClient | null): void {
   const syncReady = useSyncReady();
   const nicknames = useSpaceNicknames();
   const graph = useSpaceGraph();
@@ -115,7 +115,7 @@ export function useSpaceNicknameSync(client: WizardClient | null): void {
 }
 
 /** Opens the "Nickname in this space" prompt and applies the answer; empty goes back to your name. */
-export function useSpaceNicknamePrompt(client: WizardClient | null) {
+export function useSpaceNicknamePrompt(client: MudrixClient | null) {
   const { t } = useTranslation();
   const toast = useToast();
   const prompt = usePrompt();

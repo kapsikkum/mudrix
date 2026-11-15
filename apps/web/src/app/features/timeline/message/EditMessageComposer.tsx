@@ -2,7 +2,7 @@ import { useCallback, useEffect, useId, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { markdownAtom } from '@/app/store/atoms/settings';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Editor, Range, Transforms } from 'slate';
 import {
   editStateFor,

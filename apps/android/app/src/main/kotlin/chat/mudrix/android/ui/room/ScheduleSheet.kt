@@ -40,7 +40,7 @@ import chat.mudrix.android.ui.people.SheetBar
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 private const val REFRESH_MS = 20_000L
@@ -52,7 +52,7 @@ private const val MSC4140 = "org.matrix.msc4140"
  */
 @Composable
 fun ScheduleSheet(
-    client: WizardClient,
+    client: MudrixClient,
     roomId: String,
     roomEncrypted: Boolean,
     draftPreview: String,

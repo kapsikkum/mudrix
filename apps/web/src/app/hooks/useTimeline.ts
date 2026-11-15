@@ -6,7 +6,7 @@ import {
   hideMembershipEventsAtom,
   hideProfileEventsAtom,
 } from '@/app/store/atoms/settings';
-import type { RoomTimeline, TimelineEntry, TimelineKind, WizardClient } from '@mudrix/core';
+import type { RoomTimeline, TimelineEntry, TimelineKind, MudrixClient } from '@mudrix/core';
 import {
   useMembers,
   useRoomDetails,
@@ -331,7 +331,7 @@ function useDecryptingIds(events: EventEntry[]): ReadonlySet<string> {
   return ids;
 }
 
-export function useBuildContext(client: WizardClient, roomId: string | null): BuildContext {
+export function useBuildContext(client: MudrixClient, roomId: string | null): BuildContext {
   const myId = client.userId() ?? '';
   const details = useRoomDetails(roomId);
   const { data: settings } = useRoomSettings(roomId);
@@ -489,7 +489,7 @@ export interface UseTimelineOptions {
 }
 
 export function useTimeline(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   options: UseTimelineOptions = {}
 ): UseTimelineResult {

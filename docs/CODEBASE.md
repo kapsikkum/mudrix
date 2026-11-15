@@ -58,7 +58,7 @@ carry a stable `code` so the UI can show translated messages.
 2. Declare the method in the matching `crates/core/src/rpc/*.rs` file:
    ```rust
    rpc_methods! {
-       WizardClient(this: WizardClient) {
+       MudrixClient(this: MudrixClient) {
            /// Docs end up in every generated API
            call fn sendMessage(room_id: String, body: String) -> () { this.send_message(&room_id, &body).await }
        }
@@ -104,13 +104,13 @@ These are wire formats, stored data, upstream-owned code or generated names; ren
 clients or stored accounts, or make merges from the upstream base much harder. Do not rename them without a
 compatibility decision.
 
-- **Rust and the generated API:** the `WizardClient` type in the core (`crates/core/src/client.rs`) and in every
+- **Rust and the generated API:** the `MudrixClient` type in the core (`crates/core/src/client.rs`) and in every
   generated binding, because it is the one type all four apps hold; the wasm package `mudrix-core-wasm` and its output
   `mudrix_core`, imported on the web as `@mudrix/core-wasm` through the `@mudrix/core` alias. The JNI class is now
   `chat.mudrix.core.CoreInit`.
 - **Android:** the Kotlin packages and `namespace` are `chat.mudrix.android`; the `applicationId` is
   `chat.mudrix.mobile` and the Gradle project is `Mudrix`. Still Wizard-named, because they are the app's own symbols:
-  `WizardLogo`, `WizardThemeRoot`, `wizardFont` and the `WZ` size/radius/colour tokens used by every screen.
+  `WizardLogo`, `MudrixThemeRoot`, `wizardFont` and the `WZ` size/radius/colour tokens used by every screen.
 - **iOS:** the Xcode project is `Mudrix.xcodeproj` and the targets and folders are `Mudrix`, `MudrixCore`,
   `MudrixShare`, `MudrixWidgets` and `MudrixTests`; the product is `Mudrix.app`, and `NotificationService` keeps its
   descriptive name. The Swift types `WizardLogo`, `WizardMark` and the `WZ_*` build settings (`WZ_TEAM`,

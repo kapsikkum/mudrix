@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import type { RoomTimeline, WizardClient } from '@mudrix/core';
+import type { RoomTimeline, MudrixClient } from '@mudrix/core';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   typingIndicatorsAtom,
@@ -83,7 +83,7 @@ import type { CustomEditor, MentionElement } from './editor/types';
 const EMPTY_ATTACHMENTS: ComposerAttachment[] = [];
 
 interface UseComposerOptions {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   threadId?: string | null;
   getTimeline: () => Promise<RoomTimeline>;

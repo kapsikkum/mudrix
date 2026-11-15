@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { AnimatedImage } from './AnimatedImage';
 import { GifFavouriteButton } from './GifFavouriteButton';
 import {
@@ -13,7 +13,7 @@ import * as css from '../Timeline.css';
 interface GifLinkEmbedProps {
   /** The message text; only a body that is nothing but one GIPHY / KLIPY link becomes a GIF. */
   body: string;
-  client: WizardClient;
+  client: MudrixClient;
   /** Shown instead while resolving, when it isn't a GIF link, or when the GIF can't be loaded. */
   children: ReactNode;
 }

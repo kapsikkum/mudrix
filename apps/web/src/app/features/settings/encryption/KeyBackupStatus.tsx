@@ -5,7 +5,7 @@ import { DownloadSimpleIcon, LockOpenIcon } from '@phosphor-icons/react';
 import type {
   EncryptionStatus,
   KeyRestoreProgress,
-  WizardClient as MatrixClient,
+  MudrixClient as MatrixClient,
 } from '@mudrix/core';
 import { Button } from '@/app/components/Button';
 import { useToast } from '@/app/hooks/useToast';

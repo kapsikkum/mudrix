@@ -28,7 +28,7 @@ import chat.mudrix.android.ui.people.SheetBar
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /**
@@ -37,7 +37,7 @@ import chat.mudrix.tokens.WZ
  */
 @Composable
 fun JumpToDateSheet(
-    client: WizardClient,
+    client: MudrixClient,
     roomId: String,
     onJump: (String) -> Unit,
     onDismiss: () -> Unit,

@@ -19,7 +19,7 @@ final class Soundboard: ObservableObject {
     private static let duplicateWindowMs: Int64 = 1500
     private static let maxFetchBytes = Int(SoundboardFormat.maxSizeBytes) * 3 / 2
 
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var roomId = ""
     private var ownUserId = ""
     private var startedAt: Int64 = 0
@@ -40,7 +40,7 @@ final class Soundboard: ObservableObject {
     private var enabled: Bool { prefs?.soundboardEnabled ?? true }
 
     /// Starts listening once you are in the call
-    func start(client: WizardClient, roomId: String, ownUserId: String, isDeafened: @escaping () -> Bool,
+    func start(client: MudrixClient, roomId: String, ownUserId: String, isDeafened: @escaping () -> Bool,
                userId: @escaping (String) -> String?, send: @escaping (JSONValue) -> Void) {
         stop()
         self.client = client
@@ -180,7 +180,7 @@ final class Soundboard: ObservableObject {
         return await cached(mxc: mxc, mimetype: press.mimetype ?? "audio/mpeg", client: client)
     }
 
-    private func cached(mxc: String, mimetype: String, client: WizardClient) async -> URL? {
+    private func cached(mxc: String, mimetype: String, client: MudrixClient) async -> URL? {
         let ext: String
         switch mimetype {
         case "audio/wav": ext = "wav"

@@ -5,7 +5,7 @@ use matrix_sdk::ruma::events::tag::{TagInfo, TagName};
 use serde::Serialize;
 use serde_json::{json, Map, Value};
 
-use crate::{calls::random_uuid, Error, Result, WizardClient};
+use crate::{calls::random_uuid, Error, MudrixClient, Result};
 
 const WEB_SETTINGS_EVENT: &str = "im.vector.web.settings";
 const SECTION_DATA_KEY: &str = "RoomList.CustomSectionData";
@@ -119,7 +119,7 @@ fn as_settings(content: Option<Value>) -> Map<String, Value> {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     async fn web_settings(&self) -> Result<Map<String, Value>> {
         let cached = self.cached_account_data(WEB_SETTINGS_EVENT).await?;
         let content = match cached {

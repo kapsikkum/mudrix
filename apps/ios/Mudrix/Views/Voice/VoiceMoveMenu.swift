@@ -6,7 +6,7 @@ import MudrixCore
 private enum VoiceMoveVerdicts {
     private static var verdicts: [String: (at: Date, allowed: Bool)] = [:]
 
-    static func allowed(client: WizardClient, graph: [SpaceNode], me: String, from: String, to: String) async -> Bool {
+    static func allowed(client: MudrixClient, graph: [SpaceNode], me: String, from: String, to: String) async -> Bool {
         let key = me + "|" + from + "|" + to
         if let known = verdicts[key], Date().timeIntervalSince(known.at) < 60 { return known.allowed }
         let allowed = await VoiceMoves.mayMoveBetween(client: client, graph: graph, userId: me, fromRoomId: from, toRoomId: to)

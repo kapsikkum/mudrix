@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { CaretDownIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import {
@@ -28,7 +28,7 @@ import * as css from './CallLayer.css';
 import { DOCKED_HEADER_HEIGHT } from './CallLayer.css';
 
 interface Props {
-  client: WizardClient | null;
+  client: MudrixClient | null;
 }
 
 const DEFAULT_DOCKED_HEIGHT = 360;

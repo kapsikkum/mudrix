@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { formatTime } from '@/util/format';
 import { legacyMudrixKey, mudrixKey } from '@/util/namespace';
 import { readFirstAccountData } from '@/app/hooks/useFirstAccountData';
@@ -35,12 +35,12 @@ export function parseReminders(content: unknown): Reminder[] {
     .sort((a, b) => a.at - b.at);
 }
 
-async function currentReminders(client: WizardClient): Promise<Reminder[]> {
+async function currentReminders(client: MudrixClient): Promise<Reminder[]> {
   return parseReminders(await readFirstAccountData(client, REMINDER_TYPES));
 }
 
 export async function addReminder(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   eventId: string,
   at: number
@@ -58,7 +58,7 @@ export async function addReminder(
 }
 
 /** Removes a reminder; false when it was already gone (another device delivered or cancelled it). */
-export async function removeReminder(client: WizardClient, id: string): Promise<boolean> {
+export async function removeReminder(client: MudrixClient, id: string): Promise<boolean> {
   const current = await currentReminders(client);
   if (!current.some((r) => r.id === id)) return false;
   await client.setAccountData(REMINDERS_TYPE, { items: current.filter((r) => r.id !== id) });

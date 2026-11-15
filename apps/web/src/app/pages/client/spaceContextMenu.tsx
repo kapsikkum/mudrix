@@ -1,4 +1,4 @@
-import type { RoomSummary, SpaceNode, WizardClient } from '@mudrix/core';
+import type { RoomSummary, SpaceNode, MudrixClient } from '@mudrix/core';
 import { markRoomAsRead } from './markAsRead';
 import {
   ChecksIcon,
@@ -43,7 +43,7 @@ function spaceRoomIds(rooms: RoomSummary[], graph: SpaceNode[], spaceId: string)
 
 export interface ViewMenuDeps {
   t: TFunction;
-  client: WizardClient | null;
+  client: MudrixClient | null;
   rooms: RoomSummary[];
   graph: SpaceNode[];
   sendReadReceipts: boolean;
@@ -107,7 +107,7 @@ export interface SpaceMenuDeps {
   rooms: RoomSummary[];
   graph: SpaceNode[];
   roomActions: {
-    client: WizardClient | null;
+    client: MudrixClient | null;
     inviteToRoom: (state: { roomId: string; name: string; isSpace: boolean }) => void;
     leaveSpace: (roomId: string, name: string) => void;
   };
@@ -222,7 +222,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
 }
 
 export function markSpaceAsRead(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   sendReadReceipts: boolean,
   spaceId: string,
   rooms: RoomSummary[],
@@ -236,7 +236,7 @@ export function markSpaceAsRead(
 }
 
 export async function markRoomsAsRead(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   sendReadReceipts: boolean,
   roomIds: string[]
 ): Promise<void> {

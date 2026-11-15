@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai';
-import type { ThreadInfo, WizardClient } from '@mudrix/core';
+import type { ThreadInfo, MudrixClient } from '@mudrix/core';
 import {
   ChatDotsIcon,
   XIcon,
@@ -29,7 +29,7 @@ import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 
 interface ThreadListPanelProps {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   className?: string;
   onSelectThread: (rootEventId: string) => void;

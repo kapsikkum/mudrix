@@ -61,7 +61,7 @@ final class NotificationService: UNNotificationServiceExtension {
         // Keeps this process's store writes apart from the running app's
         store.processName = Self.processName
         do {
-            let client = try await WizardClient.restore(session: stored.session, store: store)
+            let client = try await MudrixClient.restore(session: stored.session, store: store)
             guard let message = try await client.pushedNotificationFromExtension(roomId: roomId, eventId: eventId),
                   !message.encrypted, !message.body.isEmpty,
                   let content = request.content.mutableCopy() as? UNMutableNotificationContent

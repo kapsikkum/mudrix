@@ -461,7 +461,7 @@ struct DeveloperSettings: View {
     }
 }
 
-extension WizardTheme {
+extension MudrixTheme {
 }
 
 struct AboutSettings: View {

@@ -4,7 +4,7 @@ import MudrixCore
 enum SpaceChannelOrder {
     /// Writes the `order` the children of `spaceId` need to read as `orderedIds`: a four digit number per place, and only
     /// where a child's own order differs (so a list that is already right writes nothing)
-    static func save(client: WizardClient, node: SpaceNode?, spaceId: String, orderedIds: [String]) async throws {
+    static func save(client: MudrixClient, node: SpaceNode?, spaceId: String, orderedIds: [String]) async throws {
         for (index, childId) in orderedIds.enumerated() {
             let order = String(format: "%04d", (index + 1) * 10)
             if node?.children.first(where: { $0.roomId == childId })?.order == order { continue }
@@ -101,7 +101,7 @@ struct SpaceChannelsView: View {
         .buttonStyle(.borderless)
     }
 
-    private func run(_ work: @escaping (WizardClient) async throws -> Void) {
+    private func run(_ work: @escaping (MudrixClient) async throws -> Void) {
         guard let client = session.client else { return }
         Task {
             do {

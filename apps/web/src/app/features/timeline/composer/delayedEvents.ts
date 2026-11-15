@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { DelayedEvent, WizardClient } from '@mudrix/core';
+import type { DelayedEvent, MudrixClient } from '@mudrix/core';
 
 // MSC4140 delayed events ("send later"): the homeserver holds the event and sends it when the
 // time comes. It has to advertise `org.matrix.msc4140` in its unstable features.
@@ -56,7 +56,7 @@ export function scheduledMessagesOf(events: DelayedEvent[], roomId: string): Sch
 const SUPPORT_KEY = ['delayed-events-support'];
 
 /** True/false once the server's features are known, null while they are being fetched. */
-export function useDelayedEventsSupport(client: WizardClient): boolean | null {
+export function useDelayedEventsSupport(client: MudrixClient): boolean | null {
   const { data } = useQuery({
     queryKey: SUPPORT_KEY,
     queryFn: async () =>
@@ -67,7 +67,7 @@ export function useDelayedEventsSupport(client: WizardClient): boolean | null {
 }
 
 export async function scheduleMessage(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   content: Record<string, unknown>,
   delayMs: number
@@ -76,16 +76,16 @@ export async function scheduleMessage(
 }
 
 export async function listScheduledMessages(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string
 ): Promise<ScheduledMessage[]> {
   return scheduledMessagesOf(await client.listDelayedEvents(roomId), roomId);
 }
 
-export function cancelScheduledMessage(client: WizardClient, delayId: string): Promise<void> {
+export function cancelScheduledMessage(client: MudrixClient, delayId: string): Promise<void> {
   return client.cancelDelayedEvent(delayId);
 }
 
-export function sendScheduledMessageNow(client: WizardClient, delayId: string): Promise<void> {
+export function sendScheduledMessageNow(client: MudrixClient, delayId: string): Promise<void> {
   return client.sendDelayedEventNow(delayId);
 }

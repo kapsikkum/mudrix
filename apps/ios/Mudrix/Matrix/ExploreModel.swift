@@ -8,13 +8,13 @@ final class ExploreModel: ObservableObject {
     @Published private(set) var isAtEnd = false
     @Published private(set) var error: String?
 
-    private let client: WizardClient
+    private let client: MudrixClient
     private var server: String?
     private var filter = ""
     private var next: String?
     private var searchTask: Task<Void, Never>?
 
-    init(client: WizardClient) {
+    init(client: MudrixClient) {
         self.client = client
     }
 

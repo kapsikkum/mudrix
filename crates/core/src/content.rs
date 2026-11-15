@@ -14,7 +14,7 @@ use serde::Serialize;
 use serde_json::Value;
 
 /// What a message shows. Media keeps its source opaque; pass it to
-/// [`crate::WizardClient::media`] to get the (decrypted) bytes.
+/// [`crate::MudrixClient::media`] to get the (decrypted) bytes.
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
 #[serde(tag = "type", rename_all = "camelCase")]

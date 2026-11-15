@@ -4,7 +4,7 @@ import SwiftUI
 
 struct RoomInfoView: View {
     let room: RoomSummary
-    let client: WizardClient
+    let client: MudrixClient
     /// Gets the new room after an upgrade
     var onRoomReplaced: ((String) -> Void)?
     var onJump: ((String) -> Void)?

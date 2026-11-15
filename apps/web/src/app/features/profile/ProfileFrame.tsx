@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from 'react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { builtinFramePieces, getBuiltinFrame } from '@/util/builtinCosmetics';

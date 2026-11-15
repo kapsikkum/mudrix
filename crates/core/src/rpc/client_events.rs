@@ -1,15 +1,15 @@
-//! `WizardClient`: delayed events, jumping to a date, edit history and per-room profiles
+//! `MudrixClient`: delayed events, jumping to a date, edit history and per-room profiles
 
 use serde_json::Value;
 
 use super::{Bytes, Listener, Subscription};
 use crate::{
-    DelayedEvent, EventVersion, KeyImportResult, RoomMemberProfile, SearchDirection,
-    StateEventView, TimestampEvent, WizardClient,
+    DelayedEvent, EventVersion, KeyImportResult, MudrixClient, RoomMemberProfile, SearchDirection,
+    StateEventView, TimestampEvent,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
         /// `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
         /// Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver

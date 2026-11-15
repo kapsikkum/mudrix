@@ -474,7 +474,7 @@ struct RoomMediaView: View {
     @StateObject private var linksModel: TimelineModel
     @Environment(\.theme) private var theme
 
-    init(room: RoomSummary, client: WizardClient) {
+    init(room: RoomSummary, client: MudrixClient) {
         self.room = room
         _mediaModel = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id, onlyTypes: [.image, .video]))
         _docsModel = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id, onlyTypes: [.file, .audio]))

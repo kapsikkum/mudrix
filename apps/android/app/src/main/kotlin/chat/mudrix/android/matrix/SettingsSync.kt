@@ -11,7 +11,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import chat.mudrix.core.LoadState
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /**
  * Settings in Matrix account data, compatible with the web app (`client/settingsSync.ts`): one
@@ -93,7 +93,7 @@ object SettingsSync {
  * writes local changes after a short pause.
  */
 class SettingsSyncer(
-    private val client: WizardClient,
+    private val client: MudrixClient,
     private val prefs: AppPreferences,
     private val scope: CoroutineScope,
 ) {

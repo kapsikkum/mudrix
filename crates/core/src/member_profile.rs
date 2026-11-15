@@ -7,7 +7,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::{json, Map, Value};
 
-use crate::{rooms::parse_user_id, Error, Result, WizardClient};
+use crate::{rooms::parse_user_id, Error, MudrixClient, Result};
 
 /// What a room's member event says about a person
 #[derive(Clone, Debug, Default, PartialEq, Serialize)]
@@ -63,7 +63,7 @@ fn with_profile(
 }
 
 /// The member event's content as this device has it, or from the server
-async fn member_content(client: &WizardClient, room: &Room, user_id: &str) -> Result<Value> {
+async fn member_content(client: &MudrixClient, room: &Room, user_id: &str) -> Result<Value> {
     let local = room
         .get_state_event(StateEventType::RoomMember, user_id)
         .await
@@ -84,7 +84,7 @@ async fn member_content(client: &WizardClient, room: &Room, user_id: &str) -> Re
         .unwrap_or(Value::Null))
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// A person's name and picture in one room (the room's member event). Local state first, the
     /// server for people not loaded yet.
     pub async fn room_member_profile(

@@ -9,7 +9,7 @@ struct RoomView: View {
     @EnvironmentObject private var notifier: MessageNotifier
     @Environment(\.theme) private var theme
 
-    init(room: RoomSummary, client: WizardClient, threadRoot: String? = nil) {
+    init(room: RoomSummary, client: MudrixClient, threadRoot: String? = nil) {
         self.room = room
         self.threadRoot = threadRoot
         _timeline = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id, threadRoot: threadRoot))
@@ -1496,7 +1496,7 @@ enum MessageText {
     }
 
     /// Mention pills: accent for others, the mention colour for you and @room
-    static func withMentions(_ text: AttributedString, _ mentions: [MessageMention], theme: WizardTheme) -> AttributedString {
+    static func withMentions(_ text: AttributedString, _ mentions: [MessageMention], theme: MudrixTheme) -> AttributedString {
         var text = text
         var cursor = text.startIndex
         for mention in mentions {
@@ -1536,7 +1536,7 @@ struct RichStyle {
     let revealSpoilers: Bool
     let prettifyLinks: Bool
     let scale: CGFloat
-    let theme: WizardTheme
+    let theme: MudrixTheme
     var roomName: (String) -> String? = { _ in nil }
 }
 
@@ -1558,7 +1558,7 @@ private struct RichBlockView: View {
     let block: RichBlock
     let style: RichStyle
 
-    private var theme: WizardTheme { style.theme }
+    private var theme: MudrixTheme { style.theme }
 
     var body: some View {
         switch block {

@@ -1,15 +1,15 @@
-//! `WizardClient`: room administration, state events, media, accounts and profile fields
+//! `MudrixClient`: room administration, state events, media, accounts and profile fields
 
 use serde_json::Value;
 
 use super::{Bytes, Listener, Subscription};
 use crate::{
-    EventSource, ListDiff, MemberEntry, RoomSettings, ServerCapabilities, SpaceHierarchy,
-    SpaceSummary, ThirdPartyId, UnreadMention, WizardClient,
+    EventSource, ListDiff, MemberEntry, MudrixClient, RoomSettings, ServerCapabilities,
+    SpaceHierarchy, SpaceSummary, ThirdPartyId, UnreadMention,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// The room's full settings, fetched from the server.
         call fn roomSettings(room_id: String) -> RoomSettings {
             this.room_settings(&room_id).await

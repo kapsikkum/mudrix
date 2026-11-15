@@ -23,7 +23,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{rooms::parse_room_id, Result, WizardClient};
+use crate::{rooms::parse_room_id, MudrixClient, Result};
 
 /// The namespaces of Mudrix's types: the current one, then the one earlier versions wrote
 const NAMESPACES: [&str; 2] = ["io.github.kapsikkum.mudrix", "chat.mudrix"];
@@ -136,7 +136,7 @@ async fn local_views(room: &Room, event_types: &[String]) -> Vec<StateEventView>
     views
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Every state event of the given types in a room with its sender and time. Types sync
     /// delivers (Mudrix's own, space children) are read from this device; if there are none
     /// there, or for other types, the server is asked once.

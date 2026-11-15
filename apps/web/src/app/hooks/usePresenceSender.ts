@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import {
   showPresenceAtom,
   presenceOverrideAtom,
@@ -14,7 +14,7 @@ const ACTIVITY_EVENTS = ['mousemove', 'keydown', 'pointerdown', 'scroll', 'focus
 
 type PresenceValue = 'online' | 'unavailable' | 'offline';
 
-export function usePresenceSender(client: WizardClient | null | undefined): void {
+export function usePresenceSender(client: MudrixClient | null | undefined): void {
   const customStatus = useAtomValue(ownCustomStatusAtom);
   const statusText = customStatus?.text ?? '';
   const statusTextRef = useRef(statusText);
@@ -35,7 +35,7 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
   const isIdleRef = useRef(false);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const sendPresence = (c: WizardClient, state: PresenceValue) => {
+  const sendPresence = (c: MudrixClient, state: PresenceValue) => {
     // A PUT without status_msg clears it, so always send the current one (none while invisible)
     const statusMsg = state === 'offline' ? '' : statusTextRef.current;
     c.setPresence(state, statusMsg).catch(() => {});
@@ -44,7 +44,7 @@ export function usePresenceSender(client: WizardClient | null | undefined): void
   // Update UI everywhere (member list, profile popups, etc.) immediately,
   // not just after the next sync round-trip.
   const applyOwn = useCallback(
-    (c: WizardClient, state: PresenceValue) => {
+    (c: MudrixClient, state: PresenceValue) => {
       sendPresence(c, state);
       const ownId = c.userId();
       if (ownId) {

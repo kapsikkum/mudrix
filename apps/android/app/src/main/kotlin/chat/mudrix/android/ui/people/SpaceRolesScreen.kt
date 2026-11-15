@@ -49,7 +49,7 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.trPlural
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** The roles a space defines and whether the signed-in person may change them, from the space's own state and power levels */
@@ -119,11 +119,11 @@ private fun rolesContent(roles: List<SpaceModern.Role>, builtin: Map<SpaceModern
     )
 }
 
-private suspend fun saveRoles(client: WizardClient, spaceId: String, roles: List<SpaceModern.Role>, builtin: Map<SpaceModern.Builtin, SpaceModern.BuiltinLook>) {
+private suspend fun saveRoles(client: MudrixClient, spaceId: String, roles: List<SpaceModern.Role>, builtin: Map<SpaceModern.Builtin, SpaceModern.BuiltinLook>) {
     MudrixRoomStates.shared.set(client, spaceId, MudrixTypes.SPACE_ROLES, rolesContent(roles, builtin))
 }
 
-internal suspend fun saveMemberRoles(client: WizardClient, spaceId: String, userId: String, roleIds: List<String>) {
+internal suspend fun saveMemberRoles(client: MudrixClient, spaceId: String, userId: String, roleIds: List<String>) {
     val content = buildJsonObject {
         put("roles", JsonArray(roleIds.take(SpaceModern.MAX_ROLES_PER_MEMBER).map { JsonPrimitive(it) }))
     }

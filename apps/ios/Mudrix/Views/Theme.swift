@@ -26,13 +26,13 @@ enum Themes {
     }
 
     /// The theme `name` refers to; a name that does not exist falls back to the default
-    static func resolve(_ name: String, customs: [CustomTheme]) -> WizardTheme {
-        if let theme = builtin(named: name) { return WizardTheme(theme) }
+    static func resolve(_ name: String, customs: [CustomTheme]) -> MudrixTheme {
+        if let theme = builtin(named: name) { return MudrixTheme(theme) }
         if let custom = CustomThemes.find(name, in: customs) {
-            return WizardTheme(colors: ThemeDerive.build(custom.colors),
+            return MudrixTheme(colors: ThemeDerive.build(custom.colors),
                                isLight: ThemeDerive.isLightColor(custom.colors.bgPrimary))
         }
-        return WizardTheme.default
+        return MudrixTheme.default
     }
 
     static func label(_ name: String, customs: [CustomTheme]) -> String {
@@ -45,7 +45,7 @@ enum Themes {
     }
 }
 
-struct WizardTheme {
+struct MudrixTheme {
     /// The built-in theme in use, or for a custom theme the default one of its light or dark kind
     let id: WZ.Theme
     let colorScheme: ColorScheme
@@ -87,7 +87,7 @@ struct WizardTheme {
     var warningColor: Color { colors.statusWarning }
     var linkColor: Color { colors.textLink }
     var logo: [Color] { [colors.logoP0, colors.logoP1, colors.logoP2, colors.logoP3, colors.logoP4, colors.logoP5] }
-    static var baseLogo: [Color] { WizardTheme(.default).logo }
+    static var baseLogo: [Color] { MudrixTheme(.default).logo }
     var presenceOnline: Color { colors.presenceOnline }
     var presenceAway: Color { colors.presenceAway }
     var presenceBusy: Color { colors.presenceBusy }
@@ -116,15 +116,15 @@ struct WizardTheme {
     static let radiusMd = WZ.Radius.md
     static let radiusLg = WZ.Radius.xl
 
-    static let `default` = WizardTheme(.default)
+    static let `default` = MudrixTheme(.default)
 }
 
 private struct ThemeKey: EnvironmentKey {
-    static let defaultValue = WizardTheme.default
+    static let defaultValue = MudrixTheme.default
 }
 
 extension EnvironmentValues {
-    var theme: WizardTheme {
+    var theme: MudrixTheme {
         get { self[ThemeKey.self] }
         set { self[ThemeKey.self] = newValue }
     }

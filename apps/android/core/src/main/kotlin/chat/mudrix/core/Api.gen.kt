@@ -296,7 +296,7 @@ data class EncryptionStatus(
 
 /**
  * What a message shows. Media keeps its source opaque; pass it to
- * [`crate::WizardClient::media`] to get the (decrypted) bytes.
+ * [`crate::MudrixClient::media`] to get the (decrypted) bytes.
  */
 @Serializable(with = EntryContent.Serializer::class)
 sealed interface EntryContent {
@@ -1424,7 +1424,7 @@ data class ServerNotification(
 
 /**
  * Everything needed to restore a signed-in client. Apps store it securely and hand it back to
- * [`crate::WizardClient::restore`] on the next start.
+ * [`crate::MudrixClient::restore`] on the next start.
  */
 @Serializable
 data class Session(
@@ -2033,77 +2033,77 @@ data class Widget(
     val data: JsonElement,
 )
 
-@Serializable(with = WizardClient.Serializer::class)
-class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
-    object Serializer : RemoteSerializer<WizardClient>("WizardClient", ::WizardClient)
+@Serializable(with = MudrixClient.Serializer::class)
+class MudrixClient(handle: Long, props: JsonObject) : Remote(handle, props) {
+    object Serializer : RemoteSerializer<MudrixClient>("MudrixClient", ::MudrixClient)
 
     companion object {
         /** The MIME type of media bytes, from their first bytes (images, audio, video, PDF). */
         suspend fun sniffMimeType(head: Bytes): String? =
-            Runtime.call("WizardClient.sniffMimeType", null, listOf(Arg.bytes(head)))
+            Runtime.call("MudrixClient.sniffMimeType", null, listOf(Arg.bytes(head)))
 
         /**
          * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
          * `stateEventsWithSender` or `watchStateEvents`.
          */
         suspend fun mudrixStateTypes(): List<String> =
-            Runtime.call("WizardClient.mudrixStateTypes", null, listOf())
+            Runtime.call("MudrixClient.mudrixStateTypes", null, listOf())
 
         /**
          * Signs in with a password. `server` may be a server name or a homeserver URL;
          * `identifier` is a username (or full Matrix ID), or an email address or phone number
          * bound to the account.
          */
-        suspend fun loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig): WizardClient =
-            Runtime.call("WizardClient.loginPassword", null, listOf(Arg.value<String>(server), Arg.value<LoginIdentifier>(identifier), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<StoreConfig>(store)))
+        suspend fun loginPassword(server: String, identifier: LoginIdentifier, password: String, deviceName: String, store: StoreConfig): MudrixClient =
+            Runtime.call("MudrixClient.loginPassword", null, listOf(Arg.value<String>(server), Arg.value<LoginIdentifier>(identifier), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<StoreConfig>(store)))
 
         /** Whether and how the server lets people register. */
         suspend fun registrationInfo(server: String): RegistrationInfo =
-            Runtime.call("WizardClient.registrationInfo", null, listOf(Arg.value<String>(server)))
+            Runtime.call("MudrixClient.registrationInfo", null, listOf(Arg.value<String>(server)))
 
         suspend fun usernameAvailable(server: String, username: String): Boolean =
-            Runtime.call("WizardClient.usernameAvailable", null, listOf(Arg.value<String>(server), Arg.value<String>(username)))
+            Runtime.call("MudrixClient.usernameAvailable", null, listOf(Arg.value<String>(server), Arg.value<String>(username)))
 
         /** Creates an account and signs in. */
-        suspend fun register(server: String, username: String, password: String, deviceName: String, token: String?, store: StoreConfig): WizardClient =
-            Runtime.call("WizardClient.register", null, listOf(Arg.value<String>(server), Arg.value<String>(username), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<String?>(token), Arg.value<StoreConfig>(store)))
+        suspend fun register(server: String, username: String, password: String, deviceName: String, token: String?, store: StoreConfig): MudrixClient =
+            Runtime.call("MudrixClient.register", null, listOf(Arg.value<String>(server), Arg.value<String>(username), Arg.value<String>(password), Arg.value<String>(deviceName), Arg.value<String?>(token), Arg.value<StoreConfig>(store)))
 
         /** Emails a reset link; returns the session id for `resetPassword`. */
         suspend fun requestPasswordReset(server: String, email: String, secret: String, attempt: Long): String =
-            Runtime.call("WizardClient.requestPasswordReset", null, listOf(Arg.value<String>(server), Arg.value<String>(email), Arg.value<String>(secret), Arg.value<Long>(attempt)))
+            Runtime.call("MudrixClient.requestPasswordReset", null, listOf(Arg.value<String>(server), Arg.value<String>(email), Arg.value<String>(secret), Arg.value<Long>(attempt)))
 
         suspend fun resetPassword(server: String, newPassword: String, secret: String, sid: String, logoutDevices: Boolean) {
-            Runtime.callUnit("WizardClient.resetPassword", null, listOf(Arg.value<String>(server), Arg.value<String>(newPassword), Arg.value<String>(secret), Arg.value<String>(sid), Arg.value<Boolean>(logoutDevices)))
+            Runtime.callUnit("MudrixClient.resetPassword", null, listOf(Arg.value<String>(server), Arg.value<String>(newPassword), Arg.value<String>(secret), Arg.value<String>(sid), Arg.value<Boolean>(logoutDevices)))
         }
 
         /**
          * Signs this new device in through an existing one (QR code). Pass the other device's
          * code bytes to join it, or nothing to show a code of our own.
          */
-        suspend fun loginWithQr(server: String, store: StoreConfig, app: AppInfo, scanned: Bytes?, control: QrLoginControl, listener: (QrLoginStatus) -> Unit): WizardClient =
-            Runtime.call("WizardClient.loginWithQr", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<AppInfo>(app), Arg.value<Bytes?>(scanned), Arg.value<QrLoginControl>(control), Arg.listener<QrLoginStatus>(listener)))
+        suspend fun loginWithQr(server: String, store: StoreConfig, app: AppInfo, scanned: Bytes?, control: QrLoginControl, listener: (QrLoginStatus) -> Unit): MudrixClient =
+            Runtime.call("MudrixClient.loginWithQr", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<AppInfo>(app), Arg.value<Bytes?>(scanned), Arg.value<QrLoginControl>(control), Arg.listener<QrLoginStatus>(listener)))
 
         /**
          * Which sign-in methods a server offers, and what it runs. Fails with code `notMatrix` when
          * the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
          */
         suspend fun discover(server: String): ServerInfo =
-            Runtime.call("WizardClient.discover", null, listOf(Arg.value<String>(server)))
+            Runtime.call("MudrixClient.discover", null, listOf(Arg.value<String>(server)))
 
         suspend fun startOAuthLogin(server: String, store: StoreConfig, redirectUri: String, app: AppInfo, createAccount: Boolean? = null, knownClients: Map<String, String>? = null): PendingLogin =
-            Runtime.call("WizardClient.startOAuthLogin", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<String>(redirectUri), Arg.value<AppInfo>(app), Arg.value<Boolean?>(createAccount), Arg.value<Map<String, String>?>(knownClients)))
+            Runtime.call("MudrixClient.startOAuthLogin", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<String>(redirectUri), Arg.value<AppInfo>(app), Arg.value<Boolean?>(createAccount), Arg.value<Map<String, String>?>(knownClients)))
 
         suspend fun startSsoLogin(server: String, store: StoreConfig, redirectUri: String, idpId: String? = null): PendingLogin =
-            Runtime.call("WizardClient.startSsoLogin", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<String>(redirectUri), Arg.value<String?>(idpId)))
+            Runtime.call("MudrixClient.startSsoLogin", null, listOf(Arg.value<String>(server), Arg.value<StoreConfig>(store), Arg.value<String>(redirectUri), Arg.value<String?>(idpId)))
 
         /** Ends a stored session on the server without restoring it (when restoring failed). */
         suspend fun logoutSession(session: Session) {
-            Runtime.callUnit("WizardClient.logoutSession", null, listOf(Arg.value<Session>(session)))
+            Runtime.callUnit("MudrixClient.logoutSession", null, listOf(Arg.value<Session>(session)))
         }
 
         /** Restores a session previously returned by `session()`. */
-        suspend fun restore(session: Session, store: StoreConfig): WizardClient =
-            Runtime.call("WizardClient.restore", null, listOf(Arg.value<Session>(session), Arg.value<StoreConfig>(store)))
+        suspend fun restore(session: Session, store: StoreConfig): MudrixClient =
+            Runtime.call("MudrixClient.restore", null, listOf(Arg.value<Session>(session), Arg.value<StoreConfig>(store)))
     }
 
     val session: Session
@@ -2113,130 +2113,130 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         get() = prop("userId")
 
     suspend fun startSync() {
-        Runtime.callUnit("WizardClient.startSync", handle, listOf())
+        Runtime.callUnit("MudrixClient.startSync", handle, listOf())
     }
 
     suspend fun stopSync() {
-        Runtime.callUnit("WizardClient.stopSync", handle, listOf())
+        Runtime.callUnit("MudrixClient.stopSync", handle, listOf())
     }
 
     /** Calls `listener` with the sync state now and on every change. */
     fun watchSyncState(listener: (SyncState) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchSyncState", handle, listOf(Arg.listener<SyncState>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchSyncState", handle, listOf(Arg.listener<SyncState>(listener)), ::Subscription)
 
     /** Calls `listener` with how far the account has loaded (cached data, then the first sync). */
     fun watchLoadState(listener: (LoadState) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchLoadState", handle, listOf(Arg.listener<LoadState>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchLoadState", handle, listOf(Arg.listener<LoadState>(listener)), ::Subscription)
 
     /** Account data as this device stored it at the last sync (no request to the server). */
     suspend fun cachedAccountData(eventType: String): JsonElement? =
-        Runtime.call("WizardClient.cachedAccountData", handle, listOf(Arg.value<String>(eventType)))
+        Runtime.call("MudrixClient.cachedAccountData", handle, listOf(Arg.value<String>(eventType)))
 
     /** Hands over a session another tab on the same store saved after refreshing its tokens. */
     suspend fun adoptSession(session: Session) {
-        Runtime.callUnit("WizardClient.adoptSession", handle, listOf(Arg.value<Session>(session)))
+        Runtime.callUnit("MudrixClient.adoptSession", handle, listOf(Arg.value<Session>(session)))
     }
 
     /** Calls `listener` with room list diffs, starting with the current list. */
     fun watchRooms(pageSize: Long, listener: (List<ListDiff<RoomSummary>>) -> Unit): RoomListSubscription =
-        Runtime.watch("WizardClient.watchRooms", handle, listOf(Arg.value<Long>(pageSize), Arg.listener<List<ListDiff<RoomSummary>>>(listener)), ::RoomListSubscription)
+        Runtime.watch("MudrixClient.watchRooms", handle, listOf(Arg.value<Long>(pageSize), Arg.listener<List<ListDiff<RoomSummary>>>(listener)), ::RoomListSubscription)
 
     /** Calls `listener` with diffs of the top-level joined spaces. */
     fun watchSpaces(listener: (List<ListDiff<SpaceSummary>>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchSpaces", handle, listOf(Arg.listener<List<ListDiff<SpaceSummary>>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchSpaces", handle, listOf(Arg.listener<List<ListDiff<SpaceSummary>>>(listener)), ::Subscription)
 
     suspend fun spaceChildren(spaceId: String): List<SpaceChild> =
-        Runtime.call("WizardClient.spaceChildren", handle, listOf(Arg.value<String>(spaceId)))
+        Runtime.call("MudrixClient.spaceChildren", handle, listOf(Arg.value<String>(spaceId)))
 
     /** Joins by room ID or alias; resolves to the room ID. */
     suspend fun join(idOrAlias: String, via: List<String>? = null): String =
-        Runtime.call("WizardClient.join", handle, listOf(Arg.value<String>(idOrAlias), Arg.value<List<String>?>(via)))
+        Runtime.call("MudrixClient.join", handle, listOf(Arg.value<String>(idOrAlias), Arg.value<List<String>?>(via)))
 
     suspend fun leave(roomId: String) {
-        Runtime.callUnit("WizardClient.leave", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.leave", handle, listOf(Arg.value<String>(roomId)))
     }
 
     suspend fun acceptInvite(roomId: String) {
-        Runtime.callUnit("WizardClient.acceptInvite", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.acceptInvite", handle, listOf(Arg.value<String>(roomId)))
     }
 
     suspend fun declineInvite(roomId: String) {
-        Runtime.callUnit("WizardClient.declineInvite", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.declineInvite", handle, listOf(Arg.value<String>(roomId)))
     }
 
     suspend fun inviteInfo(roomId: String): InviteInfo =
-        Runtime.call("WizardClient.inviteInfo", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.inviteInfo", handle, listOf(Arg.value<String>(roomId)))
 
     /** Creates a room or space; resolves to its ID. */
     suspend fun createRoom(options: CreateRoomOptions): String =
-        Runtime.call("WizardClient.createRoom", handle, listOf(Arg.value<CreateRoomOptions>(options)))
+        Runtime.call("MudrixClient.createRoom", handle, listOf(Arg.value<CreateRoomOptions>(options)))
 
     /** Opens or creates the direct chat with a user; resolves to the room ID. */
     suspend fun startDm(userId: String): String =
-        Runtime.call("WizardClient.startDm", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.startDm", handle, listOf(Arg.value<String>(userId)))
 
     suspend fun invite(roomId: String, userId: String) {
-        Runtime.callUnit("WizardClient.invite", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+        Runtime.callUnit("MudrixClient.invite", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
     }
 
     suspend fun setFavourite(roomId: String, favourite: Boolean) {
-        Runtime.callUnit("WizardClient.setFavourite", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(favourite)))
+        Runtime.callUnit("MudrixClient.setFavourite", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(favourite)))
     }
 
     /** Moves a room to the low priority group (or back); a favourite stops being one. */
     suspend fun setLowPriority(roomId: String, lowPriority: Boolean) {
-        Runtime.callUnit("WizardClient.setLowPriority", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(lowPriority)))
+        Runtime.callUnit("MudrixClient.setLowPriority", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(lowPriority)))
     }
 
     suspend fun setMarkedUnread(roomId: String, unread: Boolean) {
-        Runtime.callUnit("WizardClient.setMarkedUnread", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(unread)))
+        Runtime.callUnit("MudrixClient.setMarkedUnread", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(unread)))
     }
 
     suspend fun roomDetails(roomId: String): RoomDetails =
-        Runtime.call("WizardClient.roomDetails", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.roomDetails", handle, listOf(Arg.value<String>(roomId)))
 
     /** Calls `listener` with the room's details now and on every change. */
     fun watchRoomDetails(roomId: String, listener: (RoomDetails) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchRoomDetails", handle, listOf(Arg.value<String>(roomId), Arg.listener<RoomDetails>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchRoomDetails", handle, listOf(Arg.value<String>(roomId), Arg.listener<RoomDetails>(listener)), ::Subscription)
 
     suspend fun members(roomId: String): List<Member> =
-        Runtime.call("WizardClient.members", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.members", handle, listOf(Arg.value<String>(roomId)))
 
     suspend fun kick(roomId: String, userId: String, reason: String? = null) {
-        Runtime.callUnit("WizardClient.kick", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.kick", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
     }
 
     suspend fun ban(roomId: String, userId: String, reason: String? = null) {
-        Runtime.callUnit("WizardClient.ban", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.ban", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
     }
 
     suspend fun setRoomName(roomId: String, name: String) {
-        Runtime.callUnit("WizardClient.setRoomName", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(name)))
+        Runtime.callUnit("MudrixClient.setRoomName", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(name)))
     }
 
     suspend fun setRoomTopic(roomId: String, topic: String) {
-        Runtime.callUnit("WizardClient.setRoomTopic", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(topic)))
+        Runtime.callUnit("MudrixClient.setRoomTopic", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(topic)))
     }
 
     suspend fun searchPublicRooms(query: String, server: String? = null, limit: Long? = null): List<PublicRoom> =
-        Runtime.call("WizardClient.searchPublicRooms", handle, listOf(Arg.value<String>(query), Arg.value<String?>(server), Arg.value<Long?>(limit)))
+        Runtime.call("MudrixClient.searchPublicRooms", handle, listOf(Arg.value<String>(query), Arg.value<String?>(server), Arg.value<Long?>(limit)))
 
     suspend fun searchUsers(query: String, limit: Long? = null): List<UserResult> =
-        Runtime.call("WizardClient.searchUsers", handle, listOf(Arg.value<String>(query), Arg.value<Long?>(limit)))
+        Runtime.call("MudrixClient.searchUsers", handle, listOf(Arg.value<String>(query), Arg.value<Long?>(limit)))
 
     /** A thread's or the pinned messages' timeline (or the main one). */
     suspend fun timelineOf(roomId: String, kind: TimelineKind): RoomTimeline =
-        Runtime.call("WizardClient.timelineOf", handle, listOf(Arg.value<String>(roomId), Arg.value<TimelineKind>(kind)))
+        Runtime.call("MudrixClient.timelineOf", handle, listOf(Arg.value<String>(roomId), Arg.value<TimelineKind>(kind)))
 
     suspend fun timeline(roomId: String): RoomTimeline =
-        Runtime.call("WizardClient.timeline", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.timeline", handle, listOf(Arg.value<String>(roomId)))
 
     /**
      * Bytes of a message's media, decrypted if needed. With a size, a server-side thumbnail
      * of unencrypted media is fetched instead of the full file.
      */
     suspend fun media(source: MediaSource, width: Long? = null, height: Long? = null): Bytes =
-        Runtime.call("WizardClient.media", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(width), Arg.value<Long?>(height)))
+        Runtime.call("MudrixClient.media", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(width), Arg.value<Long?>(height)))
 
     /**
      * Like `media`, with the progress of the download (`listener`) and a way to stop it:
@@ -2245,11 +2245,11 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * total when the server's own length isn't readable, as in a browser.
      */
     suspend fun mediaDownload(source: MediaSource, sizeHint: Long?, token: String, listener: (DownloadProgress) -> Unit): Bytes =
-        Runtime.call("WizardClient.mediaDownload", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(sizeHint), Arg.value<String>(token), Arg.listener<DownloadProgress>(listener)))
+        Runtime.call("MudrixClient.mediaDownload", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long?>(sizeHint), Arg.value<String>(token), Arg.listener<DownloadProgress>(listener)))
 
     /** Stops the `mediaDownload` that was started with `token`. */
     suspend fun cancelMediaDownload(token: String) {
-        Runtime.callUnit("WizardClient.cancelMediaDownload", handle, listOf(Arg.value<String>(token)))
+        Runtime.callUnit("MudrixClient.cancelMediaDownload", handle, listOf(Arg.value<String>(token)))
     }
 
     /**
@@ -2257,139 +2257,139 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
      */
     suspend fun mediaHead(source: MediaSource, length: Long): Bytes =
-        Runtime.call("WizardClient.mediaHead", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long>(length)))
+        Runtime.call("MudrixClient.mediaHead", handle, listOf(Arg.value<MediaSource>(source), Arg.value<Long>(length)))
 
     /**
      * Bytes of a thumbnail for an `mxc://` URI, fetched with this account's credentials;
      * scaled to fit unless `crop` is set.
      */
     suspend fun thumbnail(mxc: String, width: Long, height: Long, crop: Boolean? = null): Bytes =
-        Runtime.call("WizardClient.thumbnail", handle, listOf(Arg.value<String>(mxc), Arg.value<Long>(width), Arg.value<Long>(height), Arg.value<Boolean?>(crop)))
+        Runtime.call("MudrixClient.thumbnail", handle, listOf(Arg.value<String>(mxc), Arg.value<Long>(width), Arg.value<Long>(height), Arg.value<Boolean?>(crop)))
 
     suspend fun userProfile(userId: String): UserProfile =
-        Runtime.call("WizardClient.userProfile", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.userProfile", handle, listOf(Arg.value<String>(userId)))
 
     suspend fun ownProfile(): UserProfile =
-        Runtime.call("WizardClient.ownProfile", handle, listOf())
+        Runtime.call("MudrixClient.ownProfile", handle, listOf())
 
     suspend fun presence(userId: String): PresenceInfo? =
-        Runtime.call("WizardClient.presence", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.presence", handle, listOf(Arg.value<String>(userId)))
 
     suspend fun setDisplayName(name: String) {
-        Runtime.callUnit("WizardClient.setDisplayName", handle, listOf(Arg.value<String>(name)))
+        Runtime.callUnit("MudrixClient.setDisplayName", handle, listOf(Arg.value<String>(name)))
     }
 
     /** Uploads and sets a new avatar; resolves to its mxc:// URI. */
     suspend fun setAvatar(bytes: Bytes, mimetype: String): String =
-        Runtime.call("WizardClient.setAvatar", handle, listOf(Arg.bytes(bytes), Arg.value<String>(mimetype)))
+        Runtime.call("MudrixClient.setAvatar", handle, listOf(Arg.bytes(bytes), Arg.value<String>(mimetype)))
 
     suspend fun removeAvatar() {
-        Runtime.callUnit("WizardClient.removeAvatar", handle, listOf())
+        Runtime.callUnit("MudrixClient.removeAvatar", handle, listOf())
     }
 
     suspend fun setCustomStatus(text: String, expiresAt: Double?, presence: Presence) {
-        Runtime.callUnit("WizardClient.setCustomStatus", handle, listOf(Arg.value<String>(text), Arg.value<Double?>(expiresAt), Arg.value<Presence>(presence)))
+        Runtime.callUnit("MudrixClient.setCustomStatus", handle, listOf(Arg.value<String>(text), Arg.value<Double?>(expiresAt), Arg.value<Presence>(presence)))
     }
 
     suspend fun clearCustomStatus(presence: Presence) {
-        Runtime.callUnit("WizardClient.clearCustomStatus", handle, listOf(Arg.value<Presence>(presence)))
+        Runtime.callUnit("MudrixClient.clearCustomStatus", handle, listOf(Arg.value<Presence>(presence)))
     }
 
     suspend fun setPresence(presence: Presence, statusMsg: String? = null) {
-        Runtime.callUnit("WizardClient.setPresence", handle, listOf(Arg.value<Presence>(presence), Arg.value<String?>(statusMsg)))
+        Runtime.callUnit("MudrixClient.setPresence", handle, listOf(Arg.value<Presence>(presence), Arg.value<String?>(statusMsg)))
     }
 
     suspend fun presenceSupported(): Boolean =
-        Runtime.call("WizardClient.presenceSupported", handle, listOf())
+        Runtime.call("MudrixClient.presenceSupported", handle, listOf())
 
     suspend fun ignoreUser(userId: String) {
-        Runtime.callUnit("WizardClient.ignoreUser", handle, listOf(Arg.value<String>(userId)))
+        Runtime.callUnit("MudrixClient.ignoreUser", handle, listOf(Arg.value<String>(userId)))
     }
 
     suspend fun unignoreUser(userId: String) {
-        Runtime.callUnit("WizardClient.unignoreUser", handle, listOf(Arg.value<String>(userId)))
+        Runtime.callUnit("MudrixClient.unignoreUser", handle, listOf(Arg.value<String>(userId)))
     }
 
     suspend fun setPowerLevel(roomId: String, userId: String, level: Double) {
-        Runtime.callUnit("WizardClient.setPowerLevel", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<Double>(level)))
+        Runtime.callUnit("MudrixClient.setPowerLevel", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<Double>(level)))
     }
 
     suspend fun notificationPrefs(): NotificationPrefs =
-        Runtime.call("WizardClient.notificationPrefs", handle, listOf())
+        Runtime.call("MudrixClient.notificationPrefs", handle, listOf())
 
     suspend fun setDefaultNotificationMode(direct: Boolean, mode: NotificationMode) {
-        Runtime.callUnit("WizardClient.setDefaultNotificationMode", handle, listOf(Arg.value<Boolean>(direct), Arg.value<NotificationMode>(mode)))
+        Runtime.callUnit("MudrixClient.setDefaultNotificationMode", handle, listOf(Arg.value<Boolean>(direct), Arg.value<NotificationMode>(mode)))
     }
 
     suspend fun setMentionRule(rule: MentionRule, enabled: Boolean) {
-        Runtime.callUnit("WizardClient.setMentionRule", handle, listOf(Arg.value<MentionRule>(rule), Arg.value<Boolean>(enabled)))
+        Runtime.callUnit("MudrixClient.setMentionRule", handle, listOf(Arg.value<MentionRule>(rule), Arg.value<Boolean>(enabled)))
     }
 
     suspend fun addNotificationKeyword(keyword: String) {
-        Runtime.callUnit("WizardClient.addNotificationKeyword", handle, listOf(Arg.value<String>(keyword)))
+        Runtime.callUnit("MudrixClient.addNotificationKeyword", handle, listOf(Arg.value<String>(keyword)))
     }
 
     suspend fun removeNotificationKeyword(keyword: String) {
-        Runtime.callUnit("WizardClient.removeNotificationKeyword", handle, listOf(Arg.value<String>(keyword)))
+        Runtime.callUnit("MudrixClient.removeNotificationKeyword", handle, listOf(Arg.value<String>(keyword)))
     }
 
     suspend fun roomNotificationMode(roomId: String): NotificationMode? =
-        Runtime.call("WizardClient.roomNotificationMode", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.roomNotificationMode", handle, listOf(Arg.value<String>(roomId)))
 
     /** Sets the room's own notification mode; `null` goes back to the default. */
     suspend fun setRoomNotificationMode(roomId: String, mode: NotificationMode? = null) {
-        Runtime.callUnit("WizardClient.setRoomNotificationMode", handle, listOf(Arg.value<String>(roomId), Arg.value<NotificationMode?>(mode)))
+        Runtime.callUnit("MudrixClient.setRoomNotificationMode", handle, listOf(Arg.value<String>(roomId), Arg.value<NotificationMode?>(mode)))
     }
 
     /** Reads an account data document (synced across the account's devices). */
     suspend fun accountData(eventType: String): JsonElement? =
-        Runtime.call("WizardClient.accountData", handle, listOf(Arg.value<String>(eventType)))
+        Runtime.call("MudrixClient.accountData", handle, listOf(Arg.value<String>(eventType)))
 
     suspend fun setAccountData(eventType: String, content: JsonElement) {
-        Runtime.callUnit("WizardClient.setAccountData", handle, listOf(Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
+        Runtime.callUnit("MudrixClient.setAccountData", handle, listOf(Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
     }
 
     /** Every global account data type the account has (asks the server). */
     suspend fun accountDataTypes(): List<String> =
-        Runtime.call("WizardClient.accountDataTypes", handle, listOf())
+        Runtime.call("MudrixClient.accountDataTypes", handle, listOf())
 
     /**
      * Changes the password; without `auth` it tries unconfirmed first and reports what
      * the server asks for.
      */
     suspend fun changePasswordWithAuth(newPassword: String, auth: UiaAuth? = null): UiaOutcome =
-        Runtime.call("WizardClient.changePasswordWithAuth", handle, listOf(Arg.value<String>(newPassword), Arg.value<UiaAuth?>(auth)))
+        Runtime.call("MudrixClient.changePasswordWithAuth", handle, listOf(Arg.value<String>(newPassword), Arg.value<UiaAuth?>(auth)))
 
     /** Deactivates the account for good; `erase` also asks the server to forget its messages. */
     suspend fun deactivateAccountWithAuth(erase: Boolean, auth: UiaAuth? = null): UiaOutcome =
-        Runtime.call("WizardClient.deactivateAccountWithAuth", handle, listOf(Arg.value<Boolean>(erase), Arg.value<UiaAuth?>(auth)))
+        Runtime.call("MudrixClient.deactivateAccountWithAuth", handle, listOf(Arg.value<Boolean>(erase), Arg.value<UiaAuth?>(auth)))
 
     /** Signs other devices out, reporting what the server asks for to confirm it. */
     suspend fun deleteDevicesWithAuth(deviceIds: List<String>, auth: UiaAuth? = null): UiaOutcome =
-        Runtime.call("WizardClient.deleteDevicesWithAuth", handle, listOf(Arg.value<List<String>>(deviceIds), Arg.value<UiaAuth?>(auth)))
+        Runtime.call("MudrixClient.deleteDevicesWithAuth", handle, listOf(Arg.value<List<String>>(deviceIds), Arg.value<UiaAuth?>(auth)))
 
     /** Adds the email once it's confirmed; `token` is the code from the email. */
     suspend fun addEmailWithAuth(secret: String, sid: String, token: String? = null, auth: UiaAuth? = null): UiaOutcome =
-        Runtime.call("WizardClient.addEmailWithAuth", handle, listOf(Arg.value<String>(secret), Arg.value<String>(sid), Arg.value<String?>(token), Arg.value<UiaAuth?>(auth)))
+        Runtime.call("MudrixClient.addEmailWithAuth", handle, listOf(Arg.value<String>(secret), Arg.value<String>(sid), Arg.value<String?>(token), Arg.value<UiaAuth?>(auth)))
 
     /** The account page for removing a device, on servers with next-generation auth. */
     suspend fun deviceManagementUrl(deviceId: String): String? =
-        Runtime.call("WizardClient.deviceManagementUrl", handle, listOf(Arg.value<String>(deviceId)))
+        Runtime.call("MudrixClient.deviceManagementUrl", handle, listOf(Arg.value<String>(deviceId)))
 
     /** The homeserver URL from the server name's `.well-known`, if any. */
     suspend fun wellKnownHomeserverUrl(): String? =
-        Runtime.call("WizardClient.wellKnownHomeserverUrl", handle, listOf())
+        Runtime.call("MudrixClient.wellKnownHomeserverUrl", handle, listOf())
 
     suspend fun keyBackupExistsOnServer(): Boolean =
-        Runtime.call("WizardClient.keyBackupExistsOnServer", handle, listOf())
+        Runtime.call("MudrixClient.keyBackupExistsOnServer", handle, listOf())
 
     /** Calls `listener` whenever the account's own devices change. */
     fun watchOwnDevices(listener: () -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchOwnDevices", handle, listOf(Arg.listener<Empty> { listener() }), ::Subscription)
+        Runtime.watch("MudrixClient.watchOwnDevices", handle, listOf(Arg.listener<Empty> { listener() }), ::Subscription)
 
     /** Searches messages on the server (not possible for encrypted rooms). */
     suspend fun searchMessages(term: String, roomId: String? = null): List<SearchHit> =
-        Runtime.call("WizardClient.searchMessages", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId)))
+        Runtime.call("MudrixClient.searchMessages", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId)))
 
     /**
      * Searches messages on the server one page at a time (not possible for encrypted
@@ -2397,218 +2397,218 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * last page has been read.
      */
     suspend fun searchMessagesPage(term: String, roomId: String? = null, from: String? = null): SearchResults =
-        Runtime.call("WizardClient.searchMessagesPage", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId), Arg.value<String?>(from)))
+        Runtime.call("MudrixClient.searchMessagesPage", handle, listOf(Arg.value<String>(term), Arg.value<String?>(roomId), Arg.value<String?>(from)))
 
     suspend fun emojiPacks(roomId: String? = null): List<EmojiPack> =
-        Runtime.call("WizardClient.emojiPacks", handle, listOf(Arg.value<String?>(roomId)))
+        Runtime.call("MudrixClient.emojiPacks", handle, listOf(Arg.value<String?>(roomId)))
 
     suspend fun widgets(roomId: String): List<Widget> =
-        Runtime.call("WizardClient.widgets", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.widgets", handle, listOf(Arg.value<String>(roomId)))
 
     fun watchWidgets(roomId: String, listener: (List<Widget>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchWidgets", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<Widget>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchWidgets", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<Widget>>(listener)), ::Subscription)
 
     /** Adds a web page widget (or replaces the one with `id`); returns its id. */
     suspend fun setWidget(roomId: String, id: String?, name: String, url: String): String =
-        Runtime.call("WizardClient.setWidget", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(id), Arg.value<String>(name), Arg.value<String>(url)))
+        Runtime.call("MudrixClient.setWidget", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(id), Arg.value<String>(name), Arg.value<String>(url)))
 
     suspend fun removeWidget(roomId: String, id: String) {
-        Runtime.callUnit("WizardClient.removeWidget", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(id)))
+        Runtime.callUnit("MudrixClient.removeWidget", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(id)))
     }
 
     /** The URL to load for a widget, with the user's and room's details filled in. */
     suspend fun widgetUrl(roomId: String, widget: Widget, theme: String, language: String): String =
-        Runtime.call("WizardClient.widgetUrl", handle, listOf(Arg.value<String>(roomId), Arg.value<Widget>(widget), Arg.value<String>(theme), Arg.value<String>(language)))
+        Runtime.call("MudrixClient.widgetUrl", handle, listOf(Arg.value<String>(roomId), Arg.value<Widget>(widget), Arg.value<String>(theme), Arg.value<String>(language)))
 
     /** The room's full settings, fetched from the server. */
     suspend fun roomSettings(roomId: String): RoomSettings =
-        Runtime.call("WizardClient.roomSettings", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.roomSettings", handle, listOf(Arg.value<String>(roomId)))
 
     /**
      * The settings as far as local state has them (no request): permissions and toggles
      * right away; `published` and `localAliases` stay empty.
      */
     suspend fun localRoomSettings(roomId: String): RoomSettings =
-        Runtime.call("WizardClient.localRoomSettings", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.localRoomSettings", handle, listOf(Arg.value<String>(roomId)))
 
     /**
      * Unread messages in a room that mention the user (highlights, intentional mentions,
      * replies to them), newest first.
      */
     suspend fun unreadMentions(roomId: String, limit: Long): List<UnreadMention> =
-        Runtime.call("WizardClient.unreadMentions", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(limit)))
+        Runtime.call("MudrixClient.unreadMentions", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(limit)))
 
     /** Calls `listener` with diffs of every joined space, subspaces included. */
     fun watchAllSpaces(listener: (List<ListDiff<SpaceSummary>>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchAllSpaces", handle, listOf(Arg.listener<List<ListDiff<SpaceSummary>>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchAllSpaces", handle, listOf(Arg.listener<List<ListDiff<SpaceSummary>>>(listener)), ::Subscription)
 
     /** A space and its direct children from the server; partial when a page failed. */
     suspend fun spaceHierarchy(spaceId: String): SpaceHierarchy =
-        Runtime.call("WizardClient.spaceHierarchy", handle, listOf(Arg.value<String>(spaceId)))
+        Runtime.call("MudrixClient.spaceHierarchy", handle, listOf(Arg.value<String>(spaceId)))
 
     /**
      * Calls `listener` with every room's account data of a type as [roomId, content]
      * pairs, now and on every change (e.g. `m.tag` for favourite orders).
      */
     fun watchRoomAccountData(eventType: String, listener: (List<List<JsonElement>>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchRoomAccountData", handle, listOf(Arg.value<String>(eventType), Arg.listener<List<List<JsonElement>>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchRoomAccountData", handle, listOf(Arg.value<String>(eventType), Arg.listener<List<List<JsonElement>>>(listener)), ::Subscription)
 
     /** Whether the server lets the user set this extended profile field. */
     suspend fun canSetProfileField(field: String): Boolean =
-        Runtime.call("WizardClient.canSetProfileField", handle, listOf(Arg.value<String>(field)))
+        Runtime.call("MudrixClient.canSetProfileField", handle, listOf(Arg.value<String>(field)))
 
     /** IDs of the loaded, not yet deleted messages a user sent in a room, oldest first. */
     suspend fun recentUserMessages(roomId: String, userId: String): List<String> =
-        Runtime.call("WizardClient.recentUserMessages", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.recentUserMessages", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
 
     /** Deletes these events. */
     suspend fun redactEvents(roomId: String, eventIds: List<String>, reason: String? = null) {
-        Runtime.callUnit("WizardClient.redactEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventIds), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.redactEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventIds), Arg.value<String?>(reason)))
     }
 
     suspend fun setJoinRule(roomId: String, rule: JoinRule, allowedSpaces: List<String>) {
-        Runtime.callUnit("WizardClient.setJoinRule", handle, listOf(Arg.value<String>(roomId), Arg.value<JoinRule>(rule), Arg.value<List<String>>(allowedSpaces)))
+        Runtime.callUnit("MudrixClient.setJoinRule", handle, listOf(Arg.value<String>(roomId), Arg.value<JoinRule>(rule), Arg.value<List<String>>(allowedSpaces)))
     }
 
     suspend fun setHistoryVisibility(roomId: String, visibility: HistoryVisibility) {
-        Runtime.callUnit("WizardClient.setHistoryVisibility", handle, listOf(Arg.value<String>(roomId), Arg.value<HistoryVisibility>(visibility)))
+        Runtime.callUnit("MudrixClient.setHistoryVisibility", handle, listOf(Arg.value<String>(roomId), Arg.value<HistoryVisibility>(visibility)))
     }
 
     suspend fun setGuestAccess(roomId: String, allowed: Boolean) {
-        Runtime.callUnit("WizardClient.setGuestAccess", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(allowed)))
+        Runtime.callUnit("MudrixClient.setGuestAccess", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(allowed)))
     }
 
     /** Lists the room in the server's directory (often admins only). */
     suspend fun setPublished(roomId: String, published: Boolean) {
-        Runtime.callUnit("WizardClient.setPublished", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(published)))
+        Runtime.callUnit("MudrixClient.setPublished", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(published)))
     }
 
     suspend fun enableEncryption(roomId: String) {
-        Runtime.callUnit("WizardClient.enableEncryption", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.enableEncryption", handle, listOf(Arg.value<String>(roomId)))
     }
 
     suspend fun setRoomAvatar(roomId: String, data: Bytes, mimetype: String) {
-        Runtime.callUnit("WizardClient.setRoomAvatar", handle, listOf(Arg.value<String>(roomId), Arg.bytes(data), Arg.value<String>(mimetype)))
+        Runtime.callUnit("MudrixClient.setRoomAvatar", handle, listOf(Arg.value<String>(roomId), Arg.bytes(data), Arg.value<String>(mimetype)))
     }
 
     suspend fun removeRoomAvatar(roomId: String) {
-        Runtime.callUnit("WizardClient.removeRoomAvatar", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.removeRoomAvatar", handle, listOf(Arg.value<String>(roomId)))
     }
 
     suspend fun addRoomAlias(roomId: String, alias: String) {
-        Runtime.callUnit("WizardClient.addRoomAlias", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(alias)))
+        Runtime.callUnit("MudrixClient.addRoomAlias", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(alias)))
     }
 
     suspend fun removeRoomAlias(alias: String) {
-        Runtime.callUnit("WizardClient.removeRoomAlias", handle, listOf(Arg.value<String>(alias)))
+        Runtime.callUnit("MudrixClient.removeRoomAlias", handle, listOf(Arg.value<String>(alias)))
     }
 
     suspend fun setCanonicalAlias(roomId: String, alias: String?, altAliases: List<String>) {
-        Runtime.callUnit("WizardClient.setCanonicalAlias", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(alias), Arg.value<List<String>>(altAliases)))
+        Runtime.callUnit("MudrixClient.setCanonicalAlias", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(alias), Arg.value<List<String>>(altAliases)))
     }
 
     suspend fun setPowerLevels(roomId: String, content: JsonElement) {
-        Runtime.callUnit("WizardClient.setPowerLevels", handle, listOf(Arg.value<String>(roomId), Arg.value<JsonElement>(content)))
+        Runtime.callUnit("MudrixClient.setPowerLevels", handle, listOf(Arg.value<String>(roomId), Arg.value<JsonElement>(content)))
     }
 
     /** Moves the room to a new version; returns the new room's id. */
     suspend fun upgradeRoom(roomId: String, version: String): String =
-        Runtime.call("WizardClient.upgradeRoom", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(version)))
+        Runtime.call("MudrixClient.upgradeRoom", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(version)))
 
     suspend fun serverCapabilities(): ServerCapabilities =
-        Runtime.call("WizardClient.serverCapabilities", handle, listOf())
+        Runtime.call("MudrixClient.serverCapabilities", handle, listOf())
 
     /** Banned (`ban`), knocking (`knock`) or invited (`invite`) people. */
     suspend fun membersInState(roomId: String, membership: String): List<MemberEntry> =
-        Runtime.call("WizardClient.membersInState", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(membership)))
+        Runtime.call("MudrixClient.membersInState", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(membership)))
 
     suspend fun unban(roomId: String, userId: String, reason: String? = null) {
-        Runtime.callUnit("WizardClient.unban", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.unban", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
     }
 
     suspend fun acceptKnock(roomId: String, userId: String) {
-        Runtime.callUnit("WizardClient.acceptKnock", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+        Runtime.callUnit("MudrixClient.acceptKnock", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
     }
 
     suspend fun rejectKnock(roomId: String, userId: String, reason: String? = null) {
-        Runtime.callUnit("WizardClient.rejectKnock", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.rejectKnock", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId), Arg.value<String?>(reason)))
     }
 
     /** Asks to join; returns the room id. */
     suspend fun knock(roomIdOrAlias: String, reason: String?, via: List<String>): String =
-        Runtime.call("WizardClient.knock", handle, listOf(Arg.value<String>(roomIdOrAlias), Arg.value<String?>(reason), Arg.value<List<String>>(via)))
+        Runtime.call("MudrixClient.knock", handle, listOf(Arg.value<String>(roomIdOrAlias), Arg.value<String?>(reason), Arg.value<List<String>>(via)))
 
     suspend fun reportEvent(roomId: String, eventId: String, reason: String? = null) {
-        Runtime.callUnit("WizardClient.reportEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId), Arg.value<String?>(reason)))
+        Runtime.callUnit("MudrixClient.reportEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId), Arg.value<String?>(reason)))
     }
 
     suspend fun reportRoom(roomId: String, reason: String) {
-        Runtime.callUnit("WizardClient.reportRoom", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(reason)))
+        Runtime.callUnit("MudrixClient.reportRoom", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(reason)))
     }
 
     /** One state event's content from the server, or null. */
     suspend fun stateEvent(roomId: String, eventType: String, stateKey: String): JsonElement? =
-        Runtime.call("WizardClient.stateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey)))
+        Runtime.call("MudrixClient.stateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey)))
 
     /** Every state event of a type as [stateKey, content] pairs. */
     suspend fun stateEventsOfType(roomId: String, eventType: String): List<List<JsonElement>> =
-        Runtime.call("WizardClient.stateEventsOfType", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType)))
+        Runtime.call("MudrixClient.stateEventsOfType", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType)))
 
     /**
      * Every state event of the given types as [type, stateKey, content], with one request
      * to the server at most.
      */
     suspend fun stateEventsOfTypes(roomId: String, eventTypes: List<String>): List<List<JsonElement>> =
-        Runtime.call("WizardClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
+        Runtime.call("MudrixClient.stateEventsOfTypes", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
 
     /** Every current state event of the room in full, for exploring it. */
     suspend fun roomState(roomId: String): List<JsonElement> =
-        Runtime.call("WizardClient.roomState", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.roomState", handle, listOf(Arg.value<String>(roomId)))
 
     suspend fun setStateEvent(roomId: String, eventType: String, stateKey: String, content: JsonElement) {
-        Runtime.callUnit("WizardClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
+        Runtime.callUnit("MudrixClient.setStateEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<String>(stateKey), Arg.value<JsonElement>(content)))
     }
 
     /** Sends any message-like event; returns its id. */
     suspend fun sendEvent(roomId: String, eventType: String, content: JsonElement): String =
-        Runtime.call("WizardClient.sendEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
+        Runtime.call("MudrixClient.sendEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
 
     /** Uploads a file; returns its `mxc://` URI. */
     suspend fun uploadMedia(data: Bytes, mimetype: String): String =
-        Runtime.call("WizardClient.uploadMedia", handle, listOf(Arg.bytes(data), Arg.value<String>(mimetype)))
+        Runtime.call("MudrixClient.uploadMedia", handle, listOf(Arg.bytes(data), Arg.value<String>(mimetype)))
 
     suspend fun eventSource(roomId: String, eventId: String): EventSource =
-        Runtime.call("WizardClient.eventSource", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+        Runtime.call("MudrixClient.eventSource", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     suspend fun forwardEvent(fromRoomId: String, eventId: String, toRoomId: String) {
-        Runtime.callUnit("WizardClient.forwardEvent", handle, listOf(Arg.value<String>(fromRoomId), Arg.value<String>(eventId), Arg.value<String>(toRoomId)))
+        Runtime.callUnit("MudrixClient.forwardEvent", handle, listOf(Arg.value<String>(fromRoomId), Arg.value<String>(eventId), Arg.value<String>(toRoomId)))
     }
 
     suspend fun emailAddresses(): List<ThirdPartyId> =
-        Runtime.call("WizardClient.emailAddresses", handle, listOf())
+        Runtime.call("MudrixClient.emailAddresses", handle, listOf())
 
     /** Sends a verification email; returns the session id for `addEmail`. */
     suspend fun requestEmailToken(email: String, secret: String, attempt: Long): String =
-        Runtime.call("WizardClient.requestEmailToken", handle, listOf(Arg.value<String>(email), Arg.value<String>(secret), Arg.value<Long>(attempt)))
+        Runtime.call("MudrixClient.requestEmailToken", handle, listOf(Arg.value<String>(email), Arg.value<String>(secret), Arg.value<Long>(attempt)))
 
     suspend fun removeEmail(address: String) {
-        Runtime.callUnit("WizardClient.removeEmail", handle, listOf(Arg.value<String>(address)))
+        Runtime.callUnit("MudrixClient.removeEmail", handle, listOf(Arg.value<String>(address)))
     }
 
     /** Any extended profile field (MSC4133), or null. */
     suspend fun profileField(userId: String, field: String): JsonElement? =
-        Runtime.call("WizardClient.profileField", handle, listOf(Arg.value<String>(userId), Arg.value<String>(field)))
+        Runtime.call("MudrixClient.profileField", handle, listOf(Arg.value<String>(userId), Arg.value<String>(field)))
 
     /**
      * A user's whole profile (`displayname`, `avatar_url` and every extended field, MSC4133)
      * as one object, from one request.
      */
     suspend fun profileFields(userId: String): JsonElement =
-        Runtime.call("WizardClient.profileFields", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.profileFields", handle, listOf(Arg.value<String>(userId)))
 
     /** Whether the homeserver supports extended profile fields (MSC4133). */
     suspend fun supportsExtendedProfiles(): Boolean =
-        Runtime.call("WizardClient.supportsExtendedProfiles", handle, listOf())
+        Runtime.call("MudrixClient.supportsExtendedProfiles", handle, listOf())
 
     /**
      * The software and version the server named `serverName` runs (`{ name, version }`),
@@ -2616,86 +2616,86 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * only ask servers that allow cross-site requests; native apps can ask any public one.
      */
     suspend fun homeserverSoftware(serverName: String): HomeserverSoftware? =
-        Runtime.call("WizardClient.homeserverSoftware", handle, listOf(Arg.value<String>(serverName)))
+        Runtime.call("MudrixClient.homeserverSoftware", handle, listOf(Arg.value<String>(serverName)))
 
     suspend fun setProfileField(field: String, value: JsonElement) {
-        Runtime.callUnit("WizardClient.setProfileField", handle, listOf(Arg.value<String>(field), Arg.value<JsonElement>(value)))
+        Runtime.callUnit("MudrixClient.setProfileField", handle, listOf(Arg.value<String>(field), Arg.value<JsonElement>(value)))
     }
 
     suspend fun deleteProfileField(field: String) {
-        Runtime.callUnit("WizardClient.deleteProfileField", handle, listOf(Arg.value<String>(field)))
+        Runtime.callUnit("MudrixClient.deleteProfileField", handle, listOf(Arg.value<String>(field)))
     }
 
     /** A user's profile banner (`mxc://`), or null. */
     suspend fun banner(userId: String): String? =
-        Runtime.call("WizardClient.banner", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.banner", handle, listOf(Arg.value<String>(userId)))
 
     /** Uploads and sets the own banner; with no data it removes it. */
     suspend fun setBanner(data: Bytes? = null, mimetype: String? = null) {
-        Runtime.callUnit("WizardClient.setBanner", handle, listOf(Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
+        Runtime.callUnit("MudrixClient.setBanner", handle, listOf(Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
     }
 
     /** Lets a new device sign in to this account through this one (QR code). */
     suspend fun grantLoginWithQr(scanned: Bytes?, control: QrLoginControl, listener: (QrLoginStatus) -> Unit) {
-        Runtime.callUnit("WizardClient.grantLoginWithQr", handle, listOf(Arg.value<Bytes?>(scanned), Arg.value<QrLoginControl>(control), Arg.listener<QrLoginStatus>(listener)))
+        Runtime.callUnit("MudrixClient.grantLoginWithQr", handle, listOf(Arg.value<Bytes?>(scanned), Arg.value<QrLoginControl>(control), Arg.listener<QrLoginStatus>(listener)))
     }
 
     /** Every joined space with its children (local state; call again on changes). */
     suspend fun spaceGraph(): List<SpaceNode> =
-        Runtime.call("WizardClient.spaceGraph", handle, listOf())
+        Runtime.call("MudrixClient.spaceGraph", handle, listOf())
 
     /** Calls `listener` with an account data event's content now and on every change. */
     fun watchAccountData(eventType: String, listener: (JsonElement?) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchAccountData", handle, listOf(Arg.value<String>(eventType), Arg.listener<JsonElement?>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchAccountData", handle, listOf(Arg.value<String>(eventType), Arg.listener<JsonElement?>(listener)), ::Subscription)
 
     suspend fun roomTags(roomId: String): List<RoomTag> =
-        Runtime.call("WizardClient.roomTags", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.roomTags", handle, listOf(Arg.value<String>(roomId)))
 
     /** Favourites the room at a position (0-1, lower first). */
     suspend fun setFavouriteOrder(roomId: String, order: Double? = null) {
-        Runtime.callUnit("WizardClient.setFavouriteOrder", handle, listOf(Arg.value<String>(roomId), Arg.value<Double?>(order)))
+        Runtime.callUnit("MudrixClient.setFavouriteOrder", handle, listOf(Arg.value<String>(roomId), Arg.value<Double?>(order)))
     }
 
     /** Calls `listener` with the room list sections in order, now and on every change. */
     fun watchRoomSections(listener: (List<RoomSection>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchRoomSections", handle, listOf(Arg.listener<List<RoomSection>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchRoomSections", handle, listOf(Arg.listener<List<RoomSection>>(listener)), ::Subscription)
 
     /** Adds a room list section (Element compatible); returns its tag. */
     suspend fun createRoomSection(name: String, spaceId: String): String =
-        Runtime.call("WizardClient.createRoomSection", handle, listOf(Arg.value<String>(name), Arg.value<String>(spaceId)))
+        Runtime.call("MudrixClient.createRoomSection", handle, listOf(Arg.value<String>(name), Arg.value<String>(spaceId)))
 
     suspend fun renameRoomSection(tag: String, name: String) {
-        Runtime.callUnit("WizardClient.renameRoomSection", handle, listOf(Arg.value<String>(tag), Arg.value<String>(name)))
+        Runtime.callUnit("MudrixClient.renameRoomSection", handle, listOf(Arg.value<String>(tag), Arg.value<String>(name)))
     }
 
     /** Reorders the given sections; `chats` stands for the rooms in no section. */
     suspend fun setRoomSectionOrder(tags: List<String>) {
-        Runtime.callUnit("WizardClient.setRoomSectionOrder", handle, listOf(Arg.value<List<String>>(tags)))
+        Runtime.callUnit("MudrixClient.setRoomSectionOrder", handle, listOf(Arg.value<List<String>>(tags)))
     }
 
     /** Deletes a section and takes its tag off every room. */
     suspend fun deleteRoomSection(tag: String) {
-        Runtime.callUnit("WizardClient.deleteRoomSection", handle, listOf(Arg.value<String>(tag)))
+        Runtime.callUnit("MudrixClient.deleteRoomSection", handle, listOf(Arg.value<String>(tag)))
     }
 
     /** Moves a room into a section, or out of its section with `null`. */
     suspend fun setRoomSection(roomId: String, tag: String? = null) {
-        Runtime.callUnit("WizardClient.setRoomSection", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(tag)))
+        Runtime.callUnit("MudrixClient.setRoomSection", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(tag)))
     }
 
     suspend fun roomAccountData(roomId: String, eventType: String): JsonElement? =
-        Runtime.call("WizardClient.roomAccountData", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType)))
+        Runtime.call("MudrixClient.roomAccountData", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType)))
 
     suspend fun setRoomAccountData(roomId: String, eventType: String, content: JsonElement) {
-        Runtime.callUnit("WizardClient.setRoomAccountData", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
+        Runtime.callUnit("MudrixClient.setRoomAccountData", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content)))
     }
 
     suspend fun resolveAlias(alias: String): ResolvedAlias =
-        Runtime.call("WizardClient.resolveAlias", handle, listOf(Arg.value<String>(alias)))
+        Runtime.call("MudrixClient.resolveAlias", handle, listOf(Arg.value<String>(alias)))
 
     /** Reports every state change arriving through sync (to refresh cached settings). */
     fun watchStateChanges(listener: (StateChange) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchStateChanges", handle, listOf(Arg.listener<StateChange>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchStateChanges", handle, listOf(Arg.listener<StateChange>(listener)), ::Subscription)
 
     /**
      * Calls `listener` with every message-like event (not state) of one of `types` that
@@ -2703,7 +2703,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * recent history sync also delivers.
      */
     fun watchRoomEvents(types: List<String>, listener: (RoomEvent) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchRoomEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<RoomEvent>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchRoomEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<RoomEvent>(listener)), ::Subscription)
 
     /**
      * A page of a room's message-like events of one of `types`, newest first, decrypted in
@@ -2712,57 +2712,57 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * A page can hold fewer events than `limit`, even none, while `next` is set.
      */
     suspend fun roomEvents(roomId: String, types: List<String>, limit: Long, from: String? = null): RoomEventsPage =
-        Runtime.call("WizardClient.roomEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(types), Arg.value<Long>(limit), Arg.value<String?>(from)))
+        Runtime.call("MudrixClient.roomEvents", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(types), Arg.value<Long>(limit), Arg.value<String?>(from)))
 
     suspend fun serverFeatures(): ServerFeatures =
-        Runtime.call("WizardClient.serverFeatures", handle, listOf())
+        Runtime.call("MudrixClient.serverFeatures", handle, listOf())
 
     /** Encrypts and uploads a file; returns the `file` object for message content. */
     suspend fun uploadEncryptedMedia(data: Bytes): JsonElement =
-        Runtime.call("WizardClient.uploadEncryptedMedia", handle, listOf(Arg.bytes(data)))
+        Runtime.call("MudrixClient.uploadEncryptedMedia", handle, listOf(Arg.bytes(data)))
 
     /**
      * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
      * mentions and custom emoji to it, which plain Markdown sending can't.
      */
     suspend fun markdownToHtml(body: String): String? =
-        Runtime.call("WizardClient.markdownToHtml", handle, listOf(Arg.value<String>(body)))
+        Runtime.call("MudrixClient.markdownToHtml", handle, listOf(Arg.value<String>(body)))
 
     /** The LiveKit service the homeserver offers for calls, if any */
     suspend fun rtcServiceUrl(): String? =
-        Runtime.call("WizardClient.rtcServiceUrl", handle, listOf())
+        Runtime.call("MudrixClient.rtcServiceUrl", handle, listOf())
 
     /** Whether calls can work on this server (lenient: unknown counts as yes) */
     suspend fun rtcSupported(): Boolean =
-        Runtime.call("WizardClient.rtcSupported", handle, listOf())
+        Runtime.call("MudrixClient.rtcSupported", handle, listOf())
 
     suspend fun callMembers(roomId: String): List<CallMember> =
-        Runtime.call("WizardClient.callMembers", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.callMembers", handle, listOf(Arg.value<String>(roomId)))
 
     /** Calls `listener` with the room's call members now and on every change. */
     fun watchCallMembers(roomId: String, listener: (List<CallMember>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchCallMembers", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<CallMember>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchCallMembers", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<CallMember>>(listener)), ::Subscription)
 
     /** A token for a LiveKit service, for this device in the room's call. */
     suspend fun sfuConfig(roomId: String, serviceUrl: String): SfuConfig =
-        Runtime.call("WizardClient.sfuConfig", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(serviceUrl)))
+        Runtime.call("MudrixClient.sfuConfig", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(serviceUrl)))
 
     /**
      * Joins the room's call; `ring` notifies the others when nobody is in it yet.
      * `serviceUrl` overrides the homeserver's call server.
      */
     suspend fun joinCall(roomId: String, video: Boolean, ring: Boolean, serviceUrl: String? = null): CallSession =
-        Runtime.call("WizardClient.joinCall", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(video), Arg.value<Boolean>(ring), Arg.value<String?>(serviceUrl)))
+        Runtime.call("MudrixClient.joinCall", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(video), Arg.value<Boolean>(ring), Arg.value<String?>(serviceUrl)))
 
     /**
      * Rings as they start and end: answered or declined on one of the user's devices, the
      * caller left, or it expired.
      */
     fun watchIncomingCalls(listener: (IncomingCallEvent) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCallEvent>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchIncomingCalls", handle, listOf(Arg.listener<IncomingCallEvent>(listener)), ::Subscription)
 
     suspend fun declineCall(roomId: String, eventId: String) {
-        Runtime.callUnit("WizardClient.declineCall", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+        Runtime.callUnit("MudrixClient.declineCall", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
     }
 
     /**
@@ -2770,25 +2770,25 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * the user, messages decrypted later).
      */
     fun watchNotifications(listener: (Notification) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchNotifications", handle, listOf(Arg.listener<Notification>(listener)), ::Subscription)
 
     suspend fun setPusher(config: PusherConfig) {
-        Runtime.callUnit("WizardClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
+        Runtime.callUnit("MudrixClient.setPusher", handle, listOf(Arg.value<PusherConfig>(config)))
     }
 
     suspend fun removePusher(appId: String, pushkey: String) {
-        Runtime.callUnit("WizardClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
+        Runtime.callUnit("MudrixClient.removePusher", handle, listOf(Arg.value<String>(appId), Arg.value<String>(pushkey)))
     }
 
     suspend fun pushedNotification(roomId: String, eventId: String): Notification? =
-        Runtime.call("WizardClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+        Runtime.call("MudrixClient.pushedNotification", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     /**
      * The server's notifications, newest first, read or not; `highlights` keeps only the
      * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
      */
     suspend fun serverNotifications(highlights: Boolean, limit: Long): List<ServerNotification> =
-        Runtime.call("WizardClient.serverNotifications", handle, listOf(Arg.value<Boolean>(highlights), Arg.value<Long>(limit)))
+        Runtime.call("MudrixClient.serverNotifications", handle, listOf(Arg.value<Boolean>(highlights), Arg.value<Long>(limit)))
 
     /**
      * Like `pushedNotification`, for the iOS notification service extension: a second
@@ -2797,10 +2797,10 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * doesn't have comes back with `encrypted: true` and an empty body.
      */
     suspend fun pushedNotificationFromExtension(roomId: String, eventId: String): Notification? =
-        Runtime.call("WizardClient.pushedNotificationFromExtension", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+        Runtime.call("MudrixClient.pushedNotificationFromExtension", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     suspend fun logout() {
-        Runtime.callUnit("WizardClient.logout", handle, listOf())
+        Runtime.callUnit("MudrixClient.logout", handle, listOf())
     }
 
     /**
@@ -2811,14 +2811,14 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * server would have to send the plain event).
      */
     suspend fun sendDelayedEvent(roomId: String, eventType: String, content: JsonElement, delayMs: Long, stateKey: String? = null): String =
-        Runtime.call("WizardClient.sendDelayedEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content), Arg.value<Long>(delayMs), Arg.value<String?>(stateKey)))
+        Runtime.call("MudrixClient.sendDelayedEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventType), Arg.value<JsonElement>(content), Arg.value<Long>(delayMs), Arg.value<String?>(stateKey)))
 
     /**
      * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
      * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
      */
     suspend fun listDelayedEvents(roomId: String? = null): List<DelayedEvent> =
-        Runtime.call("WizardClient.listDelayedEvents", handle, listOf(Arg.value<String?>(roomId)))
+        Runtime.call("MudrixClient.listDelayedEvents", handle, listOf(Arg.value<String?>(roomId)))
 
     /**
      * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
@@ -2827,7 +2827,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * `unsupportedByServer` when the homeserver can't look up dates.
      */
     suspend fun timestampToEvent(roomId: String, timestamp: Long, direction: SearchDirection): TimestampEvent? =
-        Runtime.call("WizardClient.timestampToEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(timestamp), Arg.value<SearchDirection>(direction)))
+        Runtime.call("MudrixClient.timestampToEvent", handle, listOf(Arg.value<String>(roomId), Arg.value<Long>(timestamp), Arg.value<SearchDirection>(direction)))
 
     /**
      * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
@@ -2835,7 +2835,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * left out).
      */
     suspend fun eventEditHistory(roomId: String, eventId: String): List<EventVersion> =
-        Runtime.call("WizardClient.eventEditHistory", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
+        Runtime.call("MudrixClient.eventEditHistory", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(eventId)))
 
     /**
      * A person's name and picture in one room or space (its `m.room.member` event), which
@@ -2843,14 +2843,14 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * people this device hasn't loaded.
      */
     suspend fun roomMemberProfile(roomId: String, userId: String): RoomMemberProfile =
-        Runtime.call("WizardClient.roomMemberProfile", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.roomMemberProfile", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(userId)))
 
     /**
      * Sets the own name in one room or space only (the member event's `displayname`); null
      * or empty goes back to the account's display name. Needs a joined room.
      */
     suspend fun setRoomNickname(roomId: String, displayname: String? = null) {
-        Runtime.callUnit("WizardClient.setRoomNickname", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(displayname)))
+        Runtime.callUnit("MudrixClient.setRoomNickname", handle, listOf(Arg.value<String>(roomId), Arg.value<String?>(displayname)))
     }
 
     /**
@@ -2858,7 +2858,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * account's picture. Needs a joined room.
      */
     suspend fun setRoomMemberAvatar(roomId: String, data: Bytes? = null, mimetype: String? = null) {
-        Runtime.callUnit("WizardClient.setRoomMemberAvatar", handle, listOf(Arg.value<String>(roomId), Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
+        Runtime.callUnit("MudrixClient.setRoomMemberAvatar", handle, listOf(Arg.value<String>(roomId), Arg.value<Bytes?>(data), Arg.value<String?>(mimetype)))
     }
 
     /**
@@ -2868,7 +2868,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * is asked once when there are none there or for other types.
      */
     suspend fun stateEventsWithSender(roomId: String, eventTypes: List<String>): List<StateEventView> =
-        Runtime.call("WizardClient.stateEventsWithSender", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
+        Runtime.call("MudrixClient.stateEventsWithSender", handle, listOf(Arg.value<String>(roomId), Arg.value<List<String>>(eventTypes)))
 
     /**
      * Calls `listener` with every state event of one of `types` arriving in a joined room,
@@ -2877,7 +2877,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * list's), so this hears them without polling.
      */
     fun watchStateEvents(types: List<String>, listener: (StateEventView) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchStateEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<StateEventView>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchStateEvents", handle, listOf(Arg.value<List<String>>(types), Arg.listener<StateEventView>(listener)), ::Subscription)
 
     /**
      * Writes every room key this device has to a file, encrypted with `passphrase`
@@ -2885,7 +2885,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * `unsupported`.
      */
     suspend fun exportRoomKeys(path: String, passphrase: String) {
-        Runtime.callUnit("WizardClient.exportRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
+        Runtime.callUnit("MudrixClient.exportRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
     }
 
     /**
@@ -2894,41 +2894,41 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * Desktop and mobile only: in the browser it rejects with `unsupported`.
      */
     suspend fun importRoomKeys(path: String, passphrase: String): KeyImportResult =
-        Runtime.call("WizardClient.importRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
+        Runtime.call("MudrixClient.importRoomKeys", handle, listOf(Arg.value<String>(path), Arg.value<String>(passphrase)))
 
     /** Calls a delayed event off so it is never sent. */
     suspend fun cancelDelayedEvent(delayId: String) {
-        Runtime.callUnit("WizardClient.cancelDelayedEvent", handle, listOf(Arg.value<String>(delayId)))
+        Runtime.callUnit("MudrixClient.cancelDelayedEvent", handle, listOf(Arg.value<String>(delayId)))
     }
 
     /** Has the server send a delayed event right now. */
     suspend fun sendDelayedEventNow(delayId: String) {
-        Runtime.callUnit("WizardClient.sendDelayedEventNow", handle, listOf(Arg.value<String>(delayId)))
+        Runtime.callUnit("MudrixClient.sendDelayedEventNow", handle, listOf(Arg.value<String>(delayId)))
     }
 
     /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */
     fun watchSession(listener: (SessionEvent) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchSession", handle, listOf(Arg.listener<SessionEvent>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchSession", handle, listOf(Arg.listener<SessionEvent>(listener)), ::Subscription)
 
     suspend fun accountManagementUrl(): String? =
-        Runtime.call("WizardClient.accountManagementUrl", handle, listOf())
+        Runtime.call("MudrixClient.accountManagementUrl", handle, listOf())
 
     suspend fun encryptionStatus(): EncryptionStatus =
-        Runtime.call("WizardClient.encryptionStatus", handle, listOf())
+        Runtime.call("MudrixClient.encryptionStatus", handle, listOf())
 
     fun watchEncryptionStatus(listener: (EncryptionStatus) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchEncryptionStatus", handle, listOf(Arg.listener<EncryptionStatus>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchEncryptionStatus", handle, listOf(Arg.listener<EncryptionStatus>(listener)), ::Subscription)
 
     /** Sets up recovery; resolves to the new recovery key (show it once). */
     suspend fun enableRecovery(): String =
-        Runtime.call("WizardClient.enableRecovery", handle, listOf())
+        Runtime.call("MudrixClient.enableRecovery", handle, listOf())
 
     suspend fun resetRecoveryKey(): String =
-        Runtime.call("WizardClient.resetRecoveryKey", handle, listOf())
+        Runtime.call("MudrixClient.resetRecoveryKey", handle, listOf())
 
     /** Unlocks (and verifies) this device with the recovery key. */
     suspend fun recover(recoveryKey: String) {
-        Runtime.callUnit("WizardClient.recover", handle, listOf(Arg.value<String>(recoveryKey)))
+        Runtime.callUnit("MudrixClient.recover", handle, listOf(Arg.value<String>(recoveryKey)))
     }
 
     /**
@@ -2937,7 +2937,7 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * in the room's timelines by itself.
      */
     suspend fun retryDecryption(roomId: String) {
-        Runtime.callUnit("WizardClient.retryDecryption", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.callUnit("MudrixClient.retryDecryption", handle, listOf(Arg.value<String>(roomId)))
     }
 
     /**
@@ -2946,30 +2946,30 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * `listener` hears the progress after each room; resolves to the final one.
      */
     suspend fun restoreKeyBackup(listener: (KeyRestoreProgress) -> Unit): KeyRestoreProgress =
-        Runtime.call("WizardClient.restoreKeyBackup", handle, listOf(Arg.listener<KeyRestoreProgress>(listener)))
+        Runtime.call("MudrixClient.restoreKeyBackup", handle, listOf(Arg.listener<KeyRestoreProgress>(listener)))
 
     suspend fun requestSelfVerification(): VerificationFlow =
-        Runtime.call("WizardClient.requestSelfVerification", handle, listOf())
+        Runtime.call("MudrixClient.requestSelfVerification", handle, listOf())
 
     suspend fun userTrust(userId: String): UserTrust =
-        Runtime.call("WizardClient.userTrust", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.userTrust", handle, listOf(Arg.value<String>(userId)))
 
     /** Starts emoji verification with another person. */
     suspend fun requestUserVerification(userId: String): VerificationFlow =
-        Runtime.call("WizardClient.requestUserVerification", handle, listOf(Arg.value<String>(userId)))
+        Runtime.call("MudrixClient.requestUserVerification", handle, listOf(Arg.value<String>(userId)))
 
     /** Starts emoji verification with one of the own other devices. */
     suspend fun requestDeviceVerification(deviceId: String): VerificationFlow =
-        Runtime.call("WizardClient.requestDeviceVerification", handle, listOf(Arg.value<String>(deviceId)))
+        Runtime.call("MudrixClient.requestDeviceVerification", handle, listOf(Arg.value<String>(deviceId)))
 
     /** Accepts someone's changed identity so messages can be sent again. */
     suspend fun acknowledgeIdentity(userId: String) {
-        Runtime.callUnit("WizardClient.acknowledgeIdentity", handle, listOf(Arg.value<String>(userId)))
+        Runtime.callUnit("MudrixClient.acknowledgeIdentity", handle, listOf(Arg.value<String>(userId)))
     }
 
     /** Reports room members whose identity changed. */
     fun watchIdentityChanges(roomId: String, listener: (List<IdentityChange>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchIdentityChanges", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<IdentityChange>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchIdentityChanges", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<IdentityChange>>(listener)), ::Subscription)
 
     /**
      * Starts over with a new identity; without `auth` it reports what the server asks for
@@ -2977,57 +2977,57 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * servers, where it waits until approved or `cancelIdentityReset`.
      */
     suspend fun resetIdentityWithAuth(auth: UiaAuth?, onApprovalUrl: (String) -> Unit): UiaOutcome =
-        Runtime.call("WizardClient.resetIdentityWithAuth", handle, listOf(Arg.value<UiaAuth?>(auth), Arg.listener<String>(onApprovalUrl)))
+        Runtime.call("MudrixClient.resetIdentityWithAuth", handle, listOf(Arg.value<UiaAuth?>(auth), Arg.listener<String>(onApprovalUrl)))
 
     suspend fun cancelIdentityReset() {
-        Runtime.callUnit("WizardClient.cancelIdentityReset", handle, listOf())
+        Runtime.callUnit("MudrixClient.cancelIdentityReset", handle, listOf())
     }
 
     /** Calls `listener` with the users whose devices or identity (and so their trust) changed. */
     fun watchTrustChanges(listener: (List<String>) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchTrustChanges", handle, listOf(Arg.listener<List<String>>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchTrustChanges", handle, listOf(Arg.listener<List<String>>(listener)), ::Subscription)
 
     suspend fun pushRules(): JsonElement =
-        Runtime.call("WizardClient.pushRules", handle, listOf())
+        Runtime.call("MudrixClient.pushRules", handle, listOf())
 
     /** `off`, `silent`, `loud` or `highlight` for a push rule. */
     suspend fun setPushRuleLevel(kind: String, ruleId: String, level: String) {
-        Runtime.callUnit("WizardClient.setPushRuleLevel", handle, listOf(Arg.value<String>(kind), Arg.value<String>(ruleId), Arg.value<String>(level)))
+        Runtime.callUnit("MudrixClient.setPushRuleLevel", handle, listOf(Arg.value<String>(kind), Arg.value<String>(ruleId), Arg.value<String>(level)))
     }
 
     suspend fun urlPreview(url: String): UrlPreview? =
-        Runtime.call("WizardClient.urlPreview", handle, listOf(Arg.value<String>(url)))
+        Runtime.call("MudrixClient.urlPreview", handle, listOf(Arg.value<String>(url)))
 
     /** The room's threads; `mine` only those the user took part in. */
     suspend fun threads(roomId: String, mine: Boolean, from: String? = null): ThreadPage =
-        Runtime.call("WizardClient.threads", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(mine), Arg.value<String?>(from)))
+        Runtime.call("MudrixClient.threads", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(mine), Arg.value<String?>(from)))
 
     suspend fun addToSpace(spaceId: String, childId: String, suggested: Boolean) {
-        Runtime.callUnit("WizardClient.addToSpace", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId), Arg.value<Boolean>(suggested)))
+        Runtime.callUnit("MudrixClient.addToSpace", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId), Arg.value<Boolean>(suggested)))
     }
 
     suspend fun removeFromSpace(spaceId: String, childId: String) {
-        Runtime.callUnit("WizardClient.removeFromSpace", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId)))
+        Runtime.callUnit("MudrixClient.removeFromSpace", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId)))
     }
 
     /** Sets a child's `suggested` flag and/or `order` (pass `clearOrder` to remove it). */
     suspend fun updateSpaceChild(spaceId: String, childId: String, suggested: Boolean?, order: String?, clearOrder: Boolean) {
-        Runtime.callUnit("WizardClient.updateSpaceChild", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId), Arg.value<Boolean?>(suggested), Arg.value<String?>(order), Arg.value<Boolean>(clearOrder)))
+        Runtime.callUnit("MudrixClient.updateSpaceChild", handle, listOf(Arg.value<String>(spaceId), Arg.value<String>(childId), Arg.value<Boolean?>(suggested), Arg.value<String?>(order), Arg.value<Boolean>(clearOrder)))
     }
 
     /** A page of a server's room directory; `kind` narrows to `spaces` or `rooms`. */
     suspend fun publicRoomsPage(query: String, server: String?, kind: String?, limit: Long, since: String? = null): PublicRoomsPage =
-        Runtime.call("WizardClient.publicRoomsPage", handle, listOf(Arg.value<String>(query), Arg.value<String?>(server), Arg.value<String?>(kind), Arg.value<Long>(limit), Arg.value<String?>(since)))
+        Runtime.call("MudrixClient.publicRoomsPage", handle, listOf(Arg.value<String>(query), Arg.value<String?>(server), Arg.value<String?>(kind), Arg.value<Long>(limit), Arg.value<String?>(since)))
 
     /** Calls `listener` with a `VerificationFlow` for every incoming verification request. */
     fun watchVerificationRequests(listener: (VerificationFlow) -> Unit): Subscription =
-        Runtime.watch("WizardClient.watchVerificationRequests", handle, listOf(Arg.listener<VerificationFlow>(listener)), ::Subscription)
+        Runtime.watch("MudrixClient.watchVerificationRequests", handle, listOf(Arg.listener<VerificationFlow>(listener)), ::Subscription)
 
     suspend fun devices(): List<DeviceInfo> =
-        Runtime.call("WizardClient.devices", handle, listOf())
+        Runtime.call("MudrixClient.devices", handle, listOf())
 
     suspend fun renameDevice(deviceId: String, name: String) {
-        Runtime.callUnit("WizardClient.renameDevice", handle, listOf(Arg.value<String>(deviceId), Arg.value<String>(name)))
+        Runtime.callUnit("MudrixClient.renameDevice", handle, listOf(Arg.value<String>(deviceId), Arg.value<String>(name)))
     }
 
     /**
@@ -3035,12 +3035,12 @@ class WizardClient(handle: Long, props: JsonObject) : Remote(handle, props) {
      * the room's latest message. Private receipts aren't shown to others.
      */
     suspend fun markRoomAsRead(roomId: String, _private: Boolean? = null) {
-        Runtime.callUnit("WizardClient.markRoomAsRead", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean?>(_private)))
+        Runtime.callUnit("MudrixClient.markRoomAsRead", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean?>(_private)))
     }
 
     /** Joins the room that replaced an upgraded room; resolves to its ID. */
     suspend fun joinUpgradedRoom(roomId: String): String =
-        Runtime.call("WizardClient.joinUpgradedRoom", handle, listOf(Arg.value<String>(roomId)))
+        Runtime.call("MudrixClient.joinUpgradedRoom", handle, listOf(Arg.value<String>(roomId)))
 }
 
 @Serializable(with = PendingLogin.Serializer::class)
@@ -3052,7 +3052,7 @@ class PendingLogin(handle: Long, props: JsonObject) : Remote(handle, props) {
         get() = prop("url")
 
     /** Completes the sign-in with the URL the server redirected back to. */
-    suspend fun finish(callbackUrl: String, deviceName: String): WizardClient =
+    suspend fun finish(callbackUrl: String, deviceName: String): MudrixClient =
         Runtime.call("PendingLogin.finish", handle, listOf(Arg.value<String>(callbackUrl), Arg.value<String>(deviceName)))
 
     suspend fun abort() {

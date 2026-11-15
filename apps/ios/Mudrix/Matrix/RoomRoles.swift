@@ -38,7 +38,7 @@ final class RoomRolesLoader: ObservableObject {
     private var ownLevels: [String: JSONValue]?
     private var creators: Set<String> = []
 
-    func load(roomId: String, client: WizardClient, graph: [SpaceNode]) async {
+    func load(roomId: String, client: MudrixClient, graph: [SpaceNode]) async {
         chain = SpaceModern.rolesChain(of: roomId, in: graph)
         guard let first = chain.first else {
             current = .none

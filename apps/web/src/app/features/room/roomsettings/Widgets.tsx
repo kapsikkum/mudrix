@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { PuzzlePieceIcon, PencilSimpleIcon, TrashIcon, PlusIcon } from '@phosphor-icons/react';
 import { Button, IconButton } from '@/app/components/Button';
@@ -57,7 +57,7 @@ function AddedRow({ widget, onEdit, onDelete, readOnly = false }: AddedRowProps)
 
 interface Props {
   roomId: string;
-  client: WizardClient;
+  client: MudrixClient;
 }
 
 type ModalMode = { kind: 'add-custom' } | { kind: 'edit'; widget: RoomWidget } | null;

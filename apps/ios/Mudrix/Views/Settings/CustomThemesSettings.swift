@@ -208,7 +208,7 @@ private struct ThemePreview: View {
     let spec: ThemeSpec
 
     var body: some View {
-        let preview = WizardTheme(colors: ThemeDerive.build(spec), isLight: ThemeDerive.isLightColor(spec.bgPrimary))
+        let preview = MudrixTheme(colors: ThemeDerive.build(spec), isLight: ThemeDerive.isLightColor(spec.bgPrimary))
         VStack(alignment: .leading, spacing: WZ.Space.space3) {
             Text(verbatim: "Merlin")
                 .font(.wizard(WZ.FontSize.sm, .semibold))

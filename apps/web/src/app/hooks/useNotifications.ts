@@ -3,7 +3,7 @@ import { getThemeLogoAssets } from '@/theme/themeLogos';
 import i18n from '@/i18n';
 import { isStreamerModeActive } from '@/util/streamerMode';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 
 export type NotifLevel = 'default' | 'all' | 'mentions' | 'mute';
 
@@ -71,7 +71,7 @@ const NOTIFICATION_AVATAR_PX = 96;
  * only take a local image. Null when they have no avatar or it doesn't load in time.
  */
 export async function notificationAvatar(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   senderId: string
 ): Promise<Uint8Array | null> {

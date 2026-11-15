@@ -1,4 +1,4 @@
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { useExtendedProfile } from '@/app/hooks/useExtendedProfile';
@@ -7,7 +7,7 @@ import { useDecorationSrc } from '@/app/features/profile/ProfileCosmetics';
 import * as css from './CallStage.css';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   userId: string;
   name: string;
   mxc: string | null;

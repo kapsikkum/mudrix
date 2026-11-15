@@ -19,7 +19,7 @@ import chat.mudrix.core.RoomSection
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.SpaceSummary
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 val RoomSummary.displayName: String get() = roomDisplayName(isDirect, dmUserName, name, canonicalAlias, id)
 
@@ -41,7 +41,7 @@ sealed interface SidebarSelection {
 
 data class UnreadState(val unread: Boolean = false, val mention: Boolean = false)
 
-class RoomListModel(val client: WizardClient, private val scope: CoroutineScope) {
+class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope) {
     var joinedRooms by mutableStateOf(listOf<RoomSummary>())
         private set
     var invites by mutableStateOf(listOf<RoomSummary>())

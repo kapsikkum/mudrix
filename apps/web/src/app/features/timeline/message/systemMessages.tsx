@@ -1,6 +1,6 @@
 import { Trans } from 'react-i18next';
 import { useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { userProfileAtom } from '@/app/store/atoms';
 import type { EventEntry } from './entry';
@@ -10,7 +10,7 @@ import * as css from '../Timeline.css';
 interface SystemMessageProps {
   event: EventEntry;
   senderName: string;
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
 }
 
@@ -37,7 +37,7 @@ function ProfileNameLink({
 }: {
   userId: string;
   roomId: string | null | undefined;
-  client?: WizardClient;
+  client?: MudrixClient;
   avatarUrl?: string | null;
   showAvatar?: boolean;
   children?: React.ReactNode;

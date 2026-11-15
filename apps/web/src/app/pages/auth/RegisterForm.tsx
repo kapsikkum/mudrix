@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WizardClient } from '@mudrix/core';
+import { MudrixClient } from '@mudrix/core';
 import { loadCore, register } from '@/client/initMatrix';
 import { useSetAtom } from 'jotai';
 import { credentialsAtom } from '@/app/store/atoms';
@@ -98,7 +98,7 @@ export function RegisterForm({
     let cancelled = false;
     const timer = setTimeout(() => {
       loadCore()
-        .then(() => WizardClient.usernameAvailable(serverUrl, localpart))
+        .then(() => MudrixClient.usernameAvailable(serverUrl, localpart))
         .then((available) => {
           if (!cancelled) setUsernameState(available ? 'available' : 'taken');
         })

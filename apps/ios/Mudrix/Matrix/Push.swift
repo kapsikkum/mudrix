@@ -30,7 +30,7 @@ enum Push {
     static let refreshTaskId = "chat.mudrix.mobile.refresh"
     private static let lastKeyDefaults = "push.pushkey"
     /// Set by the app: the signed-in client, and how to start or stop syncing from a background task
-    static var client: () -> WizardClient? = { nil }
+    static var client: () -> MudrixClient? = { nil }
     static var resume: () async -> Void = {}
     static var pause: () async -> Void = {}
 

@@ -4,12 +4,12 @@ import MudrixCore
 
 @MainActor
 final class MediaLoader {
-    let client: WizardClient
+    let client: MudrixClient
     private let cache = NSCache<NSString, UIImage>()
     private var inFlight: [String: Task<UIImage?, Never>] = [:]
     private let files = FileManager.default.temporaryDirectory.appendingPathComponent("media", isDirectory: true)
 
-    init(client: WizardClient) {
+    init(client: MudrixClient) {
         self.client = client
     }
 
@@ -84,7 +84,7 @@ final class MediaLoader {
         Task { try? await client.cancelMediaDownload(token: token) }
     }
 
-    private func load(_ key: String, animated: Bool = false, fetch: @escaping (WizardClient) async throws -> Data) async -> UIImage? {
+    private func load(_ key: String, animated: Bool = false, fetch: @escaping (MudrixClient) async throws -> Data) async -> UIImage? {
         if let image = cachedThumbnail(key) { return image }
         if let task = inFlight[key] { return await task.value }
         let client = client

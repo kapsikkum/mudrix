@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { formatUserId } from '@/util/matrix';
 import { useAccountData, useAllRooms } from '@/app/data';
 import { recentInvitesAtom } from '@/app/store/atoms';
@@ -36,7 +36,7 @@ const CLOSED: InviteAutocompleteState = {
   loading: false,
 };
 
-export function useInviteAutocomplete(client: WizardClient) {
+export function useInviteAutocomplete(client: MudrixClient) {
   const [state, setState] = useState<InviteAutocompleteState>(CLOSED);
   const recentInvites = useAtomValue(recentInvitesAtom);
   const dmData = useAccountData<Record<string, string[]>>('m.direct');

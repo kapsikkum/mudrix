@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useDecryptedMedia } from './encryption';
 import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
 import { getMediaInfoSpoiler } from './spoiler';

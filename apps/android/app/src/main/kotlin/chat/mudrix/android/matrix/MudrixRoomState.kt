@@ -13,7 +13,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import chat.mudrix.core.StateChange
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** The Mudrix state types kept on a space or room (`io.github.kapsikkum.mudrix.*`, read under `chat.mudrix.*` too) */
 object MudrixTypes {
@@ -86,13 +86,13 @@ class MudrixRoomStates {
     private val slots = HashMap<String, Slot>()
     private val queue = ArrayDeque<String>()
     private var running = 0
-    private var client: WizardClient? = null
+    private var client: MudrixClient? = null
     private var subscription: Subscription? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private val fetched = MudrixTypes.ROOM_STATE.flatMap { MudrixTypes.typeAndLegacy(it) }
     private val relevant = fetched.toSet() + "m.room.power_levels"
 
-    fun start(client: WizardClient) {
+    fun start(client: MudrixClient) {
         stop()
         this.client = client
         subscription = client.watchStateChanges { change -> scope.launch { onStateChange(change) } }
@@ -146,7 +146,7 @@ class MudrixRoomStates {
     }
 
     /** Sets a Mudrix state event under its current name and shows the change at once */
-    suspend fun set(client: WizardClient, roomId: String, type: String, content: JsonObject, stateKey: String = "") {
+    suspend fun set(client: MudrixClient, roomId: String, type: String, content: JsonObject, stateKey: String = "") {
         client.setStateEvent(roomId, type, stateKey, content)
         val current = states[roomId]
         val kept = MudrixTypes.ROOM_STATE.flatMap { other ->

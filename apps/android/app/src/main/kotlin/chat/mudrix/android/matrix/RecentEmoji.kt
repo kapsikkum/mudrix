@@ -17,7 +17,7 @@ import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.longOrNull
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /**
  * Recently used emoji, kept in the `m.recent_emoji` account data like the web, so they're the
@@ -45,7 +45,7 @@ class RecentEmoji private constructor() {
         get() = RecentEmojiRanking.ranked(entries)
 
     private val scope = MainScope()
-    private var client: WizardClient? = null
+    private var client: MudrixClient? = null
     private val subscriptions = mutableListOf<Subscription>()
     private var saveJob: Job? = null
     /** Set while a pick is waiting to be written, so an older copy from the server doesn't undo it */
@@ -57,7 +57,7 @@ class RecentEmoji private constructor() {
     val quickReactions: List<String>
         get() = (frequent.filter { it.url == null }.map { it.emoji } + DEFAULT_REACTIONS).distinct().take(QUICK_COUNT)
 
-    fun start(client: WizardClient) {
+    fun start(client: MudrixClient) {
         this.client = client
         subscriptions += client.watchAccountData(EVENT_TYPE) { content -> scope.launch { applyStored(content) } }
         subscriptions += client.watchAccountData(LEGACY_EVENT_TYPE) { content -> scope.launch { applyLegacy(content) } }

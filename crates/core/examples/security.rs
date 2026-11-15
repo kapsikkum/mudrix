@@ -11,7 +11,7 @@ mod common;
 use std::{sync::Arc, time::Duration};
 
 use mudrix_core::{
-    StoreConfig, UiaAuth, UiaOutcome, VerificationFlow, VerificationStatus, WizardClient,
+    MudrixClient, StoreConfig, UiaAuth, UiaOutcome, VerificationFlow, VerificationStatus,
 };
 use tokio::sync::mpsc;
 
@@ -70,7 +70,7 @@ async fn main() -> Result<(), BoxError> {
     let server = common::server();
     let user = format!("wzsec{}", std::process::id());
     let password = format!("pw-{}-{}", std::process::id(), user.len() * 7919);
-    WizardClient::register(
+    MudrixClient::register(
         &server,
         &user,
         &password,
@@ -83,7 +83,7 @@ async fn main() -> Result<(), BoxError> {
     .logout()
     .await?;
 
-    let info = WizardClient::discover(&server).await?;
+    let info = MudrixClient::discover(&server).await?;
     println!(
         "discovered {}: password {}, oauth {}, sso {}",
         info.homeserver_url,
@@ -93,7 +93,7 @@ async fn main() -> Result<(), BoxError> {
     );
 
     let (a, _) =
-        WizardClient::login_password(&server, &user, &password, "security test A", store("a"))
+        MudrixClient::login_password(&server, &user, &password, "security test A", store("a"))
             .await?;
     a.start_sync().await?;
     wait_for("device A to set up cross-signing", async || {
@@ -115,7 +115,7 @@ async fn main() -> Result<(), BoxError> {
     println!("recovery key set up on device A (was {})", status.recovery);
 
     let (b, session_b) =
-        WizardClient::login_password(&server, &user, &password, "security test B", store("b"))
+        MudrixClient::login_password(&server, &user, &password, "security test B", store("b"))
             .await?;
     b.start_sync().await?;
     let own = |devices: Vec<mudrix_core::DeviceInfo>| devices.into_iter().find(|d| d.is_current);
@@ -138,7 +138,7 @@ async fn main() -> Result<(), BoxError> {
 
     // Fresh device C, verified by emoji comparison with A
     let (c, session_c) =
-        WizardClient::login_password(&server, &user, &password, "security test C", store("c"))
+        MudrixClient::login_password(&server, &user, &password, "security test C", store("c"))
             .await?;
     c.start_sync().await?;
     let device_c = session_c.device_id.clone();
@@ -246,7 +246,7 @@ async fn main() -> Result<(), BoxError> {
         b.encryption_status().await
     );
     let (d, _) =
-        WizardClient::login_password(&server, &user, &password, "security test D", store("d"))
+        MudrixClient::login_password(&server, &user, &password, "security test D", store("d"))
             .await?;
     d.start_sync().await?;
     d.recover(&new_key).await?;

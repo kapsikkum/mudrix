@@ -74,7 +74,7 @@ import chat.mudrix.core.IncomingCallEvent
 import chat.mudrix.core.RingEnd
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.Subscription
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** One device in the call, with its media state */
 data class CallParticipantInfo(
@@ -219,10 +219,10 @@ class CallManager {
     private var session: CallSession? = null
     private var run: Subscription? = null
     private var incomingWatch: Subscription? = null
-    private var incomingClient: WizardClient? = null
+    private var incomingClient: MudrixClient? = null
     private var members by mutableStateOf(listOf<CallMember>())
     private var mutedBeforeDeafen = false
-    private var client: WizardClient? = null
+    private var client: MudrixClient? = null
     private var keyProvider: BaseKeyProvider? = null
     /** By call service; services leading to the same LiveKit room share one connection */
     private val connections = mutableMapOf<String, LiveKitRoom>()
@@ -371,7 +371,7 @@ class CallManager {
     private var soundboardEvents: Subscription? = null
 
     /** The soundboard hears the call's data channel and, for clients that cannot send there, room events */
-    private fun startSoundboard(client: WizardClient, roomId: String) {
+    private fun startSoundboard(client: MudrixClient, roomId: String) {
         val userId = client.userId ?: return
         Soundboard.reset()
         Soundboard.link = Soundboard.CallLink(
@@ -979,7 +979,7 @@ class CallManager {
     }
 
     /** Starts once per client, so the activity being recreated doesn't drop or repeat it */
-    fun watchIncoming(client: WizardClient) {
+    fun watchIncoming(client: MudrixClient) {
         if (incomingClient === client && incomingWatch != null) return
         incomingWatch?.cancel()
         incomingClient = client

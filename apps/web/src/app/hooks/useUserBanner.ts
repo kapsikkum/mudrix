@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { useExtendedProfile, useExtendedProfileMutations } from '@/app/hooks/useExtendedProfile';
 

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useDms } from '@/app/hooks/useDms';
 import { parentSpacesOf, useAllRooms, useJoinedSpaces, useSpaceGraph } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
@@ -25,7 +25,7 @@ export interface ActiveVoiceCard {
  * you have a direct chat with (the Active now panel); without it every live channel is listed.
  */
 export function useActiveVoiceCards(
-  client: WizardClient | null | undefined,
+  client: MudrixClient | null | undefined,
   options?: { onlyWithKnown?: boolean }
 ): ActiveVoiceCard[] {
   const dms = useDms();

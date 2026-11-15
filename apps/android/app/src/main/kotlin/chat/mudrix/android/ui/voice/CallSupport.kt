@@ -50,7 +50,7 @@ import chat.mudrix.android.ui.PhWeight
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.core.Member
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** A room member's name and avatar */

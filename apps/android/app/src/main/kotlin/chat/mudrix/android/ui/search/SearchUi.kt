@@ -71,7 +71,7 @@ import chat.mudrix.core.RoomTimeline
 import chat.mudrix.core.SpaceSummary
 import chat.mudrix.core.Subscription
 import chat.mudrix.core.TimelineEntry
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** Folds case and accents one character at a time, so indices match the original text */
@@ -311,7 +311,7 @@ private fun summary(content: EntryContent): String? = when (content) {
 }
 
 /** The room's messages, loaded backwards for searching */
-private class SearchTimeline(private val client: WizardClient, private val roomId: String, private val scope: CoroutineScope) {
+private class SearchTimeline(private val client: MudrixClient, private val roomId: String, private val scope: CoroutineScope) {
     var entries by mutableStateOf(listOf<SearchEntry>())
         private set
     var reachedStart by mutableStateOf(false)
@@ -358,7 +358,7 @@ private class SearchTimeline(private val client: WizardClient, private val roomI
 
 /** Search inside one room; `onJump` gets an event ID */
 @Composable
-fun RoomSearchScreen(room: RoomSummary, client: WizardClient, onJump: (String) -> Unit, onBack: () -> Unit) {
+fun RoomSearchScreen(room: RoomSummary, client: MudrixClient, onJump: (String) -> Unit, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val model = remember(room.id) { SearchTimeline(client, room.id, scope) }
     var query by remember { mutableStateOf("") }

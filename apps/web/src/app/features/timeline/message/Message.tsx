@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { RoomTimeline, WizardClient as MatrixClient } from '@mudrix/core';
+import type { RoomTimeline, MudrixClient as MatrixClient } from '@mudrix/core';
 import {
   SmileyIcon,
   WarningIcon,

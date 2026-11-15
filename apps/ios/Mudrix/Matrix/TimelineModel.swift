@@ -224,7 +224,7 @@ final class TimelineModel: ObservableObject {
     @Published private(set) var pinnedIds: Set<String> = []
     @Published private(set) var uploads: [PendingUpload] = []
 
-    let client: WizardClient
+    let client: MudrixClient
     let roomId: String
     private let kind: TimelineKind
     var isThread: Bool { if case .thread = kind { true } else { false } }
@@ -262,7 +262,7 @@ final class TimelineModel: ObservableObject {
         didSet { if hideProfileEvents != oldValue { apply([]) } }
     }
 
-    init(client: WizardClient, roomId: String, threadRoot: String? = nil, pinnedOnly: Bool = false,
+    init(client: MudrixClient, roomId: String, threadRoot: String? = nil, pinnedOnly: Bool = false,
          onlyTypes: Set<ChatEntry.ContentType>? = nil) {
         self.client = client
         self.roomId = roomId

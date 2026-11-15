@@ -394,7 +394,7 @@ struct LoginView: View {
         try? await Task.sleep(for: .milliseconds(500))
         guard !Task.isCancelled else { return }
         do {
-            let available = try await WizardClient.usernameAvailable(server: server, username: username)
+            let available = try await MudrixClient.usernameAvailable(server: server, username: username)
             guard !Task.isCancelled else { return }
             usernameState = available ? .available : .taken
         } catch let error as WizardError {
@@ -429,7 +429,7 @@ struct LoginView: View {
             let discovered = try await session.discover(server)
             guard !Task.isCancelled else { return }
             do {
-                registration = try await WizardClient.registrationInfo(server: discovered.homeserverUrl)
+                registration = try await MudrixClient.registrationInfo(server: discovered.homeserverUrl)
             } catch let error as WizardError {
                 registrationRateLimited = error.errcode == "M_LIMIT_EXCEEDED"
             } catch {}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react';
-import { WizardClient, type StateEventView } from '@mudrix/core';
+import { MudrixClient, type StateEventView } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { mudrixKey, typeAndLegacy } from '@/util/namespace';
 import { forgetVoiceChannelFlags, rememberVoiceChannelFlag } from '@/util/voiceChannelFlags';
@@ -53,7 +53,7 @@ const slots = new Map<string, Slot>();
 const listeners = new Set<() => void>();
 const queue: (() => void)[] = [];
 let running = 0;
-let boundClient: WizardClient | null = null;
+let boundClient: MudrixClient | null = null;
 let watch: { cancel(): void } | null = null;
 let types: string[] = FALLBACK_TYPES;
 let notifyTimer: ReturnType<typeof setTimeout> | null = null;
@@ -116,7 +116,7 @@ function onEvent(view: StateEventView) {
 }
 
 /** Follows Mudrix's state in every room for this client. Safe to call again. */
-export function bindMudrixState(client: WizardClient): void {
+export function bindMudrixState(client: MudrixClient): void {
   if (boundClient === client) return;
   watch?.cancel();
   boundClient = client;
@@ -124,7 +124,7 @@ export function bindMudrixState(client: WizardClient): void {
   queue.length = 0;
   forgetVoiceChannelFlags();
   notify();
-  void WizardClient.mudrixStateTypes()
+  void MudrixClient.mudrixStateTypes()
     .then((list) => {
       types = list;
     })
@@ -200,7 +200,7 @@ export function subscribeMudrixRoomState(listener: () => void): () => void {
 }
 
 /** Starts following Mudrix's state as soon as the client is there. */
-export function useMudrixStateWatch(client: WizardClient | null): void {
+export function useMudrixStateWatch(client: MudrixClient | null): void {
   useEffect(() => {
     if (client) bindMudrixState(client);
   }, [client]);
@@ -269,7 +269,7 @@ export function useMudrixRoleLog(roomId: string | null | undefined): StateEntry[
  * versions read the old name, but this version only writes the current one (see `namespace.ts`).
  */
 export async function setMudrixRoomState(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   type: string,
   content: Record<string, unknown>,

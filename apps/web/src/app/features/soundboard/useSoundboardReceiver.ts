@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { spaceGraphAtom } from '@/app/data';
 import { callSessionAtom, callUiAtom } from '@/app/store/atoms/call';
 import {
@@ -28,7 +28,7 @@ const CLOCK_SKEW_MS = 5_000;
  *
  * Everything is best effort: any failure is logged and the call carries on.
  */
-export function useSoundboardReceiver(client: WizardClient | null): void {
+export function useSoundboardReceiver(client: MudrixClient | null): void {
   const ui = useAtomValue(callUiAtom);
   const session = useAtomValue(callSessionAtom);
   const enabled = useAtomValue(soundboardEnabledAtom);

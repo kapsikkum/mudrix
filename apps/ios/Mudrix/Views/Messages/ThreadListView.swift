@@ -3,7 +3,7 @@ import MudrixCore
 
 struct ThreadListView: View {
     let room: RoomSummary
-    let client: WizardClient
+    let client: MudrixClient
     let onOpen: (String) -> Void
 
     @Environment(\.theme) private var theme

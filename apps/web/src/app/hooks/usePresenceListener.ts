@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { PresenceInfo, WizardClient } from '@mudrix/core';
+import type { PresenceInfo, MudrixClient } from '@mudrix/core';
 import {
   currentRoomIdAtom,
   presenceMapAtom,
@@ -21,7 +21,7 @@ function normalizePresence(raw: string | undefined): PresenceState {
   return 'offline';
 }
 
-export function usePresenceListener(client: WizardClient | null | undefined): void {
+export function usePresenceListener(client: MudrixClient | null | undefined): void {
   const setPresenceMap = useSetAtom(presenceMapAtom);
   const setStatusMap = useSetAtom(statusMsgMapAtom);
   const setSupport = useSetAtom(presenceSupportAtom);

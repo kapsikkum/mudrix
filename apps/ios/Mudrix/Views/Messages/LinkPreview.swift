@@ -15,9 +15,9 @@ struct LinkPreviewData {
 final class LinkPreviewLoader {
     private static var cache: [String: LinkPreviewData?] = [:]
     private static var inFlight: [String: Task<LinkPreviewData?, Never>] = [:]
-    let client: WizardClient
+    let client: MudrixClient
 
-    init(client: WizardClient) { self.client = client }
+    init(client: MudrixClient) { self.client = client }
 
     func preview(for url: URL) async -> LinkPreviewData? {
         let key = url.absoluteString

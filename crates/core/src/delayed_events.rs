@@ -23,7 +23,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{rooms::parse_room_id, Error, Result, WizardClient};
+use crate::{rooms::parse_room_id, Error, MudrixClient, Result};
 
 const FEATURE: &str = "org.matrix.msc4140";
 const UNSUPPORTED: &str = "delayed events";
@@ -94,7 +94,7 @@ fn scheduled(events: Vec<DelayedEventData>, room_id: Option<&str>) -> Vec<Delaye
     events
 }
 
-impl WizardClient {
+impl MudrixClient {
     async fn require_delayed_events(&self) -> Result<()> {
         let features = self.sdk().unstable_features().await?;
         let features: Vec<&str> = features.iter().map(|f| f.as_ref()).collect();

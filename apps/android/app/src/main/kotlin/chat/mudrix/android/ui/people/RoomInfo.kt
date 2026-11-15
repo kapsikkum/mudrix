@@ -60,7 +60,7 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.RoomSummary
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 /** Pages pushed inside room info and space settings */
@@ -100,7 +100,7 @@ internal fun SharedPage(page: PeoplePage, push: (PeoplePage) -> Unit, pop: () ->
 
 /** Room details and settings; `onJump` opens a message */
 @Composable
-fun RoomInfoSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Unit, onJump: (String) -> Unit) {
+fun RoomInfoSheet(room: RoomSummary, client: MudrixClient, onDismiss: () -> Unit, onJump: (String) -> Unit) {
     val context = LocalContext.current
     val session = LocalSession.current
     val scope = rememberCoroutineScope()

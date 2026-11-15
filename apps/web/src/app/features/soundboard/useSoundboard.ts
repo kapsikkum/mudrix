@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useAccountData, spaceGraphAtom } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { callUiAtom } from '@/app/store/atoms/call';
@@ -74,7 +74,7 @@ export interface UseSoundboardResult {
   removeSound: (clip: SoundboardClip) => Promise<void>;
 }
 
-function requireClient(): WizardClient {
+function requireClient(): MudrixClient {
   const client = getMatrixClientOrNull();
   if (!client) throw new SoundboardError('offline');
   return client;

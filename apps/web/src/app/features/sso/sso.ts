@@ -1,4 +1,4 @@
-import { WizardClient, type HomeserverSoftware, type IdentityProvider } from '@mudrix/core';
+import { MudrixClient, type HomeserverSoftware, type IdentityProvider } from '@mudrix/core';
 import { appInfo, loadCore, loginWithPopup } from '@/client/initMatrix';
 import type { MatrixCredentials } from '@/client/types';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
@@ -115,7 +115,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
 
   let info;
   try {
-    info = await WizardClient.discover(homeserverUrl);
+    info = await MudrixClient.discover(homeserverUrl);
   } catch (err) {
     console.warn('[auth] login flow discovery failed for', homeserverUrl, err);
     const code = errorCode(err);
@@ -136,7 +136,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
   result.software = info.software ?? undefined;
 
   const [registration, accountManagementUri, software] = await Promise.allSettled([
-    WizardClient.registrationInfo(info.homeserverUrl),
+    MudrixClient.registrationInfo(info.homeserverUrl),
     info.oauth ? fetchAccountManagementUri(info.homeserverUrl) : Promise.resolve(undefined),
     // The core asks the server name over https, which misses an address like `192.0.2.10:6167`;
     // asking the URL the client will talk to names the software for any server that answers.
@@ -182,7 +182,7 @@ export function startOAuthPopupLogin(
 ): Promise<MatrixCredentials> {
   const popup = openSignInPopup();
   return loginWithPopup(popup, (store, redirectUri) =>
-    WizardClient.startOAuthLogin(
+    MudrixClient.startOAuthLogin(
       homeserverUrl,
       store,
       redirectUri,
@@ -200,7 +200,7 @@ export function startSsoPopupLogin(
 ): Promise<MatrixCredentials> {
   const popup = openSignInPopup();
   return loginWithPopup(popup, (store, redirectUri) =>
-    WizardClient.startSsoLogin(homeserverUrl, store, redirectUri, idpId ?? undefined)
+    MudrixClient.startSsoLogin(homeserverUrl, store, redirectUri, idpId ?? undefined)
   );
 }
 
@@ -286,7 +286,7 @@ export async function requestPasswordReset(
   clientSecret: string
 ): Promise<string> {
   await loadCore();
-  return WizardClient.requestPasswordReset(homeserverUrl, email, clientSecret, 1);
+  return MudrixClient.requestPasswordReset(homeserverUrl, email, clientSecret, 1);
 }
 
 export async function completePasswordReset(
@@ -297,5 +297,5 @@ export async function completePasswordReset(
   logoutDevices: boolean = true
 ): Promise<void> {
   await loadCore();
-  await WizardClient.resetPassword(homeserverUrl, newPassword, clientSecret, sid, logoutDevices);
+  await MudrixClient.resetPassword(homeserverUrl, newPassword, clientSecret, sid, logoutDevices);
 }

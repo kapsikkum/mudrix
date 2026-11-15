@@ -4,7 +4,7 @@ import MudrixCore
 /// "Jump to date": picks a day, asks the homeserver for the first message on or after it and hands the
 /// event id back so the room can open there. Works on servers with `timestampToEvent` (MSC3030 / v1.6).
 struct JumpToDateSheet: View {
-    let client: WizardClient
+    let client: MudrixClient
     let roomId: String
     let onJump: (String) -> Void
     @Environment(\.dismiss) private var dismiss

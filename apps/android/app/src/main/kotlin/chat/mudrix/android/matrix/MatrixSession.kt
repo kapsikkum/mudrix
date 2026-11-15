@@ -35,7 +35,7 @@ import chat.mudrix.core.SessionEvent
 import chat.mudrix.core.StoreConfig
 import chat.mudrix.core.Subscription
 import chat.mudrix.core.SyncState
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.core.WizardError
 
 class MatrixSession(private val scope: CoroutineScope = MainScope()) {
@@ -74,7 +74,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     var needsVerification by mutableStateOf(false)
         private set
 
-    var client: WizardClient? = null
+    var client: MudrixClient? = null
         private set
     var roomList by mutableStateOf<RoomListModel?>(null)
         private set
@@ -96,7 +96,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
     data class Account(val userId: String, val displayName: String?, val avatarUrl: String?)
 
-    val requireClient: WizardClient
+    val requireClient: MudrixClient
         get() = client ?: throw WizardError("notSignedIn", L10n.format("common.somethingWentWrong"))
 
     suspend fun restore() {
@@ -187,12 +187,12 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         restore()
     }
 
-    suspend fun discover(server: String): ServerInfo = WizardClient.discover(server)
+    suspend fun discover(server: String): ServerInfo = MudrixClient.discover(server)
 
     suspend fun login(server: String, identifier: LoginIdentifier, password: String) {
         val (folder, store) = StoredSession.newStore()
         try {
-            val client = WizardClient.loginPassword(server, identifier, password, DEVICE_NAME, store)
+            val client = MudrixClient.loginPassword(server, identifier, password, DEVICE_NAME, store)
             remember(client, folder, store)
         } catch (error: Exception) {
             SessionStore.removeStore(folder)
@@ -203,7 +203,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     suspend fun register(server: String, username: String, password: String) {
         val (folder, store) = StoredSession.newStore()
         try {
-            val client = WizardClient.register(server, username, password, DEVICE_NAME, null, store)
+            val client = MudrixClient.register(server, username, password, DEVICE_NAME, null, store)
             remember(client, folder, store)
         } catch (error: Exception) {
             SessionStore.removeStore(folder)
@@ -215,7 +215,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     suspend fun loginWithQr(server: String, scanned: ByteArray?, control: QrLoginControl, onStatus: (QrLoginStatus) -> Unit) {
         val (folder, store) = StoredSession.newStore()
         try {
-            val client = WizardClient.loginWithQr(server, store, APP, scanned, control, onStatus)
+            val client = MudrixClient.loginWithQr(server, store, APP, scanned, control, onStatus)
             remember(client, folder, store)
         } catch (error: Exception) {
             SessionStore.removeStore(folder)
@@ -233,9 +233,9 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         val (folder, store) = StoredSession.newStore()
         try {
             val login = if (sso != null) {
-                WizardClient.startSsoLogin(server, store, REDIRECT_URI, sso.id)
+                MudrixClient.startSsoLogin(server, store, REDIRECT_URI, sso.id)
             } else {
-                WizardClient.startOAuthLogin(server, store, REDIRECT_URI, APP, createAccount)
+                MudrixClient.startOAuthLogin(server, store, REDIRECT_URI, APP, createAccount)
             }
             pendingLogin = Triple(login, folder, store)
             return login.url
@@ -379,7 +379,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         }
     }
 
-    private suspend fun remember(client: WizardClient, folder: String, store: StoreConfig) {
+    private suspend fun remember(client: MudrixClient, folder: String, store: StoreConfig) {
         val stored = StoredSession(client.session, folder, store.passphrase ?: "")
         close()
         SessionStore.all().firstOrNull { it.session.userId == stored.session.userId }
@@ -415,7 +415,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         runCatching { client?.stopSync() }
     }
 
-    private fun start(client: WizardClient, stored: StoredSession) {
+    private fun start(client: MudrixClient, stored: StoredSession) {
         this.client = client
         this.stored = stored
         userId = client.userId
@@ -461,7 +461,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         state = State.LoggedIn
     }
 
-    fun checkIdentity(client: WizardClient? = this.client, status: EncryptionStatus? = encryption) {
+    fun checkIdentity(client: MudrixClient? = this.client, status: EncryptionStatus? = encryption) {
         val userId = userId ?: return
         if (client == null || status == null || status.recovery == "unknown") return
         scope.launch {

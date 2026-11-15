@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { ArrowSquareOutIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { useClient } from '@/app/data';
@@ -68,7 +68,7 @@ function parseBridge(stateKey: string, raw: unknown): Bridge | null {
   };
 }
 
-async function readBridges(client: WizardClient, roomId: string): Promise<Bridge[]> {
+async function readBridges(client: MudrixClient, roomId: string): Promise<Bridge[]> {
   const byKey = new Map<string, Bridge>();
   for (const type of BRIDGE_EVENT_TYPES) {
     const events = await client.stateEventsOfType(roomId, type).catch(() => []);

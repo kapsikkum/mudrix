@@ -8,7 +8,7 @@ import {
   PencilSimpleIcon,
   UploadSimpleIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { useToast } from '@/app/hooks/useToast';
 import { useCanSendState } from '@/app/hooks/useCanSendState';
@@ -85,7 +85,7 @@ function isMeaningfulPackContent(content: Record<string, unknown> | undefined): 
 }
 
 async function readRoomPackContents(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string
 ): Promise<Map<string, Record<string, unknown>[]>> {
   const byStateKey = new Map<string, Record<string, unknown>[]>();
@@ -173,7 +173,7 @@ function parsePacks(packEvents: Map<string, Record<string, unknown>[]>): PackDat
 }
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   /** Which packs this page manages (emoji and stickers unless told otherwise). */
   scope?: Scope;

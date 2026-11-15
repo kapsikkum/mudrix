@@ -103,7 +103,7 @@ final class CallManager: NSObject, ObservableObject {
     private var incomingWatch: Subscription?
     private var members: [CallMember] = []
     private var mutedBeforeDeafen = false
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var keyProvider: BaseKeyProvider?
     private var connections: [String: LiveKit.Room] = [:]
     private var pendingServices: Set<String> = []
@@ -778,7 +778,7 @@ extension CallManager {
         ringback = nil
     }
 
-    func watchIncoming(_ client: WizardClient, session: MatrixSession, onMissedCall: @escaping (IncomingCall) -> Void) {
+    func watchIncoming(_ client: MudrixClient, session: MatrixSession, onMissedCall: @escaping (IncomingCall) -> Void) {
         appSession = session
         self.onMissedCall = onMissedCall
         incomingWatch?.cancel()

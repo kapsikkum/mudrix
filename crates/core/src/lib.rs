@@ -1,7 +1,7 @@
 //! Mudrix's client core.
 //!
 //! Everything a Mudrix app needs that isn't UI: signing in, syncing, the room list and room
-//! timelines, built on matrix-rust-sdk. Apps talk to it only through [`WizardClient`] and get
+//! timelines, built on matrix-rust-sdk. Apps talk to it only through [`MudrixClient`] and get
 //! state pushed to them as [`ListDiff`]s of plain, serialisable view models, so the same core can
 //! sit behind the web app (wasm), desktop (Tauri), iOS (SwiftUI) and Android (Compose).
 
@@ -59,7 +59,7 @@ pub use calls::{
     CallEvent, CallMember, CallSession, IncomingCall, IncomingCallEvent, RingEnd, SfuConfig,
 };
 pub use client::{sniff_mime_type, LoadState};
-pub use client::{SyncState, WizardClient};
+pub use client::{MudrixClient, SyncState};
 pub use content::{EntryContent, MediaInfo, PollAnswerView, PollView, ReplyPreview};
 pub use custom_state::{mudrix_state_types, StateEventView};
 pub use delayed_events::DelayedEvent;

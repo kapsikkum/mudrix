@@ -116,7 +116,7 @@ fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss:
         }
     }
 
-    fun save(action: suspend (client: chat.mudrix.core.WizardClient, board: List<SoundboardSound>) -> List<SoundboardSound>) {
+    fun save(action: suspend (client: chat.mudrix.core.MudrixClient, board: List<SoundboardSound>) -> List<SoundboardSound>) {
         val client = session.client ?: return
         val me = session.userId.orEmpty()
         scope.launch {

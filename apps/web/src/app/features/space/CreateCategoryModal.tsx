@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { StackIcon } from '@phosphor-icons/react';
 import { createCategoryOpenAtom } from '@/app/store/atoms';
 import { getMatrixClient } from '@/client/initMatrix';
@@ -19,7 +19,7 @@ import * as css from './CreateSpaceModal.css';
  * listed to keep their power; from 12 the creator has it already and must not be listed.
  */
 async function staffOf(
-  client: WizardClient,
+  client: MudrixClient,
   parentSpaceId: string
 ): Promise<Record<string, number>> {
   const me = client.userId() ?? '';

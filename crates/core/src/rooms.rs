@@ -34,7 +34,7 @@ use matrix_sdk_ui::room_list_service::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::{Error, ListDiff, Result, WizardClient};
+use crate::{Error, ListDiff, MudrixClient, Result};
 use matrix_sdk::notification_settings::RoomNotificationMode;
 use matrix_sdk_base::RoomInfoNotableUpdateReasons;
 
@@ -329,7 +329,7 @@ pub(crate) fn parse_user_id(id: &str) -> Result<&UserId> {
     <&UserId>::try_from(id).map_err(|e| Error::InvalidId(e.to_string()))
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub(crate) fn room(&self, room_id: &str) -> Result<Room> {
         let id = parse_room_id(room_id)?;
         self.sdk()
@@ -1349,7 +1349,7 @@ pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     extras
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The unread messages in a room that mention the user, newest first (from the loaded
     /// events; nothing for muted rooms).
     pub async fn unread_mentions(&self, room_id: &str, limit: u32) -> Result<Vec<UnreadMention>> {
@@ -1383,7 +1383,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Calls `on_update` with every room's account data of one type (`[roomId, content]`
     /// pairs) now and whenever one of them changes, e.g. the favourite tag orders in `m.tag`.
     pub async fn watch_room_account_data(

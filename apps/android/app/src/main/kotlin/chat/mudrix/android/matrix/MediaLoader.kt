@@ -21,10 +21,10 @@ import kotlinx.serialization.json.jsonPrimitive
 import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.DownloadProgress
 import chat.mudrix.core.MediaSource
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Downloads (and decrypts) media through the core and keeps decoded images in memory */
-class MediaLoader(val client: WizardClient) {
+class MediaLoader(val client: MudrixClient) {
     private val cache = object : LruCache<String, Bitmap>(64 * 1024 * 1024) {
         override fun sizeOf(key: String, value: Bitmap) = value.byteCount
     }
@@ -95,7 +95,7 @@ class MediaLoader(val client: WizardClient) {
         return file
     }
 
-    private suspend fun load(key: String, maxSide: Int = MAX_FULL_SIDE, fetch: suspend (WizardClient) -> ByteArray): Bitmap? {
+    private suspend fun load(key: String, maxSide: Int = MAX_FULL_SIDE, fetch: suspend (MudrixClient) -> ByteArray): Bitmap? {
         cache.get(key)?.let { return it }
         inFlight[key]?.let { return it.await() }
         val deferred = CompletableDeferred<Bitmap?>()

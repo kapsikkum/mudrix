@@ -92,7 +92,7 @@ final class MudrixRoomStates: ObservableObject {
     private var slots: [String: Slot] = [:]
     private var queue: [String] = []
     private var running = 0
-    private var client: WizardClient?
+    private var client: MudrixClient?
     private var subscription: Subscription?
     private let fetched = MudrixTypes.roomState.flatMap { MudrixTypes.typeAndLegacy($0) }
     private let relevant: Set<String>
@@ -101,7 +101,7 @@ final class MudrixRoomStates: ObservableObject {
         relevant = Set(MudrixTypes.roomState.flatMap { MudrixTypes.typeAndLegacy($0) } + ["m.room.power_levels"])
     }
 
-    func start(client: WizardClient) {
+    func start(client: MudrixClient) {
         stop()
         self.client = client
         subscription = client.watchStateChanges { [weak self] change in
@@ -165,7 +165,7 @@ final class MudrixRoomStates: ObservableObject {
     }
 
     /// Sets a Mudrix state event under its current name and shows the change at once
-    func set(client: WizardClient, roomId: String, type: String, content: JSONValue, stateKey: String = "") async throws {
+    func set(client: MudrixClient, roomId: String, type: String, content: JSONValue, stateKey: String = "") async throws {
         try await client.setStateEvent(roomId: roomId, eventType: type, stateKey: stateKey, content: content)
         let current = states[roomId]
         var kept: [MudrixRoomState.Entry] = []

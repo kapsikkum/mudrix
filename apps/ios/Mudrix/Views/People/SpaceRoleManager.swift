@@ -65,7 +65,7 @@ final class SpaceRoleManager: ObservableObject {
     }
 
     /// Writes the roles one person holds (their state key is their user id without the `@`)
-    static func saveMemberRoles(client: WizardClient, spaceId: String, userId: String, roleIds: [String]) async throws {
+    static func saveMemberRoles(client: MudrixClient, spaceId: String, userId: String, roleIds: [String]) async throws {
         let ids = roleIds.prefix(SpaceModern.maxRolesPerMember).map { JSONValue.string($0) }
         let content: JSONValue = .object(["roles": .array(ids)])
         try await MudrixRoomStates.shared.set(

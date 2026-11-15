@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useAllRooms } from '@/app/data';
 import { pendingEventJumpAtom } from '@/app/store/atoms';
 import { useSyncReady } from '@/app/hooks/useSync';
@@ -29,7 +29,7 @@ const TOAST_MS = 20_000;
  * device repeats it. Reminders that came due while the app was closed are delivered at start-up.
  * It also keeps `remindersAtom` (the list in Settings > Notifications) current; mount it once.
  */
-export function useReminderDelivery(client: WizardClient | null): void {
+export function useReminderDelivery(client: MudrixClient | null): void {
   const { t } = useTranslation();
   const toast = useToast();
   const navigate = useNavigate();

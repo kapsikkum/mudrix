@@ -1,4 +1,4 @@
-import { WizardClient, type LoginIdentifier, type PendingLogin } from '@mudrix/core';
+import { MudrixClient, type LoginIdentifier, type PendingLogin } from '@mudrix/core';
 import { setStoredUserId } from '@/const/accountStorage';
 import {
   DEVICE_NAME,
@@ -27,7 +27,7 @@ export { DEVICE_NAME, appInfo, loadCore };
 const SESSION_END_TIMEOUT_MS = 3000;
 const LOGOUT_TIMEOUT_MS = 10_000;
 
-let client: WizardClient | null = null;
+let client: MudrixClient | null = null;
 const sessionEndHandlers = new Set<() => Promise<void> | void>();
 const subscriptions: { cancel(): void }[] = [];
 const invalidHandlers = new Set<(softLogout: boolean) => void>();
@@ -67,12 +67,12 @@ async function endSession() {
   client = null;
 }
 
-export function getMatrixClient(): WizardClient {
+export function getMatrixClient(): MudrixClient {
   if (!client) throw new Error('Not signed in');
   return client;
 }
 
-export function getMatrixClientOrNull(): WizardClient | null {
+export function getMatrixClientOrNull(): MudrixClient | null {
   return client;
 }
 
@@ -88,7 +88,7 @@ export function loadCredentials(): MatrixCredentials | null {
 }
 
 /** Calls `onLoaded` once the account's data can be shown: stored from before, or synced */
-function whenLoaded(loaded: WizardClient, onLoaded: () => void) {
+function whenLoaded(loaded: MudrixClient, onLoaded: () => void) {
   let done = false;
   const subscription = loaded.watchLoadState((state) => {
     if (done || state === 'loading') return;
@@ -106,7 +106,7 @@ function whenLoaded(loaded: WizardClient, onLoaded: () => void) {
 export async function resume(
   credentials: MatrixCredentials,
   onFirstSync?: () => void
-): Promise<WizardClient> {
+): Promise<MudrixClient> {
   await loadCore();
   if (resuming?.userId !== credentials.userId && client?.userId() === credentials.userId) {
     if (onFirstSync) whenLoaded(client, onFirstSync);
@@ -123,18 +123,18 @@ export async function resume(
   return restored;
 }
 
-let resuming: { userId: string; client: Promise<WizardClient> } | null = null;
+let resuming: { userId: string; client: Promise<MudrixClient> } | null = null;
 
 /** Another tab refreshed the tokens: newer than what this client uses */
-function storedSessionIsNewer(current: WizardClient): boolean {
+function storedSessionIsNewer(current: MudrixClient): boolean {
   const userId = current.userId();
   const stored = userId ? storedAccount(userId) : null;
   return !!stored && stored.session.accessToken !== current.session().accessToken;
 }
 
-async function restore(credentials: MatrixCredentials): Promise<WizardClient> {
+async function restore(credentials: MatrixCredentials): Promise<MudrixClient> {
   if (client) await endSession();
-  const restored = await WizardClient.restore(credentials.session, {
+  const restored = await MudrixClient.restore(credentials.session, {
     ...credentials.store,
     manualEncryptionSetup: true,
   });
@@ -192,7 +192,7 @@ export async function register(
   await loadCore();
   const store = newStoreConfig();
   try {
-    const created = await WizardClient.register(
+    const created = await MudrixClient.register(
       server,
       username,
       password,
@@ -255,7 +255,7 @@ export async function logout(fallbackUserId?: string | null): Promise<void> {
     current.free();
   } else if (stored) {
     await loadCore();
-    await WizardClient.logoutSession(stored.session).catch(() => {});
+    await MudrixClient.logoutSession(stored.session).catch(() => {});
   }
 
   if (!userId) return;

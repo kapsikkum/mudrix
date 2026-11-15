@@ -4,7 +4,7 @@ import type {
   TimelineEntry,
   TimelineKind,
   TypingUser,
-  WizardClient,
+  MudrixClient,
 } from '@mudrix/core';
 import { applyDiffs } from './listDiff';
 
@@ -13,7 +13,7 @@ const MAIN: TimelineKind = { type: 'main' };
 
 /** The live timeline of a room (or one of its threads, or its pinned messages) */
 export function useTimeline(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   kind: TimelineKind = MAIN,
   enabled = true

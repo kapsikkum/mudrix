@@ -36,11 +36,11 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.Widget
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 @Composable
-internal fun RoomWidgetsScreen(roomId: String, client: WizardClient, canManage: Boolean, onBack: () -> Unit) {
+internal fun RoomWidgetsScreen(roomId: String, client: MudrixClient, canManage: Boolean, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
     val dark = theme.isDark

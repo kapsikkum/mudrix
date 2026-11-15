@@ -43,7 +43,7 @@ final class MatrixSession: ObservableObject {
         var id: String { userId }
     }
 
-    private(set) var client: WizardClient?
+    private(set) var client: MudrixClient?
     private(set) var roomList: RoomListModel?
     private(set) var media: MediaLoader?
     private var stored: StoredSession?
@@ -59,7 +59,7 @@ final class MatrixSession: ObservableObject {
     static let callbackScheme = "org.wizardchat"
     static let app = AppInfo(name: "Mudrix", clientUri: "https://github.com/kapsikkum/mudrix")
 
-    var requireClient: WizardClient {
+    var requireClient: MudrixClient {
         get throws {
             guard let client else { throw WizardError.notSignedIn }
             return client
@@ -77,7 +77,7 @@ final class MatrixSession: ObservableObject {
         reloadAccounts()
         while let stored = SessionStore.active() {
             do {
-                let client = try await WizardClient.restore(session: stored.session, store: stored.store)
+                let client = try await MudrixClient.restore(session: stored.session, store: stored.store)
                 SessionStore.setActive(stored.session.userId)
                 start(client, stored: stored)
                 return
@@ -124,13 +124,13 @@ final class MatrixSession: ObservableObject {
     }
 
     func discover(_ server: String) async throws -> ServerInfo {
-        try await WizardClient.discover(server: server)
+        try await MudrixClient.discover(server: server)
     }
 
     func login(server: String, identifier: LoginIdentifier, password: String) async throws {
         let (folder, store) = StoredSession.newStore()
         do {
-            let client = try await WizardClient.loginPassword(
+            let client = try await MudrixClient.loginPassword(
                 server: server, identifier: identifier, password: password,
                 deviceName: Self.deviceName, store: store
             )
@@ -144,7 +144,7 @@ final class MatrixSession: ObservableObject {
     func register(server: String, username: String, password: String) async throws {
         let (folder, store) = StoredSession.newStore()
         do {
-            let client = try await WizardClient.register(
+            let client = try await MudrixClient.register(
                 server: server, username: username, password: password,
                 deviceName: Self.deviceName, token: nil, store: store
             )
@@ -159,7 +159,7 @@ final class MatrixSession: ObservableObject {
                      listener: @escaping @Sendable (QrLoginStatus) -> Void) async throws {
         let (folder, store) = StoredSession.newStore()
         do {
-            let client = try await WizardClient.loginWithQr(server: server, store: store, app: Self.app, scanned: scanned,
+            let client = try await MudrixClient.loginWithQr(server: server, store: store, app: Self.app, scanned: scanned,
                                                             control: control, listener: listener)
             await remember(client, folder: folder, store: store)
         } catch {
@@ -175,9 +175,9 @@ final class MatrixSession: ObservableObject {
         do {
             let login: PendingLogin
             if let sso {
-                login = try await WizardClient.startSsoLogin(server: server, store: store, redirectUri: redirect, idpId: sso.id)
+                login = try await MudrixClient.startSsoLogin(server: server, store: store, redirectUri: redirect, idpId: sso.id)
             } else {
-                login = try await WizardClient.startOAuthLogin(
+                login = try await MudrixClient.startOAuthLogin(
                     server: server, store: store, redirectUri: redirect, app: Self.app, createAccount: createAccount
                 )
             }
@@ -348,7 +348,7 @@ final class MatrixSession: ObservableObject {
         showCustomStatus(profile.customStatus)
     }
 
-    private func remember(_ client: WizardClient, folder: String, store: StoreConfig) async {
+    private func remember(_ client: MudrixClient, folder: String, store: StoreConfig) async {
         let stored = StoredSession(session: client.session, storeFolder: folder, passphrase: store.passphrase ?? "")
         await close()
         let replaced = SessionStore.all().first { $0.session.userId == stored.session.userId }
@@ -382,7 +382,7 @@ final class MatrixSession: ObservableObject {
         try? await client?.stopSync()
     }
 
-    private func start(_ client: WizardClient, stored: StoredSession) {
+    private func start(_ client: MudrixClient, stored: StoredSession) {
         self.client = client
         self.stored = stored
         userId = client.userId

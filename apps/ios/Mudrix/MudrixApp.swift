@@ -191,7 +191,7 @@ struct MudrixApp: App {
 
 private struct ThemedRoot<Content: View>: View {
     @ObservedObject var prefs: AppPreferences
-    @ViewBuilder let content: (WizardTheme) -> Content
+    @ViewBuilder let content: (MudrixTheme) -> Content
     @Environment(\.colorScheme) private var systemScheme
 
     var body: some View {

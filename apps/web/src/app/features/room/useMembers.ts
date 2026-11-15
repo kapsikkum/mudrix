@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import type { Member, MemberEntry as CoreMemberEntry, WizardClient } from '@mudrix/core';
+import type { Member, MemberEntry as CoreMemberEntry, MudrixClient } from '@mudrix/core';
 import { presenceMapAtom } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
 import { useMembers as useCoreMembers, useMembersIn } from '@/app/data';
@@ -39,7 +39,7 @@ function fromEntry(
   };
 }
 
-export function useMembers(_client: WizardClient | null, roomId: string | null) {
+export function useMembers(_client: MudrixClient | null, roomId: string | null) {
   const presenceMap = useAtomValue(presenceMapAtom);
   const { data, isLoading } = useCoreMembers(roomId);
 
@@ -55,7 +55,7 @@ export function useMembers(_client: WizardClient | null, roomId: string | null) 
   return { members, loading: isLoading };
 }
 
-export function useKnockRequests(_client: WizardClient | null, roomId: string | null) {
+export function useKnockRequests(_client: MudrixClient | null, roomId: string | null) {
   const presenceMap = useAtomValue(presenceMapAtom);
   const { data, isLoading } = useMembersIn(roomId, 'knock');
   const knockRequests = useMemo(
@@ -65,7 +65,7 @@ export function useKnockRequests(_client: WizardClient | null, roomId: string | 
   return { knockRequests, loading: isLoading };
 }
 
-export function useBannedMembers(_client: WizardClient | null, roomId: string | null) {
+export function useBannedMembers(_client: MudrixClient | null, roomId: string | null) {
   const presenceMap = useAtomValue(presenceMapAtom);
   const { data, isLoading } = useMembersIn(roomId, 'ban');
   const bannedMembers = useMemo(

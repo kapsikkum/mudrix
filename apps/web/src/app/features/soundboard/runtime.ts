@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@mudrix/core';
+import type { SpaceNode, MudrixClient } from '@mudrix/core';
 import { DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { STORAGE_KEY_PREFERENCES } from '@/const/storageKeys';
 import type { SoundboardPlayContent } from './types';
@@ -18,7 +18,7 @@ export interface SoundboardRuntime {
   /** The room of the call we are connected to, or null. */
   callRoomId: string | null;
   setMutedUsers: ((ids: string[]) => void) | null;
-  client: WizardClient | null;
+  client: MudrixClient | null;
   /** Spaces and their rooms, to find the spaces whose boards apply in a room. */
   spaceGraph: SpaceNode[];
   /** Tells the rest of the call about a press; null outside a call. */

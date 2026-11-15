@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom, useSetAtom, useStore } from 'jotai';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import {
   PlusIcon,
@@ -68,7 +68,7 @@ import * as css from './SpaceOverview.css';
 
 const SPACE_CHILD = 'm.space.child';
 
-function joinVia(client: WizardClient, roomId: string, viaServers: string[]) {
+function joinVia(client: MudrixClient, roomId: string, viaServers: string[]) {
   return client.join(roomId, viaServers.length > 0 ? viaServers : null);
 }
 

@@ -7,7 +7,7 @@ use matrix_sdk::ruma::{
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Map, Value};
 
-use crate::{rooms::parse_user_id, Error, Result, WizardClient};
+use crate::{rooms::parse_user_id, Error, MudrixClient, Result};
 
 /// The custom status, stored as an extended profile field (MSC4133)
 pub const STATUS_FIELD: &str = "io.github.kapsikkum.mudrix.status";
@@ -148,7 +148,7 @@ fn presence_of(state: &PresenceState) -> Presence {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn presence(&self, user_id: &str) -> Option<PresenceInfo> {
         let user_id = parse_user_id(user_id).ok()?.to_owned();
         let response = self

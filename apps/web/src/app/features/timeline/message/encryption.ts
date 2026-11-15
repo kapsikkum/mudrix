@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WizardClient } from '@mudrix/core';
+import { MudrixClient } from '@mudrix/core';
 import type { DownloadProgress, MediaInfo, MediaSource } from '@mudrix/core';
 import { useSyncState } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
@@ -93,7 +93,7 @@ async function storeDecrypted(target: MediaTarget, bytes: Uint8Array): Promise<s
 }
 
 async function resolveEncrypted(
-  client: WizardClient,
+  client: MudrixClient,
   target: MediaTarget,
   timeoutMs = DOWNLOAD_TIMEOUT_MS
 ): Promise<string> {
@@ -112,7 +112,7 @@ interface ProgressOptions {
 
 /** Like `resolveEncrypted` for a video the user asked for: progress, cancel, stall timeout. */
 async function resolveEncryptedWithProgress(
-  client: WizardClient,
+  client: MudrixClient,
   target: MediaTarget,
   options: ProgressOptions
 ): Promise<string> {
@@ -123,7 +123,7 @@ async function resolveEncryptedWithProgress(
 
 /** The same for an unencrypted video, kept in the in-memory cache under its `mxc://` key. */
 async function resolvePlainWithProgress(
-  client: WizardClient,
+  client: MudrixClient,
   mxcUrl: string,
   mimeType: string | undefined,
   options: ProgressOptions
@@ -132,7 +132,7 @@ async function resolvePlainWithProgress(
   const cached = getCachedBlobUrl(key);
   if (cached) return cached;
   const bytes = await downloadMedia(client, { url: mxcUrl }, options);
-  const sniffed = await WizardClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null);
+  const sniffed = await MudrixClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null);
   // Never trust a declared type: only known-safe ones reach the blob
   const type = getSafeMimeType(sniffed ?? mimeType ?? '');
   const blobUrl = URL.createObjectURL(new Blob([bytes as BlobPart], { type }));
@@ -142,7 +142,7 @@ async function resolvePlainWithProgress(
 
 export function useDecryptedMedia(
   event: EventEntry,
-  client: WizardClient,
+  client: MudrixClient,
   enabled = true,
   showErrors = true
 ): {

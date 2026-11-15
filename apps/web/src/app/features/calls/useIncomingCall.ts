@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { IncomingCall as CoreIncomingCall, WizardClient } from '@mudrix/core';
+import type { IncomingCall as CoreIncomingCall, MudrixClient } from '@mudrix/core';
 import { roomsByIdAtom } from '@/app/data';
 import { callActionsAtom, callUiAtom, type IncomingCall } from '@/app/store/atoms/call';
 import { notificationBannersAtom } from '@/app/store/atoms/settings';
@@ -11,7 +11,7 @@ import { loopSoundKind } from '@/util/notificationSounds';
 
 const ringTag = (roomId: string) => `ring:${roomId}`;
 
-export function useIncomingCall(client: WizardClient | null) {
+export function useIncomingCall(client: MudrixClient | null) {
   const { t } = useTranslation();
   const store = useStore();
   const setUi = useSetAtom(callUiAtom);

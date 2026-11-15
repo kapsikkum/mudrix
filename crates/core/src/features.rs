@@ -26,7 +26,7 @@ use matrix_sdk_crypto::store::types::RoomKeyInfo;
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{rooms::parse_room_id, Error, Result, WizardClient};
+use crate::{rooms::parse_room_id, Error, MudrixClient, Result};
 
 /// A message found by search
 #[derive(Clone, Debug, Serialize)]
@@ -161,7 +161,7 @@ fn parse_pack(id: String, room_id: Option<String>, content: &Value) -> Option<Em
 
 /// A room's current state from the server, as JSON. Sliding sync only keeps the state the
 /// room list asks for, so packs and space parents aren't in the local store.
-async fn room_state(client: &WizardClient, room_id: &str) -> Vec<Value> {
+async fn room_state(client: &MudrixClient, room_id: &str) -> Vec<Value> {
     let Ok(room_id) = parse_room_id(room_id) else {
         return Vec::new();
     };
@@ -224,7 +224,7 @@ fn canonical_parents(state: &[Value]) -> Vec<String> {
         .collect()
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Searches messages on the server. Encrypted rooms can't be searched this way.
     pub async fn search_messages(
         &self,
@@ -443,7 +443,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The server's notification history, newest first, read or not (`GET /notifications`).
     /// `highlights` keeps only the mentions and keywords. Unlike the room counts, this does not
     /// need the messages to be loaded locally.

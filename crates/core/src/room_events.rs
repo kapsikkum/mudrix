@@ -10,7 +10,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{Result, WizardClient};
+use crate::{MudrixClient, Result};
 
 /// The most events one `roomEvents` call asks the server for
 const MAX_PAGE: u32 = 100;
@@ -72,7 +72,7 @@ fn room_event(room_id: &str, event: &Value, types: &HashSet<String>) -> Option<R
     })
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// A page of the room's message-like events of one of `types`, newest first, read from the
     /// server and decrypted when the room is encrypted (events this device can't decrypt are
     /// left out). Starts at the newest event, or at `from` (the `next` of an earlier page).

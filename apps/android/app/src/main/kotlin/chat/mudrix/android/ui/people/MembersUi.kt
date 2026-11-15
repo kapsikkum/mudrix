@@ -641,7 +641,7 @@ internal data class RoleRights(val ownLevel: Long, val canEditLevels: Boolean) {
     fun canAssign(level: Long) = canEditLevels && level <= ownLevel
 
     companion object {
-        suspend fun load(client: chat.mudrix.core.WizardClient?, roomId: String): RoleRights {
+        suspend fun load(client: chat.mudrix.core.MudrixClient?, roomId: String): RoleRights {
             val details = runCatching { client?.roomDetails(roomId) }.getOrNull() ?: return RoleRights(0, false)
             return RoleRights(details.ownPowerLevel ?: Long.MAX_VALUE, details.permissions.changePermissions)
         }

@@ -1,4 +1,4 @@
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { ROOM_PACK_TYPES } from '@/app/features/settings/emojis/imagePackTypes';
 import { getImageDimensions } from '@/app/features/timeline/encryptedMedia';
 import { probeIsAnimated } from '@/app/features/timeline/utils/imageAnimation';
@@ -142,7 +142,7 @@ export async function withRateLimitRetry<T>(
  * Returns the number of events actually sent.
  */
 export async function sendPackStateEvents(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   stateKey: string,
   content: Record<string, unknown>,
@@ -162,7 +162,7 @@ export async function sendPackStateEvents(
 
 /** Uploads one file and reads what the event needs to know about it. */
 export async function uploadPackFile(
-  client: WizardClient,
+  client: MudrixClient,
   file: File,
   signal?: AbortSignal
 ): Promise<UploadedImage> {

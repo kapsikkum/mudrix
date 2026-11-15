@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Trans, useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import {
   BellRingingIcon,
   CameraIcon,
@@ -148,7 +148,7 @@ function Panel({
 }
 
 /** The Home tab once signed in: a dashboard of what needs you, what is going on, and the way in. */
-export function HomeWelcome({ client }: { client: WizardClient }) {
+export function HomeWelcome({ client }: { client: MudrixClient }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const setNewDmOpen = useSetAtom(newDmOpenAtom);

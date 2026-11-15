@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import { QrLoginControl, WizardClient } from '@mudrix/core';
+import { QrLoginControl, MudrixClient } from '@mudrix/core';
 import { QrCodeIcon } from '@phosphor-icons/react';
 import { credentialsAtom } from '@/app/store/atoms';
 import { Modal } from '@/app/components/Modal';
@@ -54,7 +54,7 @@ export function SignInWithQrModal({
     const store = newStoreConfig();
     (async () => {
       await loadCore();
-      const client = await WizardClient.loginWithQr(
+      const client = await MudrixClient.loginWithQr(
         serverUrl,
         store,
         appInfo(),

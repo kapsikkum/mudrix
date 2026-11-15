@@ -16,7 +16,7 @@ import {
   type ScreenShareCaptureOptions,
 } from 'livekit-client';
 import E2EEWorker from 'livekit-client/e2ee-worker?worker';
-import type { CallEvent, CallMember, CallSession, Subscription, WizardClient } from '@mudrix/core';
+import type { CallEvent, CallMember, CallSession, Subscription, MudrixClient } from '@mudrix/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
 import { mudrixKey, upstreamKey } from '@/util/namespace';
@@ -284,7 +284,7 @@ export class CallMedia {
   } | null = null;
 
   constructor(
-    private readonly client: WizardClient,
+    private readonly client: MudrixClient,
     readonly roomId: string
   ) {
     this.snapshot = {

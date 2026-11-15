@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 
 /**
  * The content of the first of `types` the account has data for, kept current. Lists that moved
  * to a new name read the older names as a fallback, so nothing people stored is lost.
  */
 export function useFirstAccountData(
-  client: WizardClient | null | undefined,
+  client: MudrixClient | null | undefined,
   types: readonly string[]
 ): unknown {
   const key = types.join('\n');
@@ -36,7 +36,7 @@ export function useFirstAccountData(
  * another device is not overwritten with a stale list.
  */
 export async function readFirstAccountData(
-  client: WizardClient,
+  client: MudrixClient,
   types: readonly string[]
 ): Promise<unknown> {
   for (const type of types) {

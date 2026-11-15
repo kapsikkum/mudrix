@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import chat.mudrix.android.ui.L10n
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** How loudly a group of push rules notifies */
 enum class NotifLevel {
@@ -74,7 +74,7 @@ class PushRules(json: JsonElement) {
         get() = global["content"].orEmpty().mapNotNull { it.field("rule_id")?.string }.filter { !it.startsWith(".") }
 
     /** Mention rules keep their highlight; the rest only change sound */
-    suspend fun setLevel(level: NotifLevel, rules: List<ManagedRule>, client: WizardClient) {
+    suspend fun setLevel(level: NotifLevel, rules: List<ManagedRule>, client: MudrixClient) {
         for (managed in rules) {
             val rule = rule(managed) ?: continue
             val highlight = hasTweak("highlight", rule["actions"])

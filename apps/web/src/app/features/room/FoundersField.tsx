@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { XIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { IconButton } from '@/app/components/Button';

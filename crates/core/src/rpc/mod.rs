@@ -246,7 +246,7 @@ impl Rpc {
         }
         self.0.cancelled.lock().unwrap().clear();
         for object in objects {
-            if let Some(client) = downcast::<crate::WizardClient>(object) {
+            if let Some(client) = downcast::<crate::MudrixClient>(object) {
                 spawn(async move { client.stop_sync().await });
             }
         }

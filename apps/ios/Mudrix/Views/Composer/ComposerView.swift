@@ -930,7 +930,7 @@ struct ComposerView: View {
     /// Builds HTML only when the message has custom emoji or mentions (otherwise the core turns
     /// the Markdown into HTML); its Markdown is rendered first so formatting isn't lost.
     static func richHtml(_ text: String, emotes: [String: PackImage], mentions: [String: String],
-                         client: WizardClient?, roomLinks: [String: String] = [:]) async -> String? {
+                         client: MudrixClient?, roomLinks: [String: String] = [:]) async -> String? {
         let usedEmotes = emotes.filter { text.contains(":\($0.key):") }
         let usedMentions = mentions.filter { text.contains($0.key) }
         let usedRooms = roomLinks.filter { text.contains($0.key) }

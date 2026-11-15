@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
 import { accountStorageKey } from '@/const/accountStorage';
 import { useAccountData, useSyncReady } from '@/app/data';
@@ -39,13 +39,13 @@ function readLegacyFavourites(): string[] {
   }
 }
 
-function writeFavourites(client: WizardClient, urls: string[]): Promise<void> {
+function writeFavourites(client: MudrixClient, urls: string[]): Promise<void> {
   return client.setAccountData(GIF_FAVOURITES_ACCOUNT_DATA, {
     urls: urls.slice(0, GIF_FAVOURITES_CAP),
   });
 }
 
-export function useGifFavourites(client: WizardClient | null | undefined): {
+export function useGifFavourites(client: MudrixClient | null | undefined): {
   favourites: string[];
   toggleFavourite: (url: string) => void;
 } {

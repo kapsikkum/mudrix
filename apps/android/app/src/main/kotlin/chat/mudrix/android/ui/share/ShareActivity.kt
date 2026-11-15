@@ -71,7 +71,7 @@ import chat.mudrix.android.ui.PhWeight
 import chat.mudrix.android.ui.RowDivider
 import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardTextField
-import chat.mudrix.android.ui.theme.WizardThemeRoot
+import chat.mudrix.android.ui.theme.MudrixThemeRoot
 import chat.mudrix.android.ui.theme.rememberAppTheme
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -98,7 +98,7 @@ class ShareActivity : ComponentActivity() {
         lifecycleScope.launch { load(intent) }
         setContent {
             CompositionLocalProvider(LocalSession provides app.session, LocalPrefs provides app.prefs) {
-                WizardThemeRoot(rememberAppTheme(app.prefs)) {
+                MudrixThemeRoot(rememberAppTheme(app.prefs)) {
                     CompositionLocalProvider(LocalMedia provides app.session.media) {
                         ShareScreen(
                             files.size,

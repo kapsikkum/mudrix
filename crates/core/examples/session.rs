@@ -13,7 +13,7 @@ use std::{sync::Arc, time::Duration};
 
 use base64::Engine;
 use mudrix_core::{
-    sniff_mime_type, Error, LoadState, UiaAuth, UiaOutcome, VerificationStatus, WizardClient,
+    sniff_mime_type, Error, LoadState, MudrixClient, UiaAuth, UiaOutcome, VerificationStatus,
 };
 use tokio::sync::mpsc;
 
@@ -23,7 +23,7 @@ const EXAMPLE: &str = "session";
 const PNG: &str = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==";
 
 /// Collects load states until `Synced` (or a timeout)
-async fn load_states(client: Arc<WizardClient>) -> Result<Vec<LoadState>, BoxError> {
+async fn load_states(client: Arc<MudrixClient>) -> Result<Vec<LoadState>, BoxError> {
     let (tx, mut rx) = mpsc::unbounded_channel();
     let watcher = tokio::spawn(async move {
         let _ = client
@@ -52,13 +52,13 @@ async fn main() -> Result<(), BoxError> {
     }
     let server = common::server();
 
-    let info = WizardClient::discover(&server).await?;
+    let info = MudrixClient::discover(&server).await?;
     assert!(info.password, "the test server offers password sign-in");
-    match WizardClient::discover("http://127.0.0.1:9").await {
+    match MudrixClient::discover("http://127.0.0.1:9").await {
         Err(Error::Homeserver(_)) => println!("an unreachable server is reported as such"),
         other => return Err(format!("unexpected discovery result: {other:?}").into()),
     }
-    let signup = WizardClient::sign_up_info(&server).await?;
+    let signup = MudrixClient::sign_up_info(&server).await?;
     println!(
         "registration open: {}, flows {:?}",
         signup.enabled, signup.flows
@@ -66,7 +66,7 @@ async fn main() -> Result<(), BoxError> {
 
     let stamp = std::process::id();
     let (username, password) = (format!("wzsess{stamp}"), format!("pw-{stamp}-session"));
-    let (created, session) = WizardClient::create_account(
+    let (created, session) = MudrixClient::create_account(
         &server,
         &username,
         &password,
@@ -82,7 +82,7 @@ async fn main() -> Result<(), BoxError> {
     drop(created);
 
     // A fresh sign-in has nothing stored: loading until the server answers
-    let a = Arc::new(WizardClient::restore(session.clone(), common::store(EXAMPLE, "a")).await?);
+    let a = Arc::new(MudrixClient::restore(session.clone(), common::store(EXAMPLE, "a")).await?);
     a.start_sync().await?;
     let states = load_states(a.clone()).await?;
     assert_eq!(states.first(), Some(&LoadState::Loading), "{states:?}");
@@ -94,7 +94,7 @@ async fn main() -> Result<(), BoxError> {
     drop(a);
 
     // Restoring the same store shows the stored data right away
-    let a = Arc::new(WizardClient::restore(session.clone(), common::store(EXAMPLE, "a")).await?);
+    let a = Arc::new(MudrixClient::restore(session.clone(), common::store(EXAMPLE, "a")).await?);
     a.start_sync().await?;
     let states = load_states(a.clone()).await?;
     assert_eq!(states.first(), Some(&LoadState::Cached), "{states:?}");
@@ -217,7 +217,7 @@ async fn main() -> Result<(), BoxError> {
     a.cancel_identity_reset();
 
     // A stored session that can't be restored is still signed out on the server
-    let (other, other_session) = WizardClient::login_password(
+    let (other, other_session) = MudrixClient::login_password(
         &server,
         &username,
         &password,
@@ -226,7 +226,7 @@ async fn main() -> Result<(), BoxError> {
     )
     .await?;
     drop(other);
-    WizardClient::logout_session(other_session.clone()).await?;
+    MudrixClient::logout_session(other_session.clone()).await?;
     let devices = a.devices().await?;
     assert!(
         !devices

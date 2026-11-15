@@ -216,7 +216,7 @@ export class Remote {
   /** Called once the handle is known */
   protected adopted() {
     // Refreshed tokens change what `session()` returns
-    if ((this.constructor as RemoteClass).className !== 'WizardClient') return;
+    if ((this.constructor as RemoteClass).className !== 'MudrixClient') return;
     this.sessionWatch = (
       this as unknown as { watchSession(l: Listener): Subscription }
     ).watchSession((event) => {

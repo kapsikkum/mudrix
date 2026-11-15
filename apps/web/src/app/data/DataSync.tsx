@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { applyDiffs } from '@/core/listDiff';
 import { invalidateImagePacks } from '@/app/hooks/useUserPacks';
 import {
@@ -28,7 +28,7 @@ function staleQueries(roomId: string, eventType: string): unknown[][] {
 }
 
 /** Mirrors the core's live room list, spaces, sections and sync state into atoms */
-export function DataSync({ client }: { client: WizardClient }) {
+export function DataSync({ client }: { client: MudrixClient }) {
   const setRooms = useSetAtom(roomsAtom);
   const setSpaces = useSetAtom(spacesAtom);
   const setGraph = useSetAtom(spaceGraphAtom);

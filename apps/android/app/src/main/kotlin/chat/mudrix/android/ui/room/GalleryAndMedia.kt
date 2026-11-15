@@ -97,7 +97,7 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.core.RoomSummary
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 import chat.mudrix.tokens.WZ
 
 @Composable
@@ -370,7 +370,7 @@ private enum class MediaSection(val title: String) {
 /** A room's pictures, videos, files and links */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RoomMediaScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit) {
+fun RoomMediaScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit) {
     var section by remember { mutableStateOf(MediaSection.media) }
     val mediaModel = remember(room.id) {
         TimelineModel(client, room.id, onlyTypes = setOf(ChatEntry.ContentType.image, ChatEntry.ContentType.video))

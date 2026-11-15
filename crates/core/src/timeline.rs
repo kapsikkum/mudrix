@@ -30,7 +30,7 @@ use serde::Serialize;
 
 use crate::{
     content::{content_of, reply_preview, EntryContent, ReplyPreview},
-    Error, ListDiff, Result, WizardClient,
+    Error, ListDiff, MudrixClient, Result,
 };
 
 /// One row of a room's timeline.
@@ -469,7 +469,7 @@ pub enum TimelineKind {
     },
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn timeline(&self, room_id: &str) -> Result<RoomTimeline> {
         self.timeline_of(room_id, TimelineKind::Main).await
     }

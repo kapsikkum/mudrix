@@ -52,7 +52,7 @@ import chat.mudrix.android.ui.cosmetics.CosmeticCatalog.Image as CosmeticImageSo
 import chat.mudrix.android.ui.cosmetics.CosmeticCatalog.NameplateArt
 import chat.mudrix.android.ui.room.AnimatedDrawable
 import chat.mudrix.android.ui.theme.theme
-import chat.mudrix.core.WizardClient
+import chat.mudrix.core.MudrixClient
 
 /** Other people's profiles, asked once per person for a few minutes (one request each) */
 object ProfileCosmeticsCache {
@@ -68,7 +68,7 @@ object ProfileCosmeticsCache {
         entries.remove(userId)
     }
 
-    suspend fun get(client: WizardClient, userId: String): ExtendedProfile? {
+    suspend fun get(client: MudrixClient, userId: String): ExtendedProfile? {
         entries[userId]?.takeIf { System.currentTimeMillis() - it.at < TTL_MS }?.let { return it.profile }
         val request = CompletableDeferred<ExtendedProfile?>()
         val existing = pending.putIfAbsent(userId, request)

@@ -1,7 +1,7 @@
 import { useCallback, type KeyboardEvent, type ClipboardEvent } from 'react';
 import { Slate, Editable, type RenderElementProps, type RenderLeafProps } from 'slate-react';
 import { Element as SlateElement, Node, Text, type Descendant, type NodeEntry } from 'slate';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import type { CustomEditor } from './types';
 import { Element, Leaf, MatrixClientContext } from './Elements';
 import { handleEditorKeyDown } from './keyboard';

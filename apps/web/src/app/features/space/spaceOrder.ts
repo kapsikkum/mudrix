@@ -1,4 +1,4 @@
-import type { RoomSettings, SpaceNode, WizardClient } from '@mudrix/core';
+import type { RoomSettings, SpaceNode, MudrixClient } from '@mudrix/core';
 import { canSendState } from '@/app/data';
 import {
   getSpaceChildOrders,
@@ -15,7 +15,7 @@ export function canOrderSpace(settings: RoomSettings | undefined, userId: string
 
 /** Writes the `order` the children of `space` need to read as `orderedIds`, after `movedId` moved. */
 export function saveSpaceChildrenOrder(
-  client: WizardClient,
+  client: MudrixClient,
   space: SpaceNode | undefined,
   orderedIds: string[],
   movedId: string
@@ -30,7 +30,7 @@ export function saveSpaceChildrenOrder(
  * rewrites the `order` of the children that need it, the way the room list does for a drag.
  */
 export async function placeSpaceChild(
-  client: WizardClient,
+  client: MudrixClient,
   space: SpaceNode | undefined,
   siblingIds: string[],
   childId: string,
@@ -46,7 +46,7 @@ export async function placeSpaceChild(
 
 /** Moves `childId` one place within `siblingIds`. */
 export function moveSpaceChild(
-  client: WizardClient,
+  client: MudrixClient,
   space: SpaceNode | undefined,
   siblingIds: string[],
   childId: string,
@@ -86,7 +86,7 @@ function widensAccess(from: RoomSettings | undefined, to: RoomSettings | undefin
  * and the room's own state is only touched where the user has the power for it.
  */
 export async function moveRoomToCategory(
-  client: WizardClient,
+  client: MudrixClient,
   graph: SpaceNode[],
   roomId: string,
   fromSpaceId: string,

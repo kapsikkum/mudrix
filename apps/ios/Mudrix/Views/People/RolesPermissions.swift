@@ -36,7 +36,7 @@ struct RoleRights {
 
     func canAssign(_ level: Int64) -> Bool { canEditLevels && level <= ownLevel }
 
-    static func load(client: WizardClient?, roomId: String) async -> RoleRights {
+    static func load(client: MudrixClient?, roomId: String) async -> RoleRights {
         guard let details = try? await client?.roomDetails(roomId: roomId) else {
             return RoleRights(ownLevel: 0, canEditLevels: false)
         }

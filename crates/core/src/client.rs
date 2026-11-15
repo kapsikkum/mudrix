@@ -82,7 +82,7 @@ fn has_synced(state: &room_list_service::State) -> bool {
 }
 
 /// A signed-in Matrix account. One per account; apps with several accounts create several.
-pub struct WizardClient {
+pub struct MudrixClient {
     client: Client,
     restored: bool,
     /// The newest tokens another instance on the same store refreshed (another browser tab)
@@ -97,7 +97,7 @@ pub struct WizardClient {
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The SDK client every sign-in path uses: persistent stores, refresh-token handling, and
     /// cross-signing plus key backup set up automatically.
     pub(crate) async fn build_client(server: &str, store: &StoreConfig) -> Result<Client> {

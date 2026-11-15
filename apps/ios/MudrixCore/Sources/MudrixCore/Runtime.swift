@@ -169,8 +169,8 @@ open class Remote: Codable, Hashable, @unchecked Sendable {
         let container = try decoder.container(keyedBy: AnyKey.self)
         handle = try container.decode(UInt64.self, forKey: AnyKey("$handle"))
         props = try container.decodeIfPresent([String: JSONValue].self, forKey: AnyKey("props")) ?? [:]
-        if Self.className == "WizardClient" {
-            session = Runtime.shared.watch("WizardClient.watchSession", this: self, [
+        if Self.className == "MudrixClient" {
+            session = Runtime.shared.watch("MudrixClient.watchSession", this: self, [
                 .listener(JSONValue.self) { [weak self] event in
                     if event["type"] == .string("refreshed"), let session = event["session"] {
                         self?.props["session"] = session

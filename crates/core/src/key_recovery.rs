@@ -8,7 +8,7 @@ use matrix_sdk::event_cache::DecryptionRetryRequest;
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// How far restoring the room keys from the key backup has come
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize)]
@@ -31,7 +31,7 @@ fn session_id_of(event: &Value) -> Option<String> {
         .map(ToOwned::to_owned)
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Fetches the room's keys from the key backup when this device can read it, then makes
     /// the messages that couldn't be decrypted try again. Messages that decrypt show up in the
     /// room's timelines by themselves.

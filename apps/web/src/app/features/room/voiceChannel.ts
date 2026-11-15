@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useSpaceGraph } from '@/app/data';
 import { findParentSpaceId } from '@/util/matrix';
 import { mudrixKey } from '@/util/namespace';
@@ -19,7 +19,7 @@ export function isVoiceChannelFlagged(state: MudrixRoomState | null | undefined)
 }
 
 export function setVoiceChannel(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   enabled: boolean
 ): Promise<void> {

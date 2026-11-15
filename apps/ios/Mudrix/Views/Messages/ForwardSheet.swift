@@ -3,7 +3,7 @@ import MudrixCore
 
 /// "Forward message": picks a room or chat and sends the message there (the sheet of Android's `ui/room/ForwardSheet.kt`).
 struct ForwardSheet: View {
-    let client: WizardClient
+    let client: MudrixClient
     let fromRoomId: String
     let eventId: String
 

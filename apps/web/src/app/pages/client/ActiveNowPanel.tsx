@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
@@ -24,7 +24,7 @@ export function PersonAvatar({
   size = 'xs',
 }: {
   person: ActiveVoicePerson;
-  client: WizardClient;
+  client: MudrixClient;
   size?: 'xs' | 'sm';
 }) {
   const { data: profile } = useProfile(person.known ? null : person.userId);
@@ -39,7 +39,7 @@ export function PersonAvatar({
   );
 }
 
-export function ActiveNowPanel({ client }: { client: WizardClient }) {
+export function ActiveNowPanel({ client }: { client: MudrixClient }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const joinVoiceRoom = useJoinVoiceRoom(client);

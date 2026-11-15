@@ -49,7 +49,7 @@ struct EmojisSettings: View {
                                 Image("ph-plus-regular")
                                     .font(.system(size: WZ.SizeIcon.md))
                                     .frame(width: WZ.Space.space11, height: WZ.Space.space11)
-                                    .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WizardTheme.radiusMd))
+                                    .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: MudrixTheme.radiusMd))
                                 Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.xs))
                             }
                             .foregroundStyle(theme.textMuted)
@@ -236,7 +236,7 @@ private struct PackImageThumb: View {
             }
         }
         .frame(width: WZ.Space.space11, height: WZ.Space.space11)
-        .clipShape(RoundedRectangle(cornerRadius: WizardTheme.radiusSm))
+        .clipShape(RoundedRectangle(cornerRadius: MudrixTheme.radiusSm))
         .task(id: url) { image = await mediaLoader?.thumbnail(url, size: 168) }
     }
 }

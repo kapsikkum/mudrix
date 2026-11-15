@@ -9,7 +9,7 @@ struct PinnedMessagesView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.theme) private var theme
 
-    init(room: RoomSummary, client: WizardClient, canPin: Bool) {
+    init(room: RoomSummary, client: MudrixClient, canPin: Bool) {
         self.room = room
         self.canPin = canPin
         _timeline = StateObject(wrappedValue: TimelineModel(client: client, roomId: room.id, pinnedOnly: true))

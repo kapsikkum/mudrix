@@ -300,7 +300,7 @@ open class RemoteSerializer<T : Remote>(private val className: String, private v
         val json = (decoder as JsonDecoder).decodeJsonElement().jsonObject
         val handle = json["\$handle"]?.jsonPrimitive?.long ?: throw SerializationException("no handle in $json")
         val remote = make(handle, json["props"] as? JsonObject ?: JsonObject(emptyMap()))
-        if (className == "WizardClient") followSession(remote)
+        if (className == "MudrixClient") followSession(remote)
         return remote
     }
 
@@ -312,7 +312,7 @@ open class RemoteSerializer<T : Remote>(private val className: String, private v
     private fun followSession(remote: Remote) {
         val ref = java.lang.ref.WeakReference(remote)
         Runtime.watch(
-            "WizardClient.watchSession",
+            "MudrixClient.watchSession",
             remote.handle,
             listOf(
                 Arg.listener<JsonElement> { event ->

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import type { VerificationEmoji, VerificationFlow, WizardClient } from '@mudrix/core';
+import type { VerificationEmoji, VerificationFlow, MudrixClient } from '@mudrix/core';
 import {
   STORAGE_KEY_SIDEBAR_VIEW,
   STORAGE_KEY_CLOSED_NAV_CATEGORIES,
@@ -307,7 +307,7 @@ export interface EmojiPickerState {
   anchor: HTMLElement | null;
   anchorRect?: { x: number; y: number; width: number; height: number } | null;
   onPick: (emoji: string, mxcUrl?: string) => void;
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
 }
 export const emojiPickerAtom = atom<EmojiPickerState | null>(null);

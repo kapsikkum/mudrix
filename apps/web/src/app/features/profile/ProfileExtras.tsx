@@ -11,7 +11,7 @@ import {
   SealCheckIcon,
   ShieldIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@mudrix/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Modal } from '@/app/components/Modal';
 import { Tooltip } from '@/app/components/Tooltip';
 import { linkifyParts, localTimeIn } from '@/util/profileFields';

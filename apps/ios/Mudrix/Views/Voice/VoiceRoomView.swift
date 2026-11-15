@@ -3,7 +3,7 @@ import SwiftUI
 
 struct VoiceRoomView: View {
     let room: RoomSummary
-    let client: WizardClient
+    let client: MudrixClient
     let onOpenChat: () -> Void
 
     @EnvironmentObject private var calls: CallManager

@@ -7,7 +7,7 @@ import {
   ImageIcon,
   CameraIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient } from '@mudrix/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
 import { Button, IconButton } from '@/app/components/Button';
@@ -52,7 +52,7 @@ export type PackData = {
 };
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   pack: PackData;
   onSave: (updated: PackData) => Promise<void>;

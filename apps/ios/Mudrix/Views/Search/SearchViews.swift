@@ -49,7 +49,7 @@ struct RoomSearchView: View {
     @Environment(\.theme) private var theme
     @State private var query = ""
 
-    init(room: RoomSummary, client: WizardClient, onJump: @escaping (String) -> Void) {
+    init(room: RoomSummary, client: MudrixClient, onJump: @escaping (String) -> Void) {
         self.room = room
         self.onJump = onJump
         _model = StateObject(wrappedValue: TimelineModel(
