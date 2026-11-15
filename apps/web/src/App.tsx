@@ -113,8 +113,8 @@ export function App() {
   return (
     <ErrorBoundary>
       <Routes>
-        {/* Public */}
-        <Route path="/welcome/:homeserver?" element={<WelcomePage />} />
+        {/* Public. `*`, not `:homeserver`, so a link may carry a scheme (`/welcome/http://host:6167`). */}
+        <Route path="/welcome/*" element={<WelcomePage />} />
         <Route path="/to" element={<MatrixToLink />} />
 
         {/* Protected client routes */}

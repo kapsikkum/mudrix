@@ -44,7 +44,7 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
   const switched = useRef(false);
   const navigate = useNavigate();
   const setLanguage = useSetAtom(languageAtom);
-  const { homeserver } = useParams<{ homeserver?: string }>();
+  const { '*': homeserver } = useParams();
 
   const handleLanguageChange = useCallback(
     (code: string) => {
@@ -65,7 +65,7 @@ function WelcomeContent({ canGoBack }: { canGoBack: boolean }) {
     window.desktopAPI?.getAppVersion?.().then((v) => v && setVersion(v));
   }, []);
 
-  // A configured server (`/welcome/:homeserver`) wins over the last one used and the default.
+  // A configured server (`/welcome/<address>`) wins over the last one used and the default.
   const [initial] = useState(() => initialHomeserver(homeserver));
   const hs = useHomeserver(initial);
   const [serverOpen, setServerOpen] = useState(false);

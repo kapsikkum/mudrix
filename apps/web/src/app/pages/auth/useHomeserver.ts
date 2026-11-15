@@ -8,6 +8,7 @@ import {
 import { PRESET_SERVERS } from '@/app/features/sso/presetServers';
 import { STORAGE_KEY_LAST_HOMESERVER } from '@/const/storageKeys';
 import { displayHost, hostOf, isCompleteAddress } from './authInput';
+import { addressFromLink } from './serverAddress';
 
 /** Pause after the last keystroke before an address typed by hand is checked. */
 const TYPING_DEBOUNCE_MS = 500;
@@ -52,7 +53,7 @@ export function rememberHomeserver(url: string): void {
 
 /** Where the address box starts: the configured server, the last one used, or the default. */
 export function initialHomeserver(configured?: string): string {
-  if (configured) return displayHost(configured);
+  if (configured) return displayHost(addressFromLink(configured));
   try {
     const last = localStorage.getItem(STORAGE_KEY_LAST_HOMESERVER);
     if (last) return last;
