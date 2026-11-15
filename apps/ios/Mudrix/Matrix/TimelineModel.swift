@@ -483,16 +483,16 @@ final class TimelineModel: ObservableObject {
                 guard progress.total > 0 else { return }
                 let fraction = Double(progress.current) / Double(progress.total)
                 Task { @MainActor in
-                    guard let self, self.preuploads.isCurrent(id, token) else { return }
+                    guard let self, self.preuploads.isCurrent(id, token: token) else { return }
                     self.preuploads.progress(id, token: token, fraction: fraction)
                     self.preuploadStates = self.preuploads.snapshot()
                 }
             }
-            guard preuploads.isCurrent(id, token) else { return }
+            guard preuploads.isCurrent(id, token: token) else { return }
             preuploadSources[id] = source
-            preuploads.finish(id, token)
+            preuploads.finish(id, token: token)
         } catch {
-            preuploads.fail(id, token)
+            preuploads.fail(id, token: token)
         }
         preuploadStates = preuploads.snapshot()
     }
