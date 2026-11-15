@@ -643,6 +643,7 @@ struct ReplyQuoteView: View {
     let quote: ChatEntry.ReplyQuote
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
 
     var body: some View {
         HStack(spacing: WZ.Space.space4) {
@@ -650,7 +651,8 @@ struct ReplyQuoteView: View {
             VStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Text(quote.senderName)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
-                    .foregroundStyle(theme.nameColor(quote.sender, colored: prefs.colorUsernames))
+                    .foregroundStyle(roomRoles.color(of: quote.sender)
+                                     ?? theme.nameColor(quote.sender, colored: prefs.colorUsernames))
                 Text(quote.text.isEmpty ? String(localized: "timeline.originalMessage") : quote.text)
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)

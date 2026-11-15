@@ -13,23 +13,26 @@ struct GiphyGif: Identifiable, Codable, Hashable {
 struct GifPicker: View {
     let onPick: (GiphyGif) async -> Void
 
-    /// Set at build time (GIPHY_API_KEY in Config/Secrets.xcconfig, see docs/SECRETS.md); empty means GIFs are not configured
-    private static let apiKey: String = {
-        let value = (Bundle.main.object(forInfoDictionaryKey: "WZGiphyApiKey") as? String ?? "")
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        return value.hasPrefix("$(") ? "" : value
-    }()
+    /// Both services' keys are set at build time (GIPHY_API_KEY / KLIPY_API_KEY in Config/Secrets.xcconfig, see
+    /// docs/SECRETS.md); a service with an empty key is not offered
+    private static var providers: [GifProvider] { GifProvider.allCases.filter(\.isConfigured) }
     private static let api = "https://api.giphy.com/v1/gifs"
 
     @Environment(\.theme) private var theme
     @AppStorage("gifConsent") private var consented = false
     /// The starred GIFs live in the account's data (`GifFavourites`), not on this device
     @ObservedObject private var favourites = GifFavourites.shared
+    @State private var provider = GifProvider.giphy
     @State private var search = ""
     @State private var showFavourites = false
     @State private var results: [GiphyGif] = []
     @State private var loading = false
     @State private var sending = false
+
+    /// The provider in use: the chosen one, or the only configured one (a tab whose service has no key falls back)
+    private var activeProvider: GifProvider {
+        Self.providers.contains(provider) ? provider : (Self.providers.first ?? .giphy)
+    }
 
     /// A favourite is only its URL, as the web's `favouriteGifItem`: no Giphy id or dimensions
     private var favouriteGifs: [GiphyGif] {
@@ -39,7 +42,7 @@ struct GifPicker: View {
     }
 
     var body: some View {
-        if Self.apiKey.isEmpty {
+        if Self.providers.isEmpty {
             VStack(spacing: WZ.Space.space5) {
                 Image("ph-images-regular").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.textMuted)
                 Text(String(localized: "composer.gifNotConfiguredTooltip"))
@@ -67,8 +70,11 @@ struct GifPicker: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             VStack(spacing: WZ.Space.space0) {
+                if Self.providers.count > 1 {
+                    providerTabs
+                }
                 HStack(spacing: WZ.Space.space0) {
-                    SearchBar(text: $search, prompt: "composer.searchGifs")
+                    SearchBar(text: $search, prompt: activeProvider == .giphy ? "composer.searchGiphy" : "composer.searchKlipy")
                     Button {
                         showFavourites.toggle()
                     } label: {
@@ -101,17 +107,46 @@ struct GifPicker: View {
                             .background(.regularMaterial, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
                     }
                 }
-                Text(String(localized: "composer.poweredByGiphy"))
+                // The provider's credit line, as on the web
+                Text(L10n.format("composer.poweredBy", activeProvider.title))
                     .font(.wizard(WZ.FontSize.xs, .semibold))
                     .foregroundStyle(theme.textMuted)
                     .padding(.vertical, WZ.Space.space3)
             }
-            .task(id: search) {
+            .task(id: "\(activeProvider.id)|\(search)") {
                 if !search.isEmpty { try? await Task.sleep(for: .milliseconds(350)) }
                 guard !Task.isCancelled else { return }
                 await load()
             }
         }
+    }
+
+    /// GIPHY and KLIPY side by side; a service with no key in this build is not offered
+    private var providerTabs: some View {
+        HStack(spacing: WZ.Space.space2) {
+            ForEach(Self.providers) { option in
+                let active = option == activeProvider
+                Button {
+                    guard !active else { return }
+                    provider = option
+                    results = []
+                    showFavourites = false
+                } label: {
+                    Text(option.title)
+                        .font(.wizard(WZ.FontSize.sm, active ? .semibold : .regular))
+                        .foregroundStyle(active ? theme.textPrimary : theme.textMuted)
+                        .padding(.horizontal, WZ.Space.space5)
+                        .frame(height: WZ.Space.space8)
+                        .background(active ? theme.fill : .clear, in: Capsule())
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(active ? [.isButton, .isSelected] : .isButton)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, WZ.Space.space5)
+        .padding(.top, WZ.Space.space3)
     }
 
     private func grid(_ gifs: [GiphyGif]) -> some View {
@@ -199,9 +234,18 @@ struct GifPicker: View {
         loading = true
         defer { loading = false }
         let query = search.trimmingCharacters(in: .whitespaces)
+        if activeProvider == .klipy {
+            results = query.isEmpty ? await GifApi.klipyTrending() : await GifApi.klipySearch(query)
+            return
+        }
+        let key = GifProvider.giphy.key
+        guard !key.isEmpty else {
+            results = []
+            return
+        }
         let endpoint = query.isEmpty
-            ? "\(Self.api)/trending?api_key=\(Self.apiKey)&limit=30"
-            : "\(Self.api)/search?q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=\(Self.apiKey)&limit=30"
+            ? "\(Self.api)/trending?api_key=\(key)&limit=30"
+            : "\(Self.api)/search?q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&api_key=\(key)&limit=30"
         guard let url = URL(string: endpoint),
               let (data, _) = try? await URLSession.shared.data(from: url),
               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],

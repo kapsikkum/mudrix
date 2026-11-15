@@ -10,6 +10,11 @@ enum L10n {
         return String(format: NSLocalizedString("\(key)_\(form)", comment: ""), locale: .current, arguments: args)
     }
 
+    /// A key with its arguments in a list, for text whose arguments are only known at run time
+    static func args(_ key: String, _ values: [String]) -> String {
+        String(format: NSLocalizedString(key, comment: ""), locale: .current, arguments: values)
+    }
+
     static func plain(_ key: String, _ args: CVarArg...) -> String {
         String(format: NSLocalizedString(key, comment: ""), locale: .current, arguments: args)
             .replacingOccurrences(of: "</?[a-zA-Z]+>", with: "", options: .regularExpression)

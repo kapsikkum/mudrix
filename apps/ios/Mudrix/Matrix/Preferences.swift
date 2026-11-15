@@ -134,6 +134,9 @@ final class AppPreferences: ObservableObject {
     @Published var dateFormat: DateFormatStyle { didSet { save("dateFormat", dateFormat.rawValue); syncIfNeeded() } }
     @Published var emojiOnlySize: EmojiOnlySize { didSet { save("emojiOnlySize", emojiOnlySize.rawValue); syncIfNeeded() } }
     @Published var emoticonsToEmoji: Bool { didSet { save("emoticonsToEmoji", emoticonsToEmoji); syncIfNeeded() } }
+    /// Share what this device plays as your profile's activity; iOS cannot watch other apps' playback, so switching
+    /// it off takes a published activity back off the profile instead (Settings > Activity)
+    @Published var shareActivity: Bool { didSet { save("shareActivity", shareActivity); syncIfNeeded() } }
 
     // Whether this device is being streamed is a fact about this device, so it is not synced
     @Published var streamerMode: StreamerMode { didSet { save("streamerMode", streamerMode.rawValue) } }
@@ -253,6 +256,7 @@ final class AppPreferences: ObservableObject {
         dateFormat = Self.stored(d, "dateFormat", .long)
         emojiOnlySize = Self.stored(d, "emojiOnlySize", .large)
         emoticonsToEmoji = d.object(forKey: "emoticonsToEmoji") as? Bool ?? true
+        shareActivity = d.bool(forKey: "shareActivity")
 
         streamerMode = Self.stored(d, "streamerMode", .auto)
         // Off until chosen, like Mudrix: you appear offline and nobody sees your status
@@ -406,6 +410,7 @@ final class AppPreferences: ObservableObject {
             enumKey("dateFormat", \.dateFormat),
             enumKey("emojiOnlySize", \.emojiOnlySize),
             boolKey("emoticonsToEmoji", \.emoticonsToEmoji),
+            boolKey("shareActivity", \.shareActivity),
             boolKey("showPresence", \.showPresence),
             boolKey("showHomeserverSoftware", \.showHomeserverSoftware),
             boolKey("showCosmeticPacks", \.showCosmeticPacks),

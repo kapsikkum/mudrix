@@ -215,6 +215,8 @@ struct ChatEntry: Identifiable, Equatable {
 @MainActor
 final class TimelineModel: ObservableObject {
     @Published private(set) var entries: [ChatEntry] = []
+    /// The membership and state changes behind the timeline, for the audit log (Settings > Audit log)
+    @Published private(set) var auditChanges: [AuditLog.Change] = []
     @Published private(set) var isPaginating = false
     @Published private(set) var reachedStart = false
     @Published private(set) var typingNames: [String] = []
@@ -792,6 +794,7 @@ final class TimelineModel: ObservableObject {
                 Self.makeEntry(entry, ownUserId: me, hideMembership: hideMembership, hideProfile: hideProfile)
             })
         }
+        auditChanges = Self.collectAudit(items)
         // The read marker is a virtual item; the first message after it is the first unread
         if let marker = items.firstIndex(where: { if case .readMarker = $0 { return true }; return false }) {
             firstUnreadId = converted[(marker + 1)...].first { $0?.isContent == true }??.id
@@ -831,6 +834,23 @@ final class TimelineModel: ObservableObject {
                 && current.timestamp.timeIntervalSince(previous.timestamp) < Self.groupingInterval
         }
         self.entries = kind == .main && onlyTypes == nil && groupImages ? Self.collapseGalleries(entries) : entries
+    }
+
+    /// The membership and state changes in the timeline, whatever the timeline hides (the audit log shows all)
+    private static func collectAudit(_ items: [TimelineEntry]) -> [AuditLog.Change] {
+        items.compactMap { item in
+            guard case .event(let event) = item else { return nil }
+            switch event.content {
+            case .membership(let membership):
+                return AuditLog.Change(id: event.id, at: event.timestamp, sender: event.sender,
+                                       senderName: event.senderName, membership: membership, state: nil)
+            case .state(let state):
+                return AuditLog.Change(id: event.id, at: event.timestamp, sender: event.sender,
+                                       senderName: event.senderName, membership: nil, state: state)
+            default:
+                return nil
+            }
+        }
     }
 
     private static func makeEntry(_ item: TimelineEntry, ownUserId: String,

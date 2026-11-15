@@ -1033,6 +1033,8 @@ struct MessageRow: View {
     @Environment(\.theme) private var theme
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.roomRoles) private var roomRoles
+    @AppStorage("gifConsent") private var gifConsent = false
+    @StateObject private var gifLoader = GifLinkLoader()
     @State private var spoilersRevealed = false
     @State private var showFailed = false
     @State private var swipe: CGFloat = 0
@@ -1135,7 +1137,9 @@ struct MessageRow: View {
                         }
                     }
                 }
-                if case .message(let body, _, _) = entry.kind, let url = MessageText.firstPreviewURL(in: body) {
+                // The GIF a bare GIPHY / KLIPY link stands for replaces its link preview, so the URL is not shown twice
+                if gifLoader.item == nil, case .message(let body, _, _) = entry.kind,
+                   let url = MessageText.firstPreviewURL(in: body) {
                     if prefs.youtubeEmbeds != .off, let video = YouTubeLink.parse(url.absoluteString) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
                         YouTubeCard(url: url, video: video, loader: actions?.linkPreviews)
@@ -1177,7 +1181,22 @@ struct MessageRow: View {
             }
         }
         .gesture(swipeToReply)
+        .task(id: gifRequestKey) {
+            await gifLoader.load(gifLink, consented: gifConsent)
+        }
         .sensoryFeedback(.impact(weight: .medium), trigger: swipe <= -Self.replyThreshold)
+    }
+
+    /// A message whose whole body is one GIPHY or KLIPY link shows the GIF itself instead of the link
+    private var gifLink: GifLink? {
+        guard case .message(let body, let isEmote, _) = entry.kind, !isEmote else { return nil }
+        return GifLink.parse(body)
+    }
+
+    /// What to ask for again when the link or the GIF consent changes
+    private var gifRequestKey: String {
+        guard let gifLink else { return "" }
+        return "\(gifLink.cacheKey)|\(gifConsent)"
     }
 
     /// Messages of only emoji are shown larger, like on the web
@@ -1195,18 +1214,22 @@ struct MessageRow: View {
     @ViewBuilder
     private var messageContent: some View {
         if isText {
-            textContent
-                .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
-                .lineSpacing(3 * scale)
-                .tint(isClassic && entry.isOwn && theme.colorScheme == .dark ? theme.textOnAccent : theme.linkColor)
-                .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
-                .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
-                .background {
-                    if isClassic {
-                        RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
-                            .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+            if let item = gifLoader.item {
+                GifLinkPicture(item: item)
+            } else {
+                textContent
+                    .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
+                    .lineSpacing(3 * scale)
+                    .tint(isClassic && entry.isOwn && theme.colorScheme == .dark ? theme.textOnAccent : theme.linkColor)
+                    .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
+                    .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
+                    .background {
+                        if isClassic {
+                            RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
+                                .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+                        }
                     }
-                }
+            }
         } else {
             mediaContent
         }

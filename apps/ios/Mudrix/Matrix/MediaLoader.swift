@@ -84,6 +84,14 @@ final class MediaLoader {
         Task { try? await client.cancelMediaDownload(token: token) }
     }
 
+    /// Drops every picture and file downloaded into the cache (Settings > Developer's "Clear media cache")
+    func clearCache() {
+        cache.removeAllObjects()
+        thumbnailSizes.removeAll()
+        inFlight.removeAll()
+        try? FileManager.default.removeItem(at: files)
+    }
+
     private func load(_ key: String, animated: Bool = false, fetch: @escaping (MudrixClient) async throws -> Data) async -> UIImage? {
         if let image = cachedThumbnail(key) { return image }
         if let task = inFlight[key] { return await task.value }

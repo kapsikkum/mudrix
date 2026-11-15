@@ -246,8 +246,36 @@ struct UserProfileSheet: View {
     @State private var reason = ""
     @State private var busy = false
     @State private var error: String?
+    @State private var tab: ProfileTab = .details
 
     enum Action: Identifiable { case kick, ban, ignore; var id: Self { self } }
+
+    /// The parts of a profile the sheet shows, as the web's full profile and Android's profile card split them
+    enum ProfileTab: String, CaseIterable, Hashable {
+        case details, activity, mutual
+
+        var titleKey: String {
+            switch self {
+            case .details: return "profile.tabs.details"
+            case .activity: return "profile.tabs.activity"
+            case .mutual: return "profile.tabs.mutualRooms"
+            }
+        }
+    }
+
+    /// The Details / Activity / Mutual Rooms strip under the header
+    private var profileTabs: some View {
+        Picker("", selection: $tab) {
+            ForEach(ProfileTab.allCases, id: \.self) { option in
+                Text(String(localized: option.titleKey)).tag(option)
+            }
+        }
+        .pickerStyle(.segmented)
+        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+        .listRowInsets(EdgeInsets(top: WZ.Space.space2, leading: WZ.Space.space6,
+                                  bottom: WZ.Space.space3, trailing: WZ.Space.space6))
+    }
 
     private var isMe: Bool { userId == session.userId }
 
@@ -289,47 +317,54 @@ struct UserProfileSheet: View {
                     }
                     .listRowBackground(Color.clear)
                 }
-                if !isMe { ProfileNoteSection(userId: userId) }
-                if !isMe { ProfileVerificationSection(userId: userId) }
-                if !isMe { MutualRoomsSection(userId: userId, name: name ?? userId) }
-                if let roomId, isMember, rights.canChange(targetLevel: level, isSelf: isMe) {
-                    Section {
-                        RoleMenu(roomId: roomId, userId: userId, currentLevel: level, rights: rights) {
-                            Task { await load(); onChange?() }
-                        }
-                    }
-                }
-                if !isMe {
-                    Section {
-                        Button { Task { await message() } } label: {
-                            Label(String(localized: "composer.messageInput"), image: "ph-chat-circle-regular")
-                        }
-                        .disabled(busy)
-                    }
-                }
-                Section {
-                    CopyButton(title: "profile.copyId", image: "ph-copy-regular", value: userId)
-                    CopyButton(title: "common.copyLink", image: "ph-link-simple-regular", value: "https://matrix.to/#/\(userId)")
-                }
-                if !isMe {
-                    Section {
-                        if canKick {
-                            Button(role: .destructive) { confirm = .kick } label: {
-                                Label(String(localized: "profile.kick"), image: "ph-user-minus-regular").foregroundStyle(theme.danger)
+                profileTabs
+                switch tab {
+                case .details:
+                    if !isMe { ProfileNoteSection(userId: userId) }
+                    if !isMe { ProfileVerificationSection(userId: userId) }
+                    if let roomId, isMember, rights.canChange(targetLevel: level, isSelf: isMe) {
+                        Section {
+                            RoleMenu(roomId: roomId, userId: userId, currentLevel: level, rights: rights) {
+                                Task { await load(); onChange?() }
                             }
                         }
-                        if canBan {
-                            Button(role: .destructive) { confirm = .ban } label: {
-                                Label(String(localized: "room.members.ban"), image: "ph-prohibit-regular").foregroundStyle(theme.danger)
-                            }
-                        }
-                        Button(role: .destructive) { confirm = .ignore } label: {
-                            Label(String(localized: "profile.ignoreUser"), image: "ph-eye-slash-regular").foregroundStyle(theme.danger)
-                        }
-                    } footer: {
-                        Text(String(localized: "room.members.ignoreHint"))
                     }
-                    .tint(theme.danger)
+                    if !isMe {
+                        Section {
+                            Button { Task { await message() } } label: {
+                                Label(String(localized: "composer.messageInput"), image: "ph-chat-circle-regular")
+                            }
+                            .disabled(busy)
+                        }
+                    }
+                    Section {
+                        CopyButton(title: "profile.copyId", image: "ph-copy-regular", value: userId)
+                        CopyButton(title: "common.copyLink", image: "ph-link-simple-regular", value: "https://matrix.to/#/\(userId)")
+                    }
+                    if !isMe {
+                        Section {
+                            if canKick {
+                                Button(role: .destructive) { confirm = .kick } label: {
+                                    Label(String(localized: "profile.kick"), image: "ph-user-minus-regular").foregroundStyle(theme.danger)
+                                }
+                            }
+                            if canBan {
+                                Button(role: .destructive) { confirm = .ban } label: {
+                                    Label(String(localized: "room.members.ban"), image: "ph-prohibit-regular").foregroundStyle(theme.danger)
+                                }
+                            }
+                            Button(role: .destructive) { confirm = .ignore } label: {
+                                Label(String(localized: "profile.ignoreUser"), image: "ph-eye-slash-regular").foregroundStyle(theme.danger)
+                            }
+                        } footer: {
+                            Text(String(localized: "room.members.ignoreHint"))
+                        }
+                        .tint(theme.danger)
+                    }
+                case .activity:
+                    ProfileActivityCards(profile: extended)
+                case .mutual:
+                    if !isMe { MutualRoomsSection(userId: userId, name: name ?? userId) }
                 }
                 if let error {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)

@@ -782,6 +782,7 @@ struct RoomRow: View {
                 }
                 if inCall {
                     ParticipantStack(roomId: room.id, userIds: room.callParticipants)
+                    RoomCallTimer(roomId: room.id)
                 }
             }
             Spacer(minLength: 6)

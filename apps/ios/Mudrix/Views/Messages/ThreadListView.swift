@@ -89,18 +89,19 @@ private struct ThreadRow: View {
     let roomId: String
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
     @State private var name: String?
     @State private var avatarUrl: String?
     @State private var latestName: String?
 
     var body: some View {
         HStack(alignment: .top, spacing: WZ.Space.space5) {
-            AvatarView(name: name ?? thread.sender, url: avatarUrl, size: WZ.SizeAvatar.sm)
+            CosmeticAvatar(userId: thread.sender, name: name ?? thread.sender, url: avatarUrl, size: WZ.SizeAvatar.sm)
             VStack(alignment: .leading, spacing: WZ.Space.space1) {
                 HStack(spacing: WZ.Space.space3) {
                     Text(name ?? thread.sender)
                         .font(.wizard(WZ.FontSize.md, .semibold))
-                        .foregroundStyle(theme.textPrimary)
+                        .foregroundStyle(roomRoles.color(of: thread.sender) ?? theme.textPrimary)
                         .lineLimit(1)
                     Spacer(minLength: WZ.Space.space0)
                     Text(Self.date(thread.latestTimestamp ?? thread.timestamp), format: .relative(presentation: .named))

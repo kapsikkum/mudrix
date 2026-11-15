@@ -16,9 +16,8 @@ in git history and in upstream's public repository; history is not rewritten her
 | GIPHY API key    | iOS                       | `GIPHY_API_KEY` build setting, surfaced as Info.plist `WZGiphyApiKey`  | `apps/ios/Config/Secrets.xcconfig` (git-ignored)    | GIF picker shows "not configured"            |
 | KLIPY API key    | web, desktop (web bundle) | `VITE_KLIPY_API_KEY`                                                   | `apps/web/.env.local`                               | KLIPY tab disabled                           |
 | KLIPY API key    | Android                   | `KLIPY_API_KEY`: same lookup as `GIPHY_API_KEY`                        | `apps/android/local.properties`                     | KLIPY tab disabled, GIPHY still offered      |
+| KLIPY API key    | iOS                       | `KLIPY_API_KEY` build setting, surfaced as Info.plist `WZKlipyApiKey`  | `apps/ios/Config/Secrets.xcconfig` (git-ignored)    | KLIPY tab hidden, GIPHY still offered        |
 | Push gateway URL | Android                   | `PUSH_GATEWAY_URL` (same lookup as `GIPHY_API_KEY`)                    | `apps/android/local.properties`                     | No pusher is registered                      |
-
-iOS has no KLIPY support yet, so it takes no KLIPY key.
 
 Notes:
 
@@ -31,6 +30,7 @@ Notes:
 - iOS: copy `apps/ios/Config/Secrets.example.xcconfig` to `Secrets.xcconfig` and fill it in. The include is optional
   (`#include?`), so builds work without the file. In CI write the file from the secret before `xcodegen`/`xcodebuild`, or
   pass `GIPHY_API_KEY=...` to `xcodebuild` as a build setting. Keep `//` out of values (xcconfig comment syntax).
+- iOS: `KLIPY_API_KEY` works the same way and fills `WZKlipyApiKey`; without it the picker offers GIPHY alone.
 - The Android and iOS changes have not been built yet.
 
 ## GitHub repository secrets
@@ -41,7 +41,7 @@ workflows map the same secret to each platform's variable name.
 | Secret               | Maps to                                                               |
 | -------------------- | --------------------------------------------------------------------- |
 | `VITE_GIPHY_API_KEY` | web and desktop `VITE_GIPHY_API_KEY`; Android and iOS `GIPHY_API_KEY` |
-| `VITE_KLIPY_API_KEY` | web and desktop `VITE_KLIPY_API_KEY`                                  |
+| `VITE_KLIPY_API_KEY` | web and desktop `VITE_KLIPY_API_KEY`; Android and iOS `KLIPY_API_KEY`  |
 
 Signing secrets (`TAURI_SIGNING_PRIVATE_KEY`, `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`, the Android keystore) are described in
 [RELEASING.md](../RELEASING.md). `PUSH_GATEWAY_URL` is not set in CI until a Mudrix push gateway exists.
@@ -62,6 +62,7 @@ env:
 # iOS build (and write apps/ios/Config/Secrets.xcconfig from it, or pass it to xcodebuild)
 env:
   GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
 ```
 
 ## Audit of embedded third-party credentials and account-bound identifiers

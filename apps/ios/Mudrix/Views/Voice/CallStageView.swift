@@ -47,6 +47,8 @@ struct CallStageView: View {
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             }
         }
+        // Names on the tiles take the space's cosmetic role colours, as the web's call stage does
+        .roomRoles(for: room.id)
         .sheet(item: $volumeFor) { participant in
             VolumeSheet(roomId: room.id, userId: participant.userId)
                 .presentationDetents([.height(260)])
@@ -72,6 +74,7 @@ private struct ParticipantTile: View {
     @EnvironmentObject private var prefs: AppPreferences
     let participant: CallParticipantInfo
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
     @State private var name: String?
     @State private var avatarUrl: String?
     /// Only a camera that has shown a frame can leave a still one behind
@@ -157,6 +160,7 @@ private struct ParticipantTile: View {
                 }
                 Text(label)
                     .font(.wizard(WZ.FontSize.sm, .semibold))
+                    .foregroundStyle(roomRoles.color(of: participant.userId) ?? theme.textPrimary)
                     .lineLimit(1)
                 if !participant.connected {
                     ProgressView().controlSize(.mini)
@@ -190,6 +194,7 @@ private struct ScreenShareTile: View {
     let participant: CallParticipantInfo
     let track: VideoTrack
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
     @State private var name: String?
 
     var body: some View {
@@ -200,7 +205,7 @@ private struct ScreenShareTile: View {
             .overlay(alignment: .bottomLeading) {
                 Label(L10n.format("call.userScreen", "\(name ?? participant.userId)"), image: "ph-monitor-arrow-up-regular")
                     .font(.wizard(WZ.FontSize.sm, .semibold))
-                    .foregroundStyle(theme.textPrimary)
+                    .foregroundStyle(roomRoles.color(of: participant.userId) ?? theme.textPrimary)
                     .padding(.horizontal, WZ.Space.space4)
                     .padding(.vertical, WZ.Space.space2)
                     .background(.regularMaterial, in: Capsule())

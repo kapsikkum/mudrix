@@ -7,9 +7,9 @@ final class MediaDismissProgress: ObservableObject {
     @Published var value: CGFloat = 0
 }
 
-/// A picture that can be pinched up to 6x (and stays zoomed), panned while zoomed, zoomed in and out
-/// by double tap, and, at 1x, dragged vertically: it follows the finger, and letting go past a fifth
-/// of the height (or with a flick) closes the viewer. A sideways drag at 1x is left to the pager
+/// A picture that can be pinched up to 6x about the point between the fingers (and stays zoomed), panned while
+/// zoomed, zoomed in and out by double tap, and, at 1x, dragged vertically: it follows the finger, and letting go
+/// past a fifth of the height (or with a flick) closes the viewer. A sideways drag at 1x is left to the pager
 /// around it; `isZoomed` tells the pager to stop paging while zoomed.
 ///
 /// The transform lives in plain `@State` that is only read in `scaleEffect` and `offset`.
@@ -86,15 +86,21 @@ struct ZoomableImage: View {
         MagnifyGesture()
             .onChanged { value in
                 pinch = value.magnification
+                // Keep the spot between the fingers still: the live scale decides how far the picture moves
+                let live = ZoomAnchor.offset(current: offset, anchor: value.startAnchor,
+                                              fromScale: scale, toScale: liveScale, viewport: viewport)
+                pan = CGSize(width: live.width - offset.width, height: live.height - offset.height)
                 let zoomedNow = liveScale > 1.01
                 if zoomedNow != isZoomed { isZoomed = zoomedNow }
             }
             .onEnded { value in
                 let target = min(max(scale * value.magnification, 1), Self.maxScale)
+                let live = CGSize(width: offset.width + pan.width, height: offset.height + pan.height)
                 withAnimation(.spring(duration: 0.25)) {
                     scale = target
                     pinch = 1
-                    offset = target > 1.01 ? clamped(offset, scale: target, viewport: viewport) : .zero
+                    pan = .zero
+                    offset = target > 1.01 ? clamped(live, scale: target, viewport: viewport) : .zero
                 }
                 isZoomed = target > 1.01
             }

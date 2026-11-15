@@ -416,6 +416,18 @@ struct DeveloperSettings: View {
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @State private var tokenExpanded = false
+    @State private var features: ServerFeatures?
+    @State private var cleared = false
+
+    private var version: String {
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = info?["CFBundleVersion"] as? String ?? "?"
+        return "\(short) (\(build))"
+    }
+
+    private var joined: Int { session.roomList?.joinedRooms.count ?? 0 }
+    private var invited: Int { session.roomList?.invites.count ?? 0 }
 
     var body: some View {
         SettingsPage(title: "developer.title") {
@@ -425,6 +437,10 @@ struct DeveloperSettings: View {
                           isOn: $prefs.developerMode)
             }
             if prefs.developerMode {
+                sessionSection
+                encryptionSection
+                if let features { serverFeatures(features) }
+                toolsSection
                 SettingsSection {
                     DisclosureGroup(isExpanded: $tokenExpanded) {
                         VStack(alignment: .leading, spacing: WZ.Space.space4) {
@@ -458,6 +474,99 @@ struct DeveloperSettings: View {
                 }
             }
         }
+        .task {
+            guard let client = session.client, features == nil else { return }
+            features = try? await client.serverFeatures()
+        }
+    }
+
+    /// Who is signed in, how sync is doing and how much is loaded, as Android's Developer tools show it
+    private var sessionSection: some View {
+        SettingsSection(title: "settings.developer.session") {
+            CopyRow(label: "settings.developer.userId", value: session.userId ?? "")
+            SettingsDivider()
+            CopyRow(label: "settings.developer.appVersion", value: version)
+            SettingsDivider()
+            CopyRow(label: "settings.developer.syncState", value: session.syncState.rawValue)
+            SettingsDivider()
+            CopyRow(label: "settings.developer.rooms",
+                    value: L10n.format("settings.developer.roomsValue", joined, invited))
+            if let spec = features?.versions.last {
+                SettingsDivider()
+                CopyRow(label: "settings.developer.specVersion", value: spec)
+            }
+        }
+    }
+
+    private var encryptionSection: some View {
+        SettingsSection(title: "settings.developer.encryption") {
+            if let encryption = session.encryption {
+                CopyRow(label: "settings.developer.crossSigning", value: ready(encryption.crossSigningComplete))
+                SettingsDivider()
+                CopyRow(label: "settings.developer.secretStorage", value: ready(encryption.recovery == "enabled"))
+                SettingsDivider()
+                CopyRow(label: "settings.developer.keyBackup", value: ready(encryption.backupEnabled))
+            } else {
+                Text(String(localized: "settings.developer.cryptoUnavailable"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+            }
+        }
+    }
+
+    private func serverFeatures(_ features: ServerFeatures) -> some View {
+        SettingsSection(title: LocalizedStringKey(
+            L10n.format("settings.developer.serverFeatures", features.unstableFeatures.count))) {
+            ForEach(Array(features.unstableFeatures.enumerated()), id: \.offset) { index, feature in
+                if index > 0 { SettingsDivider() }
+                CopyRow(label: LocalizedStringKey(feature), value: feature)
+            }
+        }
+    }
+
+    private var toolsSection: some View {
+        SettingsSection(title: "settings.developer.tools") {
+            Button {
+                UIPasteboard.general.string = DeveloperInfo.text(DeveloperInfo.Snapshot(
+                    userId: session.userId,
+                    deviceId: session.deviceId,
+                    homeserver: session.client?.session.homeserverUrl,
+                    version: version,
+                    syncState: session.syncState.rawValue,
+                    joined: joined,
+                    invited: invited,
+                    encryption: session.encryption,
+                    features: features))
+                CopyToast.shared.show(L10n.format("common.copied"))
+            } label: {
+                Text(String(localized: "settings.developer.copyDebugInfo"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.control)
+            }
+            SettingsDivider()
+            Button {
+                session.media?.clearCache()
+                cleared = true
+                CopyToast.shared.show(L10n.format("settings.developer.clearMediaDone"))
+                Task {
+                    try? await Task.sleep(for: .seconds(1.6))
+                    cleared = false
+                }
+            } label: {
+                Text(String(localized: "settings.developer.clearMedia"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.control)
+            }
+            if cleared {
+                Text(String(localized: "settings.developer.clearMediaDone"))
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            }
+        }
+    }
+
+    private func ready(_ flag: Bool) -> String {
+        flag ? String(localized: "settings.developer.ready") : String(localized: "settings.developer.notReady")
     }
 }
 

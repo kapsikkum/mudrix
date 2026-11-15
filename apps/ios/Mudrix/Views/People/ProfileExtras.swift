@@ -103,41 +103,44 @@ private struct ActivityCard: View {
 
     @Environment(\.theme) private var theme
 
-    private var title: String {
-        if activity.type == "playing" { return L10n.format("profile.activity.playing", activity.name) }
-        if !activity.details.isEmpty { return L10n.format("profile.activity.listeningBy", activity.name, activity.details) }
-        return L10n.format("profile.activity.listening", activity.name)
-    }
-
-    private var cardTitle: String {
-        if activity.type == "playing" { return String(localized: "profile.activity.cardPlaying") }
-        return String(localized: "profile.activity.cardListening")
-    }
-
-    private var since: String? {
-        guard activity.type == "playing", activity.startedAt > 0 else { return nil }
-        let elapsed = Int64(Date().timeIntervalSince1970 * 1000) - activity.startedAt
-        let minutes = max(0, elapsed / 60_000)
-        if minutes < 1 { return String(localized: "profile.activity.justStarted") }
-        let duration = minutes >= 60 ? "\(minutes / 60) h \(minutes % 60) min" : "\(minutes) min"
-        return L10n.format("profile.activity.forDuration", duration)
-    }
+    private var lines: ProfileActivityText.Lines { ProfileActivityText.lines(for: activity) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: WZ.Space.space1) {
-            Text(cardTitle)
+            Text(ProfileActivityText.text(lines.cardKey))
                 .font(.wizard(WZ.FontSize.sm, .semibold))
                 .foregroundStyle(theme.textMuted)
-            Text(title)
+            Text(ProfileActivityText.text(lines.titleKey, lines.titleArgs))
                 .font(.wizard(WZ.FontSize.md, .medium))
                 .foregroundStyle(theme.textPrimary)
-            if let since {
-                Text(since).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
+            if let sinceKey = lines.sinceKey {
+                Text(ProfileActivityText.text(sinceKey, lines.sinceArgs))
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(WZ.Space.space4)
         .background(theme.bgTertiary, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+    }
+}
+
+/// What a person is playing or listening to, as the cards the web shows on a profile (its Activity tab)
+struct ProfileActivityCards: View {
+    let profile: ExtendedProfile
+
+    private var activities: [ProfileActivity] { ProfileFields.live(profile.activities) }
+
+    var body: some View {
+        if !activities.isEmpty {
+            Section {
+                ForEach(Array(activities.enumerated()), id: \.offset) { _, activity in
+                    ActivityCard(activity: activity)
+                        .listRowBackground(Color.clear)
+                }
+            }
+            .listRowBackground(Color.clear)
+        }
     }
 }
 

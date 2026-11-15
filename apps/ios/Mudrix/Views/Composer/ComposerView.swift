@@ -15,6 +15,7 @@ struct ComposerView: View {
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
+    @Environment(\.roomRoles) private var roomRoles
 
     @State private var draft = ""
     @State private var selection = NSRange(location: 0, length: 0)
@@ -68,7 +69,8 @@ struct ComposerView: View {
                     VStack(spacing: WZ.Space.space0) {
                         if let replyTo { contextBar(icon: "ph-arrow-bend-up-left-regular",
                                                     title: L10n.format("composer.replyingToName", "\(replyTo.senderName)"), text: replyTo.summary,
-                                                    name: (replyTo.senderName, theme.nameColor(replyTo.sender, colored: prefs.colorUsernames))) {
+                                                    name: (replyTo.senderName, roomRoles.color(of: replyTo.sender)
+                                                           ?? theme.nameColor(replyTo.sender, colored: prefs.colorUsernames))) {
                             self.replyTo = nil
                         } }
                         if let editing { contextBar(icon: "ph-pencil-simple-regular", title: String(localized: "timeline.editing"), text: editing.summary) {
