@@ -1,4 +1,5 @@
 use std::{
+    collections::HashMap,
     sync::{Arc, Mutex},
     time::Duration,
 };
@@ -93,6 +94,8 @@ pub struct MudrixClient {
     pub(crate) identity_reset_cancel: Mutex<Option<futures_channel::oneshot::Sender<()>>>,
     pub(crate) downloads: Mutex<crate::media_download::Downloads>,
     pub(crate) spaces: Mutex<Option<Arc<SpaceService>>>,
+    /// Space hierarchies fetched this session, so revisiting a space doesn't ask the server again
+    pub(crate) hierarchies: Mutex<HashMap<String, crate::spaces::CachedHierarchy>>,
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
 }
@@ -163,6 +166,7 @@ impl MudrixClient {
             identity_reset_cancel: Mutex::new(None),
             downloads: Mutex::default(),
             spaces: Mutex::new(None),
+            hierarchies: Mutex::default(),
             notifications: Mutex::new(None),
         }
     }

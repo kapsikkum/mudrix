@@ -894,6 +894,8 @@ pub struct MentionsInput {
 
 /// History loaded when a timeline opens with no message to show
 const FIRST_PAGE: u16 = 40;
+/// A thread opens with a smaller batch so its panel paints sooner; the rest follows at once
+const THREAD_FIRST_PAGE: u16 = 20;
 
 /// Updates that end without a single update, in a row, before a watch gives up on rebuilding
 const MAX_IDLE_REBUILDS: u32 = 3;
@@ -936,10 +938,18 @@ impl RoomTimeline {
         let mut ends_without_updates = 0;
         loop {
             let timeline = self.timeline();
+            // A thread paints after a small batch; the rest of the page follows once its first
+            // rows are out, instead of holding the panel on "Loading" for the whole batch
+            let first = match self.kind {
+                TimelineKind::Thread { .. } => THREAD_FIRST_PAGE,
+                _ => FIRST_PAGE,
+            };
+            let mut rest = 0;
             if !has_messages(&timeline.items().await) {
-                if let Err(error) = self.paginate_back(FIRST_PAGE).await {
+                if let Err(error) = self.paginate_back(first).await {
                     tracing::debug!(room = %self.room.room_id(), %error, "couldn't load the first page");
                 }
+                rest = FIRST_PAGE.saturating_sub(first);
             }
             let (items, stream) = timeline.subscribe().await;
             tracing::debug!(room = %self.room.room_id(), items = items.len(), "timeline subscribed");
@@ -953,6 +963,12 @@ impl RoomTimeline {
                     })
                     .collect(),
             }]);
+            if rest > 0 {
+                // The diffs this produces reach the app through `stream` below
+                if let Err(error) = self.paginate_back(rest).await {
+                    tracing::debug!(room = %self.room.room_id(), %error, "couldn't load the rest of the first page");
+                }
+            }
             pin_mut!(stream);
             let mut delivered = false;
             while let Some(diffs) = stream.next().await {

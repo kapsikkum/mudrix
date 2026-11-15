@@ -20,7 +20,7 @@ use matrix_sdk::{
         serde::Raw,
         OwnedRoomId, OwnedServerName, RoomId, RoomOrAliasId, UserId,
     },
-    Room, RoomState,
+    Room, RoomDisplayName, RoomState,
 };
 use matrix_sdk_ui::room_list_service::{
     filters::{
@@ -125,6 +125,29 @@ pub struct LastMessage {
     pub kind: LastMessageKind,
 }
 
+/// The room's name, without the SDK's placeholders: `Empty Room` and `Empty Room (was X)` are
+/// not names a person set, so the app can show its own fallback (and the name it had before)
+/// instead. Computes the name when the SDK hasn't cached one yet, e.g. for a room restored from
+/// the store before its state was synced.
+pub(crate) async fn room_display_name(room: &Room) -> Option<String> {
+    fn text(name: RoomDisplayName) -> Option<String> {
+        let name = match name {
+            RoomDisplayName::Named(name)
+            | RoomDisplayName::Aliased(name)
+            | RoomDisplayName::Calculated(name)
+            | RoomDisplayName::EmptyWas(name) => name.trim().to_owned(),
+            RoomDisplayName::Empty => return None,
+        };
+        (!name.is_empty()).then_some(name)
+    }
+    if let Some(name) = room.cached_display_name() {
+        // The cache only holds `Empty` until the state that names the room arrives (the SDK
+        // recomputes it, and re-emits the room, when that happens)
+        return text(name);
+    }
+    room.display_name().await.ok().and_then(text)
+}
+
 /// A DM without its own picture shows the other person's, from the room's heroes
 fn dm_avatar(room: &Room) -> Option<matrix_sdk::ruma::OwnedMxcUri> {
     let target = room.direct_targets().into_iter().next()?;
@@ -141,6 +164,7 @@ fn dm_avatar(room: &Room) -> Option<matrix_sdk::ruma::OwnedMxcUri> {
 /// cache (see [`room_extras`])
 #[derive(Clone, Debug, Default)]
 pub(crate) struct RoomExtras {
+    name: Option<String>,
     dm_user_id: Option<String>,
     dm_user_name: Option<String>,
     dm_user_avatar: Option<String>,
@@ -168,7 +192,18 @@ impl RoomSummary {
         let unread = extras.and_then(|e| e.unread);
         Self {
             id: room.room_id().to_string(),
-            name: room.cached_display_name().map(|name| name.to_string()),
+            // Extras carry the name resolved without the SDK's placeholders; a row without them
+            // (none today) still never shows `Empty Room`
+            name: match extras {
+                Some(extras) => extras.name.clone(),
+                None => room.cached_display_name().and_then(|name| match name {
+                    RoomDisplayName::Named(name)
+                    | RoomDisplayName::Aliased(name)
+                    | RoomDisplayName::Calculated(name)
+                    | RoomDisplayName::EmptyWas(name) => Some(name),
+                    RoomDisplayName::Empty => None,
+                }),
+            },
             avatar_url: room
                 .avatar_url()
                 .or_else(|| dm_avatar(room))
@@ -299,6 +334,9 @@ pub struct InviteInfo {
 }
 
 const VOICE_ROOM_CALL_STATE: &str = "org.matrix.msc3401.call";
+
+/// A room list diff touching more rows than this is painted before the rows' extras are read
+const QUICK_PAINT_ROOMS: usize = 8;
 
 /// The power levels a new voice room gets unless the app passes its own. The server applies an
 /// override key by key, so `events` is the whole map: anything left out would fall back to
@@ -443,6 +481,8 @@ impl MudrixClient {
         // The notification mode each room was last sent with. The SDK updates its cached mode
         // before the change reaches us, so that cache can't tell what the app still shows.
         let mut sent_modes: HashMap<OwnedRoomId, Option<RoomNotificationMode>> = HashMap::new();
+        // The extras each row was last sent with
+        let mut known: HashMap<OwnedRoomId, RoomExtras> = HashMap::new();
         while let Some(update) = updates.next().await {
             match update {
                 Update::PushRules => {
@@ -512,6 +552,49 @@ impl MudrixClient {
                             room.cached_user_defined_notification_mode(),
                         );
                     }
+                    // A big batch (a cold start: every room at once), or a room whose name has
+                    // just arrived, paints before the extras are read: names are cheap next to
+                    // every room's latest message and unread counts, which come off the store
+                    let names: HashMap<OwnedRoomId, Option<String>> = stream::iter(rooms.clone())
+                        .map(|room| async move {
+                            (room.room_id().to_owned(), room_display_name(&room).await)
+                        })
+                        .buffer_unordered(32)
+                        .collect()
+                        .await;
+                    let quick = rooms.len() > QUICK_PAINT_ROOMS
+                        || rooms.iter().any(|room| {
+                            names.get(room.room_id()).is_some_and(Option::is_some)
+                                && known
+                                    .get(room.room_id())
+                                    .is_none_or(|extras| extras.name.is_none())
+                        });
+                    if quick {
+                        on_update(
+                            diffs
+                                .iter()
+                                .map(|diff| {
+                                    ListDiff::map(diff.clone(), |item: &RoomListItem| {
+                                        // What the row last showed, with the name it now has
+                                        let mut extras = known.get(item.room_id()).cloned();
+                                        if let (Some(extras), Some(name)) =
+                                            (extras.as_mut(), names.get(item.room_id()))
+                                        {
+                                            extras.name = name.clone();
+                                        }
+                                        let mut summary =
+                                            RoomSummary::with_extras(item, extras.as_ref());
+                                        if extras.is_none() {
+                                            if let Some(name) = names.get(item.room_id()) {
+                                                summary.name = name.clone();
+                                            }
+                                        }
+                                        summary
+                                    })
+                                })
+                                .collect(),
+                        );
+                    }
                     let extras: HashMap<OwnedRoomId, RoomExtras> =
                         stream::iter(rooms)
                             .map(|room| async move {
@@ -526,17 +609,33 @@ impl MudrixClient {
                         } else {
                             in_call.insert(room_id.clone(), extras.call.clone());
                         }
+                        known.insert(room_id.clone(), extras.clone());
                     }
-                    on_update(
-                        diffs
-                            .into_iter()
-                            .map(|diff| {
-                                ListDiff::map(diff, |item: &RoomListItem| {
-                                    RoomSummary::with_extras(item, extras.get(item.room_id()))
+                    if quick {
+                        let filled = shown
+                            .iter()
+                            .enumerate()
+                            .filter_map(|(index, item)| {
+                                let extras = extras.get(item.room_id())?;
+                                Some(ListDiff::Set {
+                                    index,
+                                    value: RoomSummary::with_extras(item, Some(extras)),
                                 })
                             })
-                            .collect(),
-                    )
+                            .collect();
+                        on_update(filled);
+                    } else {
+                        on_update(
+                            diffs
+                                .into_iter()
+                                .map(|diff| {
+                                    ListDiff::map(diff, |item: &RoomListItem| {
+                                        RoomSummary::with_extras(item, extras.get(item.room_id()))
+                                    })
+                                })
+                                .collect(),
+                        )
+                    }
                 }
                 Update::RowChanged(room_id) => {
                     let Some(index) = shown
@@ -551,6 +650,7 @@ impl MudrixClient {
                     } else {
                         in_call.insert(room_id.clone(), extras.call.clone());
                     }
+                    known.insert(room_id.clone(), extras.clone());
                     on_update(vec![ListDiff::Set {
                         index,
                         value: RoomSummary::with_extras(&shown[index], Some(&extras)),
@@ -575,10 +675,17 @@ impl MudrixClient {
             for room_id in gone {
                 // Dropping the watcher stops it; the SDK keeps the last value it computed
                 latest_watchers.remove(&room_id);
+                known.remove(&room_id);
                 latest_events.forget_room(&room_id).await;
             }
             for room_id in listed {
                 if latest_watchers.contains_key(&room_id) {
+                    continue;
+                }
+                // A list entry can be painted before the SDK's state store knows the room (a cold
+                // start, or a room the sync hasn't applied yet). Subscribing then only logs a
+                // "Room is unknown" error; the next room update or tick picks it up instead.
+                if self.sdk().get_room(&room_id).is_none() {
                     continue;
                 }
                 latest_watchers.insert(
@@ -1302,7 +1409,10 @@ fn watch_read_receipts(
 /// `is_direct` counts as a DM from its inviter), their name and picture, the unread counts, the
 /// time of the latest loaded event of any kind and the latest message.
 pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
-    let mut extras = RoomExtras::default();
+    let mut extras = RoomExtras {
+        name: room_display_name(room).await,
+        ..Default::default()
+    };
     let partner = if room.state() == RoomState::Invited {
         own_invite(room).await.and_then(|invite| {
             (invite

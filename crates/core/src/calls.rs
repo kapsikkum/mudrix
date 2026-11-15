@@ -17,6 +17,7 @@ use futures_util::{
     future::{select, Either},
     stream, StreamExt,
 };
+use matrix_sdk::ruma::exports::http::StatusCode;
 use matrix_sdk::{
     config::RequestConfig,
     deserialized_responses::{EncryptionInfo, RawAnySyncOrStrippedState},
@@ -32,7 +33,8 @@ use matrix_sdk::{
                 },
                 state::send_state_event,
             },
-            error::{ErrorKind, RetryAfter},
+            error::{ErrorKind, FromHttpResponseError, RetryAfter},
+            FeatureFlag, SupportedVersions,
         },
         events::{
             AnySyncStateEvent, AnySyncTimelineEvent, AnyToDeviceEvent, AnyToDeviceEventContent,
@@ -395,6 +397,7 @@ async fn within<T>(ms: u64, future: impl Future<Output = T>) -> Option<T> {
 }
 
 /// How a failed membership request is handled, like matrix-js-sdk's MembershipManager
+#[derive(Debug)]
 enum Failure {
     NotFound,
     /// The server has no delayed events
@@ -433,6 +436,40 @@ fn classify_delayed(error: &HttpError) -> Failure {
         Some(ErrorKind::Forbidden) => Failure::Unsupported,
         _ => classify(error),
     }
+}
+
+/// Scheduling a delayed leave: servers without (working) delayed events are not a failure, the
+/// membership is simply kept alive by renewing it. matrix.org answers M_FORBIDDEN; a server that
+/// doesn't know the endpoint answers M_UNRECOGNIZED, 400 or 404; and one that ignores the delay
+/// parameter answers 2xx with a body that doesn't parse (tuwunel sends `{ "event_id": … }`, so
+/// `delay_id` is missing). All of those mean "no delayed events".
+fn classify_delayed_schedule(error: &HttpError) -> Failure {
+    if matches!(error, HttpError::Api(response)
+        if matches!(response.as_ref(), FromHttpResponseError::Deserialization(_)))
+    {
+        return Failure::Unsupported;
+    }
+    if let Some(api) = error.as_client_api_error() {
+        if matches!(
+            api.status_code,
+            StatusCode::BAD_REQUEST | StatusCode::NOT_FOUND
+        ) {
+            return Failure::Unsupported;
+        }
+    }
+    classify_delayed(error)
+}
+
+/// The unstable feature flag servers advertise for delayed events (MSC4140)
+const DELAYED_EVENTS_FEATURE: &str = "org.matrix.msc4140";
+
+/// Whether a server's `/versions` advertises delayed events. Servers like tuwunel list recent spec
+/// versions but not this flag, and answer the delayed request with a plain send (an empty member
+/// state, i.e. a real leave), so the app doesn't ask them.
+fn supports_delayed_events(versions: &SupportedVersions) -> bool {
+    versions
+        .features
+        .contains(&FeatureFlag::from(DELAYED_EVENTS_FEATURE))
 }
 
 /// No automatic retries: failures are handled (and counted) here
@@ -997,7 +1034,7 @@ async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Op
     };
     Some(IncomingCall {
         room_id: room.room_id().to_string(),
-        room_name: room.cached_display_name().map(|n| n.to_string()),
+        room_name: crate::rooms::room_display_name(room).await,
         event_id: event.get("event_id")?.as_str()?.to_owned(),
         sender: from.to_owned(),
         sender_name,
@@ -1221,7 +1258,8 @@ impl CallSession {
         Ok(response.event_id.to_string())
     }
 
-    async fn send_delayed_leave(&self) -> std::result::Result<String, HttpError> {
+    /// Schedules the leave, falling back to "no delayed events" when the server ignores it.
+    async fn send_delayed_leave(&self) -> std::result::Result<String, Failure> {
         let delay = self.state.lock().unwrap().delayed_leave_ms(&self.timings);
         let request = delayed_state_event::unstable::Request::new_raw(
             self.room.room_id().to_owned(),
@@ -1231,18 +1269,24 @@ impl CallSession {
                 timeout: Duration::from_millis(delay),
             },
             Raw::new(&json!({}))
-                .map_err(|e| HttpError::IntoHttp(e.into()))?
+                .map_err(|e| classify_delayed_schedule(&HttpError::IntoHttp(e.into())))?
                 .cast_unchecked(),
         );
         let response = self
             .client
             .send(request)
             .with_request_config(once())
-            .await?;
+            .await
+            .map_err(|e| classify_delayed_schedule(&e))?;
+        let delay_id = response.delay_id.trim().to_owned();
+        if delay_id.is_empty() {
+            // Accepted, but nothing to restart or cancel later: treat it as not supported
+            return Err(Failure::Unsupported);
+        }
         let mut state = self.state.lock().unwrap();
-        state.delay_id = Some(response.delay_id.clone());
         state.leave_expected_at = now_ms() + delay;
-        Ok(response.delay_id)
+        state.delay_id = Some(delay_id.clone());
+        Ok(delay_id)
     }
 
     async fn update_delayed(
@@ -1259,30 +1303,51 @@ impl CallSession {
     }
 
     /// Schedules the leave (so a vanished client drops out), then announces the membership.
+    /// A server without delayed events is never a reason to fail the call: the membership is
+    /// still renewed, so the call just outlives a client that vanishes.
     async fn join(&self) -> Result<()> {
         let mut retries = Retries::default();
-        loop {
-            match self.send_delayed_leave().await {
-                Ok(_) => break,
-                Err(error) => match classify_delayed(&error) {
-                    failure @ (Failure::RateLimited(_) | Failure::Network) => {
+        // Asking a server that has no delayed events would send the (empty) leave for real
+        let supported = match self.client.supported_versions().await {
+            Ok(versions) => supports_delayed_events(&versions),
+            Err(_) => true,
+        };
+        if supported {
+            loop {
+                match self.send_delayed_leave().await {
+                    Ok(_) => break,
+                    Err(failure @ (Failure::RateLimited(_) | Failure::Network)) => {
                         match retries.next(failure, "scheduling the leave") {
                             Ok(wait) => sleep(Duration::from_millis(wait)).await,
                             Err(_) => break,
                         }
                     }
-                    Failure::Unsupported => {
-                        self.state.lock().unwrap().no_delayed_events = true;
+                    Err(failure) => {
+                        self.without_delayed_events(failure, "scheduling the leave");
                         break;
                     }
-                    // Without delayed events the membership just expires
-                    _ => break,
-                },
+                }
             }
+        } else {
+            self.without_delayed_events(Failure::Unsupported, "scheduling the leave");
         }
         self.send_join()
             .await
             .map_err(|e| Error::Call(format!("can't join the call: {e}")))
+    }
+
+    /// Stops trying to keep a delayed leave: the membership is renewed instead.
+    fn without_delayed_events(&self, failure: Failure, what: &str) {
+        if !matches!(failure, Failure::Unsupported) {
+            tracing::debug!(
+                %what,
+                ?failure,
+                "the delayed leave can't be scheduled; renewing the membership instead"
+            );
+        }
+        let mut state = self.state.lock().unwrap();
+        state.no_delayed_events = true;
+        state.restart_due = None;
     }
 
     /// Sends a fresh membership; retries what can be retried, returns why it failed otherwise.
@@ -1617,19 +1682,14 @@ impl CallSession {
                 if self.state.lock().unwrap().no_delayed_events {
                     Some(Rejoin::Join)
                 } else {
-                    match self
-                        .send_delayed_leave()
-                        .await
-                        .map_err(|e| classify_delayed(&e))
-                    {
+                    match self.send_delayed_leave().await {
                         Ok(_) => Some(Rejoin::Join),
                         Err(failure @ (Failure::RateLimited(_) | Failure::Network)) => {
                             return self.retry_rejoin(step, failure, "scheduling the leave")
                         }
                         Err(failure) => {
-                            if matches!(failure, Failure::Unsupported) {
-                                self.state.lock().unwrap().no_delayed_events = true;
-                            }
+                            // No delayed leave: the renewed membership keeps the call joined
+                            self.without_delayed_events(failure, "scheduling the leave");
                             Some(Rejoin::Join)
                         }
                     }
@@ -1667,24 +1727,21 @@ impl CallSession {
         };
         let now = now_ms();
         let Some(delay_id) = delay_id else {
-            return match self
-                .send_delayed_leave()
-                .await
-                .map_err(|e| classify_delayed(&e))
-            {
+            return match self.send_delayed_leave().await {
                 Ok(_) => {
                     let mut state = self.state.lock().unwrap();
                     state.restart_retries = Retries::default();
                     state.restart_due = Some(now_ms() + DELAYED_LEAVE_RESTART_MS);
                     Ok(())
                 }
-                Err(Failure::Unsupported) => {
-                    let mut state = self.state.lock().unwrap();
-                    state.no_delayed_events = true;
-                    state.restart_due = None;
+                Err(failure @ (Failure::RateLimited(_) | Failure::Network)) => {
+                    self.retry_restart(failure, "scheduling the leave")
+                }
+                Err(failure) => {
+                    // The server won't schedule one: keep the membership rather than end the call
+                    self.without_delayed_events(failure, "scheduling the leave");
                     Ok(())
                 }
-                Err(failure) => self.retry_restart(failure, "scheduling the leave"),
             };
         };
         let timeout = match leave_expected_at.checked_sub(now) {
@@ -2057,6 +2114,100 @@ mod tests {
         let foci = json!([{ "type": "other" }, { "type": "livekit", "livekit_service_url": " https://sfu.x// " }]);
         assert_eq!(livekit_from(Some(&foci)).as_deref(), Some("https://sfu.x"));
         assert_eq!(livekit_from(Some(&json!({}))), None);
+    }
+
+    fn server_error(status: u16, kind: ErrorKind) -> HttpError {
+        use matrix_sdk::ruma::api::{
+            client::uiaa::UiaaResponse,
+            error::{Error, ErrorBody, StandardErrorBody},
+        };
+        HttpError::Api(Box::new(FromHttpResponseError::Server(
+            UiaaResponse::MatrixError(Error::new(
+                StatusCode::from_u16(status).unwrap(),
+                ErrorBody::Standard(StandardErrorBody::new(kind, String::new())),
+            )),
+        )))
+    }
+
+    /// A 2xx answer the SDK couldn't parse, like tuwunel's `{ "event_id": … }` without `delay_id`
+    fn unparseable_answer() -> HttpError {
+        use matrix_sdk::ruma::api::error::DeserializationError;
+        HttpError::Api(Box::new(FromHttpResponseError::Deserialization(
+            DeserializationError::Json(serde_json::from_str::<Value>("{").unwrap_err()),
+        )))
+    }
+
+    #[test]
+    fn a_missing_delay_id_means_delayed_events_are_unsupported() {
+        assert!(matches!(
+            classify_delayed_schedule(&unparseable_answer()),
+            Failure::Unsupported
+        ));
+    }
+
+    #[test]
+    fn servers_without_the_delayed_endpoint_are_unsupported() {
+        for (status, kind) in [
+            (400, ErrorKind::Unrecognized),
+            (404, ErrorKind::Unrecognized),
+            (404, ErrorKind::NotFound),
+            (403, ErrorKind::Forbidden),
+        ] {
+            assert!(
+                matches!(
+                    classify_delayed_schedule(&server_error(status, kind.clone())),
+                    Failure::Unsupported
+                ),
+                "{status} {kind:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn delayed_schedule_keeps_retrying_transient_failures() {
+        assert!(matches!(
+            classify_delayed_schedule(&server_error(500, ErrorKind::Unknown)),
+            Failure::Network
+        ));
+        assert!(matches!(
+            classify_delayed_schedule(&server_error(
+                429,
+                ErrorKind::LimitExceeded(Default::default())
+            )),
+            Failure::RateLimited(_)
+        ));
+    }
+
+    #[test]
+    fn delayed_events_need_the_msc4140_flag() {
+        use matrix_sdk::ruma::api::MatrixVersion;
+        let versions = |versions: &[MatrixVersion], features: &[&str]| SupportedVersions {
+            versions: versions.iter().copied().collect(),
+            features: features.iter().map(|f| FeatureFlag::from(*f)).collect(),
+        };
+        // tuwunel: recent spec versions, no MSC4140
+        assert!(!supports_delayed_events(&versions(
+            &[MatrixVersion::V1_1, MatrixVersion::V1_14],
+            &["org.matrix.msc3916.stable"]
+        )));
+        assert!(supports_delayed_events(&versions(
+            &[MatrixVersion::V1_11],
+            &["org.matrix.msc4140"]
+        )));
+        assert!(!supports_delayed_events(&versions(&[], &[])));
+    }
+
+    #[test]
+    fn a_lost_scheduled_leave_is_not_unsupported() {
+        // Updating a delayed event the server forgot must reschedule it, not give up for good
+        assert!(matches!(
+            classify_delayed(&server_error(404, ErrorKind::NotFound)),
+            Failure::NotFound
+        ));
+        assert!(matches!(
+            classify_delayed(&server_error(403, ErrorKind::Forbidden)),
+            Failure::Unsupported
+        ));
     }
 
     #[test]

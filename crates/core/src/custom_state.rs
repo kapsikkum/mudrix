@@ -61,6 +61,32 @@ fn required_state() -> Vec<(StateEventType, String)> {
         .collect()
 }
 
+/// What a room's name, picture and heroes are worked out from. The room list's own sync asks for
+/// these only for the rooms it has reached so far (it grows its window), so rooms beyond it
+/// would show a bare room id or a placeholder until their turn; this connection asks for every
+/// joined room in one go.
+fn identity_state() -> Vec<(StateEventType, String)> {
+    [
+        (StateEventType::RoomName, ""),
+        (StateEventType::RoomCanonicalAlias, ""),
+        (StateEventType::RoomAvatar, ""),
+        (StateEventType::RoomCreate, ""),
+        (StateEventType::RoomMember, "$LAZY"),
+        (StateEventType::RoomMember, "$ME"),
+        (StateEventType::MemberHints, ""),
+    ]
+    .into_iter()
+    .map(|(event_type, key)| (event_type, key.to_owned()))
+    .collect()
+}
+
+/// Everything the state connection asks for: names first, then Mudrix's own types
+fn list_required_state() -> Vec<(StateEventType, String)> {
+    let mut state = identity_state();
+    state.extend(required_state());
+    state
+}
+
 /// Whether the client already has every one of these types from sync
 fn synced_locally(event_types: &[String]) -> bool {
     let ours = mudrix_state_types();
@@ -242,7 +268,7 @@ async fn state_sync_once(client: &Client) -> std::result::Result<(), matrix_sdk:
     let list = SlidingSyncList::builder("mudrix_state")
         .sync_mode(SlidingSyncMode::new_growing(100))
         .no_timeline_limit()
-        .required_state(required_state())
+        .required_state(list_required_state())
         .filters(Some(assign!(http::request::ListFilters::default(), {
             is_invite: Some(false),
         })));
@@ -285,6 +311,27 @@ mod tests {
         assert!(required
             .iter()
             .any(|(t, _)| t.to_string() == "io.github.kapsikkum.mudrix.voice_channel"));
+    }
+
+    #[test]
+    fn the_state_connection_also_asks_for_what_names_a_room() {
+        let asked: Vec<String> = list_required_state()
+            .iter()
+            .map(|(t, key)| format!("{t}|{key}"))
+            .collect();
+        for wanted in [
+            "m.room.name|",
+            "m.room.canonical_alias|",
+            "m.room.create|",
+            "m.room.member|$LAZY",
+            "m.room.member|$ME",
+        ] {
+            assert!(asked.iter().any(|a| a == wanted), "{wanted}");
+        }
+        assert_eq!(
+            list_required_state().len(),
+            identity_state().len() + required_state().len()
+        );
     }
 
     #[test]
