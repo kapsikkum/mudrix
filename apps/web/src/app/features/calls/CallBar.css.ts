@@ -6,7 +6,7 @@ export const bar = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
 });
@@ -76,10 +76,8 @@ export const info = style({
 });
 
 export const callStatus = style({
-  fontSize: '0.72rem',
+  fontSize: '0.75rem',
   fontWeight: 600,
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
   color: 'inherit',
   selectors: {
     [`${statusRow}:hover &`]: { textDecoration: 'underline' },
@@ -156,10 +154,8 @@ export const stats = style({
 });
 
 export const statsTitle = style({
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
+  fontSize: '0.75rem',
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 

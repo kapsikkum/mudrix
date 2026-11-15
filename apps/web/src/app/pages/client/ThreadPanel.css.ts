@@ -95,9 +95,9 @@ export const threadPanelHeader = style({
   gap: '8px',
   padding: '12px',
   fontSize: '1rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
 });
@@ -200,7 +200,6 @@ export const threadRootUndecryptable = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '4px',
-  fontStyle: 'italic',
   color: vars.color.textMuted,
   fontSize: '0.85rem',
 });
@@ -222,7 +221,7 @@ export const dateSeparator = style({
   fontSize: '0.78rem',
   color: vars.color.textMuted,
   fontWeight: 600,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   '::before': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
   '::after': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
 });
@@ -244,7 +243,6 @@ export const threadEmpty = style({
   padding: '32px 16px',
   color: vars.color.textMuted,
   fontSize: '0.85rem',
-  fontStyle: 'italic',
   flex: 1,
 });
 

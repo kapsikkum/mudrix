@@ -45,7 +45,7 @@ export const iconTile = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontWeight: 700,
+  fontWeight: 600,
   fontSize: fontSize.rem110,
   objectFit: 'cover',
 });
@@ -128,7 +128,7 @@ export const permTitle = style({
 
 export const permList = style({
   margin: 0,
-  paddingLeft: '18px',
+  paddingLeft: '16px',
   fontSize: fontSize.rem82,
   color: vars.color.textPrimary,
   lineHeight: 1.5,
@@ -199,7 +199,7 @@ export const codeBadge = style({
   border: `1px solid ${vars.color.danger}`,
   color: vars.color.danger,
   fontSize: fontSize.rem75,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: 1.5,
 });
 
@@ -218,7 +218,7 @@ export const codeWarning = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   borderRadius: vars.radius.sm,
   border: `2px solid ${vars.color.danger}`,
   backgroundColor: vars.color.bgSecondary,
@@ -231,14 +231,14 @@ export const codeWarningHead = style({
   gap: '8px',
   color: vars.color.danger,
   fontSize: fontSize.rem95,
-  fontWeight: 700,
+  fontWeight: 600,
 });
 
 export const keyChangedHead = codeWarningHead;
 
 export const codeWarningList = style({
   margin: 0,
-  paddingLeft: '18px',
+  paddingLeft: '16px',
   fontSize: fontSize.rem85,
   lineHeight: 1.5,
   display: 'flex',
@@ -273,7 +273,7 @@ export const officialBadge = style({
   border: `1px solid ${vars.color.accent}`,
   color: vars.color.accent,
   fontSize: fontSize.rem75,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: 1.5,
 });
 
@@ -307,7 +307,7 @@ export const keyChangedBlock = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '6px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   borderRadius: vars.radius.sm,
   border: `2px solid ${vars.color.danger}`,
   backgroundColor: vars.color.bgSecondary,
@@ -325,7 +325,7 @@ export const securityError = style({
 
 export const integrationNames = style({
   margin: 0,
-  paddingLeft: '18px',
+  paddingLeft: '16px',
   fontSize: fontSize.rem85,
   color: vars.color.textPrimary,
   lineHeight: 1.6,

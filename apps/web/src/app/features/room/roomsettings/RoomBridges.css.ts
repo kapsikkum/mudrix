@@ -44,7 +44,7 @@ export const separator = style({
 export const channelLink = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   color: vars.color.link,
   ':hover': { textDecoration: 'underline' },
 });

@@ -26,10 +26,8 @@ export const heading = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.7rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: '0.75rem',
+  fontWeight: 600,
   color: vars.color.textMuted,
   selectors: {
     // A small accent dot before the label.
@@ -57,8 +55,7 @@ export const icon = style({
   width: '40px',
   height: '40px',
   borderRadius: vars.radius.sm,
-  fontSize: '1.4rem',
-  lineHeight: 1,
+  color: vars.color.textPrimary,
   backgroundColor: `color-mix(in srgb, var(--card-accent, ${vars.color.accent}) 26%, ${vars.color.bgSecondary})`,
 });
 

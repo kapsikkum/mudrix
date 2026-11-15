@@ -14,7 +14,7 @@ const typeOptionBase = style({
   gap: '12px',
   boxSizing: 'border-box',
   width: '100%',
-  padding: '11px 12px',
+  padding: '12px 12px',
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
   background: vars.color.bgSecondary,
@@ -57,7 +57,7 @@ export const typeIconActive = style({
 export const typeText = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
 });
 

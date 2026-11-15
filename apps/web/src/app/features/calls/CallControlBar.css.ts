@@ -125,10 +125,8 @@ export const menuBadge = style({
   borderRadius: '999px',
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.18)`,
   color: vars.color.accent,
-  fontSize: '0.65rem',
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontSize: '0.75rem',
+  fontWeight: 600,
 });
 
 export const menuDivider = style({

@@ -6,7 +6,7 @@ import { fontSize } from '@/theme/typeScale';
 export const hero = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '18px',
+  gap: '16px',
   paddingBottom: '20px',
   marginBottom: '20px',
   borderBottom: `1px solid ${vars.color.border}`,
@@ -27,7 +27,7 @@ export const nameRow = style({
 
 export const appName = style({
   fontSize: fontSize.rem140,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: 1.2,
   color: vars.color.textPrimary,
 });
@@ -57,7 +57,7 @@ export const sourceBtn = style({
   // Links and buttons start from different line heights; the same box keeps them one height.
   minHeight: '34px',
   lineHeight: 1.25,
-  padding: '6px 14px',
+  padding: '6px 16px',
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,

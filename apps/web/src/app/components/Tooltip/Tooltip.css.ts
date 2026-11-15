@@ -7,7 +7,7 @@ export const tooltipPortal = style({
   top: 0,
   left: 0,
   zIndex: 9500,
-  padding: '5px 10px',
+  padding: '6px 10px',
   borderRadius: vars.radius.sm,
   fontSize: '0.75rem',
   fontWeight: 500,

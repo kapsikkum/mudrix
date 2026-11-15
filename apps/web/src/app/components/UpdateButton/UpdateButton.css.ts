@@ -25,7 +25,7 @@ export const button = style({
 
 export const percent = style({
   fontSize: '0.7rem',
-  fontWeight: 700,
+  fontWeight: 600,
   fontVariantNumeric: 'tabular-nums',
 });
 

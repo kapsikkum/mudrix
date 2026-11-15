@@ -75,7 +75,7 @@ export const section = style({
 export const sectionTitle = style({
   padding: '6px 8px 4px',
   fontSize: fontSize.rem75,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -163,7 +163,7 @@ export const footer = style({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
-  gap: '14px',
+  gap: '12px',
   padding: '6px 12px',
   borderTop: `1px solid ${vars.color.border}`,
   color: vars.color.textMuted,
@@ -187,7 +187,7 @@ export const kbd = style({
   justifyContent: 'center',
   minWidth: '16px',
   padding: '1px 4px',
-  borderRadius: '3px',
+  borderRadius: '4px',
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
   fontSize: fontSize.rem68,
@@ -202,11 +202,11 @@ export const badge = style({
   flexShrink: 0,
   minWidth: '18px',
   padding: '1px 6px',
-  borderRadius: '10px',
+  borderRadius: '8px',
   backgroundColor: vars.color.accent,
   color: vars.color.onAccent,
   fontSize: fontSize.rem72,
-  fontWeight: 700,
+  fontWeight: 600,
   textAlign: 'center',
 });
 

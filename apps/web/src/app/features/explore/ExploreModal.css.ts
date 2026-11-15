@@ -19,7 +19,7 @@ export const controlsRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
-  padding: '14px 20px',
+  padding: '16px 20px',
 });
 
 export const filterSelect = style({
@@ -65,7 +65,7 @@ export const pillGroup = style({
   height: controlHeight,
   backgroundColor: vars.color.bgTertiary,
   borderRadius: vars.radius.sm,
-  padding: '3px',
+  padding: '4px',
   flexShrink: 0,
 });
 
@@ -216,8 +216,8 @@ export const scrollArea = style({
 
 export const sectionTitle = style({
   fontSize: fontSize.rem75,
-  fontWeight: 700,
-  letterSpacing: '0.06em',
+  fontWeight: 600,
+  letterSpacing: '0.01em',
   color: vars.color.textMuted,
   marginBottom: '12px',
 });
@@ -243,7 +243,7 @@ export const roomCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '14px',
+  padding: '16px',
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bgPrimary,
   border: `1px solid ${vars.color.border}`,
@@ -268,7 +268,7 @@ export const cardAvatar = style({
   borderRadius: vars.radius.sm,
   flexShrink: 0,
   fontSize: fontSize.rem100,
-  fontWeight: 700,
+  fontWeight: 600,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -300,11 +300,11 @@ export const cardAlias = style({
 });
 
 export const cardTypeBadge = style({
-  fontSize: fontSize.rem66,
-  fontWeight: 700,
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
 
-  letterSpacing: '0.04em',
-  padding: '2px 7px',
+  letterSpacing: '0.01em',
+  padding: '2px 8px',
   borderRadius: '99px',
   backgroundColor: `${vars.color.accent}20`,
   color: vars.color.accent,
@@ -339,7 +339,7 @@ export const cardMembers = style({
 });
 
 export const joinBtn = style({
-  padding: '4px 14px',
+  padding: '4px 16px',
   borderRadius: vars.radius.sm,
   border: 'none',
   backgroundColor: vars.color.accent,
@@ -420,7 +420,7 @@ export const emptyState = style({
   alignItems: 'center',
   justifyContent: 'center',
   height: '100%',
-  gap: '14px',
+  gap: '12px',
   padding: '0 40px',
   textAlign: 'center',
   color: vars.color.textMuted,

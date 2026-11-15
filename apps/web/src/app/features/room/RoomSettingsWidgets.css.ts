@@ -3,8 +3,8 @@ import { vars } from '@/theme/vars.css';
 
 export const sectionTitle = style({
   fontSize: '0.75rem',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
+  fontWeight: 600,
+  letterSpacing: '0.01em',
   color: vars.color.textMuted,
   marginBottom: '12px',
   marginTop: '4px',
@@ -53,7 +53,7 @@ export const widgetRow = style({
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   backgroundColor: vars.color.bgSecondary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
@@ -110,7 +110,6 @@ export const emptyState = style({
   backgroundColor: vars.color.bgSecondary,
   border: `1px dashed ${vars.color.border}`,
   borderRadius: vars.radius.md,
-  fontStyle: 'italic',
 });
 
 export const dangerIcon = style({

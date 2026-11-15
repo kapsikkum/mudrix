@@ -81,7 +81,7 @@ export const header = style({
 
 export const title = style({
   fontSize: fontSize.rem110,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   display: 'flex',
   alignItems: 'center',
@@ -110,7 +110,7 @@ export const body = style({
   padding: '20px 24px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '14px',
+  gap: '12px',
   overflowY: 'auto',
   flex: 1,
   minHeight: 0,

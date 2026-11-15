@@ -119,9 +119,9 @@ export const membersSidebarHeader = style({
 export const membersSidebarTitle = style({
   flex: 1,
   fontSize: '1rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
 });
 
 export const membersSidebarClose = style({

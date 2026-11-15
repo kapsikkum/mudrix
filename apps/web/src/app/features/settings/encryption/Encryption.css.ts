@@ -4,7 +4,7 @@ import { vars } from '@/theme/vars.css';
 export const activeBadge = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   flexShrink: 0,
   padding: '4px 10px',
   borderRadius: '999px',

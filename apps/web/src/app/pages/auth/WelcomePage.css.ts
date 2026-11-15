@@ -85,7 +85,7 @@ export const header = style({
 
 export const title = style({
   fontSize: fontSize.rem150,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: 1.25,
   color: vars.color.textPrimary,
   outline: 'none',
@@ -128,9 +128,7 @@ export const labelRow = style({
 
 export const label = style({
   fontSize: fontSize.rem78,
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -142,7 +140,7 @@ export const required = style({ color: vars.color.error, marginLeft: '2px' });
  */
 export const message = style({
   minHeight: '20px',
-  padding: '3px 0 1px',
+  padding: '4px 0 1px',
   fontSize: fontSize.rem80,
   lineHeight: '16px',
   color: vars.color.textMuted,
@@ -159,7 +157,7 @@ export const inlineLink = style({
   padding: 0,
   font: 'inherit',
   textDecoration: 'none',
-  borderRadius: '3px',
+  borderRadius: '4px',
   ':hover': { textDecoration: 'underline' },
   ':disabled': { color: vars.color.textMuted, cursor: 'default', textDecoration: 'none' },
 });
@@ -183,7 +181,7 @@ export const server = style({
   flexDirection: 'column',
   gap: '6px',
   // The same space as under a field (its gap, message line and padding), so the form is evenly spaced
-  marginBottom: '26px',
+  marginBottom: '24px',
 });
 
 export const serverChip = style({
@@ -361,8 +359,6 @@ export const divider = style({
   margin: '20px 0 16px',
   color: vars.color.textMuted,
   fontSize: fontSize.rem78,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
   '::before': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
   '::after': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
 });
@@ -612,9 +608,7 @@ export const serverLabelRow = style({
 
 export const serverLabel = style({
   fontSize: '0.78rem',
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 

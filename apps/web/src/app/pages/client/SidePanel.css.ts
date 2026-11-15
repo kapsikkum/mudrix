@@ -95,9 +95,9 @@ export const sidePanelHeader = style({
   gap: '8px',
   padding: '12px',
   fontSize: '1rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
 });

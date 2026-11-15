@@ -31,7 +31,7 @@ export const keywordButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: '6px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   fontSize: fontSize.rem90,
   fontWeight: 500,
   color: vars.color.textPrimary,

@@ -5,14 +5,14 @@ import { fontSize } from '@/theme/typeScale';
 export const grid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-  gap: '14px',
+  gap: '12px',
 });
 
 // Nameplates are wide strips, so they get a row each, side by side only on wide screens.
 export const gridWide = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-  gap: '14px',
+  gap: '12px',
 });
 
 export const item = style({
@@ -83,10 +83,8 @@ export const footer = style({
 });
 
 export const sectionHeading = style({
-  fontSize: fontSize.rem74,
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
   color: vars.color.textMuted,
   margin: '4px 0 8px',
 });

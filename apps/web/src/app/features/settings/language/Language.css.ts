@@ -10,7 +10,7 @@ export const chips = style({
 });
 
 export const chip = style({
-  padding: '6px 14px',
+  padding: '6px 16px',
   borderRadius: vars.radius.pill,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,

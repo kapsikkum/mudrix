@@ -33,7 +33,7 @@ export const tab = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
   border: 'none',
   background: 'none',

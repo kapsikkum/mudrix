@@ -12,7 +12,7 @@ export const packCard = style({
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  padding: '14px 16px',
+  padding: '16px 16px',
   backgroundColor: vars.color.bgSecondary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
@@ -73,7 +73,6 @@ export const emptyPacks = style({
   backgroundColor: vars.color.bgSecondary,
   border: `1px dashed ${vars.color.border}`,
   borderRadius: vars.radius.md,
-  fontStyle: 'italic',
 });
 
 export const headerRow = style({
@@ -102,11 +101,9 @@ export const popRoomGroup = style({
 });
 
 export const popRoomName = style({
-  fontSize: '0.72rem',
-  fontWeight: 700,
+  fontSize: '0.75rem',
+  fontWeight: 600,
   color: vars.color.textMuted,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
   padding: '8px 10px 4px',
 });
 

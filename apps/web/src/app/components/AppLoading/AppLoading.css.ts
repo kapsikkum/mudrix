@@ -29,5 +29,4 @@ export const overlayHiding = style({
 export const text = style({
   color: vars.color.textMuted,
   fontSize: '0.9rem',
-  fontStyle: 'italic',
 });

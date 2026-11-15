@@ -57,12 +57,12 @@ export const threadTabActive = style([
 
 export const threadTabCount = style({
   minWidth: '16px',
-  padding: '0 5px',
+  padding: '0 6px',
   borderRadius: '8px',
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
   fontSize: '0.68rem',
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: '16px',
   textAlign: 'center',
 });
@@ -90,7 +90,6 @@ export const threadListEmpty = style({
   padding: '32px 16px',
   color: vars.color.textMuted,
   fontSize: '0.85rem',
-  fontStyle: 'italic',
   flex: 1,
 });
 
@@ -156,7 +155,6 @@ export const threadItemBodyUndecryptable = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '4px',
-  fontStyle: 'italic',
   color: vars.color.textMuted,
   fontSize: '0.85rem',
 });

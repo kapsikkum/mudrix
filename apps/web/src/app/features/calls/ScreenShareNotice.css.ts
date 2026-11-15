@@ -41,7 +41,7 @@ export const label = style({
 
 export const stopButton = style({
   flexShrink: 0,
-  padding: '5px 10px',
+  padding: '6px 10px',
   border: 'none',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.danger,

@@ -71,7 +71,7 @@ export const spaceBarBtn = style({
   border: 'none',
   padding: 0,
   fontSize: fontSize.rem90,
-  fontWeight: 700,
+  fontWeight: 600,
   transition: `background-color ${fast}, box-shadow ${fast}`,
   position: 'relative',
   flexShrink: 0,

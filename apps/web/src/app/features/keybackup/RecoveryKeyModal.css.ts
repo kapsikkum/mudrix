@@ -8,7 +8,7 @@ export const keyBox = style({
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
-  padding: '10px 14px',
+  padding: '10px 16px',
 });
 
 export const keyActions = style({
@@ -58,7 +58,7 @@ export const downloadBtn = style([
 
 const alertBase = style({
   borderRadius: vars.radius.sm,
-  padding: '10px 14px',
+  padding: '10px 16px',
   fontSize: '0.85rem',
   display: 'flex',
   gap: '8px',
@@ -80,7 +80,7 @@ export const alertDanger = style([
   {
     backgroundColor: 'rgba(237,66,69,0.1)',
     border: '1px solid rgba(237,66,69,0.45)',
-    color: '#f87171',
+    color: vars.color.danger,
   },
 ]);
 

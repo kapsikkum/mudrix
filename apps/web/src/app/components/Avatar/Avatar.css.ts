@@ -135,10 +135,10 @@ export const presenceDotFill = style([
   },
 ]);
 
-export const presenceOnline = style({ backgroundColor: '#4ade80' });
-export const presenceUnavailable = style({ backgroundColor: '#facc15' });
-export const presenceOffline = style({ backgroundColor: '#6b7280' });
-export const presenceDnd = style({ backgroundColor: '#ff4747' });
+export const presenceOnline = style({ backgroundColor: vars.color.success });
+export const presenceUnavailable = style({ backgroundColor: vars.color.warning });
+export const presenceOffline = style({ backgroundColor: vars.color.textMuted });
+export const presenceDnd = style({ backgroundColor: vars.color.danger });
 
 export const presenceDotButton = style({
   pointerEvents: 'auto',

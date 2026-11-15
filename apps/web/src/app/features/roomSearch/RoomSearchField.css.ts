@@ -18,7 +18,7 @@ export const field = style({
 export const scope = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   flexShrink: 1,
   minWidth: 0,
   maxWidth: '40%',

@@ -14,7 +14,7 @@ export const label = style({
   fontSize: '0.82rem',
   fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.05em',
+  letterSpacing: '0.01em',
   cursor: 'text',
 });
 

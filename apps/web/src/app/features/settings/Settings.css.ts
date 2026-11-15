@@ -17,7 +17,7 @@ export const actionBtn = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: '6px',
-  padding: '9px 20px',
+  padding: '10px 20px',
   borderRadius: vars.radius.sm,
   fontSize: fontSize.rem90,
   fontWeight: 500,
@@ -35,7 +35,7 @@ export const actionBtnSecondary = style([
 ]);
 
 export const inputCss = style({
-  padding: '9px 12px',
+  padding: '10px 12px',
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
@@ -63,7 +63,7 @@ export const fieldLabel = style({
   fontSize: fontSize.rem82,
   fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.05em',
+  letterSpacing: '0.01em',
   cursor: 'text',
 });
 
@@ -121,8 +121,8 @@ export const kbd = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '1px 5px',
-  borderRadius: '3px',
+  padding: '1px 6px',
+  borderRadius: '4px',
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
   fontSize: fontSize.rem70,
@@ -202,7 +202,7 @@ export const keybindEdit = style({
   alignItems: 'center',
   gap: '6px',
   minHeight: '30px',
-  padding: '3px 4px 3px 7px',
+  padding: '4px 4px 4px 8px',
   boxSizing: 'border-box',
   borderRadius: vars.radius.sm,
   border: `1px dashed ${vars.color.border}`,
@@ -282,7 +282,7 @@ export const mobileTopTitle = style({
   flex: 1,
   minWidth: 0,
   fontSize: fontSize.rem110,
-  fontWeight: 700,
+  fontWeight: 600,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -378,7 +378,7 @@ export const navSubClip = style({ minHeight: 0, overflow: 'hidden' });
 export const navSub = style({
   display: 'flex',
   flexDirection: 'column',
-  margin: '2px 0 4px 18px',
+  margin: '2px 0 4px 16px',
   borderLeft: `2px solid ${vars.color.border}`,
 });
 

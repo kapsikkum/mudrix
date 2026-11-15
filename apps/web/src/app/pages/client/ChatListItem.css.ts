@@ -186,9 +186,9 @@ export const roomBadge = style({
   marginLeft: 'auto',
   backgroundColor: vars.color.accent,
   color: vars.color.onAccent,
-  borderRadius: '10px',
+  borderRadius: '8px',
   fontSize: fontSize.rem72,
-  fontWeight: 700,
+  fontWeight: 600,
   padding: '1px 6px',
   minWidth: '18px',
   textAlign: 'center',
@@ -291,10 +291,10 @@ export const presenceDot = style({
   zIndex: zIndex.avatar,
 });
 
-export const presenceOnline = style({ backgroundColor: '#22f07a' });
-export const presenceIdle = style({ backgroundColor: '#ffd21f' });
-export const presenceDnd = style({ backgroundColor: '#ff4747' });
-export const presenceOffline = style({ backgroundColor: '#9aa3b2' });
+export const presenceOnline = style({ backgroundColor: vars.color.success });
+export const presenceIdle = style({ backgroundColor: vars.color.warning });
+export const presenceDnd = style({ backgroundColor: vars.color.danger });
+export const presenceOffline = style({ backgroundColor: vars.color.textMuted });
 
 /** How long the call in a voice channel has been running. */
 export const callTimer = style({

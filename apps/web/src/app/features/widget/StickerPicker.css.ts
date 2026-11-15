@@ -17,7 +17,7 @@ export const headerTitle = style({
   fontSize: '0.85rem',
   fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.05em',
+  letterSpacing: '0.01em',
   paddingLeft: '4px',
 });
 

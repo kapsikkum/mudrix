@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
-import { GithubLogoIcon, SparkleIcon } from '@phosphor-icons/react';
+import { GithubLogoIcon, NewspaperIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
 import { whatsNewOpenAtom, whatsNewSeenAtom } from '@/app/store/atoms';
@@ -52,7 +52,7 @@ export function WhatsNewModal() {
       onClose={close}
       size="md"
       title={t('whatsNew.titleVersion', { version: entry.version })}
-      titleIcon={<SparkleIcon size={18} weight="fill" />}
+      titleIcon={<NewspaperIcon size={18} weight="fill" />}
       footer={
         <>
           <a

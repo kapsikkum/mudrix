@@ -32,8 +32,6 @@ export const notesLabel = style({
   gap: '6px',
   fontSize: '0.75rem',
   fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
   color: vars.color.textMuted,
 });
 
@@ -90,5 +88,5 @@ export const body = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
-  padding: '0 16px 14px',
+  padding: '0 16px 16px',
 });

@@ -167,7 +167,7 @@ export const avatarCircle = style({
 export const avatarCircleSpeaking = style([
   avatarCircle,
   {
-    boxShadow: `0 0 0 3px ${DISCORD_SPEAKING}, 0 0 22px 6px color-mix(in srgb, ${DISCORD_SPEAKING} 50%, transparent)`,
+    boxShadow: `0 0 0 3px ${DISCORD_SPEAKING}`,
   },
 ]);
 
@@ -210,8 +210,8 @@ export const label = style({
   maxWidth: 'calc(100% - 16px)',
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
-  padding: '3px 8px',
+  gap: '6px',
+  padding: '4px 8px',
   borderRadius: vars.radius.sm,
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
   color: '#fff',
@@ -225,7 +225,7 @@ export const labelName = style({
   whiteSpace: 'nowrap',
 });
 
-export const mutedIcon = style({ flexShrink: 0, color: '#f23f43' });
+export const mutedIcon = style({ flexShrink: 0, color: vars.color.danger });
 
 export const liveRow = style({
   position: 'absolute',
@@ -240,27 +240,25 @@ export const viewersChip = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '4px',
-  padding: '0 7px',
+  padding: '0 8px',
   borderRadius: '999px',
   background: 'rgba(0, 0, 0, 0.6)',
   color: '#ffffff',
   fontSize: '0.68rem',
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: '18px',
   fontVariantNumeric: 'tabular-nums',
   userSelect: 'none',
 });
 
 export const liveBadge = style({
-  padding: '0 7px',
+  padding: '0 8px',
   borderRadius: '999px',
   background: '#593695',
   color: '#ffffff',
-  fontSize: '0.68rem',
-  fontWeight: 700,
+  fontSize: '0.75rem',
+  fontWeight: 600,
   lineHeight: '18px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
   userSelect: 'none',
 });
 
@@ -271,9 +269,9 @@ export const keyMissing = style({
   transform: 'translateX(-50%)',
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   maxWidth: 'calc(100% - 96px)',
-  padding: '3px 9px',
+  padding: '4px 10px',
   borderRadius: '999px',
   backgroundColor: 'rgba(0, 0, 0, 0.65)',
   color: '#ffd166',
@@ -296,7 +294,7 @@ export const badge = style({
   height: '28px',
   borderRadius: '50%',
   backgroundColor: 'rgba(0, 0, 0, 0.55)',
-  fontSize: '1rem',
+  color: vars.color.warning,
 });
 
 const pop = keyframes({
@@ -365,7 +363,7 @@ export const bubbleMuted = style({
   height: '32px',
   borderRadius: '50%',
   backgroundColor: vars.color.bgTertiary,
-  color: '#f23f43',
+  color: vars.color.danger,
   border: `3px solid ${vars.color.bgTertiary}`,
   boxSizing: 'border-box',
 });
@@ -374,7 +372,14 @@ export const bubbleHand = style({
   position: 'absolute',
   left: '-4px',
   top: '-4px',
-  fontSize: '1.1rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  color: vars.color.warning,
 });
 
 export const bubbleReaction = style([
@@ -461,7 +466,7 @@ export const watchBtn = style({
   backgroundColor: 'rgba(255, 255, 255, 0.92)',
   color: '#111',
   fontSize: '0.88rem',
-  fontWeight: 700,
+  fontWeight: 600,
   cursor: 'pointer',
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
   transition: `transform ${fast}, background-color ${fast}`,
@@ -485,7 +490,7 @@ export const userMenu = style({
 export const userMenuName = style({
   padding: '6px 8px 4px',
   fontSize: '0.85rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -531,7 +536,7 @@ const rangeThumb = {
   appearance: 'none',
   width: '14px',
   height: '14px',
-  marginTop: '-5px',
+  marginTop: '-6px',
   borderRadius: '50%',
   border: 'none',
   backgroundColor: '#fff',
@@ -588,7 +593,7 @@ export const calling = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '14px',
+  gap: '12px',
 });
 
 export const callingRow = style({

@@ -21,10 +21,10 @@ export const jsonTextarea = style({
 const validationRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   fontSize: '0.78rem',
 });
 
-export const validOk = style([validationRow, { color: '#3ba55d' }]);
+export const validOk = style([validationRow, { color: vars.color.success }]);
 
 export const validErr = style([validationRow, { color: vars.color.danger }]);

@@ -4,7 +4,7 @@ import { fast } from '@/theme/animations.css';
 
 const inputBase = style({
   width: '100%',
-  padding: '9px 12px',
+  padding: '10px 12px',
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,

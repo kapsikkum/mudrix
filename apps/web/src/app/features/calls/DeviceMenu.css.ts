@@ -56,7 +56,7 @@ export const item = style({
   alignItems: 'center',
   gap: '10px',
   width: '100%',
-  padding: '7px 10px',
+  padding: '8px 10px',
   border: 'none',
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',

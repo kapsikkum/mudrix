@@ -20,7 +20,7 @@ export const header = style({
   alignItems: 'center',
   gap: '8px',
   color: vars.color.textPrimary,
-  fontWeight: 700,
+  fontWeight: 600,
   fontSize: '1rem',
   padding: '2px 2px 0',
 });
@@ -90,10 +90,8 @@ export const body = style({
 
 export const sectionLabel = style({
   color: vars.color.textMuted,
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: '0.75rem',
+  fontWeight: 600,
   margin: '0 0 6px 2px',
 });
 
@@ -359,7 +357,7 @@ const actionBase = style({
   justifyContent: 'center',
   gap: '6px',
   minHeight: '36px',
-  padding: '0 14px',
+  padding: '0 16px',
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
@@ -399,14 +397,14 @@ export const credit = style({
 export const chip = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   maxWidth: '120px',
   padding: '0 6px',
   borderRadius: '999px',
   backgroundColor: vars.color.accent,
   color: '#fff',
   fontSize: '0.64rem',
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: '15px',
   flexShrink: 0,
 });

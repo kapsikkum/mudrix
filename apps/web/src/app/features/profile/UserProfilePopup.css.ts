@@ -135,7 +135,7 @@ export const popoutAvatarRow = style({
 
 export const cardBody = style({
   margin: '6px 4px 10px',
-  padding: '6px 14px',
+  padding: '6px 16px',
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
@@ -164,10 +164,8 @@ export const bodyDivider = style({
 });
 
 export const sectionHeader = style({
-  fontSize: fontSize.rem72,
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
   color: vars.color.textMuted,
   marginBottom: '2px',
 });
@@ -228,7 +226,7 @@ export const displayName = style({
   boxSizing: 'border-box',
   paddingRight: 'var(--badge-room, 0px)',
   fontSize: fontSize.rem130,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   wordBreak: 'break-word',
   lineHeight: 1.3,
@@ -654,7 +652,7 @@ export const fullModalLeft = style({
   position: 'relative',
   overflowY: 'auto',
   padding: '20px',
-  gap: '14px',
+  gap: '12px',
   '@media': {
     [PANEL_OVERLAY_QUERY]: {
       width: '100%',
@@ -774,8 +772,6 @@ export const notesLabel = style({
   gap: '6px',
   fontSize: fontSize.rem75,
   fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
   color: vars.color.textMuted,
 });
 
@@ -902,7 +898,7 @@ export const status = style({
   maxWidth: '100%',
   padding: '6px 12px',
   border: `1px solid ${vars.color.border}`,
-  borderRadius: '10px 16px 16px 10px',
+  borderRadius: '8px 16px 16px 8px',
   backgroundColor: vars.color.bgSecondary,
   fontSize: '0.8rem',
   lineHeight: 1.35,

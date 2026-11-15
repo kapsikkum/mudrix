@@ -34,7 +34,7 @@ export const nav = style({
 export const navLabel = style({
   padding: '8px 10px',
   fontSize: fontSize.rem80,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
   '@media': {
@@ -56,7 +56,7 @@ export const navItem = style({
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
-  padding: '9px 12px',
+  padding: '10px 12px',
   borderRadius: vars.radius.sm,
   cursor: 'pointer',
   border: 'none',
@@ -138,7 +138,7 @@ export const panelTitle = style({
   margin: '-32px -40px 12px',
   padding: '0 72px 0 40px',
   fontSize: fontSize.rem160,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   letterSpacing: '-0.01em',
   backgroundColor: vars.color.bgSecondary,
@@ -155,7 +155,7 @@ export const section = style({
 
 export const sectionTitle = style({
   fontSize: fontSize.rem100,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
   marginBottom: '10px',
@@ -351,7 +351,7 @@ export const permGroupHeader = style({
   gap: '8px',
   padding: '16px 10px 6px',
   fontSize: fontSize.rem100,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textMuted,
   letterSpacing: '0.01em',
   borderTop: `1px solid ${vars.color.border}`,
@@ -365,8 +365,8 @@ export const permGroupHeader = style({
 export const permGroupBadge = style({
   fontSize: fontSize.rem70,
   fontWeight: 600,
-  padding: '1px 7px',
-  borderRadius: '10px',
+  padding: '1px 8px',
+  borderRadius: '8px',
   backgroundColor: vars.color.bgHover,
   color: vars.color.textMuted,
 });
@@ -452,7 +452,7 @@ export const navListHeader = style({
 
 export const navListTitle = style({
   fontSize: '1.3rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -466,7 +466,7 @@ export const navListDivider = style({
 export const navRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   width: '100%',
   minHeight: '56px',
   padding: '0 16px',
@@ -563,7 +563,7 @@ export const pageHeaderTitle = style({
   flex: 1,
   minWidth: 0,
   fontSize: fontSize.rem110,
-  fontWeight: 700,
+  fontWeight: 600,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',

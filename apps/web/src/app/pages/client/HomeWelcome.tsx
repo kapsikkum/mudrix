@@ -14,7 +14,7 @@ import {
   EnvelopeSimpleIcon,
   GameControllerIcon,
   ShieldWarningIcon,
-  SparkleIcon,
+  NewspaperIcon,
   SpeakerHighIcon,
   StackIcon,
   XIcon,
@@ -42,7 +42,7 @@ import { useMentions, type Mention } from '@/app/features/inbox/useMentions';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { useRoomEntries, type RoomEntry } from '@/app/features/roomSwitcher/roomEntries';
 import { latestWhatsNew } from '@/app/features/whatsNew';
-import { ACTIVITY_EMOJI } from '@/util/profileActivity';
+import { ActivityIcon } from '@/app/features/profile/ActivityIcon';
 import { formatUserId } from '@/util/matrix';
 import { MODIFIER_KEY } from '@/app/util/platform';
 import { PersonAvatar } from './ActiveNowPanel';
@@ -231,21 +231,21 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   const start: Action[] = [
     {
       id: 'dm',
-      icon: <ChatCircleIcon size={22} />,
+      icon: <ChatCircleIcon size={20} />,
       title: t('timeline.startDm'),
       description: t('timeline.home.dmDesc'),
       onClick: () => setNewDmOpen(true),
     },
     {
       id: 'space',
-      icon: <StackIcon size={22} />,
+      icon: <StackIcon size={20} />,
       title: t('space.chooseCreateJoin'),
       description: t('timeline.home.spaceDesc'),
       onClick: () => setCreateSpaceOpen({ open: true }),
     },
     {
       id: 'explore',
-      icon: <CompassIcon size={22} />,
+      icon: <CompassIcon size={20} />,
       title: t('timeline.home.exploreTitle'),
       description: t('timeline.home.exploreDesc'),
       onClick: () => setExploreOpen(true),
@@ -369,7 +369,7 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
                       title={t('common.dismiss')}
                       onClick={action.onDismiss}
                     >
-                      <XIcon size={13} weight="bold" />
+                      <XIcon size={14} weight="bold" />
                     </button>
                   )}
                 </li>
@@ -475,7 +475,7 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
                         <span className={css.rowText}>
                           <span className={css.rowTitle}>
                             {entry.isVoice && (
-                              <SpeakerHighIcon size={13} weight="fill" className={css.inlineIcon} />
+                              <SpeakerHighIcon size={14} weight="fill" className={css.inlineIcon} />
                             )}
                             {entry.name}
                           </span>
@@ -595,7 +595,12 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
                           <span className={css.rowTitle}>{friend.name}</span>
                           {friend.activities.map((activity) => (
                             <span key={`${activity.type}:${activity.name}`} className={css.rowSub}>
-                              {ACTIVITY_EMOJI[activity.type]} {activityText(t, activity)}
+                              <ActivityIcon
+                                type={activity.type}
+                                size={14}
+                                className={css.activityIcon}
+                              />
+                              {activityText(t, activity)}
                             </span>
                           ))}
                         </span>
@@ -610,7 +615,7 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
               <Panel
                 id="home-whatsnew-heading"
                 index={whatsNewIndex}
-                icon={<SparkleIcon size={16} weight="fill" />}
+                icon={<NewspaperIcon size={16} weight="fill" />}
                 title={t('timeline.home.whatsNewHeading')}
                 className={css.whatsNew}
                 action={<span className={css.versionPill}>{whatsNew.version}</span>}

@@ -4,7 +4,7 @@ import { vars } from '@/theme/vars.css';
 export const caps = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   flexShrink: 0,
   verticalAlign: 'middle',
 });
@@ -31,7 +31,7 @@ export const key = styleVariants({
       minWidth: '22px',
       height: '22px',
       padding: '0 6px',
-      borderRadius: '5px',
+      borderRadius: '6px',
       fontSize: '0.75rem',
     },
   ],

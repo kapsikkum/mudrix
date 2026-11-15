@@ -5,7 +5,7 @@ export const body = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   textAlign: 'center',
 });
 
@@ -35,7 +35,7 @@ export const steps = style({
 
 export const checkCode = style({
   fontSize: '2.4rem',
-  fontWeight: 700,
+  fontWeight: 600,
   letterSpacing: '0.3em',
   color: vars.color.textPrimary,
   fontVariantNumeric: 'tabular-nums',

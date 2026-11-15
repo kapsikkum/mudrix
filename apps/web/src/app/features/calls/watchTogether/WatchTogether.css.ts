@@ -70,14 +70,14 @@ export const playerLabel = style({
   left: '8px',
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   maxWidth: 'calc(100% - 60px)',
   padding: '0 8px',
   borderRadius: '999px',
   background: '#593695',
   color: '#ffffff',
   fontSize: '0.72rem',
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: '20px',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -134,13 +134,13 @@ export const invite = style([
     padding: '24px',
     textAlign: 'center',
     color: '#fff',
-    background: 'linear-gradient(160deg, #1b1b22, #0b0b0f)',
+    background: '#0b0b0f',
   },
 ]);
 
 export const inviteCompact = style([invite, { gap: '8px', padding: '10px' }]);
 
-export const inviteIcon = style({ color: '#ff3d3d' });
+export const inviteIcon = style({ color: vars.color.danger });
 
 export const inviteTitle = style({
   fontSize: '0.95rem',

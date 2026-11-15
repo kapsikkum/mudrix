@@ -179,8 +179,6 @@ export const packLabel = style({
   fontWeight: 600,
   color: vars.color.textMuted,
   padding: '4px 8px',
-  letterSpacing: '0.03em',
-  textTransform: 'uppercase',
   position: 'sticky',
   top: 0,
   backgroundColor: vars.color.bgSecondary,
@@ -224,7 +222,6 @@ export const emptyState = style({
   textAlign: 'center',
   color: vars.color.textMuted,
   fontSize: '0.85rem',
-  fontStyle: 'italic',
 });
 
 export const emptyLink = style({
@@ -241,7 +238,7 @@ export const emptyLink = style({
 export const skeletonLabel = style({
   width: '96px',
   height: '10px',
-  margin: '3px 0',
+  margin: '4px 0',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   animation: `${pulse} 1.4s ease-in-out infinite`,

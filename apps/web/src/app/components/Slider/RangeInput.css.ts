@@ -75,7 +75,7 @@ const fillThumb = {
   appearance: 'none',
   width: '14px',
   height: '14px',
-  marginTop: '-5px',
+  marginTop: '-6px',
   borderRadius: '50%',
   border: 'none',
   backgroundColor: '#fff',

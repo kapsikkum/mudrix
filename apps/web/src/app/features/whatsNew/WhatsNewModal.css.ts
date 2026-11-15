@@ -14,7 +14,7 @@ globalStyle(`${body} h2`, {
   margin: '24px 0 4px',
   paddingBottom: '6px',
   fontSize: fontSize.rem105,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.accent,
   borderBottom: `1px solid ${vars.color.border}`,
 });
@@ -22,10 +22,8 @@ globalStyle(`${body} h2`, {
 // The area within it (Profiles, Sounds, ...): a small label above its list.
 globalStyle(`${body} h3`, {
   margin: '16px 0 6px',
-  fontSize: fontSize.rem72,
-  fontWeight: 700,
-  letterSpacing: '0.07em',
-  textTransform: 'uppercase',
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 

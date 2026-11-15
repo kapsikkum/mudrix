@@ -36,7 +36,7 @@ export const row = style({
   alignItems: 'center',
   gap: '10px',
   width: '100%',
-  padding: '9px 12px',
+  padding: '10px 12px',
   border: 'none',
   borderBottom: `1px solid ${vars.color.border}`,
   background: 'none',

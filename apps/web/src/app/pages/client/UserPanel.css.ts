@@ -8,7 +8,7 @@ export const userPanel = style({
   alignItems: 'center',
   gap: '8px',
   height: '48px',
-  padding: '0 14px',
+  padding: '0 16px',
 });
 
 export const userPanelIdentity = style({

@@ -13,7 +13,7 @@ export const bubble = style({
   position: 'absolute',
   bottom: 'calc(100% + 6px)',
   transform: 'translateX(-50%)',
-  padding: '3px 7px',
+  padding: '4px 8px',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,

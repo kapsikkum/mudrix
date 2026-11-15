@@ -257,7 +257,7 @@ function EffectOptionItem({
               justifyContent: 'center',
             }}
           >
-            <SparkleIcon size={28} style={{ color: '#a78bfa' }} />
+            <SparkleIcon size={28} style={{ color: vars.color.accent }} />
           </div>
         )}
         <span className={css.effectOptionTitle}>{label}</span>
@@ -291,7 +291,7 @@ function EffectCosmeticThumb({
   if (src) {
     return <img className={css.cosmeticThumbImg} src={src} alt="" />;
   }
-  return <SparkleIcon size={24} style={{ color: '#a78bfa' }} />;
+  return <SparkleIcon size={24} style={{ color: vars.color.accent }} />;
 }
 
 interface NameplateOptionProps {

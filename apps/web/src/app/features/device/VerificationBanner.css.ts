@@ -53,7 +53,7 @@ export const actions = style({
 });
 
 const btn = style({
-  padding: '5px 12px',
+  padding: '6px 12px',
   borderRadius: vars.radius.sm,
   fontSize: '0.82rem',
   fontWeight: 500,

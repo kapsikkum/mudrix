@@ -132,7 +132,7 @@ export const searchKbd = style({
   fontSize: '0.70rem',
   fontFamily: 'inherit',
   lineHeight: 1,
-  padding: '3px 5px',
+  padding: '4px 6px',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,

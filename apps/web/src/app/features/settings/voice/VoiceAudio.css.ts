@@ -55,7 +55,7 @@ export const button = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: '6px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   fontSize: fontSize.rem90,
   fontWeight: 500,
   color: vars.color.textPrimary,
@@ -101,7 +101,7 @@ export const meterTrack = style({
   position: 'relative',
   height: '10px',
   marginTop: '12px',
-  borderRadius: '5px',
+  borderRadius: '6px',
   overflow: 'hidden',
   backgroundColor: vars.color.bgTertiary,
 });

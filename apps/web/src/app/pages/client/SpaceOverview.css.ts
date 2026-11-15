@@ -39,7 +39,7 @@ export const spaceInfo = style({
 
 export const spaceName = style({
   fontSize: '1.25rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   margin: 0,
   overflow: 'hidden',
@@ -66,7 +66,7 @@ export const spaceMeta = style({
 
 export const errorBanner = style({
   margin: '8px 16px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderRadius: vars.radius.sm,
   backgroundColor: 'rgba(220, 60, 60, 0.12)',
   color: vars.color.error ?? '#d43b3b',
@@ -125,7 +125,7 @@ export const roomName = style({
   color: vars.color.textPrimary,
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   overflow: 'hidden',
 });
 
@@ -134,7 +134,7 @@ export const roomMeta = style({
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   overflow: 'hidden',
   marginTop: '1px',
 });
@@ -158,7 +158,7 @@ export const roomTopicText = style({
 export const memberCount = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   flexShrink: 0,
 });
 
@@ -180,7 +180,7 @@ export const noPreviewScreen = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '14px',
+  gap: '12px',
   padding: '0 32px',
   textAlign: 'center',
 });
@@ -273,7 +273,7 @@ export const skeletonSectionInfo = style({
   minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
 });
 
 export const skeletonSectionLine = style({
@@ -332,7 +332,7 @@ export const skeletonRoomInfo = style({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
 });
 
 export const skeletonRoomName = style({
@@ -438,7 +438,7 @@ export const spaceSectionMeta = style({
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   marginTop: '1px',
 });
 
@@ -455,16 +455,14 @@ export const spaceSectionRoomsNested = style([
     display: 'flex',
     flexDirection: 'column',
     gap: '4px',
-    padding: '2px 0 4px 18px',
+    padding: '2px 0 4px 16px',
   },
 ]);
 
 /** A category title: a small label over its rooms, not a room of its own. */
 export const categoryName = style({
   fontSize: '0.75rem',
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontWeight: 600,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',

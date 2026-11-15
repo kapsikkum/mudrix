@@ -22,7 +22,7 @@ export const wrap = style({
 const entryBase = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '7px',
+  gap: '8px',
   padding: `${px((desktop.row - desktop.avatar) / 2)} 6px ${px((desktop.row - desktop.avatar) / 2)} 4px`,
   borderRadius: vars.radius.sm,
   fontSize: '0.82rem',
@@ -52,7 +52,7 @@ const ringBase = style({
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '0.6rem',
-  fontWeight: 700,
+  fontWeight: 600,
   selectors: {
     [`${TOUCH_UI} &`]: { width: px(touch.avatar), height: px(touch.avatar), fontSize: '0.85rem' },
   },
@@ -79,7 +79,7 @@ export const name = style({
 export const icons = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   flexShrink: 0,
   marginLeft: 'auto',
   selectors: { [`${TOUCH_UI} &`]: { gap: '8px' } },
@@ -99,18 +99,16 @@ export const iconCamera = style([iconBase, { color: vars.color.success }]);
 export const livePill = style({
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '0 5px',
+  padding: '0 6px',
   borderRadius: '999px',
   background: '#593695',
   color: '#ffffff',
-  fontSize: '0.56rem',
-  fontWeight: 700,
-  lineHeight: '14px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  lineHeight: '16px',
   userSelect: 'none',
   selectors: {
-    [`${TOUCH_UI} &`]: { fontSize: '0.68rem', lineHeight: '18px', padding: '0 7px' },
+    [`${TOUCH_UI} &`]: { fontSize: '0.75rem', lineHeight: '18px', padding: '0 8px' },
   },
 });
 

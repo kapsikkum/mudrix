@@ -12,7 +12,7 @@ export const deviceCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '12px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   backgroundColor: vars.color.bgSecondary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
@@ -121,7 +121,7 @@ export const editForm = style({
 });
 
 export const nameInput = style({
-  padding: '6px 9px',
+  padding: '6px 10px',
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
@@ -141,7 +141,7 @@ export const editActions = style({
 });
 
 export const editCancelBtn = style({
-  padding: '5px 10px',
+  padding: '6px 10px',
   borderRadius: vars.radius.sm,
   fontSize: '0.8rem',
   fontWeight: 500,
@@ -202,7 +202,7 @@ export const actions = style({
 });
 
 const actionBtnBase = style({
-  padding: '5px 12px',
+  padding: '6px 12px',
   borderRadius: vars.radius.sm,
   fontSize: '0.8rem',
   fontWeight: 500,
@@ -226,7 +226,7 @@ export const removeBtn = style([
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '7px',
+    padding: '8px',
     backgroundColor: 'transparent',
     color: vars.color.danger,
     ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.danger },
@@ -253,7 +253,7 @@ export const recoveryKeyBox = style({
   flexDirection: 'column',
   alignItems: 'flex-start',
   gap: '8px',
-  padding: '14px',
+  padding: '16px',
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.danger}`,
   backgroundColor: `color-mix(in srgb, ${vars.color.danger} 8%, ${vars.color.bgSecondary})`,
@@ -343,7 +343,7 @@ export const emptyState = style({
 });
 
 export const sessionNote = style({
-  marginBottom: '14px',
+  marginBottom: '16px',
 });
 
 export const sessionActions = style({

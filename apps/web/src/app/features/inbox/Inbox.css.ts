@@ -90,7 +90,7 @@ export const title = style({
   alignItems: 'center',
   gap: '6px',
   fontSize: fontSize.rem95,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -156,12 +156,12 @@ export const tabActive = style([
 
 export const tabCount = style({
   minWidth: '16px',
-  padding: '0 5px',
+  padding: '0 6px',
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
   fontSize: fontSize.rem68,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: '16px',
   textAlign: 'center',
 });
@@ -244,7 +244,7 @@ export const sub = style({
 export const subRow = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   minWidth: 0,
 });
 
@@ -255,7 +255,7 @@ export const kindPrefix = style({
   marginRight: '4px',
   color: vars.color.textMuted,
   fontSize: '0.95em',
-  fontWeight: 700,
+  fontWeight: 600,
   verticalAlign: 'middle',
 });
 
@@ -306,7 +306,7 @@ export const acceptButton = style({
   color: vars.color.onAccent,
   fontSize: fontSize.rem72,
   fontWeight: 600,
-  padding: '5px 10px',
+  padding: '6px 10px',
   cursor: 'pointer',
   ':hover': {
     backgroundColor: vars.color.accentHover,
@@ -325,7 +325,7 @@ export const blockButton = style({
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textMuted,
-  padding: '5px 7px',
+  padding: '6px 8px',
   cursor: 'pointer',
   ':hover': {
     backgroundColor: vars.color.border,
@@ -344,7 +344,7 @@ export const declineButton = style({
   color: vars.color.textMuted,
   fontSize: fontSize.rem72,
   fontWeight: 600,
-  padding: '5px 10px',
+  padding: '6px 10px',
   cursor: 'pointer',
   ':hover': {
     backgroundColor: vars.color.border,

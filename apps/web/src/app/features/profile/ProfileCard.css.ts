@@ -66,9 +66,7 @@ export const mutualList = style({
 export const mutualHeading = style({
   margin: '8px 0 4px',
   fontSize: '0.75rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontWeight: 600,
   color: vars.color.textMuted,
   selectors: {
     '&:first-child': { marginTop: 0 },
@@ -118,7 +116,7 @@ export const statusPill = style({
   boxSizing: 'border-box',
   maxWidth: '100%',
   marginTop: '8px',
-  padding: '7px 12px',
+  padding: '8px 12px',
   borderRadius: vars.radius.md,
   fontSize: '0.85rem',
   lineHeight: 1.3,
@@ -334,7 +332,7 @@ export const nameplateWrapper = style({
   display: 'inline-flex',
   alignItems: 'center',
   borderRadius: vars.radius.md,
-  padding: '3px 10px',
+  padding: '4px 10px',
   overflow: 'hidden',
   maxWidth: '100%',
   verticalAlign: 'middle',
@@ -448,7 +446,7 @@ export const activityCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
@@ -456,9 +454,7 @@ export const activityCard = style({
 
 export const activityCardTitle = style({
   fontSize: '0.75rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -467,7 +463,6 @@ export const activityQuote = style({
   padding: '0 0 0 10px',
   borderLeft: `3px solid var(--card-accent, ${vars.color.border})`,
   fontSize: '0.88rem',
-  fontStyle: 'italic',
   color: vars.color.textPrimary,
   lineHeight: 1.4,
   whiteSpace: 'pre-wrap',

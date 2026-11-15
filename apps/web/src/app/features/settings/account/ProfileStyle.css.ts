@@ -21,7 +21,7 @@ export const headerRow = style({
 export const groupTitle = style({
   margin: 0,
   fontSize: fontSize.rem105,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -61,7 +61,7 @@ export const editorCol = style({
   minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: '18px',
+  gap: '16px',
 });
 
 export const previewCol = style({
@@ -85,9 +85,7 @@ export const previewCol = style({
 
 export const previewHeading = style({
   fontSize: fontSize.rem75,
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
+  fontWeight: 600,
   color: vars.color.textMuted,
   margin: 0,
 });
@@ -143,7 +141,7 @@ export const previewAvatarRow = style({
 
 export const previewAvatarWrap = style({
   position: 'relative',
-  padding: '5px',
+  padding: '6px',
   borderRadius: '50%',
   backgroundColor: vars.color.bgPrimary,
   lineHeight: 0,
@@ -152,8 +150,8 @@ export const previewAvatarWrap = style({
 });
 
 export const previewBody = style({
-  margin: '12px 14px 14px',
-  padding: '12px 14px',
+  margin: '12px 16px 16px',
+  padding: '12px 16px',
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bgSecondary,
   display: 'flex',
@@ -166,7 +164,7 @@ export const previewBody = style({
 
 export const previewDisplayName = style({
   fontSize: '1.15rem',
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   lineHeight: 1.25,
   wordBreak: 'break-word',
@@ -190,10 +188,8 @@ export const previewDivider = style({
 });
 
 export const previewSectionHeader = style({
-  fontSize: fontSize.rem72,
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: fontSize.rem75,
+  fontWeight: 600,
   color: vars.color.textMuted,
   marginBottom: '2px',
 });
@@ -212,7 +208,7 @@ export const cosmeticCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
@@ -399,7 +395,7 @@ export const modalActionsRow = style({
   justifyContent: 'space-between',
   gap: '8px',
   flexWrap: 'wrap',
-  marginBottom: '14px',
+  marginBottom: '16px',
 });
 
 export const modalButtons = style({

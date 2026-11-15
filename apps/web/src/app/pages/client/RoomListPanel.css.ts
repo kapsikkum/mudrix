@@ -19,10 +19,10 @@ export const roomHeader = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '12px 12px 8px',
-  fontWeight: 700,
+  fontWeight: 600,
   fontSize: fontSize.rem100,
   color: vars.color.textMuted,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   borderBottom: `1px solid ${vars.color.border}`,
 });
 
@@ -124,7 +124,7 @@ export const skeletonRow = style([
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    padding: '5px 4px',
+    padding: '6px 4px',
   },
 ]);
 
@@ -299,7 +299,7 @@ export const subspaceAddButton = style({
       // Tappable at 44px; the negative margin keeps the heading row as tall as before.
       width: '44px',
       height: '44px',
-      margin: '-13px 0',
+      margin: '-12px 0',
       opacity: '1',
       pointerEvents: 'auto',
     },

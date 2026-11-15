@@ -98,7 +98,7 @@ export const button = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: '8px',
-  padding: '8px 14px',
+  padding: '8px 16px',
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgSecondary,
@@ -137,7 +137,7 @@ export const menu = style({
 
 export const menuItem = style({
   display: 'block',
-  padding: '7px 10px',
+  padding: '8px 10px',
   borderRadius: vars.radius.sm,
   color: vars.color.textPrimary,
   fontSize: '0.86rem',

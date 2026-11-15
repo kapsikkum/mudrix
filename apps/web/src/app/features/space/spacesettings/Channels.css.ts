@@ -12,9 +12,7 @@ export const category = style({
 
 export const categoryName = style({
   fontSize: '0.75rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontWeight: 600,
   color: vars.color.textSecondary,
   margin: '0 0 2px',
 });

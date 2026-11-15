@@ -12,7 +12,7 @@ export const title = style({
   gap: '8px',
   color: vars.color.textPrimary,
   fontSize: '1.1rem',
-  fontWeight: 700,
+  fontWeight: 600,
 });
 
 export const roomName = style({
@@ -26,8 +26,6 @@ export const sectionLabel = style({
   color: vars.color.textMuted,
   fontSize: '0.8rem',
   fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
 });
 
 export const list = style({

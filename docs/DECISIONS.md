@@ -144,3 +144,19 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
   room's badge and threads are available in every room that has them.
 - **The room list loads 20 events per room** (owner-approved), which is enough for the last-message preview and the
   unread counts without loading full timelines for every room.
+
+## Message layout
+
+- **Bubble layout polish (owner request, 2026-11-16), all platforms, bubble layout only:** no per-message encryption
+  shield in the gutter; only a message with a real warning shows a small icon inside the bubble beside the time.
+  Emoji-only messages have no bubble background. Pictures, videos, GIFs and galleries fill the bubble edge to edge
+  (Messenger/Instagram style), a media-only message has no coloured frame and shows its time in a small pill over the
+  picture, and a caption sits below the media inside the bubble. This is a deliberate deviation from the old web app's
+  bubble layout; the other layouts are unchanged.
+- **Unslop polish pass on web (owner request, 2026-11-16):** spacing snapped to the token grid, glows and gradient
+  washes removed from Home and call tiles, emoji used as chrome replaced by Phosphor icons, no uppercase tracked labels,
+  heading weight 600 max, no italics in empty states, and no `!` or trailing full stop on short UI strings in all 11
+  languages. This deliberately overrides the old app's look where they differ. Not applied (owner's call): the
+  "Welcome, {{name}}" greeting, snapping the remaining 6px/10px steps, merging the type scale.
+- **The Modern shell's user card has a settings cog, not an inbox bell** (owner request, 2026-11-15): the inbox is
+  already at the top of the shell.

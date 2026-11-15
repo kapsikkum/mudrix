@@ -76,7 +76,7 @@ export const memberStatusText = style({
 export const memberMusicIcon = style({
   flexShrink: 0,
   display: 'inline-flex',
-  color: '#3ba55d',
+  color: vars.color.success,
 });
 
 export const memberGameIcon = style({
@@ -120,7 +120,7 @@ export const skeletonRow = style([
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    padding: '7px 0',
+    padding: '8px 0',
   },
 ]);
 

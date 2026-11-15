@@ -17,9 +17,9 @@ export const card = style({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   width: 'min(340px, 100%)',
-  padding: '24px 22px 20px',
+  padding: '24px 24px 20px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgSecondary,
@@ -47,7 +47,7 @@ export const copy = style({
 export const title = style({
   color: vars.color.textPrimary,
   fontSize: '1.05rem',
-  fontWeight: 700,
+  fontWeight: 600,
 });
 
 export const subtitle = style({

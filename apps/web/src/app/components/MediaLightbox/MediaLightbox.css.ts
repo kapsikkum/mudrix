@@ -275,7 +275,7 @@ export const navBtn = style({
   background: 'rgba(255,255,255,0.15)',
   color: '#fff',
   cursor: 'pointer',
-  marginRight: '5px',
+  marginRight: '6px',
   ':hover': {
     background: 'rgba(255,255,255,0.25)',
   },

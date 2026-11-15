@@ -53,7 +53,7 @@ export const progressWrap = style({
 
 export const progressTrack = style({
   height: '6px',
-  borderRadius: '3px',
+  borderRadius: '4px',
   overflow: 'hidden',
   backgroundColor: vars.color.bgTertiary,
 });
@@ -65,7 +65,7 @@ const slide = keyframes({
 
 export const progressBar = style({
   height: '100%',
-  borderRadius: '3px',
+  borderRadius: '4px',
   backgroundColor: vars.color.accent,
   transition: 'width 0.2s ease',
   selectors: {

@@ -9,6 +9,7 @@ import {
   LockKeyIcon,
   EyeIcon,
   EyeSlashIcon,
+  HandIcon,
   MicrophoneSlashIcon,
   MonitorIcon,
   PhoneIcon,
@@ -236,7 +237,7 @@ function Tile({
       )}
       {!screen && showReactions && participant.handRaised && (
         <span className={css.badge} title={t('call.handRaised')}>
-          ✋
+          <HandIcon size={16} weight="fill" />
         </span>
       )}
       {!screen && showReactions && participant.reaction && (
@@ -364,7 +365,7 @@ function AvatarBubble({
       )}
       {showReactions && participant.handRaised && (
         <span className={css.bubbleHand} title={t('call.handRaised')}>
-          ✋
+          <HandIcon size={16} weight="fill" />
         </span>
       )}
       {showReactions && participant.reaction && (

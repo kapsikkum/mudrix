@@ -21,9 +21,9 @@ export const sectionHeader = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '6px 12px',
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
+  fontSize: '0.75rem',
+  fontWeight: 600,
+  letterSpacing: '0.01em',
   color: vars.color.textMuted,
   backgroundColor: vars.color.bgTertiary,
   borderBottom: `1px solid ${vars.color.border}`,
@@ -95,11 +95,10 @@ export const emptyRow = style({
   padding: '10px 12px',
   fontSize: '0.84rem',
   color: vars.color.textMuted,
-  fontStyle: 'italic',
 });
 
 export const selectHint = style({
-  padding: '5px 12px',
+  padding: '6px 12px',
   fontSize: '0.74rem',
   color: vars.color.textMuted,
   backgroundColor: vars.color.bgTertiary,

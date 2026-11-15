@@ -99,7 +99,7 @@ export function buildCosmeticCategories(
 ) {
   const packCategories = packGroups.map((p) => ({
     value: `pack:${p.category}`,
-    label: p.category === 'My Uploads' ? `📁 ${myUploadsLabel}` : `📦 ${p.category}`,
+    label: p.category === 'My Uploads' ? myUploadsLabel : p.category,
   }));
 
   return [

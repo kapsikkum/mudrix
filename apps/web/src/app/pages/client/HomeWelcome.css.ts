@@ -1,6 +1,5 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
-import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
 
 /** Phones: everything stacks and fills the width. */
@@ -58,18 +57,17 @@ export const inner = style({
 
 // ---------- hero ----------
 
-/** A compact welcome: the mound, the greeting and the tagline on a wash of the accent. */
+/** A compact welcome: the mound, the greeting and the tagline. */
 export const hero = style({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  gap: '18px',
-  padding: '18px 22px',
+  gap: '16px',
+  padding: '16px 24px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgPrimary,
-  backgroundImage: `linear-gradient(120deg, rgba(${vars.color.accentRgb}, 0.16), rgba(${vars.color.accentRgb}, 0.03) 55%, transparent)`,
-  '@media': { [PHONE]: { gap: '14px', padding: '14px 16px' } },
+  '@media': { [PHONE]: { gap: '12px', padding: '12px 16px' } },
 });
 
 export const heroText = style({
@@ -79,28 +77,14 @@ export const heroText = style({
   minWidth: 0,
 });
 
-/** The mound sits on a soft pool of its own colour. */
 export const logo = style({
-  position: 'relative',
-  isolation: 'isolate',
   display: 'flex',
   flexShrink: 0,
-  '::before': {
-    content: '""',
-    position: 'absolute',
-    inset: '-24px',
-    zIndex: zIndex.behind,
-    borderRadius: '50%',
-    background: `radial-gradient(closest-side, ${vars.logo.hoverGlow}, transparent)`,
-    opacity: 0.35,
-    filter: 'blur(12px)',
-    pointerEvents: 'none',
-  },
 });
 
 export const title = style({
   fontSize: fontSize.rem160,
-  fontWeight: 700,
+  fontWeight: 600,
   lineHeight: 1.2,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
@@ -147,9 +131,7 @@ export const sectionLabel = style({
   alignItems: 'center',
   gap: '6px',
   fontSize: fontSize.rem78,
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -157,7 +139,7 @@ export const sectionLabel = style({
 export const grid = style({
   display: 'grid',
   gridTemplateColumns: '1fr',
-  gap: '10px',
+  gap: '12px',
   margin: 0,
   padding: 0,
   listStyle: 'none',
@@ -173,9 +155,9 @@ export const card = style({
   minWidth: 0,
   display: 'flex',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   minHeight: '72px',
-  padding: '14px 16px',
+  padding: '16px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgPrimary,
@@ -198,12 +180,7 @@ export const card = style({
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: '12px',
-      padding: '18px',
-    },
-  },
-  '@media': {
-    '(hover: hover) and (prefers-reduced-motion: no-preference)': {
-      selectors: { '&:hover': { transform: 'translateY(-2px)' } },
+      padding: '16px',
     },
   },
 });
@@ -223,7 +200,7 @@ export const cardIcon = style({
 export const cardText = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
 });
 
@@ -256,7 +233,7 @@ export const setupRow = style({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   minHeight: '64px',
   padding: '12px 16px',
   border: 'none',
@@ -345,7 +322,7 @@ export const panelHeader = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  padding: '12px 14px 8px',
+  padding: '12px 16px 8px',
 });
 
 export const panelIcon = style({
@@ -365,7 +342,7 @@ export const panelTitle = style({
   minWidth: 0,
   margin: 0,
   fontSize: fontSize.rem95,
-  fontWeight: 700,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -402,7 +379,7 @@ export const row = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '60px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   border: 'none',
   background: 'none',
   color: vars.color.textPrimary,
@@ -446,13 +423,18 @@ export const rowTag = style({
   flexShrink: 0,
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   fontSize: fontSize.rem75,
   color: vars.color.textMuted,
 });
 
+export const activityIcon = style({
+  marginRight: '4px',
+  verticalAlign: '-2px',
+});
+
 export const inlineIcon = style({
-  marginRight: '5px',
+  marginRight: '6px',
   verticalAlign: '-1px',
   color: vars.color.success,
 });
@@ -462,7 +444,7 @@ export const inlineIcon = style({
 export const roomGrid = style({
   display: 'grid',
   gridTemplateColumns: 'minmax(0, 1fr)',
-  gap: '10px',
+  gap: '12px',
   margin: 0,
   padding: 0,
   listStyle: 'none',
@@ -478,7 +460,7 @@ export const roomCard = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '64px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgPrimary,
@@ -498,10 +480,10 @@ export const roomCard = style({
 const badgeBase = {
   flexShrink: 0,
   minWidth: '22px',
-  padding: '2px 7px',
+  padding: '2px 8px',
   borderRadius: vars.radius.pill,
-  fontSize: '0.73rem',
-  fontWeight: 700,
+  fontSize: '0.75rem',
+  fontWeight: 600,
   lineHeight: 1.4,
   textAlign: 'center',
 } as const;
@@ -572,7 +554,7 @@ export const liveRow = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '60px',
-  padding: '10px 14px',
+  padding: '10px 16px',
 });
 
 export const avatarStack = style({
@@ -598,16 +580,15 @@ export const stackMore = style({
 // ---------- what's new ----------
 
 export const whatsNew = style({
-  backgroundImage: `linear-gradient(180deg, rgba(${vars.color.accentRgb}, 0.12), transparent 140px)`,
-  paddingBottom: '14px',
+  paddingBottom: '16px',
 });
 
 export const versionPill = style({
   flexShrink: 0,
-  padding: '2px 9px',
+  padding: '2px 10px',
   borderRadius: vars.radius.pill,
-  fontSize: '0.73rem',
-  fontWeight: 700,
+  fontSize: '0.75rem',
+  fontWeight: 600,
   color: vars.color.accent,
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.16)`,
 });
@@ -617,7 +598,7 @@ export const notes = style({
   flexDirection: 'column',
   gap: '8px',
   margin: 0,
-  padding: '2px 14px 12px',
+  padding: '2px 16px 12px',
   listStyle: 'none',
 });
 
