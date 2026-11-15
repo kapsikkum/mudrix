@@ -316,7 +316,6 @@ fun MainScreen(roomList: RoomListModel) {
                 var dockInset by remember { mutableStateOf(0.dp) }
                 val selectedSpaceId = (top as? Route.Space)?.id
                 val homeSelected = selectedSpaceId == null && tab != Tab.me
-                val inboxBadge = roomList.mentionRooms.isNotEmpty() || roomList.invites.isNotEmpty()
                 // Chats and the You screen take the whole screen: no rail, no dock. The rail and dock come and go
                 // around the content, which stays composed in one place so its push and pop slides keep running
                 val showShell = !chatOpen && tab != Tab.me
@@ -363,10 +362,8 @@ fun MainScreen(roomList: RoomListModel) {
                     ModernDock(
                         Modifier.align(Alignment.BottomCenter),
                         keyboardVisible = keyboardVisible,
-                        inboxBadge = inboxBadge,
-                        inboxMention = roomList.mentionRooms.isNotEmpty(),
                         onProfile = { ownProfile = true },
-                        onInbox = { showInbox = true },
+                        onSettings = { openYou() },
                         onInset = { dockInset = it },
                     ) {
                         AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {

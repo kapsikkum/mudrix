@@ -86,7 +86,6 @@ import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.MenuItem
 import chat.mudrix.android.ui.PhIcon
 import chat.mudrix.android.ui.PhWeight
-import chat.mudrix.android.ui.UnreadDot
 import chat.mudrix.android.ui.WizardMenu
 import chat.mudrix.android.ui.cosmetics.CosmeticAvatar
 import chat.mudrix.android.ui.people.UserProfileSheet
@@ -353,10 +352,8 @@ private fun RailAddButton(onCreateSpace: () -> Unit, onExplore: () -> Unit) {
 internal fun ModernDock(
     modifier: Modifier,
     keyboardVisible: Boolean,
-    inboxBadge: Boolean,
-    inboxMention: Boolean,
     onProfile: () -> Unit,
-    onInbox: () -> Unit,
+    onSettings: () -> Unit,
     onInset: (Dp) -> Unit,
     callBar: @Composable () -> Unit,
 ) {
@@ -369,13 +366,13 @@ internal fun ModernDock(
             .navigationBarsPadding(),
     ) {
         callBar()
-        if (!keyboardVisible) ModernUserPanel(inboxBadge, inboxMention, onProfile, onInbox)
+        if (!keyboardVisible) ModernUserPanel(onProfile, onSettings)
     }
 }
 
-/** Your card in the dock: your avatar and status open your own profile (Settings is in there), the bell opens the inbox */
+/** Your card in the dock: your avatar and status open your own profile (Settings is in there), the cog opens Settings */
 @Composable
-internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onProfile: () -> Unit, onInbox: () -> Unit) {
+internal fun ModernUserPanel(onProfile: () -> Unit, onSettings: () -> Unit) {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
     val name = session.displayName ?: session.userId ?: ""
@@ -388,7 +385,7 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onProfi
                 else -> "presence.offline"
             },
         )
-    val inboxLabel = tr("inbox.title")
+    val settingsLabel = tr("common.settings")
     val shape = RoundedCornerShape(16.dp)
     Row(
         Modifier
@@ -417,14 +414,11 @@ internal fun ModernUserPanel(inboxBadge: Boolean, inboxMention: Boolean, onProfi
             Modifier
                 .size(WZ.Space.space11)
                 .clip(CircleShape)
-                .clickable(onClick = onInbox)
-                .semantics { contentDescription = inboxLabel },
+                .clickable(onClick = onSettings)
+                .semantics { contentDescription = settingsLabel },
             contentAlignment = Alignment.Center,
         ) {
-            Box {
-                PhIcon("bell", size = WZ.SizeIcon.md, tint = theme.textMuted)
-                if (inboxBadge) UnreadDot(inboxMention, Modifier.align(Alignment.TopEnd).offset(x = WZ.Space.space3, y = -WZ.Space.space1))
-            }
+            PhIcon("gear", size = WZ.SizeIcon.md, tint = theme.textMuted)
         }
     }
 }

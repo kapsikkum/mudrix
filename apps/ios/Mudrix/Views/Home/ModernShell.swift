@@ -153,11 +153,9 @@ struct ModernShell: View {
                     .padding(.horizontal, WZ.Space.space6)
             }
             if !keyboardShown {
-                ModernUserCard(inboxBadge: !roomList.mentionRooms.isEmpty || !roomList.invites.isEmpty,
-                               inboxMention: !roomList.mentionRooms.isEmpty,
-                               onProfile: { showOwnProfile = true },
+                ModernUserCard(onProfile: { showOwnProfile = true },
                                onEditProfile: onEditProfile,
-                               onInbox: onOpenInbox)
+                               onSettings: onOpenSettings)
             }
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { dockHeight = $0 }
@@ -335,13 +333,11 @@ private struct RailAddButton: View {
     }
 }
 
-/// Your card floating over the bottom: tapping your avatar opens the presence menu, tapping your name opens your profile, and the bell opens the inbox
+/// Your card floating over the bottom: tapping your avatar opens the presence menu, tapping your name opens your profile, and the cog opens Settings
 private struct ModernUserCard: View {
-    let inboxBadge: Bool
-    let inboxMention: Bool
     let onProfile: () -> Void
     let onEditProfile: () -> Void
-    let onInbox: () -> Void
+    let onSettings: () -> Void
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -407,22 +403,14 @@ private struct ModernUserCard: View {
             }
             .buttonStyle(.plain)
             .contextMenu { presenceMenuItems }
-            Button(action: onInbox) {
-                Icon("bell", size: WZ.SizeIcon.md)
+            Button(action: onSettings) {
+                Icon("gear", size: WZ.SizeIcon.md)
                     .foregroundStyle(theme.textMuted)
                     .frame(width: WZ.Space.space11, height: WZ.Space.space11)
-                    .overlay(alignment: .topTrailing) {
-                        if inboxBadge {
-                            Circle()
-                                .fill(inboxMention ? theme.mention : theme.accent)
-                                .frame(width: WZ.Space.space4, height: WZ.Space.space4)
-                                .offset(x: WZ.Space.space2, y: -WZ.Space.space1)
-                        }
-                    }
                     .contentShape(Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(String(localized: "inbox.title"))
+            .accessibilityLabel(String(localized: "common.settings"))
         }
         .padding(.horizontal, WZ.Space.space3)
         .padding(.vertical, WZ.Space.space2)
