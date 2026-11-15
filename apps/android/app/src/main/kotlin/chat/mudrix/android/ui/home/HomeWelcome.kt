@@ -22,12 +22,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.coroutines.delay
 import chat.mudrix.android.LocalSession
+import chat.mudrix.android.matrix.FriendActivities
+import chat.mudrix.android.matrix.FriendCandidate
+import chat.mudrix.android.matrix.ProfileActivity
+import chat.mudrix.android.matrix.ProfileFields
 import chat.mudrix.android.matrix.RoomListModel
 import chat.mudrix.android.matrix.displayName
 import chat.mudrix.android.matrix.mentionCount
@@ -43,6 +49,9 @@ import chat.mudrix.tokens.WZ
 
 /** How many of the latest rooms "Jump back in" lists */
 private const val RECENT_ROOMS = 6
+
+/** How often the friends panel looks for a new activity, like the web's `REFRESH_MS` */
+private const val FRIEND_REFRESH_MS = 2 * 60_000L
 
 /** The rooms to jump back into: joined, not spaces, newest activity first */
 internal fun recentRooms(rooms: List<RoomSummary>): List<RoomSummary> =
@@ -89,6 +98,31 @@ fun HomeWelcome(
     val invites = roomList.invites
     val mentions = roomList.mentionRooms
     val recent = recentRooms(roomList.joinedRooms)
+    // The friends panel: direct chats in list order, one per person, checked for a live activity
+    val friends = remember(roomList.joinedRooms) {
+        FriendActivities.candidates(
+            roomList.joinedRooms.filter { it.isDirect }.mapNotNull { room ->
+                room.dmUserId?.let { userId ->
+                    FriendCandidate(userId, room.id, room.dmUserName ?: room.displayName, room.dmUserAvatar)
+                }
+            },
+        )
+    }
+    var friendActivities by remember { mutableStateOf(mapOf<String, List<ProfileActivity>>()) }
+    LaunchedEffect(friends, session.client) {
+        val client = session.client ?: return@LaunchedEffect
+        while (true) {
+            val found = HashMap<String, List<ProfileActivity>>()
+            for (friend in friends) {
+                val fields = runCatching { client.profileFields(friend.userId) }.getOrNull() ?: continue
+                val live = ProfileFields.live(ProfileFields.parse(fields).activities)
+                if (live.isNotEmpty()) found[friend.userId] = live
+            }
+            friendActivities = found
+            delay(FRIEND_REFRESH_MS)
+        }
+    }
+    val friendRows = remember(friends, friendActivities) { FriendActivities.feed(friends, friendActivities).take(FriendActivities.SHOWN) }
     var sheet by remember { mutableStateOf<SetupSheet?>(null) }
     when (sheet) {
         SetupSheet.sessions -> SessionsSheet { sheet = null }
@@ -143,6 +177,42 @@ fun HomeWelcome(
         }
         if (onExplore != null) {
             CardRow(tr("timeline.home.exploreTitle"), null, tr("timeline.home.exploreDesc"), 0, false, icon = "compass") { onExplore() }
+        }
+        // People we have a direct chat with who are playing or listening to something right now
+        if (friends.isNotEmpty() && friendRows.isNotEmpty()) {
+            Heading(tr("timeline.home.friendsHeading"), null, null)
+            friendRows.forEach { friend ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(WZ.Radius.lg))
+                        .background(theme.fill)
+                        .clickable { navigator.openRoom(friend.roomId) }
+                        .padding(WZ.Space.space4),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                ) {
+                    Avatar(friend.name, friend.avatarUrl, WZ.SizeAvatar.sm)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space1)) {
+                        Text(
+                            friend.name,
+                            style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                            color = theme.textPrimary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                        friend.activities.forEach { activity ->
+                            Text(
+                                chat.mudrix.android.ui.cosmetics.activityLine(activity),
+                                style = wizardFont(WZ.FontSize.sm),
+                                color = theme.textMuted,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                    }
+                }
+            }
         }
         if (whatsNew != null) {
             Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space3), verticalAlignment = Alignment.CenterVertically) {

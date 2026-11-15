@@ -21,4 +21,17 @@ object RoomMenu {
 
     /** The `io.github.kapsikkum.mudrix.voice_channel` content that turns the flag on or off */
     fun voiceChannelContent(enabled: Boolean): JsonObject = buildJsonObject { put("enabled", enabled) }
+
+    /**
+     * The room ids after moving the room at [index] by [offset] (`-1` up, `1` down), or null when that would leave
+     * the list. The same save the reorder handles use.
+     */
+    fun moved(ids: List<String>, index: Int, offset: Int): List<String>? {
+        if (offset == 0 || index !in ids.indices) return null
+        val to = index + offset
+        if (to !in ids.indices) return null
+        val next = ids.toMutableList()
+        java.util.Collections.swap(next, index, to)
+        return next
+    }
 }

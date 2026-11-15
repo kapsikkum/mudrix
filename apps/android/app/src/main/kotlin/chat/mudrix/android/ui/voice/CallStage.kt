@@ -38,6 +38,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -70,6 +71,8 @@ import chat.mudrix.android.ui.PhWeight
 import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardMenu
 import chat.mudrix.android.ui.WizardSheet
+import chat.mudrix.android.ui.space.LocalRoomRoles
+import chat.mudrix.android.ui.space.rememberRoomRoles
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
@@ -86,7 +89,10 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
     var volumeFor by remember { mutableStateOf<String?>(null) }
     val screenShares = calls.participants.filter { it.screenTrack != null }
     val full: (androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope.() -> GridItemSpan) = { GridItemSpan(maxLineSpan) }
+    // Decorations and role colours on the tiles come from the room's space, like the timeline's
+    val roomRoles = rememberRoomRoles(room.id)
 
+    CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
     Box(modifier.fillMaxWidth()) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
@@ -170,14 +176,17 @@ fun CallStageView(room: RoomSummary, modifier: Modifier = Modifier) {
     volumeFor?.let { userId ->
         WizardSheet(onDismiss = { volumeFor = null }) { VolumeSheet(room.id, userId) }
     }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, onTap: () -> Unit, onLongPress: () -> Unit) {
+    val prefs = LocalPrefs.current
     val profile = rememberMemberProfile(participant.userId, roomId)
     val name = participant.displayName ?: profile.name ?: participant.userId
     val avatarUrl = participant.avatarUrl ?: profile.avatarUrl
+    val roleColor = LocalRoomRoles.current.colorOf(participant.userId) ?: theme.textPrimary
     val shape = RoundedCornerShape(WZ.Radius.xl)
     val ring by animateColorAsState(
         if (participant.speaking) theme.success else Color.Transparent,
@@ -203,7 +212,27 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
     ) {
         val camera = participant.cameraTrack
         if (camera != null) {
-            CallVideoView(camera, participant.connection, fill = true, mirror = participant.isLocal, Modifier.fillMaxSize())
+            CallVideoView(
+                camera,
+                participant.connection,
+                fill = true,
+                mirror = participant.isLocal,
+                Modifier.fillMaxSize().alpha(if (participant.cameraMuted) 0.55f else 1f),
+            )
+            if (participant.cameraMuted) {
+                // The camera is off: the last frame stays as a still picture, marked with the camera-off badge
+                Box(
+                    Modifier
+                        .align(Alignment.TopStart)
+                        .padding(WZ.Space.space4)
+                        .size(WZ.Space.space9)
+                        .clip(CircleShape)
+                        .background(theme.bgTertiary.copy(alpha = 0.85f)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PhIcon("video-camera-slash", size = WZ.SizeIcon.sm, tint = theme.textPrimary, contentDescription = tr("call.turnCameraOn"))
+                }
+            }
         } else {
             chat.mudrix.android.ui.cosmetics.CosmeticAvatar(
                 participant.userId,
@@ -214,24 +243,48 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
                 animateDecoration = true,
             )
         }
-        AnimatedContent(
-            participant.reaction,
-            transitionSpec = { (scaleIn(spring()) + fadeIn()) togetherWith (scaleOut() + fadeOut()) },
-            label = "reaction",
-        ) { reaction ->
-            if (reaction != null) Text(reaction, fontSize = WZ.SizeIcon.xxl.value.sp)
+        if (prefs.showCallReactions) {
+            AnimatedContent(
+                participant.reaction,
+                transitionSpec = { (scaleIn(spring()) + fadeIn()) togetherWith (scaleOut() + fadeOut()) },
+                label = "reaction",
+            ) { reaction ->
+                if (reaction != null) Text(reaction, fontSize = WZ.SizeIcon.xxl.value.sp)
+            }
+            if (participant.handRaised) {
+                Box(
+                    Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(WZ.Space.space4)
+                        .size(WZ.Space.space9)
+                        .clip(CircleShape)
+                        .background(theme.bgTertiary.copy(alpha = 0.85f)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("🖐️", fontSize = WZ.SizeIcon.md.value.sp)
+                }
+            }
         }
-        if (participant.handRaised) {
-            Box(
+        if (participant.keyMissing) {
+            val keyHint = tr(if (participant.isLocal) "call.keyMissingSelfHint" else "call.keyMissingHint")
+            Row(
                 Modifier
-                    .align(Alignment.TopEnd)
+                    .align(Alignment.BottomEnd)
                     .padding(WZ.Space.space4)
-                    .size(WZ.Space.space9)
                     .clip(CircleShape)
-                    .background(theme.bgTertiary.copy(alpha = 0.85f)),
-                contentAlignment = Alignment.Center,
+                    .background(theme.warningColor.copy(alpha = 0.9f))
+                    .semantics { contentDescription = keyHint }
+                    .padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space2),
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("🖐️", fontSize = WZ.SizeIcon.md.value.sp)
+                PhIcon("lock-key", PhWeight.bold, size = WZ.SizeIcon.xs, tint = theme.bgPrimary)
+                Text(
+                    tr("call.keyMissing"),
+                    style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
+                    color = theme.bgPrimary,
+                    maxLines = 1,
+                )
             }
         }
         Row(
@@ -256,7 +309,7 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
                 label,
                 Modifier.weight(1f, fill = false),
                 style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
-                color = theme.textPrimary,
+                color = roleColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -275,9 +328,10 @@ private fun ScreenShareTile(roomId: String, participant: CallParticipantInfo, tr
         IconLabel(
             tr("call.userScreen", name),
             "monitor-arrow-up",
-            color = theme.textPrimary,
+            color = LocalRoomRoles.current.colorOf(participant.userId) ?: theme.textPrimary,
             size = WZ.FontSize.sm,
             weight = FontWeight.SemiBold,
+            iconTint = theme.textPrimary,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(WZ.Space.space4)

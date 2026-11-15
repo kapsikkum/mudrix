@@ -154,6 +154,23 @@ internal fun mediaHidden(revealed: Boolean, spoiler: String?, isPrivateRoom: Boo
     }
 }
 
+/**
+ * Fades a picture in the first time it is decoded, like the web's image fade; reduced motion shows it at once.
+ * The first frame is transparent and the effect turns it on, so the animation actually runs.
+ */
+@Composable
+internal fun Modifier.imageFadeIn(): Modifier {
+    val reduceMotion = LocalPrefs.current.reducesMotion(false)
+    var appeared by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { appeared = true }
+    val alpha by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (appeared) 1f else 0f,
+        animationSpec = androidx.compose.animation.core.tween(if (reduceMotion) 0 else 180),
+        label = "imageFade",
+    )
+    return this.graphicsLayer { this.alpha = alpha }
+}
+
 /** A frosted cover over hidden media */
 @Composable
 internal fun BoxScope.MaterialCover() {
@@ -257,6 +274,9 @@ fun ImageMessageView(
     spoiler: String? = null,
     onStickerTap: (() -> Unit)? = null,
     radius: Dp = 14.dp,
+    /** "Hide media" from the message menu covers this picture until it is tapped */
+    forceHidden: Boolean = false,
+    onReveal: (() -> Unit)? = null,
 ) {
     val prefs = LocalPrefs.current
     val loader = LocalMedia.current
@@ -266,7 +286,7 @@ fun ImageMessageView(
     var showViewer by remember { mutableStateOf(false) }
     val interaction = remember { MutableInteractionSource() }
     val holding by interaction.collectIsPressedAsState()
-    val hidden = mediaHidden(revealed, spoiler, isPrivateRoom)
+    val hidden = forceHidden || mediaHidden(revealed, spoiler, isPrivateRoom)
     val canAnimate = media.isAnimated || isSticker || media.mimetype in listOf("image/gif", "image/webp", "image/apng")
     val animate = canAnimate && (prefs.autoplayGifs || playing || holding || animatesMedia)
 
@@ -294,7 +314,10 @@ fun ImageMessageView(
             .clip(shape)
             .messageTap(interaction) {
                 when {
-                    hidden -> revealed = true
+                    hidden -> {
+                        revealed = true
+                        onReveal?.invoke()
+                    }
                     failed -> {
                         failed = false
                         attempt += 1
@@ -311,11 +334,15 @@ fun ImageMessageView(
         val drawable = animated
         val blur = if (hidden) Modifier.blur(24.dp) else Modifier
         when {
-            animate && drawable != null && !hidden -> AnimatedDrawable(drawable, fit = isSticker, modifier = Modifier.fillMaxSize())
+            animate && drawable != null && !hidden -> AnimatedDrawable(
+                drawable,
+                fit = isSticker,
+                modifier = Modifier.fillMaxSize().imageFadeIn(),
+            )
             bitmap != null -> Image(
                 bitmap.asImageBitmap(),
                 null,
-                Modifier.fillMaxSize().then(blur),
+                Modifier.fillMaxSize().then(blur).imageFadeIn(),
                 contentScale = if (isSticker) ContentScale.Fit else ContentScale.Crop,
             )
             failed && !hidden -> FailedPicture()
@@ -433,7 +460,14 @@ fun ImageViewer(
 private const val DOWNLOAD_TIMEOUT_MS = 10 * 60 * 1000L
 
 @Composable
-fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null, radius: Dp = WZ.Radius.lg) {
+fun VideoMessageView(
+    media: ChatEntry.MediaContent,
+    spoiler: String? = null,
+    radius: Dp = WZ.Radius.lg,
+    /** "Hide media" from the message menu covers the video until it is tapped */
+    forceHidden: Boolean = false,
+    onReveal: (() -> Unit)? = null,
+) {
     val loader = LocalMedia.current
     val scope = rememberCoroutineScope()
     var revealed by remember { mutableStateOf(false) }
@@ -455,7 +489,10 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null, rad
             .clip(RoundedCornerShape(radius))
             .background(theme.fill)
             .messageTap {
-                if (spoiler != null && !revealed) {
+                if (forceHidden && !revealed) {
+                    revealed = true
+                    onReveal?.invoke()
+                } else if (spoiler != null && !revealed) {
                     revealed = true
                 } else if (!loading && loader != null) {
                     // Nothing is downloaded until now; the video plays as soon as it is ready
@@ -485,14 +522,26 @@ fun VideoMessageView(media: ChatEntry.MediaContent, spoiler: String? = null, rad
             .semantics { contentDescription = description },
         contentAlignment = Alignment.Center,
     ) {
-        val covered = spoiler != null && !revealed
+        val covered = (forceHidden || spoiler != null) && !revealed
         thumbnail?.let {
-            Image(it.asImageBitmap(), null, Modifier.fillMaxSize().then(if (covered) Modifier.blur(24.dp) else Modifier), contentScale = ContentScale.Crop)
+            Image(
+                it.asImageBitmap(),
+                null,
+                Modifier.fillMaxSize().then(if (covered) Modifier.blur(24.dp) else Modifier).imageFadeIn(),
+                contentScale = ContentScale.Crop,
+            )
         }
         when {
             covered -> {
                 MaterialCover()
-                SpoilerCover(spoiler ?: "")
+                if (spoiler != null) {
+                    SpoilerCover(spoiler)
+                } else {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                        PhIcon("eye", tint = theme.textPrimary, size = WZ.SizeIcon.sm)
+                        Text(tr("timeline.showMedia"), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), color = theme.textPrimary)
+                    }
+                }
             }
             loading -> {
                 val shown = progress

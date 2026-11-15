@@ -131,7 +131,13 @@ fun SpoilerCover(reason: String) {
 
 /** Several pictures sent in a row, as one grid */
 @Composable
-fun GalleryGridView(items: List<ChatEntry>, isPrivateRoom: Boolean = true) {
+fun GalleryGridView(
+    items: List<ChatEntry>,
+    isPrivateRoom: Boolean = true,
+    /** "Hide media" from the message menu covers every picture until one is tapped */
+    forceHidden: Boolean = false,
+    onReveal: (() -> Unit)? = null,
+) {
     var openIndex by remember { mutableStateOf<Int?>(null) }
     val all = items.mapNotNull { entry -> (entry.kind as? ChatEntry.Kind.Image)?.let { entry to it.media } }
     val visible = all.take(MAX_VISIBLE)
@@ -157,6 +163,8 @@ fun GalleryGridView(items: List<ChatEntry>, isPrivateRoom: Boolean = true) {
                             entry.mediaSpoiler,
                             isPrivateRoom,
                             moreCount = if (index == visible.size - 1 && extra > 0) extra else 0,
+                            forceHidden = forceHidden,
+                            onReveal = onReveal,
                         ) { openIndex = index }
                     }
                 }
@@ -171,20 +179,35 @@ fun GalleryGridView(items: List<ChatEntry>, isPrivateRoom: Boolean = true) {
 private const val MAX_VISIBLE = 8
 
 @Composable
-private fun GalleryTile(media: ChatEntry.MediaContent, spoiler: String?, isPrivateRoom: Boolean, moreCount: Int, onOpen: () -> Unit) {
+private fun GalleryTile(
+    media: ChatEntry.MediaContent,
+    spoiler: String?,
+    isPrivateRoom: Boolean,
+    moreCount: Int,
+    forceHidden: Boolean = false,
+    onReveal: (() -> Unit)? = null,
+    onOpen: () -> Unit,
+) {
     val loader = LocalMedia.current
     var image by remember(media.source) { mutableStateOf<Bitmap?>(null) }
     var revealed by remember { mutableStateOf(false) }
-    val hidden = mediaHidden(revealed, spoiler, isPrivateRoom)
+    val hidden = forceHidden || mediaHidden(revealed, spoiler, isPrivateRoom)
     LaunchedEffect(hidden, loader) {
         if (hidden || loader == null) return@LaunchedEffect
         image = loader.image(media.thumbnail ?: media.source, 400)
     }
     Box(
-        Modifier.fillMaxSize().background(theme.fill).clipToBounds().messageTap { if (hidden) revealed = true else onOpen() },
+        Modifier.fillMaxSize().background(theme.fill).clipToBounds().messageTap {
+            if (hidden) {
+                revealed = true
+                onReveal?.invoke()
+            } else {
+                onOpen()
+            }
+        },
         contentAlignment = Alignment.Center,
     ) {
-        image?.let { Image(it.asImageBitmap(), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
+        image?.let { Image(it.asImageBitmap(), null, Modifier.fillMaxSize().imageFadeIn(), contentScale = ContentScale.Crop) }
         if (hidden) {
             MaterialCover()
             PhIcon(if (spoiler != null) "eye-slash" else "eye", tint = theme.textPrimary)

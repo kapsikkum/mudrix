@@ -47,6 +47,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import chat.mudrix.android.LocalMedia
+import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.ImagePacks
 import chat.mudrix.android.matrix.MatrixSession
@@ -182,6 +183,18 @@ internal fun EmojisSettings(onBack: () -> Unit) {
     LaunchedEffect(Unit) { reload() }
 
     SettingsPage(tr("room.settings.emojis.title"), onBack) {
+        SettingsSection(tr("settings.emojisStickers.gifProvider")) {
+            val prefs = LocalPrefs.current
+            PickerRow(
+                tr("settings.emojisStickers.gifProvider"),
+                prefs.gifProvider,
+                listOf(
+                    chat.mudrix.android.media.GifItem.GIPHY to chat.mudrix.android.media.GifItem.GIPHY_LABEL,
+                    chat.mudrix.android.media.GifItem.KLIPY to chat.mudrix.android.media.GifItem.KLIPY_LABEL,
+                ),
+                { prefs.gifProvider = it },
+            )
+        }
         SettingsSection(tr("settings.emojisStickers.defaultPack"), tr("settings.emojisStickers.defaultPackNote")) {
             SettingsItem(verticalArrangement = Arrangement.spacedBy(WZ.Space.space5)) {
                 Text(

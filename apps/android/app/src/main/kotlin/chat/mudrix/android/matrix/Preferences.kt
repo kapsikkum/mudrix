@@ -213,6 +213,13 @@ class AppPreferences(context: Context) {
     ) { putBoolean("notificationSoundsWhenFocused", it) }
     /** People who manage a space may move this person between its voice channels while in a call */
     var allowVoiceMoves by pref(defaults.getBoolean("allowVoiceMoves", true), boolCodec("allowVoiceMoves")) { putBoolean("allowVoiceMoves", it) }
+    /** Other people's emoji reactions and raised hands show on their call tiles (the web's `callShowReactions`) */
+    var showCallReactions by pref(defaults.getBoolean("showCallReactions", true)) { putBoolean("showCallReactions", it) }
+    /** The GIF provider the picker opens on, synced like the web's `gifProvider` */
+    var gifProvider by pref(
+        defaults.getString("gifProvider", null)?.takeIf { it in GIF_PROVIDERS } ?: chat.mudrix.android.media.GifItem.GIPHY,
+        stringCodec("gifProvider", GIF_PROVIDERS),
+    ) { putString("gifProvider", it) }
     /** The sound pack for every sound without an override of its own */
     var notificationSoundPack by pref(
         defaults.getString("notificationSoundPack", null)?.takeIf(SoundPacks::isPackId) ?: SoundPacks.DEFAULT,
@@ -487,6 +494,8 @@ class AppPreferences(context: Context) {
 
         private val LAYOUTS = setOf("classic", "modern", "compact")
         private val NAVIGATION_STYLES = setOf("rail", "classic")
+        /** The GIF providers a build can offer (`media/GifItem.kt`) */
+        val GIF_PROVIDERS = setOf(chat.mudrix.android.media.GifItem.GIPHY, chat.mudrix.android.media.GifItem.KLIPY)
 
         /** Names this app used before it followed the web's settings, by the key they are now under */
         private val LEGACY_KEYS = mapOf("sendTyping" to "typingIndicators", "notificationSound" to "notificationSounds")

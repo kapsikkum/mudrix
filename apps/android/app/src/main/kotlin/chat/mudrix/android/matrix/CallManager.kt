@@ -19,6 +19,7 @@ import io.livekit.android.RoomOptions
 import io.livekit.android.audio.NoAudioHandler
 import io.livekit.android.e2ee.BaseKeyProvider
 import io.livekit.android.e2ee.E2EEOptions
+import io.livekit.android.e2ee.E2EEState
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.events.collect
 import io.livekit.android.room.Room as LiveKitRoom
@@ -89,7 +90,11 @@ data class CallParticipantInfo(
     val speaking: Boolean = false,
     val micMuted: Boolean = true,
     val cameraTrack: VideoTrack? = null,
+    /** The camera is published but switched off: [cameraTrack] still holds the last frame */
+    val cameraMuted: Boolean = false,
     val screenTrack: VideoTrack? = null,
+    /** Their media cannot be decrypted yet (waiting for the call's encryption key) */
+    val keyMissing: Boolean = false,
     /** The LiveKit room the tracks come from (video views render with its EGL context) */
     val connection: LiveKitRoom? = null,
     val handRaised: Boolean = false,
@@ -234,6 +239,8 @@ class CallManager {
     private val appliedVolumes = mutableMapOf<String, Double>()
     private val reactions = mutableMapOf<String, String>()
     private val raisedHands = mutableSetOf<String>()
+    /** People whose media cannot be decrypted yet (the web's `keyIssues`) */
+    private val keyIssues = mutableSetOf<String>()
 
     init {
         notification.end()
@@ -427,6 +434,7 @@ class CallManager {
         participants = emptyList()
         reactions.clear()
         raisedHands.clear()
+        keyIssues.clear()
         handRaised = false
         cameraOn = false
         screenSharing = false
@@ -857,13 +865,18 @@ class CallManager {
                 isOwnOtherDevice = !isLocal && member.userId == client?.userId,
             )
             if (participant != null) {
-                val videos = participant.trackPublications.values.filter { it.kind == Track.Kind.VIDEO && !it.muted }
+                // A muted camera keeps its publication (and its last frame), so the tile can show a still picture
+                val videos = participant.trackPublications.values.filter { it.kind == Track.Kind.VIDEO }
+                val camera = videos.firstOrNull { it.source == Track.Source.CAMERA }
+                val screen = videos.firstOrNull { it.source == Track.Source.SCREEN_SHARE && !it.muted }
                 info = info.copy(
                     connected = true,
                     speaking = participant.isSpeaking,
                     micMuted = !participant.isMicrophoneEnabled,
-                    cameraTrack = videos.firstOrNull { it.source == Track.Source.CAMERA }?.track as? VideoTrack,
-                    screenTrack = videos.firstOrNull { it.source == Track.Source.SCREEN_SHARE }?.track as? VideoTrack,
+                    cameraTrack = camera?.track as? VideoTrack,
+                    cameraMuted = camera?.muted == true,
+                    screenTrack = screen?.track as? VideoTrack,
+                    keyMissing = member.identity in keyIssues,
                     connection = if (isLocal) publisher else remote?.second,
                 )
             }
@@ -901,6 +914,16 @@ class CallManager {
                 val identity = event.participant?.identity?.value ?: ""
                 if (event.topic in WatchTogether.TOPICS) watch?.receive(event.data, identity)
                 if (event.topic == Soundboard.PLAY_TYPE) receiveSoundboard(identity, event.data)
+            }
+            is RoomEvent.TrackE2EEStateEvent -> {
+                val identity = event.participant?.identity?.value ?: return
+                val before = identity in keyIssues
+                when (event.state) {
+                    E2EEState.MISSING_KEY, E2EEState.DECRYPTION_FAILED, E2EEState.ENCRYPTION_FAILED, E2EEState.INTERNAL_ERROR ->
+                        keyIssues.add(identity)
+                    else -> keyIssues.remove(identity)
+                }
+                if ((identity in keyIssues) != before) refresh()
             }
             is RoomEvent.Disconnected -> {
                 if (livekit !in connections.values || state != State.Joined) return

@@ -7,6 +7,9 @@ import android.media.session.MediaController
 import android.media.session.MediaSessionManager
 import android.media.session.PlaybackState
 import android.service.notification.NotificationListenerService
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +43,10 @@ object ListeningSharing {
     private var published: ProfileActivity? = null
     private var publishedAt = 0L
     private var session: MatrixSession? = null
+
+    /** The track this device is sharing right now, for the Activity settings page */
+    var current by mutableStateOf<ProfileActivity?>(null)
+        private set
 
     fun hasAccess(context: Context): Boolean = NotificationManagerCompat.getEnabledListenerPackages(context).contains(context.packageName)
 
@@ -84,6 +91,7 @@ object ListeningSharing {
         scope = null
         val wasShowing = published != null
         published = null
+        current = null
         val ended = session
         session = null
         if (wasShowing && ended != null) {
@@ -120,6 +128,7 @@ object ListeningSharing {
             runCatching { write(session, track) }.onSuccess {
                 published = track
                 publishedAt = now
+                current = track
             }
         }
     }

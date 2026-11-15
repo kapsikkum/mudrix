@@ -108,6 +108,14 @@ internal fun VoiceVideoSettings(onBack: () -> Unit) {
             SettingsDivider()
             MicTest()
         }
+        SettingsSection(tr("settings.voice.callTitle")) {
+            ToggleRow(
+                tr("settings.voice.showReactions"),
+                prefs.showCallReactions,
+                { prefs.showCallReactions = it },
+                note = tr("settings.voice.showReactionsNote"),
+            )
+        }
         SettingsSection(tr("settings.voiceVideo.inputMode")) {
             ToggleRow(
                 tr("settings.keybinds.pushToTalk"),

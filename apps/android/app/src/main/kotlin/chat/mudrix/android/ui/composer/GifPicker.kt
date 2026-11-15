@@ -10,6 +10,8 @@ import android.util.LruCache
 import android.widget.ImageView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,19 +46,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import java.net.HttpURLConnection
 import java.net.URL
-import java.net.URLEncoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonPrimitive
 import chat.mudrix.android.BuildConfig
+import chat.mudrix.android.LocalPrefs
+import chat.mudrix.android.media.GifApi
+import chat.mudrix.android.media.GifItem
+import chat.mudrix.android.media.GifLink
+import chat.mudrix.android.ui.Chip
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.PhIcon
 import chat.mudrix.android.ui.PhWeight
@@ -67,22 +66,29 @@ import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.tokens.WZ
 
-@Serializable
-data class GiphyGif(
-    val id: String,
-    val title: String,
-    val url: String,
-    val previewUrl: String,
-    val width: Int,
-    val height: Int,
-)
+/**
+ * The GIF picker's GIF: the providers share one shape (`media/GifItem.kt`), so the composer keeps sending the same
+ * type it always did.
+ */
+typealias GiphyGif = GifItem
 
-/** Set at build time (GIPHY_API_KEY, see docs/SECRETS.md); empty means GIFs are not configured */
+/** Set at build time (GIPHY_API_KEY / KLIPY_API_KEY, see docs/SECRETS.md); empty means that provider is not offered */
 private val GIPHY_API_KEY: String = BuildConfig.GIPHY_API_KEY
-private const val GIPHY_API = "https://api.giphy.com/v1/gifs"
-private val favouritesSerializer = ListSerializer(GiphyGif.serializer())
+private val KLIPY_API_KEY: String = BuildConfig.KLIPY_API_KEY
 
-/** Downloads a URL's bytes (GIFs from Giphy) */
+private const val FAVOURITES_KEY = "gifFavourites"
+private const val RECENT_KEY = "gifRecent"
+private const val CONSENT_KEY = "gifConsent"
+
+/** One tab of the picker: a provider's trending/search, the favourites, or the GIFs sent from this device */
+private enum class GifTab(val provider: String?) {
+    giphy(GifItem.GIPHY),
+    klipy(GifItem.KLIPY),
+    favourites(null),
+    recent(null),
+}
+
+/** Downloads a URL's bytes (GIFs from Giphy and KLIPY) */
 internal suspend fun download(url: String): ByteArray? = withContext(Dispatchers.IO) {
     runCatching {
         val connection = URL(url).openConnection() as HttpURLConnection
@@ -96,41 +102,52 @@ internal suspend fun download(url: String): ByteArray? = withContext(Dispatchers
     }.getOrNull()
 }
 
-/** Trending and searched GIFs from Giphy (after consent), with favourites */
+/** Trending and searched GIFs from GIPHY and KLIPY (after consent), with favourites and the ones sent recently */
 @Composable
 fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
-    var consented by remember { mutableStateOf(composerDefaults.getBoolean("gifConsent", false)) }
-    var favouritesRaw by remember { mutableStateOf(composerDefaults.getString("gifFavourites", null)) }
+    val prefs = LocalPrefs.current
+    var consented by remember { mutableStateOf(composerDefaults.getBoolean(CONSENT_KEY, false)) }
+    var favouritesRaw by remember { mutableStateOf(composerDefaults.getString(FAVOURITES_KEY, null)) }
+    var recentRaw by remember { mutableStateOf(composerDefaults.getString(RECENT_KEY, null)) }
     var search by remember { mutableStateOf("") }
-    var showFavourites by remember { mutableStateOf(false) }
-    var results by remember { mutableStateOf(listOf<GiphyGif>()) }
+    var tab by remember { mutableStateOf(defaultTab(prefs.gifProvider)) }
+    var results by remember { mutableStateOf(listOf<GifItem>()) }
     var loading by remember { mutableStateOf(false) }
     var sending by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    val favourites = favouritesRaw?.let { runCatching { Json.decodeFromString(favouritesSerializer, it) }.getOrNull() }.orEmpty()
+    val favourites = remember(favouritesRaw) { parseFavourites(favouritesRaw) }
+    val recent = remember(recentRaw) { GifApi.parseRecent(recentRaw) }
+    val klipyAvailable = KLIPY_API_KEY.isNotBlank()
 
-    fun toggleFavourite(gif: GiphyGif) {
-        val list = favourites.toMutableList()
-        if (!list.remove(gif)) list.add(0, gif)
-        favouritesRaw = Json.encodeToString(favouritesSerializer, list.take(50))
-        composerDefaults.edit().putString("gifFavourites", favouritesRaw).apply()
+    // A tab whose provider has no key in this build falls back to the other one
+    LaunchedEffect(tab, klipyAvailable) {
+        if (tab == GifTab.klipy && !klipyAvailable) tab = if (GIPHY_API_KEY.isNotBlank()) GifTab.giphy else GifTab.recent
     }
 
-    if (GIPHY_API_KEY.isBlank()) {
-        Column(
-            Modifier.fillMaxSize().padding(WZ.Space.space8),
-            verticalArrangement = Arrangement.spacedBy(WZ.Space.space5, Alignment.CenterVertically),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            PhIcon("images", size = WZ.SizeIcon.xxl, tint = theme.textMuted)
-            Text(
-                tr("composer.gifNotConfiguredTooltip"),
-                style = wizardFont(WZ.FontSize.md),
-                color = theme.textMuted,
-                textAlign = TextAlign.Center,
-            )
+    fun rememberFavourite(gif: GifItem) {
+        val list = favourites.toMutableList()
+        if (!list.remove(gif)) list.add(0, gif)
+        favouritesRaw = encodeFavourites(list.take(50))
+        composerDefaults.edit().putString(FAVOURITES_KEY, favouritesRaw).apply()
+    }
+
+    fun pick(gif: GifItem) {
+        // Record it in Recent first: picking closes the picker
+        val next = GifApi.withRecent(recent, gif)
+        recentRaw = GifApi.encodeRecent(next)
+        composerDefaults.edit().putString(RECENT_KEY, recentRaw).apply()
+        if (!sending) {
+            scope.launch {
+                sending = true
+                onPick(gif)
+                sending = false
+            }
         }
+    }
+
+    if (GIPHY_API_KEY.isBlank() && KLIPY_API_KEY.isBlank()) {
+        NotConfigured()
         return
     }
 
@@ -143,47 +160,80 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
             PhIcon("images", size = WZ.SizeIcon.xxl, tint = theme.accent)
             Text(tr("composer.gifConsentTitle"), style = wizardFont(WZ.FontSize.xl, FontWeight.Bold), color = theme.textPrimary)
             Text(
-                tr("composer.gifConsentBody"),
+                tr("composer.gifConsentBody", "api.giphy.com, *.giphy.com", "api.klipy.com, *.klipy.com"),
                 style = wizardFont(WZ.FontSize.md),
                 color = theme.textMuted,
                 textAlign = TextAlign.Center,
             )
             PrimaryButton(tr("composer.gifConsentEnable"), {
                 consented = true
-                composerDefaults.edit().putBoolean("gifConsent", true).apply()
+                composerDefaults.edit().putBoolean(CONSENT_KEY, true).apply()
             }, Modifier.widthIn(max = WZ.Size.sidebar))
         }
         return
     }
 
-    LaunchedEffect(search) {
+    val provider = tab.provider
+    LaunchedEffect(provider, search) {
+        if (provider == null) return@LaunchedEffect
         if (search.isNotEmpty()) delay(350)
         loading = true
-        loadGifs(search.trim())?.let { results = it }
+        results = loadGifs(provider, search.trim()).orEmpty()
         loading = false
     }
 
+    val shown = when (tab) {
+        GifTab.favourites -> favourites
+        GifTab.recent -> recent
+        else -> results
+    }
+    val gifTabsLabel = tr("composer.gifTabsLabel")
+
     Column(Modifier.fillMaxSize()) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            SearchBar(search, { search = it }, tr("composer.searchGifs"), Modifier.weight(1f))
-            Box(
+        // The providers, then the two local lists, like the web's tabs
+        Column(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space2)) {
+            Row(
                 Modifier
-                    .padding(end = WZ.Space.space3)
-                    .size(WZ.Space.space10)
-                    .clip(CircleShape)
-                    .clickable { showFavourites = !showFavourites },
-                contentAlignment = Alignment.Center,
+                    .horizontalScroll(rememberScrollState())
+                    .semantics { contentDescription = gifTabsLabel },
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
             ) {
-                PhIcon(
-                    "star",
-                    if (showFavourites) PhWeight.fill else PhWeight.regular,
-                    tint = if (showFavourites) theme.accent else theme.textMuted,
-                    contentDescription = tr("nav.favourites"),
+                GifTab.entries.forEach { entry ->
+                    val available = entry != GifTab.klipy || klipyAvailable
+                    Chip(
+                        when (entry) {
+                            GifTab.giphy -> GifItem.GIPHY_LABEL
+                            GifTab.klipy -> GifItem.KLIPY_LABEL
+                            GifTab.favourites -> tr("composer.favourites")
+                            GifTab.recent -> tr("composer.gifTabRecent")
+                        },
+                        tab == entry,
+                        { if (available) tab = entry },
+                    )
+                }
+            }
+        }
+        if (provider != null) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SearchBar(
+                    search,
+                    { search = it },
+                    tr(if (provider == GifItem.KLIPY) "composer.searchKlipy" else "composer.searchGiphy"),
+                    Modifier.weight(1f),
                 )
+                Box(
+                    Modifier
+                        .padding(end = WZ.Space.space3)
+                        .size(WZ.Space.space10)
+                        .clip(CircleShape)
+                        .clickable { tab = GifTab.favourites },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    PhIcon("star", PhWeight.regular, tint = theme.textMuted, contentDescription = tr("composer.favourites"))
+                }
             }
         }
         Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-            val gifs = if (showFavourites) favourites else results
             LazyVerticalGrid(
                 GridCells.Fixed(2),
                 Modifier.fillMaxSize(),
@@ -191,7 +241,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
             ) {
-                items(gifs, key = { it.id }) { gif ->
+                items(shown, key = { "${it.provider}:${it.id}" }) { gif ->
                     val isFavourite = favourites.contains(gif)
                     Box(Modifier.semantics { contentDescription = gif.title }) {
                         RemoteAnimatedImage(
@@ -200,15 +250,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                                 .fillMaxWidth()
                                 .aspectRatio(gif.width.toFloat() / gif.height.coerceAtLeast(1))
                                 .clip(RoundedCornerShape(WZ.Radius.lg))
-                                .clickable {
-                                    if (!sending) {
-                                        scope.launch {
-                                            sending = true
-                                            onPick(gif)
-                                            sending = false
-                                        }
-                                    }
-                                },
+                                .clickable { pick(gif) },
                         )
                         Box(
                             Modifier
@@ -217,7 +259,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                                 .size(WZ.Space.space9)
                                 .clip(CircleShape)
                                 .background(theme.overlay)
-                                .clickable { toggleFavourite(gif) },
+                                .clickable { rememberFavourite(gif) },
                             contentAlignment = Alignment.Center,
                         ) {
                             PhIcon(
@@ -231,16 +273,29 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                     }
                 }
             }
-            if (showFavourites && favourites.isEmpty()) {
-                Text(
+            when {
+                tab == GifTab.favourites && favourites.isEmpty() -> Text(
                     tr("composer.noFavourites"),
                     Modifier.padding(WZ.Space.space9),
                     style = wizardFont(WZ.FontSize.md),
                     color = theme.textMuted,
                     textAlign = TextAlign.Center,
                 )
-            } else if (loading && results.isEmpty()) {
-                Spinner()
+                tab == GifTab.recent && recent.isEmpty() -> Text(
+                    tr("composer.noRecent"),
+                    Modifier.padding(WZ.Space.space9),
+                    style = wizardFont(WZ.FontSize.md),
+                    color = theme.textMuted,
+                    textAlign = TextAlign.Center,
+                )
+                provider != null && loading && results.isEmpty() -> Spinner()
+                provider != null && !loading && results.isEmpty() -> Text(
+                    tr(if (search.isNotBlank()) "composer.noResults" else "composer.searchGifsHint"),
+                    Modifier.padding(WZ.Space.space9),
+                    style = wizardFont(WZ.FontSize.md),
+                    color = theme.textMuted,
+                    textAlign = TextAlign.Center,
+                )
             }
             if (sending) {
                 Column(
@@ -256,42 +311,76 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                 }
             }
         }
-        Text(
-            tr("composer.poweredByGiphy"),
+        // The providers whose GIFs this list comes from, as both ask for
+        Row(
             Modifier.align(Alignment.CenterHorizontally).padding(vertical = WZ.Space.space3),
-            style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+        ) {
+            val credited = if (provider != null) listOf(provider) else listOf(GifItem.GIPHY, GifItem.KLIPY)
+            credited.forEach { id ->
+                Text(
+                    L10n.format("composer.poweredBy", if (id == GifItem.KLIPY) GifItem.KLIPY_LABEL else GifItem.GIPHY_LABEL),
+                    style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold),
+                    color = theme.textMuted,
+                )
+            }
+        }
+    }
+}
+
+/** The tab the settings' preferred provider asks for */
+private fun defaultTab(preferred: String): GifTab {
+    val provider = GifItem.providerOf(preferred)
+    val key = if (provider == GifItem.KLIPY) KLIPY_API_KEY else GIPHY_API_KEY
+    return if (key.isNotBlank()) {
+        if (provider == GifItem.KLIPY) GifTab.klipy else GifTab.giphy
+    } else {
+        if (GIPHY_API_KEY.isNotBlank()) GifTab.giphy else GifTab.klipy
+    }
+}
+
+@Composable
+private fun NotConfigured() {
+    Column(
+        Modifier.fillMaxSize().padding(WZ.Space.space8),
+        verticalArrangement = Arrangement.spacedBy(WZ.Space.space5, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        PhIcon("images", size = WZ.SizeIcon.xxl, tint = theme.textMuted)
+        Text(
+            tr("composer.gifNotConfiguredTooltip"),
+            style = wizardFont(WZ.FontSize.md),
             color = theme.textMuted,
+            textAlign = TextAlign.Center,
         )
     }
 }
 
-private suspend fun loadGifs(query: String): List<GiphyGif>? {
-    val endpoint = if (query.isEmpty()) {
-        "$GIPHY_API/trending?api_key=$GIPHY_API_KEY&limit=30"
-    } else {
-        "$GIPHY_API/search?q=${URLEncoder.encode(query, "UTF-8")}&api_key=$GIPHY_API_KEY&limit=30"
-    }
-    val data = download(endpoint) ?: return null
-    val json = runCatching { Json.parseToJsonElement(data.decodeToString()) as? JsonObject }.getOrNull() ?: return null
-    val items = json["data"] as? JsonArray ?: return null
-    fun JsonObject?.string(key: String) = (this?.get(key))?.jsonPrimitive?.contentOrNull
-    return items.mapNotNull { element ->
-        val item = element as? JsonObject ?: return@mapNotNull null
-        val id = item.string("id") ?: return@mapNotNull null
-        val images = item["images"] as? JsonObject ?: return@mapNotNull null
-        val full = (images["downsized"] ?: images["original"]) as? JsonObject
-        val preview = (images["fixed_width"] as? JsonObject) ?: full
-        val url = full.string("url") ?: return@mapNotNull null
-        val previewUrl = preview.string("url") ?: return@mapNotNull null
-        GiphyGif(
-            id = id,
-            title = item.string("title") ?: L10n.format("composer.gif"),
-            url = url,
-            previewUrl = previewUrl,
-            width = full.string("width")?.toIntOrNull() ?: 200,
-            height = full.string("height")?.toIntOrNull() ?: 200,
-        )
-    }
+private fun parseFavourites(raw: String?): List<GifItem> = GifApi.parseRecent(raw)
+
+private fun encodeFavourites(list: List<GifItem>): String = GifApi.encodeRecent(list)
+
+/** Trending (an empty query) or searched GIFs from one provider */
+private suspend fun loadGifs(provider: String, query: String): List<GifItem>? {
+    val key = if (provider == GifItem.KLIPY) KLIPY_API_KEY else GIPHY_API_KEY
+    if (key.isBlank()) return null
+    val url = if (provider == GifItem.KLIPY) GifApi.klipyUrl(key, query) else GifApi.giphyUrl(key, query)
+    val data = download(url) ?: return null
+    val body = data.decodeToString()
+    return if (provider == GifItem.KLIPY) GifApi.parseKlipy(body) else GifApi.parseGiphy(body)
+}
+
+/** The build's key for a provider, empty when this build has none */
+internal fun gifApiKey(provider: String): String = if (provider == GifItem.KLIPY) KLIPY_API_KEY else GIPHY_API_KEY
+
+/** Turns a bare GIPHY/KLIPY link into the GIF to send, or null when it cannot be fetched (the link is sent instead) */
+internal suspend fun gifFromLink(target: GifLink.Target): GiphyGif? {
+    GifLink.direct(target)?.let { return it }
+    val slug = (target as? GifLink.KlipySlug)?.slug ?: return null
+    val key = gifApiKey(GifItem.KLIPY)
+    if (key.isEmpty()) return null
+    val body = download(GifApi.klipyItemUrl(key, slug))?.decodeToString() ?: return null
+    return GifApi.parseKlipy(body).firstOrNull()
 }
 
 private val gifBytes = object : LruCache<String, ByteArray>(24 * 1024 * 1024) {

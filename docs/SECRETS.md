@@ -15,9 +15,10 @@ in git history and in upstream's public repository; history is not rewritten her
 | GIPHY API key    | Android                   | `GIPHY_API_KEY`: Gradle property, else environment variable, else file | `apps/android/local.properties` (git-ignored)       | GIF picker shows "not configured"            |
 | GIPHY API key    | iOS                       | `GIPHY_API_KEY` build setting, surfaced as Info.plist `WZGiphyApiKey`  | `apps/ios/Config/Secrets.xcconfig` (git-ignored)    | GIF picker shows "not configured"            |
 | KLIPY API key    | web, desktop (web bundle) | `VITE_KLIPY_API_KEY`                                                   | `apps/web/.env.local`                               | KLIPY tab disabled                           |
+| KLIPY API key    | Android                   | `KLIPY_API_KEY`: same lookup as `GIPHY_API_KEY`                        | `apps/android/local.properties`                     | KLIPY tab disabled, GIPHY still offered      |
 | Push gateway URL | Android                   | `PUSH_GATEWAY_URL` (same lookup as `GIPHY_API_KEY`)                    | `apps/android/local.properties`                     | No pusher is registered                      |
 
-Android and iOS have no KLIPY support, so they take no KLIPY key.
+iOS has no KLIPY support yet, so it takes no KLIPY key.
 
 Notes:
 
@@ -56,6 +57,7 @@ env:
 # Android build
 env:
   GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
 
 # iOS build (and write apps/ios/Config/Secrets.xcconfig from it, or pass it to xcodebuild)
 env:

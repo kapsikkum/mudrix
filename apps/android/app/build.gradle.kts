@@ -58,6 +58,8 @@ android {
         versionName = appVersion
 
         buildConfigField("String", "GIPHY_API_KEY", buildSecret("GIPHY_API_KEY").asBuildConfigString())
+        // Empty means the KLIPY tab is not offered (docs/SECRETS.md)
+        buildConfigField("String", "KLIPY_API_KEY", buildSecret("KLIPY_API_KEY").asBuildConfigString())
         // Empty means push notifications are not registered (docs/SECRETS.md)
         buildConfigField("String", "PUSH_GATEWAY_URL", buildSecret("PUSH_GATEWAY_URL").asBuildConfigString())
         buildConfigField("String", "PUSH_MODE", pushMode.asBuildConfigString())

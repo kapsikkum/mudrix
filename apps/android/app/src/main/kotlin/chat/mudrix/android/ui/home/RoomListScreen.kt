@@ -218,10 +218,12 @@ fun RoomListScreen(
     fun canReorder(group: RoomGroup) = reordering && (group.kind == RoomGroup.Kind.Favourites ||
         (group.kind == RoomGroup.Kind.Rooms && selection == SidebarSelection.Home))
 
+    /** The groups whose order is saved on the account: favourites, and Home's rooms (the web's own two orders) */
+    fun hasSavedOrder(group: RoomGroup) = group.kind == RoomGroup.Kind.Favourites ||
+        (group.kind == RoomGroup.Kind.Rooms && selection == SidebarSelection.Home)
+
     fun move(group: RoomGroup, index: Int, offset: Int) {
-        val ids = group.rooms.map { it.id }.toMutableList()
-        if (index + offset !in ids.indices) return
-        java.util.Collections.swap(ids, index, index + offset)
+        val ids = RoomMenu.moved(group.rooms.map { it.id }, index, offset) ?: return
         scope.launch {
             if (group.kind == RoomGroup.Kind.Favourites) roomList.saveFavouriteOrder(ids) else roomList.saveHomeOrder(ids)
         }
@@ -499,6 +501,11 @@ fun RoomListScreen(
                             onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                             onSetLowPriority = { low -> setLowPriority(room, low) },
                             onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
+                            onMoveBy = if (hasSavedOrder(group) && group.rooms.size > 1) {
+                                ({ offset -> move(group, index, offset) })
+                            } else {
+                                null
+                            },
                             notificationMode = roomList.notificationMode(room),
                             onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                             reorder = if (canReorder(group)) ({ offset -> move(group, index, offset) }) else null,
@@ -637,6 +644,8 @@ private fun SwipeableRoomRow(
     onSetLowPriority: (Boolean) -> Unit,
     onSetVoiceChannel: (Boolean) -> Unit = {},
     onMoveToSection: (() -> Unit)?,
+    /** Moves this room up (-1) or down (1) inside its group; null when the list has no saved order to change */
+    onMoveBy: ((Int) -> Unit)? = null,
     notificationMode: NotificationMode?,
     onSetNotificationMode: (NotificationMode?) -> Unit,
     reorder: ((Int) -> Unit)?,
@@ -730,6 +739,10 @@ private fun SwipeableRoomRow(
                         ) { onSetLowPriority(!room.isLowPriority) },
                     )
                     onMoveToSection?.let { add(MenuItem(tr("room.sections.moveTo"), "list-bullets", onClick = it)) }
+                    onMoveBy?.let { move ->
+                        add(MenuItem(tr("room.moveUp"), "arrow-circle-up") { move(-1) })
+                        add(MenuItem(tr("room.moveDown"), "arrow-line-down") { move(1) })
+                    }
                     add(
                         MenuItem(tr("common.copyLink"), "link-simple") {
                             copyToClipboard("https://matrix.to/#/${room.id}", L10n.format("timeline.linkCopied"))

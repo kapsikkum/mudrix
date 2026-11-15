@@ -115,9 +115,12 @@ import chat.mudrix.android.matrix.ChatEntry
 import chat.mudrix.android.matrix.Emoji
 import chat.mudrix.android.matrix.DisplayFormats
 import chat.mudrix.android.matrix.EmojiOnlySize
+import chat.mudrix.android.matrix.HiddenMedia
 import chat.mudrix.android.matrix.MessageLayout
 import chat.mudrix.android.matrix.MessageMention
 import chat.mudrix.android.matrix.Shields
+import chat.mudrix.android.matrix.hasHideableMedia
+import chat.mudrix.android.matrix.mediaEventIds
 import chat.mudrix.android.matrix.MessageNotifier
 import chat.mudrix.android.matrix.PacksStore
 import chat.mudrix.android.matrix.PendingUpload
@@ -209,6 +212,8 @@ class MessageActions(
     val retry: () -> Unit = {},
     /** Opens the sticker pack a sticker came from */
     val stickerPack: (ChatEntry) -> Unit = {},
+    /** Covers this message's media until it is shown again ("Hide media") */
+    val hideMedia: (ChatEntry) -> Unit = {},
 )
 
 /** A room's timeline and composer, or with `threadRoot` one of its threads */
@@ -465,6 +470,7 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         isEncrypted = room.isEncrypted,
         retry = { timeline.retrySending() },
         stickerPack = { entry -> openStickerPack(entry) },
+        hideMedia = { entry -> HiddenMedia.hide(entry.mediaEventIds()) },
         )
     }
 
@@ -618,9 +624,12 @@ fun RoomScreen(room: RoomSummary, client: WizardClient, onBack: () -> Unit, thre
         EditHistorySheet(client = client, roomId = room.id, eventId = id, onDismiss = { editHistoryFor = null })
     }
     if (showThreads) {
-        ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
-            showThreads = false
-            navigator.push(Route.Thread(room.id, root))
+        // The thread list shows senders' role colours like the timeline does
+        CompositionLocalProvider(LocalRoomRoles provides roomRoles) {
+            ThreadListSheet(room, client, onDismiss = { showThreads = false }) { root ->
+                showThreads = false
+                navigator.push(Route.Thread(room.id, root))
+            }
         }
     }
     forwarding?.let { entry -> entry.eventId?.let { ForwardSheet(room.id, it) { forwarding = null } } }
@@ -1108,6 +1117,9 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     var showRemind by remember { mutableStateOf(false) }
     val roomRoles = LocalRoomRoles.current
     val roleColor = remember(roomRoles, entry.sender) { roomRoles.colorOf(entry.sender) }
+    // "Hide media": this message's pictures or videos stay covered until they are shown again
+    val mediaEventIds = entry.mediaEventIds()
+    val hiddenMedia = HiddenMedia.allHidden(mediaEventIds)
     val scope = rememberCoroutineScope()
     // Read only in layout and draw lambdas, so dragging a row never recomposes it
     var swipe by remember { mutableFloatStateOf(0f) }
@@ -1198,7 +1210,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                     entry.senderName,
                                     Modifier.clickable(enabled = actions != null) { actions?.openProfile?.invoke(entry.sender) },
                                     style = wizardFont(WZ.FontSize.md * scale, FontWeight.SemiBold),
-                                    color = nameColor(entry.sender),
+                                    color = roleColor ?: nameColor(entry.sender),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
@@ -1260,7 +1272,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
                             contentAlignment = if (ownBubble) Alignment.CenterEnd else if (isBubble) Alignment.CenterStart else Alignment.Center,
                         ) {
-                            MessageContent(entry, actions, isPrivateRoom, isText)
+                            MessageContent(entry, actions, isPrivateRoom, isText, hiddenMedia, onRevealMedia = { HiddenMedia.reveal(mediaEventIds) })
                             if (sending && !isText) UploadProgressRing(null)
                         }
                         if (entry.sendFailed) {
@@ -1283,7 +1295,10 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     val loader = actions?.linkPreviews
                     val body = (entry.kind as? ChatEntry.Kind.Message)?.body
-                    val previewUrl = remember(body) { body?.let { MessageText.firstPreviewURL(it) } }
+                    // A GIF link is shown as the GIF itself, so no link preview card next to it
+                    val previewUrl = remember(body) {
+                        body?.takeIf { chat.mudrix.android.media.GifLink.parse(it) == null }?.let { MessageText.firstPreviewURL(it) }
+                    }
                     val youtube = remember(previewUrl) { previewUrl?.let { YouTubeLink.parse(it) } }
                     if (previewUrl != null && youtube != null && LocalPrefs.current.youtubeEmbeds != YouTubeEmbeds.off) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
@@ -1340,7 +1355,14 @@ private fun BubbleFrame(enabled: Boolean, own: Boolean, content: @Composable () 
 }
 
 @Composable
-private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivateRoom: Boolean, isText: Boolean) {
+private fun MessageContent(
+    entry: ChatEntry,
+    actions: MessageActions?,
+    isPrivateRoom: Boolean,
+    isText: Boolean,
+    hiddenMedia: Boolean = false,
+    onRevealMedia: (() -> Unit)? = null,
+) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
     val isClassic = prefs.messageLayout == MessageLayout.classic
@@ -1394,9 +1416,16 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
         is ChatEntry.Kind.Image -> BubbleFrame(isClassic, entry.isOwn) {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
                 if (entry.galleryItems.size >= 2) {
-                    GalleryGridView(entry.galleryItems, isPrivateRoom)
+                    GalleryGridView(entry.galleryItems, isPrivateRoom, hiddenMedia, onRevealMedia)
                 } else {
-                    ImageMessageView(kind.media, isPrivateRoom = isPrivateRoom, spoiler = entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else 14.dp)
+                    ImageMessageView(
+                        kind.media,
+                        isPrivateRoom = isPrivateRoom,
+                        spoiler = entry.mediaSpoiler,
+                        radius = if (isClassic) WZ.Radius.sm else 14.dp,
+                        forceHidden = hiddenMedia,
+                        onReveal = onRevealMedia,
+                    )
                 }
                 kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
             }
@@ -1409,7 +1438,13 @@ private fun MessageContent(entry: ChatEntry, actions: MessageActions?, isPrivate
         )
         is ChatEntry.Kind.Video -> BubbleFrame(isClassic, entry.isOwn) {
             Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                VideoMessageView(kind.media, entry.mediaSpoiler, radius = if (isClassic) WZ.Radius.sm else WZ.Radius.lg)
+                VideoMessageView(
+                    kind.media,
+                    entry.mediaSpoiler,
+                    radius = if (isClassic) WZ.Radius.sm else WZ.Radius.lg,
+                    forceHidden = hiddenMedia,
+                    onReveal = onRevealMedia,
+                )
                 kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
             }
         }
@@ -1532,14 +1567,17 @@ private fun TextContent(
                     }
                 }
             }
-            Text(
-                full,
-                Modifier
-                    .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
-                    .then(if (hint != null) Modifier.semantics { contentDescription = "${text.text} $hint" } else Modifier),
-                style = textStyle,
-                color = if (kind.isNotice) theme.textMuted else textColor,
-            )
+            // A body that is only a GIPHY or KLIPY link shows the GIF itself instead of the text
+            GifLinkEmbed(if (kind.isEmote) "" else kind.body) {
+                Text(
+                    full,
+                    Modifier
+                        .then(if (entry.spoilers.isNotEmpty()) Modifier.messageTap { spoilersRevealed = !spoilersRevealed } else Modifier)
+                        .then(if (hint != null) Modifier.semantics { contentDescription = "${text.text} $hint" } else Modifier),
+                    style = textStyle,
+                    color = if (kind.isNotice) theme.textMuted else textColor,
+                )
+            }
         }
         is ChatEntry.Kind.Redacted -> DeletedLabel("trash", tr("timeline.messageDeleted"), style)
         is ChatEntry.Kind.Undecryptable -> UndecryptableContent(roomId, kind.reason) {
@@ -1838,6 +1876,10 @@ private fun MessageMenu(entry: ChatEntry, actions: MessageActions?, onDismiss: (
             }
             if (entry.isContent && entry.kind !is ChatEntry.Kind.Redacted && entry.kind !is ChatEntry.Kind.Undecryptable) {
                 item(tr("timeline.forward"), "arrow-circle-right") { actions.forward(entry) }
+            }
+            val mediaIds = entry.mediaEventIds()
+            if (entry.hasHideableMedia() && !HiddenMedia.allHidden(mediaIds)) {
+                item(tr("timeline.hideMedia"), "eye-slash") { actions.hideMedia(entry) }
             }
             item(tr("timeline.remind.title"), "alarm", action = onRemind)
             if (entry.isEdited) item(tr("timeline.editHistory.open"), "clock-counter-clockwise") { actions.onEditHistory(entry) }

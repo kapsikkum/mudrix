@@ -118,6 +118,7 @@ import chat.mudrix.android.matrix.ChatEntry
 import chat.mudrix.android.matrix.Emoji
 import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.media.FileSize
+import chat.mudrix.android.media.GifLink
 import chat.mudrix.android.media.ImagePrep
 import chat.mudrix.android.media.VideoCompressor
 import chat.mudrix.android.media.VideoMeta
@@ -510,6 +511,59 @@ fun ComposerView(
         onReplyToChange(null)
     }
 
+    fun sentSomething() {
+        onReplyToChange(null)
+        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
+        focus(false)
+    }
+
+    suspend fun sendSticker(sticker: PackImage) {
+        val reply = currentReplyTo?.eventId
+        val source = JsonObject(mapOf("url" to JsonPrimitive(sticker.url)))
+        val info = runCatching { timeline.client.media(source) }.getOrNull()?.let { data ->
+            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
+            if (bounds.outWidth <= 0) return@let null
+            val isGif = data.startsWith(0x47, 0x49, 0x46)
+            buildJsonObject {
+                put("w", bounds.outWidth)
+                put("h", bounds.outHeight)
+                put("size", data.size)
+                put("mimetype", if (isGif) "image/gif" else if (data.startsWith(0x89, 0x50)) "image/png" else "image/webp")
+                if (isAnimatedImage(data)) put("is_animated", true)
+            }
+        } ?: JsonObject(emptyMap())
+        timeline.sendSticker(sticker.url, sticker.text, info, reply)
+        sentSomething()
+    }
+
+    suspend fun sendGif(gif: GiphyGif, replyToId: String? = currentReplyTo?.eventId) {
+        val data = download(gif.url)
+        // A KLIPY download is only trusted when it is on klipy.com, small enough and really a GIF
+        val trusted = gif.provider != chat.mudrix.android.media.GifItem.KLIPY ||
+            (chat.mudrix.android.media.GifApi.isAllowedKlipyUrl(gif.url) &&
+                data != null &&
+                data.size <= chat.mudrix.android.media.GifApi.KLIPY_MAX_BYTES &&
+                chat.mudrix.android.media.GifApi.isGif(data))
+        if (data == null || !trusted) {
+            timeline.sendError = L10n.format("composer.gifSendFailed")
+            return
+        }
+        val mxc = runCatching { timeline.client.uploadMedia(data, "image/gif") }.getOrNull()
+        if (mxc == null) {
+            timeline.sendError = L10n.format("composer.gifSendFailed")
+            return
+        }
+        val info = buildJsonObject {
+            put("mimetype", "image/gif")
+            put("w", gif.width)
+            put("h", gif.height)
+            put("size", data.size)
+        }
+        timeline.sendSticker(mxc, gif.title.ifEmpty { "GIF" }, info, replyToId)
+        sentSomething()
+    }
+
     suspend fun submit() {
         val message = trimmed
         val reply = replyTo?.eventId
@@ -565,50 +619,17 @@ fun ComposerView(
                 return
             }
         }
-        send(if (message.startsWith("//")) message.drop(1) else message, reply)
-    }
-
-    fun sentSomething() {
-        onReplyToChange(null)
-        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
-        focus(false)
-    }
-
-    suspend fun sendSticker(sticker: PackImage) {
-        val reply = currentReplyTo?.eventId
-        val source = JsonObject(mapOf("url" to JsonPrimitive(sticker.url)))
-        val info = runCatching { timeline.client.media(source) }.getOrNull()?.let { data ->
-            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
-            if (bounds.outWidth <= 0) return@let null
-            val isGif = data.startsWith(0x47, 0x49, 0x46)
-            buildJsonObject {
-                put("w", bounds.outWidth)
-                put("h", bounds.outHeight)
-                put("size", data.size)
-                put("mimetype", if (isGif) "image/gif" else if (data.startsWith(0x89, 0x50)) "image/png" else "image/webp")
-                if (isAnimatedImage(data)) put("is_animated", true)
+        // A message that is only a GIPHY or KLIPY link goes out as the GIF itself (once the person agreed to contact
+        // the GIF services); when it cannot be fetched the link is sent as ordinary text
+        val gifLink = if (composerDefaults.getBoolean("gifConsent", false)) GifLink.parse(message) else null
+        if (gifLink != null) {
+            val gif = gifFromLink(gifLink)
+            if (gif != null) {
+                sendGif(gif, reply)
+                return
             }
-        } ?: JsonObject(emptyMap())
-        timeline.sendSticker(sticker.url, sticker.text, info, reply)
-        sentSomething()
-    }
-
-    suspend fun sendGif(gif: GiphyGif) {
-        val data = download(gif.url)
-        val mxc = data?.let { runCatching { timeline.client.uploadMedia(it, "image/gif") }.getOrNull() }
-        if (data == null || mxc == null) {
-            timeline.sendError = L10n.format("composer.gifSendFailed")
-            return
         }
-        val info = buildJsonObject {
-            put("mimetype", "image/gif")
-            put("w", gif.width)
-            put("h", gif.height)
-            put("size", data.size)
-        }
-        timeline.sendSticker(mxc, gif.title.ifEmpty { "GIF" }, info, currentReplyTo?.eventId)
-        sentSomething()
+        send(if (message.startsWith("//")) message.drop(1) else message, reply)
     }
 
     fun insertEmoji(emoji: String, image: PackImage?) {

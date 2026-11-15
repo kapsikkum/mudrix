@@ -35,6 +35,7 @@ import chat.mudrix.android.ui.BarTextButton
 import chat.mudrix.android.ui.Chip
 import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardSheet
+import chat.mudrix.android.ui.space.LocalRoomRoles
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
@@ -123,6 +124,8 @@ fun ThreadListSheet(room: RoomSummary, client: WizardClient, onDismiss: () -> Un
 @Composable
 private fun ThreadRow(thread: ThreadInfo, roomId: String, onClick: () -> Unit) {
     val session = LocalSession.current
+    val roles = LocalRoomRoles.current
+    val roleColor = remember(roles, thread.sender) { roles.colorOf(thread.sender) }
     var name by remember(thread.sender) { mutableStateOf<String?>(null) }
     var avatarUrl by remember(thread.sender) { mutableStateOf<String?>(null) }
     var latestName by remember(thread.latestSender) { mutableStateOf<String?>(null) }
@@ -147,7 +150,7 @@ private fun ThreadRow(thread: ThreadInfo, roomId: String, onClick: () -> Unit) {
                     name ?: thread.sender,
                     Modifier.weight(1f),
                     style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                    color = theme.textPrimary,
+                    color = roleColor ?: theme.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
