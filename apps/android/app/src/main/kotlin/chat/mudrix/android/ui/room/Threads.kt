@@ -1,6 +1,5 @@
 package chat.mudrix.android.ui.room
 
-import android.text.format.DateUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +39,7 @@ import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.trPlural
+import chat.mudrix.android.ui.timeAgoText
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.ThreadInfo
 import chat.mudrix.core.MudrixClient
@@ -155,7 +155,7 @@ private fun ThreadRow(thread: ThreadInfo, roomId: String, onClick: () -> Unit) {
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    DateUtils.getRelativeTimeSpanString(time, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS).toString(),
+                    timeAgoText(time),
                     style = wizardFont(WZ.FontSize.xs),
                     color = theme.textMuted,
                 )

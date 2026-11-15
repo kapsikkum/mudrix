@@ -99,17 +99,15 @@ private fun storedKey(value: CosmeticPacks.Value?): String? = when (value) {
     null -> null
 }
 
-/** "Profile cosmetics": pick the avatar decoration, nameplate, frame and effect other Mudrix users see */
+/** "Profile cosmetics" (on the Account page): pick the avatar decoration, nameplate, frame and effect other Mudrix users see */
 @Composable
 internal fun CosmeticsSection() {
     val session = LocalSession.current
-    val context = LocalContext.current
     val prefs = LocalPrefs.current
     val scope = rememberCoroutineScope()
     var profile by remember { mutableStateOf(ExtendedProfile()) }
     var packs by remember { mutableStateOf(listOf<CosmeticPacks.Pack>()) }
     var picking by remember { mutableStateOf<CosmeticKind?>(null) }
-    var selectingPacks by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     val me = session.userId ?: return
     val showPacks = prefs.showCosmeticPacks
@@ -162,19 +160,6 @@ internal fun CosmeticsSection() {
         }
     }
 
-    fun togglePack(pack: CosmeticPacks.Pack, on: Boolean) {
-        val roomId = pack.roomId ?: return
-        scope.launch {
-            try {
-                val existing = CosmeticPackStore.subscriptions(session)
-                CosmeticPackStore.saveSubscriptions(session, CosmeticPacks.withSubscription(existing, roomId, pack.stateKey, on))
-                reloadPacks()
-            } catch (e: Exception) {
-                error = L10n.format("common.saveFailed", e.message ?: "")
-            }
-        }
-    }
-
     fun selectionName(kind: CosmeticKind): String? {
         val value = valueOf(profile, kind) ?: return null
         val key = storedKey(value) ?: return null
@@ -188,48 +173,18 @@ internal fun CosmeticsSection() {
     }
 
     SettingsSection(tr("profile.cosmetics.title"), note = tr("settings.cosmetics.note")) {
-        ToggleRow(tr("settings.cosmetics.showPacks"), showPacks, { prefs.showCosmeticPacks = it }, note = tr("settings.cosmetics.showPacksDescription"))
         if (!showPacks) {
             SettingsItem { Text(tr("settings.cosmetics.packsOff"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted) }
-        } else {
             SettingsDivider()
-            RowFrame(onClick = { selectingPacks = true }) {
-                RowLabel(tr("settings.emojisStickers.selectPacks"), tr("settings.cosmetics.hint"), Modifier.weight(1f))
-                PhIcon("caret-right", size = WZ.SizeIcon.sm, tint = theme.textMuted)
-            }
         }
         for (kind in KINDS) {
-            SettingsDivider()
             CosmeticRow(tr("settings.cosmetics.kindPlural.${kind.name}"), selectionName(kind)) { picking = kind }
-        }
-        if (showPacks && packs.isNotEmpty()) {
-            SettingsDivider()
-            SettingsItem {
-                Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                    Text(tr("settings.emojisStickers.favoritePacks"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textMuted)
-                    for (pack in packs) {
-                        Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space0)) {
-                            Text(pack.displayName, style = wizardFont(WZ.FontSize.md), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            Text(
-                                (pack.roomId?.let { session.roomList?.room(it)?.name } ?: tr("profile.cosmetics.myUploads")) +
-                                    " · " + trPlural("settings.emojisStickers.imageCount", pack.items.size, pack.items.size),
-                                style = wizardFont(WZ.FontSize.sm),
-                                color = theme.textMuted,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    }
-                }
-            }
+            if (kind != KINDS.last()) SettingsDivider()
         }
         error?.let {
+            SettingsDivider()
             SettingsItem { Text(it, style = wizardFont(WZ.FontSize.sm), color = theme.error) }
         }
-    }
-
-    selectingPacks.takeIf { it && showPacks }?.let {
-        SelectPacksSheet({ selectingPacks = false }, ::togglePack)
     }
 
     picking?.let { kind ->
@@ -250,6 +205,103 @@ internal fun CosmeticsSection() {
         }
     }
 }
+
+/** Settings > Cosmetics: the pack switch and what you are subscribed to, like the web's `settings/cosmetics` page */
+@Composable
+internal fun CosmeticsSettings(onBack: () -> Unit) {
+    val session = LocalSession.current
+    val prefs = LocalPrefs.current
+    val scope = rememberCoroutineScope()
+    var packs by remember { mutableStateOf(listOf<CosmeticPacks.Pack>()) }
+    var selectingPacks by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf<String?>(null) }
+    val showPacks = prefs.showCosmeticPacks
+
+    suspend fun reloadPacks() {
+        if (!showPacks) {
+            packs = emptyList()
+            return
+        }
+        packs = runCatching { listOfNotNull(CosmeticPackStore.personal(session)) + CosmeticPackStore.subscribed(session) }
+            .getOrDefault(emptyList())
+    }
+
+    LaunchedEffect(session.client, showPacks) { reloadPacks() }
+
+    fun togglePack(pack: CosmeticPacks.Pack, on: Boolean) {
+        val roomId = pack.roomId ?: return
+        scope.launch {
+            try {
+                val existing = CosmeticPackStore.subscriptions(session)
+                CosmeticPackStore.saveSubscriptions(session, CosmeticPacks.withSubscription(existing, roomId, pack.stateKey, on))
+                reloadPacks()
+            } catch (e: Exception) {
+                error = L10n.format("common.saveFailed", e.message ?: "")
+            }
+        }
+    }
+
+    @Composable
+    fun packSource(pack: CosmeticPacks.Pack): String =
+        pack.roomId?.let { session.roomList?.room(it)?.name ?: it } ?: tr("profile.cosmetics.myUploads")
+
+    SettingsPage(tr("settings.cosmetics.title"), onBack) {
+        SettingsSection(note = tr("settings.cosmetics.note")) {
+            ToggleRow(
+                tr("settings.cosmetics.showPacks"),
+                showPacks,
+                { prefs.showCosmeticPacks = it },
+                note = tr("settings.cosmetics.showPacksDescription"),
+            )
+            if (!showPacks) {
+                SettingsDivider()
+                SettingsItem { Text(tr("settings.cosmetics.packsOff"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted) }
+            } else {
+                SettingsDivider()
+                RowFrame(onClick = { selectingPacks = true }) {
+                    RowLabel(tr("settings.emojisStickers.selectPacks"), tr("settings.cosmetics.hint"), Modifier.weight(1f))
+                    PhIcon("caret-right", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+                }
+            }
+        }
+
+        if (showPacks) {
+            for (kind in KINDS) {
+                val ofKind = packs.filter { CosmeticPacks.itemsOfKind(it, kind).isNotEmpty() }
+                SettingsSection(tr("settings.cosmetics.kindPlural.${kind.name}"), note = tr("settings.cosmetics.hint")) {
+                    if (ofKind.isEmpty()) {
+                        SettingsItem { Text(tr("settings.cosmetics.empty"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted) }
+                    } else {
+                        ofKind.forEachIndexed { index, pack ->
+                            if (index > 0) SettingsDivider()
+                            SettingsItem {
+                                Text(pack.displayName, style = wizardFont(WZ.FontSize.md), color = theme.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                Text(
+                                    packSource(pack) + " · " + trPlural(
+                                        "settings.emojisStickers.imageCount",
+                                        CosmeticPacks.itemsOfKind(pack, kind).size,
+                                        CosmeticPacks.itemsOfKind(pack, kind).size,
+                                    ),
+                                    style = wizardFont(WZ.FontSize.sm),
+                                    color = theme.textMuted,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        error?.let { message ->
+            StatusText(message)
+        }
+    }
+
+    if (selectingPacks && showPacks) SelectPacksSheet({ selectingPacks = false }, ::togglePack)
+}
+
 
 @Composable
 private fun CosmeticRow(label: String, value: String?, onClick: () -> Unit) {

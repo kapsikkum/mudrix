@@ -374,15 +374,11 @@ fun UserProfileSheet(
         ) + moderation.mapIndexed { index, item -> if (index == 0) item.copy(divider = true) else item }
         val pronouns = extended.pronouns.joinToString(", ")
         val identity = listOf(userId, pronouns).filter { it.isNotEmpty() }.joinToString(" • ")
+        // One count for both the header line and the Mutual tab's badge: rooms plus spaces, so the two
+        // cannot disagree
+        val mutualCount = mutual?.let { it.rooms.size + it.spaces.size } ?: 0
         val mutualLine = mutual?.let { found ->
-            if (found.isEmpty) {
-                tr("profile.mutualEmpty")
-            } else {
-                listOfNotNull(
-                    if (found.rooms.isNotEmpty()) trPlural("profile.mutualRooms", found.rooms.size, found.rooms.size) else null,
-                    if (found.spaces.isNotEmpty()) trPlural("profile.mutualSpaces", found.spaces.size, found.spaces.size) else null,
-                ).joinToString(" · ")
-            }
+            if (found.isEmpty) tr("profile.mutualEmpty") else trPlural("profile.mutualRooms", mutualCount, mutualCount)
         }
         FormList {
             item {
@@ -402,7 +398,8 @@ fun UserProfileSheet(
                                 modMenu,
                                 { modMenu = it },
                                 menuItems,
-                                Modifier.align(Alignment.TopEnd).padding(WZ.Space.space3),
+                                // Inside the banner, clear of the sheet's rounded top corner that used to clip it
+                                Modifier.align(Alignment.TopEnd).padding(top = WZ.Space.space8, end = WZ.Space.space4),
                             )
                             Box(
                                 Modifier.align(Alignment.BottomStart).padding(start = WZ.Space.space6).offset(y = WZ.SizeAvatar.xl / 2),
@@ -421,63 +418,63 @@ fun UserProfileSheet(
                                 }
                             }
                         }
-                        chat.mudrix.android.ui.cosmetics.NameplateBox(cosmetics?.nameplate, Modifier.fillMaxWidth()) {
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        start = WZ.Space.space6,
-                                        end = WZ.Space.space6,
-                                        top = WZ.SizeAvatar.xl / 2 + WZ.Space.space3,
-                                        bottom = WZ.Space.space4,
-                                    ),
-                                verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
-                            ) {
+                        // The area under the banner is the plain sheet surface: the profile sheet shows the
+                        // banner only. Nameplate art stays where the web draws it, on member and DM rows.
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(
+                                    start = WZ.Space.space6,
+                                    end = WZ.Space.space6,
+                                    top = WZ.SizeAvatar.xl / 2 + WZ.Space.space3,
+                                    bottom = WZ.Space.space4,
+                                ),
+                            verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+                        ) {
+                            Text(
+                                name ?: userId,
+                                style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
+                                color = theme.textPrimary,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
                                 Text(
-                                    name ?: userId,
-                                    style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold),
-                                    color = theme.textPrimary,
-                                    maxLines = 2,
+                                    identity,
+                                    Modifier.weight(1f, fill = false),
+                                    style = wizardFont(WZ.FontSize.md),
+                                    color = theme.textMuted,
+                                    maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
-                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                                    Text(
-                                        identity,
-                                        Modifier.weight(1f, fill = false),
-                                        style = wizardFont(WZ.FontSize.md),
-                                        color = theme.textMuted,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                    )
-                                    if (isMember) RoleBadge(level)
+                                if (isMember) RoleBadge(level)
+                            }
+                            statusText?.let {
+                                Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
+                            }
+                            ProfileBadges(extended.isMudrixUser, software)
+                            mutualLine?.let {
+                                Text(
+                                    it,
+                                    Modifier.clickable { tab = ProfileTab.Mutual },
+                                    style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
+                                    color = theme.accent,
+                                )
+                            }
+                            if (!isMe) {
+                                Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space1), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                                    ProfileActionButton(tr("profile.message"), ::message, Modifier.weight(1f), enabled = !busy)
+                                    if (dmRoom != null) ProfileActionButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
                                 }
-                                statusText?.let {
-                                    Text(it, style = wizardFont(WZ.FontSize.md), color = theme.textSecondary)
-                                }
-                                ProfileBadges(extended.isMudrixUser, software)
-                                mutualLine?.let {
-                                    Text(
-                                        it,
-                                        Modifier.clickable { tab = ProfileTab.Mutual },
-                                        style = wizardFont(WZ.FontSize.md, FontWeight.Medium),
-                                        color = theme.accent,
-                                    )
-                                }
-                                if (!isMe) {
-                                    Row(Modifier.fillMaxWidth().padding(top = WZ.Space.space1), horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                                        ProfileActionButton(tr("profile.message"), ::message, Modifier.weight(1f), enabled = !busy)
-                                        if (dmRoom != null) ProfileActionButton(tr("timeline.voiceCall"), ::call, Modifier.weight(1f), enabled = !busy)
-                                    }
-                                }
-                                if (isMe && onOpenSettings != null) {
-                                    SecondaryButton(tr("common.settings"), onOpenSettings, Modifier.padding(top = WZ.Space.space1))
-                                }
+                            }
+                            if (isMe && onOpenSettings != null) {
+                                SecondaryButton(tr("common.settings"), onOpenSettings, Modifier.padding(top = WZ.Space.space1))
                             }
                         }
                     }
                 }
             }
-            item { ProfileTabs(tab, if (mutual == null) 0 else mutual.rooms.size + mutual.spaces.size) { tab = it } }
+            item { ProfileTabs(tab, mutualCount) { tab = it } }
             when (tab) {
                 ProfileTab.Details -> {
                     item { Column(Modifier.padding(horizontal = WZ.Space.space6)) { ProfileAbout(extended, name ?: userId) } }
@@ -535,10 +532,9 @@ fun UserProfileSheet(
     if (fullScreen) {
         SheetPage(body)
     } else {
-        WizardSheet(onDismiss) {
-            SheetBar("", trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
-            body()
-        }
+        // No bar of its own: the sheet closes by swipe, outside tap or back, and the banner starts
+        // directly under the drag handle
+        WizardSheet(onDismiss) { body() }
     }
 
     confirm?.let { action ->

@@ -46,6 +46,15 @@
             </intent-filter>
         </activity>
 
+        <!-- Launcher shortcuts pinned before the package rename point at the old activity class. An alias
+             keeps them opening Mudrix instead of failing with "Activity class does not exist". It has no
+             intent filter, so it is not a second launcher entry: only an explicit intent naming this
+             component reaches it. -->
+        <activity-alias
+            android:name="org.wizardchat.android.MainActivity"
+            android:targetActivity=".MainActivity"
+            android:exported="true" />
+
         <!-- "Share to Mudrix" from other apps -->
         <activity
             android:name=".ui.share.ShareActivity"

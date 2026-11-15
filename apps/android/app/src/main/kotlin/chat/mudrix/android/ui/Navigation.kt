@@ -177,7 +177,12 @@ fun SheetTopBar(
     }
 }
 
-/** A page that slides up over the current screen */
+/**
+ * A page that slides up over the current screen. The header is only the drag handle (a short bar with
+ * small padding): a sheet is closed by swiping down, tapping outside or back, so a row holding just a
+ * "Done" button is not needed. Sheet content starts directly under the handle, and a hero image is
+ * clipped by the sheet's own rounded corners.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WizardSheet(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
@@ -186,6 +191,15 @@ fun WizardSheet(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Un
         sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
         containerColor = theme.bgPrimary,
         contentColor = theme.textPrimary,
+        dragHandle = {
+            Box(
+                Modifier
+                    .padding(top = 8.dp, bottom = 8.dp)
+                    .size(width = 32.dp, height = 4.dp)
+                    .clip(CircleShape)
+                    .background(theme.border),
+            )
+        },
         content = content,
     )
 }

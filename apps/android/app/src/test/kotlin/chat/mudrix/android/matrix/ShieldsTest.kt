@@ -50,4 +50,19 @@ class ShieldsTest {
         assertEquals(Shields.Kind.Warning, display?.kind)
         assertEquals("encryption.shield.authenticity", display?.reasonKey)
     }
+
+    @Test
+    fun theBubbleLayoutOnlyShowsRealWarnings() {
+        // A grey shield means "cannot vouch for that device", which the room already says: no per-message icon
+        assertNull(Shields.bubbleWarning(Shields.display(shield(ShieldColor.grey, ShieldCode.unknownDevice))))
+        assertNull(Shields.bubbleWarning(null))
+        assertEquals(
+            Shields.Kind.Warning,
+            Shields.bubbleWarning(Shields.display(shield(ShieldColor.red, ShieldCode.unverifiedIdentity)))?.kind,
+        )
+        assertEquals(
+            Shields.Kind.Red,
+            Shields.bubbleWarning(Shields.display(shield(ShieldColor.grey, ShieldCode.sentInClear)))?.kind,
+        )
+    }
 }

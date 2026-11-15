@@ -28,5 +28,25 @@ data class GifItem(
 
         /** A stored value only ever names a provider we know */
         fun providerOf(value: String?): String = if (value == KLIPY) KLIPY else GIPHY
+
+        /** Which service a GIF URL belongs to, by its host (`gifFavourites.ts`): everything else is GIPHY's */
+        fun providerForUrl(url: String): String {
+            val host = runCatching { java.net.URI(url).host?.lowercase() }.getOrNull() ?: return GIPHY
+            return if (host == "klipy.com" || host.endsWith(".klipy.com")) KLIPY else GIPHY
+        }
+
+        /**
+         * A saved favourite, like the web's `favouriteGifItem`: only the URL is stored, so the grid draws it
+         * from that alone. A GIF favourited from a message lives on the homeserver, so its URL is `mxc://`.
+         */
+        fun favourite(url: String, size: Int = 200): GifItem = GifItem(
+            id = url,
+            title = "",
+            url = url,
+            previewUrl = url,
+            width = size,
+            height = size,
+            provider = providerForUrl(url),
+        )
     }
 }

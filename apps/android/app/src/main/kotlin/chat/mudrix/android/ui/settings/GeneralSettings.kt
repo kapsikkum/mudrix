@@ -665,8 +665,13 @@ internal fun DeveloperSettings(onBack: () -> Unit) {
 internal fun AboutSettings(onBack: () -> Unit) {
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
+    val scope = rememberCoroutineScope()
     val whatsNew = remember { WhatsNew.latest(context) }
     var showWhatsNew by remember { mutableStateOf(false) }
+    var update by remember { mutableStateOf<AppUpdateState>(AppUpdateState.Idle) }
+    val versionName = remember {
+        runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: "0.0.0"
+    }
     val version = remember {
         runCatching {
             val info = context.packageManager.getPackageInfo(context.packageName, 0)
@@ -694,6 +699,44 @@ internal fun AboutSettings(onBack: () -> Unit) {
                     "code",
                     { uriHandler.openUri("https://github.com/kapsikkum/mudrix") },
                 )
+            }
+        }
+
+        SettingsSection(tr("settings.about.updates")) {
+            SettingsItem {
+                val checking = update == AppUpdateState.Checking
+                LabelButton(
+                    tr(if (checking) "update.checking" else "update.checkNow"),
+                    "arrow-counter-clockwise",
+                    {
+                        if (!checking) {
+                            update = AppUpdateState.Checking
+                            scope.launch { update = AppUpdates.check(versionName) }
+                        }
+                    },
+                    enabled = !checking,
+                )
+                when (val state = update) {
+                    AppUpdateState.UpToDate -> Text(
+                        tr("update.upToDate"),
+                        style = wizardFont(WZ.FontSize.sm),
+                        color = theme.success,
+                    )
+                    AppUpdateState.Failed -> Text(
+                        tr("update.checkFailed"),
+                        style = wizardFont(WZ.FontSize.sm),
+                        color = theme.error,
+                    )
+                    is AppUpdateState.Available -> {
+                        Text(
+                            "${tr("update.available")} ($state.version)",
+                            style = wizardFont(WZ.FontSize.sm),
+                            color = theme.textMuted,
+                        )
+                        LabelButton(tr("update.action"), "download-simple", { uriHandler.openUri(AppUpdates.RELEASES_URL) }, primary = true)
+                    }
+                    else -> Unit
+                }
             }
         }
 

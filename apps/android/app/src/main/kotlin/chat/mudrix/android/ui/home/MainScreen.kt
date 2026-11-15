@@ -61,6 +61,7 @@ import chat.mudrix.android.LocalSession
 import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.CallManager
 import chat.mudrix.android.matrix.ListeningSharing
+import chat.mudrix.android.matrix.GifFavourites
 import chat.mudrix.android.matrix.MessageNotifier
 import chat.mudrix.android.matrix.NavigationStyle
 import chat.mudrix.android.matrix.RecentEmoji
@@ -76,6 +77,8 @@ import chat.mudrix.android.matrix.SidebarSelection
 import chat.mudrix.android.matrix.SpaceRail
 import chat.mudrix.android.matrix.UnreadState
 import chat.mudrix.android.matrix.unreadCount
+import chat.mudrix.android.ui.composer.GIF_FAVOURITES_LEGACY_KEY
+import chat.mudrix.android.ui.composer.composerDefaults
 import chat.mudrix.android.ui.Avatar
 import chat.mudrix.android.ui.ConnectionBanner
 import chat.mudrix.android.ui.CopyToastView
@@ -224,6 +227,11 @@ fun MainScreen(roomList: RoomListModel) {
         RecentEmoji.shared.start(client)
         VerificationRequests.shared.start(client)
         SavedMessages.shared.start(client)
+        GifFavourites.shared.start(
+            client,
+            legacyRaw = composerDefaults.getString(GIF_FAVOURITES_LEGACY_KEY, null),
+            clearLegacy = { composerDefaults.edit().remove(GIF_FAVOURITES_LEGACY_KEY).apply() },
+        )
         Reminders.shared.start(client)
         MudrixRoomStates.shared.start(client)
         VoiceMoves.start(client, calls, session, roomList)
@@ -245,6 +253,7 @@ fun MainScreen(roomList: RoomListModel) {
             RecentEmoji.shared.stop()
             VerificationRequests.shared.stop()
             SavedMessages.shared.stop()
+            GifFavourites.shared.stop()
             Reminders.shared.stop()
             MudrixRoomStates.shared.stop()
             VoiceMoves.stop()

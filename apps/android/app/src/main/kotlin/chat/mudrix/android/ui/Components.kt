@@ -73,10 +73,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import java.time.Instant
 import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.MudrixApplication
+import chat.mudrix.android.matrix.DisplayFormats
+import chat.mudrix.android.matrix.TimeAgo
+import chat.mudrix.android.ui.room.Formats
 import chat.mudrix.android.ui.theme.hueColor
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -532,8 +536,7 @@ fun VerificationBanner(onVerify: () -> Unit) {
 
 /** Plain bordered chip, e.g. filters and tags */
 @Composable
-fun Chip(text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Box(
+fun Chip(text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {    Box(
         modifier
             .clip(CircleShape)
             .background(if (selected) theme.accent.copy(alpha = 0.14f) else Color.Transparent)
@@ -543,4 +546,16 @@ fun Chip(text: String, selected: Boolean, onClick: () -> Unit, modifier: Modifie
     ) {
         Text(text, style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = if (selected) theme.accent else theme.textPrimary)
     }
+}
+
+/**
+ * A row's time in a thread list: the web's relative labels while it is less than a week old, then the
+ * date the date-format setting asks for (the device's own place in the preferences).
+ */
+internal fun timeAgoText(millis: Long): String = when (val ago = DisplayFormats.timeAgo(millis, System.currentTimeMillis())) {
+    TimeAgo.Now -> L10n.format("time.justNow")
+    is TimeAgo.Minutes -> L10n.plural("time.minutesAgo", ago.value.toInt(), ago.value.toInt())
+    is TimeAgo.Hours -> L10n.plural("time.hoursAgo", ago.value.toInt(), ago.value.toInt())
+    is TimeAgo.Days -> L10n.plural("time.daysAgo", ago.value.toInt(), ago.value.toInt())
+    TimeAgo.Old -> Formats.abbreviatedDate(Instant.ofEpochMilli(millis))
 }

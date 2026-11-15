@@ -30,4 +30,11 @@ object Shields {
         if (shield.code == ShieldCode.sentInClear) return Display(Kind.Red, reasonKey)
         return Display(if (shield.color == ShieldColor.red) Kind.Warning else Kind.Grey, reasonKey)
     }
+
+    /**
+     * What the bubble layout shows inside the bubble: only a real warning. A grey shield means the app
+     * cannot vouch for the sender's device (an unverified session), which the room already says elsewhere,
+     * so it is not drawn per message. Null means no shield at all.
+     */
+    fun bubbleWarning(display: Display?): Display? = display?.takeIf { it.kind != Kind.Grey }
 }

@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -51,7 +52,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.BuildConfig
+import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.LocalPrefs
+import chat.mudrix.android.LocalSession
+import chat.mudrix.android.matrix.GifFavourites
 import chat.mudrix.android.media.GifApi
 import chat.mudrix.android.media.GifItem
 import chat.mudrix.android.media.GifLink
@@ -76,7 +80,8 @@ typealias GiphyGif = GifItem
 private val GIPHY_API_KEY: String = BuildConfig.GIPHY_API_KEY
 private val KLIPY_API_KEY: String = BuildConfig.KLIPY_API_KEY
 
-private const val FAVOURITES_KEY = "gifFavourites"
+/** The composer preference the picker kept its favourites in before they moved to account data */
+internal const val GIF_FAVOURITES_LEGACY_KEY = "gifFavourites"
 private const val RECENT_KEY = "gifRecent"
 private const val CONSENT_KEY = "gifConsent"
 
@@ -106,8 +111,8 @@ internal suspend fun download(url: String): ByteArray? = withContext(Dispatchers
 @Composable
 fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
     val prefs = LocalPrefs.current
+    val session = LocalSession.current
     var consented by remember { mutableStateOf(composerDefaults.getBoolean(CONSENT_KEY, false)) }
-    var favouritesRaw by remember { mutableStateOf(composerDefaults.getString(FAVOURITES_KEY, null)) }
     var recentRaw by remember { mutableStateOf(composerDefaults.getString(RECENT_KEY, null)) }
     var search by remember { mutableStateOf("") }
     var tab by remember { mutableStateOf(defaultTab(prefs.gifProvider)) }
@@ -116,7 +121,9 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
     var sending by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    val favourites = remember(favouritesRaw) { parseFavourites(favouritesRaw) }
+    // Favourites live in account data (GifFavourites), so they follow the account like the web's
+    val favourites = GifFavourites.shared.urls
+    val favouriteGifs = remember(favourites) { favourites.map { GifItem.favourite(it) } }
     val recent = remember(recentRaw) { GifApi.parseRecent(recentRaw) }
     val klipyAvailable = KLIPY_API_KEY.isNotBlank()
 
@@ -126,10 +133,8 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
     }
 
     fun rememberFavourite(gif: GifItem) {
-        val list = favourites.toMutableList()
-        if (!list.remove(gif)) list.add(0, gif)
-        favouritesRaw = encodeFavourites(list.take(50))
-        composerDefaults.edit().putString(FAVOURITES_KEY, favouritesRaw).apply()
+        val client = session.client ?: return
+        scope.launch { GifFavourites.shared.toggle(client, gif.url) }
     }
 
     fun pick(gif: GifItem) {
@@ -183,7 +188,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
     }
 
     val shown = when (tab) {
-        GifTab.favourites -> favourites
+        GifTab.favourites -> favouriteGifs
         GifTab.recent -> recent
         else -> results
     }
@@ -242,10 +247,10 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space3),
             ) {
                 items(shown, key = { "${it.provider}:${it.id}" }) { gif ->
-                    val isFavourite = favourites.contains(gif)
+                    val isFavourite = GifFavourites.shared.isFavourite(gif.url)
                     Box(Modifier.semantics { contentDescription = gif.title }) {
-                        RemoteAnimatedImage(
-                            gif.previewUrl,
+                        GifThumb(
+                            gif,
                             Modifier
                                 .fillMaxWidth()
                                 .aspectRatio(gif.width.toFloat() / gif.height.coerceAtLeast(1))
@@ -274,7 +279,7 @@ fun GifPicker(onPick: suspend (GiphyGif) -> Unit) {
                 }
             }
             when {
-                tab == GifTab.favourites && favourites.isEmpty() -> Text(
+                tab == GifTab.favourites && favouriteGifs.isEmpty() -> Text(
                     tr("composer.noFavourites"),
                     Modifier.padding(WZ.Space.space9),
                     style = wizardFont(WZ.FontSize.md),
@@ -360,6 +365,7 @@ private fun parseFavourites(raw: String?): List<GifItem> = GifApi.parseRecent(ra
 
 private fun encodeFavourites(list: List<GifItem>): String = GifApi.encodeRecent(list)
 
+
 /** Trending (an empty query) or searched GIFs from one provider */
 private suspend fun loadGifs(provider: String, query: String): List<GifItem>? {
     val key = if (provider == GifItem.KLIPY) KLIPY_API_KEY else GIPHY_API_KEY
@@ -387,10 +393,31 @@ private val gifBytes = object : LruCache<String, ByteArray>(24 * 1024 * 1024) {
     override fun sizeOf(key: String, value: ByteArray) = value.size
 }
 
+/** The picker's picture: a provider's URL plays as it is, a favourite from a message (mxc://) is fetched with the login */
+@Composable
+private fun GifThumb(gif: GifItem, modifier: Modifier) {
+    if (!gif.previewUrl.startsWith("mxc://")) {
+        RemoteAnimatedImage(gif.previewUrl, modifier)
+        return
+    }
+    val loader = LocalMedia.current
+    var bitmap by remember(gif.previewUrl) { mutableStateOf<android.graphics.Bitmap?>(null) }
+    LaunchedEffect(gif.previewUrl, loader) { bitmap = loader?.thumbnail(gif.previewUrl, 320) }
+    Box(modifier.background(theme.fill), contentAlignment = Alignment.Center) {
+        bitmap?.let {
+            androidx.compose.foundation.Image(
+                it.asImageBitmap(),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+            )
+        }
+    }
+}
+
 /** A playing GIF from the web */
 @Composable
-fun RemoteAnimatedImage(url: String, modifier: Modifier = Modifier) {
-    var drawable by remember(url) { mutableStateOf<Drawable?>(null) }
+fun RemoteAnimatedImage(url: String, modifier: Modifier = Modifier) {    var drawable by remember(url) { mutableStateOf<Drawable?>(null) }
     LaunchedEffect(url) {
         val data = gifBytes.get(url) ?: download(url)?.also { gifBytes.put(url, it) } ?: return@LaunchedEffect
         drawable = withContext(Dispatchers.Default) { decodeAnimated(data) }

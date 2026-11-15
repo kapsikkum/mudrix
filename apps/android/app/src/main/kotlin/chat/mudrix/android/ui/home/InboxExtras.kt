@@ -1,6 +1,5 @@
 package chat.mudrix.android.ui.home
 
-import android.text.format.DateUtils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,6 +45,10 @@ import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.trPlural
 import chat.mudrix.android.matrix.ThreadLastSeen
+import chat.mudrix.android.matrix.ThreadFilter
+import chat.mudrix.android.matrix.ThreadList
+import chat.mudrix.android.ui.Chip
+import chat.mudrix.android.ui.timeAgoText
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.core.ThreadInfo
 import chat.mudrix.tokens.WZ
@@ -58,12 +61,13 @@ private data class InboxThread(val room: RoomSummary, val thread: ThreadInfo) {
     val time get() = thread.latestTimestamp ?: thread.timestamp
 }
 
-/** Threads you took part in across the busiest rooms, from the core's `threads(roomId, mine)` */
+/** Threads across the busiest rooms, with the web's All / My filters and its time labels */
 @Composable
 internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
     val session = LocalSession.current
     val client = session.client
     val navigator = LocalNavigator.current
+    var filter by remember { mutableStateOf(ThreadFilter.all) }
     var threads by remember { mutableStateOf<List<InboxThread>?>(null) }
     // Asked again when a room has new activity, not on every recomposition
     val activity = roomList.joinedRooms.sumOf { it.lastActivity ?: 0L }
@@ -78,7 +82,8 @@ internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
             rooms.chunked(4).flatMap { batch ->
                 batch.map { room ->
                     async {
-                        runCatching { c.threads(room.id, true).threads }.getOrDefault(emptyList()).map { InboxThread(room, it) }
+                        // Every thread, as the web's panel does: the My filter is applied here, not by the server
+                        runCatching { c.threads(room.id, false).threads }.getOrDefault(emptyList()).map { InboxThread(room, it) }
                     }
                 }.awaitAll().flatten()
             }
@@ -88,45 +93,64 @@ internal fun InboxThreads(roomList: RoomListModel, onDismiss: () -> Unit) {
     val list = threads
     when {
         list == null -> Box(Modifier.fillMaxWidth().padding(WZ.Space.space6), contentAlignment = Alignment.Center) { Spinner() }
-        list.isEmpty() -> InboxEmpty(tr("inbox.emptyThreads"))
-        else -> Column {
-            list.forEach { item ->
+        else -> {
+            val shown = ThreadList.visible(list.map { it.thread }, filter)
+            val byRoot = list.associateBy { it.thread.rootEventId }
+            Column {
                 Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            ThreadLastSeen.markSeen(item.thread.rootEventId, item.time)
-                            navigator.push(Route.Thread(item.room.id, item.thread.rootEventId))
-                            onDismiss()
-                        }
-                        .padding(WZ.Space.space4),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                    Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space4, vertical = WZ.Space.space2),
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2, Alignment.CenterHorizontally),
                 ) {
-                    val unread = ThreadLastSeen.isUnread(item.thread, session.userId)
-                    Box(Modifier.size(WZ.Space.space3).background(if (unread) theme.accent else Color.Transparent, CircleShape))
-                    Avatar(item.room.displayName, item.room.avatarUrl, WZ.SizeAvatar.sm)
-                    Column(Modifier.weight(1f)) {
-                        Text(
-                            item.thread.body.lineSequence().firstOrNull().orEmpty(),
-                            style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
-                            color = theme.textPrimary,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                        Text(
-                            "${item.room.displayName} · ${trPlural("timeline.threadReplies", item.thread.replies.toInt(), item.thread.replies.toInt())}",
-                            style = wizardFont(WZ.FontSize.sm),
-                            color = theme.textMuted,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                    ThreadList.FILTERS.forEach { option ->
+                        Chip(tr(ThreadList.titleKey(option)), filter == option, { filter = option })
                     }
-                    Text(
-                        DateUtils.getRelativeTimeSpanString(item.time, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS).toString(),
-                        style = wizardFont(WZ.FontSize.xs),
-                        color = theme.textMuted,
-                    )
+                }
+                if (shown.isEmpty()) {
+                    InboxEmpty(tr(ThreadList.emptyKey(filter)))
+                } else {
+                    shown.forEach { thread ->
+                        val item = byRoot[thread.rootEventId] ?: return@forEach
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    ThreadLastSeen.markSeen(item.thread.rootEventId, item.time)
+                                    // The room goes under the thread, so back lands where the thread was opened from
+                                    // (the room), not on the list-like screens above it
+                                    navigator.push(Route.Room(item.room.id))
+                                    navigator.push(Route.Thread(item.room.id, item.thread.rootEventId))
+                                    onDismiss()
+                                }
+                                .padding(WZ.Space.space4),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
+                        ) {
+                            val unread = ThreadLastSeen.isUnread(item.thread, session.userId)
+                            Box(Modifier.size(WZ.Space.space3).background(if (unread) theme.accent else Color.Transparent, CircleShape))
+                            Avatar(item.room.displayName, item.room.avatarUrl, WZ.SizeAvatar.sm)
+                            Column(Modifier.weight(1f)) {
+                                Text(
+                                    item.thread.body.lineSequence().firstOrNull().orEmpty(),
+                                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                                    color = theme.textPrimary,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                                Text(
+                                    "${item.room.displayName} · ${trPlural("timeline.threadReplies", item.thread.replies.toInt(), item.thread.replies.toInt())}",
+                                    style = wizardFont(WZ.FontSize.sm),
+                                    color = theme.textMuted,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                            Text(
+                                timeAgoText(item.time),
+                                style = wizardFont(WZ.FontSize.xs),
+                                color = theme.textMuted,
+                            )
+                        }
+                    }
                 }
             }
         }

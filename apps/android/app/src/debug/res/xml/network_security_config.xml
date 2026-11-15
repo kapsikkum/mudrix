@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug builds only (this file is in src/debug, so release builds keep Android's https-only default).
+
+  The local test stack (apps/test-server, docs/TESTING.md) serves the homeserver over plain http and its
+  LiveKit/lk-jwt call servers advertise http:// media and websocket URLs. The Matrix client (the Rust core)
+  talks http regardless, but the call path is a Java HTTP client and Android refuses cleartext for it, so
+  joining a voice room on the test stack failed with "CLEARTEXT communication ... not permitted".
+
+  Cleartext is allowed for every host because the test stack's address is not fixed (127.0.0.1 through an
+  adb forward, 10.0.2.2 on the emulator, the VM's LAN address on a USB phone). Nothing here ships: a
+  release build has no networkSecurityConfig from this file (the one it gets is the Rust TLS verifier's,
+  which forbids cleartext), so release keeps the platform default of no cleartext.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

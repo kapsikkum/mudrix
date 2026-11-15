@@ -128,7 +128,9 @@ internal suspend fun avatarJpeg(context: android.content.Context, uri: Uri, widt
 /** The title bar of a full-screen sheet page */
 @Composable
 internal fun SheetBar(title: String, leading: @Composable RowScope.() -> Unit = {}, trailing: @Composable RowScope.() -> Unit = {}) =
-    SheetTopBar(title, leading, trailing, statusBarPadding = true)
+    // No status-bar padding: a bottom sheet never reaches the status bar, and the inset only made an
+    // empty band between the drag handle and the sheet's own title row
+    SheetTopBar(title, leading, trailing, statusBarPadding = false)
 
 /** A grouped page body that scrolls and clears the navigation bar and keyboard */
 @Composable

@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,13 +37,13 @@ import kotlinx.coroutines.launch
 import chat.mudrix.android.BrowserLogin
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.SignInIdentifier
+import chat.mudrix.android.ui.Chip
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.LineDivider
 import chat.mudrix.android.ui.Note
 import chat.mudrix.android.ui.PhIcon
 import chat.mudrix.android.ui.PrimaryButton
 import chat.mudrix.android.ui.SecondaryButton
-import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardLogo
 import chat.mudrix.android.ui.WizardTextField
 import chat.mudrix.android.ui.theme.theme
@@ -64,7 +62,6 @@ private enum class UsernameState { Idle, Checking, Available, Taken, Reserved, I
 private val PRESETS = listOf("https://matrix.org", "https://mozilla.org", "https://unredacted.org")
 private const val CUSTOM = "custom"
 private val LOCALPART = Regex("^[a-z0-9._=\\-/+]+$")
-
 /**
  * Sign in or create an account. Asks the server what it supports first and only offers that: the
  * server's own page (OIDC), a password form, or single sign-on.
@@ -76,8 +73,8 @@ fun LoginScreen() {
     val scope = rememberCoroutineScope()
 
     var mode by remember { mutableStateOf(Mode.Login) }
-    var serverChoice by remember { mutableStateOf(PRESETS[0]) }
-    var customServer by remember { mutableStateOf("") }
+    // One quiet line that opens into an address box, like the web's ServerPicker
+    var serverInput by remember { mutableStateOf(ServerStep.host(PRESETS[0])) }
     var info by remember { mutableStateOf<ServerInfo?>(null) }
     var registration by remember { mutableStateOf<RegistrationInfo?>(null) }
     var registrationRateLimited by remember { mutableStateOf(false) }
@@ -91,8 +88,8 @@ fun LoginScreen() {
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showQr by remember { mutableStateOf(false) }
 
-    val server = if (serverChoice == CUSTOM) customServer.trim() else serverChoice
-    val serverName = runCatching { android.net.Uri.parse(if ("://" in server) server else "https://$server").host }.getOrNull().orEmpty()
+    val server = ServerStep.address(serverInput)
+    val serverName = ServerStep.host(serverInput)
 
     val identifier = SignInIdentifier.interpret(username, serverName)
     val byEmail = identifier?.isEmailOrPhone == true
@@ -266,31 +263,17 @@ fun LoginScreen() {
                     color = theme.textPrimary,
                 )
 
-                ServerPicker(serverChoice, { serverChoice = it }, customServer, { customServer = it })
+                ServerPicker(
+                    input = serverInput,
+                    onInput = { serverInput = it },
+                    label = tr(if (mode == Mode.Login) "welcome.serverLabelLogin" else "welcome.serverLabelRegister"),
+                    state = ServerStep.state(serverInput, checking, info != null, notMatrix, unreachable),
+                    software = info?.software?.let { listOf(it.name, it.version).filter(String::isNotEmpty).joinToString(" ") }.orEmpty(),
+                )
 
                 val discovered = info
                 when {
-                    checking -> Row(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3, Alignment.CenterHorizontally),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Spinner(size = WZ.SizeIcon.md)
-                        Text(tr("auth.checkingServer"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
-                    }
-                    notMatrix -> Note(tr("welcome.serverNotFound"))
-                    unreachable -> Note(tr("auth.serverUnreachable"))
                     discovered != null && mode == Mode.Login -> {
-                        val software = discovered.software
-                            ?.let { listOf(it.name, it.version).filter(String::isNotEmpty).joinToString(" ") }
-                            .orEmpty()
-                        Text(
-                            if (software.isNotEmpty()) tr("welcome.serverDetected", software) else tr("welcome.serverDetectedPlain"),
-                            Modifier.fillMaxWidth(),
-                            style = wizardFont(WZ.FontSize.sm),
-                            color = theme.textMuted,
-                            textAlign = TextAlign.Center,
-                        )
                         if (discovered.oauth) {
                             PrimaryButton(tr(if (busy) "auth.redirecting" else "auth.oidcLogin"), { signInWithBrowser() }, enabled = !busy)
                             SecondaryButton(tr("auth.qr.signInTitle"), { showQr = true }, enabled = !busy)
@@ -363,11 +346,35 @@ fun LoginScreen() {
     }
 }
 
+/**
+ * Which server the account is on, folded into one quiet line ("matrix.org — Change") like the web's
+ * `ServerPicker`, so someone who has never heard of homeservers can ignore it. Opened, it is an address
+ * box with the popular servers one tap away and the discovery result under it.
+ */
 @Composable
-private fun ServerPicker(choice: String, onChoice: (String) -> Unit, custom: String, onCustom: (String) -> Unit) {
+private fun ServerPicker(
+    input: String,
+    onInput: (String) -> Unit,
+    label: String,
+    state: ServerStep.State,
+    software: String,
+) {
     var open by remember { mutableStateOf(false) }
+    val host = ServerStep.host(input)
+    val status = when (state) {
+        ServerStep.State.empty -> tr("welcome.serverEmpty")
+        ServerStep.State.checking -> tr("auth.checkingServer")
+        ServerStep.State.ok -> if (software.isNotEmpty()) tr("welcome.serverDetected", software) else tr("welcome.serverDetectedPlain")
+        ServerStep.State.notMatrix -> tr("welcome.serverNotFound")
+        ServerStep.State.unreachable -> tr("auth.serverUnreachable")
+    }
+    val statusColor = when (state) {
+        ServerStep.State.notMatrix, ServerStep.State.unreachable -> theme.error
+        ServerStep.State.ok -> theme.success
+        else -> theme.textMuted
+    }
     Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-        Box {
+        if (!open) {
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -377,35 +384,52 @@ private fun ServerPicker(choice: String, onChoice: (String) -> Unit, custom: Str
                     .clickable { open = true }
                     .padding(horizontal = WZ.Space.space5),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
             ) {
+                PhIcon("globe-simple", size = WZ.SizeIcon.lg, tint = theme.textMuted)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space0)) {
+                    Text(host.ifEmpty { label }, style = wizardFont(WZ.FontSize.lg), color = theme.textPrimary, maxLines = 1)
+                    Text(status, style = wizardFont(WZ.FontSize.sm), color = statusColor, maxLines = 1)
+                }
                 Text(
-                    if (choice == CUSTOM) tr("auth.customServer") else android.net.Uri.parse(choice).host ?: choice,
-                    Modifier.weight(1f),
-                    style = wizardFont(WZ.FontSize.lg),
-                    color = theme.textPrimary,
+                    tr("welcome.serverChange"),
+                    Modifier.clickable { open = true },
+                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                    color = theme.accent,
                 )
-                PhIcon("caret-up-down", tint = theme.textMuted)
             }
-            DropdownMenu(open, { open = false }, containerColor = theme.bgTertiary) {
-                (PRESETS + CUSTOM).forEach { preset ->
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                if (preset == CUSTOM) tr("auth.customServer") else android.net.Uri.parse(preset).host ?: preset,
-                                style = wizardFont(WZ.FontSize.lg),
-                                color = theme.textPrimary,
-                            )
-                        },
-                        onClick = {
-                            onChoice(preset)
-                            open = false
-                        },
+        } else {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    tr("welcome.serverAddress"),
+                    Modifier.weight(1f),
+                    style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
+                    color = theme.textMuted,
+                )
+                Text(
+                    tr("welcome.serverDone"),
+                    Modifier.clickable { open = false },
+                    style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold),
+                    color = theme.accent,
+                )
+            }
+            WizardTextField(
+                input,
+                onInput,
+                tr("welcome.serverPlaceholder"),
+                keyboardType = KeyboardType.Uri,
+                onSubmit = { open = false },
+            )
+            Text(status, style = wizardFont(WZ.FontSize.sm), color = statusColor)
+            Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+                ServerStep.POPULAR.forEach { preset ->
+                    Chip(
+                        ServerStep.host(preset),
+                        ServerStep.host(preset) == host,
+                        { onInput(ServerStep.host(preset)) },
                     )
                 }
             }
-        }
-        if (choice == CUSTOM) {
-            WizardTextField(custom, onCustom, tr("auth.serverUrl"), keyboardType = KeyboardType.Uri)
         }
     }
 }

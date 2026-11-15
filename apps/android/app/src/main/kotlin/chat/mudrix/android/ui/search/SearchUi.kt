@@ -37,8 +37,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import java.text.DateFormat
 import java.text.Normalizer
+import java.time.Instant
 import java.util.Date
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -51,6 +51,7 @@ import chat.mudrix.android.matrix.RoomListModel
 import chat.mudrix.android.matrix.applyTo
 import chat.mudrix.android.matrix.displayName
 import chat.mudrix.android.ui.Avatar
+import chat.mudrix.android.ui.room.Formats
 import chat.mudrix.android.ui.GroupedSection
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.LocalBottomBarInset
@@ -287,7 +288,7 @@ private fun MessageRow(hit: ServerSearchHit, query: String, onClick: () -> Unit)
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            Text(DateFormat.getDateInstance(DateFormat.MEDIUM).format(hit.date), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
+            Text(Formats.abbreviatedDate(hit.date.toInstant()), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         HighlightedText(hit.body.snippet(query), query, maxLines = 3)
     }
@@ -452,7 +453,7 @@ private fun SearchResultRow(entry: SearchEntry, needle: String, onClick: () -> U
             Row(verticalAlignment = Alignment.CenterVertically) {
                 HighlightedText(entry.senderName, needle, Modifier.weight(1f), style = wizardFont(WZ.FontSize.md, FontWeight.SemiBold), maxLines = 1)
                 Text(
-                    DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(entry.event.timestamp)),
+                    Formats.abbreviatedDateTime(Instant.ofEpochMilli(entry.event.timestamp)),
                     style = wizardFont(WZ.FontSize.sm),
                     color = theme.textMuted,
                 )

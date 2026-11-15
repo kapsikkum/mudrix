@@ -144,6 +144,7 @@ import chat.mudrix.android.ui.WizardSheet
 import chat.mudrix.android.ui.home.LocalNavigator
 import chat.mudrix.android.ui.home.Route
 import chat.mudrix.android.ui.CopyToast
+import chat.mudrix.android.ui.ConfirmDialog
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.LocalBottomBarInset
 import chat.mudrix.android.ui.PhIcon
@@ -243,6 +244,8 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
     var canRedactOthers by remember { mutableStateOf(false) }
     var reporting by remember { mutableStateOf<ChatEntry?>(null) }
     var forwarding by remember { mutableStateOf<ChatEntry?>(null) }
+    // Deleting asks first, like the web's confirm dialog: a stray tap on Delete must not redact a message
+    var deleting by remember { mutableStateOf<ChatEntry?>(null) }
     var replacementRoom by remember { mutableStateOf<String?>(null) }
     var sourceText by remember { mutableStateOf<String?>(null) }
     var linkPreviews by remember { mutableStateOf<LinkPreviewLoader?>(null) }
@@ -450,7 +453,7 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
             editing = it
             replyTo = null
         },
-        delete = { entry -> scope.launch { timeline.redact(entry) } },
+        delete = { entry -> deleting = entry },
         vote = { answer, entry -> scope.launch { timeline.vote(answer, entry) } },
         endPoll = { entry -> scope.launch { timeline.endPoll(entry) } },
         roomId = room.id,
@@ -640,6 +643,15 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
     reporting?.let { entry -> ReportDialog(onDismiss = { reporting = null }) { reason ->
         scope.launch { if (timeline.reportMessage(entry, reason)) CopyToast.show(L10n.format("timeline.reported")) }
     } }
+    deleting?.let { entry ->
+        ConfirmDialog(
+            title = tr("timeline.deleteMessage"),
+            confirmLabel = tr("common.delete"),
+            message = tr("timeline.deleteMessageConfirm"),
+            onConfirm = { scope.launch { timeline.redact(entry) } },
+            onDismiss = { deleting = null },
+        )
+    }
     profileUserId?.let { UserProfileSheet(it, room.id, onDismiss = { profileUserId = null }) }
     reactingTo?.let { entry ->
         LaunchedEffect(entry.id) { reactionPacks.load(session, room.id) }
@@ -1128,6 +1140,8 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
     // Bubble layout: your rows sit on the right without an avatar; your text bubbles are right-aligned
     val ownBubble = isBubble && entry.isOwn
     val ownTextBubble = ownBubble && isText
+    // Bubble layout: a picture's time sits in the pill on the image, so the header does not repeat it
+    val mediaBubble = isBubble && (entry.kind is ChatEntry.Kind.Image || entry.kind is ChatEntry.Kind.Video)
     // Only timeline rows have the menu
     val longPress: (() -> Unit)? = if (actions != null && entry.isContent && entry.allowsActions) {
         {
@@ -1226,7 +1240,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            Text(
+                            if (!mediaBubble) Text(
                                 Formats.time(entry.timestamp),
                                 style = wizardFont((if (isBubble) WZ.FontSize.xs else WZ.FontSize.sm) * scale),
                                 color = theme.textMuted,
@@ -1246,25 +1260,29 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         ReplyQuoteView(quote, end = ownBubble, bubble = isBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
                     }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                        Shields.display(entry.shield)?.let { display ->
-                            val tint = when (display.kind) {
-                                Shields.Kind.Red -> theme.danger
-                                Shields.Kind.Warning -> theme.warningColor
-                                Shields.Kind.Grey -> theme.textMuted
-                            }
-                            val reason = L10n.format(display.reasonKey)
-                            Box(
-                                Modifier
-                                    .padding(top = WZ.Space.space1)
-                                    .clip(CircleShape)
-                                    .clickable { CopyToast.show(reason) },
-                            ) {
-                                PhIcon(
-                                    if (display.kind == Shields.Kind.Grey) "shield-check" else "shield-warning",
-                                    size = WZ.SizeIcon.xs * scale,
-                                    tint = tint,
-                                    contentDescription = reason,
-                                )
+                        // Non-bubble layouts keep the shield in the gutter; the bubble layout draws only a
+                        // real warning, inside the bubble by its time (MessageContent)
+                        if (!isBubble) {
+                            Shields.display(entry.shield)?.let { display ->
+                                val tint = when (display.kind) {
+                                    Shields.Kind.Red -> theme.danger
+                                    Shields.Kind.Warning -> theme.warningColor
+                                    Shields.Kind.Grey -> theme.textMuted
+                                }
+                                val reason = L10n.format(display.reasonKey)
+                                Box(
+                                    Modifier
+                                        .padding(top = WZ.Space.space1)
+                                        .clip(CircleShape)
+                                        .clickable { CopyToast.show(reason) },
+                                ) {
+                                    PhIcon(
+                                        if (display.kind == Shields.Kind.Grey) "shield-check" else "shield-warning",
+                                        size = WZ.SizeIcon.xs * scale,
+                                        tint = tint,
+                                        contentDescription = reason,
+                                    )
+                                }
                             }
                         }
                         val sending = entry.isSending && !entry.sendFailed
@@ -1272,7 +1290,15 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
                             contentAlignment = if (ownBubble) Alignment.CenterEnd else if (isBubble) Alignment.CenterStart else Alignment.Center,
                         ) {
-                            MessageContent(entry, actions, isPrivateRoom, isText, hiddenMedia, onRevealMedia = { HiddenMedia.reveal(mediaEventIds) })
+                            MessageContent(
+                                entry,
+                                actions,
+                                isPrivateRoom,
+                                isText,
+                                hiddenMedia,
+                                onRevealMedia = { HiddenMedia.reveal(mediaEventIds) },
+                                warning = if (isBubble) bubbleWarning(entry) else null,
+                            )
                             if (sending && !isText) UploadProgressRing(null)
                         }
                         if (entry.sendFailed) {
@@ -1354,6 +1380,95 @@ private fun BubbleFrame(enabled: Boolean, own: Boolean, content: @Composable () 
     }
 }
 
+/**
+ * Bubble layout, pictures and videos: the media is the bubble. It fills the rounded shape edge to edge
+ * (no inner padding), a caption sits under it inside the same shape with the usual padding, and the
+ * time — with a warning when there is one — is Messenger's small translucent pill over the bottom-right
+ * corner of the picture. A media-only message has no coloured frame of its own.
+ */
+@Composable
+private fun BubbleMedia(
+    enabled: Boolean,
+    own: Boolean,
+    timestamp: java.time.Instant,
+    warning: BubbleWarning?,
+    caption: String?,
+    content: @Composable () -> Unit,
+) {
+    val scale = LocalPrefs.current.chatScale
+    if (!enabled) {
+        Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
+            content()
+            caption?.let { Text(it, style = wizardFont(WZ.FontSize.lg * scale), color = theme.textPrimary) }
+        }
+        return
+    }
+    BoxWithConstraints(Modifier.fillMaxWidth(), contentAlignment = if (own) Alignment.CenterEnd else Alignment.CenterStart) {
+        val shape = RoundedCornerShape(WZ.Radius.xl)
+        Column(
+            Modifier
+                .widthIn(max = minOf(maxWidth * 0.9f, 620.dp))
+                .clip(shape)
+                .then(if (caption != null) Modifier.background(bubbleFill(own)) else Modifier),
+        ) {
+            Box {
+                content()
+                Row(
+                    Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(WZ.Space.space3)
+                        .clip(CircleShape)
+                        .background(Color.Black.copy(alpha = 0.45f))
+                        .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                ) {
+                    warning?.let { WarningIcon(it, tint = Color.White, size = WZ.SizeIcon.xs * scale) }
+                    Text(Formats.time(timestamp), style = wizardFont(WZ.FontSize.xs * scale), color = Color.White)
+                }
+            }
+            caption?.let {
+                Text(
+                    it,
+                    Modifier.padding(horizontal = 14.dp, vertical = WZ.Space.space3),
+                    style = wizardFont(WZ.FontSize.lg * scale),
+                    color = if (own) theme.textOnAccent else theme.textPrimary,
+                )
+            }
+        }
+    }
+}
+
+/**
+ * What the bubble layout draws in a bubble by its time: a real warning only (an unverified/insecure
+ * sender's device, or a message that could not be decrypted), never a grey "cannot vouch" shield
+ */
+private data class BubbleWarning(val icon: String, val tint: Color, val reason: String)
+
+@Composable
+private fun bubbleWarning(entry: ChatEntry): BubbleWarning? {
+    val display = Shields.bubbleWarning(Shields.display(entry.shield))
+    if (display != null) {
+        val tint = when (display.kind) {
+            Shields.Kind.Red -> theme.danger
+            Shields.Kind.Warning -> theme.warningColor
+            Shields.Kind.Grey -> theme.textMuted
+        }
+        return BubbleWarning("shield-warning", tint, L10n.format(display.reasonKey))
+    }
+    // A message that could not be decrypted is a real problem, though the core sends no shield for it
+    if (entry.kind is ChatEntry.Kind.Undecryptable) return BubbleWarning("shield-warning", theme.textMuted, tr("timeline.waitingForThisMessage"))
+    return null
+}
+
+/** The warning icon in a bubble's time row: tapping it repeats the reason */
+@Composable
+private fun WarningIcon(warning: BubbleWarning, tint: Color = warning.tint, size: androidx.compose.ui.unit.Dp = WZ.SizeIcon.xs) {
+    Box(Modifier.size(size).clip(CircleShape).clickable { CopyToast.show(warning.reason) }) {
+        PhIcon(warning.icon, size = size, tint = tint, contentDescription = warning.reason)
+    }
+}
+
 @Composable
 private fun MessageContent(
     entry: ChatEntry,
@@ -1362,6 +1477,7 @@ private fun MessageContent(
     isText: Boolean,
     hiddenMedia: Boolean = false,
     onRevealMedia: (() -> Unit)? = null,
+    warning: BubbleWarning? = null,
 ) {
     val prefs = LocalPrefs.current
     val scale = prefs.chatScale
@@ -1377,6 +1493,12 @@ private fun MessageContent(
             )
             return
         }
+        // A message that is only emoji is the emoji itself: no bubble, no padding, just the large glyphs
+        // on the side the bubble would take, with the time and reactions as usual
+        val emojiBody = (entry.kind as? ChatEntry.Kind.Message)?.takeIf { !it.isEmote }?.body
+        val jumbo = emojiBody != null &&
+            prefs.emojiOnlySize != EmojiOnlySize.normal &&
+            remember(emojiBody) { DisplayFormats.isOnlyEmoji(emojiBody) }
         // Bubble layout: at most 78% of the column (and 620 dp), your own text on the accent colour
         BoxWithConstraints(
             if (entry.isOwn) Modifier.fillMaxWidth() else Modifier,
@@ -1385,49 +1507,65 @@ private fun MessageContent(
             Column(
                 Modifier
                     .widthIn(max = minOf(maxWidth * 0.78f, 620.dp))
-                    .background(bubbleFill(entry.isOwn), RoundedCornerShape(WZ.Radius.xl))
-                    .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+                    .then(
+                        if (jumbo) Modifier else Modifier
+                            .background(bubbleFill(entry.isOwn), RoundedCornerShape(WZ.Radius.xl))
+                            .padding(horizontal = 14.dp, vertical = WZ.Space.space4),
+                    ),
             ) {
                 TextContent(
                     entry,
-                    linkOnAccent = entry.isOwn,
+                    linkOnAccent = entry.isOwn && !jumbo,
                     bubble = true,
-                    ownBubble = entry.isOwn,
+                    ownBubble = entry.isOwn && !jumbo,
                     onMention = actions?.openProfile,
                     onRoomLink = actions?.openRoomLink,
                     roomId = actions?.roomId,
                 )
-                if (entry.isGrouped) {
-                    // Grouped bubbles carry their own time, right-aligned under the text
-                    Text(
-                        Formats.time(entry.timestamp),
+                if (entry.isGrouped || warning != null) {
+                    // Grouped bubbles carry their own time; a warning shows on the first message of a run too
+                    Row(
                         Modifier.align(Alignment.End).padding(top = WZ.Space.space1),
-                        style = wizardFont(WZ.FontSize.xs * scale),
-                        color = (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f),
-                    )
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                    ) {
+                        warning?.let {
+                            WarningIcon(
+                                it,
+                                tint = if (entry.isOwn && !jumbo) theme.textOnAccent.copy(alpha = 0.8f) else it.tint,
+                                size = WZ.SizeIcon.xs * scale,
+                            )
+                        }
+                        if (entry.isGrouped) {
+                            Text(
+                                Formats.time(entry.timestamp),
+                                style = wizardFont(WZ.FontSize.xs * scale),
+                                color = if (jumbo) {
+                                    theme.textMuted
+                                } else {
+                                    (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f)
+                                },
+                            )
+                        }
+                    }
                 }
             }
         }
         return
     }
-    val captionStyle = wizardFont(WZ.FontSize.lg * scale)
-    val captionColor = if (isClassic && entry.isOwn) theme.textOnAccent else theme.textPrimary
     when (val kind = entry.kind) {
-        is ChatEntry.Kind.Image -> BubbleFrame(isClassic, entry.isOwn) {
-            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                if (entry.galleryItems.size >= 2) {
-                    GalleryGridView(entry.galleryItems, isPrivateRoom, hiddenMedia, onRevealMedia)
-                } else {
-                    ImageMessageView(
-                        kind.media,
-                        isPrivateRoom = isPrivateRoom,
-                        spoiler = entry.mediaSpoiler,
-                        radius = if (isClassic) WZ.Radius.sm else 14.dp,
-                        forceHidden = hiddenMedia,
-                        onReveal = onRevealMedia,
-                    )
-                }
-                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
+        is ChatEntry.Kind.Image -> BubbleMedia(isClassic, entry.isOwn, entry.timestamp, warning, kind.media.caption) {
+            if (entry.galleryItems.size >= 2) {
+                GalleryGridView(entry.galleryItems, isPrivateRoom, hiddenMedia, onRevealMedia)
+            } else {
+                ImageMessageView(
+                    kind.media,
+                    isPrivateRoom = isPrivateRoom,
+                    spoiler = entry.mediaSpoiler,
+                    radius = if (isClassic) WZ.Radius.xl else 14.dp,
+                    forceHidden = hiddenMedia,
+                    onReveal = onRevealMedia,
+                )
             }
         }
         is ChatEntry.Kind.Sticker -> ImageMessageView(
@@ -1436,17 +1574,14 @@ private fun MessageContent(
             isPrivateRoom = isPrivateRoom,
             onStickerTap = actions?.let { messageActions -> ({ messageActions.stickerPack(entry) }) },
         )
-        is ChatEntry.Kind.Video -> BubbleFrame(isClassic, entry.isOwn) {
-            Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                VideoMessageView(
-                    kind.media,
-                    entry.mediaSpoiler,
-                    radius = if (isClassic) WZ.Radius.sm else WZ.Radius.lg,
-                    forceHidden = hiddenMedia,
-                    onReveal = onRevealMedia,
-                )
-                kind.media.caption?.let { Text(it, style = captionStyle, color = captionColor) }
-            }
+        is ChatEntry.Kind.Video -> BubbleMedia(isClassic, entry.isOwn, entry.timestamp, warning, kind.media.caption) {
+            VideoMessageView(
+                kind.media,
+                entry.mediaSpoiler,
+                radius = if (isClassic) WZ.Radius.xl else WZ.Radius.lg,
+                forceHidden = hiddenMedia,
+                onReveal = onRevealMedia,
+            )
         }
         is ChatEntry.Kind.Audio -> AudioMessageView(kind.media, kind.isVoice, kind.waveform)
         is ChatEntry.Kind.File -> BubbleFrame(isClassic, entry.isOwn) { FileMessageView(kind.media, bubble = isClassic, ownBubble = isClassic && entry.isOwn) }
