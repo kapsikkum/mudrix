@@ -1450,7 +1450,9 @@
       "viewRoom": "Visualizza stanza",
       "notPublic": "Il pack di questo sticker si trova in una stanza privata e non può essere mostrato.",
       "unknown": "Impossibile trovare da quale pack proviene questo sticker."
-    }
+    },
+    "seen": "Visto",
+    "sent": "Inviato"
   },
   "call": {
     "event": {
@@ -2008,7 +2010,8 @@
             "file": "Scaricare file dai messaggi in quella stanza"
           }
         }
-      }
+      },
+      "willContact": "Mudrix contatterà {{host}}."
     },
     "accounts": {
       "logoutOf": "Esci da {{name}}",
@@ -2650,7 +2653,8 @@
         "nameplate": "Targhette nome",
         "profile_frame": "Cornici profilo"
       }
-    }
+    },
+    "userSettings": "Impostazioni utente"
   },
   "verification": {
     "otherDeviceHint": "Open Mudrix (or another Matrix app) on a device that's already verified and accept the request.",
@@ -2927,7 +2931,13 @@
       "aboutMe": "Info su di me",
       "bioPlaceholder": "Questa è un'anteprima di come gli altri utenti vedranno il tuo profilo su Mudrix.",
       "decorationsCount": "{{count}} decorazioni",
-      "effectsCount": "{{count}} effetti"
+      "effectsCount": "{{count}} effetti",
+      "selected": "Selezionato",
+      "framesCount": "{{count}} cornici",
+      "nameplatesCount": "{{count}} targhette",
+      "uploadedFrame": "Cornice del profilo {{name}} caricata",
+      "uploadedNameplate": "Targhetta {{name}} caricata",
+      "deletedCustom": "Cosmetico personalizzato eliminato"
     },
     "tabs": {
       "details": "Dettagli",
@@ -3008,7 +3018,25 @@
       "homeserver": "Homeserver",
       "automatic": "Automatico"
     },
-    "verifyFailed": "Impossibile avviare la verifica: {{error}}"
+    "verifyFailed": "Impossibile avviare la verifica: {{error}}",
+    "verifyUser": "Verifica",
+    "viewFullProfile": "Visualizza profilo completo",
+    "frame": {
+      "title": "Cornici del profilo",
+      "change": "Cambia cornice del profilo",
+      "chooseTitle": "Scegli cornice del profilo",
+      "upload": "Carica cornice del profilo",
+      "searchPlaceholder": "Cerca cornici del profilo...",
+      "none": "Nessuna"
+    },
+    "nameplate": {
+      "title": "Targhette",
+      "change": "Cambia targhetta",
+      "chooseTitle": "Scegli targhetta",
+      "upload": "Carica targhetta",
+      "searchPlaceholder": "Cerca targhette...",
+      "none": "Nessuna"
+    }
   },
   "update": {
     "downloading": "Download dell'aggiornamento… {{percent}}%",
@@ -3031,7 +3059,11 @@
     "editProfile": "Modifica profilo",
     "unsupported": "Stato online non disponibile",
     "unsupportedTitle": "Lo stato online non è disponibile",
-    "unsupportedMessage": "Il tuo homeserver ({{server}}) ha disattivato lo stato online (presenza), quindi nessuno può vedere se sei online, assente o offline, e tu non lo vedrai per gli altri. Ciò che scegli qui viene conservato per quando sarà attivato. Il tuo stato personalizzato resta visibile nel profilo se il server supporta i campi del profilo."
+    "unsupportedMessage": "Il tuo homeserver ({{server}}) ha disattivato lo stato online (presenza), quindi nessuno può vedere se sei online, assente o offline, e tu non lo vedrai per gli altri. Ciò che scegli qui viene conservato per quando sarà attivato. Il tuo stato personalizzato resta visibile nel profilo se il server supporta i campi del profilo.",
+    "idle": "Inattivo",
+    "dnd": "Non disturbare",
+    "viewProfile": "Visualizza profilo",
+    "sharingOffNote": "La condivisione della presenza è disattivata (Preferenze). Queste scelte influiscono solo sul tuo profilo Mudrix."
   },
   "qrLogin": {
     "signInStep1": "Apri Mudrix su un dispositivo dove hai già effettuato l'accesso.",
@@ -3228,5 +3260,8 @@
       "sentInClear": "Inviato non crittografato in una stanza crittografata",
       "unknown": "Crittografato, ma impossibile verificarne l'origine"
     }
+  },
+  "roomSwitcher": {
+    "title": "Cerca"
   }
 }

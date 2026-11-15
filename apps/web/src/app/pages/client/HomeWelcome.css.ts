@@ -278,6 +278,39 @@ globalStyle(`${setupList} > li + li`, {
   borderTop: `1px solid ${vars.color.border}`,
 });
 
+/** Anchors the row's dismiss button; the row itself keeps the old app's layout. */
+export const setupItem = style({ position: 'relative' });
+
+export const setupDismiss = style({
+  position: 'absolute',
+  top: '6px',
+  insetInlineEnd: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '20px',
+  height: '20px',
+  padding: 0,
+  border: 'none',
+  borderRadius: '50%',
+  background: 'transparent',
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+  opacity: 0,
+  transition: 'opacity 120ms, background-color 120ms, color 120ms',
+  selectors: {
+    [`${setupItem}:hover &`]: { opacity: 1 },
+    '&:hover': { backgroundColor: vars.color.bgTertiary, color: vars.color.textPrimary },
+    '&:focus-visible': {
+      opacity: 1,
+      outline: `2px solid ${vars.color.accent}`,
+      outlineOffset: '1px',
+    },
+  },
+  // No hover on a touch screen: the row's dismiss button stays visible there.
+  '@media': { '(hover: none)': { opacity: 1 } },
+});
+
 export const setupIcon = style([cardIcon, { width: '36px', height: '36px', borderRadius: '50%' }]);
 export const setupIconWarning = style({
   color: vars.color.warning,

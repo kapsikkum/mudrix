@@ -325,15 +325,6 @@ export function Appearance() {
           </div>
         )}
 
-        {(isTauriDesktop() || readSystemAccent() !== null) && effectiveTheme === 'Carbon' && (
-          <ToggleRow
-            label={t('settings.appearance.systemAccent')}
-            description={t('settings.appearance.systemAccentNote')}
-            checked={useSystemAccent}
-            onChange={setUseSystemAccent}
-          />
-        )}
-
         <CustomThemesSection />
 
         <div className={layoutCss.settingRow}>
@@ -537,6 +528,21 @@ export function Appearance() {
           />
         </div>
       </div>
+
+      {/* Not in the old Appearance page; kept, but after every row the old page had. */}
+      {(isTauriDesktop() || readSystemAccent() !== null) && effectiveTheme === 'Carbon' && (
+        <>
+          <div className={layoutCss.divider} />
+          <div className={layoutCss.section}>
+            <ToggleRow
+              label={t('settings.appearance.systemAccent')}
+              description={t('settings.appearance.systemAccentNote')}
+              checked={useSystemAccent}
+              onChange={setUseSystemAccent}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

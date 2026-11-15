@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { LockKeyIcon, ShieldWarningIcon } from '@phosphor-icons/react';
+import { WarningIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { sessionVerificationAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
 import * as css from './EncryptionWarningButton.css';
@@ -24,11 +24,7 @@ export function EncryptionWarningButton() {
   return (
     <Tooltip placement="bottom" content={label}>
       <button type="button" className={css.button} onClick={handleClick} aria-label={label}>
-        {notSetUp ? (
-          <LockKeyIcon size={18} weight="regular" />
-        ) : (
-          <ShieldWarningIcon size={18} weight="regular" />
-        )}
+        <WarningIcon size={18} weight="regular" />
       </button>
     </Tooltip>
   );

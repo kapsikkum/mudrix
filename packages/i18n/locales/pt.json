@@ -1450,7 +1450,9 @@
       "viewRoom": "Ver sala",
       "notPublic": "O pacote deste selo está em uma sala privada e não pode ser exibido.",
       "unknown": "Não foi possível encontrar de qual pacote este selo é."
-    }
+    },
+    "seen": "Visto",
+    "sent": "Enviado"
   },
   "call": {
     "event": {
@@ -2008,7 +2010,8 @@
             "file": "Baixar arquivos de mensagens nessa sala"
           }
         }
-      }
+      },
+      "willContact": "O Mudrix entrará em contato com {{host}}."
     },
     "accounts": {
       "logoutOf": "Terminar sessão em {{name}}",
@@ -2650,7 +2653,8 @@
         "nameplate": "Placas de nome",
         "profile_frame": "Molduras de perfil"
       }
-    }
+    },
+    "userSettings": "Configurações do usuário"
   },
   "verification": {
     "otherDeviceHint": "Open Mudrix (or another Matrix app) on a device that's already verified and accept the request.",
@@ -2927,7 +2931,13 @@
       "aboutMe": "Sobre mim",
       "bioPlaceholder": "Esta é uma prévia de como outros usuários verão seu perfil no Mudrix.",
       "decorationsCount": "{{count}} decorações",
-      "effectsCount": "{{count}} efeitos"
+      "effectsCount": "{{count}} efeitos",
+      "selected": "Selecionado",
+      "framesCount": "{{count}} molduras",
+      "nameplatesCount": "{{count}} placas de nome",
+      "uploadedFrame": "Moldura de perfil {{name}} enviada",
+      "uploadedNameplate": "Placa de nome {{name}} enviada",
+      "deletedCustom": "Cosmético personalizado excluído"
     },
     "tabs": {
       "details": "Detalhes",
@@ -3008,7 +3018,25 @@
       "homeserver": "Servidor",
       "automatic": "Automática"
     },
-    "verifyFailed": "Não foi possível iniciar a verificação: {{error}}"
+    "verifyFailed": "Não foi possível iniciar a verificação: {{error}}",
+    "verifyUser": "Verificar",
+    "viewFullProfile": "Ver perfil completo",
+    "frame": {
+      "title": "Molduras de perfil",
+      "change": "Alterar moldura de perfil",
+      "chooseTitle": "Escolher moldura de perfil",
+      "upload": "Enviar moldura de perfil",
+      "searchPlaceholder": "Pesquisar molduras de perfil...",
+      "none": "Nenhuma"
+    },
+    "nameplate": {
+      "title": "Placas de nome",
+      "change": "Alterar placa de nome",
+      "chooseTitle": "Escolher placa de nome",
+      "upload": "Enviar placa de nome",
+      "searchPlaceholder": "Pesquisar placas de nome...",
+      "none": "Nenhuma"
+    }
   },
   "update": {
     "downloading": "Baixando atualização… {{percent}}%",
@@ -3031,7 +3059,11 @@
     "editProfile": "Editar perfil",
     "unsupported": "Estado online indisponível",
     "unsupportedTitle": "O estado online não está disponível",
-    "unsupportedMessage": "O teu homeserver ({{server}}) tem o estado online (presença) desativado, por isso ninguém pode ver se estás online, ausente ou offline, e tu também não o vês nos outros. O que escolheres aqui fica guardado para quando for ativado. O teu estado personalizado continua a aparecer no teu perfil se o servidor suportar campos de perfil."
+    "unsupportedMessage": "O teu homeserver ({{server}}) tem o estado online (presença) desativado, por isso ninguém pode ver se estás online, ausente ou offline, e tu também não o vês nos outros. O que escolheres aqui fica guardado para quando for ativado. O teu estado personalizado continua a aparecer no teu perfil se o servidor suportar campos de perfil.",
+    "idle": "Inativo",
+    "dnd": "Não perturbe",
+    "viewProfile": "Ver perfil",
+    "sharingOffNote": "O compartilhamento de presença está desativado (Preferências). Estas escolhas então afetam apenas o seu perfil no Mudrix."
   },
   "qrLogin": {
     "signInStep1": "Abre o Mudrix num dispositivo onde já tenhas sessão iniciada.",
@@ -3228,5 +3260,8 @@
       "sentInClear": "Enviada sem criptografia em uma sala criptografada",
       "unknown": "Criptografada, mas a origem não pôde ser verificada"
     }
+  },
+  "roomSwitcher": {
+    "title": "Pesquisar"
   }
 }

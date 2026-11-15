@@ -370,9 +370,11 @@ export function Sessions() {
                     currentDevice.isVerified === false ? (
                       <div className={css.recoveryKeyBox}>
                         <p className={css.recoveryKeyHint}>
-                          {canVerify
-                            ? t('settings.sessions.verifyThisSession')
-                            : t('settings.sessions.cannotVerifyThisSession')}
+                          {sessionStatus === 'no-identity'
+                            ? t('settings.encryption.notSetUpNote')
+                            : canVerify
+                              ? t('settings.sessions.verifyThisSession')
+                              : t('settings.sessions.cannotVerifyThisSession')}
                         </p>
                         <div className={css.recoveryKeyActions}>
                           {hasOtherVerifiedSession && (
@@ -403,12 +405,16 @@ export function Sessions() {
                             </Button>
                           )}
                           {!canVerify && (
+                            // No identity yet: send the person to the one setup flow instead of
+                            // leaving them on a page that cannot verify this session.
                             <Button
-                              variant="secondary"
+                              variant={sessionStatus === 'no-identity' ? 'primary' : 'secondary'}
                               size="sm"
                               onClick={() => setSettingsPage('encryption')}
                             >
-                              {t('settings.encryption.title')}
+                              {sessionStatus === 'no-identity'
+                                ? t('verification.session.setupButton')
+                                : t('settings.encryption.title')}
                             </Button>
                           )}
                         </div>

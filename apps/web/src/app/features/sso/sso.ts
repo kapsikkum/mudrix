@@ -74,6 +74,31 @@ function isRateLimited(err: unknown): boolean {
   return matrixErrcode(err) === 'M_LIMIT_EXCEEDED';
 }
 
+/**
+ * What the server says it runs, asked of the base URL the client actually talks to (the address in
+ * the box, or what its `.well-known` names). Best effort: a server that refuses cross-site requests
+ * from browsers, or hides its version, just has no name. The reply is untrusted, so only short
+ * plain strings are kept.
+ */
+async function detectSoftware(baseUrl: string): Promise<HomeserverSoftware | undefined> {
+  try {
+    const res = await fetch(`${baseUrl.replace(/\/+$/, '')}/_matrix/federation/v1/version`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return undefined;
+    const body = (await res.json()) as { server?: { name?: unknown; version?: unknown } };
+    const name = typeof body.server?.name === 'string' ? body.server.name.trim().slice(0, 40) : '';
+    if (!name) return undefined;
+    return {
+      name,
+      version:
+        typeof body.server?.version === 'string' ? body.server.version.trim().slice(0, 40) : '',
+    };
+  } catch {
+    return undefined;
+  }
+}
+
 export async function discoverAuthCapabilities(homeserverUrl: string): Promise<AuthCapabilities> {
   await loadCore();
   const result: AuthCapabilities = {
@@ -110,10 +135,16 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
   result.qrLogin = info.qrLogin;
   result.software = info.software ?? undefined;
 
-  const [registration, accountManagementUri] = await Promise.allSettled([
+  const [registration, accountManagementUri, software] = await Promise.allSettled([
     WizardClient.registrationInfo(info.homeserverUrl),
     info.oauth ? fetchAccountManagementUri(info.homeserverUrl) : Promise.resolve(undefined),
+    // The core asks the server name over https, which misses an address like `192.0.2.10:6167`;
+    // asking the URL the client will talk to names the software for any server that answers.
+    detectSoftware(info.homeserverUrl),
   ]);
+  if (software.status === 'fulfilled' && software.value) {
+    result.software = software.value;
+  }
 
   if (registration.status === 'fulfilled') {
     result.registerStatus = registration.value.enabled

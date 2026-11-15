@@ -21,6 +21,7 @@ import { Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
 import { AuthField } from './AuthField';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { interpretIdentifier, toLoginIdentifier } from './signInIdentifier';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
@@ -61,13 +62,19 @@ export function LoginForm({
   const pwRef = useRef<HTMLInputElement>(null);
 
   const oidcMetadata = capabilities?.delegatedAuth ?? false;
-  const hasPassword =
-    !oidcMetadata &&
-    (!capabilities ||
-      capabilities.discoveryStatus !== DiscoveryStatus.Ok ||
-      capabilities.hasPasswordLogin);
   const ssoProviders = capabilities?.ssoProviders ?? [];
   const hasSso = !oidcMetadata && ssoProviders.length > 0;
+  // Like the old app, the password form stays whenever the server accepts passwords (or says
+  // nothing usable), even when OIDC is offered as well: a broken OIDC client registration then
+  // never locks anyone out of their account.
+  const hasPassword =
+    !capabilities ||
+    capabilities.discoveryStatus !== DiscoveryStatus.Ok ||
+    capabilities.hasPasswordLogin ||
+    (!oidcMetadata && !hasSso) ||
+    !!username ||
+    !!password;
+  const coarsePointer = useMediaQuery('(pointer: coarse)');
   const idps = ssoProviders.flatMap((idp) => (idp.id ? [{ ...idp, id: idp.id }] : []));
   const isChecking = capabilitiesLoading && !capabilities;
   const qrAvailable = oidcMetadata && !!serverUrl && !!capabilities?.qrLogin;
@@ -172,7 +179,7 @@ export function LoginForm({
       loading={oidcLoading}
       spinnerWhileLoading
     >
-      {oidcLoading ? t('welcome.redirecting') : t('auth.oidcLogin')}
+      {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcContinue', { server: hs.host })}
     </Button>
   );
 
@@ -268,6 +275,7 @@ export function LoginForm({
                 inputMode="email"
                 autoComplete="username"
                 enterKeyHint="next"
+                autoFocus={hasPassword && !coarsePointer}
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);

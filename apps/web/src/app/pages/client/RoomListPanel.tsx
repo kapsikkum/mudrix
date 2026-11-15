@@ -1584,11 +1584,35 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     if (isSpaceView) spaceVirtualizer.measure();
   }, [participantCounts, spaceItems, spaceVirtualizer, isSpaceView]);
 
+  // Where each list was left, so coming back to a space (or Home / DMs) shows it where it was
+  // instead of jumping to the top. The lists are virtualised, so the offset is only put back once
+  // there are rows to scroll.
+  const listKey = isDmView ? 'dms' : isSpaceView ? `space:${currentSpaceId ?? ''}` : 'home';
+  const savedScroll = useRef(new Map<string, number>());
+  const scrollKeyRef = useRef(listKey);
+  const pendingRestore = useRef<string | null>(listKey);
+
   useEffect(() => {
-    if (isSpaceView && roomListRef.current) {
-      roomListRef.current.scrollTop = 0;
+    const el = roomListRef.current;
+    if (!el) return undefined;
+    const remember = () => savedScroll.current.set(scrollKeyRef.current, el.scrollTop);
+    el.addEventListener('scroll', remember, { passive: true });
+    return () => el.removeEventListener('scroll', remember);
+  }, []);
+
+  const listRowCount = isDmView ? dms.length : isSpaceView ? spaceItems.length : homeItems.length;
+
+  useLayoutEffect(() => {
+    const el = roomListRef.current;
+    // Switch the key before the browser clamps the old offset to the new list's height.
+    if (scrollKeyRef.current !== listKey) {
+      scrollKeyRef.current = listKey;
+      pendingRestore.current = listKey;
     }
-  }, [currentSpaceId, isSpaceView]);
+    if (!el || pendingRestore.current !== listKey || listRowCount === 0) return;
+    el.scrollTop = savedScroll.current.get(listKey) ?? 0;
+    pendingRestore.current = null;
+  }, [listKey, listRowCount]);
 
   useEffect(() => {
     if (!isSpaceView && !isDmView) homeVirtualizer.measure();

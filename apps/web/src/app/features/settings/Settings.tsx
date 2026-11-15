@@ -74,14 +74,7 @@ import {
   type NarrowSettingsItem,
 } from '@/app/components/Settings/NarrowSettings';
 import { useSubSections, type SubSection } from './useSubSections';
-import {
-  SettingsSearchInput,
-  SettingsSearchResults,
-  useHighlightSetting,
-  useSettingsSearch,
-  type SettingsSearchResult,
-} from '@/app/components/Settings/SettingsSearch';
-import { SETTINGS_INDEX } from './searchIndex';
+import { useHighlightSetting } from '@/app/components/Settings/SettingsSearch';
 import * as css from './Settings.css';
 
 function AccountPage() {
@@ -338,8 +331,6 @@ export function Settings() {
 
   const NAV = useSettingsNav();
   const subs = useSubSections(scrollerEl, activePage);
-  const [query, setQuery] = useState('');
-  const results = useSettingsSearch(NAV, SETTINGS_INDEX, query);
   const [highlight, setHighlight] = useAtom(settingsHighlightAtom);
   const pageRef = useRef<HTMLDivElement>(null);
   const clearHighlight = useCallback(() => setHighlight(null), [setHighlight]);
@@ -358,18 +349,6 @@ export function Settings() {
     setActivePage(page);
     setNarrowView('page');
   };
-  const openResult = (result: SettingsSearchResult<SettingsPage>) => {
-    openPage(result.page);
-    setHighlight(result.pageLabel ? result.label : null);
-  };
-  const search = (className: string) => (
-    <SettingsSearchInput
-      className={className}
-      value={query}
-      onChange={setQuery}
-      onSubmit={() => results?.[0] && openResult(results[0])}
-    />
-  );
   const page = (
     <div ref={pageRef}>
       <PageContent page={shownPage} />
@@ -378,7 +357,6 @@ export function Settings() {
 
   // Reset to profile each time the modal opens (unless a target page was set)
   useLayoutEffect(() => {
-    if (open) setQuery('');
     if (open && !targetPageRef.current) {
       setActivePage('account');
       setNarrowView('list');
@@ -423,10 +401,6 @@ export function Settings() {
             items={NAV}
             onSelect={openPage}
             onClose={close}
-            search={search(css.navListSearch)}
-            results={
-              results && <SettingsSearchResults results={results} onSelect={openResult} narrow />
-            }
             footer={
               <div className={css.navListFooter}>
                 <AccountSwitcher onAddAccount={addAccount} />
@@ -438,34 +412,29 @@ export function Settings() {
         <>
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('settings.title')}</span>
-            {search(css.navSearch)}
-            {results ? (
-              <SettingsSearchResults results={results} onSelect={openResult} />
-            ) : (
-              NAV.map((item) => {
-                const isActive = activePage === item.key;
-                return (
-                  <div key={item.key}>
-                    {item.dividerBefore && <div className={css.navDivider} />}
-                    <button
-                      type="button"
-                      className={isActive ? css.navItemActive : css.navItem}
-                      onClick={() => setActivePage(item.key)}
-                    >
-                      <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
-                      <span className={css.navLabelText}>{item.label}</span>
-                    </button>
-                    {isActive && subs.sections.length > 1 && (
-                      <NavSubList
-                        sections={subs.sections}
-                        activeId={subs.activeId}
-                        onPick={subs.scrollTo}
-                      />
-                    )}
-                  </div>
-                );
-              })
-            )}
+            {NAV.map((item) => {
+              const isActive = activePage === item.key;
+              return (
+                <div key={item.key}>
+                  {item.dividerBefore && <div className={css.navDivider} />}
+                  <button
+                    type="button"
+                    className={isActive ? css.navItemActive : css.navItem}
+                    onClick={() => setActivePage(item.key)}
+                  >
+                    <item.Icon size={16} weight={isActive ? 'fill' : 'regular'} />
+                    <span className={css.navLabelText}>{item.label}</span>
+                  </button>
+                  {isActive && subs.sections.length > 1 && (
+                    <NavSubList
+                      sections={subs.sections}
+                      activeId={subs.activeId}
+                      onPick={subs.scrollTo}
+                    />
+                  )}
+                </div>
+              );
+            })}
             <div className={css.navFooter}>
               <AccountSwitcher onAddAccount={addAccount} />
               <button

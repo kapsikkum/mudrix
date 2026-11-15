@@ -5,7 +5,6 @@ import {
   ChatCircleIcon,
   PlusIcon,
   CompassIcon,
-  DownloadSimpleIcon,
   SpeakerHighIcon,
 } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
@@ -33,8 +32,8 @@ import {
   spaceSettingsRoomIdAtom,
   createSpaceOpenAtom,
   exploreOpenAtom,
-  getAppsOpenAtom,
   pinnedSubSpacesAtom,
+  legacySpaceOrderAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
 import type { SidebarView } from '@/app/store/atoms';
@@ -56,6 +55,7 @@ import {
   sortSpaceBar,
   useSpaceBarOrders,
 } from '@/app/features/room/roomOrder';
+import { applySpaceOrder } from '@/app/features/room/spaceRailOrder';
 import { getErrorMessage } from '@/util/error';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
@@ -169,7 +169,6 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [, setSpaceSettings] = useAtom(spaceSettingsRoomIdAtom);
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
-  const [getAppsOpen, openGetApps] = useAtom(getAppsOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
   const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
@@ -249,10 +248,16 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
 
   const [pendingOrder, setPendingOrder] = useState<string[] | null>(null);
   const spaceBarOrdersVersion = useSpaceBarOrders();
-  const sortedSpaces = useMemo(
-    () => sortSpaceBar(spaces, (s) => s.roomId),
-    [spaces, spaceBarOrdersVersion]
-  );
+  const legacySpaceOrder = useAtomValue(legacySpaceOrderAtom);
+  const sortedSpaces = useMemo(() => {
+    // Bumped whenever a stored space order changes, which is what re-runs this sort.
+    void spaceBarOrdersVersion;
+    const ordered = sortSpaceBar(spaces, (s) => s.roomId);
+    // A drag in this app writes room account data; only while there is none does the order the
+    // old app saved on this device decide the rail.
+    if (spaces.some((s) => getSpaceBarOrder(s.roomId) !== undefined)) return ordered;
+    return applySpaceOrder(ordered, legacySpaceOrder, (s) => s.roomId);
+  }, [spaces, spaceBarOrdersVersion, legacySpaceOrder]);
   const orderedSpaces = useMemo(
     () =>
       applyPendingOrder(
@@ -505,17 +510,6 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
                 >
                   <span className={css.spacePill} />
                   <CompassIcon size={20} weight={exploreOpen ? 'fill' : 'regular'} />
-                </button>
-              </Tooltip>
-              <Tooltip placement="right" content={t('getApps.title')}>
-                <button
-                  type="button"
-                  className={getAppsOpen ? css.spaceBarBtnActive : css.spaceBarBtn}
-                  aria-label={t('getApps.title')}
-                  onClick={() => openGetApps(true)}
-                >
-                  <span className={css.spacePill} />
-                  <DownloadSimpleIcon size={20} weight={getAppsOpen ? 'bold' : 'regular'} />
                 </button>
               </Tooltip>
             </div>

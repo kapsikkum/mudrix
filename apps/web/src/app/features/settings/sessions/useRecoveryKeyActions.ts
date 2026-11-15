@@ -23,6 +23,24 @@ async function fetchBackupMode(client: MatrixClient): Promise<BackupMode> {
   return status.backupEnabled ? 'active' : 'available';
 }
 
+/**
+ * Makes a recovery key, replacing the server's key backup when one is already there.
+ *
+ * `enableRecovery` refuses to create a second backup (`BackupExistsOnServer`) — the state an
+ * account is in when another device, or an older session, already set one up. Without the
+ * fallback the setup stops there and only a toast reports it, which leaves "Set up encryption"
+ * looking like it did nothing; replacing that backup's key is what the Encryption page's own
+ * "change recovery key" button does.
+ */
+async function createOrReplaceRecoveryKey(client: MatrixClient): Promise<string> {
+  try {
+    return await client.enableRecovery();
+  } catch (err) {
+    if (!(await client.keyBackupExistsOnServer().catch(() => false))) throw err;
+    return client.resetRecoveryKey();
+  }
+}
+
 export function useRecoveryKeyActions(client: MatrixClient | null) {
   const { t } = useTranslation();
   const toast = useToast();
@@ -90,7 +108,7 @@ export function useRecoveryKeyActions(client: MatrixClient | null) {
         );
       }
 
-      const encodedKey = await client.enableRecovery();
+      const encodedKey = await createOrReplaceRecoveryKey(client);
       if (!encodedKey) throw new Error(t('settings.keyBackup.couldNotGenerateKey'));
 
       setRecoveryKeyModal({ open: true, recoveryKey: encodedKey, isRegenerating: false });

@@ -126,6 +126,18 @@ export const searchLabel = style({
   whiteSpace: 'nowrap',
 });
 
+/** One pill for the whole shortcut ("Ctrl K"), as the old app showed it. */
+export const searchKbd = style({
+  flexShrink: 0,
+  fontSize: '0.70rem',
+  fontFamily: 'inherit',
+  lineHeight: 1,
+  padding: '3px 5px',
+  borderRadius: vars.radius.sm,
+  backgroundColor: vars.color.bgTertiary,
+  color: vars.color.textMuted,
+});
+
 export const windowControls = style({
   ...noDrag,
   display: 'flex',

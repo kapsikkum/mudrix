@@ -5,7 +5,6 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { currentRoomIdAtom, roomSearchAtom, globalSearchOpenAtom } from '@/app/store/atoms';
 import { RoomSearchField } from '@/app/features/roomSearch';
 import { MODIFIER_KEY } from '@/app/util/platform';
-import { KeyCaps } from '@/app/components/KeyCaps';
 import { drawsWindowControls } from '@/bridge/desktop';
 import { WindowControls } from './WindowControls';
 import * as css from './TitleBar.css';
@@ -42,7 +41,7 @@ export function TitleBarSearch() {
     <button type="button" className={css.search} onClick={() => openGlobalSearch(true)}>
       <MagnifyingGlassIcon size={14} />
       <span className={css.searchLabel}>{t('titleBar.search')}</span>
-      <KeyCaps keys={[MODIFIER_KEY, 'K']} size="sm" />
+      <kbd className={css.searchKbd}>{MODIFIER_KEY} K</kbd>
     </button>
   );
 }

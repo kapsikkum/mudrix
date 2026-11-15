@@ -1450,7 +1450,9 @@
       "viewRoom": "Bekijk kamer",
       "notPublic": "Het pakket van deze sticker staat in een privékamer en kan niet worden weergegeven.",
       "unknown": "Kon niet vinden uit welk pakket deze sticker komt."
-    }
+    },
+    "seen": "Gelezen",
+    "sent": "Verzonden"
   },
   "call": {
     "event": {
@@ -2008,7 +2010,8 @@
             "file": "Download bestanden van berichten in die kamer"
           }
         }
-      }
+      },
+      "willContact": "Mudrix neemt contact op met {{host}}."
     },
     "accounts": {
       "logoutOf": "Uitloggen bij {{name}}",
@@ -2650,7 +2653,8 @@
         "nameplate": "Naamplaatjes",
         "profile_frame": "Profielframes"
       }
-    }
+    },
+    "userSettings": "Gebruikersinstellingen"
   },
   "verification": {
     "otherDeviceHint": "Open Mudrix (or another Matrix app) on a device that's already verified and accept the request.",
@@ -2927,7 +2931,13 @@
       "aboutMe": "Over mij",
       "bioPlaceholder": "Dit is een voorbeeld van hoe andere gebruikers je profiel op Mudrix zien.",
       "decorationsCount": "{{count}} versieringen",
-      "effectsCount": "{{count}} effecten"
+      "effectsCount": "{{count}} effecten",
+      "selected": "Geselecteerd",
+      "framesCount": "{{count}} kaders",
+      "nameplatesCount": "{{count}} naamborden",
+      "uploadedFrame": "Profielkader {{name}} geüpload",
+      "uploadedNameplate": "Naambord {{name}} geüpload",
+      "deletedCustom": "Aangepaste cosmetic verwijderd"
     },
     "tabs": {
       "details": "Details",
@@ -3008,7 +3018,25 @@
       "homeserver": "Homeserver",
       "automatic": "Automatisch"
     },
-    "verifyFailed": "Verificatie kon niet worden gestart: {{error}}"
+    "verifyFailed": "Verificatie kon niet worden gestart: {{error}}",
+    "verifyUser": "Verifiëren",
+    "viewFullProfile": "Volledig profiel bekijken",
+    "frame": {
+      "title": "Profielkaders",
+      "change": "Profielkader wijzigen",
+      "chooseTitle": "Profielkader kiezen",
+      "upload": "Profielkader uploaden",
+      "searchPlaceholder": "Profielkaders zoeken...",
+      "none": "Geen"
+    },
+    "nameplate": {
+      "title": "Naamborden",
+      "change": "Naambord wijzigen",
+      "chooseTitle": "Naambord kiezen",
+      "upload": "Naambord uploaden",
+      "searchPlaceholder": "Naamborden zoeken...",
+      "none": "Geen"
+    }
   },
   "update": {
     "downloading": "Update downloaden… {{percent}}%",
@@ -3031,7 +3059,11 @@
     "editProfile": "Profiel bewerken",
     "unsupported": "Onlinestatus niet beschikbaar",
     "unsupportedTitle": "Onlinestatus is niet beschikbaar",
-    "unsupportedMessage": "Op je homeserver ({{server}}) is de onlinestatus (presence) uitgeschakeld, dus niemand kan zien of je online, afwezig of offline bent, en jij ziet het ook niet bij anderen. Wat je hier kiest, wordt bewaard voor als het wordt ingeschakeld. Je aangepaste status blijft op je profiel staan als je server profielvelden ondersteunt."
+    "unsupportedMessage": "Op je homeserver ({{server}}) is de onlinestatus (presence) uitgeschakeld, dus niemand kan zien of je online, afwezig of offline bent, en jij ziet het ook niet bij anderen. Wat je hier kiest, wordt bewaard voor als het wordt ingeschakeld. Je aangepaste status blijft op je profiel staan als je server profielvelden ondersteunt.",
+    "idle": "Inactief",
+    "dnd": "Niet storen",
+    "viewProfile": "Profiel bekijken",
+    "sharingOffNote": "Het delen van aanwezigheid staat uit (Voorkeuren). Deze keuzes hebben dan alleen invloed op je Mudrix-profiel."
   },
   "qrLogin": {
     "signInStep1": "Open Mudrix op een apparaat waarop je al bent ingelogd.",
@@ -3228,5 +3260,8 @@
       "sentInClear": "Onversleuteld verzonden in een versleutelde kamer",
       "unknown": "Versleuteld, maar de herkomst kon niet worden geverifieerd"
     }
+  },
+  "roomSwitcher": {
+    "title": "Zoeken"
   }
 }

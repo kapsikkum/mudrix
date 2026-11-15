@@ -1450,7 +1450,9 @@
       "viewRoom": "ルームを見る",
       "notPublic": "このスタンプのパックはプライベートルームにあるため表示できません。",
       "unknown": "このスタンプがどのパックのものか見つかりませんでした。"
-    }
+    },
+    "seen": "既読",
+    "sent": "送信済み"
   },
   "call": {
     "event": {
@@ -2008,7 +2010,8 @@
             "file": "そのルーム内のメッセージからファイルをダウンロードします"
           }
         }
-      }
+      },
+      "willContact": "Mudrixは{{host}}に接続します。"
     },
     "accounts": {
       "logoutOf": "{{name}} からログアウト",
@@ -2650,7 +2653,8 @@
         "nameplate": "ネームプレート",
         "profile_frame": "プロフィールフレーム"
       }
-    }
+    },
+    "userSettings": "ユーザー設定"
   },
   "verification": {
     "otherDeviceHint": "Open Mudrix (or another Matrix app) on a device that's already verified and accept the request.",
@@ -2927,7 +2931,13 @@
       "aboutMe": "自己紹介",
       "bioPlaceholder": "他のユーザーがMudrixであなたのプロフィールをどう見るかのプレビューです。",
       "decorationsCount": "{{count}} 件の装飾",
-      "effectsCount": "{{count}} 件のエフェクト"
+      "effectsCount": "{{count}} 件のエフェクト",
+      "selected": "選択中",
+      "framesCount": "{{count}}個のフレーム",
+      "nameplatesCount": "{{count}}個のネームプレート",
+      "uploadedFrame": "プロフィールフレーム「{{name}}」をアップロードしました",
+      "uploadedNameplate": "ネームプレート「{{name}}」をアップロードしました",
+      "deletedCustom": "カスタムコスメを削除しました"
     },
     "tabs": {
       "details": "詳細",
@@ -3008,7 +3018,25 @@
       "homeserver": "ホームサーバー",
       "automatic": "自動"
     },
-    "verifyFailed": "認証を開始できませんでした: {{error}}"
+    "verifyFailed": "認証を開始できませんでした: {{error}}",
+    "verifyUser": "認証する",
+    "viewFullProfile": "プロフィール全体を表示",
+    "frame": {
+      "title": "プロフィールフレーム",
+      "change": "プロフィールフレームを変更",
+      "chooseTitle": "プロフィールフレームを選択",
+      "upload": "プロフィールフレームをアップロード",
+      "searchPlaceholder": "プロフィールフレームを検索...",
+      "none": "なし"
+    },
+    "nameplate": {
+      "title": "ネームプレート",
+      "change": "ネームプレートを変更",
+      "chooseTitle": "ネームプレートを選択",
+      "upload": "ネームプレートをアップロード",
+      "searchPlaceholder": "ネームプレートを検索...",
+      "none": "なし"
+    }
   },
   "update": {
     "downloading": "アップデートをダウンロード中… {{percent}}%",
@@ -3031,7 +3059,11 @@
     "editProfile": "プロフィールを編集",
     "unsupported": "オンライン状態は利用できません",
     "unsupportedTitle": "オンライン状態は利用できません",
-    "unsupportedMessage": "ホームサーバー（{{server}}）ではオンライン状態（プレゼンス）がオフになっているため、あなたがオンライン・離席中・オフラインのどれかは誰にも表示されず、他のユーザーの状態も表示されません。ここで選んだ内容は、オンになったときのために保存されます。サーバーがプロフィール項目に対応していれば、カスタムステータスは引き続きプロフィールに表示されます。"
+    "unsupportedMessage": "ホームサーバー（{{server}}）ではオンライン状態（プレゼンス）がオフになっているため、あなたがオンライン・離席中・オフラインのどれかは誰にも表示されず、他のユーザーの状態も表示されません。ここで選んだ内容は、オンになったときのために保存されます。サーバーがプロフィール項目に対応していれば、カスタムステータスは引き続きプロフィールに表示されます。",
+    "idle": "離席中",
+    "dnd": "取り込み中",
+    "viewProfile": "プロフィールを表示",
+    "sharingOffNote": "プレゼンスの共有はオフになっています（設定）。この選択はMudrixのプロフィールにのみ影響します。"
   },
   "qrLogin": {
     "signInStep1": "すでにサインインしているデバイスでMudrixを開きます。",
@@ -3228,5 +3260,8 @@
       "sentInClear": "暗号化されたルームに暗号化されずに送信されました",
       "unknown": "暗号化されていますが、送信元を確認できませんでした"
     }
+  },
+  "roomSwitcher": {
+    "title": "検索"
   }
 }

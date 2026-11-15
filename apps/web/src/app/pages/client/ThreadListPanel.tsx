@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import type { ThreadInfo, WizardClient } from '@mudrix/core';
-import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import {
   ChatDotsIcon,
   XIcon,
   LockIcon,
-  ChecksIcon,
   ArrowsInSimpleIcon,
   ArrowsOutSimpleIcon,
 } from '@phosphor-icons/react';
@@ -17,7 +15,6 @@ import { formatUserId } from '@/util/matrix';
 import { useMembers, useRoom } from '@/app/data';
 import {
   threadFilterAtom,
-  threadLastSeenAtom,
   threadPanelWidthAtom,
   threadPanelExpandedAtom,
   THREAD_PANEL_WIDTH_MIN,
@@ -43,11 +40,6 @@ function latestTs(th: ThreadInfo): number {
   return th.latestTimestamp ?? th.timestamp;
 }
 
-function isThreadUnread(th: ThreadInfo, myId: string, lastSeen: Record<string, string>): boolean {
-  if (!th.latestSender || th.latestSender === myId || th.replies === 0) return false;
-  return !(Number(lastSeen[th.rootEventId]) >= latestTs(th));
-}
-
 function relativeTime(ts: number, locale: string): string {
   const diff = Date.now() - ts;
   const mins = Math.floor(diff / 60000);
@@ -71,11 +63,9 @@ export function ThreadListPanel({
   const colorFor = useUsernameColor();
   const roleColorFor = useRoleNameColor(roomId);
   const [filter, setFilter] = useAtom(threadFilterAtom);
-  const [threadLastSeen, setThreadLastSeen] = useAtom(threadLastSeenAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
   const [expanded, setExpanded] = useAtom(threadPanelExpandedAtom);
   const isDesktop = useMediaQuery('(min-width: 769px)');
-  const myId = client.userId() ?? '';
   const [allThreads, setAllThreads] = useState<ThreadInfo[]>([]);
   const nextRef = useRef<string | null>(null);
   const paginatingRef = useRef(false);
@@ -83,19 +73,6 @@ export function ThreadListPanel({
   const lastActivity = useRoom(roomId)?.lastActivity;
 
   const memberById = useMemo(() => new Map((members ?? []).map((m) => [m.userId, m])), [members]);
-
-  const threadCounts = useMemo(() => {
-    let all = 0;
-    let my = 0;
-    for (const th of allThreads) {
-      if (!isThreadUnread(th, myId, threadLastSeen)) continue;
-      all += 1;
-      if (th.participated) my += 1;
-    }
-    return { all, my };
-  }, [allThreads, myId, threadLastSeen]);
-
-  const hasAnyUnread = threadCounts.all > 0;
 
   useEffect(() => {
     setAllThreads([]);
@@ -150,35 +127,6 @@ export function ThreadListPanel({
     return [...list].sort((a, b) => latestTs(b) - latestTs(a));
   }, [allThreads, filter]);
 
-  const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
-  const sendThreadReceipt = useCallback(
-    (rootEventId: string) => {
-      client
-        .timelineOf(roomId, { type: 'thread', rootEventId })
-        .then((timeline) => timeline.markAsRead(!sendReadReceipts))
-        .catch(() => {});
-    },
-    [client, roomId, sendReadReceipts]
-  );
-
-  const markThreadRead = useCallback(
-    (th: ThreadInfo) => {
-      setThreadLastSeen({ ...threadLastSeen, [th.rootEventId]: String(latestTs(th)) });
-      sendThreadReceipt(th.rootEventId);
-    },
-    [threadLastSeen, setThreadLastSeen, sendThreadReceipt]
-  );
-
-  const markAllRead = useCallback(() => {
-    const newSeen: Record<string, string> = { ...threadLastSeen };
-    for (const th of allThreads) {
-      if (!isThreadUnread(th, myId, threadLastSeen)) continue;
-      newSeen[th.rootEventId] = String(latestTs(th));
-      sendThreadReceipt(th.rootEventId);
-    }
-    setThreadLastSeen(newSeen);
-  }, [allThreads, myId, threadLastSeen, setThreadLastSeen, sendThreadReceipt]);
-
   return (
     <aside
       data-swipe-back="panel"
@@ -198,18 +146,6 @@ export function ThreadListPanel({
       )}
       <div className={panelCss.sidePanelHeader}>
         <h2 className={panelCss.sidePanelTitle}>{t('timeline.threads')}</h2>
-        {hasAnyUnread && (
-          <Tooltip content={t('common.markAllRead')}>
-            <button
-              type="button"
-              className={css.headerAction}
-              onClick={markAllRead}
-              aria-label={t('common.markAllRead')}
-            >
-              <ChecksIcon size={16} />
-            </button>
-          </Tooltip>
-        )}
         {isDesktop && (
           <Tooltip content={expanded ? t('common.collapse') : t('common.expand')}>
             <button
@@ -243,11 +179,6 @@ export function ThreadListPanel({
           onClick={() => setFilter('all')}
         >
           {t('timeline.threadsAll')}
-          {threadCounts.all > 0 && (
-            <span className={filter === 'all' ? css.threadTabCountAccent : css.threadTabCount}>
-              {threadCounts.all > 99 ? '99+' : threadCounts.all}
-            </span>
-          )}
         </button>
         <button
           type="button"
@@ -257,11 +188,6 @@ export function ThreadListPanel({
           onClick={() => setFilter('my')}
         >
           {t('timeline.threadsMy')}
-          {threadCounts.my > 0 && (
-            <span className={filter === 'my' ? css.threadTabCountAccent : css.threadTabCount}>
-              {threadCounts.my > 99 ? '99+' : threadCounts.my}
-            </span>
-          )}
         </button>
       </div>
 
@@ -288,7 +214,6 @@ export function ThreadListPanel({
             const body = thread.body;
             const rootIsUndecryptable = false;
             const lastTs = latestTs(thread);
-            const unread = isThreadUnread(thread, myId, threadLastSeen);
 
             return (
               <div
@@ -342,21 +267,6 @@ export function ThreadListPanel({
                       <ChatDotsIcon size={12} />
                       {thread.replies}
                     </span>
-                    {unread && (
-                      <Tooltip placement="left" content={t('common.markRead')}>
-                        <button
-                          type="button"
-                          className={css.markReadButton}
-                          aria-label={t('common.markRead')}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            markThreadRead(thread);
-                          }}
-                        >
-                          <ChecksIcon size={14} />
-                        </button>
-                      </Tooltip>
-                    )}
                   </div>
                 </div>
               </div>

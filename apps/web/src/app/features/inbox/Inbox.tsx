@@ -59,7 +59,7 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
   const saved = useAtomValue(savedMessagesAtom);
   const setPendingJump = useSetAtom(pendingEventJumpAtom);
   const setThreadsPanelView = useSetAtom(threadsPanelViewAtom);
-  const { threads: inboxThreads, unreadCount: unreadThreads } = useThreadsInbox(tab === 'threads');
+  const { threads: inboxThreads } = useThreadsInbox(tab === 'threads');
 
   const activeCount =
     tab === 'invites'
@@ -222,11 +222,6 @@ function InboxContent({ mobile = false }: { mobile?: boolean }) {
           onClick={() => setTab('threads')}
         >
           {t('inbox.tabThreads')}
-          {unreadThreads > 0 && (
-            <span className={tab === 'threads' ? css.tabCountAccent : css.tabCount}>
-              {unreadThreads > 99 ? '99+' : unreadThreads}
-            </span>
-          )}
         </button>
         <button
           type="button"

@@ -1,6 +1,6 @@
 import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Trans, useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
 import type { WizardClient } from '@mudrix/core';
@@ -13,11 +13,11 @@ import {
   CompassIcon,
   EnvelopeSimpleIcon,
   GameControllerIcon,
-  LockKeyIcon,
   ShieldWarningIcon,
   SparkleIcon,
   SpeakerHighIcon,
   StackIcon,
+  XIcon,
 } from '@phosphor-icons/react';
 import {
   createSpaceOpenAtom,
@@ -28,6 +28,7 @@ import {
   sessionVerificationAtom,
   settingsOpenAtom,
   settingsPageAtom,
+  verifySkippedDeviceAtom,
   whatsNewOpenAtom,
   type SettingsPage,
 } from '@/app/store/atoms';
@@ -67,6 +68,8 @@ interface Action {
   description: string;
   onClick: () => void;
   warning?: boolean;
+  /** A setup row the person can hide for this device (the old app's card could be ignored) */
+  onDismiss?: () => void;
 }
 
 const roomPath = (kind: 'room' | 'dm' | 'space', roomId: string) =>
@@ -157,6 +160,8 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   const setPendingJump = useSetAtom(pendingEventJumpAtom);
   const setWhatsNewOpen = useSetAtom(whatsNewOpenAtom);
   const { status: verification } = useAtomValue(sessionVerificationAtom);
+  const [skippedDevice, setSkippedDevice] = useAtom(verifySkippedDeviceAtom);
+  const deviceId = client.session().deviceId;
   const myId = client.userId();
   const { data: profile } = useProfile(myId);
   const joinVoiceRoom = useJoinVoiceRoom(client);
@@ -259,14 +264,21 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   }
   if (verification === 'no-identity' || verification === 'unverified') {
     const notSetUp = verification === 'no-identity';
-    setup.push({
-      id: 'encryption',
-      icon: notSetUp ? <LockKeyIcon size={20} /> : <ShieldWarningIcon size={20} />,
-      title: notSetUp ? t('verification.session.setupButton') : t('verification.session.title'),
-      description: t('timeline.home.encryptionDesc'),
-      onClick: () => openSettings(notSetUp ? 'encryption' : 'sessions'),
-      warning: true,
-    });
+    // The old app keeps this as an ordinary card the person can leave alone: no dialog, and it
+    // stays out of the way once dismissed for this session's device.
+    const dismissed = !!deviceId && skippedDevice === deviceId;
+    if (!dismissed)
+      setup.push({
+        id: 'encryption',
+        icon: <ShieldWarningIcon size={20} />,
+        title: notSetUp ? t('verification.session.setupButton') : t('verification.session.title'),
+        description: t('timeline.home.encryptionDesc'),
+        // Settings → Sessions is where the old app sent this card: set up encryption and verify
+        // the session from there.
+        onClick: () => openSettings('sessions'),
+        warning: true,
+        onDismiss: deviceId ? () => setSkippedDevice(deviceId) : undefined,
+      });
   }
 
   // Each block that shows takes the next place in the entrance.
@@ -335,7 +347,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
             </h2>
             <ul className={`${css.setupList} ${css.enter}`} style={step(1)}>
               {setup.map((action) => (
-                <li key={action.id}>
+                <li key={action.id} className={css.setupItem}>
                   <button type="button" className={css.setupRow} onClick={action.onClick}>
                     <span
                       className={`${css.setupIcon}${action.warning ? ` ${css.setupIconWarning}` : ''}`}
@@ -349,6 +361,17 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                     </span>
                     <CaretRightIcon size={16} className={css.chevron} aria-hidden />
                   </button>
+                  {action.onDismiss && (
+                    <button
+                      type="button"
+                      className={css.setupDismiss}
+                      aria-label={t('common.dismiss')}
+                      title={t('common.dismiss')}
+                      onClick={action.onDismiss}
+                    >
+                      <XIcon size={13} weight="bold" />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
