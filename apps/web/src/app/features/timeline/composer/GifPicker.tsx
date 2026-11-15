@@ -23,6 +23,7 @@ import { getErrorMessage } from '@/util/error';
 import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { readRecentGifs, withRecentGif, writeRecentGifs } from './gifRecent';
+import { favouriteGifItem } from './gifFavourites';
 import {
   GIF_PROVIDER_IDS,
   GifNotConfiguredError,
@@ -70,16 +71,6 @@ function isProviderTab(tab: Tab): tab is GifProviderId {
 }
 
 /** A saved GIF is only its URL; which service it came from follows from the host. */
-function favouriteItem(url: string): GifItem {
-  let provider: GifProviderId = 'giphy';
-  try {
-    const host = new URL(url).hostname;
-    if (host === 'klipy.com' || host.endsWith('.klipy.com')) provider = 'klipy';
-  } catch {
-    // keep the default
-  }
-  return { id: url, title: '', thumbUrl: url, sendUrl: url, width: 0, height: 0, provider };
-}
 
 interface Props {
   client: MatrixClient;
@@ -312,7 +303,7 @@ export function GifPicker({
   const getAspect = (item: GifItem): number =>
     item.width > 0 && item.height > 0 ? item.width / item.height : (aspects[item.sendUrl] ?? 1);
 
-  const favouriteItems = favourites.map(favouriteItem);
+  const favouriteItems = favourites.map(favouriteGifItem);
   let displayItems: GifItem[];
   if (isProviderTab(tab)) displayItems = feed.items;
   else if (tab === 'favourites') displayItems = favouriteItems;

@@ -105,8 +105,9 @@ export const desktopApi: DesktopAPI = {
   getPushToTalkPermission: () => invoke<boolean>('global_keys_permission', { prompt: false }),
   requestPushToTalkPermission: () => invoke<boolean>('global_keys_permission', { prompt: true }),
   onUpdateDownloaded(listener) {
-    onDesktopEvent('update-downloaded', listener);
+    const stop = onDesktopEvent('update-downloaded', listener);
     void invoke<boolean>('update_ready').then((ready) => ready && listener());
+    return stop;
   },
   onUpdateProgress: (listener) =>
     onDesktopEvent<{ downloaded: number; total: number | null; percent: number | null }>(

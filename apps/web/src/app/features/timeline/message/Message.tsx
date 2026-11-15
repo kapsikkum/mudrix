@@ -1066,6 +1066,18 @@ export const Message = memo(function Message({
       displayReply.senderName ??
       formatUserId(displayReply.senderId))
     : '';
+  // A role's colour also marks the names in reply quotes, as it does the sender's.
+  const replySenderColor = displayReply
+    ? (roleColorOf(
+        roomRoles,
+        displayReply.senderId,
+        builtinKeyOf(
+          roomSettings,
+          displayReply.senderId,
+          members.get(displayReply.senderId)?.powerLevel ?? 0
+        )
+      ) ?? colorFor(displayReply.senderId))
+    : undefined;
   const hasReplyLine =
     variant === 'modern' &&
     !hideReplyQuote &&
@@ -1144,7 +1156,10 @@ export const Message = memo(function Message({
                 size="xs"
                 placeholder="logo"
               />
-              <strong>@{replyName}</strong> {replyBody}
+              <strong style={replySenderColor ? { color: replySenderColor } : undefined}>
+                @{replyName}
+              </strong>{' '}
+              {replyBody}
             </button>
           </div>
         )}
@@ -1210,7 +1225,7 @@ export const Message = memo(function Message({
               className={css.replyQuote}
               onClick={() => onJumpToEvent?.(displayReply.eventId)}
             >
-              <strong>
+              <strong style={replySenderColor ? { color: replySenderColor } : undefined}>
                 {members.get(displayReply.senderId)?.displayName ??
                   displayReply.senderName ??
                   formatUserId(displayReply.senderId)}
@@ -1278,7 +1293,20 @@ export const Message = memo(function Message({
                     />
                     <span
                       className={css.threadBadgeName}
-                      style={{ color: colorFor(threadBadge.previewSenderId) }}
+                      style={{
+                        color:
+                          (roleColorOf(
+                            roomRoles,
+                            threadBadge.previewSenderId,
+                            builtinKeyOf(
+                              roomSettings,
+                              threadBadge.previewSenderId,
+                              members.get(threadBadge.previewSenderId)?.powerLevel ?? 0
+                            )
+                          ) ??
+                            colorFor(threadBadge.previewSenderId)) ||
+                          undefined,
+                      }}
                     >
                       <span className={css.threadBadgeNameText}>
                         {threadBadge.previewSenderName}

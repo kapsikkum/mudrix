@@ -82,6 +82,7 @@ globalStyle('html.reduce-motion *, html.reduce-motion *::before, html.reduce-mot
   animationDuration: '0.01ms !important',
   animationIterationCount: '1 !important',
   transitionDuration: '0.01ms !important',
+  transitionDelay: '0ms !important',
 });
 
 globalStyle('html.reduce-motion', {

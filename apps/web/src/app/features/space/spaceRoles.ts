@@ -46,9 +46,8 @@ export interface SpaceRole {
   hoist?: boolean;
 }
 
-/** The roles every Matrix room already has, by power level. They cannot be removed or moved. */
-export const BUILTIN_ROLE_KEYS = ['founder', '100', '50', '0'] as const;
-export type BuiltinRoleKey = (typeof BUILTIN_ROLE_KEYS)[number];
+export { BUILTIN_ROLE_KEYS, roleColorOf, type BuiltinRoleKey, type RoleColors } from './roleColors';
+import { BUILTIN_ROLE_KEYS, roleColorOf, type BuiltinRoleKey } from './roleColors';
 
 /** A look given to a built-in role: its name and colour, both optional. */
 export interface BuiltinRoleLook {
@@ -245,23 +244,6 @@ export function builtinKeyOf(
   if (getRoomCreators(settings).has(userId)) return 'founder';
   if (powerLevel >= 100) return '100';
   return powerLevel >= 50 ? '50' : '0';
-}
-
-/**
- * The colour to show for someone: their Admin/Moderator look first, then their own roles from the
- * top of the list, then the plain Member look. Founders fall back to the Admin look.
- */
-export function roleColorOf(
-  roles: SpaceRoles,
-  userId: string,
-  builtinKey: BuiltinRoleKey = '0'
-): string | undefined {
-  let high: string | undefined;
-  if (builtinKey === 'founder') high = roles.builtin.founder?.color ?? roles.builtin['100']?.color;
-  else if (builtinKey !== '0') high = roles.builtin[builtinKey]?.color;
-  return (
-    high ?? roles.byUser.get(userId)?.find((role) => role.color)?.color ?? roles.builtin['0']?.color
-  );
 }
 
 /**

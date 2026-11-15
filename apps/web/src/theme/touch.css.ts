@@ -71,6 +71,8 @@ hitArea([iconSizes.xs, iconSizes.sm, iconSizes.md, iconSizes.lg, sizes.sm, sizes
 resize([roomHeader.headerBtn, mobileHeader.mobileActionBtn, inbox.inboxButton], 40);
 hitArea([
   roomHeader.headerBtn,
+  roomHeader.encryptionBtn,
+  roomHeader.encryptionBtnOff,
   roomHeader.topicTrigger,
   mobileHeader.mobileMenuBtn,
   mobileHeader.mobileActionBtn,
@@ -108,9 +110,11 @@ globalStyle(`${cls(timeline.msgAvatarCol)} > button::after`, {
   '@media': { [COARSE]: { content: '""', position: 'absolute', inset: '-8px' } },
 });
 
-// Profile sheet: the link/ignore buttons sit side by side, so space them out.
+// Profile sheet: the link/ignore buttons sit side by side, so space them out; the tabs and the
+// close button are small and need a finger-sized area.
 globalStyle(cls(profile.avatarRow), { '@media': { [COARSE]: { gap: '16px' } } });
 globalStyle(cls(profile.userIdRow), { '@media': { [COARSE]: { gap: '8px' } } });
+hitArea([profile.fullModalTab, profile.fullModalCloseBtn]);
 
 // Settings.
 hitArea([

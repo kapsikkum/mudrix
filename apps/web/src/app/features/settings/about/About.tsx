@@ -13,6 +13,8 @@ import { getAppsOpenAtom, updateAvailableAtom, whatsNewOpenAtom } from '@/app/st
 import { isTauriDesktop } from '@/util/desktop';
 import { checkForUpdate, type UpdateCheck } from '@/util/versionCheck';
 import { latestWhatsNew } from '@/app/features/whatsNew';
+import { useUpdateProgress } from '@/app/hooks/useUpdateProgress';
+import { aboutUpdateLabel } from '@/app/components/UpdateButton/updateProgress';
 import * as css from '../Settings.css';
 import { SOURCE_URL } from '@/const/links';
 import * as heroCss from './About.css';
@@ -28,15 +30,14 @@ export function About() {
   const hasWhatsNew = !!latestWhatsNew('en');
   const setUpdateAvailable = useSetAtom(updateAvailableAtom);
   const [updateCheck, setUpdateCheck] = useState<UpdateCheck | 'checking' | null>(null);
-  const [downloadPercent, setDownloadPercent] = useState<number | null>(null);
+  const { percent: downloadPercent, ready: updateReady } = useUpdateProgress();
   const checking = updateCheck === 'checking';
-
-  useEffect(() => {
-    const stop = window.desktopAPI?.onUpdateProgress?.(({ percent }) =>
-      setDownloadPercent(percent)
-    );
-    return () => stop?.();
-  }, []);
+  const updateLabel = aboutUpdateLabel({
+    checking,
+    upToDate: updateCheck === 'upToDate',
+    percent: downloadPercent,
+    ready: updateReady,
+  });
 
   const [prereleases, setPrereleases] = useState(
     () => localStorage.getItem('mudrix.updates.prereleases') === '1'
@@ -48,7 +49,6 @@ export function About() {
 
   const handleCheck = async () => {
     setUpdateCheck('checking');
-    setDownloadPercent(null);
     let result: UpdateCheck;
     if (isTauriDesktop() && window.desktopAPI?.checkForUpdate) {
       try {
@@ -93,8 +93,9 @@ export function About() {
                 className={heroCss.downloadBtn}
                 onClick={() => void handleCheck()}
                 disabled={checking}
+                aria-busy={updateLabel === 'downloading' ? true : undefined}
               >
-                {updateCheck === 'upToDate' ? (
+                {updateLabel === 'upToDate' ? (
                   <>
                     <CheckCircleIcon size={16} />
                     {t('update.upToDate')}
@@ -103,13 +104,17 @@ export function About() {
                   <>
                     <ArrowClockwiseIcon
                       size={16}
-                      className={checking ? heroCss.spinning : undefined}
+                      className={
+                        updateLabel === 'checking' || updateLabel === 'downloading'
+                          ? heroCss.spinning
+                          : undefined
+                      }
                     />
-                    {checking
-                      ? downloadPercent !== null
-                        ? t('update.downloading', { percent: downloadPercent })
-                        : t('update.checking')
-                      : t('update.checkNow')}
+                    {updateLabel === 'downloading'
+                      ? t('update.downloading', { percent: downloadPercent })
+                      : updateLabel === 'checking'
+                        ? t('update.checking')
+                        : t('update.checkNow')}
                   </>
                 )}
               </button>
