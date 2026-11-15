@@ -52,4 +52,12 @@ final class ProfileActivityTextTests: XCTestCase {
         let line = ProfileActivityText.text("profile.activity.playing", ["Chess"])
         XCTAssertTrue(line.contains("Chess"), line)
     }
+
+    func testMemberRowLineIsTheFirstActivityAndHowManyMore() {
+        XCTAssertNil(ProfileActivityText.memberLine([]))
+        let music = ProfileActivityText.memberLine([activity(name: "Song", details: "Artist"), activity(type: "playing", name: "Game")])
+        XCTAssertEqual(music, ProfileActivityText.MemberLine(isMusic: true, text: "Song \u{2014} Artist", more: 1))
+        XCTAssertEqual(ProfileActivityText.memberLine([activity(name: "Song")])?.text, "Song")
+        XCTAssertEqual(ProfileActivityText.memberLine([activity(type: "playing", name: "Game")])?.isMusic, false)
+    }
 }

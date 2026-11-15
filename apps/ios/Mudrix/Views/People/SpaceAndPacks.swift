@@ -83,6 +83,9 @@ struct SpaceSettingsView: View {
 
                 Section {
                     NavigationLink { MembersView(roomId: space.id) } label: { Label(String(localized: "common.members"), image: "ph-users-regular") }
+                    NavigationLink { RoomGeneralView(roomId: space.id) } label: {
+                        Label(String(localized: "room.settings.general.title"), image: "ph-gear-regular")
+                    }
                     NavigationLink { RolesPermissionsView(roomId: space.id) } label: {
                         Label(String(localized: "room.settings.permissions.title"), image: "ph-shield-check-regular")
                     }
@@ -256,6 +259,7 @@ struct RoomPacksView: View {
     @State private var canEdit = false
     @State private var newPackName = ""
     @State private var showNewPack = false
+    @State private var showUploadAndCreate = false
     @State private var loaded = false
 
     var body: some View {
@@ -275,6 +279,9 @@ struct RoomPacksView: View {
                 }
                 if canEdit {
                     Button { showNewPack = true } label: { Label(String(localized: "room.settings.emojis.newPack"), image: "ph-plus-regular") }
+                    Button { showUploadAndCreate = true } label: {
+                        Label(String(localized: "room.settings.emojis.uploadAndCreate"), image: "ph-images-regular")
+                    }
                 }
             } footer: {
                 Text(String(localized: "room.settings.emojis.packsHint"))
@@ -289,6 +296,9 @@ struct RoomPacksView: View {
         .navigationBarTitleDisplayMode(.inline)
         .tint(theme.control)
         .task { await load() }
+        .sheet(isPresented: $showUploadAndCreate) {
+            NewPackFromImagesSheet(roomId: roomId, takenKeys: Set(packs.map { $0.key })) { await load() }
+        }
         .alert(String(localized: "room.settings.emojis.newPack"), isPresented: $showNewPack) {
             TextField(String(localized: "common.name"), text: $newPackName)
             Button(String(localized: "common.create")) { Task { await create() } }
@@ -327,9 +337,9 @@ private struct PackEditorView: View {
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @State private var content: [String: Any]
-    @State private var photo: PhotosPickerItem?
-    @State private var pending: (url: String, mime: String)?
-    @State private var shortcode = ""
+    @StateObject private var uploader = PackBatchUploader()
+    /// Shortcodes of this editing session's uploads that are already in the pack
+    @State private var merged: Set<String> = []
     @State private var renaming: String?
     @State private var newCode = ""
     @State private var error: String?
@@ -353,6 +363,7 @@ private struct PackEditorView: View {
 
     var body: some View {
         ThemedForm {
+            sizeSection
             if canEdit {
                 Section(String(localized: "room.settings.emojis.pack")) {
                     TextField(String(localized: "common.name"), text: Binding(
@@ -381,25 +392,11 @@ private struct PackEditorView: View {
                             }
                         }
                     }
-                    if canEdit {
-                        PhotosPicker(selection: $photo, matching: .images) {
-                            VStack(spacing: WZ.Space.space2) {
-                                Image("ph-plus-regular").font(.system(size: WZ.SizeIcon.md))
-                                    .frame(width: WZ.Space.space11, height: WZ.Space.space11)
-                                    .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg))
-                                Text(String(localized: "settings.emojisStickers.upload")).font(.wizard(WZ.FontSize.xs))
-                            }
-                            .foregroundStyle(theme.textMuted)
-                        }
-                    }
                 }
                 .padding(.vertical, WZ.Space.space3)
-                if pending != nil {
-                    HStack {
-                        TextField("shortcode", text: $shortcode)
-                            .textInputAutocapitalization(.never).autocorrectionDisabled()
-                        Button(String(localized: "common.add")) { Task { await addImage() } }
-                            .disabled(shortcode.trimmingCharacters(in: CharacterSet(charactersIn: ": ")).isEmpty)
+                if canEdit {
+                    PackBatchControls(uploader: uploader, taken: { Set(images.map { $0.code }) }) { results in
+                        await merge(results)
                     }
                 }
             } header: {
@@ -412,10 +409,6 @@ private struct PackEditorView: View {
         .tint(theme.control)
         .navigationTitle(RoomPacksView.displayName(content, key: stateKey))
         .navigationBarTitleDisplayMode(.inline)
-        .onChange(of: photo) { _, item in
-            guard let item else { return }
-            Task { await upload(item) }
-        }
         .alert(String(localized: "common.rename"), isPresented: Binding(get: { renaming != nil }, set: { if !$0 { renaming = nil } })) {
             TextField("shortcode", text: $newCode).textInputAutocapitalization(.never)
             Button(String(localized: "common.save")) { if let old = renaming { Task { await rename(old, to: newCode) } } }
@@ -439,28 +432,71 @@ private struct PackEditorView: View {
         code.trimmingCharacters(in: CharacterSet(charactersIn: ": ")).replacingOccurrences(of: " ", with: "_")
     }
 
-    private func upload(_ item: PhotosPickerItem) async {
-        defer { photo = nil }
-        do {
-            guard let data = try await item.loadTransferable(type: Data.self), let image = UIImage(data: data) else { return }
-            let isGif = data.starts(with: [0x47, 0x49, 0x46])
-            let payload = isGif ? data : (image.pngData() ?? data)
-            let mime = isGif ? "image/gif" : "image/png"
-            pending = (try await session.uploadMedia(payload, mimeType: mime), mime)
-            shortcode = ""
-        } catch { self.error = error.localizedDescription }
+    private var bytes: Int { PackSize.contentBytes(content) }
+    private var level: PackSize.Level { PackSize.level(bytes: bytes) }
+
+    /// The pack's size against the state event limit, with the warning and the way out
+    private var sizeSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: WZ.Space.space3) {
+                Text(L10n.format("room.settings.emojis.sizeMeter", PackSize.formatKb(bytes), PackSize.formatKb(PackSize.budgetBytes)))
+                    .font(.wizard(WZ.FontSize.sm, .semibold))
+                    .foregroundStyle(level == .over ? theme.error : theme.textPrimary)
+                ProgressView(value: PackSize.fraction(bytes: bytes))
+                    .tint(level == .over ? theme.error : (level == .near ? theme.warningColor : theme.accent))
+                if level == .near {
+                    Text(String(localized: "room.settings.emojis.sizeWarn"))
+                        .font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.warningColor)
+                }
+                if level == .over {
+                    Text(String(localized: "room.settings.emojis.sizeOver"))
+                        .font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
+                }
+            }
+            .accessibilityElement(children: .combine)
+            if canEdit && level == .over {
+                Button { Task { await splitPack() } } label: {
+                    Label(String(localized: "room.settings.emojis.splitPack"), image: "ph-stack-plus-regular")
+                }
+            }
+        }
     }
 
-    private func addImage() async {
-        guard let pending else { return }
-        let code = clean(shortcode)
+    /// Puts the pictures a batch uploaded into the pack, once each, and saves
+    private func merge(_ results: [(shortcode: String, image: UploadedPackImage)]) async {
         var all = content["images"] as? [String: Any] ?? [:]
-        all[code] = ["url": pending.url, "body": code, "info": ["mimetype": pending.mime]]
+        var added = false
+        for result in results where !merged.contains(result.shortcode) && all[result.shortcode] == nil {
+            all[result.shortcode] = result.image.entry(shortcode: result.shortcode)
+            merged.insert(result.shortcode)
+            added = true
+        }
+        guard added else { return }
         content["images"] = all
-        self.pending = nil
         await save()
     }
 
+    /// Saves the pack as several, each within the limit: the first under this pack's key, the others under new ones
+    private func splitPack() async {
+        let parts = PackSize.split(content)
+        guard parts.count > 1 else { return }
+        do {
+            let name = ((content["pack"] as? [String: Any])?["display_name"] as? String) ?? stateKey
+            for (index, var part) in parts.enumerated() {
+                var pack = part["pack"] as? [String: Any] ?? [:]
+                pack["display_name"] = PackSize.numberedName(name, index: index, total: parts.count)
+                part["pack"] = pack
+                try await session.setStateEvent(RoomPacksView.packType, key: PackSize.partKey(stateKey, index: index), content: part,
+                                                in: roomId)
+                if index == 0 { content = part }
+            }
+            ImagePacks.forget(roomId: roomId)
+            error = nil
+            CopyToast.shared.show(L10n.plural("room.settings.emojis.splitDone", count: parts.count, parts.count))
+        } catch {
+            self.error = L10n.format("room.settings.emojis.splitFailed", error.localizedDescription)
+        }
+    }
     private func rename(_ old: String, to new: String) async {
         let code = clean(new)
         guard !code.isEmpty, code != old else { return }
@@ -480,11 +516,20 @@ private struct PackEditorView: View {
     }
 
     private func save() async {
+        // Too big for one state event: not sent, the size section offers to split it
+        guard level != .over else {
+            error = L10n.format("room.settings.emojis.sizeOver")
+            return
+        }
         do {
             try await session.setStateEvent(RoomPacksView.packType, key: stateKey, content: content, in: roomId)
             ImagePacks.forget(roomId: roomId)
             error = nil
-        } catch { self.error = L10n.format("common.saveFailed", "\(error.localizedDescription)") }
+        } catch {
+            self.error = PackSize.isTooLarge(error)
+                ? L10n.format("room.settings.emojis.serverTooLarge")
+                : L10n.format("common.saveFailed", "\(error.localizedDescription)")
+        }
     }
 }
 

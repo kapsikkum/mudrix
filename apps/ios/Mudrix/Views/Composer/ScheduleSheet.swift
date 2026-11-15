@@ -17,6 +17,7 @@ struct ScheduleSheet: View {
     let onScheduled: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var sendAt = Date().addingTimeInterval(3600)
     @State private var supported: Bool?
@@ -65,7 +66,7 @@ struct ScheduleSheet: View {
                         ForEach(scheduled) { message in
                             VStack(alignment: .leading, spacing: WZ.Space.space2) {
                                 Text(message.body).lineLimit(3)
-                                Text(Date(timeIntervalSince1970: Double(message.sendAt) / 1000).formatted(date: .abbreviated, time: .shortened))
+                                Text(verbatim: Formats.abbreviatedDateTime(Date(timeIntervalSince1970: Double(message.sendAt) / 1000), prefs.dateFormat, prefs.timeFormat))
                                     .font(.wizard(WZ.FontSize.xs))
                                     .foregroundStyle(theme.textMuted)
                                 HStack {

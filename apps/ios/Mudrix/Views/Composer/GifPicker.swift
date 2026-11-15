@@ -22,12 +22,23 @@ struct GifPicker: View {
     @AppStorage("gifConsent") private var consented = false
     /// The starred GIFs live in the account's data (`GifFavourites`), not on this device
     @ObservedObject private var favourites = GifFavourites.shared
+    @EnvironmentObject private var session: MatrixSession
     @State private var provider = GifProvider.giphy
     @State private var search = ""
-    @State private var showFavourites = false
+    @State private var shelf = Shelf.feed
+    @State private var recent: [GiphyGif] = []
     @State private var results: [GiphyGif] = []
     @State private var loading = false
     @State private var sending = false
+
+    /// What the grid shows: a service's trending or searched GIFs, the starred ones, or the ones sent from here
+    private enum Shelf {
+        case feed
+        case favourites
+        case recent
+    }
+
+    private var showFavourites: Bool { shelf == .favourites }
 
     /// The provider in use: the chosen one, or the only configured one (a tab whose service has no key falls back)
     private var activeProvider: GifProvider {
@@ -70,35 +81,33 @@ struct GifPicker: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             VStack(spacing: WZ.Space.space0) {
-                if Self.providers.count > 1 {
-                    providerTabs
-                }
+                providerTabs
                 HStack(spacing: WZ.Space.space0) {
                     SearchBar(text: $search, prompt: activeProvider == .giphy ? "composer.searchGiphy" : "composer.searchKlipy")
                     Button {
-                        showFavourites.toggle()
+                        shelf = showFavourites ? .feed : .favourites
                     } label: {
                         Image(showFavourites ? "ph-star-fill" : "ph-star-regular")
                             .font(.system(size: WZ.SizeIcon.md))
-                            .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                            .frame(width: WZ.Size.touchTarget, height: WZ.Size.touchTarget)
+                            .contentShape(Rectangle())
                     }
                     .foregroundStyle(showFavourites ? theme.accent : theme.textMuted)
                     .padding(.trailing, WZ.Space.space3)
                     .accessibilityLabel(String(localized: "nav.favourites"))
+                    .accessibilityAddTraits(showFavourites ? [.isButton, .isSelected] : .isButton)
                 }
                 ZStack {
-                    if showFavourites {
-                        favouritesGrid
-                    } else {
-                        grid(results)
+                    switch shelf {
+                    case .feed: grid(results)
+                    case .favourites: favouritesGrid
+                    case .recent: grid(recent)
                     }
-                    if showFavourites && favourites.urls.isEmpty {
-                        Text(String(localized: "composer.noFavourites"))
-                            .font(.wizard(WZ.FontSize.md))
-                            .foregroundStyle(theme.textMuted)
-                            .multilineTextAlignment(.center)
-                            .padding(WZ.Space.space9)
-                    } else if loading && results.isEmpty {
+                    if shelf == .favourites && favourites.urls.isEmpty {
+                        emptyShelf(String(localized: "composer.noFavourites"))
+                    } else if shelf == .recent && recent.isEmpty {
+                        emptyShelf(String(localized: "composer.noRecent"))
+                    } else if shelf == .feed && loading && results.isEmpty {
                         ProgressView().tint(theme.accent)
                     }
                     if sending {
@@ -118,30 +127,35 @@ struct GifPicker: View {
                 guard !Task.isCancelled else { return }
                 await load()
             }
+            .task(id: session.userId ?? "") {
+                recent = GifRecent.load(userId: session.userId ?? "")
+            }
         }
     }
 
-    /// GIPHY and KLIPY side by side; a service with no key in this build is not offered
+    private func emptyShelf(_ text: String) -> some View {
+        Text(text)
+            .font(.wizard(WZ.FontSize.md))
+            .foregroundStyle(theme.textMuted)
+            .multilineTextAlignment(.center)
+            .padding(WZ.Space.space9)
+    }
+
+    /// GIPHY and KLIPY side by side, then Recent; a service with no key in this build is not offered
     private var providerTabs: some View {
         HStack(spacing: WZ.Space.space2) {
-            ForEach(Self.providers) { option in
-                let active = option == activeProvider
-                Button {
-                    guard !active else { return }
-                    provider = option
-                    results = []
-                    showFavourites = false
-                } label: {
-                    Text(option.title)
-                        .font(.wizard(WZ.FontSize.sm, active ? .semibold : .regular))
-                        .foregroundStyle(active ? theme.textPrimary : theme.textMuted)
-                        .padding(.horizontal, WZ.Space.space5)
-                        .frame(height: WZ.Space.space8)
-                        .background(active ? theme.fill : .clear, in: Capsule())
-                        .contentShape(Capsule())
+            if Self.providers.count > 1 {
+                ForEach(Self.providers) { option in
+                    let active = option == activeProvider && shelf == .feed
+                    tab(option.title, active: active) {
+                        if option != activeProvider { results = [] }
+                        provider = option
+                        shelf = .feed
+                    }
                 }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(active ? [.isButton, .isSelected] : .isButton)
+            }
+            tab(String(localized: "composer.gifTabRecent"), active: shelf == .recent) {
+                shelf = .recent
             }
             Spacer(minLength: 0)
         }
@@ -149,12 +163,27 @@ struct GifPicker: View {
         .padding(.top, WZ.Space.space3)
     }
 
+    private func tab(_ title: String, active: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.wizard(WZ.FontSize.sm, active ? .semibold : .regular))
+                .foregroundStyle(active ? theme.textPrimary : theme.textMuted)
+                .padding(.horizontal, WZ.Space.space5)
+                .frame(height: WZ.Space.space8)
+                .background(active ? theme.fill : .clear, in: Capsule())
+                .frame(minHeight: WZ.Size.touchTarget)
+                .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(active ? [.isButton, .isSelected] : .isButton)
+    }
+
     private func grid(_ gifs: [GiphyGif]) -> some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible(), spacing: WZ.Space.space3), GridItem(.flexible(), spacing: WZ.Space.space3)], spacing: WZ.Space.space3) {
                 ForEach(gifs) { gif in
                     RemoteAnimatedImage(url: gif.previewUrl)
-                        .aspectRatio(CGFloat(gif.width) / CGFloat(max(gif.height, 1)), contentMode: .fit)
+                        .aspectRatio(gif.width > 0 && gif.height > 0 ? CGFloat(gif.width) / CGFloat(gif.height) : 1, contentMode: .fit)
                         .frame(maxWidth: .infinity)
                         .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
                         // A Button around the UIKit image view misses taps, so the cell takes them
@@ -223,6 +252,8 @@ struct GifPicker: View {
 
     private func send(_ gif: GiphyGif) {
         guard !sending else { return }
+        // Recorded before it is sent: picking closes the picker
+        recent = GifRecent.record(gif, userId: session.userId ?? "")
         Task {
             sending = true
             await onPick(gif)

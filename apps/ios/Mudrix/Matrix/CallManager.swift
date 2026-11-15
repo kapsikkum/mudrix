@@ -197,6 +197,7 @@ final class CallManager: NSObject, ObservableObject {
             soundboard.start(
                 client: client, roomId: room.id, ownUserId: client.userId ?? "",
                 isDeafened: { [weak self] in self?.deafened ?? true },
+                graph: { [weak self] in self?.appSession?.roomList?.graph ?? [] },
                 userId: { [weak self] identity in self?.members.first { $0.identity == identity }?.userId },
                 send: { [weak self] content in
                     self?.sendData(content.object?.mapValues(\.any) ?? [:], topic: SoundboardFormat.playType)

@@ -1,3 +1,4 @@
+import PhotosUI
 import SwiftUI
 import MudrixCore
 
@@ -12,6 +13,8 @@ struct SpaceModernSettingsSections: View {
     @ObservedObject private var states = MudrixRoomStates.shared
     @StateObject private var manager = SpaceRoleManager()
     @State private var error: String?
+    @State private var photo: PhotosPickerItem?
+    @State private var uploadingBanner = false
 
     private var state: MudrixRoomState? { states.state(space.id) }
     private var style: RoomListStyle { SpaceModern.style(of: state) }
@@ -72,7 +75,17 @@ struct SpaceModernSettingsSections: View {
                     }
                     .padding(.vertical, WZ.Space.space2)
                 }
-                if banner != nil, manager.canSend(MudrixTypes.spaceBanner) {
+                if manager.canSend(MudrixTypes.spaceBanner) {
+                PhotosPicker(selection: $photo, matching: .images) {
+                    Label(String(localized: "room.space.banner.upload"), image: "ph-images-regular")
+                }
+                .disabled(uploadingBanner)
+                .onChange(of: photo) { _, item in
+                    guard let item else { return }
+                    Task { await uploadBanner(item) }
+                }
+            }
+            if banner != nil, manager.canSend(MudrixTypes.spaceBanner) {
                     Button(role: .destructive) {
                         write(MudrixTypes.spaceBanner, .object([:]))
                     } label: {
@@ -111,6 +124,24 @@ struct SpaceModernSettingsSections: View {
         }
     }
 
+    /// Uploads a picture as the space's banner, as the web does: its url in the banner state, shown over the colour
+    private func uploadBanner(_ item: PhotosPickerItem) async {
+        defer { photo = nil }
+        guard let client = session.client,
+              let data = try? await item.loadTransferable(type: Data.self),
+              let jpeg = SpaceModern.bannerJpeg(from: data) else { return }
+        uploadingBanner = true
+        defer { uploadingBanner = false }
+        do {
+            let url = try await client.uploadMedia(data: jpeg, mimetype: "image/jpeg")
+            try await MudrixRoomStates.shared.set(client: client, roomId: space.id, type: MudrixTypes.spaceBanner,
+                                                  content: .object(["url": .string(url)]))
+            error = nil
+        } catch {
+            self.error = error.localizedDescription
+        }
+    }
+
     private func write(_ type: String, _ content: JSONValue) {
         guard let client = session.client else { return }
         let spaceId = space.id
@@ -121,6 +152,24 @@ struct SpaceModernSettingsSections: View {
             } catch {
                 self.error = error.localizedDescription
             }
+        }
+    }
+}
+
+extension SpaceModern {
+    /// The widest a space banner is kept; wider pictures are scaled down before they go up
+    static let bannerMaxWidth: CGFloat = 1600
+
+    /// A picture as a JPEG for the banner, at most annerMaxWidth wide; nil when the bytes are not a picture
+    static func bannerJpeg(from data: Data) -> Data? {
+        guard let image = UIImage(data: data) else { return nil }
+        let scale = min(1, bannerMaxWidth / max(image.size.width, 1))
+        guard scale < 1 else { return image.jpegData(compressionQuality: 0.85) }
+        let size = CGSize(width: (image.size.width * scale).rounded(), height: (image.size.height * scale).rounded())
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = 1
+        return UIGraphicsImageRenderer(size: size, format: format).jpegData(withCompressionQuality: 0.85) { _ in
+            image.draw(in: CGRect(origin: .zero, size: size))
         }
     }
 }

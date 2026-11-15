@@ -161,6 +161,7 @@ struct RoomView: View {
                     }
                     .onChange(of: timeline.entries.last?.id) { _, lastId in
                         guard lastId != nil, positioned else { return }
+                        announceNewest()
                         // Unless you scrolled up to read, follow new messages (the list can keep
                         // the previous one in place, leaving the new one just below). Your own
                         // always brings you back down.
@@ -384,7 +385,7 @@ struct RoomView: View {
         Task {
             do {
                 try await Reminders.shared.add(client: timeline.client, roomId: room.id, eventId: eventId, at: at)
-                let time = Date(timeIntervalSince1970: Double(at) / 1000).formatted(date: .omitted, time: .shortened)
+                let time = Formats.time(Date(timeIntervalSince1970: Double(at) / 1000), prefs.timeFormat)
                 CopyToast.shared.show(L10n.format("timeline.remind.set", time))
             } catch {
                 CopyToast.shared.show(L10n.format("timeline.remind.failed", error.localizedDescription))
@@ -555,6 +556,14 @@ struct RoomView: View {
 
     private func scrollToNewest(_ proxy: ScrollViewProxy) {
         proxy.scrollTo(Self.bottomId, anchor: .top)
+    }
+
+    /// Tells VoiceOver about a new message from someone else, as the web's live region does
+    private func announceNewest() {
+        guard let entry = timeline.entries.last, case .message(let body, _, _) = entry.kind,
+              Announcer.shouldAnnounce(isOwn: entry.isOwn, isNewestChanged: true,
+                                       voiceOverRunning: UIAccessibility.isVoiceOverRunning) else { return }
+        Announcer.say(Announcer.messageLine(sender: entry.senderName, text: body))
     }
 
     /// Loads one page of older messages (80 events). They're added at the far
@@ -1039,6 +1048,8 @@ struct MessageRow: View {
     @State private var showFailed = false
     @State private var swipe: CGFloat = 0
     private static let replyThreshold: CGFloat = 64
+    /// Modern and Compact body text: the web's `chatSize(0.95)`, 15.2pt at the default chat text size
+    private static let bodySize: CGFloat = WZ.FontSize.md * 0.95
 
     private var scale: CGFloat { prefs.chatScale }
     private var spacing: CGFloat { prefs.chatSpacing }
@@ -1074,7 +1085,7 @@ struct MessageRow: View {
                 if isCompact {
                     if !isMessageText {
                         HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space3) {
-                            Text(entry.timestamp, format: .dateTime.hour().minute())
+                            Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
                                 .font(.wizard(WZ.FontSize.xs * scale))
                                 .foregroundStyle(theme.textMuted)
                             Text(entry.senderName)
@@ -1109,7 +1120,7 @@ struct MessageRow: View {
                 if let quote = entry.replyTo {
                     ReplyQuoteView(quote: quote)
                 }
-                HStack(alignment: .bottom, spacing: WZ.Space.space3) {
+                HStack(alignment: isClassic ? .bottom : .lastTextBaseline, spacing: WZ.Space.space3) {
                     messageContent
                         .opacity(entry.isSending && !entry.sendFailed && isText ? 0.5 : 1)
                         .overlay {
@@ -1117,8 +1128,9 @@ struct MessageRow: View {
                                 UploadProgressRing(progress: nil)
                             }
                         }
-                    // In the bubble layout the shield sits inside the bubble, next to its time.
-                    if !isClassic, let shield = Shields.display(entry.shield) {
+                    // Modern and Compact: the old app's shield, docked right after the message's own text with no
+                    // column of its own, and only for a real warning. The bubble layout draws its own inside the bubble.
+                    if !isClassic, let shield = Shields.inlineWarning(Shields.display(entry.shield)) {
                         MessageShieldButton(display: shield, scale: scale)
                     }
                     if entry.sendFailed {
@@ -1271,8 +1283,9 @@ struct MessageRow: View {
                 }
             } else {
                 textContent
-                    .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
+                    .font(.wizard((emojiOnlyFontSize ?? Self.bodySize) * scale))
                     .lineSpacing(3 * scale)
+                    .multilineTextAlignment(.leading)
                     .tint(theme.linkColor)
             }
         } else {
@@ -1317,8 +1330,9 @@ struct MessageRow: View {
     /// A caption under media: padded inside the bubble in the bubble layout, a plain line otherwise.
     private func captionText(_ caption: String) -> some View {
         Text(caption)
-            .font(.wizard(WZ.FontSize.lg * scale))
+            .font(.wizard((isClassic ? WZ.FontSize.lg : Self.bodySize) * scale))
             .foregroundStyle(isClassic && entry.isOwn ? theme.textOnAccent : theme.textPrimary)
+            .multilineTextAlignment(.leading)
             .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
             .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
     }
@@ -1335,7 +1349,7 @@ struct MessageRow: View {
 
     private var compactPrefix: Text {
         guard isCompact else { return Text(verbatim: "") }
-        return Text(entry.timestamp, format: .dateTime.hour().minute())
+        return Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
             .font(.wizard(WZ.FontSize.xs * scale))
             .foregroundColor(theme.textMuted)
             + Text(verbatim: "  ")

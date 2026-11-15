@@ -101,6 +101,7 @@ struct MessageMenuOverlay: View {
                     .foregroundStyle(theme.textPrimary)
                     .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                     .background(theme.fill, in: Circle())
+                    .minTouchTarget()
             }
             .buttonStyle(.plain)
             .accessibilityLabel(String(localized: "timeline.addReaction"))

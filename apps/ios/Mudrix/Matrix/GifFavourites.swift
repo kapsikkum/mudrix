@@ -114,6 +114,18 @@ final class GifFavourites: ObservableObject {
         return out
     }
 
+    /// Whether starring `url` is refused because the list is full (unstarring is always allowed)
+    static func isFull(_ urls: [String], adding url: String) -> Bool {
+        !urls.contains(url) && urls.count >= cap
+    }
+
+    /// The URL a received picture can be starred under: a GIF stored on the homeserver unencrypted, as the web's
+    /// `content.tsx` (`image/gif` and a plain `mxc://` URL)
+    static func receivedGifUrl(mimetype: String?, url: String?) -> String? {
+        guard mimetype == "image/gif", let url, url.hasPrefix("mxc://") else { return nil }
+        return url
+    }
+
     /// The list after starring or unstarring `url`
     static func toggled(_ urls: [String], url: String) -> [String] {
         guard isStorable(url) else { return urls }

@@ -158,6 +158,7 @@ private struct MemberRow: View {
     @Environment(\.roomRoles) private var roomRoles
     @State private var presence: Presence?
     @State private var statusMode: StatusMode?
+    @State private var activityLine: ProfileActivityText.MemberLine?
 
     var body: some View {
         HStack(spacing: WZ.Space.space5) {
@@ -171,7 +172,17 @@ private struct MemberRow: View {
                         .font(.wizard(WZ.FontSize.lg, .medium))
                         .foregroundStyle(roomRoles.color(of: member.userId) ?? theme.textPrimary)
                 }
-                if member.displayName != nil {
+                if let line = activityLine {
+                    HStack(spacing: WZ.Space.space2) {
+                        Image(systemName: line.isMusic ? "music.note" : "gamecontroller.fill")
+                            .font(.system(size: WZ.SizeIcon.xs))
+                        Text(verbatim: line.text).lineLimit(1)
+                        if line.more > 0 { Text(verbatim: "+\(line.more)").foregroundStyle(theme.textMuted) }
+                    }
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.accent)
+                    .accessibilityElement(children: .combine)
+                } else if member.displayName != nil {
                     Text(member.userId).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted)
                 }
             }
@@ -192,6 +203,11 @@ private struct MemberRow: View {
                 presence = await session.presence(of: member.userId)
             }
             statusMode = await StatusFields.read(client: client, userId: member.userId)
+        }
+        .task(id: member.userId) {
+            guard let client = session.client else { return }
+            let profile = await CosmeticCache.shared.profile(member.userId, client: client)
+            activityLine = ProfileActivityText.memberLine(ProfileFields.live(profile?.activities ?? []))
         }
     }
 }
@@ -357,6 +373,7 @@ struct UserProfileSheet: View {
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .background(theme.bgPrimary.opacity(0.6), in: Circle())
                 .contentShape(Circle())
+                .minTouchTarget()
         }
         .accessibilityLabel(String(localized: "common.more"))
     }

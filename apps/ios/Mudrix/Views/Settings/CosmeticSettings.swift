@@ -12,6 +12,8 @@ struct CosmeticSettings: View {
     @State private var loading = true
     @State private var supported = true
     @State private var pickingPacks = false
+    @State private var uploadKind: CosmeticKind?
+    @State private var deleting: CosmeticPackItem?
     @State private var error: String?
 
     var body: some View {
@@ -62,6 +64,15 @@ struct CosmeticSettings: View {
                             }
                         }
                     }
+                    if supported {
+                        Button { uploadKind = kind } label: {
+                            Label(String(localized: uploadTitleKey(kind)), image: "ph-plus-circle-regular")
+                                .font(.wizard(WZ.FontSize.md, .semibold))
+                                .foregroundStyle(theme.control)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
             }
 
@@ -79,6 +90,17 @@ struct CosmeticSettings: View {
             }
         }
         .task(id: prefs.showCosmeticPacks) { await load() }
+        .fileImporter(isPresented: Binding(get: { uploadKind != nil }, set: { if !$0 { uploadKind = nil } }),
+                      allowedContentTypes: [.image]) { result in
+            guard let kind = uploadKind, case .success(let url) = result else { return }
+            Task { await upload(url, kind: kind) }
+        }
+        .confirmationDialog(String(localized: "profile.cosmetics.deleteCustom"), isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }),
+                            titleVisibility: .visible) {
+            Button(String(localized: "common.delete"), role: .destructive) {
+                if let item = deleting { Task { await deleteUpload(item) } }
+            }
+        }
         .sheet(isPresented: $pickingPacks, onDismiss: { Task { await load() } }) {
             CosmeticPacksSheet()
         }
@@ -96,6 +118,13 @@ struct CosmeticSettings: View {
                         Task { await choose(item.kind, item: item) }
                     } art: {
                         CosmeticItemPreview(item: item)
+                    }
+                    .contextMenu {
+                        if pack.roomId == nil {
+                            Button(role: .destructive) { deleting = item } label: {
+                                Label(menu: String(localized: "profile.cosmetics.deleteCustom"), icon: "ph-trash-regular", destructive: true)
+                            }
+                        }
                     }
                 }
             }
@@ -196,6 +225,68 @@ struct CosmeticSettings: View {
         }
     }
 
+    private func uploadTitleKey(_ kind: CosmeticKind) -> String.LocalizationValue {
+        switch kind {
+        case .decoration: return "profile.decoration.uploadDecoration"
+        case .effect: return "profile.effect.uploadEffectOrBorder"
+        case .nameplate, .profileFrame: return "settings.emojisStickers.upload"
+        }
+    }
+
+    private func uploadedKey(_ kind: CosmeticKind) -> String {
+        switch kind {
+        case .decoration: return "profile.cosmetics.uploadedDecoration"
+        case .effect: return "profile.cosmetics.uploadedEffect"
+        case .nameplate: return "profile.cosmetics.uploadedNameplate"
+        case .profileFrame: return "profile.cosmetics.uploadedFrame"
+        }
+    }
+
+    /// Puts a picture into your personal pack as a custom cosmetic of this kind, as the web does
+    private func upload(_ url: URL, kind: CosmeticKind) async {
+        error = nil
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+        let mimetype = CosmeticUpload.mimetype(fileName: url.lastPathComponent)
+        switch CosmeticUpload.check(mimetype: mimetype, size: size) {
+        case .unsupported?:
+            error = String(localized: "profile.cosmetics.unsupportedFormat")
+            return
+        case .tooLarge?:
+            error = L10n.format("profile.cosmetics.sizeLimit", CosmeticUpload.maxMegabytes)
+            return
+        case nil:
+            break
+        }
+        guard let mimetype, let data = try? Data(contentsOf: url) else { return }
+        do {
+            let mxc = try await session.uploadMedia(data, mimeType: mimetype)
+            let current = await session.accountDataJSON(CosmeticPacks.userPackType)
+            let added = CosmeticUpload.adding(to: current, kind: kind, fileName: url.lastPathComponent, url: mxc,
+                                              mimetype: mimetype)
+            try await session.setAccountDataJSON(CosmeticPacks.userPackType, added.content)
+            CosmeticPackLibrary.forgetVisible()
+            CopyToast.shared.show(L10n.format(uploadedKey(kind), added.name))
+            await load()
+        } catch {
+            self.error = L10n.format("common.saveFailed", error.localizedDescription)
+        }
+    }
+
+    private func deleteUpload(_ item: CosmeticPackItem) async {
+        defer { deleting = nil }
+        let current = await session.accountDataJSON(CosmeticPacks.userPackType)
+        guard let content = CosmeticUpload.removing(url: item.url, from: current) else { return }
+        do {
+            try await session.setAccountDataJSON(CosmeticPacks.userPackType, content)
+            CosmeticPackLibrary.forgetVisible()
+            CopyToast.shared.show(String(localized: "profile.cosmetics.deletedCustom"))
+            await load()
+        } catch {
+            self.error = L10n.format("common.saveFailed", error.localizedDescription)
+        }
+    }
     private func load() async {
         error = nil
         loading = true
@@ -354,6 +445,68 @@ private struct CosmeticPacksSheet: View {
         .task { await load() }
     }
 
+    private func uploadTitleKey(_ kind: CosmeticKind) -> String.LocalizationValue {
+        switch kind {
+        case .decoration: return "profile.decoration.uploadDecoration"
+        case .effect: return "profile.effect.uploadEffectOrBorder"
+        case .nameplate, .profileFrame: return "settings.emojisStickers.upload"
+        }
+    }
+
+    private func uploadedKey(_ kind: CosmeticKind) -> String {
+        switch kind {
+        case .decoration: return "profile.cosmetics.uploadedDecoration"
+        case .effect: return "profile.cosmetics.uploadedEffect"
+        case .nameplate: return "profile.cosmetics.uploadedNameplate"
+        case .profileFrame: return "profile.cosmetics.uploadedFrame"
+        }
+    }
+
+    /// Puts a picture into your personal pack as a custom cosmetic of this kind, as the web does
+    private func upload(_ url: URL, kind: CosmeticKind) async {
+        error = nil
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+        let mimetype = CosmeticUpload.mimetype(fileName: url.lastPathComponent)
+        switch CosmeticUpload.check(mimetype: mimetype, size: size) {
+        case .unsupported?:
+            error = String(localized: "profile.cosmetics.unsupportedFormat")
+            return
+        case .tooLarge?:
+            error = L10n.format("profile.cosmetics.sizeLimit", CosmeticUpload.maxMegabytes)
+            return
+        case nil:
+            break
+        }
+        guard let mimetype, let data = try? Data(contentsOf: url) else { return }
+        do {
+            let mxc = try await session.uploadMedia(data, mimeType: mimetype)
+            let current = await session.accountDataJSON(CosmeticPacks.userPackType)
+            let added = CosmeticUpload.adding(to: current, kind: kind, fileName: url.lastPathComponent, url: mxc,
+                                              mimetype: mimetype)
+            try await session.setAccountDataJSON(CosmeticPacks.userPackType, added.content)
+            CosmeticPackLibrary.forgetVisible()
+            CopyToast.shared.show(L10n.format(uploadedKey(kind), added.name))
+            await load()
+        } catch {
+            self.error = L10n.format("common.saveFailed", error.localizedDescription)
+        }
+    }
+
+    private func deleteUpload(_ item: CosmeticPackItem) async {
+        defer { deleting = nil }
+        let current = await session.accountDataJSON(CosmeticPacks.userPackType)
+        guard let content = CosmeticUpload.removing(url: item.url, from: current) else { return }
+        do {
+            try await session.setAccountDataJSON(CosmeticPacks.userPackType, content)
+            CosmeticPackLibrary.forgetVisible()
+            CopyToast.shared.show(String(localized: "profile.cosmetics.deletedCustom"))
+            await load()
+        } catch {
+            self.error = L10n.format("common.saveFailed", error.localizedDescription)
+        }
+    }
     private func load() async {
         loading = true
         packs = await CosmeticPackLibrary.availablePacks(session: session)

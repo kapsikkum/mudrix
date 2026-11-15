@@ -4,6 +4,7 @@ import SwiftUI
 struct RemindersSection: View {
     @EnvironmentObject private var session: MatrixSession
     @ObservedObject private var reminders = Reminders.shared
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
@@ -17,7 +18,7 @@ struct RemindersSection: View {
                 HStack(spacing: WZ.Space.space4) {
                     Text(L10n.format("settings.notifications.reminders.entry",
                                      session.roomList?.room(id: reminder.roomId)?.displayName ?? reminder.roomId,
-                                     Self.label(reminder.at)))
+                                     label(reminder.at)))
                         .font(.wizard(WZ.FontSize.md))
                         .foregroundStyle(theme.textPrimary)
                     Spacer(minLength: 4)
@@ -35,9 +36,9 @@ struct RemindersSection: View {
     }
 
     /// The time for a reminder due today, the date and time otherwise
-    private static func label(_ milliseconds: Int64) -> String {
+    private func label(_ milliseconds: Int64) -> String {
         let date = Date(timeIntervalSince1970: Double(milliseconds) / 1000)
-        if Calendar.current.isDateInToday(date) { return date.formatted(date: .omitted, time: .shortened) }
-        return date.formatted(date: .abbreviated, time: .shortened)
+        if Calendar.current.isDateInToday(date) { return Formats.time(date, prefs.timeFormat) }
+        return Formats.abbreviatedDateTime(date, prefs.dateFormat, prefs.timeFormat)
     }
 }

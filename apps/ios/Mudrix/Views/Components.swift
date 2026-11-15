@@ -372,6 +372,7 @@ struct VerificationBanner: View {
                 Button { dismissed = true } label: {
                     Image("ph-x-regular").font(.system(size: WZ.SizeIcon.xs, weight: .bold)).foregroundStyle(theme.textMuted)
                         .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                        .minTouchTarget()
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(String(localized: "common.dismiss"))

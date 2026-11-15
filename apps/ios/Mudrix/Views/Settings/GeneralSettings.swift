@@ -485,6 +485,7 @@ struct DeveloperSettings: View {
     private var sessionSection: some View {
         SettingsSection(title: "settings.developer.session") {
             CopyRow(label: "settings.developer.userId", value: session.userId ?? "")
+                .sensitive()
             SettingsDivider()
             CopyRow(label: "settings.developer.appVersion", value: version)
             SettingsDivider()

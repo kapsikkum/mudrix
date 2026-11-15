@@ -177,6 +177,7 @@ struct InboxView: View {
                 .foregroundStyle(foreground)
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .background(background, in: Circle())
+                .minTouchTarget()
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)

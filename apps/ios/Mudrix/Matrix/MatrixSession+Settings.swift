@@ -121,12 +121,15 @@ extension MatrixSession {
 
     func createRoom(name: String, topic: String?, isPublic: Bool, encrypted: Bool, isVoice: Bool,
                     alias: String?, spaceId: String?, federate: Bool = true, spaceMembers: Bool = false,
-                    founders: [String] = [], roomVersion: String? = nil, isSpace: Bool = false) async throws -> String {
+                    founders: [String] = [], roomVersion: String? = nil, isSpace: Bool = false,
+                    listStyle: RoomListStyle? = nil) async throws -> String {
         try await requireClient.createRoom(options: CreateRoomOptions(
             name: name, topic: topic, isPublic: isPublic, alias: isPublic ? alias : nil,
             isSpace: isSpace, isVoice: isVoice, parentSpaceId: spaceId, invite: founders, encrypted: encrypted && !isPublic && !isSpace,
             federate: federate, access: spaceMembers && spaceId != nil ? "restricted" : nil,
-            founders: founders, roomVersion: founders.isEmpty ? nil : roomVersion
+            founders: founders, roomVersion: founders.isEmpty ? nil : roomVersion,
+            powerLevels: isSpace ? SpaceModern.newSpacePowerLevels : nil,
+            initialState: isSpace && spaceId == nil ? listStyle.map(SpaceModern.creationState) : nil
         ))
     }
 

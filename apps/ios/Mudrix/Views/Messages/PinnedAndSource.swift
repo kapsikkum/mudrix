@@ -68,6 +68,7 @@ struct SourceView: View {
                     .font(.system(size: WZ.SizeIcon.xs, design: .monospaced))
                     .foregroundStyle(theme.textPrimary)
                     .textSelection(.enabled)
+                    .sensitive()
                     .padding(WZ.Space.space6)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }

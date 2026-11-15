@@ -85,6 +85,10 @@ struct MudrixApp: App {
             .onChange(of: prefs.themedAppIcon) { _, _ in applyAppIcon() }
             // Streamer mode: integrations and link cards ask nothing on their own (IntegrationNetwork),
             // and the notification service extension shows no text when it is on
+            // "Auto" also follows this device sharing its own screen in a call, like the web
+            .onChange(of: calls.screenSharing, initial: true) { _, sharing in
+                prefs.setOwnScreenSharing(sharing)
+            }
             .onChange(of: prefs.streamerModeActive, initial: true) { _, active in
                 IntegrationNetwork.setPassiveBlocked(active)
                 ShareInbox.saveHideContent(active)

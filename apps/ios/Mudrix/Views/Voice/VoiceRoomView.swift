@@ -222,7 +222,7 @@ struct CallControls: View {
             if let watch = calls.watch { WatchTogetherStartSheet(watch: watch) }
         }
         .sheet(isPresented: $showSoundboard) {
-            SoundboardSheet(soundboard: calls.soundboard)
+            SoundboardSheet(soundboard: calls.soundboard, roomId: room.id)
                 .presentationDetents([.medium, .large])
         }
         .sheet(isPresented: $showStats) {

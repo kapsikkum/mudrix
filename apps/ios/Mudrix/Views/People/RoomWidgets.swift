@@ -1,4 +1,5 @@
 import SwiftUI
+import WebKit
 import MudrixCore
 
 struct RoomWidgetsView: View {
@@ -14,6 +15,7 @@ struct RoomWidgetsView: View {
     @State private var loaded = false
     @State private var adding = false
     @State private var removing: MudrixCore.Widget?
+    @State private var viewing: WidgetPage?
     @State private var error: String?
 
     var body: some View {
@@ -73,6 +75,9 @@ struct RoomWidgetsView: View {
         .navigationTitle(String(localized: "room.settings.widgets.title"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }
+        .fullScreenCover(item: $viewing) { page in
+            WidgetViewerSheet(page: page)
+        }
         .sheet(isPresented: $adding) {
             AddWidgetSheet { name, url in
                 try await client.setWidget(roomId: roomId, id: nil, name: name, url: url)
@@ -106,10 +111,149 @@ struct RoomWidgetsView: View {
         let theme = colorScheme == .dark ? "dark" : "light"
         guard let string = try? await client.widgetUrl(roomId: roomId, widget: widget, theme: theme, language: language),
               let url = URL(string: string) else { return }
-        openURL(url)
+        // In the app, read only (no widget API); a page the sandbox refuses opens in the browser instead
+        if WidgetSandbox.allows(url) {
+            viewing = WidgetPage(title: widget.name?.isEmpty == false ? widget.name! : String(localized: "room.settings.widgets.untitled"), url: url)
+        } else {
+            openURL(url)
+        }
     }
 }
 
+/// A widget page to look at
+struct WidgetPage: Identifiable {
+    let id = UUID()
+    let title: String
+    let url: URL
+}
+
+/// What a widget page may do in the app. It is shown read only: the page runs in a web view with no bridge to the
+/// app, so it cannot read or send room events, and with its own throwaway storage.
+enum WidgetSandbox {
+    /// Only https pages with a host and no user name or password in the address
+    static func allows(_ url: URL) -> Bool {
+        guard url.scheme?.lowercased() == "https", let host = url.host(), !host.isEmpty else { return false }
+        return url.user() == nil && url.password() == nil
+    }
+
+    /// The host shown as "Code from ..."
+    static func host(of url: URL) -> String { url.host() ?? url.absoluteString }
+}
+
+/// A widget in a sandboxed web view with the "Runs code" label the integrations show, and a way out to the browser
+struct WidgetViewerSheet: View {
+    let page: WidgetPage
+
+    @Environment(\.theme) private var theme
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+    @State private var failed = false
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: WZ.Space.space0) {
+                HStack(spacing: WZ.Space.space3) {
+                    Image("ph-puzzle-piece-regular").font(.system(size: WZ.SizeIcon.sm))
+                    Text(String(localized: "integrations.widget.badge")).font(.wizard(WZ.FontSize.sm, .semibold))
+                    Text(L10n.format("integrations.widget.codeFrom", WidgetSandbox.host(of: page.url)))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .lineLimit(1)
+                    Spacer(minLength: 0)
+                }
+                .foregroundStyle(theme.warningColor)
+                .padding(WZ.Space.space4)
+                .frame(maxWidth: .infinity)
+                .background(theme.bgTertiary)
+                .accessibilityElement(children: .combine)
+                if failed {
+                    Text(String(localized: "integrations.widget.failed"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.textMuted)
+                        .padding(WZ.Space.space8)
+                        .frame(maxHeight: .infinity)
+                } else {
+                    SandboxedWebView(url: page.url) { failed = true }
+                        .accessibilityLabel(L10n.format("integrations.widget.frameTitle", page.title, WidgetSandbox.host(of: page.url)))
+                }
+            }
+            .navigationTitle(page.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(String(localized: "common.done")) { dismiss() }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button { openURL(page.url) } label: {
+                        Image("ph-arrow-square-out-regular").minTouchTarget()
+                    }
+                    .accessibilityLabel(String(localized: "room.settings.widgets.title"))
+                }
+            }
+            .tint(theme.control)
+        }
+    }
+}
+
+/// A web view with its own throwaway storage, no script bridge, no pop-ups, no camera or microphone, and
+/// navigation kept to https
+private struct SandboxedWebView: UIViewRepresentable {
+    let url: URL
+    let onFailure: () -> Void
+
+    func makeCoordinator() -> Coordinator { Coordinator(onFailure: onFailure) }
+
+    func makeUIView(context: Context) -> WKWebView {
+        let configuration = WKWebViewConfiguration()
+        configuration.websiteDataStore = .nonPersistent()
+        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
+        configuration.preferences.javaScriptCanOpenWindowsAutomatically = false
+        configuration.mediaTypesRequiringUserActionForPlayback = .all
+        configuration.allowsInlineMediaPlayback = true
+        let view = WKWebView(frame: .zero, configuration: configuration)
+        view.navigationDelegate = context.coordinator
+        view.uiDelegate = context.coordinator
+        view.allowsBackForwardNavigationGestures = false
+        view.load(URLRequest(url: url))
+        return view
+    }
+
+    func updateUIView(_ view: WKWebView, context: Context) {}
+
+    final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+        let onFailure: () -> Void
+
+        init(onFailure: @escaping () -> Void) { self.onFailure = onFailure }
+
+        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                     decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            guard let target = navigationAction.request.url else { return decisionHandler(.cancel) }
+            decisionHandler(target.absoluteString == "about:blank" || WidgetSandbox.allows(target) ? .allow : .cancel)
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { report(error) }
+
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            report(error)
+        }
+
+        /// A navigation the sandbox itself cancelled is not a failure of the page
+        private func report(_ error: Error) {
+            let nsError = error as NSError
+            if nsError.code == NSURLErrorCancelled || (nsError.domain == "WebKitErrorDomain" && nsError.code == 102) { return }
+            onFailure()
+        }
+
+        /// No pop-up windows
+        func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+                     for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? { nil }
+
+        func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin,
+                     initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType,
+                     decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+            decisionHandler(.deny)
+        }
+    }
+}
 private struct AddWidgetSheet: View {
     let onAdd: (String, String) async throws -> Void
     @Environment(\.theme) private var theme

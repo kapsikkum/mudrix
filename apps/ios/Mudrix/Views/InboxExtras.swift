@@ -13,12 +13,6 @@ private struct InboxThread: Identifiable {
     var time: Int { thread.latestTimestamp ?? thread.timestamp }
 }
 
-private func relativeTime(_ milliseconds: Int) -> String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .abbreviated
-    return formatter.localizedString(for: Date(timeIntervalSince1970: Double(milliseconds) / 1000), relativeTo: Date())
-}
-
 private struct InboxEmptyText: View {
     let text: String
     @Environment(\.theme) private var theme
@@ -41,6 +35,7 @@ struct InboxThreadsList: View {
     let onOpen: (String, String) -> Void
 
     @EnvironmentObject private var session: MatrixSession
+    @EnvironmentObject private var prefs: AppPreferences
     @ObservedObject private var lastSeen = ThreadLastSeen.shared
     @Environment(\.theme) private var theme
     @State private var threads: [InboxThread]?
@@ -80,7 +75,7 @@ struct InboxThreadsList: View {
             if unread {
                 Circle().fill(theme.accent).frame(width: WZ.Space.space4, height: WZ.Space.space4)
             }
-            Text(relativeTime(item.time))
+            Text(verbatim: Formats.threadAge(item.time, prefs.dateFormat))
                 .font(.wizard(WZ.FontSize.xs))
                 .foregroundStyle(theme.textMuted)
         }

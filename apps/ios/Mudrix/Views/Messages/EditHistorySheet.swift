@@ -7,6 +7,7 @@ struct EditHistorySheet: View {
     let roomId: String
     let eventId: String
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var versions: [EventVersion]?
     @State private var failure: String?
@@ -61,7 +62,7 @@ struct EditHistorySheet: View {
                         .padding(.horizontal, WZ.Space.space3)
                         .background(theme.fill, in: Capsule())
                 }
-                Text(Date(timeIntervalSince1970: Double(version.timestamp) / 1000).formatted(date: .abbreviated, time: .shortened))
+                Text(verbatim: Formats.abbreviatedDateTime(Date(timeIntervalSince1970: Double(version.timestamp) / 1000), prefs.dateFormat, prefs.timeFormat))
                     .font(.wizard(WZ.FontSize.xs))
                     .foregroundStyle(theme.textMuted)
             }

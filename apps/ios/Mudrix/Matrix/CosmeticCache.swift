@@ -164,6 +164,11 @@ enum CosmeticPackLibrary {
         visibleAt = nil
     }
 
+    /// Drops the packs read a moment ago, after your own pack changed (an upload or a delete)
+    static func forgetVisible() {
+        visibleAt = nil
+    }
+
     /// Every cosmetic pack in the rooms the account is in, for the subscription picker
     static func availablePacks(session: MatrixSession) async -> [CosmeticPack] {
         guard let rooms = session.roomList?.allJoinedRooms else { return [] }

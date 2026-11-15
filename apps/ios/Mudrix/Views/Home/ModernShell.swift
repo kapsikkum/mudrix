@@ -29,6 +29,8 @@ struct ModernShell: View {
     let onOpenCall: () -> Void
     let onOpenSettings: () -> Void
     let onEditProfile: () -> Void
+    /// Opens Settings > Privacy, from the streamer mode indicator
+    var onOpenPrivacy: () -> Void = {}
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -155,7 +157,8 @@ struct ModernShell: View {
             if !keyboardShown {
                 ModernUserCard(onProfile: { showOwnProfile = true },
                                onEditProfile: onEditProfile,
-                               onSettings: onOpenSettings)
+                               onSettings: onOpenSettings,
+                               onPrivacy: onOpenPrivacy)
             }
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { dockHeight = $0 }
@@ -338,6 +341,7 @@ private struct ModernUserCard: View {
     let onProfile: () -> Void
     let onEditProfile: () -> Void
     let onSettings: () -> Void
+    let onPrivacy: () -> Void
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var prefs: AppPreferences
@@ -403,6 +407,7 @@ private struct ModernUserCard: View {
             }
             .buttonStyle(.plain)
             .contextMenu { presenceMenuItems }
+            StreamerIndicatorButton(action: onPrivacy)
             Button(action: onSettings) {
                 Icon("gear", size: WZ.SizeIcon.md)
                     .foregroundStyle(theme.textMuted)

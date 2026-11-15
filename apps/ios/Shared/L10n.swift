@@ -5,9 +5,15 @@ enum L10n {
         String(format: NSLocalizedString(key, comment: ""), locale: .current, arguments: args)
     }
 
+    /// A plural: a text that shows its count is one catalog entry under key that picks its own form; one that does
+    /// not stays as separate key_one / key_other entries (packages/i18n/scripts/build.mjs)
     static func plural(_ key: String, count: Int, _ args: CVarArg...) -> String {
         let form = count == 1 ? "one" : "other"
-        return String(format: NSLocalizedString("\(key)_\(form)", comment: ""), locale: .current, arguments: args)
+        let separate = NSLocalizedString("\(key)_\(form)", comment: "")
+        if separate != "\(key)_\(form)" {
+            return String(format: separate, locale: .current, arguments: args)
+        }
+        return String(format: NSLocalizedString(key, comment: ""), locale: .current, arguments: args)
     }
 
     /// A key with its arguments in a list, for text whose arguments are only known at run time

@@ -48,7 +48,7 @@ struct SoundboardPress: Equatable {
     let durationMs: Int64?
 }
 
-enum PlayResult: Equatable { case ok, disabled, notInCall, rateLimited, cooldown, error }
+enum PlayResult: Equatable { case ok, disabled, notInCall, rateLimited, cooldown, error, roomDisabled, forbidden }
 
 /// Soundboard rate limits: the sender limits itself and every receiver limits each sender again
 final class SoundboardLimiter {

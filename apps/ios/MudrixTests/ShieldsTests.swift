@@ -21,6 +21,13 @@ final class ShieldsTests: XCTestCase {
         XCTAssertEqual(Shields.display(ShieldView(color: .grey, code: .unknownDevice))?.kind, .grey)
     }
 
+    func testInlineLayoutsDrawOnlyRealWarnings() {
+        XCTAssertNil(Shields.inlineWarning(nil))
+        XCTAssertNil(Shields.inlineWarning(Shields.display(ShieldView(color: .grey, code: .unknownDevice))))
+        XCTAssertEqual(Shields.inlineWarning(Shields.display(ShieldView(color: .red, code: .unverifiedIdentity)))?.kind, .warning)
+        XCTAssertEqual(Shields.inlineWarning(Shields.display(ShieldView(color: .grey, code: .sentInClear)))?.kind, .red)
+    }
+
     func testEveryCodeHasItsOwnReason() {
         let keys = ShieldCode.allCases.map { Shields.reasonKey($0) }
         XCTAssertEqual(Set(keys).count, ShieldCode.allCases.count)

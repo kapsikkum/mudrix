@@ -44,4 +44,26 @@ enum ProfileActivityText {
     static func text(_ key: String, _ args: [String] = []) -> String {
         L10n.args(key, args)
     }
+
+    /// The one line a member row shows under the name: the first activity, and how many more there are
+    struct MemberLine: Equatable {
+        /// Music is drawn with a note, a game with a controller
+        let isMusic: Bool
+        let text: String
+        let more: Int
+    }
+
+    /// The web's `MembersList` line: a game as "Playing X", music as "Title - Artist"; nil when nothing is running
+    static func memberLine(_ activities: [ProfileActivity]) -> MemberLine? {
+        guard let first = activities.first else { return nil }
+        let text: String
+        if first.type == "playing" {
+            text = L10n.args("profile.activity.playing", [first.name])
+        } else if !first.details.isEmpty {
+            text = "\(first.name) \u{2014} \(first.details)"
+        } else {
+            text = first.name
+        }
+        return MemberLine(isMusic: first.type != "playing", text: text, more: activities.count - 1)
+    }
 }

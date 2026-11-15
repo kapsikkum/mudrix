@@ -9,6 +9,12 @@ import MudrixCore
 final class Soundboard: ObservableObject {
     /// The clips of your personal board, from the `io.github.kapsikkum.mudrix.soundboard` account data
     @Published private(set) var personal: [SoundboardClip] = []
+    /// The same board as stored, for the editor
+    @Published private(set) var personalSounds: [SoundboardSound] = []
+    /// The clips of this room's and its spaces' boards, shown under the personal ones
+    @Published private(set) var roomClips: [RoomSoundboards.RoomClip] = []
+    /// Whether this person may play here: the room and the spaces above it can switch the board off or raise the level
+    @Published private(set) var access = RoomSoundboards.Access.ok
 
     private static let maxConcurrent = 4
     private static let maxPlayMs: Int64 = 6000
@@ -26,6 +32,9 @@ final class Soundboard: ObservableObject {
     private var active = false
     private var isDeafened: () -> Bool = { false }
     private var userIdOfIdentity: (String) -> String? = { _ in nil }
+    private var graph: () -> [SpaceNode] = { [] }
+    /// Who may play here, per person; asked when a press from them arrives
+    private var senderAccess: [String: RoomSoundboards.Access] = [:]
     private var sendData: (JSONValue) -> Void = { _ in }
 
     private var roomWatch: Subscription?
@@ -41,6 +50,7 @@ final class Soundboard: ObservableObject {
 
     /// Starts listening once you are in the call
     func start(client: MudrixClient, roomId: String, ownUserId: String, isDeafened: @escaping () -> Bool,
+               graph: @escaping () -> [SpaceNode] = { [] },
                userId: @escaping (String) -> String?, send: @escaping (JSONValue) -> Void) {
         stop()
         self.client = client
@@ -48,9 +58,11 @@ final class Soundboard: ObservableObject {
         self.ownUserId = ownUserId
         self.isDeafened = isDeafened
         self.userIdOfIdentity = userId
+        self.graph = graph
         self.sendData = send
         startedAt = SavedMessages.nowMs
         active = true
+        Task { await refreshRoomBoards() }
         roomWatch = client.watchRoomEvents(types: SoundboardFormat.playTypes) { [weak self] event in
             MainActor.assumeIsolated { self?.receive(event) }
         }
@@ -71,12 +83,16 @@ final class Soundboard: ObservableObject {
 
     func stop() {
         active = false
+        roomClips = []
+        access = .ok
+        senderAccess = [:]
         roomWatch?.cancel()
         roomWatch = nil
         boardWatches.forEach { $0.cancel() }
         boardWatches = []
         boardContents = [:]
         personal = []
+        personalSounds = []
         stopAll()
         sendLimiter.reset()
         receiveLimiter.reset()
@@ -93,9 +109,27 @@ final class Soundboard: ObservableObject {
 
     var isEnabled: Bool { enabled }
 
+    // MARK: Room boards
+
+    /// Reads the room's and its spaces' boards and whether this person may play (after an edit, orce asks again)
+    func refreshRoomBoards(force: Bool = false) async {
+        guard let client else { return }
+        let graph = graph()
+        let room = roomId
+        let own = ownUserId
+        if force { RoomSoundboards.reset() }
+        let clips = await RoomSoundboards.clips(client: client, graph: graph, roomId: room)
+        let verdict = await RoomSoundboards.access(client: client, graph: graph, roomId: room, userId: own)
+        guard active, room == roomId else { return }
+        roomClips = clips
+        access = verdict
+        senderAccess = [:]
+    }
+
     private func showBoard() {
         let content = boardContents[SoundboardFormat.boardType] ?? boardContents[SoundboardFormat.legacyBoardType]
-        personal = SoundboardFormat.parseBoard(content).map(SoundboardFormat.clip)
+        personalSounds = SoundboardFormat.parseBoard(content)
+        personal = personalSounds.map(SoundboardFormat.clip)
     }
 
     // MARK: Sending
@@ -104,6 +138,11 @@ final class Soundboard: ObservableObject {
     func press(_ clip: SoundboardClip) async -> PlayResult {
         guard enabled else { return .disabled }
         guard active, let client else { return .notInCall }
+        switch access {
+        case .roomDisabled: return .roomDisabled
+        case .forbidden: return .forbidden
+        case .ok: break
+        }
         let limit = sendLimiter.check(ownUserId, clip.id)
         guard limit == .ok else { return limit }
         let content = SoundboardFormat.playContent(clip)
@@ -145,7 +184,28 @@ final class Soundboard: ObservableObject {
         if recent[key] != nil { return }
         recent[key] = now
         guard receiveLimiter.check(userId, press.id, now: now) == .ok else { return }
-        Task { _ = await playPress(press, sender: userId) }
+        Task {
+            // The room's and spaces' rules apply to what other people play too: their apps are meant to ignore it
+            guard await mayPlay(userId) else { return }
+            _ = await playPress(press, sender: userId)
+        }
+    }
+
+    private func mayPlay(_ userId: String) async -> Bool {
+        guard let client else { return false }
+        if let known = senderAccess[userId] { return known == .ok }
+        let verdict = await RoomSoundboards.access(client: client, graph: graph(), roomId: roomId, userId: userId)
+        guard active else { return false }
+        senderAccess[userId] = verdict
+        return verdict == .ok
+    }
+
+    /// Plays a clip here only (the editor's preview); nothing is sent
+    func preview(_ clip: SoundboardClip) async {
+        _ = await playPress(SoundboardPress(id: clip.id, name: clip.name, emoji: clip.emoji, volume: clip.volume,
+                                            builtIn: clip.builtIn, url: clip.builtIn ? nil : clip.url,
+                                            mimetype: clip.mimetype, durationMs: clip.durationMs),
+                            sender: "preview")
     }
 
     // MARK: Playing

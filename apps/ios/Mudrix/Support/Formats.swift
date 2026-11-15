@@ -1,7 +1,31 @@
 import Foundation
 
+/// A thread row's age, with the boundaries of the web's `ThreadListPanel`
+enum TimeAgo: Equatable {
+    case now
+    case minutes(Int)
+    case hours(Int)
+    case days(Int)
+    /// A week old or more: the row shows the date instead
+    case old
+}
+
 /// The numeric date forms of the date format setting; the same as `formatNumericDate` of the web's `util/format.ts`
 enum DisplayFormats {
+    /// Under a minute is "now", then minutes, hours and days; a week or more is a date. A timestamp in the
+    /// future (a clock that is off) counts as now.
+    static func timeAgo(timestamp: Int, now: Int) -> TimeAgo {
+        let diff = max(0, now - timestamp)
+        let minutes = diff / 60_000
+        let hours = diff / 3_600_000
+        let days = diff / 86_400_000
+        if minutes < 1 { return .now }
+        if minutes < 60 { return .minutes(minutes) }
+        if hours < 24 { return .hours(hours) }
+        if days < 7 { return .days(days) }
+        return .old
+    }
+
     /// `07/03/2026`, `03/07/2026` or `2026-03-07`; nil for the localised long form
     static func numericDate(year: Int, month: Int, day: Int, _ style: DateFormatStyle) -> String? {
         let dd = twoDigits(day)
@@ -62,6 +86,18 @@ enum Formats {
     private static func numericText(_ date: Date, _ style: DateFormatStyle) -> String? {
         let parts = Calendar.current.dateComponents([.year, .month, .day], from: date)
         return DisplayFormats.numericDate(year: parts.year ?? 0, month: parts.month ?? 0, day: parts.day ?? 0, style)
+    }
+
+    /// A thread row's age: `3m ago`, `5h ago`, `2d ago`, and the date of the date setting once it is a week old
+    static func threadAge(_ milliseconds: Int, _ style: DateFormatStyle, now: Date = Date()) -> String {
+        let nowMs = Int(now.timeIntervalSince1970 * 1000)
+        switch DisplayFormats.timeAgo(timestamp: milliseconds, now: nowMs) {
+        case .now: return L10n.format("time.justNow")
+        case let .minutes(value): return L10n.plural("time.minutesAgo", count: value, value)
+        case let .hours(value): return L10n.plural("time.hoursAgo", count: value, value)
+        case let .days(value): return L10n.plural("time.daysAgo", count: value, value)
+        case .old: return abbreviatedDate(Date(timeIntervalSince1970: Double(milliseconds) / 1000), style)
+        }
     }
 
     static func abbreviatedDate(_ date: Date, _ style: DateFormatStyle) -> String {

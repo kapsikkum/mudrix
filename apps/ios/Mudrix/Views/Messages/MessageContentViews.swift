@@ -131,6 +131,11 @@ struct ImageMessageView: View {
             }
         }
         .gesture(HoldGesture { holding = $0 })
+        .overlay(alignment: .topTrailing) {
+            if !hidden, let gifUrl = GifFavourites.receivedGifUrl(mimetype: media.mimetype, url: media.source["url"]?.string) {
+                GifFavouriteStar(url: gifUrl)
+            }
+        }
         .task(id: "\(animate)-\(hidden)-\(playing)-\(attempt)") {
             guard !hidden, let mediaLoader else { return }
             let loaded = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)

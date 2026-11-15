@@ -90,6 +90,7 @@ private struct ThreadRow: View {
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @Environment(\.roomRoles) private var roomRoles
+    @EnvironmentObject private var prefs: AppPreferences
     @State private var name: String?
     @State private var avatarUrl: String?
     @State private var latestName: String?
@@ -104,7 +105,7 @@ private struct ThreadRow: View {
                         .foregroundStyle(roomRoles.color(of: thread.sender) ?? theme.textPrimary)
                         .lineLimit(1)
                     Spacer(minLength: WZ.Space.space0)
-                    Text(Self.date(thread.latestTimestamp ?? thread.timestamp), format: .relative(presentation: .named))
+                    Text(verbatim: Formats.threadAge(thread.latestTimestamp ?? thread.timestamp, prefs.dateFormat))
                         .font(.wizard(WZ.FontSize.xs))
                         .foregroundStyle(theme.textMuted)
                 }

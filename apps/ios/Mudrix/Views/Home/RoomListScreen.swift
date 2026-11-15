@@ -294,6 +294,7 @@ struct RoomListScreen: View {
                         .foregroundStyle(theme.textOnAccent)
                         .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                         .background(theme.accent, in: Circle())
+                        .minTouchTarget()
                 }
                 .accessibilityLabel(String(localized: "nav.new"))
             }
@@ -677,6 +678,7 @@ private struct RoundToolButton: View {
                 .foregroundStyle(theme.textPrimary)
                 .frame(width: WZ.Space.space9, height: WZ.Space.space9)
                 .background(theme.fill, in: Circle())
+                .minTouchTarget()
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)

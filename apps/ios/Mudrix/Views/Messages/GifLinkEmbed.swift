@@ -69,5 +69,8 @@ struct GifLinkPicture: View {
             .frame(width: size.width, height: size.height)
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .accessibilityLabel(item.title.isEmpty ? String(localized: "composer.gif") : item.title)
+            .overlay(alignment: .topTrailing) {
+                GifFavouriteStar(url: item.url)
+            }
     }
 }

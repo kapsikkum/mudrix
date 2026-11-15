@@ -190,6 +190,7 @@ struct ComposerView: View {
                 .foregroundStyle(theme.textPrimary)
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .floatingGlass(in: Circle())
+                .minTouchTarget()
         }
         .buttonStyle(.plain)
         .accessibilityLabel(label)
@@ -204,6 +205,7 @@ struct ComposerView: View {
                 .foregroundStyle(theme.textPrimary)
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .floatingGlass(in: Circle())
+                .minTouchTarget()
         }
         .buttonStyle(.plain)
         .accessibilityLabel(String(localized: "room.settings.widgets.stickers"))
@@ -238,6 +240,7 @@ struct ComposerView: View {
                 .foregroundStyle(theme.textPrimary)
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .floatingGlass(in: Circle())
+                .minTouchTarget()
         }
         .accessibilityLabel(String(localized: "composer.attach"))
     }
@@ -329,6 +332,7 @@ struct ComposerView: View {
                 .foregroundStyle(theme.textOnAccent)
                 .frame(width: WZ.Space.space10, height: WZ.Space.space10)
                 .background(theme.accent, in: Circle())
+                .minTouchTarget()
         }
         .buttonStyle(.plain)
         .disabled(!canSend)
@@ -383,6 +387,7 @@ struct ComposerView: View {
             Image(icon)
                 .font(.system(size: WZ.SizeIcon.sm, weight: .semibold))
                 .frame(width: WZ.Space.space10, height: WZ.Space.space9)
+                .minTouchTarget()
         }
         .accessibilityLabel(label)
     }
@@ -678,7 +683,7 @@ struct ComposerView: View {
             Button {
                 recorder.cancel()
             } label: {
-                Image("ph-trash-regular").font(.system(size: WZ.SizeIcon.md)).frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                Image("ph-trash-regular").font(.system(size: WZ.SizeIcon.md)).frame(width: WZ.Space.space10, height: WZ.Space.space10).minTouchTarget()
             }
             .foregroundStyle(theme.error)
             .accessibilityLabel(String(localized: "composer.voice.cancel"))
@@ -692,7 +697,7 @@ struct ComposerView: View {
                 recorder.togglePause()
             } label: {
                 Image(recorder.state == .recording ? "ph-pause-fill" : "ph-record-regular")
-                    .font(.system(size: WZ.SizeIcon.md)).frame(width: WZ.Space.space9, height: WZ.Space.space10)
+                    .font(.system(size: WZ.SizeIcon.md)).frame(width: WZ.Space.space9, height: WZ.Space.space10).minTouchTarget()
             }
             .foregroundStyle(theme.textMuted)
             .accessibilityLabel(recorder.state == .recording ? String(localized: "composer.voice.pause") : String(localized: "composer.voice.resume"))

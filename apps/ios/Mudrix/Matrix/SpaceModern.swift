@@ -58,6 +58,35 @@ enum SpaceModern {
         return url != nil || color != nil ? Banner(url: url, color: color) : nil
     }
 
+    // MARK: A new space
+
+    /// The state a new top-level space starts with: its list style, and for Modern the auto-join that lists its
+    /// rooms from the start (the web's `CreateSpaceModal`)
+    static func creationState(style: RoomListStyle) -> [JSONValue] {
+        var state: [JSONValue] = [
+            .object(["type": .string(MudrixTypes.spaceListStyle), "state_key": .string(""),
+                     "content": .object(["style": .string(style.rawValue)])]),
+        ]
+        if style == .modern {
+            state.append(.object(["type": .string(MudrixTypes.spaceAutoJoin), "state_key": .string(""),
+                                  "content": .object(["enabled": .bool(true)])]))
+        }
+        return state
+    }
+
+    /// The power levels a new space is made with: only moderators send messages and change the name, only admins
+    /// invite, kick and ban (the web's `SPACE_POWER_LEVELS`)
+    static var newSpacePowerLevels: JSONValue {
+        .object([
+            "invite": .number(100), "kick": .number(100), "ban": .number(100), "redact": .number(50),
+            "state_default": .number(50), "events_default": .number(50), "users_default": .number(0),
+            "events": .object([
+                "m.room.power_levels": .number(100), "m.room.history_visibility": .number(100),
+                "m.room.tombstone": .number(100), "m.room.encryption": .number(100), "m.room.name": .number(50),
+                "m.room.message": .number(50), "m.room.encrypted": .number(50), "m.sticker": .number(50),
+            ]),
+        ])
+    }
     // MARK: Auto-join and voice flag
 
     /// The space's own auto-join setting, or nil when it has none and the list style decides

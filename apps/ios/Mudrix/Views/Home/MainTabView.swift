@@ -37,7 +37,8 @@ struct MainTabView: View {
                             onEditProfile: {
                                 settingsInitialPage = .account
                                 showSettings = true
-                            })
+                            },
+                            onOpenPrivacy: openPrivacySettings)
             } else {
                 tabView
             }
@@ -53,6 +54,11 @@ struct MainTabView: View {
                     SessionStore.saveAvatar(nil, for: userId)
                 }
             }
+        }
+        // Spaces that join people to their rooms (Modern spaces do unless set otherwise)
+        .task(id: roomList.isLoaded) {
+            guard roomList.isLoaded, let client = session.client, let userId = session.userId else { return }
+            await AutoJoinRunner.shared.loop(roomList: roomList, client: client, userId: userId)
         }
         .overlay(alignment: .top) {
             CopyToastView().padding(.top, WZ.Space.space2)
@@ -145,6 +151,7 @@ struct MainTabView: View {
             }
         }
         .tint(theme.accent)
+        .safeAreaInset(edge: .top, spacing: 0) { StreamerIndicatorBar(action: openPrivacySettings) }
         .modifier(MinimizeTabBarOnScroll())
         .modifier(CallAccessoryModifier(show: showsCallBar(in: tab), onOpen: openCall))
     }
@@ -226,6 +233,12 @@ struct MainTabView: View {
             }
             .safeAreaInset(edge: .bottom) { callBar(in: item) }
         }
+    }
+
+    /// The streamer mode indicator opens Settings > Privacy
+    private func openPrivacySettings() {
+        settingsInitialPage = .privacy
+        showSettings = true
     }
 
     private func openCall() {

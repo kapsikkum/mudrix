@@ -6,6 +6,7 @@ struct CallStageView: View {
     let room: RoomSummary
 
     @EnvironmentObject private var calls: CallManager
+    @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @State private var volumeFor: CallParticipantInfo?
     @State private var focusedScreen: String?
@@ -65,6 +66,18 @@ struct CallStageView: View {
                 : Label(String(localized: "call.muteForMe"), image: "ph-speaker-slash-regular")
         }
         Button { volumeFor = participant } label: { Label(String(localized: "call.volume"), image: "ph-sliders-regular") }
+        // Only their soundboard clips are silenced, on this device (Settings > Voice lists who is muted)
+        Button {
+            if prefs.soundboardMutedUsers.contains(participant.userId) {
+                prefs.soundboardMutedUsers.removeAll { $0 == participant.userId }
+            } else {
+                prefs.soundboardMutedUsers.append(participant.userId)
+            }
+        } label: {
+            prefs.soundboardMutedUsers.contains(participant.userId)
+                ? Label(String(localized: "soundboard.person.unmute"), image: "ph-bell-regular")
+                : Label(String(localized: "soundboard.person.mute"), image: "ph-bell-slash-regular")
+        }
     }
 }
 

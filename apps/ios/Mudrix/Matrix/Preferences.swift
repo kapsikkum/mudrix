@@ -62,7 +62,19 @@ enum PresenceChoice: String, CaseIterable, Hashable {
 }
 
 /// Streamer mode: hide private details always, or only while this device is being recorded or mirrored
-enum StreamerMode: String, CaseIterable { case off, on, auto }
+enum StreamerMode: String, CaseIterable {
+    case off, on, auto
+
+    /// Whether private details are hidden: always when "on", and when "auto" while the screen is recorded or
+    /// mirrored, or this device shares its own screen in a call
+    func isActive(screenCaptured: Bool, ownScreenSharing: Bool) -> Bool {
+        switch self {
+        case .off: return false
+        case .on: return true
+        case .auto: return screenCaptured || ownScreenSharing
+        }
+    }
+}
 
 /// Settings on this device. Most of them sync with the other Mudrix apps through account data
 /// (`SettingsSyncer`): a setting registered in `registerSynced` is part of the synced event under that key.
@@ -142,6 +154,8 @@ final class AppPreferences: ObservableObject {
     @Published var streamerMode: StreamerMode { didSet { save("streamerMode", streamerMode.rawValue) } }
     /// Whether the screen is being recorded or mirrored right now
     @Published private(set) var screenCaptured = false
+    /// Whether this device shares its own screen in a call right now (set by the call UI)
+    @Published private(set) var ownScreenSharing = false
 
     @Published var showPresence: Bool { didSet { save("showPresence", showPresence); syncIfNeeded() } }
     @Published var presenceChoice: PresenceChoice { didSet { save("presenceChoice", presenceChoice.rawValue) } }
@@ -368,7 +382,11 @@ final class AppPreferences: ObservableObject {
     /// Whether streamer mode hides private details now: always when chosen, or "auto" while the
     /// screen is being recorded or mirrored
     var streamerModeActive: Bool {
-        streamerMode == .on || (streamerMode == .auto && screenCaptured)
+        streamerMode.isActive(screenCaptured: screenCaptured, ownScreenSharing: ownScreenSharing)
+    }
+
+    func setOwnScreenSharing(_ sharing: Bool) {
+        if ownScreenSharing != sharing { ownScreenSharing = sharing }
     }
 
     // MARK: Sync

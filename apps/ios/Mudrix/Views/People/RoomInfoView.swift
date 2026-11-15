@@ -406,6 +406,7 @@ struct CreateRoomView: View {
     @State private var access: Access
     @State private var encrypted = true
     @State private var federate = true
+    @State private var listStyle = RoomListStyle.matrix
     @State private var alias = ""
     @State private var foundersVersion: String?
     @State private var founders: [UserResult] = []
@@ -469,7 +470,17 @@ struct CreateRoomView: View {
                     }
                     toggleRow(String(localized: "room.create.federation"), note: String(localized: "room.create.federationNote"), isOn: $federate)
                 }
-                if foundersVersion != nil {
+                if isSpace && spaceId == nil {
+                Section {
+                    optionRow(String(localized: "settings.appearance.roomListStyleMatrix"), note: String(localized: "settings.appearance.roomListStyleNote"),
+                              icon: "ph-list-bullets-regular", selected: listStyle == .matrix) { listStyle = .matrix }
+                    optionRow(String(localized: "settings.appearance.roomListStyleModern"), note: String(localized: "room.settings.general.autoJoinNote"),
+                              icon: "ph-hash-straight-regular", selected: listStyle == .modern) { listStyle = .modern }
+                } header: {
+                    Text(String(localized: "settings.appearance.roomListStyle"))
+                }
+            }
+            if foundersVersion != nil {
                     Section {
                         founderRow(name: session.displayName ?? session.userId ?? "", userId: session.userId ?? "",
                                    avatarUrl: session.avatarUrl, onRemove: nil)
@@ -616,7 +627,7 @@ struct CreateRoomView: View {
                 isPublic: access == .public, encrypted: encrypted, isVoice: isVoice,
                 alias: alias.isEmpty ? nil : alias, spaceId: spaceId, federate: federate,
                 spaceMembers: access == .spaceMembers, founders: founders.map(\.userId), roomVersion: foundersVersion,
-                isSpace: isSpace)
+                isSpace: isSpace, listStyle: isSpace && spaceId == nil ? listStyle : nil)
             dismiss()
             if let onSpaceCreated { onSpaceCreated(roomId) } else { openRoom(roomId, notifier: notifier) }
         } catch {

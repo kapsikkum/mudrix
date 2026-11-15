@@ -31,4 +31,12 @@ enum Shields {
         if shield.code == .sentInClear { return Display(kind: .red, reasonKey: key) }
         return Display(kind: shield.color == .red ? .warning : .grey, reasonKey: key)
     }
+
+    /// What the Modern and Compact layouts draw beside a message's text: only a real warning. A grey shield
+    /// means the app cannot vouch for the sender's device (an unverified session), which the app already says
+    /// elsewhere, so it is not drawn on every line.
+    static func inlineWarning(_ display: Display?) -> Display? {
+        guard let display, display.kind != .grey else { return nil }
+        return display
+    }
 }
