@@ -123,7 +123,7 @@ private struct AuditLogList: View {
             HStack(spacing: WZ.Space.space2) {
                 chip(String(localized: "room.settings.auditLog.category.all"), active: filter == nil) { filter = nil }
                 ForEach(AuditEntry.Category.allCases) { category in
-                    chip(String(localized: category.titleKey), active: filter == category) {
+                    chip(String(localized: String.LocalizationValue(category.titleKey)), active: filter == category) {
                         filter = filter == category ? nil : category
                     }
                 }

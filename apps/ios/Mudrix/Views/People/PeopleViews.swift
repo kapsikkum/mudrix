@@ -267,7 +267,7 @@ struct UserProfileSheet: View {
     private var profileTabs: some View {
         Picker("", selection: $tab) {
             ForEach(ProfileTab.allCases, id: \.self) { option in
-                Text(String(localized: option.titleKey)).tag(option)
+                Text(String(localized: String.LocalizationValue(option.titleKey))).tag(option)
             }
         }
         .pickerStyle(.segmented)
