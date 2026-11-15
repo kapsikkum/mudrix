@@ -5,7 +5,7 @@ use matrix_sdk::ruma::{
     Int, MilliSecondsSinceUnixEpoch, OwnedMxcUri,
 };
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
+use serde_json::{json, Map, Value};
 
 use crate::{rooms::parse_user_id, Error, Result, WizardClient};
 
@@ -13,6 +13,15 @@ use crate::{rooms::parse_user_id, Error, Result, WizardClient};
 pub const STATUS_FIELD: &str = "io.github.kapsikkum.mudrix.status";
 /// Where earlier Mudrix versions and the upstream base kept it: still read, never written
 const LEGACY_STATUS_FIELDS: [&str; 2] = ["chat.mudrix.status", "org.wizardchat.status"];
+/// Where the expiry lives: `expires` is what the web and Android clients write (milliseconds
+/// since the Unix epoch); `expires_at` is what earlier core versions wrote and is still read,
+/// so statuses already stored that way expire too.
+const STATUS_EXPIRY_KEYS: [&str; 2] = ["expires", "expires_at"];
+const STATUS_EXPIRES_KEY: &str = "expires";
+/// A presence override (`dnd` or `idle`) that the web and Android clients keep in the same
+/// object as the text and emoji
+const STATUS_MODE_KEY: &str = "mode";
+const STATUS_MODES: [&str; 2] = ["dnd", "idle"];
 pub const MAX_STATUS_LENGTH: usize = 128;
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -61,6 +70,15 @@ fn now_ms() -> u64 {
     u64::from(MilliSecondsSinceUnixEpoch::now().0)
 }
 
+/// When a status expires, from whichever expiry key it was stored under
+fn status_expiry(value: &Value) -> Option<u64> {
+    STATUS_EXPIRY_KEYS.iter().find_map(|key| {
+        let at = value.get(*key)?;
+        at.as_u64()
+            .or_else(|| at.as_f64().filter(|at| *at > 0.0).map(|at| at as u64))
+    })
+}
+
 /// Reads the stored status, dropping empty and expired ones
 pub(crate) fn parse_status(value: Option<&Value>) -> Option<CustomStatus> {
     let value = value?;
@@ -68,7 +86,7 @@ pub(crate) fn parse_status(value: Option<&Value>) -> Option<CustomStatus> {
     if text.is_empty() {
         return None;
     }
-    let expires_at = value.get("expires_at").and_then(Value::as_u64);
+    let expires_at = status_expiry(value);
     if expires_at.is_some_and(|at| at <= now_ms()) {
         return None;
     }
@@ -76,6 +94,43 @@ pub(crate) fn parse_status(value: Option<&Value>) -> Option<CustomStatus> {
         text: text.chars().take(MAX_STATUS_LENGTH).collect(),
         expires_at,
     })
+}
+
+/// The stored status as an object, so the keys other clients keep in it (`mode`, `emoji`, ...)
+/// survive a write
+fn status_object(value: Option<&Value>) -> Map<String, Value> {
+    value
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default()
+}
+
+/// The field value for a status: replaces the text and the expiry, keeps every other key
+fn status_value(existing: Option<&Value>, text: &str, expires_at: Option<u64>) -> Value {
+    let mut value = status_object(existing);
+    value.insert("text".to_owned(), Value::String(text.to_owned()));
+    for key in STATUS_EXPIRY_KEYS {
+        value.remove(key);
+    }
+    if let Some(at) = expires_at {
+        value.insert(STATUS_EXPIRES_KEY.to_owned(), json!(at));
+    }
+    Value::Object(value)
+}
+
+/// Clearing the status drops its text, emoji and expiry but keeps a stored presence mode: `dnd`
+/// overrides the presence dot rather than being part of the status text, and the web and Android
+/// clients keep it when the text is cleared. `None` means nothing would be left, so the field is
+/// deleted instead of left behind empty.
+fn cleared_status_value(existing: Option<&Value>) -> Option<Value> {
+    let mode = existing?
+        .as_object()?
+        .get(STATUS_MODE_KEY)
+        .and_then(Value::as_str)
+        .filter(|mode| STATUS_MODES.contains(mode))?;
+    let mut value = Map::new();
+    value.insert(STATUS_MODE_KEY.to_owned(), Value::String(mode.to_owned()));
+    Some(Value::Object(value))
 }
 
 /// The status in a profile: the Mudrix field first, then the older names
@@ -155,7 +210,21 @@ impl WizardClient {
         Ok(self.sdk().account().set_avatar_url(None).await?)
     }
 
+    /// The raw status field as stored now, so a write can keep the keys other clients put in it
+    async fn stored_status(&self) -> Option<Value> {
+        let user_id = self.user_id()?;
+        self.profile_field(&user_id, STATUS_FIELD)
+            .await
+            .ok()
+            .flatten()
+    }
+
     /// Sets the custom status, also as presence message for clients without profile fields.
+    ///
+    /// The field is rewritten from the one already stored, so the keys the other clients keep
+    /// there (`mode`, `emoji`, ...) are preserved: only the text and the expiry are replaced. The
+    /// expiry is written as `expires` in milliseconds since the Unix epoch, the key the web and
+    /// Android clients read and write.
     pub async fn set_custom_status(
         &self,
         text: &str,
@@ -166,10 +235,8 @@ impl WizardClient {
         if text.is_empty() {
             return self.clear_custom_status(presence).await;
         }
-        let mut value = json!({ "text": text });
-        if let Some(at) = expires_at {
-            value["expires_at"] = json!(at);
-        }
+        let existing = self.stored_status().await;
+        let value = status_value(existing.as_ref(), &text, expires_at);
         let field =
             ProfileFieldValue::new(STATUS_FIELD, value).map_err(|e| Error::Sdk(e.to_string()))?;
         let stored = self.sdk().account().set_profile_field(field).await;
@@ -177,12 +244,26 @@ impl WizardClient {
         stored.map_err(Error::from)
     }
 
+    /// Clears the custom status.
+    ///
+    /// A stored presence mode (`dnd`, `idle`) is kept: it overrides the presence dot rather than
+    /// being part of the status text, and the web and Android clients keep it when the text is
+    /// cleared. Without one the field is deleted.
     pub async fn clear_custom_status(&self, presence: Presence) -> Result<()> {
-        let removed = self
-            .sdk()
-            .account()
-            .delete_profile_field(ProfileFieldName::from(STATUS_FIELD))
-            .await;
+        let existing = self.stored_status().await;
+        let removed = match cleared_status_value(existing.as_ref()) {
+            Some(kept) => {
+                let field = ProfileFieldValue::new(STATUS_FIELD, kept)
+                    .map_err(|e| Error::Sdk(e.to_string()))?;
+                self.sdk().account().set_profile_field(field).await
+            }
+            None => {
+                self.sdk()
+                    .account()
+                    .delete_profile_field(ProfileFieldName::from(STATUS_FIELD))
+                    .await
+            }
+        };
         // An older copy would show again once the current one is gone
         for legacy in LEGACY_STATUS_FIELDS {
             let _ = self
@@ -283,6 +364,10 @@ mod tests {
             parse_status(Some(&json!({ "text": "hi", "expires_at": 1 }))),
             None
         );
+        assert_eq!(
+            parse_status(Some(&json!({ "text": "hi", "expires": 1 }))),
+            None
+        );
         let future = now_ms() + 60_000;
         assert_eq!(
             parse_status(Some(&json!({ "text": " lunch ", "expires_at": future }))),
@@ -299,5 +384,96 @@ mod tests {
                 .len(),
             MAX_STATUS_LENGTH
         );
+    }
+
+    #[test]
+    fn both_status_expiry_keys_are_read() {
+        let future = now_ms() + 60_000;
+        // `expires` is what the web and Android clients write
+        assert_eq!(
+            parse_status(Some(&json!({ "text": "lunch", "expires": future }))),
+            Some(CustomStatus {
+                text: "lunch".into(),
+                expires_at: Some(future)
+            })
+        );
+        // `expires_at` is what earlier core versions wrote
+        assert_eq!(
+            parse_status(Some(&json!({ "text": "lunch", "expires_at": future }))),
+            Some(CustomStatus {
+                text: "lunch".into(),
+                expires_at: Some(future)
+            })
+        );
+        // already-expired statuses are dropped under either key
+        assert_eq!(
+            parse_status(Some(&json!({ "text": "lunch", "expires": 1 }))),
+            None
+        );
+        assert_eq!(
+            parse_status(Some(&json!({ "text": "lunch", "expires_at": 1 }))),
+            None
+        );
+    }
+
+    #[test]
+    fn setting_the_text_keeps_the_other_clients_keys() {
+        let existing = json!({
+            "text": "old",
+            "emoji": "🍜",
+            "mode": "dnd",
+            "expires": 1,
+            "expires_at": 2,
+        });
+        let value = status_value(Some(&existing), "new", None);
+        assert_eq!(value["text"], "new");
+        assert_eq!(value["emoji"], "🍜");
+        assert_eq!(value["mode"], "dnd");
+        // no expiry means neither key is left behind
+        assert!(value.get("expires").is_none());
+        assert!(value.get("expires_at").is_none());
+    }
+
+    #[test]
+    fn setting_the_text_writes_expires_in_milliseconds() {
+        let at = now_ms() + 60_000;
+        let value = status_value(None, "lunch", Some(at));
+        assert_eq!(value["expires"], json!(at));
+        assert!(value.get("expires_at").is_none());
+        assert_eq!(
+            parse_status(Some(&value)).unwrap(),
+            CustomStatus {
+                text: "lunch".into(),
+                expires_at: Some(at)
+            }
+        );
+        // an expiry stored under the old core key is rewritten, not duplicated
+        let old = json!({ "text": "old", "expires_at": at + 1 });
+        let value = status_value(Some(&old), "new", Some(at));
+        assert_eq!(value["expires"], json!(at));
+        assert!(value.get("expires_at").is_none());
+    }
+
+    #[test]
+    fn clearing_keeps_a_presence_mode_but_drops_the_text() {
+        let kept = cleared_status_value(Some(&json!({
+            "text": "busy",
+            "emoji": "🍜",
+            "mode": "dnd",
+            "expires": 1,
+        })))
+        .unwrap();
+        assert_eq!(kept, json!({ "mode": "dnd" }));
+        assert_eq!(
+            cleared_status_value(Some(&json!({ "text": "busy", "mode": "idle" }))),
+            Some(json!({ "mode": "idle" }))
+        );
+        // nothing worth keeping: the field gets deleted
+        assert_eq!(cleared_status_value(Some(&json!({ "text": "busy" }))), None);
+        assert_eq!(
+            cleared_status_value(Some(&json!({ "text": "busy", "mode": "unknown" }))),
+            None
+        );
+        assert_eq!(cleared_status_value(None), None);
     }
 }
