@@ -9,7 +9,16 @@ Decisions from the project owner that every port package follows. Newest at the 
   lines, the "Based on WizardChat" credit) stays.
 - **Data namespaces: read theirs, write ours.** Read `org.wizardchat.*` (and `chat.mudrix.*`) so people coming from
   WizardChat keep their data; always write `io.github.kapsikkum.mudrix.*`, never a WizardChat key. This covers custom
-  status (`org.wizardchat.status`), the watch-together topic and every other account-data / state / profile key.
+  status (`io.github.kapsikkum.mudrix.status`, with `chat.mudrix.status` / `org.wizardchat.status` read and the expiry
+  in `expires` milliseconds), the watch-together topic and every other account-data / state / profile key.
+- **Rename compatibility: some names stay forever.** These are wire names other software or stored data depends on, so
+  they keep their pre-rename value and are not user-visible: the Android keystore alias `org.wizardchat.session`
+  (`matrix/SessionStore.kt`), the OAuth/SSO callback scheme `org.wizardchat` (`matrix/MatrixSession.kt`), the built-in
+  `wizardchat` sound pack id, the upstream YouTube bridge `app.wizardchat.org/youtube-player.html` (still upstream's
+  player), and every upstream `org.wizardchat.*` account-data / profile name, which is read but never written (settings
+  also read the older `io.gitlab.wizardchat.settings`). Accounts stored in the browser move from the upstream
+  `wizardchat.accounts` / `wizardchat.account` keys to `mudrix.accounts` on the first read
+  (`apps/web/src/core/accountsState.ts`), so nobody is signed out by the rename.
 
 ## Push and background delivery (compile-time choice)
 
@@ -90,3 +99,48 @@ iOS delivered for the same event, so there is only ever one entry.
 - Room-key **file** import/export (an exported `.txt` key file) is separate from the recovery key. The recovery key
   restores from server-side key backup and works on every platform including web. File import/export is offered where
   matrix-rust-sdk allows it (desktop and mobile, by path); on web it is not possible with the current SDK.
+
+## Parity: won't-do
+
+Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a user would be given:
+
+- **N1, iOS reminders with the app closed.** iOS schedules the reminder as a local notification, but a suspended app
+  cannot learn that another device already delivered the event. That ceiling is the platform's, so this stays
+  **won't-do**; reminders still work while the app runs.
+- **X1, native sheet stretch/wobble and docked emoji picker.** These are web-only effects. Android and iOS use their
+  platform sheets and pickers, which users already know; copying the web animation would fight those gestures.
+- **X2, swipe right from anywhere to open the room list (web).** Swiping a message to the right is swipe-to-reply on
+  every platform. Two meanings for one gesture would break replies, so this stays **won't-do**.
+- **S1, the Ogg-only iOS sound packs (Cinny, Commet).** iOS cannot decode Ogg on the system banner-sound path. The
+  packs are left out in Settings rather than shown as silent; that part is **won't-do**.
+- **K8, room-key file export on web.** matrix-rust-sdk 0.19 exports key files by file path and wasm has no file path.
+  Desktop and mobile offer export/import; web offers server key backup and recovery only.
+- **K5, reset sync cache.** The core keeps sync state and the crypto keys in one store, so clearing the sync cache
+  would wipe the encryption keys. It is not offered on any platform; clear-media-cache remains.
+
+## Parity: kept web deviations from the old app
+
+- **Cosmetic packs have a switch.** Settings > Cosmetics keeps `showCosmeticPacks` (default on) so people who do not
+  want pack art can turn it off; the old app had no switch. The choice syncs.
+- **Built-in decorations moved to Account > Profile cosmetics.** The built-in decorations, nameplates, frames and
+  effects live in Account > Profile cosmetics (`ProfileStyle` inside `ExtendedProfile`), not in a separate dialog, so
+  there is one place to edit the profile.
+- **Account > Status is its own page**, using the core-backed status and expiry, instead of only the profile modal.
+- **Voice & Video is a page**, not a section inside Voice & Audio: device/processing toggles and the per-event sounds
+  stay together, while sound packs and the soundboard keep their Mudrix page.
+- **The system accent colour row is last** in Appearance, under the Carbon theme, because it only applies there.
+- **Settings search was removed from the desktop settings dialog** and kept on the mobile settings list, where
+  scrolling through 20 pages is the slow part. Room and space settings keep their own search.
+- **The space rail defaults to the core's stream order.** A stored old-app order (`wz_space_order`) is honoured until
+  the user drags a space; after the first drag the new order is written to room account data and the old key is
+  ignored.
+
+## Rooms, threads and room lists
+
+- **An unnamed two-person room stays a room, not a DM.** Core rule: only a room in `m.direct` is a DM
+  (`crates/core/src/rooms.rs`). The old app guessed from the member count; that guess is deliberately not ported, and
+  such a room is listed under Rooms. R8 in the parity matrix records this as **won't-do** everywhere.
+- **Thread support is on app-wide.** The core enables SDK thread support, so thread replies never count toward a
+  room's badge and threads are available in every room that has them.
+- **The room list loads 20 events per room** (owner-approved), which is enough for the last-message preview and the
+  unread counts without loading full timelines for every room.
