@@ -35,7 +35,11 @@ let nextListener = 1;
 
 /** A callback already registered under a listener id */
 class ListenerRef {
-  constructor(readonly id: number) {}
+  readonly id: number;
+
+  constructor(id: number) {
+    this.id = id;
+  }
 }
 
 const released = new FinalizationRegistry<number>((handle) => transport?.release(handle));
@@ -77,6 +81,11 @@ function toError(error: unknown): Error {
   }
   const { message, ...rest } = (body ?? {}) as { message?: string };
   return Object.assign(new Error(message ?? 'unknown error'), rest);
+}
+
+/** The core's rejection for a call on an object already released (`this MudrixClient was released`) */
+export function isReleasedError(error: unknown): boolean {
+  return error instanceof Error && /^this \S+ was released$/.test(error.message);
 }
 
 async function encode(value: unknown, blobs: Uint8Array[], ids: number[]): Promise<unknown> {
@@ -168,7 +177,7 @@ export const runtime = {
     });
     send(method, self, registered, []).catch((error) => {
       listeners.delete(id);
-      console.error(`[mudrix-core] ${method} failed`, error);
+      if (!isReleasedError(error)) console.error(`[mudrix-core] ${method} failed`, error);
     });
     return new Sub(id);
   },
@@ -242,8 +251,11 @@ export class Remote {
 /** Stops a `watch...` stream. Streams also end on their own when the sync stops. */
 export class Subscription {
   private cancelled = false;
+  protected readonly listener: number;
 
-  constructor(protected readonly listener: number) {}
+  constructor(listener: number) {
+    this.listener = listener;
+  }
 
   cancel() {
     if (this.cancelled) return;
