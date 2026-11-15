@@ -186,6 +186,7 @@ enum ThemeDerive {
             statusWarning: base.statusWarning,
             statusInfo: base.statusInfo,
             statusMention: base.statusMention,
+            live: base.live,
             presenceOnline: base.presenceOnline,
             presenceAway: base.presenceAway,
             presenceBusy: base.presenceBusy,
