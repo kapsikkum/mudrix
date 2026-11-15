@@ -33,8 +33,8 @@ final class AuditLogTests: XCTestCase {
     func testUnknownMembershipCodeAndSenderNameFallBack() {
         let entries = AuditLog.entries(changes: [
             change(membership: .init(userId: "@bob:example.org", change: "SomethingNew")),
-            change(id: "$n", senderName: nil,
-                   membership: .init(userId: "@bob:example.org", displayName: "Bob", change: "Banned")),
+            change(id: "$n", membership: .init(userId: "@bob:example.org", displayName: "Bob", change: "Banned"),
+                   senderName: nil),
         ])
         XCTAssertEqual(entries.count, 1)
         XCTAssertEqual(entries.first?.actor, "alice")
