@@ -21,7 +21,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.DisplayFormats
 import chat.mudrix.android.matrix.TimeFormat
 import chat.mudrix.android.matrix.MessageMention
@@ -194,7 +194,7 @@ internal val LocalAnimatesMedia = compositionLocalOf { false }
 internal object Formats {
     private val zone get() = ZoneId.systemDefault()
     private val locale get() = Locale.getDefault()
-    private val prefs get() = WizardApplication.instance.prefs
+    private val prefs get() = MudrixApplication.instance.prefs
 
     /** "14:05" or "2:05 PM", as the time format setting says (the device's own by default) */
     fun time(instant: Instant): String {
@@ -244,5 +244,5 @@ internal object Formats {
         return if (hours > 0) String.format(locale, "%d:%02d:%02d", hours, minutes, secs) else String.format(locale, "%d:%02d", minutes, secs)
     }
 
-    fun fileSize(bytes: Long): String = Formatter.formatShortFileSize(WizardApplication.instance, bytes)
+    fun fileSize(bytes: Long): String = Formatter.formatShortFileSize(MudrixApplication.instance, bytes)
 }

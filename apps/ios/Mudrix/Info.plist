@@ -29,6 +29,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>mudrix</string>
+				<string>chat.mudrix</string>
 			</array>
 		</dict>
 	</array>

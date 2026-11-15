@@ -65,7 +65,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import chat.mudrix.android.LocalMedia
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.Emoji
 import chat.mudrix.android.matrix.ImagePack
 import chat.mudrix.android.matrix.PacksStore
@@ -86,7 +86,7 @@ enum class MediaPickerTab { emoji, stickers, gif }
 
 /** Settings the composer keeps on the device (drafts, recent emoji, GIF favourites) */
 internal val composerDefaults
-    get() = WizardApplication.instance.getSharedPreferences("composer", Context.MODE_PRIVATE)
+    get() = MudrixApplication.instance.getSharedPreferences("composer", Context.MODE_PRIVATE)
 
 /** The floating "liquid glass" background of the composer's bubbles */
 internal fun Modifier.floatingGlass(shape: Shape, color: androidx.compose.ui.graphics.Color) =

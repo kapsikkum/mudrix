@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import chat.mudrix.android.BuildConfig
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.MatrixSession
 import chat.mudrix.android.matrix.MessageNotifier
 import chat.mudrix.android.matrix.SessionClients
@@ -32,7 +32,7 @@ object Push {
 
     private val mutex = Mutex()
     private val registered
-        get() = WizardApplication.instance.getSharedPreferences("push", Context.MODE_PRIVATE)
+        get() = MudrixApplication.instance.getSharedPreferences("push", Context.MODE_PRIVATE)
 
     /** Points every signed-in account's pusher at this device's current token */
     suspend fun register(token: String? = null) {
@@ -108,7 +108,7 @@ object Push {
             if (data["unread"] == "0") MessageNotifier.shared.removeDelivered(userId)
             return
         }
-        val session = WizardApplication.instance.session
+        val session = MudrixApplication.instance.session
         if (session.userId == userId && session.syncState == SyncState.running) return
         try {
             val client = SessionClients.restore(stored)

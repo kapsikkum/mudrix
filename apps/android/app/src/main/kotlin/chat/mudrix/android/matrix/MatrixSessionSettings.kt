@@ -197,7 +197,7 @@ suspend fun MatrixSession.writeStatusMode(mode: String?) {
 suspend fun MatrixSession.ensureMudrixUserFlag() {
     val client = client ?: return
     val userId = client.userId ?: return
-    val defaults = chat.mudrix.android.WizardApplication.instance.getSharedPreferences("profile", android.content.Context.MODE_PRIVATE)
+    val defaults = chat.mudrix.android.MudrixApplication.instance.getSharedPreferences("profile", android.content.Context.MODE_PRIVATE)
     val done = "userFlagSet.$userId"
     if (defaults.getBoolean(done, false)) return
     val current = runCatching { client.profileField(userId, ProfileFields.IS_USER_KEYS.first()) }.getOrNull()

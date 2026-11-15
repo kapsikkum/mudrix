@@ -9,7 +9,7 @@ final class SettingsSyncTests: XCTestCase {
         let contents: [String: JSONValue] = [
             SettingsSync.settingsType: object(["theme": .string("Nord")]),
             SettingsSync.previousSettingsType: object(["theme": .string("Ocean")]),
-            SettingsSync.wizardchatSettingsType: object(["theme": .string("Carbon")]),
+            SettingsSync.upstreamSettingsType: object(["theme": .string("Carbon")]),
         ]
         XCTAssertEqual(SettingsSync.pick(contents)?["theme"], .string("Ocean"))
         XCTAssertTrue(SettingsSync.hasMudrixSettings(contents))
@@ -17,7 +17,7 @@ final class SettingsSyncTests: XCTestCase {
 
     func testPickFallsBackToTheBaseSettings() {
         let contents: [String: JSONValue] = [
-            SettingsSync.wizardchatSettingsType: object(["language": .string("de")]),
+            SettingsSync.upstreamSettingsType: object(["language": .string("de")]),
         ]
         XCTAssertEqual(SettingsSync.pick(contents)?["language"], .string("de"))
         XCTAssertFalse(SettingsSync.hasMudrixSettings(contents))
@@ -71,7 +71,7 @@ final class SettingsSyncTests: XCTestCase {
     func testNamespaceNames() {
         XCTAssertEqual(Namespace.mudrixKey("settings"), "io.github.kapsikkum.mudrix.settings")
         XCTAssertEqual(Namespace.legacyMudrixKey("settings"), "chat.mudrix.settings")
-        XCTAssertEqual(Namespace.wizardchatKey("settings"), "org.wizardchat.settings")
+        XCTAssertEqual(Namespace.upstreamKey("settings"), "org.wizardchat.settings")
     }
 
     func testCustomThemesKeepWellFormedEntriesOnly() {

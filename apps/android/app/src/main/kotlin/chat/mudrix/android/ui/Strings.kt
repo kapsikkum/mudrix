@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import java.util.concurrent.ConcurrentHashMap
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /**
  * Translations by their shared key (`auth.login`). The resources come from packages/i18n,
@@ -15,7 +15,7 @@ object L10n {
     private val strings = ConcurrentHashMap<String, Int>()
     private val plurals = ConcurrentHashMap<String, Int>()
 
-    private val context: Context get() = WizardApplication.instance
+    private val context: Context get() = MudrixApplication.instance
 
     @SuppressLint("DiscouragedApi")
     private fun id(cache: ConcurrentHashMap<String, Int>, type: String, key: String): Int =

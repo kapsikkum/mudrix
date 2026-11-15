@@ -17,25 +17,25 @@ class SettingsSyncTest {
     fun namesMatchTheWeb() {
         assertEquals("io.github.kapsikkum.mudrix.settings", SettingsSync.SETTINGS_TYPE)
         assertEquals("chat.mudrix.settings", SettingsSync.PREVIOUS_SETTINGS_TYPE)
-        assertEquals("org.wizardchat.settings", SettingsSync.WIZARDCHAT_SETTINGS_TYPE)
+        assertEquals("org.wizardchat.settings", SettingsSync.UPSTREAM_SETTINGS_TYPE)
         assertEquals("io.github.kapsikkum.mudrix.home_order", Namespace.mudrixKey("home_order"))
-        assertEquals("org.wizardchat.watch", Namespace.wizardchatKey("watch"))
+        assertEquals("org.wizardchat.watch", Namespace.upstreamKey("watch"))
     }
 
     @Test
     fun readsTheEarlierMudrixEventFirstThenFallsBack() {
         val previous = obj { put("language", "de") }
         val current = obj { put("language", "fr") }
-        val wizardchat = obj { put("language", "en") }
+        val upstream = obj { put("language", "en") }
         assertEquals(previous, SettingsSync.pick(mapOf(SettingsSync.PREVIOUS_SETTINGS_TYPE to previous, SettingsSync.SETTINGS_TYPE to current)))
-        assertEquals(current, SettingsSync.pick(mapOf(SettingsSync.SETTINGS_TYPE to current, SettingsSync.WIZARDCHAT_SETTINGS_TYPE to wizardchat)))
-        assertEquals(wizardchat, SettingsSync.pick(mapOf(SettingsSync.WIZARDCHAT_SETTINGS_TYPE to wizardchat)))
+        assertEquals(current, SettingsSync.pick(mapOf(SettingsSync.SETTINGS_TYPE to current, SettingsSync.UPSTREAM_SETTINGS_TYPE to upstream)))
+        assertEquals(upstream, SettingsSync.pick(mapOf(SettingsSync.UPSTREAM_SETTINGS_TYPE to upstream)))
         assertNull(SettingsSync.pick(mapOf(SettingsSync.SETTINGS_TYPE to JsonPrimitive("nope"))))
     }
 
     @Test
-    fun onlyWizardchatSettingsDoNotCountAsSaved() {
-        assertFalse(SettingsSync.hasMudrixSettings(mapOf(SettingsSync.WIZARDCHAT_SETTINGS_TYPE to obj { put("language", "en") })))
+    fun onlyUpstreamSettingsDoNotCountAsSaved() {
+        assertFalse(SettingsSync.hasMudrixSettings(mapOf(SettingsSync.UPSTREAM_SETTINGS_TYPE to obj { put("language", "en") })))
         assertTrue(SettingsSync.hasMudrixSettings(mapOf(SettingsSync.SETTINGS_TYPE to obj {})))
     }
 

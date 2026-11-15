@@ -48,6 +48,22 @@ apps/web/src/util/notificationSounds.ts :: clientPack\('wizardchat', 'Original'
 apps/web/src/app/features/calls/watchTogether/youtube.ts :: wizardchat-youtube|\.wizardchat\.org/youtube-player\.html
 apps/web/public/youtube-player.html :: wizardchat-youtube
 
+# The same upstream-hosted bridge page as the base URL of the native YouTube/Watch Together cards.
+apps/android/app/src/main/kotlin/chat/mudrix/android/ui/room/YouTubeCard.kt :: https://app\.wizardchat\.org/
+apps/android/app/src/main/kotlin/chat/mudrix/android/ui/voice/WatchTogetherUi.kt :: https://app\.wizardchat\.org/
+apps/ios/Mudrix/Views/Messages/YouTubeCard.swift :: https://app\.wizardchat\.org/
+apps/ios/Mudrix/Views/Voice/WatchTogetherViews.swift :: https://app\.wizardchat\.org/
+
+# RELEASING.md explains why upstream's GitLab pipeline files are still in the tree (they are referenced from there, so
+# they cannot be deleted yet).
+RELEASING.md :: upstream WizardChat's GitLab pipeline|wizardchat\.org
+
+# The branding gate's own summary names the string it searches for; the workflow file is not a user-visible surface.
+.github/workflows/branding-gate.yml :: "wizardchat"
+
+# Released "what's new" text: it credits the upstream project the update button links to. Attribution, not branding.
+whatsnew/*.md :: credits link WizardChat
+
 # Desktop update feeds for already-installed old desktop builds: they point at real published asset names.
 apps/web/public/desktop/latest*.yml :: /WizardChat-
 
@@ -56,3 +72,36 @@ apps/web/src/app/features/settings/about/About.tsx :: WIZARDCHAT_URL|gitlab\.com
 
 # Test asserting the exported key file name contains no upstream name.
 apps/web/tests/roomKeys.test.ts :: !/wizardchat/i\.test
+
+# Data compatibility (mobile): the same upstream namespace family and settings event as on the web, still read so
+# existing accounts keep their synced settings, home order and watch sessions. Android and iOS each spell them out in
+# one file, as the web does in util/namespace.ts.
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/Namespace.kt :: org\.wizardchat
+apps/ios/Mudrix/Matrix/Namespace.swift :: org\.wizardchat
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/SettingsSync.kt :: io\.gitlab\.wizardchat\.settings
+apps/ios/Mudrix/Matrix/SettingsSync.swift :: io\.gitlab\.wizardchat\.settings
+
+# The tests pin those literals on purpose: they are the stored names existing accounts still have, so a "cleanup" that
+# changed them must fail loudly.
+apps/android/app/src/test/kotlin/chat/mudrix/android/matrix/SettingsSyncTest.kt :: org\.wizardchat\.(settings|watch)
+apps/ios/MudrixTests/SettingsSyncTests.swift :: org\.wizardchat\.settings
+apps/ios/MudrixTests/GifFavouritesTests.swift :: org\.wizardchat\.gif_favourites
+
+# The Android Keystore alias of the AES key that unlocks accounts.bin (sessions and every E2EE store passphrase). The key
+# cannot be exported or renamed; a new alias would leave every existing install unable to decrypt its accounts. Forever.
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/SessionStore.kt :: org\.wizardchat\.session
+
+# The sign-in redirect scheme hosts and client registrations know from before the rename. Android also accepts
+# chat.mudrix for new sign-ins but keeps this one in its intent filter; iOS signs in on it (ASWebAuthenticationSession
+# watches one scheme). Kept forever.
+apps/android/app/src/main/AndroidManifest.xml :: org\.wizardchat
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/MatrixSession.kt :: UPSTREAM_CALLBACK_SCHEME = "org\.wizardchat"
+apps/ios/Mudrix/Matrix/MatrixSession.swift :: callbackScheme = "org\.wizardchat"
+
+# The stored id of the upstream message-sound pack: a value inside users' synced settings (notificationSoundPack).
+# Renaming it would silently change their sound. Its display name is "Original".
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/SoundPacks.kt :: clientPack\("wizardchat"
+apps/ios/Mudrix/Matrix/SoundPacks.swift :: clientPack\("wizardchat"
+apps/android/app/src/test/kotlin/chat/mudrix/android/matrix/SoundPacksTest.kt :: resource\("wizardchat"
+apps/ios/MudrixTests/SoundPacksTests.swift :: resource\("wizardchat"
+packages/sounds/LICENSES.md :: \| wizardchat \| WizardChat

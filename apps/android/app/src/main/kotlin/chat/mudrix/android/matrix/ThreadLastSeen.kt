@@ -2,7 +2,7 @@ package chat.mudrix.android.matrix
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateMapOf
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.ThreadInfo
 
 /**
@@ -12,7 +12,7 @@ import chat.mudrix.core.ThreadInfo
  */
 object ThreadLastSeen {
     private val seen = mutableStateMapOf<String, Long>()
-    private val prefs by lazy { WizardApplication.instance.getSharedPreferences("thread_last_seen", Context.MODE_PRIVATE) }
+    private val prefs by lazy { MudrixApplication.instance.getSharedPreferences("thread_last_seen", Context.MODE_PRIVATE) }
     private var loaded = false
 
     private fun load() {

@@ -30,7 +30,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import chat.mudrix.android.MainActivity
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.rtc.Sounds
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.PhIcons
@@ -58,7 +58,7 @@ class MessageNotifier {
     private var subscription: Subscription? = null
     private var badge = 0
     private val scope = MainScope()
-    private val context: Context get() = WizardApplication.instance
+    private val context: Context get() = MudrixApplication.instance
     private val manager get() = NotificationManagerCompat.from(context)
 
     fun start(roomList: RoomListModel, prefs: AppPreferences) {
@@ -95,7 +95,7 @@ class MessageNotifier {
     }
 
     suspend fun show(notification: Notification, client: WizardClient, roomAvatar: String? = notification.roomAvatarUrl) {
-        val prefs = prefs ?: WizardApplication.instance.prefs
+        val prefs = prefs ?: MudrixApplication.instance.prefs
         if (!(prefs.notificationBanners || prefs.notificationSounds) || notification.roomId == activeRoomId) return
         if (!canPost()) return
         createChannels()
@@ -151,7 +151,7 @@ class MessageNotifier {
     }
 
     fun showPlaceholder(userId: String, roomId: String, eventId: String) {
-        val prefs = prefs ?: WizardApplication.instance.prefs
+        val prefs = prefs ?: MudrixApplication.instance.prefs
         if (!(prefs.notificationBanners || prefs.notificationSounds) || !canPost()) return
         createChannels()
         val sound = prefs.notificationSounds
@@ -227,7 +227,7 @@ class MessageNotifier {
     /** A reminder that fell due while the app is in the background; tapping it opens the message */
     fun notifyReminder(roomId: String, eventId: String, title: String, text: String) {
         if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED) || !canPost()) return
-        val userId = WizardApplication.instance.session.userId ?: return
+        val userId = MudrixApplication.instance.session.userId ?: return
         createChannels()
         val open = PendingIntent.getActivity(
             context,
@@ -314,16 +314,16 @@ class MessageNotifier {
     }
 
     private suspend fun openAccount(userId: String) {
-        val session = WizardApplication.instance.session
+        val session = MudrixApplication.instance.session
         if (session.state == MatrixSession.State.Restoring) runCatching { session.restore() }
         if (session.userId != userId) session.switchAccount(userId)
     }
 
-    private fun currentRoomList() = roomList ?: WizardApplication.instance.session.roomList
+    private fun currentRoomList() = roomList ?: MudrixApplication.instance.session.roomList
 
     /** Waits for the room list, which may still be loading when the app was started for this */
     private suspend fun room(roomId: String): RoomSummary? {
-        if (roomList == null) runCatching { WizardApplication.instance.session.restore() }
+        if (roomList == null) runCatching { MudrixApplication.instance.session.restore() }
         repeat(40) {
             currentRoomList()?.room(roomId)?.let { return it }
             delay(250)
@@ -384,7 +384,7 @@ class NotifierActivity : Activity() {
         }
         val notifier = MessageNotifier.shared
         intent.getStringExtra(MessageNotifier.EXTRA_USER)?.let { userId ->
-            if (userId != WizardApplication.instance.session.userId) notifier.accountToOpen = userId
+            if (userId != MudrixApplication.instance.session.userId) notifier.accountToOpen = userId
         }
         val room = intent.getStringExtra(MessageNotifier.EXTRA_ROOM)
         room?.let { notifier.roomToOpen = it }

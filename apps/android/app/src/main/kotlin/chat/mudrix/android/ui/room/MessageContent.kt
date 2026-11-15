@@ -235,7 +235,7 @@ internal suspend fun saveToPhotos(context: Context, file: File, mimetype: String
                 put(MediaStore.Images.Media.DISPLAY_NAME, file.name)
                 put(MediaStore.Images.Media.MIME_TYPE, mimetype)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    put(MediaStore.Images.Media.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/WizardChat")
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/Mudrix")
                     put(MediaStore.Images.Media.IS_PENDING, 1)
                 }
             }

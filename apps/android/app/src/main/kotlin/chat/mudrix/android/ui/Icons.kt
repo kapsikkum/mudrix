@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import java.util.concurrent.ConcurrentHashMap
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.tokens.WZ
 
 /** Phosphor icon weights, as in packages/icons */
@@ -24,9 +24,9 @@ object PhIcons {
     fun id(name: String, weight: PhWeight = PhWeight.regular): Int {
         val key = "ph_${name.replace('-', '_')}_${weight.name}"
         return ids.getOrPut(key) {
-            val context = WizardApplication.instance
+            val context = MudrixApplication.instance
             context.resources.getIdentifier(key, "drawable", context.packageName).also {
-                if (it == 0) android.util.Log.w("WizardChat", "No icon $key: add it to packages/icons/src/icons.json")
+                if (it == 0) android.util.Log.w("Mudrix", "No icon $key: add it to packages/icons/src/icons.json")
             }
         }
     }

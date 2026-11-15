@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.util.Locale
 import kotlinx.serialization.Serializable
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.CoreJson
 import chat.mudrix.core.EmojiPack
 import chat.mudrix.core.PackImage
@@ -77,7 +77,7 @@ data class Emoji(
 
         private val file: File? by lazy {
             runCatching {
-                val json = WizardApplication.instance.assets.open("emoji.json").bufferedReader().use { it.readText() }
+                val json = MudrixApplication.instance.assets.open("emoji.json").bufferedReader().use { it.readText() }
                 CoreJson.decodeFromString(File.serializer(), json)
             }.getOrNull()
         }

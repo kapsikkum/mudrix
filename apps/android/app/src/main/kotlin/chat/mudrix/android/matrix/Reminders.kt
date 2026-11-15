@@ -114,7 +114,7 @@ class Reminders private constructor() {
             return
         }
         val body = SavedMessages.resolve(client, SavedMessage(reminder.roomId, reminder.eventId, 0))?.body.orEmpty()
-        val roomName = chat.mudrix.android.WizardApplication.instance.session.roomList?.room(reminder.roomId)?.displayName
+        val roomName = chat.mudrix.android.MudrixApplication.instance.session.roomList?.room(reminder.roomId)?.displayName
         val title = L10n.format("reminders.title") + roomName?.let { " · $it" }.orEmpty()
         CopyToast.show(listOf(title, body.lineSequence().firstOrNull().orEmpty()).filter { it.isNotEmpty() }.joinToString(": "))
         MessageNotifier.shared.notifyReminder(reminder.roomId, reminder.eventId, title, body.lineSequence().firstOrNull().orEmpty())

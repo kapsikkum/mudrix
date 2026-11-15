@@ -1,5 +1,5 @@
 {
-  "$description": "Blossom (from the original WizardChat themes)",
+  "$description": "Blossom (from the original upstream themes)",
   "$extensions": {
     "chat.mudrix.theme": {
       "id": "blossom",

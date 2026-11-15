@@ -18,7 +18,7 @@ import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.DownloadProgress
 import chat.mudrix.core.MediaSource
 import chat.mudrix.core.WizardClient
@@ -30,7 +30,7 @@ class MediaLoader(val client: WizardClient) {
     }
     private val animatedCache = LruCache<String, Drawable>(24)
     private val inFlight = HashMap<String, CompletableDeferred<Bitmap?>>()
-    private val files = File(WizardApplication.instance.cacheDir, "media")
+    private val files = File(MudrixApplication.instance.cacheDir, "media")
 
     fun cachedThumbnail(key: String): Bitmap? = cache.get(key)
 

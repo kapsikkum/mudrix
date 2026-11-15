@@ -6,7 +6,7 @@ import android.util.LruCache
 import com.caverock.androidsvg.SVG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /**
  * Draws the SVG art to bitmaps once and keeps them. AndroidSVG covers shapes, gradients, clips and styles; it
@@ -27,7 +27,7 @@ object CosmeticArt {
     }
 
     private fun render(path: String, width: Int): Bitmap? = runCatching {
-        val svg = SVG.getFromAsset(WizardApplication.instance.assets, path)
+        val svg = SVG.getFromAsset(MudrixApplication.instance.assets, path)
         val box = svg.documentViewBox
         val sourceWidth = if (box != null && box.width() > 0f) box.width() else svg.documentWidth
         val sourceHeight = if (box != null && box.height() > 0f) box.height() else svg.documentHeight

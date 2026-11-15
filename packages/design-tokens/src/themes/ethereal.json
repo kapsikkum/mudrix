@@ -1,5 +1,5 @@
 {
-  "$description": "Ethereal (from the original WizardChat themes)",
+  "$description": "Ethereal (from the original upstream themes)",
   "$extensions": {
     "chat.mudrix.theme": {
       "id": "ethereal",

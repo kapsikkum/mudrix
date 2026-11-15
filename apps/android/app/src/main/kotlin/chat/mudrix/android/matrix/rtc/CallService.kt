@@ -22,7 +22,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.plus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.CallManager
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.PhIcons
@@ -56,7 +56,7 @@ class CallNotificationController {
     private var lastUpdate = 0L
     private var pending: Job? = null
     private val scope = MainScope() + CoroutineExceptionHandler { _, error -> Log.w("WZCALL", "call notification failed", error) }
-    private val context: Context get() = WizardApplication.instance
+    private val context: Context get() = MudrixApplication.instance
 
     fun start(roomName: String, isDirect: Boolean, state: CallActivityState) {
         end()

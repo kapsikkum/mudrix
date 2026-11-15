@@ -179,12 +179,12 @@ struct ThemeMenuRow: View {
 private struct ChatPreview: View {
     @EnvironmentObject private var session: MatrixSession
 
-    private static let otherId = "@merlin:wizardchat.org"
+    private static let otherId = "@merlin:example.org"
     private static let otherName = "Merlin"
 
     var body: some View {
         let now = Date()
-        let myId = session.userId ?? "@you:wizardchat.org"
+        let myId = session.userId ?? "@you:example.org"
         let myName = session.displayName ?? session.userId ?? "You"
         VStack(spacing: WZ.Space.space0) {
             MessageRow(entry: entry(

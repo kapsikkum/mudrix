@@ -30,7 +30,7 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.media.CompressTarget
 import chat.mudrix.android.media.FileSize
 import chat.mudrix.android.media.ImagePrep
@@ -575,7 +575,7 @@ class TimelineModel(
         val meta = VideoMeta(duration, width, height, input.length() * 8.0 / duration)
         var cancelled = false
         val work = scope.async {
-            VideoCompressor.compress(WizardApplication.instance, input, meta, target, filename.substringBeforeLast('.', filename) + ".mp4") { fraction ->
+            VideoCompressor.compress(MudrixApplication.instance, input, meta, target, filename.substringBeforeLast('.', filename) + ".mp4") { fraction ->
                 updateUpload(id) { it.copy(progress = fraction) }
             }
         }
@@ -717,19 +717,19 @@ class TimelineModel(
     }
 
     private suspend fun readBytes(uri: Uri): ByteArray = withContext(Dispatchers.IO) {
-        WizardApplication.instance.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        MudrixApplication.instance.contentResolver.openInputStream(uri)?.use { it.readBytes() }
     } ?: throw IllegalStateException(L10n.format("common.somethingWentWrong"))
 
     private fun filenameOf(uri: Uri): String =
         displayName(uri) ?: uri.lastPathSegment?.substringAfterLast('/') ?: "file"
 
     private fun mimeTypeOf(uri: Uri): String =
-        WizardApplication.instance.contentResolver.getType(uri)?.takeIf { it != "application/octet-stream" }
+        MudrixApplication.instance.contentResolver.getType(uri)?.takeIf { it != "application/octet-stream" }
             ?: mimeType(filenameOf(uri))
 
     private suspend fun decodePreview(uri: Uri): Bitmap? = withContext(Dispatchers.IO) {
         runCatching {
-            WizardApplication.instance.contentResolver.openInputStream(uri)?.use {
+            MudrixApplication.instance.contentResolver.openInputStream(uri)?.use {
                 BitmapFactory.decodeStream(it, null, BitmapFactory.Options().apply { inSampleSize = 4 })
             }
         }.getOrNull()
@@ -859,11 +859,11 @@ class TimelineModel(
                     current.timestamp.toEpochMilli() - previous.timestamp.toEpochMilli() < GROUPING_INTERVAL_MS,
             )
         }
-        this.entries = if (kind == TimelineKind.Main && onlyTypes == null && WizardApplication.instance.prefs.groupImages) collapseGalleries(entries) else entries
+        this.entries = if (kind == TimelineKind.Main && onlyTypes == null && MudrixApplication.instance.prefs.groupImages) collapseGalleries(entries) else entries
     }
 
     private fun displayName(uri: Uri): String? = runCatching {
-        WizardApplication.instance.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use {
+        MudrixApplication.instance.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use {
             if (it.moveToFirst()) it.getString(0) else null
         }
     }.getOrNull()
@@ -968,12 +968,12 @@ class TimelineModel(
                 is EntryContent.Redacted -> ChatEntry.Kind.Redacted
                 is EntryContent.UnableToDecrypt -> ChatEntry.Kind.Undecryptable(decryptionMessage(content.reason), content.reason)
                 is EntryContent.Membership -> {
-                    if (WizardApplication.instance.prefs.hideMembershipEvents) return null
+                    if (MudrixApplication.instance.prefs.hideMembershipEvents) return null
                     val text = describe(content, event.senderName ?: event.sender) ?: return null
                     ChatEntry.Kind.System(text)
                 }
                 is EntryContent.ProfileChange -> {
-                    if (WizardApplication.instance.prefs.hideProfileEvents) return null
+                    if (MudrixApplication.instance.prefs.hideProfileEvents) return null
                     ChatEntry.Kind.System(L10n.format("mobile.profileChanged", event.senderName ?: content.userId))
                 }
                 is EntryContent.Call -> ChatEntry.Kind.Call(content.call)

@@ -9,7 +9,7 @@ import chat.mudrix.android.matrix.MatrixSession
 import chat.mudrix.android.matrix.MediaLoader
 import chat.mudrix.core.CoreInit
 
-class WizardApplication : Application() {
+class MudrixApplication : Application() {
     lateinit var session: MatrixSession
         private set
     lateinit var prefs: AppPreferences
@@ -26,7 +26,7 @@ class WizardApplication : Application() {
     }
 
     companion object {
-        lateinit var instance: WizardApplication
+        lateinit var instance: MudrixApplication
             private set
     }
 }

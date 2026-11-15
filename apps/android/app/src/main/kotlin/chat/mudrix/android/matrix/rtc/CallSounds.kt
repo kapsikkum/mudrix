@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /** Short call sounds from `res/raw` (join, leave, ringing) */
 object CallSounds {
@@ -18,7 +18,7 @@ object CallSounds {
         "reaction" to "reaction", "watch_together_start" to "watchTogether",
     )
 
-    private val defaults get() = WizardApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
+    private val defaults get() = MudrixApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
 
     fun isOn(toggle: String): Boolean = defaults.getBoolean("voice.sound.$toggle", true)
 
@@ -48,7 +48,7 @@ object CallSounds {
     @SuppressLint("DiscouragedApi")
     private fun makePlayer(name: String, ringtone: Boolean, volume: Float): MediaPlayer? {
         if (!isOn(toggles[name] ?: name)) return null
-        val context = WizardApplication.instance
+        val context = MudrixApplication.instance
         val id = context.resources.getIdentifier(name, "raw", context.packageName)
         if (id == 0) return null
         val attributes = AudioAttributes.Builder()

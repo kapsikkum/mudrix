@@ -57,7 +57,7 @@ import chat.mudrix.android.ui.tr
 import chat.mudrix.tokens.WZ
 
 class MainActivity : AppCompatActivity() {
-    private val app get() = application as WizardApplication
+    private val app get() = application as MudrixApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handle(intent: Intent?) {
         val uri = intent?.data ?: return
-        if (uri.scheme == MatrixSession.CALLBACK_SCHEME) BrowserLogin.callback(uri)
+        if (uri.scheme in MatrixSession.CALLBACK_SCHEMES) BrowserLogin.callback(uri)
     }
 }
 

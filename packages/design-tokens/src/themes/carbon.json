@@ -1,5 +1,5 @@
 {
-  "$description": "Carbon (from the original WizardChat themes)",
+  "$description": "Carbon (from the original upstream themes)",
   "$extensions": {
     "chat.mudrix.theme": {
       "id": "carbon",

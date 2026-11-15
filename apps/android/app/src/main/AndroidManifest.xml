@@ -16,7 +16,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".WizardApplication"
+        android:name=".MudrixApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
@@ -34,11 +34,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- The server's sign-in page redirects back here (org.wizardchat:/callback) -->
+            <!-- The server's sign-in page redirects back here: new sign-ins on chat.mudrix:/callback,
+                 and the pages and client registrations made before the rename on
+                 org.wizardchat:/callback (separate <data> elements: their attributes are ORed) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="chat.mudrix" />
                 <data android:scheme="org.wizardchat" />
             </intent-filter>
         </activity>

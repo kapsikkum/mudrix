@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.push.KeepAliveService
 import chat.mudrix.android.push.Push
 import chat.mudrix.android.push.PushProvider
@@ -281,7 +281,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     }
 
     init {
-        val manager = WizardApplication.instance.getSystemService(ConnectivityManager::class.java)
+        val manager = MudrixApplication.instance.getSystemService(ConnectivityManager::class.java)
         networkAvailable = manager?.activeNetwork != null
         manager?.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -455,8 +455,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                 }
             }
             Push.register()
-            PushProvider.apply(WizardApplication.instance)
-            KeepAliveService.apply(WizardApplication.instance)
+            PushProvider.apply(MudrixApplication.instance)
+            KeepAliveService.apply(MudrixApplication.instance)
         }
         state = State.LoggedIn
     }
@@ -490,7 +490,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         SessionStore.remove(stored.session.userId)
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()
-        KeepAliveService.apply(WizardApplication.instance)
+        KeepAliveService.apply(MudrixApplication.instance)
         state = State.Restoring
         restore()
     }
@@ -499,7 +499,19 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         /** What the web app assumes until the server says otherwise */
         const val DEFAULT_UPLOAD_LIMIT = 15L * 1024 * 1024
         const val DEVICE_NAME = "Mudrix Android"
-        const val CALLBACK_SCHEME = "org.wizardchat"
+        /** The redirect scheme new sign-ins are registered with */
+        const val CALLBACK_SCHEME = "chat.mudrix"
+
+        /**
+         * The upstream base's redirect scheme: sign-in pages and client registrations made before the
+         * rename still send the redirect back on it, and the manifest keeps its intent filter, so those
+         * sign-ins finish too.
+         */
+        const val UPSTREAM_CALLBACK_SCHEME = "org.wizardchat"
+
+        /** Every scheme a sign-in redirect can come back on */
+        val CALLBACK_SCHEMES = setOf(CALLBACK_SCHEME, UPSTREAM_CALLBACK_SCHEME)
+
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"
         val APP = AppInfo(name = "Mudrix", clientUri = "https://github.com/kapsikkum/mudrix")
     }

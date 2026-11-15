@@ -6,7 +6,7 @@ import MudrixCore
 /// `{ urls: [...] }` under `io.github.kapsikkum.mudrix.gif_favourites`, newest first and at most 50.
 ///
 /// The picker kept them on this device only (`@AppStorage("gifFavourites")`) until now; `migrateLegacy`
-/// folds that list into the account's once. The WizardChat base's event is read until the first save
+/// folds that list into the account's once. The upstream base's event is read until the first save
 /// writes the Mudrix one, as the web does.
 @MainActor
 final class GifFavourites: ObservableObject {
@@ -17,7 +17,7 @@ final class GifFavourites: ObservableObject {
 
     static let type = Namespace.mudrixKey("gif_favourites")
     /// Where the base this app is forked from kept them; never written
-    static let upstreamType = Namespace.wizardchatKey("gif_favourites")
+    static let upstreamType = Namespace.upstreamKey("gif_favourites")
     static let readTypes = [type, upstreamType]
 
     /// The device-only list the picker used before this existed

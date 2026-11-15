@@ -14,14 +14,14 @@ enum SettingsSync {
     /// Every name a save writes
     static let writeTypes = [settingsType, previousSettingsType]
 
-    /// The WizardChat base's flat settings, a fallback that is never written
-    static let wizardchatSettingsType = Namespace.wizardchatKey("settings")
+    /// The upstream base's flat settings, a fallback that is never written
+    static let upstreamSettingsType = Namespace.upstreamKey("settings")
 
-    /// The older WizardChat web app's event
-    static let legacySettingsType = "io.gitlab.wizardchat.settings"
+    /// The upstream base's older web app event
+    static let upstreamLegacySettingsType = "io.gitlab.wizardchat.settings"
 
     /// Every settings event, best source first
-    static let readTypes = [previousSettingsType, settingsType, wizardchatSettingsType, legacySettingsType]
+    static let readTypes = [previousSettingsType, settingsType, upstreamSettingsType, upstreamLegacySettingsType]
 
     static func object(_ value: JSONValue?) -> [String: JSONValue]? {
         if case .object(let fields)? = value { return fields }
@@ -36,7 +36,7 @@ enum SettingsSync {
         return nil
     }
 
-    /// Whether the account has saved Mudrix settings yet (as opposed to only WizardChat's)
+    /// Whether the account has saved Mudrix settings yet (as opposed to only the upstream base's)
     static func hasMudrixSettings(_ contents: [String: JSONValue]) -> Bool {
         writeTypes.contains { object(contents[$0]) != nil }
     }
@@ -187,7 +187,7 @@ final class SettingsSyncer {
         let next = prefs.settingsSnapshot()
         var current: [String: JSONValue] = [:]
         if let raw = SettingsSync.pick(contents) { current = prefs.sanitizeSettings(raw) }
-        // Until the first save there is no Mudrix event, only (maybe) WizardChat's copy to carry over
+        // Until the first save there is no Mudrix event, only (maybe) the upstream base's copy to carry over
         let hasSaved = SettingsSync.hasMudrixSettings(contents)
         if hasSaved && SettingsSync.stable(.object(next)) == SettingsSync.stable(.object(current)) { return }
         // Under the current name and the one earlier versions read, so devices not updated yet keep following

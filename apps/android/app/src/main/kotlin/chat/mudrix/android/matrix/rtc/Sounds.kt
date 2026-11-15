@@ -2,13 +2,13 @@ package chat.mudrix.android.matrix.rtc
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.SoundKind
 import chat.mudrix.android.matrix.SoundPacks
 
 /** The sounds the user chose in Settings > Voice & Audio: a pack, an override per sound and a volume */
 object Sounds {
-    private val prefs get() = WizardApplication.instance.prefs
+    private val prefs get() = MudrixApplication.instance.prefs
 
     private class Choice(val resource: String, val volume: Float)
 

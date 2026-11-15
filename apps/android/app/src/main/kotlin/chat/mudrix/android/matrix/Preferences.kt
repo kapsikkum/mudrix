@@ -370,7 +370,7 @@ class AppPreferences(context: Context) {
      */
     fun sanitizeSettings(raw: JsonObject): JsonObject = buildJsonObject {
         for ((key, synced) in syncedTopLevel) raw[key]?.let(synced.normalise)?.let { put(key, it) }
-        // The WizardChat base keeps the preferences next to the theme instead of in a `preferences` object
+        // The upstream base keeps the preferences next to the theme instead of in a `preferences` object
         val flat = LinkedHashMap<String, JsonElement>(raw)
         LEGACY_KEYS.forEach { (old, current) -> if (current !in flat) raw[old]?.let { flat[current] = it } }
         (raw["preferences"] as? JsonObject)?.let { flat.putAll(it) }

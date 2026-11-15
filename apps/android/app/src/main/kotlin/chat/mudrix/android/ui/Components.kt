@@ -76,7 +76,7 @@ import kotlinx.coroutines.delay
 import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.ui.theme.hueColor
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -385,7 +385,7 @@ object CopyToast {
 }
 
 fun copyToClipboard(text: String, message: String = L10n.format("common.copied")) {
-    val clipboard = WizardApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clipboard = MudrixApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(null, text))
     CopyToast.show(message)
 }

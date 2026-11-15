@@ -28,20 +28,20 @@ object SettingsSync {
     /** Every name a save writes */
     val WRITE_TYPES = listOf(SETTINGS_TYPE, PREVIOUS_SETTINGS_TYPE)
 
-    /** The WizardChat base's flat settings, a fallback that is never written */
-    val WIZARDCHAT_SETTINGS_TYPE = Namespace.wizardchatKey("settings")
+    /** The upstream base's flat settings, a fallback that is never written */
+    val UPSTREAM_SETTINGS_TYPE = Namespace.upstreamKey("settings")
 
-    /** The older WizardChat web app's event */
-    const val LEGACY_SETTINGS_TYPE = "io.gitlab.wizardchat.settings"
+    /** The upstream base's older web app event */
+    const val UPSTREAM_LEGACY_SETTINGS_TYPE = "io.gitlab.wizardchat.settings"
 
     /** Every settings event, best source first */
-    val READ_TYPES = listOf(PREVIOUS_SETTINGS_TYPE, SETTINGS_TYPE, WIZARDCHAT_SETTINGS_TYPE, LEGACY_SETTINGS_TYPE)
+    val READ_TYPES = listOf(PREVIOUS_SETTINGS_TYPE, SETTINGS_TYPE, UPSTREAM_SETTINGS_TYPE, UPSTREAM_LEGACY_SETTINGS_TYPE)
 
     /** The first settings event the account has, in the order of [READ_TYPES] */
     fun pick(contents: Map<String, JsonElement?>): JsonObject? =
         READ_TYPES.firstNotNullOfOrNull { contents[it] as? JsonObject }
 
-    /** Whether the account has saved Mudrix settings yet (as opposed to only WizardChat's) */
+    /** Whether the account has saved Mudrix settings yet (as opposed to only the upstream base's) */
     fun hasMudrixSettings(contents: Map<String, JsonElement?>): Boolean =
         WRITE_TYPES.any { contents[it] is JsonObject }
 
@@ -152,7 +152,7 @@ class SettingsSyncer(
     private suspend fun push() {
         val next = prefs.settingsSnapshot()
         val current = SettingsSync.pick(contents)?.let(prefs::sanitizeSettings) ?: JsonObject(emptyMap())
-        // Until the first save there is no Mudrix event, only (maybe) WizardChat's copy to carry over
+        // Until the first save there is no Mudrix event, only (maybe) the upstream base's copy to carry over
         val hasSaved = SettingsSync.hasMudrixSettings(contents)
         if (hasSaved && SettingsSync.stable(next) == SettingsSync.stable(current)) return
         // Under the current name and the one earlier versions read, so devices not updated yet keep following

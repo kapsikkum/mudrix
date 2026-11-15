@@ -11,7 +11,7 @@ import java.io.InputStream
 import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /** Pixel sizes and durations of local files before they're sent */
 object MediaMetadata {
@@ -20,11 +20,11 @@ object MediaMetadata {
     suspend fun imageSize(uri: Uri): Pair<Int, Int>? = withContext(Dispatchers.IO) {
         runCatching {
             val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            WizardApplication.instance.contentResolver.openInputStream(uri)?.use {
+            MudrixApplication.instance.contentResolver.openInputStream(uri)?.use {
                 BitmapFactory.decodeStream(it, null, options)
             }
             if (options.outWidth <= 0 || options.outHeight <= 0) return@runCatching null
-            val rotated = WizardApplication.instance.contentResolver.openInputStream(uri)?.use(::isRotated) ?: false
+            val rotated = MudrixApplication.instance.contentResolver.openInputStream(uri)?.use(::isRotated) ?: false
             if (rotated) options.outHeight to options.outWidth else options.outWidth to options.outHeight
         }.getOrNull()
     }
@@ -66,7 +66,7 @@ object MediaMetadata {
     }
 
     suspend fun temporaryCopy(data: ByteArray, filename: String): File = withContext(Dispatchers.IO) {
-        val dir = File(WizardApplication.instance.cacheDir, UUID.randomUUID().toString())
+        val dir = File(MudrixApplication.instance.cacheDir, UUID.randomUUID().toString())
         dir.mkdirs()
         File(dir, filename).also { it.writeBytes(data) }
     }
@@ -74,7 +74,7 @@ object MediaMetadata {
     private fun <T> retrieve(uri: Uri, read: (MediaMetadataRetriever) -> T): T? {
         val retriever = MediaMetadataRetriever()
         return try {
-            retriever.setDataSource(WizardApplication.instance, uri)
+            retriever.setDataSource(MudrixApplication.instance, uri)
             read(retriever)
         } catch (_: Exception) {
             null

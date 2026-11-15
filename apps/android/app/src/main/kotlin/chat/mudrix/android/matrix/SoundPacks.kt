@@ -58,7 +58,7 @@ object SoundPacks {
         mudrixPack("megadrive2", "Velvet"),
         mudrixPack("nes2", "Shuffle"),
         mudrixPack("sms", "Chirp"),
-        clientPack("wizardchat", "WizardChat", listOf(SoundKind.Message), alert = true),
+        clientPack("wizardchat", "Original", listOf(SoundKind.Message), alert = true),
         clientPack("element", "Element", listOf(SoundKind.Message, SoundKind.Ring, SoundKind.Ringback, SoundKind.CallEnd)),
         clientPack("cinny", "Cinny", listOf(SoundKind.Message, SoundKind.Mention)),
         clientPack("fluffychat", "FluffyChat", listOf(SoundKind.Message, SoundKind.Mention, SoundKind.Ring, SoundKind.CallEnd)),

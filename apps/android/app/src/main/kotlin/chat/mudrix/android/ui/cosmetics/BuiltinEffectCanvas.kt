@@ -41,7 +41,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
 import chat.mudrix.android.LocalPrefs
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /** Draws one built-in effect over its bounds, following the web app's canvas effects */
 @Composable
@@ -600,7 +600,7 @@ private class EeveeArt(private val normal: EeveeStrip?, private val shiny: Eevee
         }
 
         private fun decode(path: String): EeveeStrip? = runCatching {
-            val strip = BitmapFactory.decodeStream(WizardApplication.instance.assets.open(path))
+            val strip = BitmapFactory.decodeStream(MudrixApplication.instance.assets.open(path))
             strip?.let { EeveeStrip(tiles(it)) }
         }.getOrNull()
 

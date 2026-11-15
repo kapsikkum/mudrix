@@ -87,9 +87,9 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
     var notificationsLoaded by mutableStateOf(false)
         private set
 
-    // The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
+    // The upstream base kept the order under its own name; it is read until the first save writes the Mudrix one
     private var mudrixHomeOrder: List<String>? = null
-    private var wizardchatHomeOrder: List<String>? = null
+    private var upstreamHomeOrder: List<String>? = null
 
     fun start() {
         scope.launch { refreshNotifications() }
@@ -99,11 +99,11 @@ class RoomListModel(val client: WizardClient, private val scope: CoroutineScope)
             client.watchRoomAccountData("m.tag") { pairs -> applyTags(pairs) },
             client.watchAccountData(HOME_ORDER_EVENT) { content ->
                 mudrixHomeOrder = roomIdsOf(content)
-                homeOrder = mudrixHomeOrder ?: wizardchatHomeOrder.orEmpty()
+                homeOrder = mudrixHomeOrder ?: upstreamHomeOrder.orEmpty()
             },
-            client.watchAccountData(WIZARDCHAT_HOME_ORDER_EVENT) { content ->
-                wizardchatHomeOrder = roomIdsOf(content)
-                homeOrder = mudrixHomeOrder ?: wizardchatHomeOrder.orEmpty()
+            client.watchAccountData(UPSTREAM_HOME_ORDER_EVENT) { content ->
+                upstreamHomeOrder = roomIdsOf(content)
+                homeOrder = mudrixHomeOrder ?: upstreamHomeOrder.orEmpty()
             },
             client.watchSpaces { diffs ->
                 diffs.forEach { it.applyTo(spaceList) }
@@ -351,7 +351,7 @@ const val ROOMS_ANCHOR = "chats"
 const val HOME_SPACE = "home-space"
 private const val NOTIFICATION_LIMIT = 100L
 private val HOME_ORDER_EVENT = Namespace.mudrixKey("home_order")
-private val WIZARDCHAT_HOME_ORDER_EVENT = Namespace.wizardchatKey("home_order")
+private val UPSTREAM_HOME_ORDER_EVENT = Namespace.upstreamKey("home_order")
 
 /** The room ids of a home order event; null when there is no such event */
 private fun roomIdsOf(content: JsonElement?): List<String>? =

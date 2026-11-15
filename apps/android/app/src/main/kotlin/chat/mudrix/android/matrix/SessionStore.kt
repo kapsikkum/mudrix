@@ -12,7 +12,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import kotlinx.serialization.Serializable
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.CoreJson
 import chat.mudrix.core.Session
 import chat.mudrix.core.StoreConfig
@@ -53,8 +53,8 @@ private data class StoredAccounts(
 /** The signed-in accounts, encrypted with a key that never leaves the Android keystore */
 object SessionStore {
     private const val KEY_ALIAS = "org.wizardchat.session"
-    private val file: File get() = File(WizardApplication.instance.filesDir, "accounts.bin")
-    private val legacyFile: File get() = File(WizardApplication.instance.filesDir, "session.bin")
+    private val file: File get() = File(MudrixApplication.instance.filesDir, "accounts.bin")
+    private val legacyFile: File get() = File(MudrixApplication.instance.filesDir, "session.bin")
 
     fun all(): List<StoredSession> = read().accounts
 
@@ -144,7 +144,7 @@ object SessionStore {
         cipher.doFinal(bytes, 12, bytes.size - 12).decodeToString()
     }.getOrNull()
 
-    fun storePath(folder: String): File = File(WizardApplication.instance.filesDir, "accounts/$folder")
+    fun storePath(folder: String): File = File(MudrixApplication.instance.filesDir, "accounts/$folder")
 
     fun removeStore(folder: String) {
         storePath(folder).deleteRecursively()

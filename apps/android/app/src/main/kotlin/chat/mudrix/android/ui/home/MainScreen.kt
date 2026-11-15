@@ -58,7 +58,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.CallManager
 import chat.mudrix.android.matrix.ListeningSharing
 import chat.mudrix.android.matrix.MessageNotifier

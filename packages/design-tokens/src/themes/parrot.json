@@ -1,5 +1,5 @@
 {
-  "$description": "Parrot (from the original WizardChat themes)",
+  "$description": "Parrot (from the original upstream themes)",
   "$extensions": {
     "chat.mudrix.theme": {
       "id": "parrot",

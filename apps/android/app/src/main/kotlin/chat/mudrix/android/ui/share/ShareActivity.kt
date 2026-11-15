@@ -57,7 +57,7 @@ import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.MainActivity
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.MatrixSession
 import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.matrix.MessageNotifier
@@ -80,11 +80,11 @@ import chat.mudrix.core.RoomSummary
 import chat.mudrix.tokens.WZ
 
 /**
- * "Share to WizardChat" from other apps (text, links, images, files): pick a room, add a message,
+ * "Share to Mudrix" from other apps (text, links, images, files): pick a room, add a message,
  * send. Sending continues in the app, which opens the room.
  */
 class ShareActivity : ComponentActivity() {
-    private val app get() = application as WizardApplication
+    private val app get() = application as MudrixApplication
 
     private var files by mutableStateOf(listOf<SharedFile>())
     private var previews by mutableStateOf(listOf<Bitmap>())

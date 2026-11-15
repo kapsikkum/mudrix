@@ -2,7 +2,7 @@ package chat.mudrix.android.matrix
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateMapOf
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /**
  * Per-message "Hide media", the web's `hiddenMediaAtom`: a message's pictures or videos stay covered on this device
@@ -16,7 +16,7 @@ object HiddenMedia {
     private const val KEY = "ids"
 
     private val ids = mutableStateMapOf<String, Boolean>()
-    private val prefs by lazy { WizardApplication.instance.getSharedPreferences("hidden_media", Context.MODE_PRIVATE) }
+    private val prefs by lazy { MudrixApplication.instance.getSharedPreferences("hidden_media", Context.MODE_PRIVATE) }
     private var loaded = false
 
     /** The order after hiding [events]: known ids keep their place, new ones go last, the oldest fall off past [max] */

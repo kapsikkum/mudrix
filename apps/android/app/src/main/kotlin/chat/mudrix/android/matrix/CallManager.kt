@@ -56,7 +56,7 @@ import kotlinx.serialization.json.JsonObject
 import livekit.org.webrtc.FrameCryptorKeyDerivationAlgorithm
 import livekit.org.webrtc.RTCStatsCollectorCallback
 import livekit.org.webrtc.RtpParameters
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.rtc.CallActivityState
 import chat.mudrix.android.matrix.rtc.CallNotificationController
 import chat.mudrix.android.matrix.rtc.CallSounds
@@ -166,8 +166,8 @@ class CallManager {
         private set
     var showCallScreen by mutableStateOf(false)
 
-    private val context: Context get() = WizardApplication.instance
-    private val defaults = WizardApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
+    private val context: Context get() = MudrixApplication.instance
+    private val defaults = MudrixApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
 
     private var micMutedState by mutableStateOf(defaults.getBoolean("voice.micMuted", false))
     var micMuted: Boolean
@@ -510,7 +510,7 @@ class CallManager {
             adaptiveStream = true,
             dynacast = true,
             e2eeOptions = keyProvider?.let { E2EEOptions(keyProvider = it) },
-            audioTrackCaptureDefaults = WizardApplication.instance.prefs.let { prefs ->
+            audioTrackCaptureDefaults = MudrixApplication.instance.prefs.let { prefs ->
                 LocalAudioTrackOptions(
                     noiseSuppression = prefs.noiseSuppression,
                     echoCancellation = prefs.echoCancellation,

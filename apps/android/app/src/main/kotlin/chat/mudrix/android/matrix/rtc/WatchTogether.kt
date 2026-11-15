@@ -22,7 +22,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.Namespace
 import chat.mudrix.android.matrix.SoundKind
 
@@ -61,7 +61,7 @@ class WatchTogether(
     /** The video you agreed to load. YouTube only sees you once you choose to watch. */
     var watchingVideoId by mutableStateOf<String?>(null)
 
-    private val defaults = WizardApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
+    private val defaults = MudrixApplication.instance.getSharedPreferences("calls", Context.MODE_PRIVATE)
     private var consentState by mutableStateOf(defaults.getBoolean("youtubeConsent", false))
     var consent: Boolean
         get() = consentState
@@ -172,8 +172,8 @@ class WatchTogether(
         /** The data topic watch-together messages are sent on */
         val TOPIC = Namespace.mudrixKey("watch")
 
-        /** Every topic understood: the WizardChat base's apps send on its own name */
-        val TOPICS = setOf(TOPIC, Namespace.wizardchatKey("watch"))
+        /** Every topic understood: the upstream base's apps send on its own name */
+        val TOPICS = setOf(TOPIC, Namespace.upstreamKey("watch"))
         private const val HEARTBEAT_SECONDS = 10.0
         private const val LATE_JOIN_REQUEST_DELAY = 1.5
         private const val OFFSET_SAMPLES = 10

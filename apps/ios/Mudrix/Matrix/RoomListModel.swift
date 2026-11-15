@@ -77,10 +77,10 @@ final class RoomListModel: ObservableObject {
     static let roomsAnchor = "chats"
     static let homeSpace = "home-space"
     private static let homeOrderEvent = Namespace.mudrixKey("home_order")
-    /// The WizardChat base kept the order under its own name; it is read until the first save writes the Mudrix one
-    private static let wizardchatHomeOrderEvent = Namespace.wizardchatKey("home_order")
+    /// The upstream base kept the order under its own name; it is read until the first save writes the Mudrix one
+    private static let upstreamHomeOrderEvent = Namespace.upstreamKey("home_order")
     private var mudrixHomeOrder: [String]?
-    private var wizardchatHomeOrder: [String]?
+    private var upstreamHomeOrder: [String]?
 
     let client: WizardClient
     private var rooms: [RoomSummary] = []
@@ -113,9 +113,9 @@ final class RoomListModel: ObservableObject {
                     self?.updateHomeOrder()
                 }
             },
-            client.watchAccountData(eventType: Self.wizardchatHomeOrderEvent) { [weak self] content in
+            client.watchAccountData(eventType: Self.upstreamHomeOrderEvent) { [weak self] content in
                 MainActor.assumeIsolated {
-                    self?.wizardchatHomeOrder = Self.roomIds(in: content)
+                    self?.upstreamHomeOrder = Self.roomIds(in: content)
                     self?.updateHomeOrder()
                 }
             },
@@ -315,7 +315,7 @@ final class RoomListModel: ObservableObject {
     }
 
     private func updateHomeOrder() {
-        homeOrder = mudrixHomeOrder ?? wizardchatHomeOrder ?? []
+        homeOrder = mudrixHomeOrder ?? upstreamHomeOrder ?? []
     }
 
     func saveHomeOrder(_ roomIds: [String]) async {

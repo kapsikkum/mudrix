@@ -17,7 +17,7 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.Namespace
 import chat.mudrix.core.WizardClient
 
@@ -254,7 +254,7 @@ object Soundboard {
     private val recentCall = HashMap<String, Long>()
     private val recentRoom = HashMap<String, Long>()
     private val active = HashMap<String, MediaPlayer>()
-    private val files by lazy { File(WizardApplication.instance.cacheDir, "soundboard") }
+    private val files by lazy { File(MudrixApplication.instance.cacheDir, "soundboard") }
 
     /** A new call: forget the senders' history */
     fun reset() {
@@ -264,7 +264,7 @@ object Soundboard {
         recentRoom.clear()
     }
 
-    private val prefs get() = WizardApplication.instance.prefs
+    private val prefs get() = MudrixApplication.instance.prefs
 
     /** Plays a clip here and sends it to the call; the result says why nothing happened */
     fun press(roomId: String, clip: SoundboardClip): PlayResult {
@@ -346,7 +346,7 @@ object Soundboard {
 
     @SuppressLint("DiscouragedApi")
     private suspend fun open(client: WizardClient, builtIn: Boolean, resource: String?, url: String): MediaPlayer? {
-        val context = WizardApplication.instance
+        val context = MudrixApplication.instance
         val attributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION_SIGNALLING)
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)

@@ -417,5 +417,5 @@ private fun decodeAnimated(data: ByteArray): Drawable? {
         return runCatching { ImageDecoder.decodeDrawable(ImageDecoder.createSource(java.nio.ByteBuffer.wrap(data))) }.getOrNull()
     }
     val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
-    return BitmapDrawable(chat.mudrix.android.WizardApplication.instance.resources, bitmap)
+    return BitmapDrawable(chat.mudrix.android.MudrixApplication.instance.resources, bitmap)
 }

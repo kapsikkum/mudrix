@@ -18,7 +18,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import chat.mudrix.android.MainActivity
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.ListeningSharing
 import chat.mudrix.android.matrix.MatrixSession
 import chat.mudrix.android.matrix.MessageNotifier
@@ -38,7 +38,7 @@ class KeepAliveService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val app = WizardApplication.instance
+        val app = MudrixApplication.instance
         if (!app.prefs.keepAlive || SessionStore.active() == null) {
             stopSelf()
             return START_NOT_STICKY
@@ -69,7 +69,7 @@ class KeepAliveService : Service() {
     }
 
     /** After the system restarted the process there is no screen to sign in and sync, so the service does it */
-    private suspend fun connect(app: WizardApplication) {
+    private suspend fun connect(app: MudrixApplication) {
         val session = app.session
         if (session.state == MatrixSession.State.Restoring) session.restore()
         val roomList = session.roomList ?: return
@@ -90,7 +90,7 @@ class KeepAliveService : Service() {
         /** Starts or stops the service as the setting and the accounts say; call it from the foreground */
         fun apply(context: Context) {
             val intent = Intent(context, KeepAliveService::class.java)
-            if (WizardApplication.instance.prefs.keepAlive && SessionStore.active() != null) {
+            if (MudrixApplication.instance.prefs.keepAlive && SessionStore.active() != null) {
                 runCatching { ContextCompat.startForegroundService(context, intent) }
             } else {
                 context.stopService(intent)

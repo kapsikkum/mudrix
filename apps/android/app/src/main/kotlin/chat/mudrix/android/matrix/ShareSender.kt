@@ -7,7 +7,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.media.ImagePrep
 import chat.mudrix.android.ui.CopyToast
 import chat.mudrix.android.ui.L10n
@@ -22,13 +22,13 @@ data class SharedFile(
     val height: Long? = null,
 )
 
-/** Sends what another app shared into WizardChat; the share screen runs in the app's own process */
+/** Sends what another app shared into Mudrix; the share screen runs in the app's own process */
 object ShareSender {
     private val scope = MainScope()
 
     fun send(roomId: String, text: String?, files: List<SharedFile>) {
         scope.launch {
-            val session = WizardApplication.instance.session
+            val session = MudrixApplication.instance.session
             runCatching { session.restore() }
             var room = session.roomList?.room(roomId)
             repeat(40) {
@@ -42,7 +42,7 @@ object ShareSender {
             for (shared in files) {
                 val read = withContext(Dispatchers.IO) { runCatching { shared.file.readBytes() }.getOrNull() } ?: continue
                 // Photos lose their details and shrink as in the composer; a photo that cannot be cleaned is not sent
-                val prefs = WizardApplication.instance.prefs
+                val prefs = MudrixApplication.instance.prefs
                 val options = ImagePrep.Options(prefs.photoStripMetadata, prefs.photoUploadSize.maxSide)
                 var width = shared.width
                 var height = shared.height

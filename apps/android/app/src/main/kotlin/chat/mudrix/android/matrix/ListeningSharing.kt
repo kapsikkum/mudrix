@@ -19,7 +19,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /** Only here so Android lists Mudrix under "Notification access", which is what lets an app read the media sessions */
 class MediaListenerService : NotificationListenerService()
@@ -29,7 +29,7 @@ class MediaListenerService : NotificationListenerService()
  * and gave Notification access. Games are not detected on Android.
  */
 object ListeningSharing {
-    private val context: Context get() = WizardApplication.instance
+    private val context: Context get() = MudrixApplication.instance
     private val component get() = ComponentName(context, MediaListenerService::class.java)
     private var scope: CoroutineScope? = null
     private var manager: MediaSessionManager? = null

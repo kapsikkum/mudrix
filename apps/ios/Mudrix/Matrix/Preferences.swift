@@ -609,7 +609,7 @@ final class AppPreferences: ObservableObject {
         for item in synced where item.topLevel {
             if let value = raw[item.key], let normal = item.normalise(value) { top[item.key] = normal }
         }
-        // The WizardChat base keeps the preferences next to the theme instead of in a `preferences` object
+        // The upstream base keeps the preferences next to the theme instead of in a `preferences` object
         var flat = raw
         for (old, current) in Self.legacyKeys where flat[current] == nil {
             if let value = raw[old] { flat[current] = value }

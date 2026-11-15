@@ -10,7 +10,7 @@ import org.unifiedpush.android.connector.UnifiedPush
 import org.unifiedpush.android.connector.data.PushEndpoint
 import org.unifiedpush.android.connector.data.PushMessage
 import chat.mudrix.android.BuildConfig
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 
 /** UnifiedPush: the user's distributor app (ntfy, ...) receives the push and hands it to this app */
 internal object PushProvider : PushBackend {
@@ -24,7 +24,7 @@ internal object PushProvider : PushBackend {
 
     private fun prefs(context: Context) = context.getSharedPreferences("unifiedpush", Context.MODE_PRIVATE)
 
-    override suspend fun token(): String? = prefs(WizardApplication.instance).getString(ENDPOINT, null)
+    override suspend fun token(): String? = prefs(MudrixApplication.instance).getString(ENDPOINT, null)
 
     override fun distributors(context: Context): List<String> = UnifiedPush.getDistributors(context)
 

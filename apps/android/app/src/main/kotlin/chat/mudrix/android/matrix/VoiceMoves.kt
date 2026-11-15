@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import chat.mudrix.android.WizardApplication
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.rtc.Sounds
 import chat.mudrix.android.ui.CopyToast
 import chat.mudrix.android.ui.L10n
@@ -77,7 +77,7 @@ object VoiceMoves {
         val to = (request["to_room_id"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: return
         if ((request["user_id"] as? JsonPrimitive)?.takeIf { it.isString }?.content != me) return
         if (!isFresh(event.originServerTs, System.currentTimeMillis())) return
-        if (!WizardApplication.instance.prefs.allowVoiceMoves || !calls.isInCall(event.roomId)) return
+        if (!MudrixApplication.instance.prefs.allowVoiceMoves || !calls.isInCall(event.roomId)) return
 
         val target = roomList.room(to) ?: return
         if (target.isInvite || !(target.isVoice || isFlaggedVoice(client, to))) return

@@ -93,7 +93,7 @@ enum SoundPacks {
         mudrixPack("megadrive2", "Velvet"),
         mudrixPack("nes2", "Shuffle"),
         mudrixPack("sms", "Chirp"),
-        clientPack("wizardchat", "WizardChat", [.message], alert: true),
+        clientPack("wizardchat", "Original", [.message], alert: true),
         clientPack("element", "Element", [.message, .ring, .ringback, .callEnd]),
         clientPack("cinny", "Cinny", [.message, .mention]),
         clientPack("fluffychat", "FluffyChat", [.message, .mention, .ring, .callEnd]),

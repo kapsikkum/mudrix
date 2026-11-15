@@ -336,7 +336,7 @@ private fun ChatPreview() {
             mention = mentionLabel(ownName),
             mentionsMe = true,
             isOwn = false,
-            senderId = "@merlin:wizardchat.org",
+            senderId = "@merlin:example.org",
             timestamp = now - 120_000,
         )
         PreviewMessage(
@@ -345,7 +345,7 @@ private fun ChatPreview() {
             "settings.appearance.previewOwnMessage",
             mention = mentionLabel("Merlin"),
             mentionsMe = false,
-            senderId = session.userId ?: "@you:wizardchat.org",
+            senderId = session.userId ?: "@you:example.org",
             isOwn = true,
             timestamp = now - 60_000,
         )

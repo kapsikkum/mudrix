@@ -52,6 +52,10 @@ final class MatrixSession: ObservableObject {
     private var pendingLogin: (login: PendingLogin, folder: String, store: StoreConfig)?
 
     static let deviceName = "Mudrix iOS"
+
+    /// The upstream base's sign-in redirect scheme: homeservers and client registrations made before
+    /// the rename send the redirect back on it, and `ASWebAuthenticationSession` watches one scheme, so
+    /// iOS sign-in stays on it (Android accepts both this and the new `chat.mudrix`).
     static let callbackScheme = "org.wizardchat"
     static let app = AppInfo(name: "Mudrix", clientUri: "https://github.com/kapsikkum/mudrix")
 
