@@ -94,4 +94,9 @@ final class CallTimerTests: XCTestCase {
         XCTAssertEqual(CallTimer.format(3_725_000), "1:02:05")
         XCTAssertEqual(CallTimer.format(-5000), "0:00")
     }
+
+    func testFormatsLikeTheWeb() {
+        XCTAssertEqual(CallTimer.format(59_999), "0:59")
+        XCTAssertEqual(CallTimer.format(12 * 3_600_000 + 3 * 60_000 + 7_000), "12:03:07")
+    }
 }
