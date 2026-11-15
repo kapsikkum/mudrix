@@ -6,14 +6,16 @@ plan, what already works and what does not, so nothing here should be read as "C
 
 ## State of CI
 
-- There is no `.github/` directory and no GitHub Actions workflow in this repository.
+- GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
+  `branding-gate.yml`). They check the code and build **unsigned test builds**; nothing is signed, released or published
+  automatically. [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds.
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are upstream WizardChat's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
-  `wizardchat.org`. GitHub Actions workflows will replace them later; delete the GitLab files then.
-- Nothing builds, signs or publishes a release automatically. Until the workflows exist, a release is built by hand
-  (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub release of `kapsikkum/mudrix`.
+  `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
+- A release is still built and published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
+  release of `kapsikkum/mudrix`: the CI builds are debug-profile, unsigned and expire after 14 days.
 - The old repositories had `check.yml`, `release.yml`, `pages.yml` (web), `release.yml` (desktop) and `android.yml` /
-  `ios.yml` (mobile). They are the model for the new workflows below.
+  `ios.yml` (mobile). They are the model for the release workflow that is still to be written.
 
 ## Versions
 
@@ -56,8 +58,8 @@ still to be written.
 | `latest.json`                                                 | update manifest read by the desktop updater                                          |
 | `SHA256SUMS.txt`                                              | checksums of everything above                                                        |
 
-These names are the old Mudrix convention and are kept so that installs of the old apps can find their update; the
-workflows that create them do not exist yet.
+These names are the old Mudrix convention and are kept so that installs of the old apps can find their update; no
+release workflow creates them yet, and the CI builds described in [TESTING.md](TESTING.md) are unsigned test builds.
 
 ## Cutting a release (manual, until workflows exist)
 

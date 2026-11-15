@@ -54,6 +54,12 @@ env:
   CARGO_INCREMENTAL: '0'
   XCODE_VERSION: ${{ inputs.xcode-version || '26' }}
   RUN_TESTS: ${{ github.event_name == 'workflow_dispatch' && !inputs.run-tests && 'false' || 'true' }}
+  # The project and its scheme are named after `name:` in apps/ios/project.yml. Leave the repository
+  # variables IOS_XCODEPROJ / IOS_SCHEME unset and the "Resolve names" step reads them from the project
+  # xcodegen just generated, so this workflow survives a rename in either direction; set the variables
+  # to pin them.
+  IOS_XCODEPROJ: ${{ vars.IOS_XCODEPROJ }}
+  IOS_XCODE_SCHEME: ${{ vars.IOS_SCHEME }}
 
 defaults:
   run:
@@ -110,6 +116,19 @@ jobs:
         working-directory: apps/ios
         run: xcodegen generate 2>&1 | tee ../../ci-logs/xcodegen.log
 
+      # One place that knows the project/scheme names: whatever xcodegen just generated, unless pinned.
+      - name: Resolve names
+        run: |
+          if [ -n "$IOS_XCODEPROJ" ]; then
+            IOS_PROJECT="$IOS_XCODEPROJ"
+          else
+            IOS_PROJECT="$(basename "$(ls -d apps/ios/*.xcodeproj | head -1)")"
+          fi
+          if [ -n "$IOS_XCODE_SCHEME" ]; then IOS_SCHEME="$IOS_XCODE_SCHEME"; else IOS_SCHEME="${IOS_PROJECT%.xcodeproj}"; fi
+          echo "IOS_PROJECT=$IOS_PROJECT" >> "$GITHUB_ENV"
+          echo "IOS_SCHEME=$IOS_SCHEME" >> "$GITHUB_ENV"
+          echo "project=$IOS_PROJECT scheme=$IOS_SCHEME"
+
       - name: Cache Swift packages (LiveKit)
         uses: actions/cache@v4
         with:
@@ -146,8 +165,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild build \
-            -project Mudrix.xcodeproj \
-            -scheme Mudrix \
+            -project "$IOS_PROJECT" \
+            -scheme "$IOS_SCHEME" \
             -configuration Debug \
             -destination "platform=iOS Simulator,id=$SIM_ID" \
             -derivedDataPath build \
@@ -163,8 +182,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test \
-            -project Mudrix.xcodeproj \
-            -scheme Mudrix \
+            -project "$IOS_PROJECT" \
+            -scheme "$IOS_SCHEME" \
             -configuration Debug \
             -destination "platform=iOS Simulator,id=$SIM_ID" \
             -derivedDataPath build \
@@ -184,6 +203,65 @@ jobs:
             grep -hE '(: error:|^error:|ld: |Undefined symbols|BUILD FAILED|TEST FAILED|\*\* .* FAILED \*\*)' ci-logs/*.log 2> /dev/null | sort -u | head -400 || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # Unzip and drop into a booted Simulator: the app on disk is named after the target, not "Mudrix".
+      - name: Package the Simulator app
+        id: simulator-app
+        if: always() && hashFiles('apps/ios/build/Build/Products/Debug-iphonesimulator/*.app/Info.plist') != ''
+        run: |
+          set -euo pipefail
+          mkdir -p ci-logs/simulator
+          apps=(apps/ios/build/Build/Products/Debug-iphonesimulator/*.app)
+          APP="${apps[0]}"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" \
+            "ci-logs/simulator/$(basename "$APP" .app)-simulator-${GITHUB_SHA::7}.zip"
+          plutil -extract CFBundleIdentifier raw "$APP/Info.plist" > ci-logs/simulator/bundle-id.txt
+          echo "IOS_BUNDLE_ID=$(cat ci-logs/simulator/bundle-id.txt)" >> "$GITHUB_ENV"
+          echo "bundle-id=$(cat ci-logs/simulator/bundle-id.txt)" >> "$GITHUB_OUTPUT"
+          ls -lh ci-logs/simulator
+
+      # Boots the simulator the build already used, installs the unsigned app and takes two screenshots
+      # (light and dark) so a run shows the UI instead of only a log. Anything the app needs a
+      # homeserver for is not covered: this is the first screen after launch.
+      - name: Screenshots in the Simulator
+        if: always() && steps.simulator-app.outputs.bundle-id != ''
+        run: |
+          set -euo pipefail
+          mkdir -p screenshots
+          apps=(apps/ios/build/Build/Products/Debug-iphonesimulator/*.app)
+          APP="${apps[0]}"
+          xcrun simctl boot "$SIM_ID" 2> /dev/null || true
+          xcrun simctl bootstatus "$SIM_ID" -b
+          # an unsigned build usually installs on the Simulator; an ad-hoc signature makes it deterministic
+          codesign --force --deep --sign - "$APP"
+          xcrun simctl install "$SIM_ID" "$APP"
+          xcrun simctl status_bar "$SIM_ID" override \
+            --time "9:41" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularBars 4 || true
+          xcrun simctl launch "$SIM_ID" "$IOS_BUNDLE_ID"
+          sleep 10
+          xcrun simctl io "$SIM_ID" screenshot screenshots/01-launch-light.png
+          xcrun simctl ui "$SIM_ID" appearance dark
+          sleep 3
+          xcrun simctl io "$SIM_ID" screenshot screenshots/02-launch-dark.png
+          ls -lh screenshots
+
+      - name: Upload the Simulator app
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-simulator-app
+          path: ci-logs/simulator/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload the screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-screenshots
+          path: screenshots/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload logs
         if: always()

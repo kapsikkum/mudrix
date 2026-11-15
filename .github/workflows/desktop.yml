@@ -1,9 +1,24 @@
 name: Desktop
 
-# `tauri build --debug --no-bundle` on Windows, Linux and macOS: proves the Tauri app compiles and links on each OS and
-# leaves the unbundled debug binary as an artifact. No installers, no signing (see docs/CI.md for the release plan).
-# Runs on pull requests only when desktop or core files change, or by hand (the macOS leg bills 10x minutes).
+# `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, unsigned, so testers get
+# something they can double-click. The raw binary is still uploaded next to them for debugging. No signing (see
+# docs/CI.md for the release plan). Runs on pull requests and pushes when desktop or core files change, or by hand
+# (the macOS leg bills 10x minutes).
 on:
+  push:
+    branches: [main, web-look]
+    paths:
+      - apps/desktop/**
+      - apps/web/**
+      - crates/**
+      - packages/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/desktop.yml
+      - .github/actions/**
   pull_request:
     paths:
       - apps/desktop/**
@@ -20,6 +35,10 @@ on:
       platforms:
         description: 'Runners to build on, as a JSON array'
         default: '["windows-latest","ubuntu-latest","macos-latest"]'
+        type: string
+      bundles:
+        description: 'Build installers ("true") or compile only ("false")'
+        default: 'true'
         type: string
 
 concurrency:
@@ -63,9 +82,48 @@ jobs:
       - name: Design tokens
         run: npm run tokens
 
+      # Tauri rejects a bundle target it cannot build on this OS, so each runner gets its own list.
+      # nsis is per-user; msi needs WiX (Tauri downloads it) and only takes numeric versions.
+      - name: Bundle targets for this runner
+        id: bundles
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Windows) list="nsis,msi" ;;
+            Linux)   list="appimage,deb" ;;
+            macOS)   list="app,dmg" ;;
+          esac
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+
       # beforeBuildCommand (tsc + vite build --mode desktop) builds the web UI that Tauri embeds
+      - name: Tauri build (debug, installers)
+        if: inputs.bundles != 'false'
+        run: npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }}
+
       - name: Tauri build (debug, no bundle)
+        if: inputs.bundles == 'false'
         run: npm run tauri -w @mudrix/desktop -- build --debug --no-bundle
+
+      # upload-artifact cannot carry a .app's symlinks and file modes, so the macOS app is zipped with ditto
+      - name: Package the macOS app
+        if: runner.os == 'macOS' && inputs.bundles != 'false'
+        shell: bash
+        run: |
+          apps=(target/debug/bundle/macos/*.app)
+          app="${apps[0]}"
+          ditto -c -k --sequesterRsrc --keepParent "$app" \
+            "target/debug/bundle/macos/$(basename "$app" .app)-unsigned-${GITHUB_SHA::7}.zip"
+
+      - name: Checksums
+        if: inputs.bundles != 'false'
+        shell: bash
+        run: |
+          cd target/debug/bundle
+          if command -v sha256sum > /dev/null; then SH="sha256sum"; else SH="shasum -a 256"; fi
+          find . -maxdepth 2 -type f \
+            \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' -o -name '*.zip' \
+               -o -name '*.AppImage' -o -name '*.deb' \) -print0 | xargs -0 $SH > SHA256SUMS.txt
+          cat SHA256SUMS.txt
 
       - name: Upload the binary
         uses: actions/upload-artifact@v4
@@ -75,5 +133,23 @@ jobs:
             target/debug/mudrix-desktop
             target/debug/mudrix-desktop.exe
             target/debug/mudrix_desktop.pdb
+          if-no-files-found: error
+          retention-days: 14
+
+      # Unsigned and debug-profile on purpose: SmartScreen and Gatekeeper will complain, which is what the
+      # testing notes explain. Globs, so a productName rename doesn't break the upload.
+      - name: Upload the installers
+        if: inputs.bundles != 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-${{ runner.os }}-unsigned
+          path: |
+            target/debug/bundle/nsis/*.exe
+            target/debug/bundle/msi/*.msi
+            target/debug/bundle/dmg/*.dmg
+            target/debug/bundle/macos/*.zip
+            target/debug/bundle/appimage/*.AppImage
+            target/debug/bundle/deb/*.deb
+            target/debug/bundle/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14

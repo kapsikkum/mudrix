@@ -77,6 +77,16 @@ jobs:
       - name: Vite build
         run: npm exec -w @mudrix/web -- vite build
 
+      # A ready-to-serve static build, for testers without Rust/wasm-pack (see TESTING.md).
+      # It is the dev-profile wasm on pull requests and the optimised one on main; both are fine for testing.
+      - name: Upload the web build
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-web-dist
+          path: apps/web/dist/
+          if-no-files-found: error
+          retention-days: 14
+
   web-tests:
     name: Web (unit tests)
     runs-on: ubuntu-latest

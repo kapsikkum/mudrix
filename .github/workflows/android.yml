@@ -4,7 +4,9 @@ name: Android
 # and a debug APK as an artifact. The gplay flavour needs Firebase config we don't have and is not built here.
 on:
   push:
-    branches: [main]
+    # `web-look` is the branch people test from; a push there should always leave a fresh APK behind.
+    # (The path filter below still applies: web-only or docs-only commits don't rebuild the app.)
+    branches: [main, web-look]
     paths:
       - apps/android/**
       - crates/**
@@ -98,11 +100,17 @@ jobs:
         working-directory: apps/android
         run: ./gradlew --no-daemon --stacktrace :app:testFdroidDebugUnitTest
 
+      - name: Checksums
+        working-directory: apps/android/app/build/outputs/apk/fdroid/debug
+        run: sha256sum *.apk > SHA256SUMS.txt
+
       - name: Upload the debug APK
         uses: actions/upload-artifact@v4
         with:
           name: mudrix-android-fdroid-debug
-          path: apps/android/app/build/outputs/apk/fdroid/debug/*.apk
+          path: |
+            apps/android/app/build/outputs/apk/fdroid/debug/*.apk
+            apps/android/app/build/outputs/apk/fdroid/debug/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14
 
