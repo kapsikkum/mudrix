@@ -78,7 +78,7 @@ internal fun noteHighlights(markdown: String, limit: Int = NOTES_SHOWN): List<St
     return notes
 }
 
-/** The top of the Home list: a greeting, what needs catching up on and the latest rooms */
+/** The top of the Home list: what needs catching up on and the latest rooms */
 @Composable
 fun HomeWelcome(
     roomList: RoomListModel,
@@ -94,7 +94,6 @@ fun HomeWelcome(
     val highlights = remember(whatsNew) { whatsNew?.let { noteHighlights(it.markdown) }.orEmpty() }
     var readingNotes by remember { mutableStateOf(false) }
     if (readingNotes && whatsNew != null) WhatsNewSheet(whatsNew) { readingNotes = false }
-    val name = session.displayName ?: session.userId?.removePrefix("@")?.substringBefore(':').orEmpty()
     val invites = roomList.invites
     val mentions = roomList.mentionRooms
     val recent = recentRooms(roomList.joinedRooms)
@@ -135,7 +134,6 @@ fun HomeWelcome(
         Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Text(tr("timeline.home.greeting", name), style = wizardFont(WZ.FontSize.xxl, FontWeight.Bold), color = theme.textPrimary, maxLines = 2)
         // Finish setting up: a profile picture, and a session that is not verified yet (nothing shows while it is still loading)
         val needsPicture = session.avatarUrl == null
         val needsVerification = session.encryption?.let { !it.deviceVerified } == true

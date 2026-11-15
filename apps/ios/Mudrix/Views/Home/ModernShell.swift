@@ -446,6 +446,6 @@ private struct ModernOwnProfile: View {
     let onOpenSettings: () -> Void
 
     var body: some View {
-        UserProfileSheet(userId: userId, onOpenSettings: onOpenSettings)
+        UserProfileSheet(userId: userId, onOpenSettings: onOpenSettings, fullScreen: true)
     }
 }

@@ -12,7 +12,7 @@ func recentRooms(_ rooms: [RoomSummary]) -> [RoomSummary] {
         .prefix(recentRoomCount))
 }
 
-/// The top of the Home list: a greeting, what is left to set up, what needs catching up on and the latest rooms.
+/// The top of the Home list: what is left to set up, what needs catching up on and the latest rooms.
 /// Rows of a `List`; the unverified-session reminder is the `VerificationBanner` above it.
 struct HomeWelcome: View {
     @ObservedObject var roomList: RoomListModel
@@ -22,21 +22,11 @@ struct HomeWelcome: View {
     @Environment(\.theme) private var theme
     @State private var showAccount = false
 
-    private var name: String {
-        if let display = session.displayName, !display.isEmpty { return display }
-        return TimelineModel.localpart(session.userId ?? "")
-    }
-
     var body: some View {
         let invites = roomList.invites
         let mentions = roomList.mentionRooms
         let recent = recentRooms(roomList.joinedRooms)
         Group {
-            Text(L10n.format("timeline.home.greeting", name))
-                .font(.wizard(WZ.FontSize.xxl, .bold))
-                .foregroundStyle(theme.textPrimary)
-                .lineLimit(2)
-                .welcomeRow()
             if session.avatarUrl == nil {
                 heading(String(localized: "timeline.home.setupHeading"))
                 Button { showAccount = true } label: {
@@ -80,10 +70,9 @@ struct HomeWelcome: View {
         .sheet(isPresented: $showAccount) {
             NavigationStack {
                 AccountSettings()
-                    .toolbar {
-                        ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { showAccount = false } }
-                    }
+                    .toolbar(.hidden, for: .navigationBar)
             }
+            .presentationDragIndicator(.visible)
         }
     }
 

@@ -384,10 +384,9 @@ struct VerificationBanner: View {
             .sheet(isPresented: $showVerify) {
                 NavigationStack {
                     SessionsSettings()
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { showVerify = false } }
-                        }
+                        .toolbar(.hidden, for: .navigationBar)
                 }
+                .presentationDragIndicator(.visible)
             }
         }
     }

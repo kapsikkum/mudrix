@@ -226,6 +226,8 @@ struct UserProfileSheet: View {
     var onChange: (() -> Void)?
     /// Shown on your own profile, to open Settings from it
     var onOpenSettings: (() -> Void)?
+    /// Presented full screen rather than as a sheet: it keeps a navigation bar with Done, a sheet closes by swipe
+    var fullScreen = false
 
     @EnvironmentObject private var session: MatrixSession
     @EnvironmentObject private var notifier: MessageNotifier
@@ -247,6 +249,7 @@ struct UserProfileSheet: View {
     @State private var busy = false
     @State private var error: String?
     @State private var tab: ProfileTab = .details
+    @State private var mutual: MutualRooms?
 
     enum Action: Identifiable { case kick, ban, ignore; var id: Self { self } }
 
@@ -265,16 +268,143 @@ struct UserProfileSheet: View {
 
     /// The Details / Activity / Mutual Rooms strip under the header
     private var profileTabs: some View {
-        Picker("", selection: $tab) {
-            ForEach(ProfileTab.allCases, id: \.self) { option in
-                Text(String(localized: String.LocalizationValue(option.titleKey))).tag(option)
-            }
+        HStack(spacing: WZ.Space.space1) {
+            ForEach(ProfileTab.allCases, id: \.self) { option in tabButton(option) }
         }
-        .pickerStyle(.segmented)
+        .padding(WZ.Space.space1)
+        .background(theme.fill, in: Capsule())
         .listRowBackground(Color.clear)
         .listRowSeparator(.hidden)
         .listRowInsets(EdgeInsets(top: WZ.Space.space2, leading: WZ.Space.space6,
                                   bottom: WZ.Space.space3, trailing: WZ.Space.space6))
+    }
+
+    /// One tab; the Mutual Rooms one carries the same count as the header line (rooms plus spaces)
+    private func tabButton(_ option: ProfileTab) -> some View {
+        let isActive = tab == option
+        let count = option == .mutual ? (mutual?.total ?? 0) : 0
+        return Button {
+            tab = option
+        } label: {
+            HStack(spacing: WZ.Space.space3) {
+                Text(String(localized: String.LocalizationValue(option.titleKey)))
+                    .font(.wizard(WZ.FontSize.sm, isActive ? .semibold : .regular))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                if count > 0 {
+                    Text(count > 99 ? "99+" : "\(count)")
+                        .font(.wizard(WZ.FontSize.xs, .bold))
+                        .foregroundStyle(theme.textOnAccent)
+                        .padding(.horizontal, WZ.Space.space3)
+                        .background(isActive ? theme.accent : theme.textMuted, in: Capsule())
+                }
+            }
+            .foregroundStyle(isActive ? theme.textPrimary : theme.textMuted)
+            .frame(maxWidth: .infinity)
+            .frame(height: WZ.Space.space10)
+            .background(isActive ? theme.bgTertiary : .clear, in: Capsule())
+            .contentShape(Capsule())
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// The line under the name: how many rooms and spaces are shared, or that there are none; nothing while unknown
+    private var mutualLine: String? {
+        guard let mutual else { return nil }
+        return mutual.isEmpty
+            ? String(localized: "profile.mutualEmpty")
+            : L10n.plural("profile.mutualRooms", count: mutual.total, mutual.total)
+    }
+
+    private func pillLabel(_ title: String) -> some View {
+        Text(title)
+            .font(.wizard(WZ.FontSize.md, .semibold))
+            .foregroundStyle(theme.textPrimary)
+            .frame(maxWidth: .infinity)
+            .frame(height: WZ.Space.space10)
+            .background(theme.bgTertiary, in: Capsule())
+            .contentShape(Capsule())
+    }
+
+    /// The "..." button over the banner: copying the ID and the link, then the moderation actions
+    private var profileMenu: some View {
+        Menu {
+            Button { UIPasteboard.general.string = userId } label: {
+                Label(menu: String(localized: "profile.copyId"), icon: "ph-copy-regular")
+            }
+            Button { UIPasteboard.general.string = "https://matrix.to/#/\(userId)" } label: {
+                Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
+            }
+            if !isMe {
+                Divider()
+                if canKick {
+                    Button(role: .destructive) { confirm = .kick } label: {
+                        Label(menu: String(localized: "profile.kick"), icon: "ph-user-minus-regular", destructive: true)
+                    }
+                }
+                if canBan {
+                    Button(role: .destructive) { confirm = .ban } label: {
+                        Label(menu: String(localized: "room.members.ban"), icon: "ph-prohibit-regular", destructive: true)
+                    }
+                }
+                Button(role: .destructive) { confirm = .ignore } label: {
+                    Label(menu: String(localized: "profile.ignoreUser"), icon: "ph-eye-slash-regular", destructive: true)
+                }
+            }
+        } label: {
+            Image("ph-dots-three-bold")
+                .foregroundStyle(theme.textPrimary)
+                .frame(width: WZ.Space.space10, height: WZ.Space.space10)
+                .background(theme.bgPrimary.opacity(0.6), in: Circle())
+                .contentShape(Circle())
+        }
+        .accessibilityLabel(String(localized: "common.more"))
+    }
+
+    /// Name, handle, role, status, mutual rooms and the main buttons, on the plain sheet surface under the banner
+    private var identity: some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space3) {
+            Text(name ?? userId)
+                .font(.wizard(WZ.FontSize.xxl, .bold))
+                .foregroundStyle(theme.textPrimary)
+                .lineLimit(2)
+            HStack(spacing: WZ.Space.space3) {
+                Text(userId)
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+                    .lineLimit(1)
+                    .textSelection(.enabled)
+                if isMember { RoleBadge(level: level) }
+            }
+            if let statusText {
+                Text(statusText)
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textSecondary)
+            }
+            ProfileBadges(isMudrixUser: extended.isMudrixUser, software: software)
+            if let mutualLine {
+                Button { tab = .mutual } label: {
+                    Text(mutualLine)
+                        .font(.wizard(WZ.FontSize.md, .medium))
+                        .foregroundStyle(theme.accent)
+                }
+                .buttonStyle(.plain)
+            }
+            if !isMe {
+                Button { Task { await message() } } label: { pillLabel(String(localized: "profile.message")) }
+                    .buttonStyle(.plain)
+                    .disabled(busy)
+            }
+            if isMe, let onOpenSettings {
+                Button(action: onOpenSettings) { pillLabel(String(localized: "common.settings")) }
+                    .buttonStyle(.plain)
+            }
+            ProfileAboutView(profile: extended)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, WZ.Space.space6)
+        .padding(.top, WZ.Space.space3)
+        .padding(.bottom, WZ.Space.space4)
     }
 
     private var isMe: Bool { userId == session.userId }
@@ -283,39 +413,18 @@ struct UserProfileSheet: View {
         NavigationStack {
             ThemedList {
                 Section {
-                    VStack(spacing: WZ.Space.space4) {
-                        AccentAvatar(name: name ?? userId, url: avatarUrl, accent: extended.accent,
-                                     decoration: CosmeticPacks.resolve(extended.avatarDecoration,
-                                                                       showPacks: prefs.showCosmeticPacks),
-                                     frame: CosmeticPacks.resolve(extended.profileFrame,
-                                                                  showPacks: prefs.showCosmeticPacks))
-                        CosmeticNameplate(value: CosmeticPacks.resolve(extended.nameplate,
-                                                                       showPacks: prefs.showCosmeticPacks)) {
-                            Text(name ?? userId)
-                                .font(.wizard(WZ.FontSize.xxl, .bold))
-                                .foregroundStyle(theme.textPrimary)
-                                .multilineTextAlignment(.center)
-                        }
-                        Text(userId)
-                            .font(.wizard(WZ.FontSize.md))
-                            .foregroundStyle(theme.textMuted)
-                            .textSelection(.enabled)
-                        if let statusText {
-                            Text(statusText)
-                                .font(.wizard(WZ.FontSize.md))
-                                .foregroundStyle(theme.textSecondary)
-                                .multilineTextAlignment(.center)
-                        }
-                        if isMember { RoleBadge(level: level) }
-                        ProfileBadges(isMudrixUser: extended.isMudrixUser, software: software)
-                        ProfileAboutView(profile: extended)
+                    VStack(spacing: 0) {
+                        ProfileBannerHeader(
+                            userId: userId, name: name ?? userId, avatarUrl: avatarUrl, accent: extended.accent,
+                            decoration: CosmeticPacks.resolve(extended.avatarDecoration, showPacks: prefs.showCosmeticPacks),
+                            profileFrame: CosmeticPacks.resolve(extended.profileFrame, showPacks: prefs.showCosmeticPacks),
+                            effect: CosmeticPacks.resolve(extended.profileEffect, showPacks: prefs.showCosmeticPacks)
+                        ) { profileMenu }
+                        identity
                     }
-                    .frame(maxWidth: .infinity)
-                    .overlay {
-                        CosmeticEffect(value: CosmeticPacks.resolve(extended.profileEffect,
-                                                                   showPacks: prefs.showCosmeticPacks))
-                    }
+                    .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
                 profileTabs
                 switch tab {
@@ -329,56 +438,33 @@ struct UserProfileSheet: View {
                             }
                         }
                     }
-                    if !isMe {
-                        Section {
-                            Button { Task { await message() } } label: {
-                                Label(String(localized: "composer.messageInput"), image: "ph-chat-circle-regular")
-                            }
-                            .disabled(busy)
-                        }
-                    }
-                    Section {
-                        CopyButton(title: "profile.copyId", image: "ph-copy-regular", value: userId)
-                        CopyButton(title: "common.copyLink", image: "ph-link-simple-regular", value: "https://matrix.to/#/\(userId)")
-                    }
-                    if !isMe {
-                        Section {
-                            if canKick {
-                                Button(role: .destructive) { confirm = .kick } label: {
-                                    Label(String(localized: "profile.kick"), image: "ph-user-minus-regular").foregroundStyle(theme.danger)
-                                }
-                            }
-                            if canBan {
-                                Button(role: .destructive) { confirm = .ban } label: {
-                                    Label(String(localized: "room.members.ban"), image: "ph-prohibit-regular").foregroundStyle(theme.danger)
-                                }
-                            }
-                            Button(role: .destructive) { confirm = .ignore } label: {
-                                Label(String(localized: "profile.ignoreUser"), image: "ph-eye-slash-regular").foregroundStyle(theme.danger)
-                            }
-                        } footer: {
-                            Text(String(localized: "room.members.ignoreHint"))
-                        }
-                        .tint(theme.danger)
-                    }
                 case .activity:
                     ProfileActivityCards(profile: extended)
                 case .mutual:
-                    if !isMe { MutualRoomsSection(userId: userId, name: name ?? userId) }
+                    if !isMe {
+                        MutualRoomsSection(
+                            mutual: mutual,
+                            onOpenRoom: { roomId in
+                                dismiss()
+                                openRoom(roomId, notifier: notifier)
+                            },
+                            onOpenSpace: { spaceId in
+                                dismiss()
+                                notifier.spaceToOpen = spaceId
+                            })
+                    }
                 }
                 if let error {
                     Text(error).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.error)
                 }
             }
+            .contentMargins(.top, 0, for: .scrollContent)
             .tint(theme.control)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar(fullScreen ? .visible : .hidden, for: .navigationBar)
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
-                if isMe, let onOpenSettings {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button { onOpenSettings() } label: { Image("ph-gear-regular") }
-                            .accessibilityLabel(String(localized: "common.settings"))
-                    }
+                if fullScreen {
+                    ToolbarItem(placement: .confirmationAction) { Button(String(localized: "common.done")) { dismiss() } }
                 }
             }
             .alert(alertTitle, isPresented: Binding(get: { confirm != nil }, set: { if !$0 { confirm = nil } }),
@@ -389,8 +475,16 @@ struct UserProfileSheet: View {
             }
         }
         .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
         .task { await load() }
+        .task(id: userId) { await loadMutual() }
         .task(id: "\(userId)|\(prefs.showHomeserverSoftware)") { await loadSoftware() }
+    }
+
+    private func loadMutual() async {
+        mutual = nil
+        guard !isMe, let client = session.client else { return }
+        mutual = await MutualRoomsLookup.load(client: client, userId: userId)
     }
 
     private func loadSoftware() async {
