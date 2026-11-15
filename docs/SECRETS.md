@@ -41,7 +41,7 @@ workflows map the same secret to each platform's variable name.
 | Secret               | Maps to                                                               |
 | -------------------- | --------------------------------------------------------------------- |
 | `VITE_GIPHY_API_KEY` | web and desktop `VITE_GIPHY_API_KEY`; Android and iOS `GIPHY_API_KEY` |
-| `VITE_KLIPY_API_KEY` | web and desktop `VITE_KLIPY_API_KEY`; Android and iOS `KLIPY_API_KEY`  |
+| `VITE_KLIPY_API_KEY` | web and desktop `VITE_KLIPY_API_KEY`; Android and iOS `KLIPY_API_KEY` |
 
 Signing secrets (`TAURI_SIGNING_PRIVATE_KEY`, `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`, the Android keystore) are described in
 [RELEASING.md](../RELEASING.md). `PUSH_GATEWAY_URL` is not set in CI until a Mudrix push gateway exists.

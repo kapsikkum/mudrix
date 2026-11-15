@@ -1,3 +1,4 @@
+import MudrixCore
 import SwiftUI
 import UIKit
 
