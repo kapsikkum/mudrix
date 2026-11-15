@@ -43,7 +43,7 @@ final class StatusModeTests: XCTestCase {
     func testTheDotFollowsTheStatusModeLikeTheWeb() {
         XCTAssertEqual(StatusFields.dot(.online, mode: .dnd), .dnd)
         XCTAssertEqual(StatusFields.dot(.online, mode: .idle), .unavailable)
-        XCTAssertEqual(StatusFields.dot(.away, mode: nil), .unavailable)
+        XCTAssertEqual(StatusFields.dot(.unavailable, mode: nil), .unavailable)
         XCTAssertEqual(StatusFields.dot(.online, mode: nil), .online)
         // Someone who shares nothing stays offline whatever the status says
         XCTAssertEqual(StatusFields.dot(.offline, mode: .dnd), .offline)
