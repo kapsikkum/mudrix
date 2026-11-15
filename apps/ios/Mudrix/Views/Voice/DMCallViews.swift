@@ -109,6 +109,7 @@ struct DMCallScreen: View {
                 } else {
                     CallStageView(room: room)
                 }
+                AloneNotice()
                 CallControls()
                     .padding(.horizontal, WZ.Space.space6)
                     .padding(.bottom, WZ.Space.space4)
@@ -151,6 +152,55 @@ struct DMCallScreen: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+/// "You're the only one here": offered in a direct call once the other person is gone, then the call ends on its own
+struct AloneNotice: View {
+    @EnvironmentObject private var calls: CallManager
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 0.5)) { context in
+            let now = Int64(context.date.timeIntervalSince1970 * 1000)
+            if let seconds = calls.aloneSecondsLeft(now: now) {
+                notice(seconds: seconds)
+            }
+        }
+    }
+
+    private func notice(seconds: Int) -> some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space3) {
+            Text(String(localized: "call.aloneTitle"))
+                .font(.wizard(WZ.FontSize.md, .semibold))
+                .foregroundStyle(theme.textPrimary)
+            Text(L10n.format("call.aloneLeaving", "\(seconds)"))
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.textMuted)
+            HStack(spacing: WZ.Space.space5) {
+                action(String(localized: "call.stay"), color: theme.accent) { calls.stayInCall() }
+                if calls.ring == .unanswered || calls.ring == .declined {
+                    action(String(localized: "call.ringAgain"), color: theme.accent) {
+                        calls.ringAgain()
+                        calls.stayInCall()
+                    }
+                }
+                action(String(localized: "call.leaveNow"), color: theme.danger) { calls.leave() }
+            }
+        }
+        .padding(WZ.Space.space5)
+        .floatingGlass(in: RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
+        .padding(.horizontal, WZ.Space.space5)
+    }
+
+    private func action(_ label: String, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(label)
+                .font(.wizard(WZ.FontSize.md, .semibold))
+                .foregroundStyle(color)
+        }
+        .buttonStyle(.plain)
+        .padding(.vertical, WZ.Space.space2)
     }
 }
 

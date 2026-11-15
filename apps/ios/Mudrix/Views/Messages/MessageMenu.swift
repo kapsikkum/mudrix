@@ -26,6 +26,7 @@ struct MessageMenuOverlay: View {
     @EnvironmentObject private var recentEmoji: RecentEmoji
     @EnvironmentObject private var session: MatrixSession
     @ObservedObject private var saved = SavedMessages.shared
+    @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @Environment(\.theme) private var theme
     @State private var shown = false
     @State private var capsuleHeight: CGFloat = 0
@@ -151,6 +152,13 @@ struct MessageMenuOverlay: View {
             let text = entry.summary
             main.append(.init(title: String(localized: "common.copy"), icon: "ph-copy-regular") { copyToClipboard(text) })
             main.append(.init(title: String(localized: "timeline.selectText"), icon: "ph-text-aa-regular") { actions.selectText(entry) })
+        }
+        // Hides every picture of the message (or the whole gallery); tapping the cover shows it again
+        let mediaEventIds = entry.mediaEventIds
+        if entry.hasMedia, !mediaEventIds.isEmpty, !hiddenMedia.isHidden(all: mediaEventIds) {
+            main.append(.init(title: String(localized: "timeline.hideMedia"), icon: "ph-eye-slash-regular") {
+                hiddenMedia.hide(mediaEventIds)
+            })
         }
         var danger: [MessageMenuItem] = []
         if let eventId = entry.eventId {

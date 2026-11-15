@@ -186,6 +186,7 @@ private struct DeviceRow: View {
     var onVerify: ((DeviceInfo) -> Void)?
 
     @Environment(\.theme) private var theme
+    @EnvironmentObject private var prefs: AppPreferences
     @State private var showDetails = false
     @State private var renaming = false
     @State private var newName = ""
@@ -211,7 +212,7 @@ private struct DeviceRow: View {
                         }
                     }
                     if let lastSeen = device.lastSeen {
-                        Text(String(localized: "settings.sessions.lastActivity") + " " + lastSeen.formatted(.relative(presentation: .named)))
+                        Text(String(localized: "settings.sessions.lastActivity") + " " + Self.activity(lastSeen, prefs))
                             .font(.wizard(WZ.FontSize.sm))
                             .foregroundStyle(theme.textMuted)
                     }
@@ -272,6 +273,12 @@ private struct DeviceRow: View {
         if name.contains("ios") || name.contains("iphone") || name.contains("android") { return "ph-device-mobile-regular" }
         if name.contains("web") || name.contains("browser") { return "ph-globe-simple-regular" }
         return "ph-desktop-regular"
+    }
+
+    /// The date and time in the formats Settings > Appearance sets, as the web's device card shows them
+    /// (`formatDateLabel` and `formatTime`), rather than the device's own relative wording
+    private static func activity(_ date: Date, _ prefs: AppPreferences) -> String {
+        Formats.abbreviatedDate(date, prefs.dateFormat) + " " + Formats.time(date, prefs.timeFormat)
     }
 
     private func detail(_ label: LocalizedStringKey, _ value: String) -> some View {

@@ -114,6 +114,8 @@ struct ComposerView: View {
             return !items.isEmpty
         }
         .task { members = await timeline.members() }
+        // Leaving the room (or the thread) drops the attachments' background uploads
+        .onDisappear { timeline.cancelPreuploads() }
         .onChange(of: editing?.id) { _, _ in
             if let text = editing?.editableText {
                 draft = text
@@ -140,7 +142,13 @@ struct ComposerView: View {
         }
         .photosPicker(isPresented: $showPhotos, selection: $photoItems, maxSelectionCount: 10,
                       matching: .any(of: [.images, .videos]))
-        .onChange(of: attachments.map(\.id)) { _, ids in registerVideos(ids) }
+        .onChange(of: attachments.map(\.id)) { old, ids in
+            registerVideos(ids)
+            // Next run loop, so the timeline's progress state is not published during this update
+            for attachment in attachments where !old.contains(attachment.id) {
+                Task { @MainActor in startPreupload(attachment) }
+            }
+        }
         .onChange(of: photoItems) { _, items in
             guard !items.isEmpty else { return }
             preparing += items.count
@@ -467,6 +475,7 @@ struct ComposerView: View {
                         .background(theme.fill)
                         .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
                         Button {
+                            timeline.cancelPreupload(attachment.id)
                             attachments.removeAll { $0.id == attachment.id }
                         } label: {
                             Image("ph-x-circle-regular")
@@ -477,12 +486,31 @@ struct ComposerView: View {
                         .offset(x: WZ.Space.space3, y: -WZ.Space.space3)
                         .accessibilityLabel(String(localized: "common.remove"))
                     }
+                    // How far the background upload got, so a long video is seen to be going up
+                    if let state = timeline.preuploadStates[attachment.id], state.status == .uploading {
+                        ProgressView(value: state.progress)
+                            .progressViewStyle(.linear)
+                            .tint(theme.accent)
+                            .frame(width: WZ.SizeAvatar.xl)
+                            .accessibilityLabel(String(localized: "attachment.uploading"))
+                    }
                     if attachment.isVideo, let info = videoInfo[attachment.id] {
                         VideoQualityChip(
                             info: info,
                             choices: VideoPlan.choices(meta: info.meta, fileSize: info.size,
                                                        prefs: prefs.videoUploadPrefs(), maxUploadBytes: session.uploadLimit),
                             onPick: { quality in setQuality(attachment.id, quality) })
+                    }
+                    // A background upload that failed is offered again; it is uploaded on send anyway
+                    if timeline.preuploadStates[attachment.id]?.status == .failed {
+                        Button {
+                            timeline.retryPreupload(attachment.id, at: attachment.url)
+                        } label: {
+                            Label(String(localized: "common.retry"), image: "ph-arrow-counter-clockwise-regular")
+                                .font(.wizard(WZ.FontSize.xs, .semibold))
+                                .foregroundStyle(theme.warningColor)
+                        }
+                        .buttonStyle(.plain)
                     }
                     }
                 }
@@ -523,6 +551,30 @@ struct ComposerView: View {
         guard var info = videoInfo[id] else { return }
         info.quality = quality
         videoInfo[id] = info
+        // What is sent changed, so an upload of the original is no longer useful
+        if let attachment = attachments.first(where: { $0.id == id }) { startPreupload(attachment) }
+    }
+
+    /// Uploads an attachment in the background when its bytes are final, like the web composer;
+    /// cancels one whose bytes the send will rewrite
+    private func startPreupload(_ attachment: PendingAttachment) {
+        let limit = session.uploadLimit
+        let size = MediaMetadata.fileSize(at: attachment.url)
+        let options = ImagePrep.Options(stripMetadata: prefs.photoStripMetadata, maxSide: prefs.photoUploadSize.maxSide)
+        var target: CompressTarget?
+        if attachment.isVideo {
+            let quality = videoInfo[attachment.id]?.quality
+                ?? VideoPlan.defaultQuality(prefs.videoUploadPrefs(), size: size, maxUploadBytes: limit, canCompress: true)
+            target = VideoPlan.qualityTarget(quality, prefs.videoUploadPrefs(), limit)
+        }
+        let processImage = ComposerUploads.imageWillProcess(mimetype: TimelineModel.mimetype(of: attachment.url),
+                                                            options: options)
+        if ComposerUploads.canPreupload(size: size, maxUploadBytes: limit, hasVideoTarget: target != nil,
+                                       imageWillProcess: processImage) {
+            timeline.preupload(attachment.id, at: attachment.url)
+        } else {
+            timeline.cancelPreupload(attachment.id)
+        }
     }
 
     private func addPhotos(_ items: [PhotosPickerItem]) async {
@@ -840,8 +892,8 @@ struct ComposerView: View {
             }
             videoInfo = [:]
             let prep = UploadPrep(prefs: prefs, maxUploadBytes: session.uploadLimit, videoQualities: qualities)
-            await timeline.sendFiles(pending.map { ($0.url, $0.thumbnail) }, caption: text.isEmpty ? nil : text,
-                                     replyTo: reply, prep: prep)
+            await timeline.sendFiles(pending.map { OutgoingUpload(url: $0.url, preview: $0.thumbnail, id: $0.id) },
+                                     caption: text.isEmpty ? nil : text, replyTo: reply, prep: prep)
             return
         }
 

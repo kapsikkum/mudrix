@@ -14,6 +14,13 @@ struct PendingUpload: Identifiable {
     var cancel: (() -> Void)?
 }
 
+/// One file a send will post; `id` is the composer attachment whose background upload may be reused
+struct OutgoingUpload {
+    let url: URL
+    let preview: UIImage?
+    let id: UUID?
+}
+
 struct MessageMention: Hashable {
     let label: String
     let userId: String
@@ -189,6 +196,20 @@ struct ChatEntry: Identifiable, Equatable {
         default: return true
         }
     }
+
+    /// Whether this message carries a picture or a video, which "Hide media" can cover (the web's `hasMedia`)
+    var hasMedia: Bool {
+        switch kind {
+        case .image, .video: return true
+        default: return false
+        }
+    }
+
+    /// The event ids "Hide media" covers: the whole gallery's when this row is one, else this message's
+    var mediaEventIds: [String] {
+        let group = galleryItems.count >= 2 ? galleryItems : [self]
+        return group.compactMap(\.eventId)
+    }
 }
 
 @MainActor
@@ -214,6 +235,13 @@ final class TimelineModel: ObservableObject {
     private var subscriptions: [Subscription] = []
     private var isTyping = false
     private var ownUserId: String { client.userId ?? "" }
+
+    /// Background uploads of composer attachments, by attachment id (see `ComposerUploads`)
+    private let preuploads = ComposerUploads()
+    private var preuploadTasks: [UUID: Task<Void, Never>] = [:]
+    private var preuploadSources: [UUID: JSONValue] = [:]
+    /// What each composer attachment's background upload is doing, for the tray
+    @Published private(set) var preuploadStates: [UUID: UploadState] = [:]
 
     private static let groupingInterval: TimeInterval = 5 * 60
     /// Images sent together are posted back to back; anything further apart is not one set
@@ -404,11 +432,99 @@ final class TimelineModel: ObservableObject {
         await sendFiles([(url, nil)], caption: caption, replyTo: replyTo, spoiler: spoiler, prep: prep)
     }
 
+    // MARK: Uploading before sending
+
+    /// Uploads an attachment in the background as soon as its bytes are final, so sending only waits
+    /// for what is left (the web's `attachmentUploads.ts`, Android's `TimelineModel.preupload`)
+    func preupload(_ id: UUID, at url: URL) {
+        guard timeline != nil else { return }
+        let token = preuploads.start(id)
+        preuploadTasks.removeValue(forKey: id)?.cancel()
+        preuploadSources.removeValue(forKey: id)
+        preuploadStates = preuploads.snapshot()
+        preuploadTasks[id] = Task { [weak self] in
+            guard let self else { return }
+            await self.runPreupload(id, url: url, token: token)
+        }
+    }
+
+    /// Starts a failed background upload again; nothing happens when it never failed or is still running
+    func retryPreupload(_ id: UUID, at url: URL) {
+        guard timeline != nil, let token = preuploads.retry(id) else { return }
+        preuploadTasks.removeValue(forKey: id)?.cancel()
+        preuploadStates = preuploads.snapshot()
+        preuploadTasks[id] = Task { [weak self] in
+            guard let self else { return }
+            await self.runPreupload(id, url: url, token: token)
+        }
+    }
+
+    /// Stops and forgets an attachment's background upload (it was removed, sent, or the room changed)
+    func cancelPreupload(_ id: UUID) {
+        preuploadTasks.removeValue(forKey: id)?.cancel()
+        preuploadSources.removeValue(forKey: id)
+        preuploads.forget(id)
+        preuploadStates = preuploads.snapshot()
+    }
+
+    /// Stops every background upload, for when the composer goes away
+    func cancelPreuploads() {
+        for id in Array(preuploadTasks.keys) { cancelPreupload(id) }
+    }
+
+    private func runPreupload(_ id: UUID, url: URL, token: Int) async {
+        guard let timeline else { return }
+        do {
+            let mimetype = Self.mimetype(of: url)
+            let data = try await Task.detached(priority: .userInitiated) {
+                try Data(contentsOf: url)
+            }.value
+            let source = try await timeline.uploadFile(data: data, mimetype: mimetype) { [weak self] progress in
+                guard progress.total > 0 else { return }
+                let fraction = Double(progress.current) / Double(progress.total)
+                Task { @MainActor in
+                    guard let self, self.preuploads.isCurrent(id, token) else { return }
+                    self.preuploads.progress(id, token: token, fraction: fraction)
+                    self.preuploadStates = self.preuploads.snapshot()
+                }
+            }
+            guard preuploads.isCurrent(id, token) else { return }
+            preuploadSources[id] = source
+            preuploads.finish(id, token)
+        } catch {
+            preuploads.fail(id, token)
+        }
+        preuploadStates = preuploads.snapshot()
+    }
+
+    /// Waits for an attachment's background upload, if any; nil when there is nothing to send as it is
+    private func awaitPreupload(_ id: UUID) async -> JSONValue? {
+        if let task = preuploadTasks[id] { await task.value }
+        let source = preuploadSources[id]
+        cancelPreupload(id)
+        return source
+    }
+
+    static func mimetype(of url: URL) -> String {
+        let type = UTType(filenameExtension: url.pathExtension) ?? .data
+        return type.preferredMIMEType ?? "application/octet-stream"
+    }
+
     /// The caption and reply go with the first file; with `prep`, photos are cleaned and shrunk and
     /// big videos re-encoded first, as the settings say
     func sendFiles(_ files: [(url: URL, preview: UIImage?)], caption: String? = nil, replyTo: String? = nil,
                    spoiler: Bool = false, prep: UploadPrep? = nil) async {
+        await sendFiles(files.map { OutgoingUpload(url: $0.url, preview: $0.preview, id: nil) },
+                        caption: caption, replyTo: replyTo, spoiler: spoiler, prep: prep)
+    }
+
+    /// Sends files that may already be uploading in the background: those are waited for and reused
+    func sendFiles(_ files: [OutgoingUpload], caption: String? = nil, replyTo: String? = nil,
+                   spoiler: Bool = false, prep: UploadPrep? = nil) async {
         guard timeline != nil else { return }
+        // Two or more pictures sent together are tagged so every client of ours shows them as one set
+        let mimeTypes = files.map { Self.mimetype(of: $0.url) }
+        let tags = GalleryTags.plan(mimeTypes: mimeTypes, id: UUID().uuidString.lowercased())
         let pending = files.map { file in
             let type = UTType(filenameExtension: file.url.pathExtension) ?? .data
             return PendingUpload(preview: file.preview ?? (type.conforms(to: .image) ? UIImage(contentsOfFile: file.url.path) : nil),
@@ -417,14 +533,17 @@ final class TimelineModel: ObservableObject {
         uploads.append(contentsOf: pending)
         for (index, (file, item)) in zip(files, pending).enumerated() {
             await upload(file.url, as: item.id, caption: index == 0 ? caption : nil,
-                         replyTo: index == 0 ? replyTo : nil, spoiler: spoiler, prep: prep)
+                         replyTo: index == 0 ? replyTo : nil, spoiler: spoiler, prep: prep,
+                         preuploadId: file.id, gallery: tags.indices.contains(index) ? tags[index] : nil)
             uploads.removeAll { $0.id == item.id }
         }
     }
 
     private func upload(_ original: URL, as id: UUID, caption: String?, replyTo: String?, spoiler: Bool,
-                        prep: UploadPrep?) async {
+                        prep: UploadPrep?, preuploadId: UUID? = nil, gallery: GalleryTags.Tag? = nil) async {
         guard let timeline else { return }
+        // The attachment's background upload is done with once this file is sent, or dropped
+        defer { if let preuploadId { cancelPreupload(preuploadId) } }
         var url = original
         if let prep {
             // A file that cannot be prepared is not sent (the reason is in sendError)
@@ -434,10 +553,23 @@ final class TimelineModel: ObservableObject {
         defer {
             if url != original { try? FileManager.default.removeItem(at: url.deletingLastPathComponent()) }
         }
+        // Only bytes that are sent exactly as they are get a background upload, so a file that was
+        // prepared above is uploaded here instead
+        var preuploaded: JSONValue?
+        if let preuploadId {
+            if url == original {
+                preuploaded = await awaitPreupload(preuploadId)
+            } else {
+                // The bytes were rewritten, so the background upload of the original is no use
+                cancelPreupload(preuploadId)
+            }
+        }
         let type = UTType(filenameExtension: url.pathExtension) ?? .data
         let mimetype = type.preferredMIMEType ?? "application/octet-stream"
-        var file = UploadedFile(source: .null, size: 0, filename: url.lastPathComponent, mimetype: mimetype,
-                                caption: caption, spoiler: spoiler, isAnimated: type.conforms(to: .gif), replyTo: replyTo)
+        var file = UploadedFile(source: .null, size: Int(MediaMetadata.fileSize(at: url)), filename: url.lastPathComponent,
+                                mimetype: mimetype, caption: caption, spoiler: spoiler,
+                                isAnimated: type.conforms(to: .gif), replyTo: replyTo,
+                                extraContent: gallery.map { GalleryTags.content($0) })
         if type.conforms(to: .image), let size = MediaMetadata.imageSize(at: url) {
             file.width = Int(size.width)
             file.height = Int(size.height)
@@ -450,14 +582,18 @@ final class TimelineModel: ObservableObject {
             file.durationMs = await MediaMetadata.duration(at: url).map { Int($0 * 1000) }
         }
         await report {
-            let data = try Data(contentsOf: url)
-            file.size = data.count
-            file.source = try await timeline.uploadFile(data: data, mimetype: mimetype) { [weak self] progress in
-                guard progress.total > 0 else { return }
-                let fraction = Double(progress.current) / Double(progress.total)
-                Task { @MainActor in
-                    guard let self, let index = self.uploads.firstIndex(where: { $0.id == id }) else { return }
-                    self.uploads[index].progress = fraction
+            if let preuploaded {
+                file.source = preuploaded
+            } else {
+                let data = try Data(contentsOf: url)
+                file.size = data.count
+                file.source = try await timeline.uploadFile(data: data, mimetype: mimetype) { [weak self] progress in
+                    guard progress.total > 0 else { return }
+                    let fraction = Double(progress.current) / Double(progress.total)
+                    Task { @MainActor in
+                        guard let self, let index = self.uploads.firstIndex(where: { $0.id == id }) else { return }
+                        self.uploads[index].progress = fraction
+                    }
                 }
             }
             if type.conforms(to: .movie), let frame = await MediaMetadata.videoFrame(at: url),

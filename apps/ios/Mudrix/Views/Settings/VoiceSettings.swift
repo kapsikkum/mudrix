@@ -17,17 +17,20 @@ struct VoiceProcessingSection: View {
     }
 }
 
-/// The Mudrix-only sections of Settings > Voice & Video: sound effects, moves between voice rooms and the
-/// soundboard on this device. Meant to be placed inside the page by `VoiceVideoSettings`.
+/// The Mudrix-only sections of Settings > Voice & Video: call display and moves between voice rooms, sound
+/// effects and the soundboard on this device. Meant to be placed inside the page by `VoiceVideoSettings`.
 struct VoiceSettings: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
     var body: some View {
-        soundEffects
-        SettingsSection {
+        SettingsSection(title: "settings.voice.callTitle") {
+            ToggleRow(label: "settings.voice.showReactions", note: "settings.voice.showReactionsNote",
+                      isOn: $prefs.showCallReactions)
+            SettingsDivider()
             ToggleRow(label: "settings.voice.allowMoves", note: "settings.voice.allowMovesNote", isOn: $prefs.allowVoiceMoves)
         }
+        soundEffects
         soundboard
     }
 

@@ -182,6 +182,10 @@ struct CallControls: View {
                         Label(menu: String(localized: "soundboard.panel.open"), icon: "ph-waveform-regular")
                     }
                 }
+                Divider()
+                Button { showStats = true } label: {
+                    Label(menu: String(localized: "voice.stats.title"), icon: "ph-plugs-connected-regular")
+                }
                 if let onOpenChat {
                     Divider()
                     Button(action: onOpenChat) { Label(menu: String(localized: "room.openChat"), icon: "ph-chat-text-regular") }
@@ -221,10 +225,14 @@ struct CallControls: View {
             SoundboardSheet(soundboard: calls.soundboard)
                 .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: $showStats) {
+            ConnectionStatsSheet()
+        }
     }
 
     @State private var showWatchSheet = false
     @State private var showSoundboard = false
+    @State private var showStats = false
 
     private var moreHighlighted: Bool { calls.handRaised || calls.screenSharing }
 
@@ -376,17 +384,21 @@ struct ParticipantStack: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        HStack(spacing: -WZ.Space.space3) {
-            ForEach(userIds.prefix(5), id: \.self) { userId in
-                MiniAvatar(roomId: roomId, userId: userId)
-                    .overlay(Circle().stroke(theme.bgPrimary, lineWidth: WZ.BorderWidth.thick))
+        HStack(spacing: WZ.Space.space3) {
+            HStack(spacing: -WZ.Space.space3) {
+                ForEach(userIds.prefix(5), id: \.self) { userId in
+                    MiniAvatar(roomId: roomId, userId: userId)
+                        .overlay(Circle().stroke(theme.bgPrimary, lineWidth: WZ.BorderWidth.thick))
+                }
+                if userIds.count > 5 {
+                    Text("+\(userIds.count - 5)")
+                        .font(.wizard(WZ.FontSize.xs, .bold))
+                        .foregroundStyle(theme.textMuted)
+                        .padding(.leading, WZ.Space.space4)
+                }
             }
-            if userIds.count > 5 {
-                Text("+\(userIds.count - 5)")
-                    .font(.wizard(WZ.FontSize.xs, .bold))
-                    .foregroundStyle(theme.textMuted)
-                    .padding(.leading, WZ.Space.space4)
-            }
+            // How long the call has been going, as the web's room list shows it
+            RoomCallTimer(roomId: roomId)
         }
     }
 }

@@ -71,7 +71,8 @@ struct GalleryGridView: View {
         LazyVGrid(columns: Array(repeating: GridItem(.fixed(tile), spacing: spacing), count: columns),
                   spacing: spacing) {
             ForEach(Array(visible.enumerated()), id: \.element.entry.id) { index, item in
-                GalleryTile(media: item.media, spoiler: item.entry.mediaSpoiler, isPrivateRoom: isPrivateRoom,
+                GalleryTile(media: item.media, eventId: item.entry.eventId, spoiler: item.entry.mediaSpoiler,
+                            isPrivateRoom: isPrivateRoom,
                             moreCount: index == visible.count - 1 && extra > 0 ? extra : 0) {
                     openIndex = index
                 }
@@ -91,6 +92,8 @@ struct IdentifiedInt: Identifiable { let id: Int }
 
 private struct GalleryTile: View {
     let media: ChatEntry.MediaContent
+    /// The tile's own event, for "Hide media" (each picture of a hidden gallery is revealed on its own)
+    var eventId: String?
     let spoiler: String?
     let isPrivateRoom: Bool
     let moreCount: Int
@@ -99,12 +102,17 @@ private struct GalleryTile: View {
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
+    @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @State private var image: UIImage?
     @State private var revealed = false
+    @State private var failed = false
+    /// Bumped by a tap on a failed tile, to load it again
+    @State private var attempt = 0
 
     private var hidden: Bool {
         guard !revealed else { return false }
         if spoiler != nil { return true }
+        if hiddenMedia.isHidden(eventId) { return true }
         switch prefs.mediaVisibility {
         case .always: return false
         case .private: return !isPrivateRoom
@@ -117,6 +125,11 @@ private struct GalleryTile: View {
             theme.fill
             if let image {
                 Image(uiImage: image).resizable().scaledToFill()
+            } else if failed && !hidden {
+                Image("ph-warning-circle-regular")
+                    .font(.system(size: WZ.SizeIcon.md))
+                    .foregroundStyle(theme.warningColor)
+                    .accessibilityLabel(String(localized: "timeline.mediaRetry"))
             }
             if hidden {
                 Rectangle().fill(.thinMaterial)
@@ -132,10 +145,23 @@ private struct GalleryTile: View {
         }
         .clipped()
         .contentShape(Rectangle())
-        .onTapGesture { if hidden { withAnimation { revealed = true } } else { onOpen() } }
-        .task(id: hidden) {
+        .onTapGesture {
+            if hidden {
+                withAnimation { revealed = true }
+                if hiddenMedia.isHidden(eventId) { hiddenMedia.reveal(eventId.map { [$0] } ?? []) }
+            } else if failed {
+                failed = false
+                attempt += 1
+            } else {
+                onOpen()
+            }
+        }
+        .task(id: "\(hidden)-\(attempt)") {
             guard !hidden, let mediaLoader else { return }
-            image = await mediaLoader.image(for: media.thumbnail ?? media.source, thumbnailSize: 400, animated: false)
+            let loaded = await mediaLoader.image(for: media.thumbnail ?? media.source, thumbnailSize: 400, animated: false)
+            guard !Task.isCancelled else { return }
+            if let loaded { image = loaded }
+            failed = loaded == nil && image == nil
         }
     }
 }

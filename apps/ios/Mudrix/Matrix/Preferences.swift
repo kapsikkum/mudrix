@@ -179,6 +179,9 @@ final class AppPreferences: ObservableObject {
     @Published var soundboardVolume: Double { didSet { save("soundboardVolume", soundboardVolume) } }
     /// People whose soundboard clips are muted on this device
     @Published var soundboardMutedUsers: [String] { didSet { save("soundboardMutedUsers", soundboardMutedUsers) } }
+    /// Whether received emoji reactions and raised hands are drawn on call tiles. A display choice of this
+    /// device, like the web's `wz_call_show_reactions`; Android has no key for it, so it is not synced.
+    @Published var showCallReactions: Bool { didSet { save("showCallReactions", showCallReactions) } }
     @Published var notificationBanners: Bool { didSet { save("notificationBanners", notificationBanners) } }
     @Published var language: String { didSet { save("language", language); applyLanguage(); syncIfNeeded() } }
     @Published var developerMode: Bool { didSet { save("developerMode", developerMode) } }
@@ -280,6 +283,7 @@ final class AppPreferences: ObservableObject {
         let storedBoardVolume = d.object(forKey: "soundboardVolume") as? Double ?? 70
         soundboardVolume = min(max(storedBoardVolume, 0), 100)
         soundboardMutedUsers = d.stringArray(forKey: "soundboardMutedUsers") ?? []
+        showCallReactions = d.object(forKey: "showCallReactions") as? Bool ?? true
         notificationBanners = d.object(forKey: "notificationBanners") as? Bool ?? true
         language = d.string(forKey: "language") ?? ""
         pushToTalk = d.bool(forKey: "pushToTalk")

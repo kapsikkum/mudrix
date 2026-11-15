@@ -1315,15 +1315,17 @@ struct MessageRow: View {
                 if entry.galleryItems.count >= 2 {
                     GalleryGridView(items: entry.galleryItems, isPrivateRoom: isPrivateRoom)
                 } else {
-                    ImageMessageView(media: media, isPrivateRoom: isPrivateRoom, spoiler: entry.mediaSpoiler)
+                    ImageMessageView(media: media, isPrivateRoom: isPrivateRoom, spoiler: entry.mediaSpoiler,
+                                     eventIds: entry.mediaEventIds, roomId: actions?.roomId)
                 }
                 if let caption = media.caption { Text(caption).font(.wizard(WZ.FontSize.lg * scale)).foregroundStyle(theme.textPrimary) }
             }
         case .sticker(let media):
-            ImageMessageView(media: media, isSticker: true, isPrivateRoom: isPrivateRoom)
+            ImageMessageView(media: media, isSticker: true, isPrivateRoom: isPrivateRoom,
+                             eventIds: entry.mediaEventIds, roomId: actions?.roomId)
         case .video(let media):
             VStack(alignment: .leading, spacing: WZ.Space.space2) {
-                VideoMessageView(media: media, spoiler: entry.mediaSpoiler)
+                VideoMessageView(media: media, spoiler: entry.mediaSpoiler, eventIds: entry.mediaEventIds)
                 if let caption = media.caption { Text(caption).font(.wizard(WZ.FontSize.lg * scale)).foregroundStyle(theme.textPrimary) }
             }
         case .audio(let media, let isVoice, let waveform):

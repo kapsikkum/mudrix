@@ -10,21 +10,36 @@ struct ImageMessageView: View {
     var isSticker = false
     var isPrivateRoom = true
     var spoiler: String?
+    /// The event ids this picture is covered with, the whole gallery's when it is one ("Hide media")
+    var eventIds: [String] = []
+    /// The room the message is in, where the sticker's pack is looked for first
+    var roomId: String?
 
     @EnvironmentObject private var prefs: AppPreferences
+    @EnvironmentObject private var session: MatrixSession
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
     @Environment(\.animatesMedia) private var animatesMedia
+    @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @State private var image: UIImage?
     @State private var revealed = false
     @State private var playing = false
     @State private var holding = false
     @State private var showViewer = false
+    @State private var failed = false
+    /// Bumped by a tap on a failed picture, to load it again
+    @State private var attempt = 0
+    @State private var stickerLookup = false
+    @State private var stickerPack: ImagePack?
     private static let tapPlays = 2
+
+    /// Whether "Hide media" covers this picture (every event of the group must be hidden)
+    private var hiddenByAction: Bool { hiddenMedia.isHidden(all: eventIds) }
 
     private var hidden: Bool {
         guard !revealed else { return false }
         if spoiler != nil { return true }
+        if hiddenByAction { return true }
         switch prefs.mediaVisibility {
         case .always: return false
         case .private: return !isPrivateRoom
@@ -58,6 +73,8 @@ struct ImageMessageView: View {
                         .resizable()
                         .aspectRatio(contentMode: isSticker ? .fit : .fill)
                 }
+            } else if failed && !hidden {
+                FailedPictureTile()
             } else {
                 theme.fill
                 ProgressView().tint(theme.textMuted)
@@ -83,22 +100,77 @@ struct ImageMessageView: View {
         .clipShape(RoundedRectangle(cornerRadius: isSticker ? 0 : 14, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture {
-            if hidden { revealed = true }
-            else if canAnimate && !animate { playing = true }
-            else if !isSticker { showViewer = true }
+            if hidden {
+                revealed = true
+                if hiddenByAction { hiddenMedia.reveal(eventIds) }
+            } else if failed {
+                failed = false
+                attempt += 1
+            } else if isSticker {
+                openStickerPack()
+            } else if canAnimate && !animate {
+                playing = true
+            } else {
+                showViewer = true
+            }
         }
         .gesture(HoldGesture { holding = $0 })
-        .task(id: "\(animate)-\(hidden)-\(playing)") {
+        .task(id: "\(animate)-\(hidden)-\(playing)-\(attempt)") {
             guard !hidden, let mediaLoader else { return }
-            image = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)
-            guard playing, !prefs.autoplayGifs, !animatesMedia, let image, image.images != nil else { return }
-            try? await Task.sleep(for: .seconds(image.duration * Double(Self.tapPlays)))
+            let loaded = await mediaLoader.image(for: media.source, thumbnailSize: animate ? nil : 800, animated: animate)
+            guard !Task.isCancelled else { return }
+            if let loaded { image = loaded }
+            failed = loaded == nil && image == nil
+            guard playing, !prefs.autoplayGifs, !animatesMedia, let loaded, loaded.images != nil else { return }
+            try? await Task.sleep(for: .seconds(loaded.duration * Double(Self.tapPlays)))
             if !Task.isCancelled { playing = false }
         }
         .fullScreenCover(isPresented: $showViewer) {
             ImageViewer(image: image, title: media.caption ?? media.filename)
         }
+        .sheet(item: $stickerPack) { pack in
+            StickerPackSheet(pack: pack)
+        }
         .accessibilityLabel(media.body)
+    }
+
+    /// Looks the pack a sticker came from up in this room first, then the others; only public packs show
+    private func openStickerPack() {
+        guard let url = StickerPacks.imageUrl(media.source), !stickerLookup else { return }
+        stickerLookup = true
+        let others = session.roomList?.joinedRooms.map(\.id) ?? []
+        Task {
+            let lookup = await StickerPacks.find(session: session, url: url,
+                                                 roomIds: StickerPacks.roomOrder(current: roomId, others: others))
+            stickerLookup = false
+            switch lookup {
+            case .found(let pack): stickerPack = pack
+            case .unknown: CopyToast.shared.show(String(localized: "timeline.stickerPack.unknown"))
+            case .notPublic: CopyToast.shared.show(String(localized: "timeline.stickerPack.notPublic"))
+            }
+        }
+    }
+}
+
+/// A picture that could not be loaded: a warning tile; tapping it tries again (Android's `FailedPicture`)
+struct FailedPictureTile: View {
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        VStack(spacing: WZ.Space.space2) {
+            Image("ph-warning-circle-regular")
+                .font(.system(size: WZ.SizeIcon.xl))
+                .foregroundStyle(theme.warningColor)
+            Text(String(localized: "timeline.mediaRetry"))
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.textMuted)
+                .multilineTextAlignment(.center)
+        }
+        .padding(WZ.Space.space4)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(theme.fill)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
     }
 }
 
@@ -141,11 +213,21 @@ struct ImageViewer: View {
 struct VideoMessageView: View {
     let media: ChatEntry.MediaContent
     var spoiler: String?
+    /// The event ids this video is covered with ("Hide media")
+    var eventIds: [String] = []
     @State private var revealed = false
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme
+    @ObservedObject private var hiddenMedia = HiddenMedia.shared
     @State private var thumbnail: UIImage?
     @StateObject private var download = VideoDownloader()
+
+    private var hiddenByAction: Bool { hiddenMedia.isHidden(all: eventIds) }
+
+    private var hidden: Bool {
+        guard !revealed else { return false }
+        return spoiler != nil || hiddenByAction
+    }
 
     var body: some View {
         let width: CGFloat = 260
@@ -156,9 +238,15 @@ struct VideoMessageView: View {
             } else {
                 theme.fill
             }
-            if spoiler != nil && !revealed {
+            if hidden {
                 Rectangle().fill(.thinMaterial)
-                SpoilerCover(reason: spoiler ?? "")
+                if let spoiler {
+                    SpoilerCover(reason: spoiler)
+                } else {
+                    Label(String(localized: "timeline.showMedia"), image: "ph-eye-regular")
+                        .font(.wizard(WZ.FontSize.md, .semibold))
+                        .foregroundStyle(theme.textPrimary)
+                }
             } else {
                 VideoPlayButton(download: download)
             }
@@ -184,7 +272,12 @@ struct VideoMessageView: View {
         .frame(width: width, height: min(width * ratio, 340))
         .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
         .onTapGesture {
-            if spoiler != nil && !revealed { withAnimation { revealed = true } } else { Task { await play() } }
+            if hidden {
+                withAnimation { revealed = true }
+                if hiddenByAction { hiddenMedia.reveal(eventIds) }
+            } else {
+                Task { await play() }
+            }
         }
         .task {
             guard let source = media.thumbnail, let mediaLoader else { return }
@@ -222,6 +315,19 @@ enum NativeVideoPlayer {
 }
 
 struct FileMessageView: View {
+    let media: ChatEntry.MediaContent
+
+    var body: some View {
+        if TextFile.showsCard(filename: media.filename, mimetype: media.mimetype, size: media.size) {
+            TextFileCard(media: media)
+        } else {
+            FileRow(media: media)
+        }
+    }
+}
+
+/// A file that is opened with Quick Look: an icon, its name and size, and a download arrow
+private struct FileRow: View {
     let media: ChatEntry.MediaContent
     @Environment(\.mediaLoader) private var mediaLoader
     @Environment(\.theme) private var theme

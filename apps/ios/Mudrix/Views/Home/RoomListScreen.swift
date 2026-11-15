@@ -387,6 +387,16 @@ struct RoomListScreen: View {
                       icon: "ph-arrow-line-down-regular")
             }
             if selection != .dms { sectionMenu(for: room) }
+            if let move = roomMove(room) {
+                Button { applyMove(move, by: -1) } label: {
+                    Label(menu: String(localized: "room.sections.moveUp"), icon: "ph-caret-up-down-regular")
+                }
+                .disabled(move.index == 0)
+                Button { applyMove(move, by: 1) } label: {
+                    Label(menu: String(localized: "room.sections.moveDown"), icon: "ph-caret-up-down-regular")
+                }
+                .disabled(move.index >= move.ids.count - 1)
+            }
             Button { copyToClipboard("https://matrix.to/#/\(room.id)", message: String(localized: "timeline.linkCopied")) } label: {
                 Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
             }
@@ -546,6 +556,37 @@ struct RoomListScreen: View {
 
     private func moveGroup(_ group: RoomGroup, by offset: Int, in groups: [RoomGroup]) {
         sectionTask { try await roomList.moveGroup(group.id, by: offset, in: groups) }
+    }
+
+    /// The "Move up" and "Move down" entries for a room, when its group has an order to save: favourites
+    /// keep one in their `m.favourite` tag and the home list in `home_order`. Sections and the low-priority
+    /// list have no saved room order, and the Modern space list has no dragging at all, so neither offers it.
+    private func roomMove(_ room: RoomSummary) -> RoomMove? {
+        guard search.isEmpty, !(isModern && spaceId != nil) else { return nil }
+        for group in groups {
+            guard group.rooms.count > 1,
+                  let index = group.rooms.firstIndex(where: { $0.id == room.id }) else { continue }
+            switch group.kind {
+            case .favourites:
+                return RoomMove(ids: group.rooms.map(\.id), index: index, favourites: true)
+            case .rooms where selection == .home:
+                return RoomMove(ids: group.rooms.map(\.id), index: index, favourites: false)
+            default:
+                return nil
+            }
+        }
+        return nil
+    }
+
+    private func applyMove(_ move: RoomMove, by offset: Int) {
+        guard let ids = RoomMoveOrder.moved(move, by: offset) else { return }
+        Task {
+            if move.favourites {
+                await roomList.saveFavouriteOrder(ids)
+            } else {
+                await roomList.saveHomeOrder(ids)
+            }
+        }
     }
 
     private func startNewSection(for roomId: String?) {

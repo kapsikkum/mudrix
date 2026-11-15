@@ -238,6 +238,15 @@ struct AccessibilitySettings: View {
 struct PrivacySettings: View {
     @EnvironmentObject private var prefs: AppPreferences
     @EnvironmentObject private var session: MatrixSession
+    /// The custom status' dot mode, which is where "Do not disturb" lives (the web sends presence online
+    /// and marks the dot busy through the status field)
+    @State private var statusMode: StatusMode?
+    /// Whether the homeserver has extended profiles, which is where the status field lives
+    @State private var supportsStatus = false
+    @State private var presenceError: String?
+
+    /// The tag of the "Do not disturb" entry; it is not a presence of its own
+    private static let dndTag = "dnd"
 
     var body: some View {
         SettingsPage(title: "settings.privacy.title") {
@@ -261,18 +270,65 @@ struct PrivacySettings: View {
                 if prefs.showPresence {
                     SettingsDivider()
                     PickerRow(label: "presence.changeStatus",
-                              selection: $prefs.presenceChoice,
-                              options: [
-                                  (.auto, "presence.auto"),
-                                  (.online, "presence.online"),
-                                  (.away, "presence.away"),
-                                  (.invisible, "presence.invisible"),
-                              ])
+                              selection: presenceSelection,
+                              options: presenceOptions)
                 }
                 ToggleRow(label: "settings.privacy.showHomeserverSoftware",
                           note: "settings.privacy.showHomeserverSoftwareNote",
                           isOn: $prefs.showHomeserverSoftware)
                 BlockInvitesToggle()
+            }
+        }
+        .task { await loadStatusMode() }
+        .alert(presenceError ?? "", isPresented: Binding(get: { presenceError != nil },
+                                                        set: { if !$0 { presenceError = nil } })) {
+            Button(String(localized: "common.close"), role: .cancel) {}
+        }
+    }
+
+    /// Auto, online, away and invisible are the presence itself; "Do not disturb" keeps the presence online
+    /// and puts the busy dot in the status field, as the web and Android do
+    private var presenceSelection: Binding<String> {
+        Binding(
+            get: { statusMode == .dnd ? Self.dndTag : prefs.presenceChoice.rawValue },
+            set: { choice in
+                guard choice == Self.dndTag else {
+                    prefs.presenceChoice = PresenceChoice(rawValue: choice) ?? .auto
+                    if statusMode != nil { setStatusMode(nil) }
+                    return
+                }
+                prefs.presenceChoice = .online
+                setStatusMode(.dnd)
+            })
+    }
+
+    private var presenceOptions: [(String, LocalizedStringKey)] {
+        var options: [(String, LocalizedStringKey)] = [
+            (PresenceChoice.auto.rawValue, "presence.auto"),
+            (PresenceChoice.online.rawValue, "presence.online"),
+            (PresenceChoice.away.rawValue, "presence.away"),
+            (PresenceChoice.invisible.rawValue, "presence.invisible"),
+        ]
+        if supportsStatus || statusMode == .dnd { options.append((Self.dndTag, "profile.status.modeDnd")) }
+        return options
+    }
+
+    private func loadStatusMode() async {
+        guard let client = session.client else { return }
+        supportsStatus = (try? await client.supportsExtendedProfiles()) ?? false
+        statusMode = await StatusFields.read(client: client)
+    }
+
+    private func setStatusMode(_ mode: StatusMode?) {
+        guard let client = session.client else { return }
+        let before = statusMode
+        statusMode = mode
+        Task {
+            do {
+                try await StatusFields.write(client: client, mode: mode)
+            } catch {
+                statusMode = before
+                presenceError = L10n.format("common.saveFailed", error.localizedDescription)
             }
         }
     }
@@ -411,6 +467,7 @@ extension WizardTheme {
 struct AboutSettings: View {
     @Environment(\.theme) private var theme
     @State private var showWhatsNew = false
+    @StateObject private var updates = AppUpdateModel()
 
     private var version: String {
         let info = Bundle.main.infoDictionary
@@ -434,6 +491,8 @@ struct AboutSettings: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, WZ.Space.space4)
             .listRowSeparator(.hidden)
+
+            updateSection
 
             Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
                 Label(String(localized: "settings.downloadMudrixForDesktop"), image: "ph-download-simple-regular")
@@ -483,6 +542,48 @@ struct AboutSettings: View {
             HStack(spacing: WZ.Space.space3) {
                 configuration.icon
                 configuration.title
+            }
+        }
+    }
+
+    /// The newest release on GitHub: iOS has no in-app updater, so a newer version is a link to its page
+    /// (the web's "Check for updates" in About)
+    @ViewBuilder
+    private var updateSection: some View {
+        SettingsSection(title: "settings.about.updates") {
+            switch updates.state {
+            case .checking:
+                HStack(spacing: WZ.Space.space3) {
+                    ProgressView().tint(theme.accent)
+                    Text(String(localized: "update.checking"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.textMuted)
+                }
+            case .upToDate:
+                Label(String(localized: "update.upToDate"), image: "ph-check-circle-regular")
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+            case .available(let latest):
+                Text(String(localized: "update.available"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textPrimary)
+                Text(verbatim: "v\(latest)")
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+                Link(destination: AppUpdates.releasesUrl) {
+                    Label(String(localized: "update.action"), image: "ph-download-simple-regular")
+                }
+                .buttonStyle(SecondaryButtonStyle())
+            case .idle, .failed:
+                if updates.state == .failed {
+                    Text(String(localized: "update.checkFailed"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.danger)
+                }
+                Button(String(localized: "update.checkNow")) {
+                    Task { await updates.check() }
+                }
+                .buttonStyle(SecondaryButtonStyle())
             }
         }
     }

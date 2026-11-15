@@ -14,17 +14,23 @@ struct CallParticipantInfo: Identifiable, Equatable {
     var speaking = false
     var micMuted = true
     var cameraTrack: VideoTrack?
+    /// The camera track even while it is muted: its last frame stands in for an idle tile
+    var cameraStillTrack: VideoTrack?
     var screenTrack: VideoTrack?
     var handRaised = false
     var reaction: String?
     var volume: Double = 1
     var locallyMuted = false
+    /// A media key has not arrived (or does not fit), so this person's audio and video cannot be decrypted
+    var keyMissing = false
 
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.identity == rhs.identity && lhs.connected == rhs.connected && lhs.speaking == rhs.speaking
             && lhs.micMuted == rhs.micMuted && lhs.cameraTrack === rhs.cameraTrack
+            && lhs.cameraStillTrack === rhs.cameraStillTrack
             && lhs.screenTrack === rhs.screenTrack && lhs.handRaised == rhs.handRaised
             && lhs.reaction == rhs.reaction && lhs.volume == rhs.volume && lhs.locallyMuted == rhs.locallyMuted
+            && lhs.keyMissing == rhs.keyMissing
     }
 }
 
@@ -54,6 +60,11 @@ final class CallManager: NSObject, ObservableObject {
 
     enum RingState: Equatable { case ringing, declined, unanswered }
     @Published private(set) var ring: RingState?
+    /// "You're the only one here": counts down and ends a direct call nobody else is in
+    let alone = AloneTracker()
+    private var aloneTask: Task<Void, Never>?
+    /// People whose media cannot be decrypted yet, by identity: the tile shows `call.keyMissing`
+    private var keyIssues: Set<String> = []
     @Published private(set) var incoming: RingingCall?
     @Published private(set) var incomingCallId: UUID?
     private let callKit = CallKitController()
@@ -198,6 +209,7 @@ final class CallManager: NSObject, ObservableObject {
             if intent == "video" { toggleCamera() }
             syncRemoteConnections()
             startRefreshing()
+            startWatchingAlone()
         } catch {
             guard attempt == current else { return }
             switch error {
@@ -246,6 +258,10 @@ final class CallManager: NSObject, ObservableObject {
     private func tearDown() async {
         micTask = nil
         AudioManager.shared.isMicrophoneMuted = false
+        aloneTask?.cancel()
+        aloneTask = nil
+        keyIssues = []
+        statsTracks = []
         if let id = callId {
             callId = nil
             callKit.end(id)
@@ -291,6 +307,8 @@ final class CallManager: NSObject, ObservableObject {
         case .key(let key):
             guard let data = Data(base64Encoded: key.key) else { return }
             keyProvider?.setKey(keyData: data, participantId: key.identity, index: Int32(key.index))
+            // The media key arrived, so whatever could not be decrypted can be now
+            if keyIssues.remove(key.identity) != nil { refresh() }
         case .declined:
             if ring == .ringing { endRinging(.declined) }
         case .unanswered:
@@ -559,6 +577,105 @@ final class CallManager: NSObject, ObservableObject {
         }
     }
 
+    private static var nowMillis: Int64 { Int64(Date().timeIntervalSince1970 * 1000) }
+
+    private var othersConnected: Int { participants.filter { !$0.isLocal && $0.connected }.count }
+
+    /// The alone notice's clock: feeds the tracker and hangs up when its countdown runs out
+    private func startWatchingAlone() {
+        aloneTask?.cancel()
+        aloneTask = Task { [weak self] in
+            while !Task.isCancelled {
+                guard let self else { return }
+                let now = Self.nowMillis
+                self.alone.update(isDirect: self.room?.isDirect == true, joined: self.state == .joined,
+                                  others: self.othersConnected, ring: self.ring, now: now)
+                if self.alone.tick(now: now) {
+                    self.leave()
+                    return
+                }
+                try? await Task.sleep(for: .milliseconds(250))
+            }
+        }
+    }
+
+    /// Seconds left before the alone notice ends the call, nil when there is nothing to show
+    func aloneSecondsLeft(now: Int64) -> Int? {
+        guard room?.isDirect == true, state == .joined, alone.isCounting else { return nil }
+        return alone.secondsLeft(now: now)
+    }
+
+    /// "Stay" on the alone notice: no more notices until someone else joins
+    func stayInCall() {
+        alone.stay()
+        refresh()
+    }
+
+    /// The connection numbers the stats sheet shows, gathered from the publisher's and a subscriber's reports
+    func connectionStats() async -> ConnectionStats.Sample? {
+        guard state == .joined else { return nil }
+        let rooms = [publisher].compactMap { $0 } + connections.values.filter { $0 !== publisher }
+        guard let primary = rooms.first(where: { $0.connectionState == .connected }) else { return nil }
+        guard let reports = await statsReports(primary) else { return nil }
+        return ConnectionStats.Sample(at: Self.nowMillis,
+                                      server: primary.url.flatMap { URL(string: $0)?.host },
+                                      publisher: reports.sent,
+                                      subscriber: reports.received)
+    }
+
+    /// Tracks whose statistics timer has been started: asking again would restart the one-second timer
+    private var statsTracks: Set<ObjectIdentifier> = []
+
+    /// A report is only collected once a second after it is asked for, so wait a moment for the first one
+    private func statsReports(_ room: LiveKit.Room) async -> (sent: [[String: Any]], received: [[String: Any]])? {
+        let localTrack = Self.statsTrack(room.localParticipant)
+        let remoteTrack = Self.statsTrack(room.remoteParticipants.values.first)
+        for track in [localTrack, remoteTrack].compactMap({ $0 }) {
+            // Asking twice restarts the timer, so each track is asked once
+            if statsTracks.insert(ObjectIdentifier(track)).inserted {
+                await track.set(reportStatistics: true)
+            }
+        }
+        for _ in 0..<4 {
+            let sent = localTrack?.statistics
+            let received = remoteTrack?.statistics
+            if sent != nil || received != nil {
+                return (sent.map(ConnectionStats.report(from:)) ?? [],
+                        received.map(ConnectionStats.report(from:)) ?? [])
+            }
+            try? await Task.sleep(for: .milliseconds(300))
+        }
+        return nil
+    }
+
+    private static func statsTrack(_ participant: Participant?) -> Track? {
+        guard let participant else { return nil }
+        let publications = participant.audioTracks + participant.videoTracks
+        return publications.first { $0.track != nil && !$0.isMuted }?.track
+            ?? publications.first { $0.track != nil }?.track
+    }
+
+    /// LiveKit reports a failing media key per track; the tile needs it per person
+    private func updateKeyIssue(trackSid: String, failed: Bool) {
+        guard let identity = identity(ofTrack: trackSid) else { return }
+        let changed = failed ? keyIssues.insert(identity).inserted : keyIssues.remove(identity) != nil
+        if changed { refresh() }
+    }
+
+    private func identity(ofTrack trackSid: String) -> String? {
+        if let local = publisher?.localParticipant,
+           (local.audioTracks + local.videoTracks).contains(where: { $0.sid.stringValue == trackSid }) {
+            return local.identity?.stringValue
+        }
+        for connection in connections.values {
+            for (identity, participant) in connection.remoteParticipants {
+                let publications = participant.audioTracks + participant.videoTracks
+                if publications.contains(where: { $0.sid.stringValue == trackSid }) { return identity.stringValue }
+            }
+        }
+        return nil
+    }
+
     private func refresh() {
         guard session != nil else { if !participants.isEmpty { participants = [] }; return }
         var remotes: [String: RemoteParticipant] = [:]
@@ -581,10 +698,14 @@ final class CallManager: NSObject, ObservableObject {
                 info.micMuted = !participant.isMicrophoneEnabled()
                 info.cameraTrack = participant.videoTracks
                     .first { $0.source == .camera && !$0.isMuted }?.track as? VideoTrack
+                // A paused camera keeps publishing a muted track: its last frame fills the idle tile
+                info.cameraStillTrack = participant.videoTracks
+                    .first { $0.source == .camera }?.track as? VideoTrack
                 info.screenTrack = participant.videoTracks
                     .first { $0.source == .screenShareVideo && !$0.isMuted }?.track as? VideoTrack
             }
             if isLocal { info.micMuted = !micPublished; info.connected = state == .joined }
+            info.keyMissing = keyIssues.contains(member.identity)
             info.handRaised = raisedHands.contains(member.identity)
             info.reaction = reactions[member.identity]
             info.volume = userVolumes[member.userId] ?? 1
@@ -779,6 +900,12 @@ extension CallManager: RoomDelegate {
             if WatchTogether.topics.contains(topic) { self.watch?.receive(data, from: from) }
             if SoundboardFormat.playTypes.contains(topic) { self.soundboard.receive(data: data, identity: from) }
         }
+    }
+
+    nonisolated func room(_ room: LiveKit.Room, trackPublication: TrackPublication, didUpdateE2EEState state: E2EEState) {
+        let sid = trackPublication.sid.stringValue
+        let failed = state == .missing_key || state == .decryption_failed || state == .encryption_failed
+        Task { @MainActor in self.updateKeyIssue(trackSid: sid, failed: failed) }
     }
 
     nonisolated func room(_ room: LiveKit.Room, didDisconnectWithError error: LiveKitError?) {

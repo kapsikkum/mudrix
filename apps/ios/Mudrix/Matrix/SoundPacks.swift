@@ -51,8 +51,9 @@ enum SoundKind: String, CaseIterable {
     /// The file name part: `camera-on` is `camera_on`
     var fileName: String { rawValue.replacingOccurrences(of: "-", with: "_") }
 
-    /// The sounds the picker lists: nothing moves people between voice channels on iOS
-    static var pickable: [SoundKind] { allCases.filter { $0 != .moved } }
+    /// The sounds the picker lists: every one, including `moved` (played by `VoiceMoves` when someone moves
+    /// you to another voice channel, as on Android and the web)
+    static var pickable: [SoundKind] { allCases }
 }
 
 /// A set of sounds; `files` maps a sound to its file in the bundle (no extension)

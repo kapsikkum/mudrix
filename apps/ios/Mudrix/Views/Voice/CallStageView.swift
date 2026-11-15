@@ -73,6 +73,8 @@ private struct ParticipantTile: View {
     @Environment(\.theme) private var theme
     @State private var name: String?
     @State private var avatarUrl: String?
+    /// Only a camera that has shown a frame can leave a still one behind
+    @State private var hadCamera = false
 
     private var label: String {
         let name = name ?? participant.userId
@@ -80,12 +82,19 @@ private struct ParticipantTile: View {
         return name
     }
 
+    /// The live camera, or the paused one whose last frame fills an idle tile
+    private var stillTrack: VideoTrack? {
+        participant.cameraTrack ?? (hadCamera ? participant.cameraStillTrack : nil)
+    }
+    private var cameraPaused: Bool { participant.cameraTrack == nil && stillTrack != nil }
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous).fill(theme.fill)
-            if let track = participant.cameraTrack {
+            if let track = stillTrack {
                 SwiftUIVideoView(track, layoutMode: .fill)
                     .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
+                    .overlay(Color.black.opacity(cameraPaused ? 0.45 : 0))
             } else {
                 CosmeticAvatar(userId: participant.userId, name: name ?? participant.userId,
                                url: avatarUrl, size: WZ.SizeAvatar.lg)
@@ -102,6 +111,32 @@ private struct ParticipantTile: View {
         .overlay {
             RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
                 .stroke(participant.speaking ? theme.success : .clear, lineWidth: WZ.BorderWidth.thick)
+        }
+        .overlay(alignment: .topLeading) {
+            HStack(spacing: WZ.Space.space2) {
+                if cameraPaused {
+                    Image("ph-video-camera-slash-regular")
+                        .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
+                        .foregroundStyle(theme.textPrimary)
+                        .frame(width: WZ.Space.space8, height: WZ.Space.space8)
+                        .background(.regularMaterial, in: Circle())
+                        .accessibilityHidden(true)
+                }
+                if participant.keyMissing {
+                    Label(String(localized: "call.keyMissing"), image: "ph-key-regular")
+                        .font(.wizard(WZ.FontSize.xs, .semibold))
+                        .foregroundStyle(theme.warningColor)
+                        .lineLimit(1)
+                        .padding(.horizontal, WZ.Space.space4)
+                        .padding(.vertical, WZ.Space.space2)
+                        .background(.regularMaterial, in: Capsule())
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel(String(localized: "call.keyMissing"))
+                        .accessibilityHint(String(localized: participant.isLocal ? "call.keyMissingSelfHint"
+                                                                                  : "call.keyMissingHint"))
+                }
+            }
+            .padding(WZ.Space.space4)
         }
         .overlay(alignment: .topTrailing) {
             if participant.handRaised {
@@ -134,6 +169,10 @@ private struct ParticipantTile: View {
         }
         .animation(.spring(duration: WZ.MotionDuration.slow), value: participant.reaction)
         .animation(.easeOut(duration: WZ.MotionDuration.fast), value: participant.speaking)
+        .onChange(of: participant.cameraTrack != nil) { _, live in
+            if live { hadCamera = true }
+        }
+        .onAppear { if participant.cameraTrack != nil { hadCamera = true } }
         .accessibilityElement(children: .combine)
         .accessibilityHint(participant.isLocal ? "" : String(localized: "call.volumeHint"))
         .task(id: participant.userId) {
