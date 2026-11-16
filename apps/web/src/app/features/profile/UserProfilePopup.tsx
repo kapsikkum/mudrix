@@ -372,12 +372,27 @@ export function UserProfilePopup() {
       setSettingsOpen(true);
       return;
     }
+    // Another user: the first click on the popout's avatar opens the full profile, as the old app
+    // did (the tooltip says "View Full Screen"); once expanded, the avatar opens in the lightbox.
+    if (!isExpanded) {
+      setIsExpanded(true);
+      return;
+    }
     if (!ownAvatarMxc) return;
     setAvatarSrc(avatarBlob ?? null);
     setAvatarLightboxOpen(true);
     const full = await fetchMediaBlobUrl(ownAvatarMxc, client);
     if (full) setAvatarSrc(full);
-  }, [client, isOwn, ownAvatarMxc, avatarBlob, handleClose, setSettingsPage, setSettingsOpen]);
+  }, [
+    client,
+    isOwn,
+    isExpanded,
+    ownAvatarMxc,
+    avatarBlob,
+    handleClose,
+    setSettingsPage,
+    setSettingsOpen,
+  ]);
 
   const handleAvatarFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {

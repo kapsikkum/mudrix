@@ -261,6 +261,10 @@ export function MessageGallery({
 
   const gridStyle: CSSProperties = {
     gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+    // Three pictures: one tall tile on the left, two equal tiles stacked on the right. The
+    // container is square, so both rows are the same height as a column and the two right
+    // tiles stay square instead of stretching to the tall picture's own aspect ratio.
+    ...(count === 3 ? { aspectRatio: '1 / 1', gridTemplateRows: '1fr 1fr' } : {}),
   };
 
   return (
@@ -274,7 +278,13 @@ export function MessageGallery({
               index={idx}
               event={event}
               client={client}
-              style={isTall ? { gridRow: 'span 2' } : { aspectRatio: '1 / 1' }}
+              style={
+                count === 3
+                  ? isTall
+                    ? { gridRow: 'span 2' }
+                    : undefined
+                  : { aspectRatio: '1 / 1' }
+              }
               revealed={revealedIndices.has(idx)}
               onReveal={handleReveal}
               onReady={handleReady}
