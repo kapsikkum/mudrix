@@ -360,8 +360,16 @@ export function UserProfilePopup() {
 
   const handleAvatarClick = useCallback(async () => {
     if (!client) return;
-    if (isOwn && !ownAvatarMxc) {
-      avatarFileRef.current?.click();
+    // Your own avatar is the profile's edit entry, as in the old app: the picture itself opens in the
+    // lightbox from the profile card's photo, not from this avatar.
+    if (isOwn) {
+      if (!ownAvatarMxc) {
+        avatarFileRef.current?.click();
+        return;
+      }
+      handleClose();
+      setSettingsPage('account');
+      setSettingsOpen(true);
       return;
     }
     if (!ownAvatarMxc) return;
@@ -369,7 +377,7 @@ export function UserProfilePopup() {
     setAvatarLightboxOpen(true);
     const full = await fetchMediaBlobUrl(ownAvatarMxc, client);
     if (full) setAvatarSrc(full);
-  }, [client, isOwn, ownAvatarMxc, avatarBlob]);
+  }, [client, isOwn, ownAvatarMxc, avatarBlob, handleClose, setSettingsPage, setSettingsOpen]);
 
   const handleAvatarFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
