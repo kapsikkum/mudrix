@@ -373,6 +373,8 @@ fun RoomListScreen(
             LazyColumn(
                 Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = LocalBottomBarInset.current + WZ.Space.space6),
+                // A hair of air between rows: nameplates fill a whole row, so without it the list reads as one block
+                verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
             ) {
                 if (onOpenInbox != null) {
                     item(key = "verify") {
