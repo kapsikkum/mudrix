@@ -70,6 +70,10 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
     var homeOrder by mutableStateOf(listOf<String>())
         private set
 
+    /** The DM screen's saved order, sections and pins (`io.github.kapsikkum.mudrix.room_list`) */
+    var options by mutableStateOf(RoomListOptions())
+        private set
+
     /** The spaces we are in and what they link to (from local state), refreshed shortly after rooms or spaces change */
     var graph by mutableStateOf(listOf<chat.mudrix.core.SpaceNode>())
         private set
@@ -104,6 +108,9 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
             client.watchAccountData(UPSTREAM_HOME_ORDER_EVENT) { content ->
                 upstreamHomeOrder = roomIdsOf(content)
                 homeOrder = mudrixHomeOrder ?: upstreamHomeOrder.orEmpty()
+            },
+            client.watchAccountData(RoomListOptions.EVENT_TYPE) { content ->
+                options = RoomListOptions.fromJson(content)
             },
             client.watchSpaces { diffs ->
                 diffs.forEach { it.applyTo(spaceList) }
@@ -211,28 +218,83 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
         }
     }
 
-    fun groups(selection: SidebarSelection): List<RoomGroup> {
-        val rooms = rooms(selection)
-        if (selection == SidebarSelection.Dms) return listOf(RoomGroup(RoomGroup.Kind.Rooms, rooms))
+    /**
+     * The list's groups. [includeDms] is the Modern shell's Home pane, where the DMs and the rooms
+     * outside spaces share one screen; the Classic Home tab keeps them apart.
+     */
+    fun groups(selection: SidebarSelection, includeDms: Boolean = false): List<RoomGroup> = when (selection) {
+        SidebarSelection.Dms -> dmGroups()
+        SidebarSelection.Home -> if (includeDms) modernHomeGroups() else roomGroups(selection, rooms(selection))
+        is SidebarSelection.Space -> roomGroups(selection, rooms(selection))
+    }
+
+    /** The DM screen: pinned DMs, favourites, then the rest in the chosen order. */
+    private fun dmGroups(): List<RoomGroup> {
+        val dms = rooms(SidebarSelection.Dms)
+        val pinned = pinnedDms(dms)
+        val pinnedIds = pinned.mapTo(mutableSetOf()) { it.id }
+        val rest = dms.filter { it.id !in pinnedIds }
+        val favourites =
+            if (options.favouritesSection) rest.filter { it.isFavourite }.sortedWith(favouriteComparator())
+            else emptyList()
+        val favouriteIds = favourites.mapTo(mutableSetOf()) { it.id }
+        return buildList {
+            if (pinned.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Pinned, pinned))
+            if (favourites.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Favourites, favourites))
+            val others = rest.filter { it.id !in favouriteIds }.sortedForRoomList(options)
+            if (others.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Dms, others))
+        }
+    }
+
+    /** The Modern Home pane: pinned, favourites, DMs, then rooms, or one merged list. */
+    private fun modernHomeGroups(): List<RoomGroup> {
+        val dms = rooms(SidebarSelection.Dms)
+        val home = rooms(SidebarSelection.Home)
+        val pinned = pinnedDms(dms)
+        val pinnedIds = pinned.mapTo(mutableSetOf()) { it.id }
+        val favourites =
+            if (options.favouritesSection) (dms + home).filter { it.id !in pinnedIds && it.isFavourite }.sortedWith(favouriteComparator())
+            else emptyList()
+        val favouriteIds = favourites.mapTo(mutableSetOf()) { it.id }
+        val restDms = dms.filter { it.id !in pinnedIds && it.id !in favouriteIds }
+        val restRooms = home.filter { it.id !in favouriteIds }
+        val separate = options.separateRoomsAndDms || options.sort == RoomSortMode.Categorised
+        return buildList {
+            if (pinned.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Pinned, pinned))
+            if (favourites.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Favourites, favourites))
+            if (separate) {
+                if (restDms.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.Dms, restDms.sortedForRoomList(options)))
+                addAll(roomBlocks(SidebarSelection.Home, restRooms))
+            } else {
+                add(RoomGroup(RoomGroup.Kind.Rooms, (restDms + restRooms).sortedForRoomList(options)))
+            }
+        }
+    }
+
+    /** Favourites, Matrix sections above and below the rooms, the rooms, then low priority. */
+    private fun roomBlocks(selection: SidebarSelection, rooms: List<RoomSummary>): List<RoomGroup> {
         val context = sectionContext(selection)
-        val favourites = rooms.filter { it.isFavourite }.sortedWith(
-            compareBy<RoomSummary, Double?>(nullsLast()) { favouriteOrder[it.id] }.thenBy { it.displayName.lowercase() },
-        )
+        val favourites =
+            if (options.favouritesSection) rooms.filter { it.isFavourite }.sortedWith(favouriteComparator())
+            else emptyList()
+        val favouriteIds = favourites.mapTo(mutableSetOf()) { it.id }
         val bySection = mutableMapOf<String, MutableList<RoomSummary>>()
         var rest = mutableListOf<RoomSummary>()
         val lowPriority = mutableListOf<RoomSummary>()
         for (room in rooms) {
-            if (room.isFavourite) continue
+            if (room.id in favouriteIds) continue
             val tag = sectionTag(room.id)
             if (tag != null) bySection.getOrPut(tag) { mutableListOf() }.add(room)
             else if (room.isLowPriority) lowPriority.add(room)
             else rest.add(room)
         }
-        if (selection == SidebarSelection.Home && homeOrder.isNotEmpty()) {
+        if (selection == SidebarSelection.Home && options.sort == RoomSortMode.Recent && homeOrder.isNotEmpty()) {
             val position = homeOrder.withIndex().associate { it.value to it.index }
             rest = rest.withIndex().sortedWith(
                 compareBy<IndexedValue<RoomSummary>, Int?>(nullsLast()) { position[it.value.id] }.thenBy { it.index },
             ).map { it.value }.toMutableList()
+        } else {
+            rest = rest.sortedForRoomList(options).toMutableList()
         }
         val visible = sections.filter { it.tag in bySection || it.spaceId == context }
         fun block(above: Boolean) = visible.filter { it.aboveRooms == above }
@@ -242,9 +304,36 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
             addAll(block(above = true))
             add(RoomGroup(RoomGroup.Kind.Rooms, rest))
             addAll(block(above = false))
-            if (lowPriority.isNotEmpty()) add(RoomGroup(RoomGroup.Kind.LowPriority, lowPriority))
+            if (lowPriority.isNotEmpty()) {
+                add(RoomGroup(RoomGroup.Kind.LowPriority, lowPriority.sortedForRoomList(options)))
+            }
         }
     }
+
+    private fun roomGroups(selection: SidebarSelection, rooms: List<RoomSummary>): List<RoomGroup> =
+        roomBlocks(selection, rooms)
+
+    private fun favouriteComparator(): Comparator<RoomSummary> =
+        compareBy<RoomSummary, Double?>(nullsLast()) { favouriteOrder[it.id] }.thenBy { it.displayName.lowercase() }
+
+    private fun pinnedDms(dms: List<RoomSummary>): List<RoomSummary> =
+        options.pinnedUsers.mapNotNull { userId -> dms.firstOrNull { it.dmUserId == userId } }
+
+    /** Saves the DM screen's options to account data; puts them back when the account cannot be written. */
+    suspend fun setOptions(next: RoomListOptions) {
+        val previous = options
+        options = next
+        runCatching { client.setAccountData(RoomListOptions.EVENT_TYPE, next.toJson()) }
+            .onFailure { options = previous }
+    }
+
+    /** Pins or unpins a DM by its partner's user id, so the pin survives a room upgrade. */
+    suspend fun setPinned(room: RoomSummary, pinned: Boolean) {
+        val userId = room.dmUserId ?: return
+        setOptions(options.withPin(userId, pinned))
+    }
+
+    fun isPinned(room: RoomSummary): Boolean = room.dmUserId?.let { it in options.pinnedUsers } == true
 
     fun sectionContext(selection: SidebarSelection) = (selection as? SidebarSelection.Space)?.id ?: HOME_SPACE
 
@@ -327,20 +416,27 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
 
 data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
     sealed interface Kind {
+        /** DMs whose partner is pinned in the room list options */
+        data object Pinned : Kind
         data object Favourites : Kind
         data class Section(val section: RoomSection) : Kind
+
+        /** The direct messages of the Modern Home pane, or the Classic DMs tab */
+        data object Dms : Kind
         data object Rooms : Kind
 
         /** Rooms tagged `m.lowpriority` that are in no section; always last, not movable */
         data object LowPriority : Kind
     }
 
-    /** Sections and the room list itself can be moved up and down; favourites and low priority stay put */
-    val isMovable: Boolean get() = kind != Kind.Favourites && kind != Kind.LowPriority
+    /** Sections and the room list itself can be moved up and down; the rest stay put */
+    val isMovable: Boolean get() = kind == Kind.Rooms || kind is Kind.Section
 
     val id: String
         get() = when (kind) {
+            Kind.Pinned -> "pinned"
             Kind.Favourites -> "favourites"
+            Kind.Dms -> "dms"
             Kind.LowPriority -> "low-priority"
             is Kind.Section -> kind.section.tag
             Kind.Rooms -> ROOMS_ANCHOR

@@ -63,7 +63,9 @@ import chat.mudrix.android.matrix.RoomGroup
 import chat.mudrix.android.matrix.MudrixRoomStates
 import chat.mudrix.android.matrix.MudrixTypes
 import chat.mudrix.android.matrix.RoomListModel
+import chat.mudrix.android.matrix.RoomListOptions
 import chat.mudrix.android.matrix.RoomListStyle
+import chat.mudrix.android.matrix.RoomSortMode
 import chat.mudrix.android.matrix.RoomMenu
 import chat.mudrix.android.matrix.RoomPreview
 import chat.mudrix.android.matrix.RoomPreviewLabels
@@ -89,6 +91,7 @@ import chat.mudrix.android.ui.UnreadBadge
 import chat.mudrix.android.ui.UnreadDot
 import chat.mudrix.android.ui.VerificationBanner
 import chat.mudrix.android.ui.WizardMenu
+import chat.mudrix.android.ui.WizardSheet
 import chat.mudrix.android.ui.WizardTextField
 import chat.mudrix.android.ui.WizardTopBar
 import chat.mudrix.android.ui.copyToClipboard
@@ -98,7 +101,11 @@ import chat.mudrix.android.ui.people.UserPickerMode
 import chat.mudrix.android.ui.people.UserPickerSheet
 import chat.mudrix.android.ui.search.GlobalSearchResults
 import chat.mudrix.android.ui.sensitive
+import chat.mudrix.android.ui.settings.RowFrame
+import chat.mudrix.android.ui.settings.RowLabel
+import chat.mudrix.android.ui.settings.SettingsDivider
 import chat.mudrix.android.ui.settings.SessionsSheet
+import chat.mudrix.android.ui.settings.ToggleRow
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
@@ -134,6 +141,7 @@ fun RoomListScreen(
     var movingRoom by remember { mutableStateOf<RoomSummary?>(null) }
     var sectionError by remember { mutableStateOf<String?>(null) }
     var searchOpen by remember { mutableStateOf(false) }
+    var showSort by remember { mutableStateOf(false) }
     val searchFocus = remember { FocusRequester() }
 
     fun sectionTask(work: suspend () -> Unit) = scope.launch {
@@ -153,8 +161,9 @@ fun RoomListScreen(
         is SidebarSelection.Space -> roomList.space(selection.id)?.name ?: tr("explore.typeSpace")
     }
     // Typing in the search box recomposes this screen on every key; the lists only change with the rooms
-    val rooms by remember(roomList, selection) { derivedStateOf { roomList.rooms(selection) } }
-    val groups by remember(roomList, selection) { derivedStateOf { if (roomList.isLoaded) roomList.groups(selection) else emptyList() } }
+    val groups by remember(roomList, selection, dmPane) {
+        derivedStateOf { if (roomList.isLoaded) roomList.groups(selection, includeDms = dmPane) else emptyList() }
+    }
     val context = androidx.compose.ui.platform.LocalContext.current
     val collapsedPrefs = remember { context.getSharedPreferences("room_list", android.content.Context.MODE_PRIVATE) }
     var collapsed by remember { mutableStateOf(collapsedPrefs.getStringSet("collapsed", emptySet()).orEmpty()) }
@@ -238,6 +247,7 @@ fun RoomListScreen(
             { menuOpen = false },
             buildList {
                 add(MenuItem(tr("common.newDm"), "chat-circle") { showNewMessage = true })
+                if (selection == SidebarSelection.Dms) add(MenuItem(tr("roomList.sort"), "sliders") { showSort = true })
                 if (selection != SidebarSelection.Dms) add(MenuItem(tr("nav.newRoom"), "hash-straight") { showNewRoom = true })
                 if (selection != SidebarSelection.Dms) {
                     add(MenuItem(tr("room.sections.new"), "list-bullets") { newSectionFor = "" })
@@ -304,6 +314,7 @@ fun RoomListScreen(
                         searchOpen = true
                     }
                 })
+                RoundToolButton("sliders", tr("roomList.sort"), { showSort = true })
                 if (onOpenInbox != null) InboxButton(roomList, onOpenInbox, round = true)
                 Box(
                     Modifier
@@ -392,37 +403,10 @@ fun RoomListScreen(
                     item(key = "welcome") { HomeWelcome(roomList, onOpenInbox, { showNewMessage = true }, onCreateSpace, onExplore) }
                     item(key = "active-now") { ActiveNowSection(roomList) }
                 }
-                // The Modern rail's Home slot is both homes: the direct messages, then the rooms outside spaces
-                val homeDms = if (modernHeader && selection == SidebarSelection.Home) roomList.rooms(SidebarSelection.Dms) else emptyList()
-                if (homeDms.isNotEmpty()) {
-                    item(key = "home-dms-header") {
-                        Text(
-                            tr("room.dm.directMessages"),
-                            Modifier.fillMaxWidth().padding(start = WZ.Space.space6, top = WZ.Space.space6, bottom = WZ.Space.space2),
-                            style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
-                            color = theme.textMuted,
-                        )
-                    }
-                    items(homeDms, key = { "home-dm-${it.id}" }) { room ->
-                        SwipeableRoomRow(
-                            room,
-                            showsHashIcon = !prefs.showRoomAvatars && !room.isDirect,
-                            onOpen = { navigator.push(Route.Room(room.id)) },
-                            onToggleRead = { read -> scope.launch { roomList.setRead(room, read) } },
-                            onMarkUnread = { markUnread(room) },
-                            onLeave = { leaving = room },
-                            onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
-                            onSetLowPriority = { low -> setLowPriority(room, low) },
-                            onMoveToSection = null,
-                            notificationMode = roomList.notificationMode(room),
-                            onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
-                            reorder = null,
-                        )
-                    }
-                }
+                // The Modern rail's Home slot is both homes: the groups now carry the DMs, favourites and pins too
                 if (!roomList.isLoaded) {
                     items(8) { Box(Modifier.padding(horizontal = WZ.Space.space6)) { SkeletonRow() } }
-                } else if (rooms.isEmpty() && homeDms.isEmpty()) {
+                } else if (groups.all { it.rooms.isEmpty() }) {
                     item(key = "empty") {
                         Note(
                             tr(if (selection == SidebarSelection.Dms) "nav.noDirectMessagesYet" else "nav.noRoomsHereYet"),
@@ -430,7 +414,7 @@ fun RoomListScreen(
                         )
                     }
                 }
-                val headers = selection != SidebarSelection.Dms
+                val headers = selection != SidebarSelection.Dms || groups.size > 1
                 groups.forEach { group ->
                     val isModernGroup = modern && group.kind == RoomGroup.Kind.Rooms
                     // The Modern list has no "Rooms" heading unless favourites or sections above it need one
@@ -466,6 +450,12 @@ fun RoomListScreen(
                                 notificationMode = roomList.notificationMode(room),
                                 onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                                 reorder = null,
+                                pinned = roomList.isPinned(room),
+                                onTogglePin = if (room.isDirect) {
+                                    ({ scope.launch { roomList.setPinned(room, !roomList.isPinned(room)) } })
+                                } else {
+                                    null
+                                },
                             )
                         }
                         return@forEach
@@ -486,6 +476,12 @@ fun RoomListScreen(
                                     notificationMode = roomList.notificationMode(room),
                                     onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                                     reorder = null,
+                                    pinned = roomList.isPinned(room),
+                                    onTogglePin = if (room.isDirect) {
+                                        ({ scope.launch { roomList.setPinned(room, !roomList.isPinned(room)) } })
+                                    } else {
+                                        null
+                                    },
                                 )
                             }
                         }
@@ -511,6 +507,12 @@ fun RoomListScreen(
                             notificationMode = roomList.notificationMode(room),
                             onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
                             reorder = if (canReorder(group)) ({ offset -> move(group, index, offset) }) else null,
+                            pinned = roomList.isPinned(room),
+                            onTogglePin = if (room.isDirect) {
+                                ({ scope.launch { roomList.setPinned(room, !roomList.isPinned(room)) } })
+                            } else {
+                                null
+                            },
                         )
                     }
                 }
@@ -589,6 +591,54 @@ fun RoomListScreen(
             onDismiss = { leaving = null },
         )
     }
+    if (showSort) {
+        RoomListSortSheet(
+            options = roomList.options,
+            onChange = { next -> scope.launch { roomList.setOptions(next) } },
+            onDismiss = { showSort = false },
+        )
+    }
+}
+
+/** The DM screen's order, sections and pins, saved to account data as they change. */
+@Composable
+private fun RoomListSortSheet(
+    options: RoomListOptions,
+    onChange: (RoomListOptions) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    WizardSheet(onDismiss) {
+        Text(
+            tr("roomList.sortTitle"),
+            Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space2),
+            style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold),
+            color = theme.textPrimary,
+        )
+        RoomSortMode.entries.forEach { mode ->
+            val label = when (mode) {
+                RoomSortMode.Recent -> tr("roomList.sortRecent")
+                RoomSortMode.Newest -> tr("roomList.sortNewest")
+                RoomSortMode.Oldest -> tr("roomList.sortOldest")
+                RoomSortMode.Categorised -> tr("roomList.sortCategorised")
+            }
+            RowFrame(onClick = { onChange(options.copy(sort = mode)) }) {
+                RowLabel(label, null, Modifier.weight(1f))
+                if (options.sort == mode) PhIcon("check", PhWeight.bold, WZ.SizeIcon.sm, tint = theme.accent)
+            }
+        }
+        SettingsDivider()
+        ToggleRow(
+            tr("roomList.separateRoomsAndDms"),
+            options.separateRoomsAndDms,
+            { onChange(options.copy(separateRoomsAndDms = it)) },
+        )
+        ToggleRow(
+            tr("roomList.favouritesSection"),
+            options.favouritesSection,
+            { onChange(options.copy(favouritesSection = it)) },
+        )
+        Spacer(Modifier.height(WZ.Space.space6))
+    }
 }
 
 @Composable
@@ -651,6 +701,9 @@ private fun SwipeableRoomRow(
     notificationMode: NotificationMode?,
     onSetNotificationMode: (NotificationMode?) -> Unit,
     reorder: ((Int) -> Unit)?,
+    /** Whether this DM is pinned to the top; only DMs can be pinned */
+    pinned: Boolean = false,
+    onTogglePin: (() -> Unit)? = null,
 ) {
     val unread = room.unreadCount > 0 || room.mentionCount > 0
     val session = chat.mudrix.android.LocalSession.current
@@ -732,6 +785,16 @@ private fun SwipeableRoomRow(
                     if (actions.markRead) add(MenuItem(tr("common.markRead"), "envelope-open") { onToggleRead(true) })
                     if (actions.markUnread) add(MenuItem(tr("room.markUnread"), "envelope-simple") { onMarkUnread() })
                     add(MenuItem(tr("room.notifications.title"), "bell") { notificationsOpen = true })
+                    onTogglePin?.let {
+                        add(
+                            MenuItem(
+                                tr(if (pinned) "roomList.unpin" else "roomList.pin"),
+                                "push-pin",
+                                checked = pinned,
+                                onClick = it,
+                            ),
+                        )
+                    }
                     add(MenuItem(tr(if (room.isFavourite) "room.removeFavourite" else "room.addFavourite"), "star", onClick = onToggleFavourite))
                     add(
                         MenuItem(
@@ -909,6 +972,8 @@ private fun GroupHeader(
     val section = (group.kind as? RoomGroup.Kind.Section)?.section
     val index = anchors.indexOf(group.id)
     val title = when (val kind = group.kind) {
+        RoomGroup.Kind.Pinned -> tr("roomList.pinned")
+        RoomGroup.Kind.Dms -> tr("room.dm.directMessages")
         RoomGroup.Kind.Favourites -> tr("nav.favourites")
         is RoomGroup.Kind.Section -> kind.section.name
         RoomGroup.Kind.Rooms -> tr("nav.rooms")
