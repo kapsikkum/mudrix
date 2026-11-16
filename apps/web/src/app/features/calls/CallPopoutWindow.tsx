@@ -70,7 +70,7 @@ function buildRoot(doc: Document, baseUri: string): HTMLElement {
   doc.title = document.title;
   const root = doc.createElement('div');
   root.id = ROOT_ID;
-  root.style.cssText = 'position:fixed;inset:0;overflow:hidden;background:#11111e;';
+  root.style.cssText = 'position:fixed;inset:0;overflow:hidden;background:#1a1b1e;';
   doc.body.replaceChildren(root);
   // Links in this document are not the app's, so they need the system-browser handling too
   interceptExternalLinks(doc);
