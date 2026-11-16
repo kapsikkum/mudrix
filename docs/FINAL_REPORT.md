@@ -18,10 +18,12 @@ with the old app's release keystore and desktop updater artifacts with the old `
 Developer account). The Desktop workflow also
 builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
-The final commit is `062cbfbb`. A copy of every artifact from that commit is in **`E:\code\web\mudrix-builds\062cbfbb\`**
-(Windows NSIS/MSI, Linux AppImage/DEB, macOS dmg/app zip, Arch and Fedora packages, the Linux tarball with PKGBUILD and
-spec, the Android APK, the web dist, and the iOS simulator app plus its screenshots), with `SHA256SUMS` beside the
-desktop and Android files.
+The final code commit is `baa6383e` (two documentation-only commits follow the signed CI runs). The signed runs are
+Android `43845706935` and Desktop `43845712107`; a copy of every artifact is in
+**`E:\code\web\mudrix-builds\signed-20261116\`**: Windows NSIS/MSI, Linux AppImage/DEB, macOS dmg/app zip and the
+minisign updater `.sig` files, Arch and Fedora packages, the Linux tarball with PKGBUILD and spec, the Android
+`Mudrix-26.12.2-release.apk` (old certificate `494a…`), and the web dist. The iOS simulator app and screenshots from
+the earlier run are in `...\062cbfbb\`; `SHA256SUMS` sits beside the desktop and Android files.
 
 ## The rename
 
@@ -157,6 +159,8 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
   certificate), a release APK built with it carries the old app's certificate `494a…` and the production package id,
   and the R8 build launches; the updater key signs a test payload. The key material and passwords are in the repository
   secrets, so CI builds the signed release APK and updater `.sig` files on the next run.
+- **The presence dot could hide behind an avatar cosmetic.** On web the decoration, frame and effect overlays sat above
+  it; the dot now has the avatar's z-layer, so it stays on top. Android and iOS already draw it as the last overlay.
 - **Android room list rows** have a little vertical air so full-width nameplates do not read as one block.
 - **The DM screen got sort modes** (owner request): most recent, newest first, oldest first or categorised, plus a
   switch for separating rooms and DMs, a favourites section and pinned users. Newest/oldest use the room's
@@ -175,12 +179,14 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 
 ## Ready for review
 
-- CI is green on `062cbfbb` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
+- CI is green on `baa6383e` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
   XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts). The Desktop push run also
   passes Arch, Fedora and Nix, including the NixOS module evaluation. The only red workflow is Pages, which fails until
   the repository's Pages source is set to "GitHub Actions" (owner item 2).
-- The Windows test installer is a GUI app: the rebuilt binary from `062cbfbb` has PE `subsystem=2` (GUI), where the
-  first hand-over's binary was `subsystem=3` (console).
+- The Android CI artifact is signed with the old certificate `494a…`, and the Windows, macOS and Linux updater
+  `.sig` files verify against the old public key in `tauri.conf.json`.
+- The Windows test installer is a GUI app: the rebuilt binary has PE `subsystem=2` (GUI), where the first hand-over's
+  binary was `subsystem=3` (console).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
 - Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2821 keys in 11 languages.
 - Android: 416 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
