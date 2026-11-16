@@ -10,9 +10,9 @@
 // The sounds are synthesised here (no samples, no randomness, so the output is reproducible) and
 // encoded with ffmpeg. Usage:
 //
-//   node scripts/generate-packs.mjs                 # every pack, every event
-//   node scripts/generate-packs.mjs bloop warm      # only those packs
-//   node scripts/generate-packs.mjs --events=deafen,reaction
+//   node tools/sounds/generate-packs.mjs                 # every pack, every event
+//   node tools/sounds/generate-packs.mjs bloop warm      # only those packs
+//   node tools/sounds/generate-packs.mjs --events=deafen,reaction
 //
 // ffmpeg (with libmp3lame) must be on PATH. The files are written to `../raw`.
 import { execFileSync } from 'node:child_process';
@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 
 const SR = 44100;
 const BITRATE = '160k';
-const raw = join(dirname(fileURLToPath(import.meta.url)), '..', 'raw');
+const raw = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'packages', 'sounds', 'raw');
 
 /** The events these packs lacked; `-` in the id becomes `_` in the file name. */
 const EVENTS = [

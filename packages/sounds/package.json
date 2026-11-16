@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Mudrix's sounds (calls, voice rooms, alerts, notification sound packs) for every app, in raw/ so Android can use the folder as resources; the web serves it and iOS bundles it",
   "scripts": {
-    "generate": "node scripts/generate-packs.mjs"
+    "generate": "node ../../tools/sounds/generate-packs.mjs"
   },
   "files": [
     "raw",
