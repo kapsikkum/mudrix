@@ -288,7 +288,7 @@ jobs:
 
       - name: Evaluate the NixOS module
         run: |
-          nix eval --impure --raw --expr '
+          nix eval --impure --raw --expr "$(cat <<'NIX'
             let
               flake = builtins.getFlake (toString ./.);
               system = flake.inputs.nixpkgs.lib.nixosSystem {
@@ -297,7 +297,7 @@ jobs:
                   flake.nixosModules.mudrix
                   {
                     system.stateVersion = "25.11";
-                    # A minimal machine so the toplevel's assertions pass; this only evaluates the
+                    # A minimal machine so the toplevel assertions pass; this only evaluates the
                     # module, it is not a bootable configuration.
                     fileSystems."/" = {
                       device = "/dev/sda1";
@@ -310,4 +310,5 @@ jobs:
                 ];
               };
             in system.config.system.build.toplevel.drvPath
-          '
+          NIX
+          )"
