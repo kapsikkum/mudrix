@@ -3075,7 +3075,7 @@
   },
   "whatsNew": {
     "title": "Что нового",
-    "fullChangelog": "Полный список изменений на GitLab",
+    "fullChangelog": "Полный список изменений на GitHub",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
     "website": "Website",

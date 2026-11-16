@@ -3075,7 +3075,7 @@
   },
   "whatsNew": {
     "title": "Co nowego",
-    "fullChangelog": "Pełny dziennik zmian na GitLabie",
+    "fullChangelog": "Pełny dziennik zmian na GitHubie",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
     "website": "Website",

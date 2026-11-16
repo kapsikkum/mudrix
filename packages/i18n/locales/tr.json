@@ -3075,7 +3075,7 @@
   },
   "whatsNew": {
     "title": "Yenilikler",
-    "fullChangelog": "GitLab'daki tam değişiklik günlüğü",
+    "fullChangelog": "GitHub'daki tam değişiklik günlüğü",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
     "website": "Website",

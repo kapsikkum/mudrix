@@ -3075,7 +3075,7 @@
   },
   "whatsNew": {
     "title": "新機能",
-    "fullChangelog": "GitLabで変更履歴をすべて見る",
+    "fullChangelog": "GitHubで変更履歴をすべて見る",
     "version": "Version {{version}}",
     "dateVersion": "{{date}} · Version {{version}}",
     "website": "Website",
