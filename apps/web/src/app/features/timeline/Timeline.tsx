@@ -37,6 +37,8 @@ import { useRoomReceipts } from '@/app/hooks/useRoomReceipts';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useTimeline, itemContainsEvent, buildItems } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
+import { isServerEventId, roomHasUnread } from './readReceipt';
+import { useTimelineReadReceipts } from './useTimelineReadReceipts';
 import { itemMatchesQuery, useSearch } from '@/app/hooks/useSearch';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
@@ -62,7 +64,6 @@ import {
   getIntersectionObserverEntry,
   useIntersectionObserver,
 } from '@/app/hooks/useIntersectionObserver';
-import { useRoomReadReceipts } from '@/app/hooks/useRoomReadReceipts';
 import { DecryptionGate, Message } from './message';
 import { toggleReaction } from './message/reactions';
 import { editStateFor, publishTimelineEntries } from './message/editNavigation';
@@ -366,24 +367,31 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const latestEventId = useMemo(() => {
     for (let i = events.length - 1; i >= 0; i--) {
       const id = events[i].eventId;
-      if (id) return id;
+      // A local echo has no server id yet; a receipt for it is refused, and the previous event is
+      // the newest one the server can be read up to.
+      if (isServerEventId(id)) return id;
     }
     return null;
   }, [events]);
-  const sendReadReceiptIfAtBottom = useRoomReadReceipts(
+  const sendReadReceiptIfDue = useTimelineReadReceipts({
     client,
     roomId,
-    liveTimelineLinked ? timeline : null,
-    latestEventId
-  );
+    timeline: liveTimelineLinked ? timeline : null,
+    latestEventId,
+    roomUnread: roomHasUnread(room),
+    getScrollElement: useCallback(() => scrollRef.current, []),
+    isAtLiveEnd: useCallback(() => atLiveEndRef.current, []),
+  });
 
   useEffect(() => {
-    if (items.length > 0 && atBottomRef.current) sendReadReceiptIfAtBottom();
-  }, [items, sendReadReceiptIfAtBottom]);
+    // The receipt hook decides from the live scroll geometry whether the newest event is on
+    // screen, so a stale atBottomRef can no longer swallow the receipt for a new message.
+    if (items.length > 0) sendReadReceiptIfDue();
+  }, [items, sendReadReceiptIfDue]);
 
   const tryAutoMarkAsRead = useCallback(() => {
-    requestAnimationFrame(() => sendReadReceiptIfAtBottom());
-  }, [sendReadReceiptIfAtBottom]);
+    requestAnimationFrame(() => sendReadReceiptIfDue());
+  }, [sendReadReceiptIfDue]);
 
   const atBottomDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const debounceSetAtBottom = useCallback((entry: IntersectionObserverEntry) => {
@@ -682,21 +690,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     if (!liveArrival) return;
     if (atBottomRef.current && atLiveEndRef.current) {
       if (document.hasFocus()) {
-        requestAnimationFrame(() => sendReadReceiptIfAtBottom());
+        requestAnimationFrame(() => sendReadReceiptIfDue());
       }
       const scrollEl = scrollRef.current;
       if (scrollEl) scrollToBottom(scrollEl, 'instant');
     }
-  }, [liveArrival, sendReadReceiptIfAtBottom]);
+  }, [liveArrival, sendReadReceiptIfDue]);
 
-  useEffect(() => {
-    const onFocus = () => {
-      if (!atBottomRef.current) return;
-      tryAutoMarkAsRead();
-    };
-    window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
-  }, [tryAutoMarkAsRead]);
+  // Regaining focus and becoming visible again are handled by useTimelineReadReceipts, so a
+  // receipt is sent even when the message arrived while the tab was in the background.
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -1101,7 +1103,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           <UnreadDivider
             onDismiss={() => {
               clearUnreadDivider();
-              sendReadReceiptIfAtBottom();
+              sendReadReceiptIfDue();
             }}
             label={t('timeline.unreadMessages')}
           />

@@ -33,6 +33,7 @@ import { useActivitySharing } from '@/app/hooks/useActivitySharing';
 import { useStreamerMode } from '@/app/hooks/useStreamerMode';
 import { useVerification } from '@/app/hooks/useVerification';
 import { useSessionVerification } from '@/app/hooks/useSessionVerification';
+import { useSignInVerificationPrompt } from '@/app/hooks/useSignInVerificationPrompt';
 import { isEditableTarget, isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { useVoiceKeybinds } from '@/app/hooks/useKeybinds';
 import { getMatrixClientOrNull, logout, onSessionInvalid } from '@/client/initMatrix';
@@ -332,6 +333,7 @@ export function ClientLayout() {
   // Security
   useVerification(client);
   useSessionVerification(client, syncReady);
+  useSignInVerificationPrompt();
 
   const callActions = useAtomValue(callActionsAtom);
   const isInCall = useAtomValue(isInCallAtom);

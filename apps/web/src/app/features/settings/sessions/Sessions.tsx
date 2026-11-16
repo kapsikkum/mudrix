@@ -122,7 +122,9 @@ export function Sessions() {
         deviceId: d.deviceId,
         displayName: d.displayName || d.deviceId,
         isCurrentDevice: d.isCurrent,
-        isVerified: d.isVerified,
+        // The old app counted a device as verified once the account's cross-signing identity signed
+        // it; the core's `isVerified` for this device can still lag behind that after verifying.
+        isVerified: d.isVerified || d.crossSignedByOwner,
         lastSeenIp: d.lastSeenIp,
         lastSeenTs: d.lastSeenTs,
       }));

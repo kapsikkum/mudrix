@@ -50,8 +50,19 @@ export function knownOAuthClients(): Record<string, string> {
   return clients;
 }
 
+/** Whether a sign-in finished in this page load and its verification prompt hasn't been shown yet */
+let freshSignIn = false;
+
+/** True once after a sign-in in this page load; reloads and restored sessions don't count */
+export function takeFreshSignIn(): boolean {
+  const wasFresh = freshSignIn;
+  freshSignIn = false;
+  return wasFresh;
+}
+
 /** Stores a new sign-in as the active account, replacing an older sign-in of the same account */
 export function rememberSignIn(session: Session, store: ReturnType<typeof newStoreConfig>): void {
+  freshSignIn = true;
   const replaced = listAccounts().find(
     (account) =>
       account.session.userId === session.userId && account.store.location !== store.location

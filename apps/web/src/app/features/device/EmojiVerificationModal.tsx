@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai';
+import { useEffect } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
   SpinnerGapIcon,
@@ -7,16 +8,36 @@ import {
   XIcon,
   CheckIcon,
 } from '@phosphor-icons/react';
-import { emojiVerificationAtom } from '@/app/store/atoms';
+import { emojiVerificationAtom, sessionVerificationAtom } from '@/app/store/atoms';
 import { Modal } from '@/app/components/Modal';
 import { Button } from '@/app/components/Button';
+import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { vars } from '@/theme/vars.css';
+import { evaluateSessionVerification, waitForDeviceVerified } from './sessionVerification';
 import * as css from './EmojiVerificationModal.css';
 
 export function EmojiVerificationModal() {
   const { t } = useTranslation();
   const [state, setAtom] = useAtom(emojiVerificationAtom);
+  const setVerification = useSetAtom(sessionVerificationAtom);
   const isUserVerification = !!state.request && !state.request.isSelfVerification();
+
+  // This session just became verified: tell the title bar and Home straight away instead of waiting
+  // for the next trust event. The core settles its state a moment after the flow finishes.
+  useEffect(() => {
+    if (state.phase !== 'done' || !state.request?.isSelfVerification()) return;
+    const client = getMatrixClientOrNull();
+    if (!client) return;
+    let cancelled = false;
+    void (async () => {
+      await waitForDeviceVerified(client);
+      const next = await evaluateSessionVerification(client).catch(() => null);
+      if (!cancelled && next) setVerification(next);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [state.phase, state.request, setVerification]);
 
   const close = () => {
     setAtom({ open: false, phase: 'waiting' });
