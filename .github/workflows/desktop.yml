@@ -1,9 +1,11 @@
 ﻿name: Desktop
 
-# `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, unsigned, so testers get
-# something they can double-click. The raw binary is still uploaded next to them for debugging. No signing (see
-# docs/CI.md for the release plan). Runs on pull requests and pushes when desktop or core files change, or by hand
-# (the macOS leg bills 10x minutes).
+# `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, so testers get
+# something they can double-click. The raw binary is still uploaded next to them for debugging. Windows
+# code signing and notarisation are not set up; in-app update artifacts are signed with the old
+# mudrix-desktop minisign key when the TAURI_SIGNING_PRIVATE_KEY secret exists (see docs/SIGNING.md).
+# Runs on pull requests and pushes when desktop or core files change, or by hand (the macOS leg bills 10x
+# minutes).
 on:
   push:
     branches: [main, web-look]
@@ -104,7 +106,20 @@ jobs:
       # beforeBuildCommand (tsc + vite build --mode desktop) builds the web UI that Tauri embeds
       - name: Tauri build (debug, installers)
         if: inputs.bundles != 'false'
-        run: npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }}
+        shell: bash
+        env:
+          # The same minisign key the old mudrix-desktop releases used; without it the build is unsigned.
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          signing=()
+          if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ]; then
+            signing=(--config src-tauri/tauri.updater.conf.json)
+            echo "Updater artifacts will be signed with the minisign key."
+          else
+            echo "No updater signing key; building unsigned."
+          fi
+          npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }} "${signing[@]}"
 
       - name: Tauri build (debug, no bundle)
         if: inputs.bundles == 'false'
@@ -128,7 +143,9 @@ jobs:
           if command -v sha256sum > /dev/null; then SH="sha256sum"; else SH="shasum -a 256"; fi
           find . -maxdepth 2 -type f \
             \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' -o -name '*.zip' \
-               -o -name '*.AppImage' -o -name '*.deb' \) -print0 | xargs -0 $SH > SHA256SUMS.txt
+               -o -name '*.AppImage' -o -name '*.deb' -o -name '*.sig' \
+               -o -name '*.nsis.zip' -o -name '*.app.tar.gz' -o -name '*.AppImage.tar.gz' \) -print0 \
+            | xargs -0 $SH > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
       - name: Upload the binary
@@ -158,6 +175,21 @@ jobs:
             target/debug/bundle/deb/*.deb
             target/debug/bundle/SHA256SUMS.txt
           if-no-files-found: error
+          retention-days: 14
+
+      # The minisign-signed updater bundles (and their .sig files) for in-app updates. Only present when
+      # the old mudrix-desktop signing key is configured.
+      - name: Upload updater artifacts
+        if: inputs.bundles != 'false' && hashFiles('target/debug/bundle/**/*.sig') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-updater-${{ runner.os }}
+          path: |
+            target/debug/bundle/**/*.sig
+            target/debug/bundle/**/*.nsis.zip
+            target/debug/bundle/**/*.app.tar.gz
+            target/debug/bundle/**/*.AppImage.tar.gz
+          if-no-files-found: ignore
           retention-days: 14
 
       # The tarball the Arch, Fedora and Nix jobs install, with the PKGBUILD and RPM spec filled for it.

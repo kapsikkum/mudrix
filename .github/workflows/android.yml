@@ -100,6 +100,57 @@ jobs:
         working-directory: apps/android
         run: ./gradlew --no-daemon --stacktrace :app:testFdroidDebugUnitTest
 
+      # A release-signed APK (package chat.mudrix.mobile) when the signing secrets exist. Pull requests
+      # never get them: fork PRs cannot read secrets, and we do not want to sign untrusted code.
+      - name: Prepare release signing
+        id: signing
+        if: github.event_name != 'pull_request'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ] \
+             && [ -n "$ANDROID_KEY_ALIAS" ] && [ -n "$ANDROID_KEY_PASSWORD" ]; then
+            node tools/ci/sign-android.mjs prepare
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "No Android signing secrets; skipping the signed release APK."
+          fi
+
+      - name: assembleFdroidRelease (signed)
+        if: steps.signing.outputs.enabled == 'true'
+        working-directory: apps/android
+        run: ./gradlew --no-daemon --stacktrace :app:assembleFdroidRelease
+
+      - name: Verify the release signature
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          node tools/ci/sign-android.mjs verify \
+            apps/android/app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
+
+      - name: Name the signed APK and checksum it
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          version=$(node -p "require('./package.json').version")
+          cd apps/android/app/build/outputs/apk/fdroid/release
+          mv app-fdroid-release.apk "Mudrix-${version}-release.apk"
+          sha256sum *.apk > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Upload the signed release APK
+        if: steps.signing.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-android-fdroid-release
+          path: |
+            apps/android/app/build/outputs/apk/fdroid/release/*.apk
+            apps/android/app/build/outputs/apk/fdroid/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Checksums
         working-directory: apps/android/app/build/outputs/apk/fdroid/debug
         run: sha256sum *.apk > SHA256SUMS.txt
