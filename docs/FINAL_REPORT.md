@@ -13,7 +13,8 @@ desktop, Android and iOS: what was done, the evidence for it, and what is left f
 | iOS simulator                   | CI → iOS workflow                                                                                | `ios-simulator-app` (zipped `.app` + bundle id), `ios-screenshots`                                                    |
 
 `TESTING.md` has the install steps, the seeded test server and the manual checklist. Nothing here is signed for
-release: the Android signing key and the Apple signing/push setup are owner items (below). The Desktop workflow also
+release, by owner decision: builds stay unsigned, Android uses its debug key, and iOS is Simulator-only (there is no
+Apple Developer account). The Desktop workflow also
 builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
 The final commit is `062cbfbb`. A copy of every artifact from that commit is in **`E:\code\web\mudrix-builds\062cbfbb\`**
@@ -176,18 +177,21 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
 - Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2821 keys in 11 languages.
 - Android: 416 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
-- iOS: builds and XCTests in CI (no device run — the owner's step).
+- iOS: builds and XCTests in CI; it runs in the Simulator only (no device install without an Apple Developer account).
 
 ## Open questions and owner items
 
 1. **DeepSeek credit.** The `opencode-go` account ran out mid-run; work continued on Sonnet 5.5 and Haiku. Top up if
    you want the cheaper agents back.
-2. **GitHub Pages** (E3): switch Settings → Pages → Source to "GitHub Actions" so the new workflow can deploy the
-   stable site and `/next/`.
-3. **Repository secrets**: `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` (the KLIPY tab stays hidden without its key),
-   the Android release signing key, and the Apple signing + push entitlement/gateway (N3/Y3).
-4. **iPhone testing**: install the CI simulator build (or an own-signed build) and run the checklist in `TESTING.md`.
-   A device VoiceOver pass is the last part of `A11`.
+2. **GitHub Pages** (E3): no Pages site is configured yet (the API returns 404). Settings → Pages → Build and
+   deployment → Source = **"GitHub Actions"**; the workflow then deploys the stable build and `/next/`. This is a
+   repository setting, not a signing step, and it needs no Apple account.
+3. **GIF keys**: `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` (the KLIPY tab stays hidden without its key). No signing
+   keys are needed: builds stay unsigned and side-load only.
+4. **iOS is Simulator-only**: without an Apple Developer account the app cannot be signed for a device, TestFlight or
+   the App Store, and APNs push cannot work. The simulator build (`TESTING.md`) is the test target, and the iOS push
+   path is the background keep-alive with local notifications, not APNs. A device VoiceOver pass (`A11`) is therefore
+   not possible.
 5. **macOS icon**: `apps/desktop/.../Assets.car` (the compiled layered app icon) still contains the old art; it needs
    `actool`/Icon Composer on a Mac. The source PNGs are already the Mudrix mound.
 6. **Choices I made that you may want to revisit** (all in `docs/DECISIONS.md`): the unslop pass overrides the old

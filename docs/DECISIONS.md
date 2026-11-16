@@ -98,8 +98,10 @@ iOS delivered for the same event, so there is only ever one entry.
 ## Keys and secrets
 
 - GIF keys: the owner adds the `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` repo secrets.
-- Signing keys (Apple, Windows code signing, Tauri updater) do not exist. Release workflows must build unsigned until
-  they do, and say so.
+- Signing keys (Apple, Windows code signing, Tauri updater) do not exist, and the owner will not provide them: there is
+  no Apple Developer account. Every build stays unsigned and side-load only. iOS is Simulator-only (no device install,
+  TestFlight, App Store or APNs), macOS stays unnotarised, Windows shows SmartScreen, Android uses its debug key, and
+  there is no signing key for desktop auto-updates. Release workflows must say so.
 
 ## Encryption keys
 

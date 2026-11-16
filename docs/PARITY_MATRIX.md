@@ -368,9 +368,8 @@ use Mudrix unless WizardChat's is better.
    iOS is still GIPHY-only. Owner must create the account / key.
 3. **Push notifications on iOS** (Y3, N3): APNs requires an Apple Developer account, a push entitlement and a push
    gateway that talks to Apple (Sygnal or equivalent). Mudrix has both an APNs pusher and a background keep-alive with
-   local notifications (compile-time `WZ_PUSH_MODE`); the APNs route is an App Store review question only when the
-   keep-alive modes are used for something else. Owner decision: gateway + APNs, or the keep-alive hack, or
-   foreground-only.
+   local notifications (compile-time `WZ_PUSH_MODE`). Owner decision (2026-11-16): there is no Apple Developer account,
+   so the APNs route is out of scope; iOS uses the background keep-alive with local notifications.
 4. **Android push without Google** (Y1): the three modes are implemented (`-Pmudrix.push=keepalive|unifiedpush|fcm`).
    UnifiedPush still needs a distributor choice and a gateway URL; FCM needs `google-services.json` (Firebase project)
    for the `gplay` flavour. Both are credentials, not code.
@@ -382,9 +381,10 @@ use Mudrix unless WizardChat's is better.
 7. **Legal / licences of bundled sounds**: 14 packs include sounds taken from Element, Cinny, FluffyChat, Commet and
    console-style packs (Mega Drive / NES). `packages/sounds/LICENSES.md` exists; owner should confirm it is complete
    before store release.
-8. **Apple / signing**: unsigned iOS IPA and macOS builds are fine for sideloading only; App Store / notarisation needs the
-   owner's Apple account. Windows code signing and the updater private key (`TAURI_SIGNING_PRIVATE_KEY` in CI) are
-   owner-held (D7, D16).
+8. **Apple / signing**: owner decision (2026-11-16) — no signing and no Apple Developer account. Every build stays
+   unsigned and side-load only: iOS is Simulator-only (no device install, TestFlight, App Store or APNs), macOS is
+   unnotarised, Windows shows SmartScreen, and the desktop updater has no signing key. App Store / notarisation and
+   Windows code signing would need accounts and keys the owner is not providing (D7, D16).
 9. **Widgets** (I5): in scope by owner decision, but not started on native. Web has the sandboxed widget stack and the
    core has a widget driver (`crates/core/src/widgets.rs`); Android and iOS need a WebView host with the same capability
    bridge, after the security review.
