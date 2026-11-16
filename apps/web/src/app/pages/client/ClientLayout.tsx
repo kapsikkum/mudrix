@@ -47,7 +47,8 @@ import { Inbox, MobileInboxPage } from '@/app/features/inbox';
 import { MobileSettingsHome } from '@/app/features/settings/MobileSettingsHome';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { ListIcon } from '@phosphor-icons/react';
-import { TABLET_QUERY } from '@/const/breakpoints';
+import { PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
+import { useBackToClose } from '@/app/hooks/useBackToClose';
 import { SWIPE_DRAWER_ATTR, SWIPE_SCRIM_ATTR, useSwipePanels } from '@/app/hooks/useSwipePanels';
 import { useEdgeSwipeBack, useLongPressContextMenu } from '@/app/hooks/useTouchGestures';
 import { TOUCH_FIRST_QUERY } from '@/theme/uiDensity';
@@ -536,6 +537,25 @@ export function ClientLayout() {
     openRight: () => setMembersVisible(true),
     leftEdgeOwned: isMobile,
   });
+
+  // Where the side panels are overlays (phones, touch tablets), the browser's back button dismisses
+  // them. Back from a room opens the room list (the sidebar drawer) instead of leaving the page; the
+  // list opened that way has no history entry of its own, so a second Back leaves as normal.
+  const panelsOverlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const backCloses = panelsOverlay && !isNativeApp();
+  useBackToClose(backCloses && membersPanelVisible, () => setMembersVisible(false));
+  useBackToClose(backCloses && !!threadsPanelView, closeThreads);
+  useBackToClose(backCloses && roomChatOpen, closeRoomChatPanel);
+  const [listFromBack, setListFromBack] = useState(false);
+  useEffect(() => {
+    if (!drawerOpen) setListFromBack(false);
+  }, [drawerOpen]);
+  const inRoomView = backCloses && location.pathname !== '/';
+  useBackToClose(inRoomView && !drawerOpen, () => {
+    setListFromBack(true);
+    setDrawerOpen(true);
+  });
+  useBackToClose(backCloses && drawerOpen && !listFromBack, () => setDrawerOpen(false));
   const inboxOpen = useAtomValue(inboxOpenAtom);
   const youOpen = useAtomValue(mobileYouOpenAtom);
   const sidebarClass = [

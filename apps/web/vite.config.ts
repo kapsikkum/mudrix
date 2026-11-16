@@ -148,6 +148,8 @@ export default defineConfig(({ mode }) => {
       ),
     },
     optimizeDeps: { exclude: ['@mudrix/core-wasm'] },
+    // BASE_PATH (e.g. /mudrix/ or /mudrix/next/) serves the web build under a subpath, as GitHub Pages does
+    base: desktop ? '/' : (process.env.BASE_PATH ?? '/'),
     build: { target: 'es2022', outDir: desktop ? 'dist-desktop' : 'dist' },
   };
 });

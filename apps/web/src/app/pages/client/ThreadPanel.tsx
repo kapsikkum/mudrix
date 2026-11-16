@@ -35,6 +35,8 @@ import { useMessageLayout } from '@/app/hooks/useMessageLayout';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import { buildItems, useBuildContext } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
@@ -114,7 +116,11 @@ export function ThreadPanel({
   const setReport = useSetAtom(reportMessageAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
   const [expanded, setExpanded] = useAtom(threadPanelExpandedAtom);
-  const isDesktop = useMediaQuery('(min-width: 769px)');
+  // Phones and touch tablets: a bottom sheet that a drag down closes.
+  const overlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const isDesktop = useMediaQuery('(min-width: 769px)') && !overlay;
+  const sheetRef = useRef<HTMLElement>(null);
+  useSwipeDownDismiss({ enabled: overlay, sheetRef, onClose });
 
   const { entries, atStart, loading, loadOlder, timeline } = useTimeline(client, roomId, {
     type: 'thread',
@@ -331,8 +337,10 @@ export function ThreadPanel({
 
   return (
     <aside
+      ref={sheetRef}
       data-swipe-back="panel"
-      data-swipe-drawer="right"
+      data-swipe-drawer={overlay ? undefined : 'right'}
+      data-no-swipe={overlay ? true : undefined}
       className={`${css.threadPanel}${className ? ` ${className}` : ''}${expanded ? ` ${css.threadPanelExpanded}` : ''}`}
       aria-label={t('timeline.threadPanel')}
       style={isDesktop && !expanded ? { width: `${threadPanelWidth}px` } : undefined}

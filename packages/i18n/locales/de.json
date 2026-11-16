@@ -1346,7 +1346,8 @@
       "downloadFailed": "Das Video konnte nicht heruntergeladen werden: {{error}}"
     },
     "filePreview": {
-      "open": "Vorschau"
+      "open": "Vorschau",
+      "zoom": "Zoom"
     },
     "youtube": {
       "video": "YouTube-Video",

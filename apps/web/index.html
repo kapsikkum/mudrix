@@ -10,8 +10,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Mudrix" />
     <title>Mudrix</title>
-    <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/assets/images/logo.svg" />
+    <link rel="icon" href="%BASE_URL%assets/images/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="%BASE_URL%assets/images/logo.svg" />
     <style>
       html,
       body {
@@ -40,7 +40,13 @@
   <body>
     <div id="root">
       <div id="loading-shell">
-        <img src="/assets/images/logo.svg" width="80" height="80" alt="" aria-hidden="true" />
+        <img
+          src="%BASE_URL%assets/images/logo.svg"
+          width="80"
+          height="80"
+          alt=""
+          aria-hidden="true"
+        />
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>

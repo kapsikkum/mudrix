@@ -1,4 +1,5 @@
 import { isVoiceSoundEnabled } from '../app/features/voice/voiceSounds';
+import { publicUrl } from '@/util/publicUrl';
 /**
  * Sound packs: a set of sounds for messages, calls and voice rooms. The files live in
  * `packages/sounds/raw` (flat, shared with the native apps) and are served at /assets/sounds/.
@@ -142,7 +143,7 @@ export function getSoundPack(id: string | undefined): SoundPack {
   );
 }
 
-const soundUrl = (file: string) => `/assets/sounds/${file}`;
+const soundUrl = (file: string) => publicUrl(`assets/sounds/${file}`);
 
 let outputDeviceId = '';
 type SinkTarget = { setSinkId?: (id: string) => Promise<void> };

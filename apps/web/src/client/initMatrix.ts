@@ -19,6 +19,7 @@ import {
   deleteStore,
 } from '@/core/storage';
 import { clearMediaCache, mediaCacheDbName } from '@/app/features/timeline/message/mediaCache';
+import { publicUrl } from '@/util/publicUrl';
 import { toCredentials } from './accounts';
 import type { MatrixCredentials } from './types';
 
@@ -218,7 +219,7 @@ export async function switchAccount(userId: string): Promise<void> {
   await endSession();
   setActive(userId);
   setStoredUserId(userId);
-  window.location.assign('/');
+  window.location.assign(publicUrl(''));
 }
 
 function deleteDatabase(name: string): Promise<void> {
@@ -263,7 +264,7 @@ export async function logout(fallbackUserId?: string | null): Promise<void> {
   const next = await forgetAccount(userId);
   if (!isCurrent) return;
   setStoredUserId(next);
-  window.location.assign(next ? '/' : '/welcome');
+  window.location.assign(publicUrl(next ? '' : 'welcome'));
 }
 
 /** Another tab switched or ended the session: stop this tab's client without signing out */

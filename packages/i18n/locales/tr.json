@@ -1346,7 +1346,8 @@
       "downloadFailed": "Video indirilemedi: {{error}}"
     },
     "filePreview": {
-      "open": "Önizleme"
+      "open": "Önizleme",
+      "zoom": "Yakınlaştır"
     },
     "youtube": {
       "video": "YouTube videosu",

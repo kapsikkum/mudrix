@@ -1346,7 +1346,8 @@
       "downloadFailed": "Nie udało się pobrać wideo: {{error}}"
     },
     "filePreview": {
-      "open": "Podgląd"
+      "open": "Podgląd",
+      "zoom": "Powiększenie"
     },
     "youtube": {
       "video": "Film z YouTube",

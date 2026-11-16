@@ -1,14 +1,14 @@
 # Releasing Mudrix
 
 Adapted from the release notes of the old `mudrix-web`, `mudrix-desktop` and `mudrix-mobile` repositories. This
-repository is a single repo for all apps, but **its release automation does not exist yet**. This file says what is the
+repository is a single repo for all apps, but **only the web channel is automated** (GitHub Pages, below); desktop, Android and iOS releases are still made by hand. This file says what is the
 plan, what already works and what does not, so nothing here should be read as "CI does this" unless it says so.
 
 ## State of CI
 
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
-  `branding-gate.yml`). They check the code and build **unsigned test builds**; nothing is signed, released or published
-  automatically. [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds.
+  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build **unsigned test builds**; nothing is
+  signed or released automatically, and `pages.yml` only publishes the web client. [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds.
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are upstream WizardChat's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
@@ -108,13 +108,40 @@ No secret values belong in this repository or in this file.
   so they are visible to anyone who loads the app. The names every platform uses, and the repository secrets CI maps to
   them, are in [docs/SECRETS.md](docs/SECRETS.md).
 
-## Hosted web client (not set up)
+## Hosted web client (GitHub Pages)
 
-The old web client was deployed to GitHub Pages under `/mudrix-web/` (stable) and `/mudrix-web/next/` (the `next`
-branch), with a `404.html` router for deep links. Both builds share one browser origin, which also shares storage, so a
-risky `next` change can break the stable site's session until site data is cleared. None of that exists for this
-repository yet. The `Dockerfile` builds the web app served by nginx; publishing an image (for example to GHCR) is also
-future workflow work.
+`.github/workflows/pages.yml` publishes one Pages site with two builds of the web app:
+
+| URL                                      | What                                                                                     | Built when                     |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------ |
+| `https://<owner>.github.io/<repo>/`      | the **stable** channel: the newest `v*` tag without a `-` (the tag itself on a tag push) | a stable tag is pushed         |
+| `https://<owner>.github.io/<repo>/next/` | the **next** channel: the head of `web-look` or `main`, whichever was pushed             | a push to `web-look` or `main` |
+
+- Pages replaces the whole site on each deploy, so every run builds both: a branch push rebuilds `/next/` and keeps the
+  stable build of the newest stable tag, a tag push rebuilds stable and `/next/` from the branch heads. Only tags and
+  branches that contain `apps/web` count (the old WizardChat tags `v26.9.x` do not), and with no stable tag yet `/`
+  just forwards to `/next/`.
+- A pre-release tag (`v26.12.0-next.1`, `-rc.1`, `-beta.1`) does **not** deploy: a test build never replaces stable.
+  Cut those from a branch push instead.
+- It never runs for pull requests (no `pull_request` trigger and a guard in the job), so a fork cannot deploy or reach
+  the Pages environment. It uses nothing but `GITHUB_TOKEN` (`contents: read`; `pages: write` and `id-token: write`
+  only in the deploy job). The optional `VITE_GIPHY_API_KEY` / `VITE_KLIPY_API_KEY` secrets switch the GIF tabs on, see
+  [docs/SECRETS.md](docs/SECRETS.md).
+- The app is built for the subpath with `BASE_PATH` (read by `apps/web/vite.config.ts`; `/<repo>/` and
+  `/<repo>/next/`). Every public asset, the service worker, the router basename and the sign-in callback follow it
+  through `apps/web/src/util/publicUrl.ts`. A repository variable `PAGES_BASE_PATH` (ending in `/`, for example `/`)
+  replaces the default `/<repo>/` when the site is served from a custom domain. The desktop build ignores it.
+- Deep links such as `/<repo>/r/!room:server` have no file on Pages: `404.html` loads the `index.html` of the app the
+  path belongs to and lets its router take over (`.github/workflows/pages/`).
+- The two builds share one browser origin, which also shares storage, so a risky `next` change can break the stable
+  site's session until site data is cleared.
+
+One-time setup: **Settings -> Pages -> Source = "GitHub Actions"**, and let the `github-pages` environment deploy from
+`web-look`, `main` and `v*` tags (Settings -> Environments -> github-pages -> deployment branches and tags). A private
+repository needs a plan that has Pages for private repositories. Run it by hand from Actions -> Pages -> Run workflow;
+a manual run builds both channels from the newest stable tag and `web-look`.
+
+The `Dockerfile` builds the web app served by nginx; publishing an image (for example to GHCR) is future work.
 
 ## Application ids
 

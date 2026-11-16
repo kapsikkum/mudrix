@@ -1346,7 +1346,8 @@
       "downloadFailed": "De video kon niet worden gedownload: {{error}}"
     },
     "filePreview": {
-      "open": "Voorbeeld"
+      "open": "Voorbeeld",
+      "zoom": "Zoomen"
     },
     "youtube": {
       "video": "YouTube-video",

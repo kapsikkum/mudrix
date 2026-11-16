@@ -1,0 +1,160 @@
+name: Pages
+
+# Publishes the web app to GitHub Pages as one site with two builds:
+#   https://<owner>.github.io/<repo>/        the newest stable release tag (v26.12.0)
+#   https://<owner>.github.io/<repo>/next/   the branch just pushed: web-look or main
+# Pages replaces the whole site on every deploy, so each run builds both: the stable build is the tag that started
+# the run (or else the newest stable tag), the next build is the pushed branch (or else web-look, then main).
+# A pre-release tag (v26.12.0-next.1, -rc.1, -beta.1) does not deploy, so a test build never replaces stable.
+#
+# Needs nothing but GITHUB_TOKEN: Settings -> Pages -> Source = "GitHub Actions", and the github-pages environment must
+# allow deployments from web-look, main and v* tags. A repository variable PAGES_BASE_PATH (say "/") overrides the
+# default base "/<repo>/", for a custom domain. The optional secrets VITE_GIPHY_API_KEY / VITE_KLIPY_API_KEY enable
+# the GIF tabs (public keys, see docs/SECRETS.md).
+#
+# Pull requests (from forks or not) never trigger this workflow: no pull_request event is listed, so a fork can neither
+# deploy nor reach the Pages environment.
+on:
+  push:
+    branches: [web-look, main]
+    tags: ['v*']
+  workflow_dispatch:
+
+# Never cancelled: a push to a branch must not abort a stable deploy half way.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  # Same as check.yml
+  WASM_PACK: '0.15.0'
+  # One target directory for both builds, so the dependencies compile once
+  CARGO_TARGET_DIR: ${{ github.workspace }}/target
+  BASE: ${{ vars.PAGES_BASE_PATH || format('/{0}/', github.event.repository.name) }}
+
+jobs:
+  build:
+    name: Build site
+    # No pre-release tags; the event is never a pull request (see the header)
+    if: github.event_name != 'pull_request' && (github.event_name == 'workflow_dispatch' || github.ref_type == 'branch' || !contains(github.ref_name, '-'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The newest stable tag and the other branch are looked up in the history
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: pages
+
+      - name: Install wasm-pack
+        run: |
+          base="wasm-pack-v${WASM_PACK}-x86_64-unknown-linux-musl"
+          curl -sSfL "https://github.com/rustwasm/wasm-pack/releases/download/v${WASM_PACK}/${base}.tar.gz" \
+            | tar -xz --strip-components=1 -C "$HOME/.cargo/bin" "${base}/wasm-pack"
+          wasm-pack --version
+
+      - name: Pick the builds
+        id: pick
+        run: |
+          set -euo pipefail
+          has_app() { git cat-file -e "$1:apps/web/package.json" 2>/dev/null; }
+
+          # Stable: the tag that started this run, else the newest stable tag that holds the web app
+          stable=""
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            stable="$GITHUB_REF_NAME"
+          else
+            for tag in $(git tag --list 'v*' --sort=-v:refname | grep -v -- '-' || true); do
+              if has_app "$tag"; then stable="$tag"; break; fi
+            done
+          fi
+
+          # Next: the branch that was pushed, else web-look, else main
+          next=""
+          if [ "$GITHUB_REF_TYPE" = "branch" ] && { [ "$GITHUB_REF_NAME" = web-look ] || [ "$GITHUB_REF_NAME" = main ]; }; then
+            next="origin/$GITHUB_REF_NAME"
+          else
+            for branch in web-look main; do
+              if git rev-parse --verify --quiet "origin/$branch" > /dev/null && has_app "origin/$branch"; then next="origin/$branch"; break; fi
+            done
+          fi
+
+          echo "stable=$stable" >> "$GITHUB_OUTPUT"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          echo "stable build: ${stable:-none}; next build: ${next:-none}"
+          [ -n "$stable$next" ] || { echo "::error::nothing to build"; exit 1; }
+
+      # Each build has its own checkout, one after the other (the Vite build needs a lot of memory).
+      - name: Build stable
+        if: steps.pick.outputs.stable != ''
+        env:
+          REF: ${{ steps.pick.outputs.stable }}
+          SITE_BASE: ${{ env.BASE }}
+          VITE_GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+          VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
+        run: bash .github/workflows/pages/build.sh stable "$REF" "$SITE_BASE"
+
+      - name: Build next
+        if: steps.pick.outputs.next != ''
+        env:
+          REF: ${{ steps.pick.outputs.next }}
+          SITE_BASE: ${{ env.BASE }}next/
+          VITE_GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+          VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
+        run: bash .github/workflows/pages/build.sh next "$REF" "$SITE_BASE"
+
+      - name: Put the site together
+        run: |
+          set -euo pipefail
+          mkdir site
+          if [ -d "$RUNNER_TEMP/stable/apps/web/dist" ]; then
+            cp -r "$RUNNER_TEMP/stable/apps/web/dist/." site/
+          else
+            # No stable release yet: the front page leads to the next build
+            printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=next/"><a href="next/">Mudrix</a>\n' > site/index.html
+          fi
+          if [ -d "$RUNNER_TEMP/next/apps/web/dist" ]; then
+            mkdir site/next
+            cp -r "$RUNNER_TEMP/next/apps/web/dist/." site/next/
+          fi
+          # Deep links (/<repo>/r/..., /<repo>/next/r/...) have no file on disk: 404.html loads the app the path
+          # belongs to and lets its router handle the link.
+          sed "s#__BASE__#$BASE#g" .github/workflows/pages/404.html > site/404.html
+          sed "s#__BASE__#$BASE#g" .github/workflows/pages/404-router.js > site/404-router.js
+          touch site/.nojekyll
+          ls site
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

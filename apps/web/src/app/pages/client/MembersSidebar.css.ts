@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
-import { TABLET_QUERY } from '@/const/breakpoints';
-import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
 
 const base = {
@@ -14,15 +14,13 @@ const base = {
   overflow: 'hidden',
   flexShrink: 0,
   '@media': {
-    '(max-width: 768px)': {
+    // Phones and touch tablets: a panel over the chat, from the right edge.
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
-      width: 'auto',
-      borderLeft: 'none',
-      zIndex: 5000,
+      right: 'var(--safe-right)',
+      top: 'var(--safe-top)',
+      bottom: 'var(--safe-bottom)',
+      zIndex: zIndex.panel,
       transform: 'translateX(100%)',
       transition: `transform ${med} ease`,
     },
@@ -34,31 +32,12 @@ export const membersSidebar = style(base);
 export const membersSidebarOpen = style({
   ...base,
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
-      width: 'auto',
-      borderLeft: 'none',
-      zIndex: 5000,
-      transform: 'translateX(0)',
-      transition: `transform ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
-      borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
+      right: 'var(--safe-right)',
+      top: 'var(--safe-top)',
+      bottom: 'var(--safe-bottom)',
+      zIndex: zIndex.panel,
       transform: 'translateX(0)',
       transition: `transform ${med} ease`,
     },
@@ -74,40 +53,23 @@ export const membersSidebarClosed = style({
   borderLeft: 'none',
   padding: 0,
   '@media': {
-    '(max-width: 768px)': {
-      width: 'auto',
-      minWidth: 0,
+    [PANEL_OVERLAY_QUERY]: {
+      width: '260px',
+      minWidth: '260px',
       flex: '0 0 auto',
       overflow: 'hidden',
-      padding: 'initial',
-      position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
-      zIndex: 5000,
-      transform: 'translateX(100%)',
-      transition: `transform ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
       borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
+      padding: 'initial',
+      position: 'fixed',
+      right: 'var(--safe-right)',
+      top: 'var(--safe-top)',
+      bottom: 'var(--safe-bottom)',
+      zIndex: zIndex.panel,
       transform: 'translateX(100%)',
       transition: `transform ${med} ease`,
     },
   },
 });
-
 export const membersSidebarHeader = style({
   display: 'flex',
   alignItems: 'center',

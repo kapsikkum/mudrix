@@ -6,7 +6,7 @@
  * here produces a URL, HTML or style string from remote data.
  */
 
-const publicUrl = (path: string): string => `/${path}`;
+import { publicUrl } from '@/util/publicUrl';
 import { getBuiltinFrame, getBuiltinNameplate } from '@/util/builtinCosmetics';
 import {
   PROFILE_ACTIVITY_KEYS,

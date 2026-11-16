@@ -1,9 +1,11 @@
+import { publicUrl } from '@/util/publicUrl';
+
 // The version baked into the JS bundle at build time.
 export const CURRENT_VERSION: string = import.meta.env.APP_VERSION ?? '0.0.0';
 
 export async function fetchDeployedVersion(): Promise<string | null> {
   try {
-    const res = await fetch('/version.txt', { cache: 'no-store' });
+    const res = await fetch(publicUrl('version.txt'), { cache: 'no-store' });
     if (!res.ok) return null;
     const text = (await res.text()).trim();
     if (!text || text.startsWith('<') || text.includes(' ')) return null;

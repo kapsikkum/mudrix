@@ -1,6 +1,7 @@
 import { playNotificationSoundFor } from '@/util/notificationSounds';
 import { getThemeLogoAssets } from '@/theme/themeLogos';
 import i18n from '@/i18n';
+import { publicUrl } from '@/util/publicUrl';
 import { isStreamerModeActive } from '@/util/streamerMode';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import type { MudrixClient } from '@mudrix/core';
@@ -34,7 +35,7 @@ export function registerNotificationServiceWorker(): Promise<ServiceWorkerRegist
   }
   swRegistrationPromise = (async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js');
+      const reg = await navigator.serviceWorker.register(publicUrl('sw.js'));
       await navigator.serviceWorker.ready;
 
       await reg.update();
@@ -143,7 +144,7 @@ export async function showBrowserNotification(
   if (!('Notification' in window)) return;
   if (Notification.permission !== 'granted') return;
 
-  const data = roomUrl ? { url: roomUrl } : undefined;
+  const data = roomUrl ? { url: publicUrl(roomUrl) } : undefined;
 
   const reg = await registerNotificationServiceWorker();
   if (reg) {
@@ -161,7 +162,7 @@ export async function showBrowserNotification(
     n.onclick = roomUrl
       ? () => {
           window.focus();
-          window.location.href = roomUrl;
+          window.location.href = publicUrl(roomUrl);
         }
       : null;
     n.onerror = () => {};

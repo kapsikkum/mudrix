@@ -24,7 +24,8 @@ self.addEventListener('notificationclick', (event) => {
         if (targetUrl) client.postMessage({ type: 'navigateTo', url: targetUrl });
         return client.focus();
       }
-      if (self.clients.openWindow) return self.clients.openWindow(targetUrl ?? '/');
+      if (self.clients.openWindow)
+        return self.clients.openWindow(targetUrl ?? self.registration.scope);
       return undefined;
     })
   );

@@ -1346,7 +1346,8 @@
       "downloadFailed": "動画をダウンロードできませんでした: {{error}}"
     },
     "filePreview": {
-      "open": "プレビュー"
+      "open": "プレビュー",
+      "zoom": "ズーム"
     },
     "youtube": {
       "video": "YouTube動画",

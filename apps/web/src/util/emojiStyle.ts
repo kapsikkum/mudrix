@@ -19,6 +19,7 @@
  */
 
 import { EMOJI_UNICODE_RANGE } from './emojiRanges';
+import { publicUrl } from '@/util/publicUrl';
 
 export type EmojiStyle = 'twemoji' | 'native' | 'noto' | 'openmoji';
 export type EmojiOnlySize = 'normal' | 'large' | 'jumbo';
@@ -67,21 +68,21 @@ interface EmojiStyleDef {
 
 const STYLE_DEFS: Record<EmojiStyle, EmojiStyleDef> = {
   twemoji: {
-    font: { family: 'Mudrix Twemoji', url: '/assets/emoji/twemoji/Twemoji.17.0.2.woff2' },
+    font: { family: 'Mudrix Twemoji', url: publicUrl('assets/emoji/twemoji/Twemoji.17.0.2.woff2') },
     maxVersion: 17,
   },
   native: { maxVersion: Number.POSITIVE_INFINITY },
   noto: {
     font: {
       family: 'Mudrix Noto Color Emoji',
-      url: '/assets/emoji/noto/NotoColorEmoji.2.057.woff2',
+      url: publicUrl('assets/emoji/noto/NotoColorEmoji.2.057.woff2'),
     },
     maxVersion: 17,
   },
   openmoji: {
     font: {
       family: 'Mudrix OpenMoji',
-      url: '/assets/emoji/openmoji/OpenMoji-color.18.0.woff2',
+      url: publicUrl('assets/emoji/openmoji/OpenMoji-color.18.0.woff2'),
     },
     maxVersion: 17,
   },

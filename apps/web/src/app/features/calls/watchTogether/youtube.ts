@@ -1,3 +1,5 @@
+import { publicUrl } from '@/util/publicUrl';
+
 export const YT_STATE = {
   UNSTARTED: -1,
   ENDED: 0,
@@ -33,7 +35,7 @@ const LEGACY_SOURCE = 'wizardchat-youtube';
 const BRIDGE_TIMEOUT_MS = 10_000;
 
 function bridgeUrl(): URL {
-  if (!window.desktopAPI) return new URL('/youtube-player.html', window.location.origin);
+  if (!window.desktopAPI) return new URL(publicUrl('youtube-player.html'), window.location.origin);
   const host = import.meta.env.APP_VERSION?.includes('-next') ? 'next' : 'app';
   return new URL(`https://${host}.wizardchat.org/youtube-player.html`);
 }

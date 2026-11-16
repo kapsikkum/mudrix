@@ -18,6 +18,7 @@ import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllRooms } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 import { useSyncReady } from '@/app/hooks/useSync';
+import { stripBase } from '@/util/publicUrl';
 
 export function useClientNotifications() {
   const { t } = useTranslation();
@@ -87,7 +88,7 @@ export function useClientNotifications() {
     const handler = (event: MessageEvent) => {
       if (event.data?.type === 'navigateTo' && typeof event.data.url === 'string') {
         const url = new URL(event.data.url);
-        navigateRef.current(url.pathname + url.search + url.hash);
+        navigateRef.current(stripBase(url.pathname) + url.search + url.hash);
       }
     };
     navigator.serviceWorker.addEventListener('message', handler);

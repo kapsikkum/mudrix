@@ -4,6 +4,7 @@ import { callPopoutOpenAtom, callSessionAtom } from '@/app/store/atoms/call';
 import { PortalContainerContext } from '@/app/components/PortalContainer';
 import { interceptExternalLinks } from '@/bridge/desktop';
 import { isTauriDesktop } from '@/util/desktop';
+import { publicUrl } from '@/util/publicUrl';
 import { CallViewOverride } from './useCallView';
 
 /**
@@ -20,7 +21,7 @@ import { CallViewOverride } from './useCallView';
 /** The element in the window the call's interface goes into, once it is ready. */
 export const callPopoutRootAtom = atom<HTMLElement | null>(null);
 
-const WINDOW_PAGE = '/desktop/call-window.html';
+const WINDOW_PAGE = publicUrl('desktop/call-window.html');
 const WINDOW_NAME = 'mudrix-call';
 const WINDOW_FEATURES = 'popup,width=960,height=640';
 const ROOT_ID = 'mudrix-call-root';

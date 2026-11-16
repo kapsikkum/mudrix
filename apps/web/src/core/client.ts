@@ -14,11 +14,12 @@ import {
 } from './storage';
 import { STORAGE_KEY_OIDC_CLIENT_ID_PREFIX } from '@/const/storageKeys';
 import { isDesktop, signInInBrowser } from '@/bridge/desktop';
+import { publicUrl } from '@/util/publicUrl';
 
 let ready: Promise<unknown> | null = null;
 
 export const DEVICE_NAME = isDesktop ? 'Mudrix Desktop' : 'Mudrix Web';
-export const AUTH_CALLBACK_PATH = '/auth/callback';
+export const AUTH_CALLBACK_PATH = publicUrl('auth/callback');
 const AUTH_MESSAGE = 'mudrix-auth-callback';
 const AUTH_CHANNEL = 'mudrix-auth';
 
@@ -108,7 +109,7 @@ export function handleAuthCallbackPopup(): boolean {
   }
   window.close();
   // Tabs the user opened themselves can't be closed by script
-  setTimeout(() => location.replace('/'), 1000);
+  setTimeout(() => location.replace(publicUrl('')), 1000);
   return true;
 }
 

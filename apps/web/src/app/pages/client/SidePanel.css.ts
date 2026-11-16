@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css';
-import { TABLET_QUERY } from '@/const/breakpoints';
-import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { vars } from '@/theme/vars.css';
-import { med, slideInRight, slideInUp } from '@/theme/animations.css';
+import { med, slideInUp } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
 
 const base = {
@@ -15,37 +15,22 @@ const base = {
   overflow: 'hidden',
   flexShrink: 0,
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       // Bottom drawer, like the pickers and menus.
       position: 'fixed',
       left: 0,
       right: 0,
       top: 'auto',
       bottom: 0,
-      width: 'auto',
+      // The desktop resizer sets an inline width.
+      width: '100% !important',
       height: '80dvh',
-      paddingBottom: 'env(safe-area-inset-bottom)',
+      paddingBottom: 'var(--safe-bottom)',
       borderLeft: 'none',
       borderRadius: '20px 20px 0 0',
       boxShadow: vars.shadow.sheet,
-      zIndex: 5000,
+      zIndex: zIndex.panel,
       transform: 'translateY(100%)',
-      transition: `transform ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
-      borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
-      transform: 'translateX(100%)',
       transition: `transform ${med} ease`,
     },
   },
@@ -56,32 +41,16 @@ export const sidePanel = style(base);
 export const sidePanelOpen = style({
   ...base,
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
       left: 0,
       right: 0,
       top: 'auto',
       bottom: 0,
       height: '80dvh',
-      zIndex: 5000,
+      zIndex: zIndex.panel,
       transform: 'translateY(0)',
       animation: `${slideInUp} ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
-      borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
-      transform: 'translateX(0)',
-      animation: `${slideInRight} ${med} ease`,
     },
   },
 });

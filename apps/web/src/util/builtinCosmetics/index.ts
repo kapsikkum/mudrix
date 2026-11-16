@@ -4,7 +4,7 @@
  * profile can never become an arbitrary URL.
  */
 
-const publicUrl = (path: string): string => `/${path}`;
+import { publicUrl } from '@/util/publicUrl';
 import nameplatesJson from './nameplates.json';
 import framesJson from './frames.json';
 

@@ -1,4 +1,5 @@
-const BASE = import.meta.env.BASE_URL;
+// Node's test runner has no Vite env: it serves from the root.
+const BASE: string = import.meta.env?.BASE_URL ?? '/';
 
 /** Router basename for deployments under a subpath (e.g. GitHub Pages); undefined at the root. */
 export const ROUTER_BASENAME: string | undefined =

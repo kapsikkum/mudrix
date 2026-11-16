@@ -1346,7 +1346,8 @@
       "downloadFailed": "Impossibile scaricare il video: {{error}}"
     },
     "filePreview": {
-      "open": "Anteprima"
+      "open": "Anteprima",
+      "zoom": "Zoom"
     },
     "youtube": {
       "video": "Video di YouTube",

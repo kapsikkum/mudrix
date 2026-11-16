@@ -22,6 +22,8 @@ import {
   THREAD_PANEL_WIDTH_DEFAULT,
 } from '@/app/store/atoms';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import * as css from './ThreadListPanel.css';
 import * as panelCss from './SidePanel.css';
@@ -65,7 +67,11 @@ export function ThreadListPanel({
   const [filter, setFilter] = useAtom(threadFilterAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
   const [expanded, setExpanded] = useAtom(threadPanelExpandedAtom);
-  const isDesktop = useMediaQuery('(min-width: 769px)');
+  // Phones and touch tablets: a bottom sheet that a drag down closes.
+  const overlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const isDesktop = useMediaQuery('(min-width: 769px)') && !overlay;
+  const sheetRef = useRef<HTMLElement>(null);
+  useSwipeDownDismiss({ enabled: overlay, sheetRef, onClose });
   const [allThreads, setAllThreads] = useState<ThreadInfo[]>([]);
   const nextRef = useRef<string | null>(null);
   const paginatingRef = useRef(false);
@@ -129,8 +135,10 @@ export function ThreadListPanel({
 
   return (
     <aside
+      ref={sheetRef}
       data-swipe-back="panel"
-      data-swipe-drawer="right"
+      data-swipe-drawer={overlay ? undefined : 'right'}
+      data-no-swipe={overlay ? true : undefined}
       className={`${panelCss.sidePanel}${className ? ` ${className}` : ''}${expanded ? ` ${panelCss.sidePanelExpanded}` : ''}`}
       aria-label={t('timeline.threads')}
       style={isDesktop && !expanded ? { width: `${threadPanelWidth}px` } : undefined}

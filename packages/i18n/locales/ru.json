@@ -1346,7 +1346,8 @@
       "downloadFailed": "Не удалось скачать видео: {{error}}"
     },
     "filePreview": {
-      "open": "Просмотр"
+      "open": "Просмотр",
+      "zoom": "Масштаб"
     },
     "youtube": {
       "video": "Видео YouTube",
