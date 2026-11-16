@@ -1399,7 +1399,8 @@
       "inCall_other": "{{count}} personen in het gesprek",
       "friendsHeading": "Activiteit van vrienden",
       "whatsNewHeading": "Nieuw",
-      "readAll": "Alles lezen"
+      "readAll": "Alles lezen",
+      "searchHintTouch": "Tik op het zoekpictogram om kamers en berichten te vinden"
     },
     "undecryptable": {
       "group_one": "{{count}} bericht kon niet worden ontsleuteld",

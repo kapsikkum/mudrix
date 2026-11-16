@@ -1399,7 +1399,8 @@
       "inCall_other": "{{count}} people in the call",
       "friendsHeading": "Friends activity",
       "whatsNewHeading": "What's new",
-      "readAll": "Read all"
+      "readAll": "Read all",
+      "searchHintTouch": "Tap the search icon to find rooms and messages"
     },
     "undecryptable": {
       "group_one": "{{count}} message couldn't be decrypted",

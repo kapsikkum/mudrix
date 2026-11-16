@@ -237,6 +237,19 @@ fun HomeWelcome(
                 )
             }
         }
+        // The phone's hint: the search icon in the top bar, not the desktop's keyboard shortcut
+        Row(
+            Modifier.fillMaxWidth().padding(vertical = WZ.Space.space3),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        ) {
+            PhIcon("magnifying-glass", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+            Text(
+                tr("timeline.home.searchHintTouch"),
+                style = wizardFont(WZ.FontSize.sm),
+                color = theme.textMuted,
+            )
+        }
     }
 }
 

@@ -1399,7 +1399,8 @@
       "inCall_other": "{{count}} человека в звонке",
       "friendsHeading": "Активность друзей",
       "whatsNewHeading": "Что нового",
-      "readAll": "Читать всё"
+      "readAll": "Читать всё",
+      "searchHintTouch": "Нажмите значок поиска, чтобы найти комнаты и сообщения"
     },
     "undecryptable": {
       "group_one": "Не удалось расшифровать {{count}} сообщение",

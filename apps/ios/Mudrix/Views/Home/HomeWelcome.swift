@@ -12,8 +12,9 @@ func recentRooms(_ rooms: [RoomSummary]) -> [RoomSummary] {
         .prefix(recentRoomCount))
 }
 
-/// The top of the Home list: what is left to set up, what needs catching up on and the latest rooms.
-/// Rows of a `List`; the unverified-session reminder is the `VerificationBanner` above it.
+/// The top of the Home list: what is left to set up, what needs catching up on, the people now playing or listening
+/// to something, and the latest rooms. Rows of a `List`; the unverified-session reminder is the
+/// `VerificationBanner` above it.
 struct HomeWelcome: View {
     @ObservedObject var roomList: RoomListModel
     let onOpenInbox: () -> Void
@@ -21,6 +22,17 @@ struct HomeWelcome: View {
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
     @State private var showAccount = false
+    @State private var friends: [FriendActivity] = []
+
+    /// One direct-chat partner with a live activity, newest first
+    struct FriendActivity: Identifiable {
+        let roomId: String
+        let userId: String
+        let name: String
+        let avatar: String?
+        let activity: ProfileActivity
+        var id: String { userId }
+    }
 
     var body: some View {
         let invites = roomList.invites
@@ -55,6 +67,16 @@ struct HomeWelcome: View {
                     .welcomeRow()
                 }
             }
+            if !friends.isEmpty {
+                heading(String(localized: "timeline.home.friendsHeading"))
+                ForEach(friends) { friend in
+                    NavigationLink(value: Route.room(friend.roomId)) {
+                        card(title: friend.name, subtitle: ProfileActivityText.activityLine(friend.activity),
+                             avatar: friend.avatar, unread: 0, mention: false)
+                    }
+                    .welcomeRow()
+                }
+            }
             if !recent.isEmpty {
                 heading(String(localized: "timeline.home.recentHeading"))
                 ForEach(recent) { room in
@@ -66,7 +88,9 @@ struct HomeWelcome: View {
                     .welcomeRow()
                 }
             }
+            searchTip
         }
+        .task(id: roomList.joinedRooms.count) { await loadFriends() }
         .sheet(isPresented: $showAccount) {
             NavigationStack {
                 AccountSettings()
@@ -74,6 +98,37 @@ struct HomeWelcome: View {
             }
             .presentationDragIndicator(.visible)
         }
+    }
+
+    /// "Playing X" / "Listening to Y" for each direct-chat partner sharing an activity right now
+    private func loadFriends() async {
+        guard let client = session.client else { return }
+        var seen = Set<String>()
+        var rows: [FriendActivity] = []
+        for room in roomList.joinedRooms where room.isDirect {
+            guard let userId = room.dmUserId, !seen.contains(userId) else { continue }
+            seen.insert(userId)
+            guard let raw = try? await client.profileFields(userId: userId) else { continue }
+            let live = ProfileFields.live(ProfileFields.parse(raw).activities)
+            guard let activity = live.first else { continue }
+            rows.append(FriendActivity(roomId: room.id, userId: userId, name: room.dmUserName ?? userId,
+                                       avatar: room.dmUserAvatar, activity: activity))
+        }
+        friends = Array(rows.prefix(20))
+    }
+
+    /// A quiet hint at the bottom of Home: the phone's search icon instead of the desktop's keyboard shortcut
+    private var searchTip: some View {
+        HStack(spacing: WZ.Space.space3) {
+            Image("ph-magnifying-glass-regular")
+                .font(.system(size: WZ.SizeIcon.sm))
+                .foregroundStyle(theme.textMuted)
+            Text(String(localized: "timeline.home.searchHintTouch"))
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.textMuted)
+        }
+        .padding(.vertical, WZ.Space.space3)
+        .welcomeRow()
     }
 
     private func label(_ room: RoomSummary) -> String {

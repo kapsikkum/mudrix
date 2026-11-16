@@ -37,14 +37,16 @@ struct CallParticipantInfo: Identifiable, Equatable {
 @MainActor
 final class CallManager: NSObject, ObservableObject {
     enum State: Equatable { case idle, joining, joined, failed(String) }
-
     private static let reactionVisibleSeconds = 3.0
     private static let joinTimeout = Duration.seconds(30)
     private static let remoteRetryDelay = Duration.seconds(2)
 
     @Published private(set) var state = State.idle {
         // Calls keep the screen on
-        didSet { UIApplication.shared.isIdleTimerDisabled = state == .joining || state == .joined }
+        didSet {
+            UIApplication.shared.isIdleTimerDisabled = state == .joining || state == .joined
+            announceState(from: oldValue)
+        }
     }
     @Published private(set) var room: RoomSummary?
     @Published private(set) var participants: [CallParticipantInfo] = []
@@ -58,8 +60,7 @@ final class CallManager: NSObject, ObservableObject {
     /// When the longest-standing member joined (milliseconds since 1970): the call timer counts from it
     @Published private(set) var callStartedAt: Int64?
 
-    enum RingState: Equatable { case ringing, declined, unanswered }
-    @Published private(set) var ring: RingState?
+    enum RingState: Equatable { case ringing, declined, unanswered }    @Published private(set) var ring: RingState?
     /// "You're the only one here": counts down and ends a direct call nobody else is in
     let alone = AloneTracker()
     /// `alone.isCounting` as a published value, so the minimised call bar shows the notice at the right moment
@@ -223,6 +224,21 @@ final class CallManager: NSObject, ObservableObject {
         }
     }
 
+    /// Says "Connected" when the call joins and "Disconnected from the call" when it ends, for VoiceOver
+    private func announceState(from previous: State) {
+        func name(_ value: State) -> String {
+            switch value {
+            case .idle: return "idle"
+            case .joining: return "joining"
+            case .joined: return "joined"
+            case .failed: return "failed"
+            }
+        }
+        if let line = Announcer.callStateLine(previous: name(previous), current: name(state), roomName: room?.displayName) {
+            Announcer.say(line)
+        }
+    }
+
     private enum JoinFailure: Error { case noSfu }
 
     func leave() {
@@ -240,8 +256,7 @@ final class CallManager: NSObject, ObservableObject {
     }
 
     /// Ends the call; `message` nil means it was cancelled and ends quietly
-    private func fail(_ message: String?, room failedRoom: RoomSummary?, leave: Bool = true) async {
-        attempt += 1
+    private func fail(_ message: String?, room failedRoom: RoomSummary?, leave: Bool = true) async {        attempt += 1
         let session = session
         let wasShowingScreen = showCallScreen
         await tearDown()

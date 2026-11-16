@@ -53,9 +53,13 @@ enum ProfileActivityText {
         let more: Int
     }
 
+    /// The one line the Home friends feed shows under a name
+    static func activityLine(_ activity: ProfileActivity) -> String {
+        memberLine([activity])?.text ?? ""
+    }
+
     /// The web's `MembersList` line: a game as "Playing X", music as "Title - Artist"; nil when nothing is running
-    static func memberLine(_ activities: [ProfileActivity]) -> MemberLine? {
-        guard let first = activities.first else { return nil }
+    static func memberLine(_ activities: [ProfileActivity]) -> MemberLine? {        guard let first = activities.first else { return nil }
         let text: String
         if first.type == "playing" {
             text = L10n.args("profile.activity.playing", [first.name])

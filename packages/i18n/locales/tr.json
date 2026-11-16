@@ -1399,7 +1399,8 @@
       "inCall_other": "Aramada {{count}} kişi",
       "friendsHeading": "Arkadaş etkinliği",
       "whatsNewHeading": "Yenilikler",
-      "readAll": "Tümünü oku"
+      "readAll": "Tümünü oku",
+      "searchHintTouch": "Odaları ve mesajları bulmak için arama simgesine dokunun"
     },
     "undecryptable": {
       "group_one": "{{count}} mesajın şifresi çözülemedi",

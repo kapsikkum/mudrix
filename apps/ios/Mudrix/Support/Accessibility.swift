@@ -30,4 +30,19 @@ enum Announcer {
         guard UIAccessibility.isVoiceOverRunning else { return }
         UIAccessibility.post(notification: .announcement, argument: text)
     }
+
+    /// What to say when a call's state changes: joining, joined or over. Nil when there is nothing worth saying.
+    static func callStateLine(previous: String, current: String, roomName: String?) -> String? {
+        guard previous != current else { return nil }
+        switch current {
+        case "joined":
+            let name = roomName?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return name.isEmpty ? String(localized: "call.statusConnected")
+                : "\(name): \(String(localized: "call.statusConnected"))"
+        case "idle":
+            return previous == "joined" ? String(localized: "call.disconnected") : nil
+        default:
+            return nil
+        }
+    }
 }

@@ -1399,7 +1399,8 @@
       "inCall_other": "{{count}} personnes dans l'appel",
       "friendsHeading": "Activité de vos amis",
       "whatsNewHeading": "Nouveautés",
-      "readAll": "Tout lire"
+      "readAll": "Tout lire",
+      "searchHintTouch": "Touchez l’icône de recherche pour trouver des salons et des messages"
     },
     "undecryptable": {
       "group_one": "{{count}} message n'a pas pu être déchiffré",

@@ -1399,7 +1399,8 @@
       "inCall_other": "通話中 {{count}} 人",
       "friendsHeading": "フレンドのアクティビティ",
       "whatsNewHeading": "新機能",
-      "readAll": "すべて読む"
+      "readAll": "すべて読む",
+      "searchHintTouch": "検索アイコンをタップしてルームやメッセージを探します"
     },
     "undecryptable": {
       "group_one": "{{count}} 件のメッセージを復号できませんでした",
