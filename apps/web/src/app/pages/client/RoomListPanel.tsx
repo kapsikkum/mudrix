@@ -315,7 +315,11 @@ function HomeCategoryHeader({
 
 export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const { t } = useTranslation();
-  const { roomRow: roomItemHeight, categoryHeader: categoryHeaderHeight } = useUiDensitySizes();
+  const {
+    roomRow: roomItemHeight,
+    categoryHeader: categoryHeaderHeight,
+    dmRow: dmRowHeight,
+  } = useUiDensitySizes();
   const touchUi = useTouchUi();
   const [currentRoomId, setCurrentRoomId] = useAtom(currentRoomIdAtom);
   const [currentSpaceId] = useAtom(currentSpaceIdAtom);
@@ -1569,7 +1573,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const dmVirtualizer = useVirtualizer({
     count: dms.length,
     getScrollElement: () => roomListRef.current,
-    estimateSize: () => roomItemHeight,
+    estimateSize: () => dmRowHeight,
     overscan: LIST_OVERSCAN,
     enabled: isDmView,
   });
@@ -1578,7 +1582,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     spaceVirtualizer.measure();
     homeVirtualizer.measure();
     dmVirtualizer.measure();
-  }, [roomItemHeight, categoryHeaderHeight, spaceVirtualizer, homeVirtualizer, dmVirtualizer]);
+  }, [
+    roomItemHeight,
+    categoryHeaderHeight,
+    dmRowHeight,
+    spaceVirtualizer,
+    homeVirtualizer,
+    dmVirtualizer,
+  ]);
 
   useEffect(() => {
     if (isSpaceView) spaceVirtualizer.measure();
