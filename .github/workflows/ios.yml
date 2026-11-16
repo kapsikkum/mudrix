@@ -116,8 +116,13 @@ jobs:
         run: npm run assets
 
       # Debug profile, aarch64-apple-ios + aarch64-apple-ios-sim, UniFFI Swift bindings, XCFramework
-      - name: Build the core for iOS
+      - name: Build the core for iOS (debug, simulator)
+        if: ${{ !inputs.device-ipa }}
         run: apps/ios/scripts/build-core.sh --debug 2>&1 | tee ci-logs/build-core.log
+
+      - name: Build the core for iOS (release, device IPA)
+        if: ${{ inputs.device-ipa }}
+        run: apps/ios/scripts/build-core.sh 2>&1 | tee ci-logs/build-core.log
 
       - name: Generate the Xcode project
         working-directory: apps/ios
