@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Zoeken"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Publiceren in de kamergids",
+      "note": "Iedereen kan deze kamer vinden in de openbare gids van je homeserver."
+    }
   }
 }

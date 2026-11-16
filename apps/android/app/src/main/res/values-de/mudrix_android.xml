@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Niedrige Priorität</string>
     <string name="mobile_presence_invisible">Unsichtbar</string>
     <string name="mobile_profileChanged">%1$s hat das Profil aktualisiert</string>
-    <string name="mobile_publish_note">Jeder kann diesen Raum im öffentlichen Verzeichnis deines Homeservers finden.</string>
-    <string name="mobile_publish_title">Im Raumverzeichnis veröffentlichen</string>
     <string name="mobile_push_distributor">Push-Dienst</string>
     <string name="mobile_push_failed">Registrierung fehlgeschlagen: %1$s</string>
     <string name="mobile_push_fcmNote">Nachrichten kommen über Googles Push-Dienst (Firebase).</string>

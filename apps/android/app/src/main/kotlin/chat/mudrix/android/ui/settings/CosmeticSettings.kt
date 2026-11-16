@@ -105,10 +105,13 @@ internal fun CosmeticsSection() {
     val session = LocalSession.current
     val prefs = LocalPrefs.current
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     var profile by remember { mutableStateOf(ExtendedProfile()) }
     var packs by remember { mutableStateOf(listOf<CosmeticPacks.Pack>()) }
     var picking by remember { mutableStateOf<CosmeticKind?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
+    var uploadKind by remember { mutableStateOf<CosmeticKind?>(null) }
+    var uploading by remember { mutableStateOf(false) }
     val me = session.userId ?: return
     val showPacks = prefs.showCosmeticPacks
 
@@ -127,6 +130,56 @@ internal fun CosmeticsSection() {
 
     LaunchedEffect(session.client, me) { reloadProfile() }
     LaunchedEffect(session.client, showPacks) { reloadPacks() }
+
+    // A picked picture becomes a custom cosmetic of the kind the sheet was opened for
+    val pick = chat.mudrix.android.ui.people.rememberImagePicker { uri ->
+        val kind = uploadKind ?: return@rememberImagePicker
+        scope.launch {
+            uploading = true
+            try {
+                val data = chat.mudrix.android.ui.people.readBytes(context, uri)
+                if (data == null) {
+                    error = L10n.format("common.saveFailed", "unreadable image")
+                    return@launch
+                }
+                val (bytes, mimetype) = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                    val image = android.graphics.BitmapFactory.decodeByteArray(data, 0, data.size)
+                        ?: return@withContext null
+                    val max = 512
+                    val scale = minOf(1f, max.toFloat() / maxOf(image.width, image.height, 1))
+                    val scaled = if (scale < 1f) {
+                        android.graphics.Bitmap.createScaledBitmap(
+                            image,
+                            (image.width * scale).toInt().coerceAtLeast(1),
+                            (image.height * scale).toInt().coerceAtLeast(1),
+                            true,
+                        )
+                    } else {
+                        image
+                    }
+                    java.io.ByteArrayOutputStream().use { out ->
+                        scaled.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, out)
+                        out.toByteArray() to "image/png"
+                    }
+                } ?: run {
+                    error = L10n.format("common.saveFailed", "unreadable image")
+                    return@launch
+                }
+                val url = CosmeticPackStore.uploadPersonal(session, kind, bytes, mimetype, "mudrix_${kind.name}")
+                session.writeProfileField(keysOf(kind), JsonPrimitive(url))
+                profile = withValue(profile, kind, CosmeticPacks.Value.Media(url))
+                ProfileCosmeticsCache.invalidate(me)
+                reloadPacks()
+                picking = null
+                error = null
+            } catch (e: Exception) {
+                error = L10n.format("common.saveFailed", e.message ?: "")
+            } finally {
+                uploading = false
+                uploadKind = null
+            }
+        }
+    }
 
     fun choose(kind: CosmeticKind, value: CosmeticPacks.Value?, stored: JsonPrimitive? = null) {
         scope.launch {
@@ -201,6 +254,8 @@ internal fun CosmeticsSection() {
                 session.avatarUrl,
                 ::choose,
                 ::chooseItem,
+                uploading = uploading,
+                onUpload = { uploadKind = kind; pick() },
             )
         }
     }
@@ -338,6 +393,8 @@ private fun CosmeticGrid(
     avatarUrl: String?,
     onChoose: (CosmeticKind, CosmeticPacks.Value?, JsonPrimitive?) -> Unit,
     onChooseItem: (CosmeticPacks.Item) -> Unit,
+    uploading: Boolean,
+    onUpload: () -> Unit,
 ) {
     val context = LocalContext.current
     val session = LocalSession.current
@@ -363,8 +420,7 @@ private fun CosmeticGrid(
 
     val entries = ArrayList<GridEntry>()
     entries += GridEntry.Item("", tr("profile.decoration.none"), null)
-    if (builtins.isNotEmpty()) {
-        entries += GridEntry.Header(tr("profile.cosmetics.builtin"), null)
+    if (builtins.isNotEmpty()) {        entries += GridEntry.Header(tr("profile.cosmetics.builtin"), null)
         entries += builtins
     }
     for (pack in packs) {
@@ -382,6 +438,27 @@ private fun CosmeticGrid(
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
         verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            RowFrame(onClick = { if (!uploading) onUpload() }) {
+                RowLabel(
+                    if (uploading) {
+                        tr("attachment.uploading")
+                    } else {
+                        tr(
+                            when (kind) {
+                                CosmeticKind.decoration -> "profile.decoration.uploadDecoration"
+                                CosmeticKind.effect -> "profile.cosmetics.customEffect"
+                                CosmeticKind.nameplate -> "profile.nameplate.upload"
+                                CosmeticKind.profile_frame -> "profile.frame.upload"
+                            },
+                        )
+                    },
+                    null,
+                    Modifier.weight(1f),
+                )
+                PhIcon("upload-simple", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+            }
+        }
         items(
             entries,
             span = { entry -> if (entry is GridEntry.Header) GridItemSpan(maxLineSpan) else GridItemSpan(1) },

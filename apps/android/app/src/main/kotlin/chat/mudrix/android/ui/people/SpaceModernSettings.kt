@@ -6,12 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,11 +27,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.ByteArrayOutputStream
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import chat.mudrix.android.LocalSession
@@ -67,6 +77,46 @@ internal fun SpaceModernSection(spaceId: String, canManage: Boolean) {
     val autoJoin = SpaceModern.explicitAutoJoinOf(state) ?: (style == RoomListStyle.modern)
     val banner = SpaceModern.bannerOf(state)
     var error by remember { mutableStateOf<String?>(null) }
+    val context = LocalContext.current
+    var busy by remember { mutableStateOf(false) }
+    var pending by remember { mutableStateOf<Bitmap?>(null) }
+
+    // An uploaded banner goes through the media repo and is stored as an mxc:// URL, like the web's spaceBanner.ts
+    val pick = rememberImagePicker { uri ->
+        scope.launch {
+            busy = true
+            try {
+                val data = readBytes(context, uri) ?: return@launch
+                val image = withContext(Dispatchers.Default) { BitmapFactory.decodeByteArray(data, 0, data.size) } ?: return@launch
+                pending = image
+            } finally {
+                busy = false
+            }
+        }
+    }
+
+    fun upload(image: Bitmap) {
+        val client = session.client ?: return
+        scope.launch {
+            busy = true
+            try {
+                val jpeg = withContext(Dispatchers.Default) {
+                    ByteArrayOutputStream().use { out ->
+                        cropBanner(image).compress(Bitmap.CompressFormat.JPEG, 85, out)
+                        out.toByteArray()
+                    }
+                }
+                val mxc = client.uploadMedia(jpeg, "image/jpeg")
+                stores.set(client, spaceId, MudrixTypes.SPACE_BANNER, buildJsonObject { put("url", mxc) })
+                error = null
+            } catch (e: Exception) {
+                error = errorText(e)
+            } finally {
+                busy = false
+                pending = null
+            }
+        }
+    }
 
     fun write(type: String, content: kotlinx.serialization.json.JsonObject) {
         val client = session.client ?: return
@@ -99,6 +149,11 @@ internal fun SpaceModernSection(spaceId: String, canManage: Boolean) {
     }
     if (style == RoomListStyle.modern) {
         GroupedSection(header = tr("room.space.banner.title")) {
+            banner?.url?.let { url ->
+                Row(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4)) {
+                    SpaceBannerImage(url, Modifier.fillMaxWidth().aspectRatio(BANNER_RATIO).clip(RoundedCornerShape(WZ.Radius.lg)))
+                }
+            }
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space4),
                 horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
@@ -114,13 +169,45 @@ internal fun SpaceModernSection(spaceId: String, canManage: Boolean) {
                     )
                 }
             }
+            if (canManage) {
+                RowDivider()
+                ActionRow(tr("room.space.banner.upload"), "image", { if (!busy) pick() })
+            }
             if (banner != null && canManage) {
                 RowDivider()
                 ActionRow(tr("room.space.banner.remove"), "trash", { write(MudrixTypes.SPACE_BANNER, buildJsonObject { }) }, theme.danger)
             }
+            RowDivider()
+            Text(
+                if (busy) tr("attachment.uploading") else tr("room.space.banner.colors"),
+                Modifier.padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space3),
+                style = wizardFont(WZ.FontSize.sm),
+                color = theme.textMuted,
+            )
         }
     }
     ErrorText(error)
+    LaunchedEffect(pending) { pending?.let { upload(it) } }
+}
+
+/** A space banner stored as an mxc:// image, drawn in a 3:1 frame */
+@Composable
+private fun SpaceBannerImage(mxc: String, modifier: Modifier = Modifier) {
+    val media = chat.mudrix.android.LocalMedia.current
+    var bitmap by remember(mxc) { mutableStateOf<Bitmap?>(null) }
+    LaunchedEffect(mxc) {
+        bitmap = media?.thumbnail(mxc, 960)
+    }
+    Box(modifier.background(theme.fill)) {
+        bitmap?.let {
+            androidx.compose.foundation.Image(
+                it.asImageBitmap(),
+                null,
+                Modifier.fillMaxWidth().aspectRatio(BANNER_RATIO),
+                contentScale = ContentScale.Crop,
+            )
+        }
+    }
 }
 
 /**

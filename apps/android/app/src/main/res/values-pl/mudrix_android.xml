@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Niski priorytet</string>
     <string name="mobile_presence_invisible">Niewidoczny</string>
     <string name="mobile_profileChanged">%1$s zaktualizował(a) profil</string>
-    <string name="mobile_publish_note">Każdy może znaleźć ten pokój w publicznym katalogu twojego serwera.</string>
-    <string name="mobile_publish_title">Opublikuj w katalogu pokoi</string>
     <string name="mobile_push_distributor">Usługa push</string>
     <string name="mobile_push_failed">Rejestracja nie powiodła się: %1$s</string>
     <string name="mobile_push_fcmNote">Wiadomości docierają przez usługę push Google (Firebase).</string>

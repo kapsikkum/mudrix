@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Buscar"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Publicar en el directorio de salas",
+      "note": "Cualquiera puede encontrar esta sala en el directorio público de tu servidor."
+    }
   }
 }

@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Lage prioriteit</string>
     <string name="mobile_presence_invisible">Onzichtbaar</string>
     <string name="mobile_profileChanged">%1$s heeft het profiel bijgewerkt</string>
-    <string name="mobile_publish_note">Iedereen kan deze kamer vinden in de openbare gids van je homeserver.</string>
-    <string name="mobile_publish_title">Publiceren in de kamergids</string>
     <string name="mobile_push_distributor">Pushdienst</string>
     <string name="mobile_push_failed">Registratie mislukt: %1$s</string>
     <string name="mobile_push_fcmNote">Berichten komen binnen via Googles pushdienst (Firebase).</string>

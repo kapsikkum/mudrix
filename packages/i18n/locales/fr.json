@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Rechercher"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Publier dans l'annuaire des salons",
+      "note": "Tout le monde peut trouver ce salon dans l'annuaire public de ton serveur."
+    }
   }
 }

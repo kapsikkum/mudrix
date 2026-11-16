@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Szukaj"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Opublikuj w katalogu pokoi",
+      "note": "Każdy może znaleźć ten pokój w publicznym katalogu twojego serwera."
+    }
   }
 }

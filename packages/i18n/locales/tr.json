@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Ara"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Oda dizininde yayınla",
+      "note": "Herkes bu odayı ana sunucunun herkese açık dizininde bulabilir."
+    }
   }
 }

@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">低優先度</string>
     <string name="mobile_presence_invisible">オンライン状態を隠す</string>
     <string name="mobile_profileChanged">%1$s さんがプロフィールを更新しました</string>
-    <string name="mobile_publish_note">ホームサーバーの公開ディレクトリで誰でもこのルームを見つけられます。</string>
-    <string name="mobile_publish_title">ルームディレクトリに公開</string>
     <string name="mobile_push_distributor">プッシュサービス</string>
     <string name="mobile_push_failed">登録に失敗しました: %1$s</string>
     <string name="mobile_push_fcmNote">メッセージは Google のプッシュサービス（Firebase）経由で届きます。</string>

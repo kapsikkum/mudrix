@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Prioridad baja</string>
     <string name="mobile_presence_invisible">Invisible</string>
     <string name="mobile_profileChanged">%1$s actualizó su perfil</string>
-    <string name="mobile_publish_note">Cualquiera puede encontrar esta sala en el directorio público de tu servidor.</string>
-    <string name="mobile_publish_title">Publicar en el directorio de salas</string>
     <string name="mobile_push_distributor">Servicio push</string>
     <string name="mobile_push_failed">Falló el registro: %1$s</string>
     <string name="mobile_push_fcmNote">Los mensajes llegan por el servicio push de Google (Firebase).</string>

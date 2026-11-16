@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Düşük öncelik</string>
     <string name="mobile_presence_invisible">Görünmez</string>
     <string name="mobile_profileChanged">%1$s profilini güncelledi</string>
-    <string name="mobile_publish_note">Herkes bu odayı ana sunucunun herkese açık dizininde bulabilir.</string>
-    <string name="mobile_publish_title">Oda dizininde yayınla</string>
     <string name="mobile_push_distributor">Anlık bildirim hizmeti</string>
     <string name="mobile_push_failed">Kayıt başarısız: %1$s</string>
     <string name="mobile_push_fcmNote">Mesajlar Google\'ın anlık bildirim hizmeti (Firebase) üzerinden gelir.</string>

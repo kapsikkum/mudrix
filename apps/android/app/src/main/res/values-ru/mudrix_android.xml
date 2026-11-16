@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Низкий приоритет</string>
     <string name="mobile_presence_invisible">Невидимка</string>
     <string name="mobile_profileChanged">%1$s обновил(а) профиль</string>
-    <string name="mobile_publish_note">Любой сможет найти эту комнату в публичном каталоге вашего сервера.</string>
-    <string name="mobile_publish_title">Опубликовать в каталоге комнат</string>
     <string name="mobile_push_distributor">Push-сервис</string>
     <string name="mobile_push_failed">Не удалось зарегистрироваться: %1$s</string>
     <string name="mobile_push_fcmNote">Сообщения приходят через push-сервис Google (Firebase).</string>

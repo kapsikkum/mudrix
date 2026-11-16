@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Suchen"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Im Raumverzeichnis veröffentlichen",
+      "note": "Jeder kann diesen Raum im öffentlichen Verzeichnis deines Homeservers finden."
+    }
   }
 }

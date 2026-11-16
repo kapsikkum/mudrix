@@ -3264,5 +3264,11 @@
   },
   "roomSwitcher": {
     "title": "Search"
+  },
+  "mobile": {
+    "publish": {
+      "title": "Publish to the room directory",
+      "note": "Anyone can find this room in your homeserver's public directory."
+    }
   }
 }

@@ -10,8 +10,6 @@
     <string name="mobile_lowPriority">Low priority</string>
     <string name="mobile_presence_invisible">Invisible</string>
     <string name="mobile_profileChanged">%1$s updated their profile</string>
-    <string name="mobile_publish_note">Anyone can find this room in your homeserver\'s public directory.</string>
-    <string name="mobile_publish_title">Publish to the room directory</string>
     <string name="mobile_push_distributor">Push service</string>
     <string name="mobile_push_failed">Registration failed: %1$s</string>
     <string name="mobile_push_fcmNote">Messages arrive through Google\'s push service (Firebase).</string>

@@ -66,6 +66,59 @@ object CosmeticPackStore {
         for (type in CosmeticPacks.SUBSCRIPTION_TYPES) session.setAccountDataJSON(type, content)
     }
 
+    /**
+     * Uploads a picture as a custom cosmetic of [kind]: the media goes to the media repo, and the personal pack
+     * (`im.ponies.user_emotes`, the one the web uploads to) gets an entry with that kind's usage.
+     * Returns the `mxc://` URL to store in the profile field.
+     */
+    suspend fun uploadPersonal(
+        session: MatrixSession,
+        kind: CosmeticKind,
+        bytes: ByteArray,
+        mimetype: String,
+        name: String,
+    ): String {
+        val client = session.client ?: error("not signed in")
+        val url = client.uploadMedia(bytes, mimetype)
+        val existing = session.accountDataJSON(CosmeticPacks.USER_PACK) as? kotlinx.serialization.json.JsonObject
+        val previousImages = existing?.get("images") as? kotlinx.serialization.json.JsonObject
+        val base = name.lowercase()
+            .replace(Regex("[^a-z0-9_-]"), "_")
+            .replace(Regex("_+"), "_")
+            .trim('_')
+            .ifEmpty { kind.name }
+        var shortcode = base
+        var counter = 1
+        while (previousImages?.containsKey(shortcode) == true) shortcode = "${base}_${counter++}"
+        val usage = when (kind) {
+            CosmeticKind.decoration -> listOf("avatar_decoration", "profile_decoration", "avatar_frame")
+            CosmeticKind.effect -> listOf("profile_effect")
+            CosmeticKind.nameplate -> listOf("nameplate")
+            CosmeticKind.profile_frame -> listOf("profile_frame")
+        }
+        val images = LinkedHashMap<String, JsonElement>()
+        previousImages?.forEach { (key, value) -> images[key] = value }
+        images[shortcode] = kotlinx.serialization.json.buildJsonObject {
+            put("url", kotlinx.serialization.json.JsonPrimitive(url))
+            put("usage", kotlinx.serialization.json.JsonArray(usage.map { kotlinx.serialization.json.JsonPrimitive(it) }))
+            put("body", kotlinx.serialization.json.JsonPrimitive(name))
+            put("mimetype", kotlinx.serialization.json.JsonPrimitive(mimetype))
+        }
+        val fields = LinkedHashMap<String, JsonElement>()
+        existing?.forEach { (key, value) -> if (key != "images") fields[key] = value }
+        if ("displayName" !in fields) fields["displayName"] = kotlinx.serialization.json.JsonPrimitive("personal")
+        if ("usage" !in fields) {
+            fields["usage"] = kotlinx.serialization.json.JsonArray(
+                listOf("emoticon", "sticker").map { kotlinx.serialization.json.JsonPrimitive(it) },
+            )
+        }
+        fields["images"] = kotlinx.serialization.json.JsonObject(images)
+        val content = kotlinx.serialization.json.JsonObject(fields)
+        session.setAccountDataJSON(CosmeticPacks.USER_PACK, content)
+        forget()
+        return url
+    }
+
     /** The one-shot image a pack effect opens with, looked up among the packs this account can see */
     suspend fun effectIntro(session: MatrixSession, mxc: String): String? {
         rebuildIntroIndex(session)
