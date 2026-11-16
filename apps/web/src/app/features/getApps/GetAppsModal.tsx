@@ -167,6 +167,7 @@ function DesktopSection() {
               <div className={css.cardHeader}>
                 <Icon size={28} weight="fill" className={css.platformIcon} />
                 <span className={css.platformName}>{name}</span>
+                {platform === 'mac' && <span className={css.badgeMuted}>Apple silicon</span>}
                 {mine && !installed && <span className={css.badge}>{t('getApps.yourSystem')}</span>}
               </div>
               <div className={css.actions}>

@@ -19,7 +19,7 @@ interface GithubRelease {
 
 // File names are listed in RELEASING.md
 const ASSET_PATTERNS: Record<DesktopAsset | 'android', RegExp> = {
-  windows: /windows.*\.exe$/i,
+  windows: /setup\.exe$/i,
   mac: /\.dmg$/i,
   appimage: /\.AppImage$/i,
   deb: /\.deb$/i,
