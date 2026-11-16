@@ -256,28 +256,18 @@ jobs:
     if: >-
       needs.build.result == 'success' && inputs.bundles != 'false' &&
       contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    # Not the nixos/nix container: that image has no FHS loader, so the runner's Node binary, which
+    # actions/checkout needs, cannot execute inside it (exec /__e/node24/bin/node: no such file).
+    # Installing Nix on the runner gives the same clean Nix without breaking the JS actions.
     runs-on: ubuntu-latest
-    container: nixos/nix:latest
     timeout-minutes: 45
     steps:
-      - name: Enable flakes
-        run: |
-          mkdir -p /etc/nix
-          echo 'experimental-features = nix-command flakes' >> /etc/nix/nix.conf
-          nix --version
-
-      # actions/checkout needs git, which the image does not always carry.
-      - name: git for the checkout
-        run: |
-          if command -v git > /dev/null; then
-            git --version
-          else
-            nix profile install nixpkgs#git
-            echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
-            "$HOME/.nix-profile/bin/git" --version
-          fi
-
       - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
 
       - uses: actions/download-artifact@v4
         with:
