@@ -9,7 +9,7 @@ plan, what already works and what does not, so nothing here should be read as "C
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
   `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build **unsigned test builds**; nothing is
   signed or released automatically, and `pages.yml` only publishes the web client. [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds.
-- `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are upstream WizardChat's GitLab pipeline. They are kept for
+- `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
 - A release is still built and published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
@@ -119,7 +119,7 @@ No secret values belong in this repository or in this file.
 
 - Pages replaces the whole site on each deploy, so every run builds both: a branch push rebuilds `/next/` and keeps the
   stable build of the newest stable tag, a tag push rebuilds stable and `/next/` from the branch heads. Only tags and
-  branches that contain `apps/web` count (the old WizardChat tags `v26.9.x` do not), and with no stable tag yet `/`
+  branches that contain `apps/web` count (the old upstream tags `v26.9.x` do not), and with no stable tag yet `/`
   just forwards to `/next/`.
 - A pre-release tag (`v26.12.0-next.1`, `-rc.1`, `-beta.1`) does **not** deploy: a test build never replaces stable.
   Cut those from a branch push instead.

@@ -84,6 +84,8 @@ apps/ios/Mudrix/Matrix/SettingsSync.swift :: io\.gitlab\.wizardchat\.settings
 apps/android/app/src/test/kotlin/chat/mudrix/android/matrix/SettingsSyncTest.kt :: org\.wizardchat\.(settings|watch)
 apps/ios/MudrixTests/SettingsSyncTests.swift :: org\.wizardchat\.settings
 apps/ios/MudrixTests/GifFavouritesTests.swift :: org\.wizardchat\.gif_favourites
+apps/android/app/src/main/kotlin/chat/mudrix/android/matrix/GifFavourites.kt :: org\.wizardchat\.gif_favourites
+apps/android/app/src/test/kotlin/chat/mudrix/android/matrix/GifFavouritesTest.kt :: org\.wizardchat\.gif_favourites
 
 # The Android Keystore alias of the AES key that unlocks accounts.bin (sessions and every E2EE store passphrase). The key
 # cannot be exported or renamed; a new alias would leave every existing install unable to decrypt its accounts. Forever.

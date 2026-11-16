@@ -17,20 +17,20 @@ release: the Android signing key and the Apple signing/push setup are owner item
 
 ## The rename
 
-- Every user-visible and code-level WizardChat name is gone: strict branding scan `0 hit(s)` including
+- Every user-visible and code-level upstream name is gone: strict branding scan `0 hit(s)` including
   `apps/web/public` HTML/YAML and the logo artwork, and the normal scan `0 hit(s)`.
 - `WizardClient` is now `MudrixClient` across Rust, TypeScript, Kotlin and Swift, with the bindings regenerated.
 - The names that have to stay for existing installs are kept and allowed with a reason in
-  `tools/ci/branding-allow.txt`: the Android keystore alias `org.wizardchat.session`, the OAuth callback scheme
-  `org.wizardchat` (iOS keeps it, both are registered), the stored sound-pack id `wizardchat`, the upstream YouTube
+  `tools/ci/branding-allow.txt`: the Android keystore alias (the upstream package prefix), the OAuth callback scheme
+  (the upstream scheme; iOS keeps it, both are registered), the stored sound-pack id, the upstream YouTube
   bridge URL, and the old account-data/profile names, which are read but never written.
 - **Upgrade proof:** the Android APK built from the rename was installed with `adb install -r` over the existing test
   install (same application id, `firstInstallTime` unchanged, no uninstall, no data clear). The account stayed signed
   in, the DM list and previews were identical, the theme, layout and Modern shell were unchanged, encrypted DMs still
   decrypted, and there was no verify-session prompt or re-login. The one side effect was the launcher component moving
-  to `chat.mudrix.android.MainActivity`; an activity alias for `org.wizardchat.android.MainActivity` keeps old pinned
+  to `chat.mudrix.android.MainActivity`; an activity alias for the upstream package activity keeps old pinned
   shortcuts working.
-- **Web sign-in migration:** accounts stored under `wizardchat.accounts` (and the older single-account key) move to
+- **Web sign-in migration:** accounts stored under the upstream accounts key (and the older single-account key) move to
   `mudrix.accounts` on first read and stay signed in, keeping the token, device id and refresh token. Unit-tested and
   checked in a browser.
 
@@ -109,7 +109,7 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
   The unslop pass then snapped spacing to the token grid, removed glows and gradient washes, replaced emoji used as
   chrome with icons, dropped uppercase tracked labels, calmed heading weights and cleaned punctuation in all 11
   languages. The greeting card is gone; the type scale is six steps; the Live badge is a theme colour.
-- **Branding**: the old WizardChat mark was still in the web loading screen and several theme logo files, and the
+- **Branding**: the old upstream mark was still in the web loading screen and several theme logo files, and the
   desktop icon; all are the Mudrix mound now (one compiled macOS icon asset needs a Mac to rebuild — see below).
 - **Status bugs found in review**: setting a status wiped the DND mode, and iOS wrote the expiry under a key the other
   clients did not read. The core now preserves every other key and writes `expires` in milliseconds, reading both keys.
