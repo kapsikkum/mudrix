@@ -53,9 +53,17 @@ in
     })
 
     # The tray is a libayatana-appindicator icon, which GNOME only shows with the extension.
-    (lib.mkIf (cfg.tray && config.services.xserver.desktopManager.gnome.enable) {
+    # GNOME 45+ no longer has `services.gnome.core-shell.enableExtensions`; the extension is
+    # installed system-wide and enabled as the default in the dconf profile for new users, while a
+    # user's own Extensions choice still wins.
+    (lib.mkIf (cfg.tray && config.services.desktopManager.gnome.enable) {
       environment.systemPackages = [ pkgs.gnomeExtensions.appindicator ];
-      services.gnome.core-shell.enableExtensions = true;
+      programs.dconf.enable = true;
+      programs.dconf.profiles.user.databases = lib.mkAfter [
+        {
+          settings."org/gnome/shell".enabled-extensions = [ "appindicatorsupport@rgcjonas.gmail.com" ];
+        }
+      ];
     })
   ]);
 }
