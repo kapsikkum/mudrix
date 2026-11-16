@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Invocando la magia...",
-      "1": "Consultando la bola de cristal...",
-      "2": "Preparando la poción de conexión...",
-      "3": "Puliendo el libro de hechizos...",
-      "4": "Despertando al familiar...",
-      "5": "Canalizando los espíritus de Matrix...",
-      "6": "Leyendo las runas...",
-      "7": "Trazando los sellos arcanos..."
+      "0": "Excavando...",
+      "1": "Amasando el barro...",
+      "2": "Manos a la obra...",
+      "3": "Revisando los charcos...",
+      "4": "Dando forma al montículo...",
+      "5": "Removiendo el estanque de Matrix...",
+      "6": "Cribando la tierra...",
+      "7": "¿Atascado en el barro? Aguanta un momento..."
     }
   },
   "profile": {

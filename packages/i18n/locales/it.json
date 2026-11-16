@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Evocando la magia...",
-      "1": "Consultando la sfera di cristallo...",
-      "2": "Preparando la pozione della connessione...",
-      "3": "Lucidando il libro degli incantesimi...",
-      "4": "Risvegliando il famiglio...",
-      "5": "Incanalando gli spiriti di Matrix...",
-      "6": "Leggendo le rune...",
-      "7": "Tracciando i sigilli arcani..."
+      "0": "Scavando...",
+      "1": "Impastando il fango...",
+      "2": "Ci sporchiamo le mani...",
+      "3": "Controllando le pozzanghere...",
+      "4": "Modellando il cumulo...",
+      "5": "Mescolando lo stagno di Matrix...",
+      "6": "Setacciando la terra...",
+      "7": "Bloccato nel fango? Resisti un attimo..."
     }
   },
   "profile": {

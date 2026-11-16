@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Büyü çağrılıyor...",
-      "1": "Kristal küreye danışılıyor...",
-      "2": "Bağlantı iksiri demleniyor...",
-      "3": "Büyü kitabı parlatılıyor...",
-      "4": "Yoldaş uyandırılıyor...",
-      "5": "Matrix ruhları çağrılıyor...",
-      "6": "Rünler okunuyor...",
-      "7": "Gizemli mühürler izleniyor..."
+      "0": "Kazıyoruz...",
+      "1": "Çamuru yoğuruyoruz...",
+      "2": "Ellerinizi kirletmeye hazırlanın...",
+      "3": "Birikintilere bakılıyor...",
+      "4": "Tümsek şekillendiriliyor...",
+      "5": "Matrix göletini karıştırıyoruz...",
+      "6": "Toprağın içinden eleniyor...",
+      "7": "Çamurda mı kaldınız? Dayanın..."
     }
   },
   "profile": {

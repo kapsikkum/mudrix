@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Beschwöre die Magie...",
-      "1": "Konsultiere die Kristallkugel...",
-      "2": "Braue den Verbindungstrank...",
-      "3": "Poliere das Zauberbuch...",
-      "4": "Erwecke das Vertraute...",
-      "5": "Kanalisiere die Matrix-Geister...",
-      "6": "Lese die Runen...",
-      "7": "Zeichne die arkanen Sigillen..."
+      "0": "Wir graben uns rein...",
+      "1": "Den Matsch festklopfen...",
+      "2": "Wir machen uns die Hände schmutzig...",
+      "3": "Die Pfützen prüfen...",
+      "4": "Den Hügel formen...",
+      "5": "Den Matrix-Teich aufrühren...",
+      "6": "Durch die Erde sieben...",
+      "7": "Im Schlamm festgefahren? Einen Moment..."
     }
   },
   "profile": {

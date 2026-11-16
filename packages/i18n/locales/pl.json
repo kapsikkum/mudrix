@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Przywoływanie magii...",
-      "1": "Pytanie kryształowej kuli...",
-      "2": "Warzenie eliksiru połączenia...",
-      "3": "Polerowanie księgi zaklęć...",
-      "4": "Budzenie chowańca...",
-      "5": "Przywoływanie duchów Matrix...",
-      "6": "Odczytywanie run...",
-      "7": "Śledzenie tajemnych znaków..."
+      "0": "Kopiemy...",
+      "1": "Ugniatamy błoto...",
+      "2": "Brudzimy ręce...",
+      "3": "Sprawdzamy kałuże...",
+      "4": "Formujemy kopiec...",
+      "5": "Mieszamy w stawie Matrix...",
+      "6": "Przesiewamy ziemię...",
+      "7": "Ugrzęzłeś w błocie? Wytrzymaj..."
     }
   },
   "profile": {

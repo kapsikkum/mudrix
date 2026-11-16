@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Invocation de la magie...",
-      "1": "Consultation de la boule de cristal...",
-      "2": "Préparation de la potion de connexion...",
-      "3": "Astiquage du grimoire...",
-      "4": "Réveil du familier...",
-      "5": "Canalisation des esprits de Matrix...",
-      "6": "Lecture des runes...",
-      "7": "Tracé des sceaux occultes..."
+      "0": "On creuse...",
+      "1": "On pétrit la boue...",
+      "2": "On se salit les mains...",
+      "3": "On inspecte les flaques...",
+      "4": "On façonne le monticule...",
+      "5": "On agite la mare Matrix...",
+      "6": "On tamise la terre...",
+      "7": "Coincé dans la boue ? Patientez un instant..."
     }
   },
   "profile": {

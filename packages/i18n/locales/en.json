@@ -2796,14 +2796,14 @@
   },
   "loading": {
     "messages": {
-      "0": "Summoning the magic...",
-      "1": "Consulting the crystal ball...",
-      "2": "Brewing the connection potion...",
-      "3": "Polishing the spellbook...",
-      "4": "Awakening the familiar...",
-      "5": "Channeling the Matrix spirits...",
-      "6": "Reading the runes...",
-      "7": "Tracing the arcane sigils..."
+      "0": "Digging in...",
+      "1": "Packing the mud...",
+      "2": "Getting your hands dirty...",
+      "3": "Checking the puddles...",
+      "4": "Shaping the mound...",
+      "5": "Stirring the Matrix pond...",
+      "6": "Sifting through the dirt...",
+      "7": "Stuck in the mud? Hang tight..."
     }
   },
   "profile": {
