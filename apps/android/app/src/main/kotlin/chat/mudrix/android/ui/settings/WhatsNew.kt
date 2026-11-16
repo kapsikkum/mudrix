@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.settings
 
+import chat.mudrix.android.ui.touchTarget
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -164,7 +165,7 @@ fun WhatsNewSheet(entry: WhatsNew.Entry, onDismiss: () -> Unit) {
 @Composable
 private fun IconLink(icon: String, label: String, onClick: () -> Unit) {
     Box(
-        Modifier.size(WZ.Space.space9).clip(CircleShape).clickable(onClick = onClick),
+        Modifier.touchTarget().size(WZ.Space.space9).clip(CircleShape).clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         PhIcon(icon, tint = theme.textMuted, contentDescription = label)

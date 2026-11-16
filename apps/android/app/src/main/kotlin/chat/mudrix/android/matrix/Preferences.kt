@@ -137,7 +137,11 @@ class AppPreferences(context: Context) {
         nullableStringCodec("messageLayoutMobile", LAYOUTS),
     ) { if (it == null) remove("messageLayoutMobile") else putString("messageLayoutMobile", it) }
     var messageLayout: MessageLayout
-        get() = if ((phoneMessageLayout ?: mainMessageLayout) == "classic") MessageLayout.classic else MessageLayout.modern
+        get() = when (phoneMessageLayout ?: mainMessageLayout) {
+            "classic" -> MessageLayout.classic
+            "compact" -> MessageLayout.compact
+            else -> MessageLayout.modern
+        }
         set(value) {
             phoneMessageLayout = value.name
         }

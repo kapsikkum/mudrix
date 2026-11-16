@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.home
 
+import chat.mudrix.android.ui.touchTarget
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -215,7 +216,7 @@ internal fun InboxSaved(roomList: RoomListModel, onOpenRoom: (String) -> Unit, o
                     )
                 }
                 Box(
-                    Modifier.size(WZ.Space.space8).clip(CircleShape).clickable {
+                    Modifier.touchTarget().size(WZ.Space.space8).clip(CircleShape).clickable {
                         scope.launch { session.client?.let { runCatching { SavedMessages.shared.toggle(it, message.roomId, message.eventId) } } }
                     },
                     contentAlignment = Alignment.Center,

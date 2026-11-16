@@ -69,6 +69,11 @@ import chat.mudrix.android.matrix.MudrixRoomStates
 import chat.mudrix.android.matrix.Reminders
 import chat.mudrix.android.matrix.VoiceMoves
 import chat.mudrix.android.ui.space.LocalSpaceGraph
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import chat.mudrix.android.ui.riseIn
+import chat.mudrix.android.ui.riseOut
+import chat.mudrix.android.ui.rememberReducedMotion
 import chat.mudrix.android.matrix.SavedMessages
 import chat.mudrix.android.matrix.RoomListModel
 import chat.mudrix.android.matrix.ensureMudrixUserFlag
@@ -375,13 +380,13 @@ fun MainScreen(roomList: RoomListModel) {
                         onSettings = { openYou() },
                         onInset = { dockInset = it },
                     ) {
-                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        AnimatedVisibility(showsCallBar(tab), enter = riseIn(), exit = riseOut()) {
                             Box(Modifier.padding(bottom = WZ.Space.space2)) { callBar() }
                         }
                     }
                 } else {
                     Column(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1)) {
-                        AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                        AnimatedVisibility(showsCallBar(tab), enter = riseIn(), exit = riseOut()) {
                             callBar()
                         }
                     }
@@ -405,10 +410,10 @@ fun MainScreen(roomList: RoomListModel) {
                     Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = WZ.Space.space1),
                     verticalArrangement = Arrangement.spacedBy(WZ.Space.space4),
                 ) {
-                    AnimatedVisibility(showsCallBar(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                    AnimatedVisibility(showsCallBar(tab), enter = riseIn(), exit = riseOut()) {
                         callBar()
                     }
-                    AnimatedVisibility(showsIsland(tab), enter = slideInVertically { it } + fadeIn(), exit = slideOutVertically { it } + fadeOut()) {
+                    AnimatedVisibility(showsIsland(tab), enter = riseIn(), exit = riseOut()) {
                         TabIsland(roomList, tab, ::select, Modifier.padding(horizontal = WZ.Space.space6))
                     }
                 }
@@ -473,11 +478,13 @@ private fun TabContent(
     }
     val navigator = LocalNavigator.current
     val stateHolder = rememberSaveableStateHolder()
+    val reducedMotion = rememberReducedMotion()
     AnimatedContent(
         targetState = path,
         transitionSpec = {
             val chat = initialState.lastOrNull().isChatRoute() || targetState.lastOrNull().isChatRoute()
             when {
+                reducedMotion -> EnterTransition.None togetherWith ExitTransition.None
                 // Rail switches swap in place; only moving into or out of a chat slides
                 modernHeader && !chat -> fadeIn(tween(120)) togetherWith fadeOut(tween(120))
                 targetState.size >= initialState.size -> slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }

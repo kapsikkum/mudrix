@@ -87,6 +87,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import chat.mudrix.android.ui.A11y
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -393,6 +394,7 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
         if (threadRoot == null && (room.unreadCount > 0 || room.mentionCount > 0)) openAtFirstUnread()
         timeline.markAsRead(prefs.sendReadReceipts)
     }
+    val a11yView = androidx.compose.ui.platform.LocalView.current
     LaunchedEffect(timeline.entries.lastOrNull()?.id) {
         if (timeline.entries.isEmpty() || !positioned) return@LaunchedEffect
         // Unless you scrolled up to read, follow new messages; your own always bring you back down
@@ -401,6 +403,12 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
             scrollToNewest()
         } else {
             newWhileAway += 1
+        }
+        // A screen reader hears a new message from someone else without having to look for it
+        timeline.entries.lastOrNull()?.let { latest ->
+            if (A11y.announcesMessage(latest.isOwn, isNew = true, isContent = latest.isContent)) {
+                A11y.messageText(latest.senderName, latest.summary)?.let { A11y.announce(a11yView, it) }
+            }
         }
         timeline.markAsRead(prefs.sendReadReceipts)
     }
@@ -1113,6 +1121,9 @@ private fun seenByLastOwn(entries: List<ChatEntry>): SeenBy? {
     return SeenBy(entries[index].id, readers, readAt)
 }
 
+/** The modern and compact layouts' text size at the default chat size, as the web's `chatSize(0.95)` (about 15 sp); the chat size setting scales it */
+private val MODERN_BODY_SIZE = 15.sp
+
 /** One message: avatar, name and time, content, link preview, reactions and read receipts */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -1260,35 +1271,11 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         ReplyQuoteView(quote, end = ownBubble, bubble = isBubble, onJump = actions?.jumpTo?.let { jumpTo -> { jumpTo(quote.eventId) } })
                     }
                     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                        // Non-bubble layouts keep the shield in the gutter; the bubble layout draws only a
-                        // real warning, inside the bubble by its time (MessageContent)
-                        if (!isBubble) {
-                            Shields.display(entry.shield)?.let { display ->
-                                val tint = when (display.kind) {
-                                    Shields.Kind.Red -> theme.danger
-                                    Shields.Kind.Warning -> theme.warningColor
-                                    Shields.Kind.Grey -> theme.textMuted
-                                }
-                                val reason = L10n.format(display.reasonKey)
-                                Box(
-                                    Modifier
-                                        .padding(top = WZ.Space.space1)
-                                        .clip(CircleShape)
-                                        .clickable { CopyToast.show(reason) },
-                                ) {
-                                    PhIcon(
-                                        if (display.kind == Shields.Kind.Grey) "shield-check" else "shield-warning",
-                                        size = WZ.SizeIcon.xs * scale,
-                                        tint = tint,
-                                        contentDescription = reason,
-                                    )
-                                }
-                            }
-                        }
                         val sending = entry.isSending && !entry.sendFailed
+                        val rowWarning = if (isBubble) null else bubbleWarning(entry)
                         Box(
-                            Modifier.weight(1f, fill = !ownTextBubble).alpha(if (sending && isText) 0.5f else 1f),
-                            contentAlignment = if (ownBubble) Alignment.CenterEnd else if (isBubble) Alignment.CenterStart else Alignment.Center,
+                            Modifier.weight(1f, fill = !ownTextBubble && rowWarning == null).alpha(if (sending && isText) 0.5f else 1f),
+                            contentAlignment = if (ownBubble) Alignment.CenterEnd else Alignment.CenterStart,
                         ) {
                             MessageContent(
                                 entry,
@@ -1301,6 +1288,9 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                             )
                             if (sending && !isText) UploadProgressRing(null)
                         }
+                        // Modern and compact: like the web, only a real warning (unverified sender, sent in clear),
+                        // small and after the message; the bubble layout draws its own inside the bubble
+                        rowWarning?.let { WarningIcon(it, size = WZ.SizeIcon.xs * scale) }
                         if (entry.sendFailed) {
                             Box {
                                 Box(Modifier.clip(CircleShape).clickable { showFailed = true }) {
@@ -1399,7 +1389,7 @@ private fun BubbleMedia(
     if (!enabled) {
         Column(verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
             content()
-            caption?.let { Text(it, style = wizardFont(WZ.FontSize.lg * scale), color = theme.textPrimary) }
+            caption?.let { Text(it, style = wizardFont(MODERN_BODY_SIZE * scale), color = theme.textPrimary) }
         }
         return
     }
@@ -1620,7 +1610,7 @@ private fun TextContent(
     } else {
         null
     }
-    val size = if (emojiOnlySize == null) (if (bubble) WZ.FontSize.md else WZ.FontSize.lg) * scale else (emojiOnlySize * scale).sp
+    val size = if (emojiOnlySize == null) (if (bubble) WZ.FontSize.md else MODERN_BODY_SIZE) * scale else (emojiOnlySize * scale).sp
     val textColor = if (ownBubble) theme.textOnAccent else theme.textPrimary
     val style = wizardFont(size).copy(lineHeight = if (bubble && emojiOnlySize == null) (23.5f * scale).sp else (size.value + 3 * scale + 4).sp)
     val rich = entry.rich
@@ -1693,8 +1683,18 @@ private fun TextContent(
             }
             val edited = tr("timeline.edited")
             val hint = if (entry.spoilers.isEmpty() || spoilersRevealed) null else tr("timeline.containsASpoilerTap")
-            val full = remember(text, kind.isEmote, entry.isEdited, edited, scale, mutedColor) {
+            // Compact layout: every line starts with its time and sender, like an IRC log
+            val compactPrefix = prefs.messageLayout == MessageLayout.compact && !bubble
+            val compactTime = if (compactPrefix) Formats.time(entry.timestamp) else ""
+            val compactNameColor = if (compactPrefix) nameColor(entry.sender) else Color.Unspecified
+            val full = remember(text, kind.isEmote, entry.isEdited, edited, scale, mutedColor, compactPrefix, compactTime, compactNameColor, entry.senderName) {
                 buildAnnotatedString {
+                    if (compactPrefix) {
+                        withStyle(SpanStyle(fontSize = WZ.FontSize.xs * scale, color = mutedColor)) { append(compactTime) }
+                        append(" ")
+                        withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, color = compactNameColor)) { append(entry.senderName) }
+                        append(" ")
+                    }
                     withStyle(SpanStyle(fontStyle = if (kind.isEmote) FontStyle.Italic else FontStyle.Normal)) { append(text) }
                     if (entry.isEdited) {
                         append(" ")

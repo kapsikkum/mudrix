@@ -404,7 +404,7 @@ fun CopyToastView(modifier: Modifier = Modifier) {
             CopyToast.hideIfStale(stamp)
         }
     }
-    AnimatedVisibility(message != null, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
+    AnimatedVisibility(message != null, modifier, enter = toastIn(), exit = toastOut()) {
         Surface(shape = CircleShape, color = theme.bgTertiary, shadowElevation = 6.dp) {
             Row(
                 Modifier.padding(horizontal = WZ.Space.space6, vertical = WZ.Space.space4),
@@ -421,7 +421,7 @@ fun CopyToastView(modifier: Modifier = Modifier) {
 @Composable
 fun ConnectionBanner(modifier: Modifier = Modifier) {
     val session = LocalSession.current
-    AnimatedVisibility(session.connectionLost, modifier, enter = slideInVertically() + fadeIn(), exit = slideOutVertically() + fadeOut()) {
+    AnimatedVisibility(session.connectionLost, modifier, enter = toastIn(), exit = toastOut()) {
         Row(
             Modifier
                 .clip(CircleShape)
@@ -526,7 +526,7 @@ fun VerificationBanner(onVerify: () -> Unit) {
             Text(tr("common.useAnotherDeviceOr"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
         }
         Box(
-            Modifier.size(WZ.Space.space9).clip(CircleShape).clickable { prefs.verificationBannerDismissed = true },
+            Modifier.touchTarget().size(WZ.Space.space9).clip(CircleShape).clickable { prefs.verificationBannerDismissed = true },
             contentAlignment = Alignment.Center,
         ) {
             PhIcon("x", size = WZ.SizeIcon.xs, tint = theme.textMuted, contentDescription = tr("common.dismiss"))

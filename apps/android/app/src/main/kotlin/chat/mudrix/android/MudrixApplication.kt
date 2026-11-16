@@ -7,6 +7,7 @@ import chat.mudrix.android.matrix.AppPreferences
 import chat.mudrix.android.matrix.CallManager
 import chat.mudrix.android.matrix.MatrixSession
 import chat.mudrix.android.matrix.MediaLoader
+import chat.mudrix.android.matrix.StreamerSignals
 import chat.mudrix.core.CoreInit
 
 class MudrixApplication : Application() {
@@ -22,7 +23,7 @@ class MudrixApplication : Application() {
         prefs = AppPreferences(this)
         session = MatrixSession()
         // Lookups nobody asked for (a card on screen) stay off the network while streamer mode is on
-        IntegrationNetwork.setPassiveBlocker { prefs.streamerModeActive(CallManager.shared.screenSharing) }
+        IntegrationNetwork.setPassiveBlocker { prefs.streamerModeActive(StreamerSignals.sharing) }
     }
 
     companion object {

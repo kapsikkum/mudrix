@@ -27,14 +27,7 @@ import chat.mudrix.android.ui.theme.theme
  */
 @Composable
 fun Modifier.shimmer(): Modifier {
-    val prefs = LocalPrefs.current
-    val context = LocalContext.current
-    val still = remember(prefs.reducedMotion) {
-        val animationsOff = runCatching {
-            Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
-        }.getOrDefault(false)
-        prefs.reducesMotion(animationsOff)
-    }
+    val still = rememberReducedMotion()
     if (still) return alpha(0.75f)
     val sweep by rememberInfiniteTransition(label = "shimmer").animateFloat(
         0f,

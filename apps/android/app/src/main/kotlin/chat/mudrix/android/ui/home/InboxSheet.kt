@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.home
 
+import chat.mudrix.android.ui.touchTarget
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -325,7 +326,7 @@ private fun RoundButton(
     weight: PhWeight = PhWeight.bold,
 ) {
     Box(
-        Modifier.size(WZ.Space.space10).clip(CircleShape).background(background).clickable(enabled = enabled, onClick = onClick),
+        Modifier.touchTarget().size(WZ.Space.space10).clip(CircleShape).background(background).clickable(enabled = enabled, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         PhIcon(icon, weight, size = WZ.SizeIcon.sm, tint = tint, contentDescription = label)

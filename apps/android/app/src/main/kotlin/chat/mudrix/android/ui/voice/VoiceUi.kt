@@ -12,6 +12,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
+import chat.mudrix.android.ui.dropIn
+import chat.mudrix.android.ui.dropOut
+import chat.mudrix.android.ui.rememberReducedMotion
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,6 +59,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -490,13 +494,23 @@ fun IncomingCallBanner(modifier: Modifier = Modifier) {
     CallPermissionBridge()
     val calls = CallManager.shared
     val incoming = calls.incoming
+    // A screen reader hears when the call connects or ends (an incoming call is a live region of its own)
+    val connected = tr("call.statusConnected")
+    val ended = tr("call.event.ended")
+    chat.mudrix.android.ui.AnnounceChanges(calls.state) {
+        when (calls.state) {
+            CallManager.State.Joined -> connected
+            CallManager.State.Idle -> ended
+            else -> null
+        }
+    }
     var last by remember { mutableStateOf(incoming) }
     if (incoming != null) last = incoming
     AnimatedVisibility(
         incoming != null,
         modifier,
-        enter = slideInVertically { -it } + fadeIn(),
-        exit = slideOutVertically { -it } + fadeOut(),
+        enter = dropIn(),
+        exit = dropOut(),
     ) {
         last?.let { IncomingCallCard(it) }
     }
@@ -509,8 +523,10 @@ private fun IncomingCallCard(call: RingingCall) {
     val haptics = LocalHapticFeedback.current
     val profile = rememberMemberProfile(call.callerId, call.roomId)
     val name = profile.name ?: call.callerName ?: call.callerId
-    val pulse = rememberInfiniteTransition(label = "pulse")
-    val progress by pulse.animateFloat(0f, 1f, infiniteRepeatable(tween(1200, easing = LinearEasing), RepeatMode.Restart), label = "ring")
+    val reducedMotion = rememberReducedMotion()
+    // The ring pulses while it rings; with reduced motion it stays still
+    val progress = if (reducedMotion) 0f else rememberInfiniteTransition(label = "pulse")
+        .animateFloat(0f, 1f, infiniteRepeatable(tween(1200, easing = LinearEasing), RepeatMode.Restart), label = "ring").value
     LaunchedEffect(call) { haptics.performHapticFeedback(HapticFeedbackType.LongPress) }
     val label = tr("call.incomingFrom", profile.name ?: call.callerId)
 
@@ -519,7 +535,10 @@ private fun IncomingCallCard(call: RingingCall) {
             .padding(horizontal = WZ.Space.space5)
             .fillMaxWidth()
             .floatingGlass(RoundedCornerShape(WZ.Radius.xl))
-            .semantics { contentDescription = label }
+            .semantics {
+                contentDescription = label
+                liveRegion = androidx.compose.ui.semantics.LiveRegionMode.Assertive
+            }
             .padding(WZ.Space.space5),
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
         verticalAlignment = Alignment.CenterVertically,
@@ -718,8 +737,8 @@ fun CallErrorBanner(modifier: Modifier = Modifier) {
     AnimatedVisibility(
         shown != null,
         modifier,
-        enter = slideInVertically { -it } + fadeIn(),
-        exit = slideOutVertically { -it } + fadeOut(),
+        enter = dropIn(),
+        exit = dropOut(),
     ) {
         val message = last?.message ?: ""
         Row(

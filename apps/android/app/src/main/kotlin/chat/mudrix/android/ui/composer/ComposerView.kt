@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.composer
 
+import chat.mudrix.android.ui.touchTarget
 import android.Manifest
 import android.content.ClipboardManager
 import android.content.Context
@@ -1321,7 +1322,7 @@ private fun RecordingBar(recorder: VoiceRecorder, modifier: Modifier, onSend: ()
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4),
     ) {
-        Box(Modifier.size(WZ.Space.space10).clip(CircleShape).clickable { recorder.cancel() }, contentAlignment = Alignment.Center) {
+        Box(Modifier.touchTarget().size(WZ.Space.space10).clip(CircleShape).clickable { recorder.cancel() }, contentAlignment = Alignment.Center) {
             PhIcon("trash", size = WZ.SizeIcon.md, tint = theme.error, contentDescription = tr("composer.voice.cancel"))
         }
         Box(Modifier.size(WZ.Space.space4).clip(CircleShape).background(if (recording) theme.danger else theme.textMuted))

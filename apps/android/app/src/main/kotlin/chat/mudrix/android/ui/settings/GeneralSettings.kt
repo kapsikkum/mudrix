@@ -52,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.pm.PackageInfoCompat
 import java.util.Date
 import kotlinx.coroutines.launch
@@ -417,7 +418,7 @@ private fun PreviewMessage(
                             Modifier
                         },
                     ),
-                style = wizardFont(WZ.FontSize.lg * scale).copy(lineHeight = WZ.FontSize.lg * scale * 1.25f),
+                style = wizardFont((if (isClassic) WZ.FontSize.md else 15.sp) * scale).copy(lineHeight = (if (isClassic) WZ.FontSize.md else 15.sp) * scale * 1.55f),
                 color = if (isClassic && isOwn && theme.isDark) theme.textOnAccent else theme.textPrimary,
             )
         }

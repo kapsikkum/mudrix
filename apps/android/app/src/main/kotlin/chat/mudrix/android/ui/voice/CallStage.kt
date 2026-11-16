@@ -244,9 +244,13 @@ private fun ParticipantTile(roomId: String, participant: CallParticipantInfo, on
             )
         }
         if (prefs.showCallReactions) {
+            val reducedMotion = chat.mudrix.android.ui.rememberReducedMotion()
             AnimatedContent(
                 participant.reaction,
-                transitionSpec = { (scaleIn(spring()) + fadeIn()) togetherWith (scaleOut() + fadeOut()) },
+                transitionSpec = {
+                    if (reducedMotion) androidx.compose.animation.EnterTransition.None togetherWith androidx.compose.animation.ExitTransition.None
+                    else (scaleIn(spring()) + fadeIn()) togetherWith (scaleOut() + fadeOut())
+                },
                 label = "reaction",
             ) { reaction ->
                 if (reaction != null) Text(reaction, fontSize = WZ.SizeIcon.xxl.value.sp)

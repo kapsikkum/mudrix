@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.settings
 
+import chat.mudrix.android.ui.touchTarget
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -294,7 +295,7 @@ internal fun IconAction(
     onClick: () -> Unit,
 ) {
     Box(
-        Modifier.size(WZ.Space.space9).clip(CircleShape).clickable(onClick = onClick),
+        Modifier.touchTarget().size(WZ.Space.space9).clip(CircleShape).clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         PhIcon(icon, weight, size = WZ.SizeIcon.sm, tint = tint, contentDescription = label)

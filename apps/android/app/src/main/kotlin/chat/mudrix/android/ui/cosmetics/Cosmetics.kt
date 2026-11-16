@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.cosmetics
 
+import chat.mudrix.android.ui.rememberReducedMotion
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
@@ -182,7 +183,7 @@ fun CosmeticImage(
 ) {
     val media = LocalMedia.current
     val prefs = LocalPrefs.current
-    val reduceMotion = prefs.reducesMotion(false)
+    val reduceMotion = rememberReducedMotion()
     var drawable by remember(image, animate) { mutableStateOf<Drawable?>(null) }
     var bitmap by remember(image, width) {
         mutableStateOf((image as? CosmeticImageSource.Asset)?.path?.let { CosmeticArt.cached(it, width) })

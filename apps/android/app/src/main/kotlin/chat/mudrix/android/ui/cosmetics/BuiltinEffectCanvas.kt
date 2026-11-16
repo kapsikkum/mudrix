@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.cosmetics
 
+import chat.mudrix.android.ui.rememberReducedMotion
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
@@ -47,7 +48,7 @@ import chat.mudrix.android.MudrixApplication
 @Composable
 fun BuiltinEffect(id: String, modifier: Modifier = Modifier, animate: Boolean = true) {
     if (!BuiltinEffects.draws(id)) return
-    val reduceMotion = LocalPrefs.current.reducesMotion(false)
+    val reduceMotion = rememberReducedMotion()
     val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
     val resumed = lifecycleState == androidx.lifecycle.Lifecycle.State.RESUMED
     var size by remember { mutableStateOf(IntSize.Zero) }

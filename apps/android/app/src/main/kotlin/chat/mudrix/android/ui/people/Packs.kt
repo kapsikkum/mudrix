@@ -1,7 +1,6 @@
 package chat.mudrix.android.ui.people
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,10 +38,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import java.io.ByteArrayOutputStream
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -56,7 +52,9 @@ import chat.mudrix.android.matrix.PackSize
 import chat.mudrix.android.matrix.canSendState
 import chat.mudrix.android.matrix.setStateEvent
 import chat.mudrix.android.matrix.stateEvents
-import chat.mudrix.android.matrix.uploadMedia
+import chat.mudrix.android.matrix.PackUpload
+import chat.mudrix.android.matrix.UploadedImage
+import chat.mudrix.android.ui.CopyToast
 import chat.mudrix.android.ui.BarTextButton
 import chat.mudrix.android.ui.GroupedSection
 import chat.mudrix.android.ui.L10n
@@ -77,7 +75,12 @@ internal fun packDisplayName(content: JsonObject, key: String): String =
 
 /** A room's custom emoji and sticker packs */
 @Composable
-internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (key: String, content: JsonObject, canEdit: Boolean) -> Unit) {
+internal fun RoomPacksScreen(
+    roomId: String,
+    onBack: () -> Unit,
+    onUploadPack: () -> Unit,
+    onOpenPack: (key: String, content: JsonObject, canEdit: Boolean) -> Unit,
+) {
     val session = LocalSession.current
     val scope = rememberCoroutineScope()
     var packs by remember { mutableStateOf(listOf<Pair<String, JsonObject>>()) }
@@ -129,6 +132,8 @@ internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (ke
                         if (canEdit) {
                             if (packs.isNotEmpty()) RowDivider()
                             ActionRow(tr("room.settings.emojis.newPack"), "plus", { showNewPack = true })
+                            RowDivider()
+                            ActionRow(tr("room.settings.emojis.uploadAndCreate"), "arrow-circle-up", onUploadPack)
                         }
                     }
                 }
@@ -150,8 +155,6 @@ internal fun RoomPacksScreen(roomId: String, onBack: () -> Unit, onOpenPack: (ke
     }
 }
 
-private data class PendingImage(val url: String, val mime: String)
-
 private fun cleanCode(code: String) = code.trim(':', ' ').replace(" ", "_")
 
 /** Edits one pack: its name, usage and images */
@@ -162,8 +165,8 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var content by remember { mutableStateOf(initial) }
-    var pending by remember { mutableStateOf<PendingImage?>(null) }
-    var shortcode by remember { mutableStateOf("") }
+    // What the server has now, to put back if a split fails half-way
+    var savedContent by remember { mutableStateOf(initial) }
     var renaming by remember { mutableStateOf<String?>(null) }
     var newCode by remember { mutableStateOf("") }
     var menuFor by remember { mutableStateOf<String?>(null) }
@@ -186,13 +189,19 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
 
     fun save() {
         val snapshot = content
+        // An event over the limit is refused by the server: the size meter says so, and Split pack is the way out
+        if (PackSize.level(PackSize.contentBytes(snapshot)) == PackSize.Level.Over) {
+            error = L10n.format("room.settings.emojis.sizeOver")
+            return
+        }
         scope.launch {
             try {
                 session.setStateEvent(PACK_TYPE, stateKey, snapshot, roomId)
+                savedContent = snapshot
                 ImagePacks.forget()
                 error = null
             } catch (e: Exception) {
-                error = L10n.format("common.saveFailed", errorText(e))
+                error = if (PackUpload.isTooLarge(e)) L10n.format("room.settings.emojis.serverTooLarge") else L10n.format("common.saveFailed", errorText(e))
             }
         }
     }
@@ -205,33 +214,102 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
         save()
     }
 
-    val pickImage = rememberImagePicker { uri ->
+    // Uploads that already finished, by file, so retry and resume only upload what is missing
+    val uploaded = remember { mutableMapOf<String, UploadedImage>() }
+    var progress by remember { mutableStateOf<UploadProgress?>(null) }
+    var failed by remember { mutableStateOf(listOf<PickedImage>()) }
+    var cancelled by remember { mutableStateOf(false) }
+    var saving by remember { mutableStateOf(false) }
+
+    fun runUpload(files: List<PickedImage>) {
+        if (progress != null || files.isEmpty()) return
+        cancelled = false
+        failed = emptyList()
+        error = null
+        progress = UploadProgress(0, files.size, 0)
         scope.launch {
             try {
-                val data = readBytes(context, uri) ?: return@launch
-                val isGif = data.size >= 3 && data[0] == 0x47.toByte() && data[1] == 0x49.toByte() && data[2] == 0x46.toByte()
-                val payload = if (isGif) data else withContext(Dispatchers.Default) { pngData(data) } ?: data
-                val mime = if (isGif) "image/gif" else "image/png"
-                pending = PendingImage(session.uploadMedia(payload, mime), mime)
-                shortcode = ""
+                val result = PackUpload.uploadPooled(
+                    files,
+                    key = { it.resumeKey },
+                    upload = { uploadPicked(session, context, it) },
+                    done = uploaded,
+                    isCancelled = { cancelled },
+                    onProgress = { done, total, bad -> progress = UploadProgress(done, total, bad) },
+                )
+                val used = allImages.keys.toMutableSet()
+                val added = linkedMapOf<String, JsonElement>()
+                files.forEachIndexed { i, file ->
+                    val up = result.uploaded[i] ?: return@forEachIndexed
+                    val code = PackUpload.uniqueShortcode(PackUpload.shortcodeFromFile(file.name), used)
+                    added[code] = PackUpload.imageEntry(up.mxc, code, up.info)
+                    uploaded.remove(file.resumeKey)
+                }
+                if (added.isNotEmpty()) withImages { putAll(added) }
+                failed = files.filterIndexed { i, _ -> result.uploaded[i] == null }
+                if (result.cancelled) {
+                    error = L10n.format("room.settings.emojis.uploadCancelled", added.size, files.size)
+                } else if (result.errors.isNotEmpty()) {
+                    error = L10n.plural("room.settings.emojis.uploadFailedSome", result.errors.size, result.errors.size)
+                }
+                if (added.isNotEmpty()) save()
             } catch (e: Exception) {
-                error = errorText(e)
+                error = L10n.format("common.saveFailed", errorText(e))
+            } finally {
+                progress = null
             }
         }
     }
 
-    fun addImage() {
-        val image = pending ?: return
-        val code = cleanCode(shortcode)
-        withImages {
-            this[code] = buildJsonObject {
-                put("url", image.url)
-                put("body", code)
-                put("info", buildJsonObject { put("mimetype", image.mime) })
+    val pickImages = rememberImagesPicker { uris ->
+        scope.launch {
+            val (picked, skipped) = describePicked(context, uris)
+            if (picked.isEmpty()) {
+                error = L10n.format("room.settings.emojis.unsupportedFormat")
+                return@launch
+            }
+            runUpload(picked)
+            if (skipped > 0) error = L10n.plural("room.settings.emojis.someSkipped", skipped, skipped)
+        }
+    }
+
+    fun split() {
+        if (saving) return
+        val name = pack["display_name"].string ?: stateKey
+        val parts = PackUpload.partContents(content, name, allImages)
+        val before = savedContent
+        saving = true
+        scope.launch {
+            try {
+                // The new packs go first, so a failure part-way never leaves the images only in memory
+                parts.drop(1).forEach { part ->
+                    PackUpload.withRateLimitRetry { session.setStateEvent(PACK_TYPE, java.util.UUID.randomUUID().toString(), part, roomId) }
+                }
+                try {
+                    PackUpload.withRateLimitRetry { session.setStateEvent(PACK_TYPE, stateKey, parts.first(), roomId) }
+                } catch (e: Exception) {
+                    if (!PackUpload.isTooLarge(e)) throw e
+                    // Some servers count the event being replaced as well: empty this pack first, then write it
+                    // (and put the old one back if that still fails)
+                    PackUpload.withRateLimitRetry { session.setStateEvent(PACK_TYPE, stateKey, JsonObject(emptyMap()), roomId) }
+                    try {
+                        PackUpload.withRateLimitRetry { session.setStateEvent(PACK_TYPE, stateKey, parts.first(), roomId) }
+                    } catch (second: Exception) {
+                        runCatching { session.setStateEvent(PACK_TYPE, stateKey, before, roomId) }
+                        throw second
+                    }
+                }
+                content = parts.first()
+                savedContent = parts.first()
+                ImagePacks.forget()
+                error = null
+                CopyToast.show(L10n.plural("room.settings.emojis.splitDone", parts.size, parts.size))
+            } catch (e: Exception) {
+                error = if (PackUpload.isTooLarge(e)) L10n.format("room.settings.emojis.serverTooLarge") else L10n.format("room.settings.emojis.splitFailed", errorText(e))
+            } finally {
+                saving = false
             }
         }
-        pending = null
-        save()
     }
 
     fun rename(old: String, new: String) {
@@ -312,7 +390,7 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                         }
                         if (canEdit) {
                             Column(
-                                Modifier.width(72.dp).clickable(onClick = pickImage),
+                                Modifier.width(72.dp).clickable(enabled = progress == null, onClick = pickImages),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space2),
                             ) {
@@ -329,17 +407,29 @@ internal fun PackEditorScreen(roomId: String, stateKey: String, initial: JsonObj
                             }
                         }
                     }
-                    if (pending != null) {
+                    progress?.let { current ->
                         RowDivider()
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            FormField(shortcode, { shortcode = it }, "shortcode", Modifier.weight(1f), plain = true)
-                            BarTextButton(tr("common.add"), ::addImage, enabled = cleanCode(shortcode).isNotEmpty())
-                        }
+                        UploadProgressRow(current) { cancelled = true }
+                    }
+                    if (progress == null && failed.isNotEmpty()) {
+                        RowDivider()
+                        ActionRow(
+                            if (cancelled) tr("room.settings.emojis.resumeUpload") else L10n.plural("room.settings.emojis.retryFailed", failed.size, failed.size),
+                            "arrow-counter-clockwise",
+                            { runUpload(failed) },
+                        )
                     }
                 }
             }
             if (images.isNotEmpty()) {
                 item { PackSizeMeter(PackSize.contentBytes(content)) }
+                if (canEdit && PackSize.level(PackSize.contentBytes(content)) == PackSize.Level.Over) {
+                    item {
+                        GroupedSection {
+                            ActionRow(tr("room.settings.emojis.splitPack"), "stack-plus", ::split, enabled = !saving)
+                        }
+                    }
+                }
             }
             item { ErrorText(error) }
         }
@@ -400,14 +490,6 @@ private fun PackSizeMeter(bytes: Int) {
             PackSize.Level.Near -> Text(tr("room.settings.emojis.sizeWarn"), style = wizardFont(WZ.FontSize.sm), color = theme.warningColor)
             PackSize.Level.Ok -> Unit
         }
-    }
-}
-
-private fun pngData(data: ByteArray): ByteArray? {
-    val image = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
-    return ByteArrayOutputStream().use { out ->
-        image.compress(Bitmap.CompressFormat.PNG, 100, out)
-        out.toByteArray()
     }
 }
 

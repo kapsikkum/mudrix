@@ -2,6 +2,7 @@
 
 package chat.mudrix.android.ui.home
 
+import chat.mudrix.android.ui.rememberReducedMotion
 import android.content.Context
 import android.provider.Settings
 import androidx.activity.compose.BackHandler
@@ -85,6 +86,9 @@ import chat.mudrix.android.ui.Avatar
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.MenuItem
 import chat.mudrix.android.ui.PhIcon
+import chat.mudrix.android.ui.isStreamerModeActive
+import chat.mudrix.android.ui.settings.SettingsPageId
+import chat.mudrix.android.ui.settings.SettingsRequest
 import chat.mudrix.android.ui.PhWeight
 import chat.mudrix.android.ui.WizardMenu
 import chat.mudrix.android.ui.cosmetics.CosmeticAvatar
@@ -230,7 +234,7 @@ private fun RailSpaceItem(
             onClick = onOpen,
             onLongClick = { menuOpen = true },
         ) {
-            val reduceMotion = LocalPrefs.current.reducesMotion(false)
+            val reduceMotion = rememberReducedMotion()
             val radius by animateDpAsState(
                 if (selected) railCornerSelected else railCorner,
                 animationSpec = if (reduceMotion) androidx.compose.animation.core.snap() else spring(),
@@ -410,11 +414,27 @@ internal fun ModernUserPanel(onProfile: () -> Unit, onSettings: () -> Unit) {
                 Text(status, style = wizardFont(WZ.FontSize.xs), color = theme.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
+        if (isStreamerModeActive()) {
+            val indicator = tr("settings.privacy.streamer.indicator")
+            Box(
+                Modifier
+                    .size(WZ.Space.space11)
+                    .clip(CircleShape)
+                    .clickable(role = Role.Button) {
+                        SettingsRequest.page = SettingsPageId.privacy
+                        onSettings()
+                    }
+                    .semantics { contentDescription = indicator },
+                contentAlignment = Alignment.Center,
+            ) {
+                PhIcon("eye-slash", size = WZ.SizeIcon.md, tint = theme.accent)
+            }
+        }
         Box(
             Modifier
                 .size(WZ.Space.space11)
                 .clip(CircleShape)
-                .clickable(onClick = onSettings)
+                .clickable(role = Role.Button, onClick = onSettings)
                 .semantics { contentDescription = settingsLabel },
             contentAlignment = Alignment.Center,
         ) {
@@ -441,14 +461,7 @@ internal fun OwnProfilePage(userId: String, onClose: () -> Unit, onOpenSettings:
 @Composable
 internal fun SwipeBack(onBack: () -> Unit, underlay: @Composable () -> Unit, content: @Composable () -> Unit) {
     val density = LocalDensity.current
-    val prefs = LocalPrefs.current
-    val context = LocalContext.current
-    val still = remember(prefs.reducedMotion) {
-        val animationsOff = runCatching {
-            Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
-        }.getOrDefault(false)
-        prefs.reducesMotion(animationsOff)
-    }
+    val still = rememberReducedMotion()
     var offset by remember { mutableFloatStateOf(0f) }
     val scope = rememberCoroutineScope()
     val velocityThreshold = with(density) { 900.dp.toPx() }

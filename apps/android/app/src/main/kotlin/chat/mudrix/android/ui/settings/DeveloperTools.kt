@@ -82,7 +82,7 @@ internal fun DeveloperToolsSections() {
     val encryption = session.encryption
 
     SettingsSection(tr("settings.developer.session")) {
-        CopyRow(tr("settings.developer.userId"), session.userId.orEmpty())
+        CopyRow(tr("settings.developer.userId"), session.userId.orEmpty(), sensitive = true)
         SettingsDivider()
         CopyRow(tr("settings.developer.appVersion"), version)
         SettingsDivider()

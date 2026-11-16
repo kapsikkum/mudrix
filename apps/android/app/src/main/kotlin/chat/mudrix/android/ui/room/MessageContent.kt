@@ -1,5 +1,7 @@
 package chat.mudrix.android.ui.room
 
+import chat.mudrix.android.ui.touchTarget
+import chat.mudrix.android.ui.rememberReducedMotion
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
 import android.content.Context
@@ -121,6 +123,8 @@ import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.ChatEntry
 import chat.mudrix.android.matrix.MediaVisibility
 import chat.mudrix.android.matrix.memberProfile
+import chat.mudrix.android.media.FilePreview
+import chat.mudrix.android.media.FilePreviewKind
 import chat.mudrix.android.media.TextFile
 import chat.mudrix.android.ui.Avatar
 import chat.mudrix.android.ui.BarButton
@@ -160,7 +164,7 @@ internal fun mediaHidden(revealed: Boolean, spoiler: String?, isPrivateRoom: Boo
  */
 @Composable
 internal fun Modifier.imageFadeIn(): Modifier {
-    val reduceMotion = LocalPrefs.current.reducesMotion(false)
+    val reduceMotion = rememberReducedMotion()
     var appeared by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { appeared = true }
     val alpha by androidx.compose.animation.core.animateFloatAsState(
@@ -643,6 +647,16 @@ private fun FileRow(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: B
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var loading by remember { mutableStateOf(false) }
+    val kind = remember(media.filename, media.mimetype) { FilePreview.kind(media.filename, media.mimetype) }
+    var preview by remember(media.source) { mutableStateOf<File?>(null) }
+    preview?.let { file ->
+        if (kind != null) {
+            FilePreviewDialog(kind, file, media.filename, media.mimetype, onFallback = {
+                preview = null
+                openFile(context, file, media.mimetype)
+            }, onDismiss = { preview = null })
+        }
+    }
     Row(
         Modifier
             .widthIn(max = WZ.Size.sidebar)
@@ -654,7 +668,8 @@ private fun FileRow(media: ChatEntry.MediaContent, bubble: Boolean, ownBubble: B
                     loading = true
                     val file = runCatching { loader.file(media.source, media.filename) }.getOrNull()
                     loading = false
-                    if (file != null) openFile(context, file, media.mimetype)
+                    if (file == null) return@launch
+                    if (kind != null) preview = file else openFile(context, file, media.mimetype)
                 }
             }
             .padding(WZ.Space.space4),
@@ -714,6 +729,24 @@ private fun TextFileCard(media: ChatEntry.MediaContent, bubble: Boolean, ownBubb
         }
     }
 
+    var previewFile by remember(media.source) { mutableStateOf<File?>(null) }
+    previewFile?.let { file ->
+        FilePreviewDialog(FilePreviewKind.text, file, media.filename, media.mimetype, onFallback = {
+            previewFile = null
+            openFile(context, file, media.mimetype)
+        }, onDismiss = { previewFile = null })
+    }
+
+    fun preview() {
+        if (loader == null || loading) return
+        scope.launch {
+            loading = true
+            val file = runCatching { loader.file(media.source, media.filename) }.getOrNull()
+            loading = false
+            if (file != null) previewFile = file
+        }
+    }
+
     fun toggle() {
         if (loading) return
         if (expanded) {
@@ -763,7 +796,7 @@ private fun TextFileCard(media: ChatEntry.MediaContent, bubble: Boolean, ownBubb
         }
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
             Column(
-                Modifier.weight(1f).clickable { open() },
+                Modifier.weight(1f).clickable(onClickLabel = tr("timeline.filePreview.open")) { preview() },
                 verticalArrangement = Arrangement.spacedBy(WZ.Space.space1),
             ) {
                 Text(
@@ -867,7 +900,7 @@ fun AudioMessageView(media: ChatEntry.MediaContent, isVoice: Boolean, waveform: 
     ) {
         val label = if (playback.isPlaying) tr("voiceMessagePlayer.pause") else tr("voiceMessagePlayer.play")
         Box(
-            Modifier.size(WZ.Space.space10).clip(CircleShape).background(theme.accent)
+            Modifier.touchTarget().size(WZ.Space.space10).clip(CircleShape).background(theme.accent)
                 .messageTap {
                     scope.launch {
                         if (file == null && loader != null) {

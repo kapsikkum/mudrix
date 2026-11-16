@@ -1,5 +1,8 @@
 package chat.mudrix.android.ui.settings
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import chat.mudrix.android.ui.rememberReducedMotion
 import androidx.compose.runtime.LaunchedEffect
 import chat.mudrix.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
@@ -77,6 +80,11 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     about("settings.about.title", "info"),
 }
 
+/** A page another screen wants Settings to open on (the streamer indicator opens Privacy) */
+internal object SettingsRequest {
+    var page by mutableStateOf<SettingsPageId?>(null)
+}
+
 private val stackSaver = Saver<List<SettingsPageId>, ArrayList<String>>(
     save = { ArrayList(it.map(SettingsPageId::name)) },
     restore = { saved -> saved.mapNotNull { name -> SettingsPageId.entries.firstOrNull { it.name == name } } },
@@ -90,13 +98,23 @@ private val stackSaver = Saver<List<SettingsPageId>, ArrayList<String>>(
 fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
     // Saveable so a language switch (which recreates the activity) stays on its page
     var stack by rememberSaveable(stateSaver = stackSaver) { mutableStateOf(listOf<SettingsPageId>()) }
+    val requested = SettingsRequest.page
+    LaunchedEffect(requested) {
+        if (requested != null) {
+            stack = listOf(requested)
+            SettingsRequest.page = null
+        }
+    }
     BackHandler(enabled = stack.isNotEmpty()) { stack = stack.dropLast(1) }
     val pop = { stack = stack.dropLast(1) }
 
+    val reducedMotion = rememberReducedMotion()
     AnimatedContent(
         targetState = stack,
         transitionSpec = {
-            if (targetState.size >= initialState.size) {
+            if (reducedMotion) {
+                EnterTransition.None togetherWith ExitTransition.None
+            } else if (targetState.size >= initialState.size) {
                 slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
             } else {
                 slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }

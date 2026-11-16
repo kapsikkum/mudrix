@@ -3,7 +3,9 @@ package chat.mudrix.android
 import chat.mudrix.android.matrix.deviceId
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import chat.mudrix.android.matrix.StreamerSignals
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.SystemBarStyle
@@ -98,6 +100,23 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handle(intent)
+    }
+
+    private val recordingWatcher = java.util.function.Consumer<Int> { StreamerSignals.recording = StreamerSignals.recordingFrom(it) }
+
+    override fun onStart() {
+        super.onStart()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            StreamerSignals.recording = StreamerSignals.recordingFrom(windowManager.addScreenRecordingCallback(mainExecutor, recordingWatcher))
+        }
+    }
+
+    override fun onStop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            windowManager.removeScreenRecordingCallback(recordingWatcher)
+            StreamerSignals.recording = false
+        }
+        super.onStop()
     }
 
     override fun onResume() {

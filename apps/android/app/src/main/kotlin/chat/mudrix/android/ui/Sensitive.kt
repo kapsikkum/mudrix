@@ -7,13 +7,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import chat.mudrix.android.LocalPrefs
-import chat.mudrix.android.matrix.CallManager
+import chat.mudrix.android.matrix.StreamerSignals
 
 /** Whether streamer mode hides private details now (always when chosen, or "auto" while this device shares its screen) */
 @Composable
 fun isStreamerModeActive(): Boolean {
     val prefs = LocalPrefs.current
-    return prefs.streamerModeActive(CallManager.shared.screenSharing)
+    return prefs.streamerModeActive(StreamerSignals.sharing)
 }
 
 /**

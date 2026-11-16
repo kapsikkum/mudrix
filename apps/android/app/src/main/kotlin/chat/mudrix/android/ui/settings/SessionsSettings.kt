@@ -1,5 +1,6 @@
 package chat.mudrix.android.ui.settings
 
+import chat.mudrix.android.ui.touchTarget
 import android.text.format.DateUtils
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
@@ -295,7 +296,7 @@ private fun DeviceRow(
             }
             Box {
                 Box(
-                    Modifier.size(WZ.Space.space9).clip(CircleShape).clickable { menuOpen = true },
+                    Modifier.touchTarget().size(WZ.Space.space9).clip(CircleShape).clickable { menuOpen = true },
                     contentAlignment = Alignment.Center,
                 ) {
                     PhIcon("dots-three", PhWeight.bold, tint = theme.textMuted, contentDescription = tr("common.menu"))

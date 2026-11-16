@@ -68,6 +68,7 @@ internal sealed interface PeoplePage {
     data class Members(val roomId: String) : PeoplePage
     data class Roles(val roomId: String) : PeoplePage
     data class Packs(val roomId: String) : PeoplePage
+    data class UploadPack(val roomId: String) : PeoplePage
     data class PackEditor(val roomId: String, val key: String, val content: JsonObject, val canEdit: Boolean) : PeoplePage
     data object Search : PeoplePage
     data object Media : PeoplePage
@@ -86,9 +87,10 @@ internal fun SharedPage(page: PeoplePage, push: (PeoplePage) -> Unit, pop: () ->
     when (page) {
         is PeoplePage.Members -> MembersScreen(page.roomId, pop)
         is PeoplePage.Roles -> RolesPermissionsScreen(page.roomId, pop)
-        is PeoplePage.Packs -> RoomPacksScreen(page.roomId, pop) { key, content, canEdit ->
+        is PeoplePage.Packs -> RoomPacksScreen(page.roomId, pop, onUploadPack = { push(PeoplePage.UploadPack(page.roomId)) }) { key, content, canEdit ->
             push(PeoplePage.PackEditor(page.roomId, key, content, canEdit))
         }
+        is PeoplePage.UploadPack -> UploadPackScreen(page.roomId, pop)
         is PeoplePage.PackEditor -> PackEditorScreen(page.roomId, page.key, page.content, page.canEdit, pop)
         is PeoplePage.SpaceRoles -> SpaceRolesScreen(page.spaceId, pop)
         is PeoplePage.AuditLog -> AuditLogScreen(page.roomId, pop)
