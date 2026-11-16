@@ -87,7 +87,7 @@ export function About() {
             <span className={heroCss.versionTag}>v{version}</span>
           </div>
           <div className={heroCss.heroActions}>
-            {(!isTauriDesktop() || !!window.desktopAPI?.checkForUpdate) && (
+            {!import.meta.env.DEV && (!isTauriDesktop() || !!window.desktopAPI?.checkForUpdate) && (
               <button
                 type="button"
                 className={heroCss.downloadBtn}
@@ -121,7 +121,7 @@ export function About() {
             )}
             <button
               type="button"
-              className={heroCss.downloadBtn}
+              className={heroCss.sourceBtn}
               onClick={() => setGetAppsOpen(true)}
             >
               <DownloadSimpleIcon size={16} />
@@ -147,18 +147,22 @@ export function About() {
               </button>
             )}
           </div>
-          {isTauriDesktop() && (
-            <label className={css.settingLabel}>
+          {!import.meta.env.DEV && isTauriDesktop() && (
+            <label className={heroCss.prereleaseRow}>
               <input
                 type="checkbox"
                 checked={prereleases}
                 onChange={(e) => togglePrereleases(e.target.checked)}
-              />{' '}
+              />
               {t('update.includePrereleases')}
             </label>
           )}
-          {(updateCheck === 'error' || updateCheck === 'available') && (
-            <span className={css.settingLabel} role="status">
+          {!import.meta.env.DEV && (updateCheck === 'error' || updateCheck === 'available') && (
+            <span
+              className={heroCss.updateStatus}
+              role="status"
+              data-error={updateCheck === 'error' ? 'true' : undefined}
+            >
               {updateCheck === 'error' ? t('update.checkFailed') : t('update.available')}
             </span>
           )}

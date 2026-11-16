@@ -5,8 +5,8 @@ import { fontSize } from '@/theme/typeScale';
 
 export const hero = style({
   display: 'flex',
-  alignItems: 'center',
-  gap: '16px',
+  alignItems: 'flex-start',
+  gap: '20px',
   paddingBottom: '20px',
   marginBottom: '20px',
   borderBottom: `1px solid ${vars.color.border}`,
@@ -14,9 +14,11 @@ export const hero = style({
 
 export const heroInfo = style({
   display: 'flex',
+  flex: 1,
+  minWidth: 0,
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '10px',
+  gap: '12px',
 });
 
 export const nameRow = style({
@@ -46,7 +48,27 @@ export const heroActions = style({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
-  gap: '10px',
+  gap: '8px',
+});
+
+/** The "include pre-releases" switch under the buttons. */
+export const prereleaseRow = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '8px',
+  fontSize: fontSize.rem85,
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+});
+
+/** The result of a manual update check; quiet unless it failed. */
+export const updateStatus = style({
+  fontSize: fontSize.rem85,
+  lineHeight: 1.35,
+  color: vars.color.textMuted,
+  selectors: {
+    '&[data-error="true"]': { color: vars.color.error },
+  },
 });
 
 export const sourceBtn = style({
