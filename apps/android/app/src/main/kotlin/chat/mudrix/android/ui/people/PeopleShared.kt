@@ -442,7 +442,7 @@ internal fun <T> LazyListScope.lazyGroupedSection(
 ) {
     item(key = "$key-header", contentType = "section-header") {
         Text(
-            header.uppercase(),
+            header,
             Modifier.padding(start = WZ.Space.space6 + WZ.Space.space5, bottom = WZ.Space.space3, top = WZ.Space.space6),
             style = wizardFont(WZ.FontSize.sm),
             color = theme.textMuted,

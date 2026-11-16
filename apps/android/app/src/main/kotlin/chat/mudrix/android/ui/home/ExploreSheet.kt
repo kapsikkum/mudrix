@@ -296,7 +296,7 @@ private fun Results(
     ) {
         item(key = "title") {
             Text(
-                title.uppercase(),
+                title,
                 style = wizardFont(WZ.FontSize.sm, FontWeight.Bold).copy(letterSpacing = 0.5.sp),
                 color = theme.textMuted,
             )

@@ -98,7 +98,7 @@ struct RoomListScreen: View {
                 Section {
                     ForEach(dmRooms) { roomRow($0) }
                 } header: {
-                    Text(String(localized: "room.dm.directMessages").uppercased())
+                    Text(String(localized: "room.dm.directMessages"))
                         .font(.wizard(WZ.FontSize.sm, .semibold))
                         .foregroundStyle(theme.textMuted)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -237,7 +237,7 @@ struct RoomListScreen: View {
                 ForEach(category.rooms) { roomRow($0, modern: true) }
             } header: {
                 if let title = category.title {
-                    Text(title.uppercased())
+                    Text(title)
                         .font(.wizard(WZ.FontSize.xs, .semibold))
                         .foregroundStyle(theme.textMuted)
                 }

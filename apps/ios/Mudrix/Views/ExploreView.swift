@@ -190,7 +190,7 @@ private struct ResultsList: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: WZ.Space.space4) {
-                Text(title.uppercased())
+                Text(title)
                     .font(.wizard(WZ.FontSize.sm, .bold))
                     .kerning(0.5)
                     .foregroundStyle(theme.textMuted)

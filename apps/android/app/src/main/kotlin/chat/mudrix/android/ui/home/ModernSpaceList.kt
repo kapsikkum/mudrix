@@ -57,7 +57,7 @@ internal fun LazyListScope.modernRooms(
         if (category.spaceId != null) {
             item(key = "category-${category.spaceId}", contentType = "category") {
                 Text(
-                    (header ?: tr("nav.rooms")).uppercase(),
+                    (header ?: tr("nav.rooms")),
                     Modifier.fillMaxWidth().padding(start = WZ.Space.space6 + 12.dp * (category.depth - 1).coerceAtLeast(0), top = WZ.Space.space6, bottom = WZ.Space.space2),
                     style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                     color = theme.textMuted,

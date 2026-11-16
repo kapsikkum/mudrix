@@ -122,7 +122,7 @@ internal fun SpaceChannelsScreen(spaceId: String, roomList: RoomListModel, onBac
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            (categoryId?.let { id -> roomList.space(id)?.name } ?: tr("nav.rooms")).uppercase(),
+                            (categoryId?.let { id -> roomList.space(id)?.name } ?: tr("nav.rooms")),
                             Modifier.weight(1f),
                             style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                             color = theme.textMuted,

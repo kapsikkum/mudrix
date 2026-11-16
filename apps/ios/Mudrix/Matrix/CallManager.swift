@@ -60,7 +60,8 @@ final class CallManager: NSObject, ObservableObject {
     /// When the longest-standing member joined (milliseconds since 1970): the call timer counts from it
     @Published private(set) var callStartedAt: Int64?
 
-    enum RingState: Equatable { case ringing, declined, unanswered }    @Published private(set) var ring: RingState?
+    enum RingState: Equatable { case ringing, declined, unanswered }
+    @Published private(set) var ring: RingState?
     /// "You're the only one here": counts down and ends a direct call nobody else is in
     let alone = AloneTracker()
     /// `alone.isCounting` as a published value, so the minimised call bar shows the notice at the right moment

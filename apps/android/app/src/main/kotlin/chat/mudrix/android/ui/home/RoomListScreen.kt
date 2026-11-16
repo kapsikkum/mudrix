@@ -395,7 +395,7 @@ fun RoomListScreen(
                 if (homeDms.isNotEmpty()) {
                     item(key = "home-dms-header") {
                         Text(
-                            tr("room.dm.directMessages").uppercase(),
+                            tr("room.dm.directMessages"),
                             Modifier.fillMaxWidth().padding(start = WZ.Space.space6, top = WZ.Space.space6, bottom = WZ.Space.space2),
                             style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                             color = theme.textMuted,
@@ -975,7 +975,7 @@ private fun LazyListScope.matrixCategoryRooms(
         category.spaceId?.let { id ->
             item(key = "matrix-category-$id", contentType = "category") {
                 Text(
-                    (headers[id] ?: generic).uppercase(),
+                    (headers[id] ?: generic),
                     Modifier.fillMaxWidth().padding(start = WZ.Space.space6 + 12.dp * (category.depth - 1).coerceAtLeast(0), top = WZ.Space.space6, bottom = WZ.Space.space2),
                     style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold),
                     color = theme.textMuted,
