@@ -101,7 +101,7 @@ iOS delivered for the same event, so there is only ever one entry.
 
 ## Keys and secrets
 
-- GIF keys: the owner adds the `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` repo secrets.
+- GIF keys: the owner's `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` are repository secrets; every workflow that builds an app passes them at build time.
 - Android release APKs are signed with the old `mudrix-release.keystore`, and desktop in-app update artifacts
   with the old `mudrix-updater` minisign key, so existing installs keep updating in place. The keystore was re-encrypted
   with a new password on 2026-11-16 (same certificate; the old password was lost). The passwords live in the owner's

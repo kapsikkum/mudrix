@@ -203,7 +203,8 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 2. **GitHub Pages** (E3): **done.** The Pages site is enabled with build type **"GitHub Actions"**, and the
    `github-pages` environment deploys from `web-look`, `main` and `v*` tags. The deploy on `baa6383e` is green and the
    site is live at <https://kapsikkum.github.io/mudrix/>. No signing step and no Apple account were needed.
-3. **GIF keys**: `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` (the KLIPY tab stays hidden without its key).
+3. **GIF keys**: **done.** `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` are repository secrets, and the Pages,
+   Desktop, Android and iOS workflows pass them to each platform's build.
 4. **iOS is Simulator-only**: without an Apple Developer account the app cannot be signed for a device, TestFlight or
    the App Store, and APNs push cannot work. The simulator build (`TESTING.md`) is the test target, and the iOS push
    path is the background keep-alive with local notifications, not APNs. A device VoiceOver pass (`A11`) is therefore

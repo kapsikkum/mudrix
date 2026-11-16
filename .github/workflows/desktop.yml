@@ -59,6 +59,9 @@ permissions:
 env:
   CARGO_TERM_COLOR: always
   CARGO_INCREMENTAL: '0'
+  # GIF search (docs/SECRETS.md): public build-time keys, embedded in the web bundle
+  VITE_GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
 
 jobs:
   build:

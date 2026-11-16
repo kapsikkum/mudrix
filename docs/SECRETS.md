@@ -31,7 +31,8 @@ Notes:
   (`#include?`), so builds work without the file. In CI write the file from the secret before `xcodegen`/`xcodebuild`, or
   pass `GIPHY_API_KEY=...` to `xcodebuild` as a build setting. Keep `//` out of values (xcconfig comment syntax).
 - iOS: `KLIPY_API_KEY` works the same way and fills `WZKlipyApiKey`; without it the picker offers GIPHY alone.
-- The Android and iOS changes have not been built yet.
+- The Android and iOS builds in CI now take both keys from the same repository secrets (`GIPHY_API_KEY` /
+  `KLIPY_API_KEY` in the Gradle and xcodebuild environments), so the release artifacts include the GIF tabs.
 
 ## GitHub repository secrets
 

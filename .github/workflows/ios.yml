@@ -60,6 +60,9 @@ env:
   # to pin them.
   IOS_XCODEPROJ: ${{ vars.IOS_XCODEPROJ }}
   IOS_XCODE_SCHEME: ${{ vars.IOS_SCHEME }}
+  # GIF search (docs/SECRETS.md): project.yml copies these into Info.plist at build time
+  GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
 
 defaults:
   run:
@@ -172,6 +175,7 @@ jobs:
             -derivedDataPath build \
             -resultBundlePath ../../ci-logs/build.xcresult \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            GIPHY_API_KEY="$GIPHY_API_KEY" KLIPY_API_KEY="$KLIPY_API_KEY" \
             ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
             2>&1 | tee ../../ci-logs/xcodebuild-build.log \
             | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
@@ -189,6 +193,7 @@ jobs:
             -derivedDataPath build \
             -resultBundlePath ../../ci-logs/test.xcresult \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            GIPHY_API_KEY="$GIPHY_API_KEY" KLIPY_API_KEY="$KLIPY_API_KEY" \
             ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
             2>&1 | tee ../../ci-logs/xcodebuild-test.log \
             | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
