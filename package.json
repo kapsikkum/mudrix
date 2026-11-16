@@ -1,6 +1,6 @@
 {
   "name": "mudrix",
-  "version": "26.12.2",
+  "version": "26.12.0",
   "description": "Mudrix: a Matrix client",
   "type": "module",
   "license": "AGPL-3.0",

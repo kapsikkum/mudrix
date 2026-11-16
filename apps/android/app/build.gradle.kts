@@ -9,13 +9,16 @@ plugins {
 
 val packages = rootProject.layout.projectDirectory.dir("../../packages")
 
-// 26.12.2-next.1 -> 26120201, 26.12.2 -> 26120299
+// The old Tauri app used base = major*1e6 + minor*1e3 + patch, then base*10 + an ABI digit
+// (26.11.0 x86_64 = 260110004). Keep the same base and take digit 9 for a stable build or the
+// -next.N number for a pre-release, so this universal APK updates an installed old app:
+// 26.12.0 -> 260120009, 26.12.0-next.1 -> 260120001.
 val appVersion: String = Regex("\"version\"\\s*:\\s*\"([^\"]+)\"")
     .find(rootProject.file("../../package.json").readText())!!.groupValues[1]
 val appVersionCode: Int = Regex("^(\\d+)\\.(\\d+)\\.(\\d+)(?:-next\\.(\\d+))?").find(appVersion)!!
     .destructured.let { (major, minor, patch, next) ->
-        major.toInt() * 1_000_000 + minor.toInt() * 10_000 + patch.toInt() * 100 +
-            (next.toIntOrNull() ?: 99)
+        (major.toInt() * 1_000_000 + minor.toInt() * 1_000 + patch.toInt()) * 10 +
+            (next.toIntOrNull()?.coerceIn(0, 8) ?: 9)
     }
 
 val keystoreProperties = Properties().apply {
