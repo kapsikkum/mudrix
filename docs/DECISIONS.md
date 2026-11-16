@@ -72,6 +72,10 @@ iOS delivered for the same event, so there is only ever one entry.
 
 ## Content and assets
 
+- **The presence dot sits above every cosmetic.** It is drawn at the avatar's z-layer on web (above decorations,
+  profile frames and effects) and as the last overlay on Android and iOS, so a decoration can never hide someone's
+  status.
+
 - **Discord cosmetics sync script stays.** Running it is up to each user and is not a supported feature. The art
   shipped in the repo is original. No scraped packs in the repo or default config.
 - **Mobile shell has two styles.** "Modern" is the default: a persistent space rail plus one content pane, matching

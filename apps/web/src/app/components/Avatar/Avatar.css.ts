@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fontSize } from '@/theme/typeScale';
+import { zIndex } from '@/theme/zIndex';
 
 export const avatarWrap = style({
   position: 'relative',
@@ -74,6 +75,9 @@ const presenceDotBase = style({
   boxSizing: 'border-box',
   border: `2px solid ${vars.color.bgSecondary}`,
   pointerEvents: 'none',
+  // Above decorations (1), profile effects (10) and the avatar itself: the status stays readable
+  // whatever cosmetic it is drawn over.
+  zIndex: zIndex.avatar,
 });
 
 export const presenceDotXs = style([
