@@ -18,13 +18,13 @@ with the old app's release keystore and desktop updater artifacts with the old `
 Developer account). The Desktop workflow also
 builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
-The final code commit is `baa6383e`; documentation-only commits follow it. The Desktop artifacts are from its push run
-`43848422884`, and the Android APK from run `43845706935` (the web-only presence-dot fix does not touch Android). A
-copy of every artifact is in **`E:\code\web\mudrix-builds\signed-20261116\`**: Windows NSIS/MSI, Linux AppImage/DEB,
-macOS dmg/app zip and the minisign updater `.sig` files (each `SHA256SUMS` verifies every file beside it), Arch and
-Fedora packages, the Linux tarball with PKGBUILD and spec, the Android `Mudrix-26.12.2-release.apk` (old certificate
-`494a…`), and the web dist built from `baa6383e`. The iOS simulator app and screenshots from run `43848436941` are
-in the same folder.
+The final commit is `c3d9f69c` (app code is unchanged since `baa6383e`; it adds the GIF-key wiring to the build
+workflows, then docs). The artifacts are from its runs: Desktop `43862844476`, Android `43862844419`, iOS
+`43862859027`, Pages `43862844362`. A copy of everything is in
+**`E:\code\web\mudrix-builds\signed-20261116\`**: Windows NSIS/MSI, Linux AppImage/DEB, macOS dmg/app zip and the
+minisign updater `.sig` files (each `SHA256SUMS` verifies every file beside it), Arch and Fedora packages, the Linux
+tarball with PKGBUILD and spec, the Android `Mudrix-26.12.2-release.apk` (old certificate `494a…`), the iOS
+Simulator app, and the web dist built from `c3d9f69c`. All of them embed the GIPHY and KLIPY build keys.
 
 ## The rename
 
@@ -180,13 +180,16 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 
 ## Ready for review
 
-- CI is green on `baa6383e` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
+- CI is green on `c3d9f69c` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
   XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts). The Desktop push run also
   passes Arch, Fedora and Nix, including the NixOS module evaluation. Pages deploys too: the site is live at
   <https://kapsikkum.github.io/mudrix/> with the `/next/` build (the front page redirects to `/next/` until a stable
   tag carries the web app).
 - The Android CI artifact is signed with the old certificate `494a…`, and the Windows, macOS and Linux updater
   `.sig` files verify against the old public key in `tauri.conf.json`.
+- Both GIF keys are embedded and checked in the artifacts: Pages/deployed JS, the desktop bundle, the Android dex and
+  the iOS `Info.plist`. The picker shows GIPHY, KLIPY, Favourites and Recent, and KLIPY returned results in a browser
+  check.
 - The Windows test installer is a GUI app: the rebuilt binary has PE `subsystem=2` (GUI), where the first hand-over's
   binary was `subsystem=3` (console).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
@@ -201,10 +204,11 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 1. **DeepSeek credit.** The `opencode-go` account ran out mid-run; work continued on Sonnet 5.5 and Haiku. Top up if
    you want the cheaper agents back.
 2. **GitHub Pages** (E3): **done.** The Pages site is enabled with build type **"GitHub Actions"**, and the
-   `github-pages` environment deploys from `web-look`, `main` and `v*` tags. The deploy on `baa6383e` is green and the
+   `github-pages` environment deploys from `web-look`, `main` and `v*` tags. The deploy on `c3d9f69c` is green and the
    site is live at <https://kapsikkum.github.io/mudrix/>. No signing step and no Apple account were needed.
 3. **GIF keys**: **done.** `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` are repository secrets, and the Pages,
-   Desktop, Android and iOS workflows pass them to each platform's build.
+   Desktop, Android and iOS workflows pass them to each platform's build. Both values were verified in the built
+   artifacts (deployed JS, desktop bundle, APK dex, iOS `Info.plist`).
 4. **iOS is Simulator-only**: without an Apple Developer account the app cannot be signed for a device, TestFlight or
    the App Store, and APNs push cannot work. The simulator build (`TESTING.md`) is the test target, and the iOS push
    path is the background keep-alive with local notifications, not APNs. A device VoiceOver pass (`A11`) is therefore
