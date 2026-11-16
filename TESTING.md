@@ -17,6 +17,9 @@ started by hand from **Actions → the workflow → Run workflow**. Artifacts st
 | `mudrix-desktop-Windows-unsigned` | Desktop  | NSIS `*-setup.exe` (per user), `.msi`, `SHA256SUMS.txt`                                                     |
 | `mudrix-desktop-Linux-unsigned`   | Desktop  | `.AppImage`, `.deb`, `SHA256SUMS.txt`                                                                       |
 | `mudrix-desktop-macOS-unsigned`   | Desktop  | `.dmg` and a zipped `.app`, plus `SHA256SUMS.txt` (unsigned, **Apple silicon only**)                        |
+| `mudrix-linux-tarball`            | Desktop  | the Linux tarball the Arch, Fedora and Nix packages are built from, with a filled `PKGBUILD` and `.spec`    |
+| `mudrix-arch-package`             | Desktop  | the `.pkg.tar.zst` Arch package built with `makepkg` on Arch                                                |
+| `mudrix-fedora-package`           | Desktop  | the `.rpm` Fedora package built with `rpmbuild` on Fedora (also installable on Bazzite via `rpm-ostree`)    |
 | `mudrix-desktop-debug-<OS>`       | Desktop  | the raw debug binary, for debugging a crash                                                                 |
 | `ios-simulator-app`               | iOS      | zipped Simulator `.app` and `bundle-id.txt` (unsigned, arm64, iOS 18+)                                      |
 | `ios-screenshots`                 | iOS      | PNGs of the app right after launch, light and dark                                                          |
