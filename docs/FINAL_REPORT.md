@@ -181,8 +181,9 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 
 - CI is green on `baa6383e` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
   XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts). The Desktop push run also
-  passes Arch, Fedora and Nix, including the NixOS module evaluation. The only red workflow is Pages, which fails until
-  the repository's Pages source is set to "GitHub Actions" (owner item 2).
+  passes Arch, Fedora and Nix, including the NixOS module evaluation. Pages deploys too: the site is live at
+  <https://kapsikkum.github.io/mudrix/> with the `/next/` build (the front page redirects to `/next/` until a stable
+  tag carries the web app).
 - The Android CI artifact is signed with the old certificate `494a…`, and the Windows, macOS and Linux updater
   `.sig` files verify against the old public key in `tauri.conf.json`.
 - The Windows test installer is a GUI app: the rebuilt binary has PE `subsystem=2` (GUI), where the first hand-over's
@@ -196,9 +197,9 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 
 1. **DeepSeek credit.** The `opencode-go` account ran out mid-run; work continued on Sonnet 5.5 and Haiku. Top up if
    you want the cheaper agents back.
-2. **GitHub Pages** (E3): no Pages site is configured yet (the API returns 404). Settings → Pages → Build and
-   deployment → Source = **"GitHub Actions"**; the workflow then deploys the stable build and `/next/`. This is a
-   repository setting, not a signing step, and it needs no Apple account.
+2. **GitHub Pages** (E3): **done.** The Pages site is enabled with build type **"GitHub Actions"**, and the
+   `github-pages` environment deploys from `web-look`, `main` and `v*` tags. The deploy on `baa6383e` is green and the
+   site is live at <https://kapsikkum.github.io/mudrix/>. No signing step and no Apple account were needed.
 3. **GIF keys**: `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` (the KLIPY tab stays hidden without its key).
 4. **iOS is Simulator-only**: without an Apple Developer account the app cannot be signed for a device, TestFlight or
    the App Store, and APNs push cannot work. The simulator build (`TESTING.md`) is the test target, and the iOS push

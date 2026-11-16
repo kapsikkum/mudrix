@@ -141,9 +141,10 @@ No secret values belong in this repository or in this file.
 - The two builds share one browser origin, which also shares storage, so a risky `next` change can break the stable
   site's session until site data is cleared.
 
-One-time setup: **Settings -> Pages -> Source = "GitHub Actions"**, and let the `github-pages` environment deploy from
-`web-look`, `main` and `v*` tags (Settings -> Environments -> github-pages -> deployment branches and tags). A private
-repository needs a plan that has Pages for private repositories. Run it by hand from Actions -> Pages -> Run workflow;
+One-time setup: **Settings → Pages → Source = "GitHub Actions"**, and let the `github-pages` environment deploy from
+`web-look`, `main` and `v*` tags (Settings → Environments → github-pages → deployment branches and tags). This
+repository is already configured: the site is live at <https://kapsikkum.github.io/mudrix/>. A private
+repository needs a plan that has Pages for private repositories. Run it by hand from Actions → Pages → Run workflow;
 a manual run builds both channels from the newest stable tag and `web-look`.
 
 The `Dockerfile` builds the web app served by nginx; publishing an image (for example to GHCR) is future work.
