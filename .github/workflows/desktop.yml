@@ -113,11 +113,11 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
           signing=()
-          if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ]; then
+          if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ] && [ -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" ]; then
             signing=(--config src-tauri/tauri.updater.conf.json)
             echo "Updater artifacts will be signed with the minisign key."
           else
-            echo "No updater signing key; building unsigned."
+            echo "No updater signing key and password; building unsigned."
           fi
           npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }} "${signing[@]}"
 

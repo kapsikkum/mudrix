@@ -1,4 +1,4 @@
-# Releasing Mudrix
+﻿# Releasing Mudrix
 
 Adapted from the release notes of the old `mudrix-web`, `mudrix-desktop` and `mudrix-mobile` repositories. This
 repository is a single repo for all apps, but **only the web channel is automated** (GitHub Pages, below); desktop, Android and iOS releases are still made by hand. This file says what is the

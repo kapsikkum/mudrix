@@ -1,4 +1,4 @@
-# Signing
+﻿# Signing
 
 Mudrix signs two things with the keys the old apps used, so existing installs keep updating in place:
 
@@ -21,7 +21,7 @@ installed copy and its release APK are both signed with certificate SHA-256
 `C:\Users\kapsikkum\.mudrix-signing\`. Keep a backup: if it is lost, installed apps can no longer be updated in place.
 The release APK uses package `chat.mudrix.mobile`; debug builds add `.test` and install beside it.
 
-Repository secrets (Settings → Secrets and variables → Actions):
+Repository secrets (Settings â†’ Secrets and variables â†’ Actions):
 
 | Secret                      | Value                                                                             |
 | --------------------------- | --------------------------------------------------------------------------------- |
@@ -38,9 +38,9 @@ For a local signed build:
 
 ```bash
 export ANDROID_KEYSTORE_PATH="$HOME/.mudrix-signing/mudrix-release.keystore"
-export ANDROID_KEYSTORE_PASSWORD='…'
+export ANDROID_KEYSTORE_PASSWORD='â€¦'
 export ANDROID_KEY_ALIAS=mudrix
-export ANDROID_KEY_PASSWORD='…'
+export ANDROID_KEY_PASSWORD='â€¦'
 node tools/ci/sign-android.mjs prepare      # writes the git-ignored keystore.properties + copy
 cd apps/android && ./gradlew :app:assembleFdroidRelease
 node tools/ci/sign-android.mjs verify \
@@ -65,7 +65,7 @@ Repository secrets:
 | `TAURI_SIGNING_PRIVATE_KEY`          | the contents of `mudrix-updater.key` |
 | `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | the key's password                   |
 
-When the key exists, the Desktop workflow adds `--config src-tauri/tauri.updater.conf.json` so Tauri
+When both secrets exist, the Desktop workflow adds `--config src-tauri/tauri.updater.conf.json` so Tauri
 writes the updater bundles and their `.sig` files, then uploads them as
 `mudrix-desktop-updater-<os>`. Without the key it builds unsigned, exactly as before.
 
@@ -73,7 +73,7 @@ For a local signed build:
 
 ```bash
 export TAURI_SIGNING_PRIVATE_KEY="$(cat "$HOME/.tauri/mudrix-updater.key")"
-export TAURI_SIGNING_PRIVATE_KEY_PASSWORD='…'
+export TAURI_SIGNING_PRIVATE_KEY_PASSWORD='â€¦'
 npm run tauri -w @mudrix/desktop -- build --debug --bundles nsis,msi,dmg,app,appimage,deb \
   --config src-tauri/tauri.updater.conf.json
 ```

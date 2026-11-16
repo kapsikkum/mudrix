@@ -1,4 +1,4 @@
-# CI
+﻿# CI
 
 GitHub Actions workflows live in `.github/workflows/`. They check the code and build test builds. The Android
 release APK and the desktop updater artifacts are signed with the old apps' keys when the signing secrets exist
