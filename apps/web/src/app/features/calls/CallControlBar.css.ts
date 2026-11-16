@@ -120,16 +120,6 @@ export const menuItemSpacer = style({
   flexShrink: 0,
 });
 
-export const menuBadge = style({
-  flexShrink: 0,
-  padding: '1px 6px',
-  borderRadius: '999px',
-  backgroundColor: `rgba(${vars.color.accentRgb}, 0.18)`,
-  color: vars.color.accent,
-  fontSize: fontSize.xs,
-  fontWeight: 600,
-});
-
 export const menuDivider = style({
   height: '1px',
   backgroundColor: vars.color.border,

@@ -1,11 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { Toggle } from '@/app/components/Toggle';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
   ArrowSquareInIcon,
   ArrowSquareOutIcon,
-  AppWindowIcon,
   ArrowsInIcon,
   ArrowsOutIcon,
   ChatTextIcon,
@@ -27,8 +25,6 @@ import {
   callIsVoiceRoomAtom,
   callPopoutOpenAtom,
   callUiAtom,
-  callSessionAtom,
-  showNonVideoParticipantsAtom,
 } from '@/app/store/atoms/call';
 import {
   openRoomChatAtom,
@@ -78,10 +74,7 @@ export function CallControlBar() {
   const actions = useAtomValue(callActionsAtom);
   const view = useCallView();
   const isVoiceCall = useAtomValue(callIsVoiceRoomAtom);
-  const callSession = useAtomValue(callSessionAtom);
-  const [showNonVideo, setShowNonVideo] = useAtom(showNonVideoParticipantsAtom);
   const callSnapshot = useCallSnapshot();
-  const hasVideo = !!callSnapshot?.participants.some((p) => p.camera || p.screenShared);
   const reconnecting = callSnapshot?.reconnecting ?? false;
   const awaitingMembership = !reconnecting && !!callSnapshot?.awaitingMembership;
   const joiningSlow = useJoiningSlow(awaitingMembership);
@@ -259,24 +252,8 @@ export function CallControlBar() {
                 closeMenu();
               }}
             >
-              <AppWindowIcon size={16} />
-              <span className={css.menuItemLabel}>{t('call.popOutWindow')}</span>
-              <span className={css.menuItemSpacer} />
-            </button>
-          )}
-
-          {(view === 'fullscreen' || view === 'docked') && (
-            <button
-              type="button"
-              role="menuitem"
-              className={css.menuItem}
-              onClick={() => {
-                actions.setPresentation('tile');
-                closeMenu();
-              }}
-            >
               <ArrowSquareOutIcon size={16} />
-              <span className={css.menuItemLabel}>{t('call.popOut')}</span>
+              <span className={css.menuItemLabel}>{t('call.popOutWindow')}</span>
               <span className={css.menuItemSpacer} />
             </button>
           )}
@@ -329,24 +306,10 @@ export function CallControlBar() {
             </button>
           )}
 
-          <div className={css.menuDivider} role="separator" />
-
-          {callSession && (
-            <>
-              <label className={css.menuItem}>
-                <VideoCameraIcon size={16} />
-                <span className={css.menuItemLabel}>{t('call.showNonVideo')}</span>
-                <Toggle
-                  size="sm"
-                  checked={showNonVideo}
-                  disabled={!hasVideo}
-                  onChange={setShowNonVideo}
-                  ariaLabel={t('call.showNonVideo')}
-                />
-              </label>
-              <div className={css.menuDivider} role="separator" />
-            </>
-          )}
+          {(canOpenCallPopoutWindow() ||
+            view === 'docked' ||
+            (view === 'fullscreen' && !isVoiceCall && !popoutOpen) ||
+            view === 'tile') && <div className={css.menuDivider} role="separator" />}
 
           {watchActions && (
             <button
@@ -363,7 +326,6 @@ export function CallControlBar() {
               <span className={css.menuItemLabel}>
                 {watching ? t('call.watchTogether.stop') : t('call.watchTogether.menu')}
               </span>
-              <span className={css.menuBadge}>{t('call.watchTogether.beta')}</span>
             </button>
           )}
         </div>
