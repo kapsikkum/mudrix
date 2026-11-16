@@ -13,7 +13,8 @@ desktop, Android and iOS: what was done, the evidence for it, and what is left f
 | iOS simulator                   | CI → iOS workflow                                                                                | `ios-simulator-app` (zipped `.app` + bundle id), `ios-screenshots`                                                    |
 
 `TESTING.md` has the install steps, the seeded test server and the manual checklist. Nothing here is signed for
-release: the Android signing key and the Apple signing/push setup are owner items (below).
+release: the Android signing key and the Apple signing/push setup are owner items (below). The Desktop workflow also
+builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
 ## The rename
 
@@ -117,6 +118,29 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
   desktop icon; all are the Mudrix mound now (one compiled macOS icon asset needs a Mac to rebuild — see below).
 - **Status bugs found in review**: setting a status wiped the DND mode, and iOS wrote the expiry under a key the other
   clients did not read. The core now preserves every other key and writes `expires` in milliseconds, reading both keys.
+
+## Owner reports, fixed after the first hand-over
+
+- **The Windows installer said "Dev build".** Only `tauri dev` is a dev build now: it keeps its own app id, its
+  "Mudrix Dev" name and its badged icon, while every built installer — including CI's unsigned debug-profile ones —
+  is plain Mudrix.
+- **"Verify this session" stayed after verifying.** A device now counts as verified when the account's cross-signing
+  identity has signed it, the same fact the old app read, so the badge, the Home card and the Sessions row clear as
+  soon as verification finishes. A fresh sign-in on an unverified device opens Settings › Sessions once; restored and
+  verified sessions do not prompt.
+- **Messages were not marked read.** The old app's receipt rules are back: sent on a new message, on window focus and
+  visibility, with a 2-second safety net while the room sits at the bottom; retried after a failed send and while the
+  server still counts the room unread; never for local `~` echoes, while scrolled up or while the tab is hidden.
+  Checked against the test server: the other client saw the unread count go to 0.
+- **Compact mode regressed.** Its stylesheet already matched the old app rule for rule; the six-step type-scale merge
+  had fattened its time and sender sizes. Compact uses its original narrow sizes again.
+- **The call menu** has one "Pop out" (the real separate window) with the box-with-arrow icon, no "Beta" badge on
+  Watch Together, and "Show non-video participants" where the old app kept call display preferences: Settings ›
+  Voice & Audio › Calls.
+- **Sounds:** screen share start/stop, deafen/undeafen, raise hand and reaction had no pack sounds. All eight packs
+  gained those six clips (48 files, built by `tools/sounds/generate-packs.mjs`) and web, Android and iOS play the
+  chosen pack for them like the other cues.
+- **Android room list rows** have a little vertical air so full-width nameplates do not read as one block.
 
 ## Packaging
 
