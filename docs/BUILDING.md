@@ -8,7 +8,7 @@
 | Android | `npm run android:build` | `apps/android/app/build/outputs/apk/gplay/release/app-gplay-release.apk`                   |
 
 `npm run desktop:release` builds the desktop app with updater artifacts (it needs `TAURI_SIGNING_PRIVATE_KEY` and its
-password in the environment, see [RELEASING.md](../RELEASING.md)). The iOS product keeps its upstream target name
+password in the environment, see [SIGNING.md](SIGNING.md)). The iOS product keeps its upstream target name
 `WizardChat`, so the bundle on disk is still `WizardChat.app`; the name people see, the bundle id and the URL scheme are
 Mudrix's.
 
@@ -19,8 +19,9 @@ The Android app has two flavours: `gplay` (push notifications through Firebase; 
 ## Releases
 
 How versions, tags and signing work, and which parts of the release process are not automated yet, is in
-[RELEASING.md](../RELEASING.md). The GitHub Actions workflows in `.github/workflows/` check the code and build unsigned
-test builds; [docs/CI.md](CI.md) describes them. `.gitlab-ci.yml` and `apps/desktop/scripts/publish-update.mjs` are
+[SIGNING.md](SIGNING.md). The GitHub Actions workflows in `.github/workflows/` check the code and build test builds; the
+Android release APK and desktop updater artifacts are signed with the old apps' keys when the secrets exist.
+[docs/CI.md](CI.md) describes them. `.gitlab-ci.yml` and `apps/desktop/scripts/publish-update.mjs` are
 upstream's GitLab release pipeline (GitLab package registry, Cloudflare Pages, `mudrix-desktop` feed); they are not used
 here and will be replaced.
 

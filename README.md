@@ -51,15 +51,15 @@ In-app updates are checked against a minisign signature before they are installe
 
 ### Android
 
-Download the APK from the [releases page](https://github.com/kapsikkum/mudrix/releases/latest). Notifications arrive
-through [UnifiedPush](https://unifiedpush.org) when a distributor is installed.
+Download the APK from the [releases page](https://github.com/kapsikkum/mudrix/releases/latest). Release APKs are signed
+with the same key as the old app, so they update it in place; debug APKs install beside it as a separate app.
+Notifications arrive through [UnifiedPush](https://unifiedpush.org) when a distributor is installed.
 
 ### iOS
 
-The IPA is not signed by the project. Sideload it with AltStore, SideStore, Sideloadly or TrollStore, or build it
-yourself with your own Apple team (see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)). There is no store or source feed for
-this repository yet. The old repositories were listed at <https://kapsikkum.github.io/apps/>; that listing has not been
-updated for the new apps.
+Only the Simulator build exists. There is no signed IPA: without an Apple Developer account the project cannot install
+on a device, use TestFlight, or send APNs push. The old repositories were listed at
+<https://kapsikkum.github.io/apps/>; that listing has not been updated for the new apps.
 
 ### Web
 

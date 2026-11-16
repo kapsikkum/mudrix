@@ -381,10 +381,10 @@ use Mudrix unless WizardChat's is better.
 7. **Legal / licences of bundled sounds**: 14 packs include sounds taken from Element, Cinny, FluffyChat, Commet and
    console-style packs (Mega Drive / NES). `packages/sounds/LICENSES.md` exists; owner should confirm it is complete
    before store release.
-8. **Apple / signing**: owner decision (2026-11-16) — no signing and no Apple Developer account. Every build stays
-   unsigned and side-load only: iOS is Simulator-only (no device install, TestFlight, App Store or APNs), macOS is
-   unnotarised, Windows shows SmartScreen, and the desktop updater has no signing key. App Store / notarisation and
-   Windows code signing would need accounts and keys the owner is not providing (D7, D16).
+8. **Signing**: Android release APKs use the old `mudrix-release.keystore` and desktop upgrade artifacts use the old
+   `mudrix-updater` minisign key, so existing installs continue to update in place. Windows code signing and macOS
+   notarisation are still absent, and iOS has no signing at all: there is no Apple Developer account, so it stays
+   Simulator-only (no device install, TestFlight, App Store or APNs).
 9. **Widgets** (I5): in scope by owner decision, but not started on native. Web has the sandboxed widget stack and the
    core has a widget driver (`crates/core/src/widgets.rs`); Android and iOS need a WebView host with the same capability
    bridge, after the security review.

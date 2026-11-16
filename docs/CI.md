@@ -1,14 +1,15 @@
 # CI
 
-GitHub Actions workflows live in `.github/workflows/`. They check the code and build **unsigned test builds**; nothing
-here signs, releases or publishes (see [Secrets a release workflow will need](#secrets-a-release-workflow-will-need)).
-[TESTING.md](../TESTING.md) says what each artifact is and how to install it. The repository is private, so runner
-minutes are billed; see [Cost](#cost).
+GitHub Actions workflows live in `.github/workflows/`. They check the code and build test builds. The Android
+release APK and the desktop updater artifacts are signed with the old apps' keys when the signing secrets exist
+(see [SIGNING.md](SIGNING.md)); everything else is unsigned and nothing is published. [TESTING.md](../TESTING.md)
+says what each artifact is and how to install it. The repository is public; macOS runner minutes bill 10x; see
+[Cost](#cost).
 
 | Workflow                                                    | Runs on                                                                                                                                                 | What it does                                                                                                                                                                          |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [check.yml](../.github/workflows/check.yml)                 | push to `main`, every pull request                                                                                                                      | The root `npm run check` as jobs, plus a web build (`mudrix-web-dist`) and web tests                                                                                                  |
-| [android.yml](../.github/workflows/android.yml)             | push to `main` or `web-look` / PR touching `apps/android`, `crates`, `packages` (and build inputs), manual                                              | Core for Android, `fdroid` debug APK (+ `SHA256SUMS.txt`), unit tests                                                                                                                 |
+| [android.yml](../.github/workflows/android.yml)             | push to `main` or `web-look` / PR touching `apps/android`, `crates`, `packages` (and build inputs), manual                                              | Core for Android, `fdroid` debug APK (+ `SHA256SUMS.txt`), unit tests; a release-signed `fdroid` APK when the signing secrets exist                                                   |
 | [ios.yml](../.github/workflows/ios.yml)                     | push to `main` / PR touching `apps/ios`, `crates`, `packages` (and build inputs), manual                                                                | Core for iOS, `xcodegen`, unsigned Simulator build, XCTest, `.app` + screenshots + raw logs                                                                                           |
 | [desktop.yml](../.github/workflows/desktop.yml)             | push to `main` or `web-look` / PR touching `apps/desktop`, `apps/web`, `crates`, `packages`, `packaging`, `flake.nix`, `nix` (and build inputs), manual | `tauri build --debug` on Windows, Linux and macOS: installers + raw binary; then Arch (`makepkg`), Fedora (`rpmbuild`) and Nix (`nix build` + module) packages from the Linux tarball |
 | [branding-gate.yml](../.github/workflows/branding-gate.yml) | push to `main`, every pull request                                                                                                                      | Fails when the upstream name shows up in user-visible text                                                                                                                            |
@@ -46,7 +47,10 @@ Run it by hand: Actions -> Check -> Run workflow (that run uses the release wasm
    use, then generates the Kotlin bindings)
 3. `./gradlew --no-daemon :app:assembleFdroidDebug`
 4. `./gradlew --no-daemon :app:testFdroidDebugUnitTest`
-5. uploads `apps/android/app/build/outputs/apk/fdroid/debug/*.apk` together with a `SHA256SUMS.txt` of it as
+5. When the signing secrets exist (never on pull requests): `node tools/ci/sign-android.mjs prepare`,
+   `:app:assembleFdroidRelease`, `sign-android.mjs verify` with `apksigner`, then the APK is renamed
+   `Mudrix-<version>-release.apk` and uploaded as `mudrix-android-fdroid-release`
+6. uploads `apps/android/app/build/outputs/apk/fdroid/debug/*.apk` together with a `SHA256SUMS.txt` of it as
    `mudrix-android-fdroid-debug` (14 days); the test reports are uploaded when a step fails
 
 Only the `fdroid` flavour is built: `gplay` needs `apps/android/app/src/gplay/res/values/firebase.xml` from a Firebase
@@ -82,10 +86,14 @@ Run by hand: Actions -> iOS -> Run workflow.
 Matrix `windows-latest`, `ubuntu-latest`, `macos-latest` (`fail-fast: false`). Each: `npm ci --ignore-scripts`,
 `npm run tokens`, then `npm run tauri -w @mudrix/desktop -- build --debug --bundles <list>` (Tauri's
 `beforeBuildCommand` runs `tsc` and `vite build --mode desktop`). The bundle list is per runner, because Tauri rejects a
-target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. Two artifacts per leg:
+target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. When
+`TAURI_SIGNING_PRIVATE_KEY` exists the command also gets `--config src-tauri/tauri.updater.conf.json`, which makes Tauri
+write the minisign-signed updater bundles (`.sig` files) into `target/debug/bundle/`; they are uploaded as
+`mudrix-desktop-updater-<OS>`. Two artifacts per leg:
 `mudrix-desktop-<OS>-unsigned` (the installers plus a `SHA256SUMS.txt`; the macOS `.app` is zipped with `ditto`, because
 `upload-artifact` loses a bundle's symlinks and file modes) and `mudrix-desktop-debug-<OS>` (the raw
-`target/debug/mudrix-desktop[.exe]`, plus `.pdb` on Windows). Nothing is signed, so SmartScreen and Gatekeeper complain.
+`target/debug/mudrix-desktop[.exe]`, plus `.pdb` on Windows). The installers themselves are not code-signed, so
+SmartScreen and Gatekeeper complain.
 Ubuntu installs `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev
 librsvg2-dev libx11-dev libxi-dev libxtst-dev libxdo-dev libssl-dev patchelf`.
 
@@ -106,10 +114,11 @@ names and usage descriptions (also when `project.yml` generates them) and `*.xcs
 - Locally: `node tools/ci/branding-gate.mjs` (add `--strict` to preview). Manual run: Actions -> Branding gate.
 - It will be red until the hits it reports are fixed or allow-listed with a reason.
 
-## Secrets a release workflow will need
+## Signing secrets
 
-None are used today. Proposed repository secret names (Settings -> Secrets and variables -> Actions). Values never go
-into the repository.
+The signing secrets are configured on the repository (Settings -> Secrets and variables -> Actions); values never go
+into the repository. The Android and desktop builds read them; iOS needs the Apple secrets below only if device builds
+are ever signed. See [SIGNING.md](SIGNING.md).
 
 | Name                                                                                                                            | Used for                                                                                                                                                                                                                                        |
 | ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

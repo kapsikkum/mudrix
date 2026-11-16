@@ -7,16 +7,18 @@ plan, what already works and what does not, so nothing here should be read as "C
 ## State of CI
 
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
-  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build **unsigned test builds**; nothing is
-  signed or released automatically, and `pages.yml` only publishes the web client. `desktop.yml` also builds Arch,
-  Fedora and Nix packages (from the Linux tarball, unsigned, nothing published; see
-  [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes every workflow,
-  [TESTING.md](TESTING.md) what to do with the builds.
+  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build test builds. The Android release APK
+  and the desktop updater artifacts are signed with the old apps' keys when the signing secrets exist; the desktop
+  installers themselves remain unsigned, and nothing is published automatically. `pages.yml` only publishes the web
+  client. `desktop.yml` also builds Arch, Fedora and Nix packages (from the Linux tarball, unsigned, nothing published;
+  see [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes every workflow,
+  [TESTING.md](TESTING.md) what to do with the builds. Signing is in [docs/SIGNING.md](docs/SIGNING.md).
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
 - A release is still built and published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
-  release of `kapsikkum/mudrix`: the CI builds are debug-profile, unsigned and expire after 14 days.
+  release of `kapsikkum/mudrix`: the CI builds are debug-profile, expire after 14 days, and only the Android release APK
+  and the desktop updater signatures are signed.
 - The old repositories had `check.yml`, `release.yml`, `pages.yml` (web), `release.yml` (desktop) and `android.yml` /
   `ios.yml` (mobile). They are the model for the release workflow that is still to be written.
 
@@ -56,13 +58,14 @@ still to be written.
 | `Mudrix-<v>-windows-x64.msi`                                  | MSI, stable releases only (WiX only takes numeric versions)                          |
 | `Mudrix-<v>-macos-universal.dmg` and `.app.tar.gz` (+ `.sig`) | macOS, Apple silicon and Intel                                                       |
 | `Mudrix-<v>-linux-x64.AppImage` / `.deb` / `.rpm`             | Linux; pre-releases ship the AppImage only (deb and rpm reject a `-` in the version) |
-| `Mudrix-<v>.apk` (name not fixed yet)                         | Android, release-signed                                                              |
-| `Mudrix-unsigned.ipa`                                         | iOS, unsigned, to be sideloaded                                                      |
+| `Mudrix-<version>-release.apk`                                | Android, release-signed (the Android workflow's `mudrix-android-fdroid-release`)     |
+| `Mudrix-simulator-<sha>.zip`                                  | iOS Simulator build only; there is no device-signed IPA                              |
 | `latest.json`                                                 | update manifest read by the desktop updater                                          |
 | `SHA256SUMS.txt`                                              | checksums of everything above                                                        |
 
 These names are the old Mudrix convention and are kept so that installs of the old apps can find their update; no
-release workflow creates them yet, and the CI builds described in [TESTING.md](TESTING.md) are unsigned test builds.
+release workflow creates them yet. The CI builds described in [TESTING.md](TESTING.md) are test builds; the Android
+release APK and updater signatures are signed, the rest is not.
 
 ## Cutting a release (manual, until workflows exist)
 
@@ -90,23 +93,22 @@ profile live outside the app, so a downgrade keeps the user's data.
 No secret values belong in this repository or in this file.
 
 - **Desktop installers are not code-signed** (no Windows certificate, no Apple notarization). The release notes say so.
-- **In-app update artifacts are signed with a minisign key.** The public key is committed as `plugins.updater.pubkey` in
-  `apps/desktop/src-tauri/tauri.conf.json`. The private key and its password must live only in the CI secrets
-  `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` (and in a backup you keep). Installs only accept
-  updates signed by that key; if it is lost or replaced, installed apps cannot update in place and users must reinstall.
-  A local `npm run desktop:release` also needs those two variables in the environment, because
-  `tauri.release.conf.json` turns on `createUpdaterArtifacts`. A fresh key pair comes from
-  `npx -w @mudrix/desktop tauri signer generate -w ~/.tauri/mudrix-updater.key`; put the public half into the
-  config and the private half into the secrets.
-- **Android** is signed with a keystore you create once and must keep safe: losing it means installed apps cannot be
-  updated in place. Create it with `keytool -genkeypair -v -keystore mudrix-release.keystore -alias mudrix -keyalg RSA
--keysize 4096 -validity 10000`. The old mobile workflow read four repository secrets: `ANDROID_KEYSTORE_BASE64`,
-  `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD`, and fell back to a debug-signed APK when
-  they were missing. `apps/android` here does not read them yet; wire up the signing config before the first release.
+- **In-app update artifacts are signed with the old mudrix-desktop minisign key.** The public key is committed as
+  `plugins.updater.pubkey` in `apps/desktop/src-tauri/tauri.conf.json`. The private key and its password live only in the
+  CI secrets `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` (and in a backup you keep). Installs
+  only accept updates signed by that key; if it is lost or replaced, installed apps cannot update in place and users must
+  reinstall. `desktop.yml` adds `src-tauri/tauri.updater.conf.json` when the key exists; a local
+  `npm run desktop:release` also needs those two variables. The key is at `~/.tauri/mudrix-updater.key`; a replacement
+  pair comes from `npx -w @mudrix/desktop tauri signer generate -w ~/.tauri/mudrix-updater.key`.
+- **Android** is signed with the old `mudrix-release.keystore` (alias `mudrix`), so existing installs update in place.
+  Losing it means installed apps cannot be updated in place. The Android workflow reads the repository secrets
+  `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD`, builds
+  `assembleFdroidRelease`, verifies the signature and uploads `mudrix-android-fdroid-release`; without them it falls back
+  to the debug-signed APK. Locally, `tools/ci/sign-android.mjs prepare` writes the git-ignored `keystore.properties`.
   Never commit a keystore.
-- **iOS** builds are unsigned and sideloaded with a tool that signs them for the user's own device. The team and bundle
-  prefix come from `apps/ios/Config/Signing.xcconfig` (still the upstream team id, see
-  [docs/BRANDING.md](docs/BRANDING.md)); use `Local.xcconfig` for your own Apple account.
+- **iOS** has no signing: there is no Apple Developer account, so only the Simulator build exists (no device install,
+  TestFlight, App Store or APNs push). The team and bundle prefix in `apps/ios/Config/Signing.xcconfig` are upstream's;
+  `Local.xcconfig` remains for anyone who later signs their own build.
 - Optional build-time keys for the GIF pickers (`VITE_GIPHY_API_KEY`, `VITE_KLIPY_API_KEY`) end up in the web bundle,
   so they are visible to anyone who loads the app. The names every platform uses, and the repository secrets CI maps to
   them, are in [docs/SECRETS.md](docs/SECRETS.md).

@@ -1,7 +1,9 @@
 # Testing builds
 
-These are **test builds**: debug profile, unsigned, and cut from whatever is on the branch. They are
-not releases, they will not replace an installed Mudrix, and they are rebuilt and thrown away.
+These are **test builds**: debug profile, cut from whatever is on the branch. They are
+not releases, the debug builds will not replace an installed Mudrix, and they are rebuilt and thrown away. The
+Android release APK is signed with the old app's release key (so it does replace an old install); the installers
+themselves stay unsigned. See [docs/SIGNING.md](docs/SIGNING.md).
 
 Builds are produced by GitHub Actions: [.github/workflows](.github/workflows/), explained in
 [docs/CI.md](docs/CI.md). Android and Desktop rebuild on every relevant push to `web-look` (and on
@@ -11,28 +13,30 @@ started by hand from **Actions → the workflow → Run workflow**. Artifacts st
 
 ## What each artifact is
 
-| Artifact                          | Workflow | What is inside                                                                                              |
-| --------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| `mudrix-android-fdroid-debug`     | Android  | `app-fdroid-debug.apk` (universal, arm64-v8a + x86_64, debug-signed, `fdroid` flavour) and `SHA256SUMS.txt` |
-| `mudrix-desktop-Windows-unsigned` | Desktop  | NSIS `*-setup.exe` (per user), `.msi`, `SHA256SUMS.txt`                                                     |
-| `mudrix-desktop-Linux-unsigned`   | Desktop  | `.AppImage`, `.deb`, `SHA256SUMS.txt`                                                                       |
-| `mudrix-desktop-macOS-unsigned`   | Desktop  | `.dmg` and a zipped `.app`, plus `SHA256SUMS.txt` (unsigned, **Apple silicon only**)                        |
-| `mudrix-linux-tarball`            | Desktop  | the Linux tarball the Arch, Fedora and Nix packages are built from, with a filled `PKGBUILD` and `.spec`    |
-| `mudrix-arch-package`             | Desktop  | the `.pkg.tar.zst` Arch package built with `makepkg` on Arch                                                |
-| `mudrix-fedora-package`           | Desktop  | the `.rpm` Fedora package built with `rpmbuild` on Fedora (also installable on Bazzite via `rpm-ostree`)    |
-| `mudrix-desktop-debug-<OS>`       | Desktop  | the raw debug binary, for debugging a crash                                                                 |
-| `ios-simulator-app`               | iOS      | zipped Simulator `.app` and `bundle-id.txt` (unsigned, arm64, iOS 18+)                                      |
-| `ios-screenshots`                 | iOS      | PNGs of the app right after launch, light and dark                                                          |
-| `ios-xcodebuild-logs`             | iOS      | `xcodebuild` logs and `.xcresult` bundles                                                                   |
-| `mudrix-web-dist`                 | Check    | a static build of the web app; serve it, no toolchain needed                                                |
+| Artifact                          | Workflow | What is inside                                                                                                                                                        |
+| --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mudrix-android-fdroid-debug`     | Android  | `app-fdroid-debug.apk` (universal, arm64-v8a + x86_64, debug-signed, `fdroid` flavour) and `SHA256SUMS.txt`                                                           |
+| `mudrix-android-fdroid-release`   | Android  | `Mudrix-<version>-release.apk` signed with the old release key (package `chat.mudrix.mobile`) + `SHA256SUMS.txt`; only on pushes/manual runs with the signing secrets |
+| `mudrix-desktop-Windows-unsigned` | Desktop  | NSIS `*-setup.exe` (per user), `.msi`, `SHA256SUMS.txt`                                                                                                               |
+| `mudrix-desktop-Linux-unsigned`   | Desktop  | `.AppImage`, `.deb`, `SHA256SUMS.txt`                                                                                                                                 |
+| `mudrix-desktop-macOS-unsigned`   | Desktop  | `.dmg` and a zipped `.app`, plus `SHA256SUMS.txt` (unsigned, **Apple silicon only**)                                                                                  |
+| `mudrix-linux-tarball`            | Desktop  | the Linux tarball the Arch, Fedora and Nix packages are built from, with a filled `PKGBUILD` and `.spec`                                                              |
+| `mudrix-arch-package`             | Desktop  | the `.pkg.tar.zst` Arch package built with `makepkg` on Arch                                                                                                          |
+| `mudrix-fedora-package`           | Desktop  | the `.rpm` Fedora package built with `rpmbuild` on Fedora (also installable on Bazzite via `rpm-ostree`)                                                              |
+| `mudrix-desktop-debug-<OS>`       | Desktop  | the raw debug binary, for debugging a crash                                                                                                                           |
+| `ios-simulator-app`               | iOS      | zipped Simulator `.app` and `bundle-id.txt` (unsigned, arm64, iOS 18+)                                                                                                |
+| `ios-screenshots`                 | iOS      | PNGs of the app right after launch, light and dark                                                                                                                    |
+| `ios-xcodebuild-logs`             | iOS      | `xcodebuild` logs and `.xcresult` bundles                                                                                                                             |
+| `mudrix-web-dist`                 | Check    | a static build of the web app; serve it, no toolchain needed                                                                                                          |
 
 `<OS>` in `mudrix-desktop-debug-<OS>` is `Windows`, `Linux` or `macOS`. The installers only exist
 when the Desktop workflow bundled (the default); a manual run with the `bundles` input set to
 `false` uploads the raw binary and nothing else.
 
-Not in these builds: release signing, push notifications through Google (the `gplay` Android
-flavour is not built), any store metadata, and the desktop updater (these builds never update
-themselves).
+Not in these builds: Windows/macOS code signing and notarisation, push notifications through Google (the `gplay`
+Android flavour is not built), any store metadata, and device-signed iOS (Simulator only). The Android release APK is
+signed with the old release keystore, and desktop updater artifacts with the old minisign key, when the CI secrets are
+present; the desktop app does not self-update from these test builds.
 
 ## Getting the builds
 

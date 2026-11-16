@@ -98,10 +98,11 @@ iOS delivered for the same event, so there is only ever one entry.
 ## Keys and secrets
 
 - GIF keys: the owner adds the `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` repo secrets.
-- Signing keys (Apple, Windows code signing, Tauri updater) do not exist, and the owner will not provide them: there is
-  no Apple Developer account. Every build stays unsigned and side-load only. iOS is Simulator-only (no device install,
-  TestFlight, App Store or APNs), macOS stays unnotarised, Windows shows SmartScreen, Android uses its debug key, and
-  there is no signing key for desktop auto-updates. Release workflows must say so.
+- Android release APKs are signed with the old `mudrix-release.keystore`, and desktop in-app update artifacts
+  with the old `mudrix-updater` minisign key, so existing installs keep updating in place. The passwords live in the
+  owner's password manager and in GitHub repository secrets, never in the tree. Windows code signing, macOS
+  notarisation and all of iOS signing do not exist: there is no Apple Developer account, so iOS remains Simulator-only
+  (no device install, TestFlight, App Store or APNs).
 
 ## Encryption keys
 
