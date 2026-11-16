@@ -1,11 +1,12 @@
-//! What tells a dev build (`tauri dev`) from the installed app, so the two do not group together on
-//! the taskbar or share a toast identity: its own app id, a name that says "Dev" and an icon with a badge on it. Release
-//! builds are unchanged.
+//! What tells a dev session (`tauri dev`) from a built app, so the two do not group together on the taskbar
+//! or share a toast identity: its own app id, a name that says "Dev" and an icon with a badge on it. Built
+//! installers are unchanged, even the unsigned debug-profile ones CI publishes for testing.
 
 use tauri::image::Image;
 use tauri::AppHandle;
 
-pub const IS_DEV: bool = cfg!(debug_assertions);
+/// `tauri dev` runs without Tauri's `custom-protocol` feature; a `tauri build --debug` installer has it.
+pub const IS_DEV: bool = tauri::is_dev();
 
 const WINDOW_ICON: &[u8] = include_bytes!("../icons/dev/icon.png");
 #[cfg(windows)]
