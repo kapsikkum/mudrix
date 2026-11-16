@@ -36,14 +36,28 @@ cpSync(join(deb, debDir, 'data'), stage, { recursive: true });
 cpSync('LICENSE', join(stage, 'LICENSE'));
 
 // Tauri marks the binary in each package with the kind of package it came from; the tarball's copy must
-// not claim to be a deb, or the updater would try to upgrade through dpkg.
-const marker = /__TAURI_BUNDLE_TYPE_VAR_(DEB|RPM|APP)/g;
+// not claim to be a deb, or the updater would try to upgrade through dpkg. The binary is scanned as a
+// Buffer: a debug build is over Node's 512 MiB string limit, so reading it as text throws.
+const marker = Buffer.from('__TAURI_BUNDLE_TYPE_VAR_');
+const kinds = new Set(['DEB', 'RPM', 'APP']);
 const bin = join(stage, 'usr/bin');
 for (const name of readdirSync(bin)) {
   const file = join(bin, name);
-  const text = readFileSync(file, 'latin1');
-  const cleared = text.replace(marker, '__TAURI_BUNDLE_TYPE_VAR_UNK');
-  if (cleared !== text) writeFileSync(file, cleared, 'latin1');
+  const buf = readFileSync(file);
+  let at = 0;
+  let changed = false;
+  for (;;) {
+    at = buf.indexOf(marker, at);
+    if (at === -1) break;
+    const kindAt = at + marker.length;
+    const kind = buf.toString('latin1', kindAt, kindAt + 3);
+    if (kinds.has(kind)) {
+      buf.write('UNK', kindAt, 'latin1');
+      changed = true;
+    }
+    at = kindAt + 3;
+  }
+  if (changed) writeFileSync(file, buf);
 }
 
 const tarball = `mudrix-${version}-linux-x86_64.tar.gz`;
