@@ -1,6 +1,6 @@
 ﻿# Signing
 
-Mudrix signs two things with the keys the old apps used, so existing installs keep updating in place:
+Mudrix is set up to sign two things with the keys the old apps used, so existing installs keep updating in place:
 
 - **Android release APKs** are signed with the old release keystore. Debug APKs use the throwaway debug
   key and the `.test` package id, as before.
@@ -9,8 +9,8 @@ Mudrix signs two things with the keys the old apps used, so existing installs ke
   themselves remain unsigned.
 - **iOS** has no device signing and no Apple Developer account; only the Simulator build exists.
 
-The passwords are not in this repository and must stay out of it. They live in the owner's password
-manager and in GitHub's repository secrets.
+The passwords are not in this repository; they are in the owner's password manager and in GitHub's
+repository secrets.
 
 ## Android
 
@@ -19,7 +19,8 @@ installed copy and its release APK are both signed with certificate SHA-256
 `494a0b6dd284ed8f97c4aa9a2ac621857bf6af6a5682c6b42af54ad4c5e2e317`; a signed build must show the same value from
 `sign-android.mjs verify`. The key is at `E:\code\web\mudrix-mobile\mudrix-release.keystore` and a working copy is in
 `C:\Users\kapsikkum\.mudrix-signing\`. Keep a backup: if it is lost, installed apps can no longer be updated in place.
-The release APK uses package `chat.mudrix.mobile`; debug builds add `.test` and install beside it.
+The keystore was re-encrypted with a new password on 2026-11-16, keeping the same certificate; the old password is
+obsolete. The release APK uses package `chat.mudrix.mobile`; debug builds add `.test` and install beside it.
 
 Repository secrets (Settings -> Secrets and variables -> Actions):
 

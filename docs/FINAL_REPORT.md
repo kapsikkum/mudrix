@@ -153,9 +153,10 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
   PE-header check (`subsystem=2`, GUI; the previous artifact was `subsystem=3`, console).
 - **Android release APKs and desktop update artifacts are signed with the old apps' keys**, so existing installs keep
   updating in place: the old `mudrix-release.keystore` for Android and the old `mudrix-updater` minisign key for the
-  desktop updater (`docs/SIGNING.md`). The signing path was checked with a throwaway key: the R8 release APK installs
-  and launches, and the verifier reports the signer. The passwords are repository-secret items; until they are set, CI
-  keeps uploading the debug APK and unsigned desktop builds.
+  desktop updater (`docs/SIGNING.md`). The signing path was checked end to end: the keystore was re-encrypted (same
+  certificate), a release APK built with it carries the old app's certificate `494a…` and the production package id,
+  and the R8 build launches; the updater key signs a test payload. The key material and passwords are in the repository
+  secrets, so CI builds the signed release APK and updater `.sig` files on the next run.
 - **Android room list rows** have a little vertical air so full-width nameplates do not read as one block.
 - **The DM screen got sort modes** (owner request): most recent, newest first, oldest first or categorised, plus a
   switch for separating rooms and DMs, a favourites section and pinned users. Newest/oldest use the room's
@@ -193,9 +194,6 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
    deployment → Source = **"GitHub Actions"**; the workflow then deploys the stable build and `/next/`. This is a
    repository setting, not a signing step, and it needs no Apple account.
 3. **GIF keys**: `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` (the KLIPY tab stays hidden without its key).
-   **Signing passwords**: the old Android keystore and desktop updater key are in the repository secrets, but their
-   passwords are still needed (`docs/SIGNING.md`); without them CI keeps uploading the debug APK and unsigned desktop
-   builds.
 4. **iOS is Simulator-only**: without an Apple Developer account the app cannot be signed for a device, TestFlight or
    the App Store, and APNs push cannot work. The simulator build (`TESTING.md`) is the test target, and the iOS push
    path is the background keep-alive with local notifications, not APNs. A device VoiceOver pass (`A11`) is therefore
