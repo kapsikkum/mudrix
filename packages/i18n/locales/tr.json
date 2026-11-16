@@ -3271,5 +3271,18 @@
       "title": "Oda dizininde yayınla",
       "note": "Herkes bu odayı ana sunucunun herkese açık dizininde bulabilir."
     }
+  },
+  "roomList": {
+    "sort": "Sırala",
+    "sortTitle": "Oda listesi",
+    "sortRecent": "Son etkinlik",
+    "sortNewest": "Önce en yeni",
+    "sortOldest": "Önce en eski",
+    "sortCategorised": "Kategorilere göre",
+    "separateRoomsAndDms": "Odaları ve doğrudan mesajları ayır",
+    "favouritesSection": "Favorileri ayrı bölümde göster",
+    "pinned": "Sabitlenenler",
+    "pin": "Sabitle",
+    "unpin": "Sabitlemeyi kaldır"
   }
 }

@@ -3271,5 +3271,18 @@
       "title": "Opublikuj w katalogu pokoi",
       "note": "Każdy może znaleźć ten pokój w publicznym katalogu twojego serwera."
     }
+  },
+  "roomList": {
+    "sort": "Sortuj",
+    "sortTitle": "Lista pokoi",
+    "sortRecent": "Ostatnia aktywność",
+    "sortNewest": "Najnowsze najpierw",
+    "sortOldest": "Najstarsze najpierw",
+    "sortCategorised": "Kategorie",
+    "separateRoomsAndDms": "Oddziel pokoje i wiadomości bezpośrednie",
+    "favouritesSection": "Ulubione w osobnej sekcji",
+    "pinned": "Przypięte",
+    "pin": "Przypnij",
+    "unpin": "Odepnij"
   }
 }

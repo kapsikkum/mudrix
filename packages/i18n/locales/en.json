@@ -3271,5 +3271,18 @@
       "title": "Publish to the room directory",
       "note": "Anyone can find this room in your homeserver's public directory."
     }
+  },
+  "roomList": {
+    "sort": "Sort",
+    "sortTitle": "Room list",
+    "sortRecent": "Most recent",
+    "sortNewest": "Newest first",
+    "sortOldest": "Oldest first",
+    "sortCategorised": "Categorised",
+    "separateRoomsAndDms": "Separate rooms and direct messages",
+    "favouritesSection": "Favourite rooms in their own section",
+    "pinned": "Pinned",
+    "pin": "Pin",
+    "unpin": "Unpin"
   }
 }

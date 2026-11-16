@@ -3271,5 +3271,18 @@
       "title": "Publiceren in de kamergids",
       "note": "Iedereen kan deze kamer vinden in de openbare gids van je homeserver."
     }
+  },
+  "roomList": {
+    "sort": "Sorteren",
+    "sortTitle": "Ruimtelijst",
+    "sortRecent": "Recent actief",
+    "sortNewest": "Nieuwste eerst",
+    "sortOldest": "Oudste eerst",
+    "sortCategorised": "Gecategoriseerd",
+    "separateRoomsAndDms": "Ruimtes en directe berichten scheiden",
+    "favouritesSection": "Favorieten in een eigen sectie",
+    "pinned": "Vastgezet",
+    "pin": "Vastzetten",
+    "unpin": "Losmaken"
   }
 }

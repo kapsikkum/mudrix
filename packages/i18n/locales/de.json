@@ -3271,5 +3271,18 @@
       "title": "Im Raumverzeichnis veröffentlichen",
       "note": "Jeder kann diesen Raum im öffentlichen Verzeichnis deines Homeservers finden."
     }
+  },
+  "roomList": {
+    "sort": "Sortieren",
+    "sortTitle": "Raumliste",
+    "sortRecent": "Zuletzt aktiv",
+    "sortNewest": "Neueste zuerst",
+    "sortOldest": "Älteste zuerst",
+    "sortCategorised": "Kategorisiert",
+    "separateRoomsAndDms": "Räume und Direktnachrichten trennen",
+    "favouritesSection": "Favoriten in einem eigenen Abschnitt",
+    "pinned": "Angeheftet",
+    "pin": "Anheften",
+    "unpin": "Loslösen"
   }
 }

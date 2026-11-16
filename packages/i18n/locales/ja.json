@@ -3271,5 +3271,18 @@
       "title": "ルームディレクトリに公開",
       "note": "ホームサーバーの公開ディレクトリで誰でもこのルームを見つけられます。"
     }
+  },
+  "roomList": {
+    "sort": "並べ替え",
+    "sortTitle": "ルームリスト",
+    "sortRecent": "最近のアクティビティ",
+    "sortNewest": "新しい順",
+    "sortOldest": "古い順",
+    "sortCategorised": "カテゴリ別",
+    "separateRoomsAndDms": "ルームとダイレクトメッセージを分ける",
+    "favouritesSection": "お気に入りを別セクションに表示",
+    "pinned": "ピン留め",
+    "pin": "ピン留めする",
+    "unpin": "ピン留めを解除"
   }
 }

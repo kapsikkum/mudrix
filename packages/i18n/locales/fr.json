@@ -3271,5 +3271,18 @@
       "title": "Publier dans l'annuaire des salons",
       "note": "Tout le monde peut trouver ce salon dans l'annuaire public de ton serveur."
     }
+  },
+  "roomList": {
+    "sort": "Trier",
+    "sortTitle": "Liste des salons",
+    "sortRecent": "Activité récente",
+    "sortNewest": "Plus récents d’abord",
+    "sortOldest": "Plus anciens d’abord",
+    "sortCategorised": "Catégorisé",
+    "separateRoomsAndDms": "Séparer les salons et les messages directs",
+    "favouritesSection": "Favoris dans leur propre section",
+    "pinned": "Épinglés",
+    "pin": "Épingler",
+    "unpin": "Désépingler"
   }
 }

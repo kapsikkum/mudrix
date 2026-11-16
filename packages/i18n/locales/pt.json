@@ -3271,5 +3271,18 @@
       "title": "Publicar no diretório de salas",
       "note": "Qualquer pessoa pode encontrar esta sala no diretório público do teu servidor."
     }
+  },
+  "roomList": {
+    "sort": "Ordenar",
+    "sortTitle": "Lista de salas",
+    "sortRecent": "Atividade recente",
+    "sortNewest": "Mais recentes",
+    "sortOldest": "Mais antigas",
+    "sortCategorised": "Categorizado",
+    "separateRoomsAndDms": "Separar salas e mensagens diretas",
+    "favouritesSection": "Favoritos numa secção própria",
+    "pinned": "Fixados",
+    "pin": "Fixar",
+    "unpin": "Desafixar"
   }
 }

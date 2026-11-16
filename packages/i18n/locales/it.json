@@ -3271,5 +3271,18 @@
       "title": "Pubblica nella directory delle stanze",
       "note": "Chiunque può trovare questa stanza nella directory pubblica del tuo server."
     }
+  },
+  "roomList": {
+    "sort": "Ordina",
+    "sortTitle": "Elenco delle stanze",
+    "sortRecent": "Attività recente",
+    "sortNewest": "Più recenti",
+    "sortOldest": "Più vecchie",
+    "sortCategorised": "Categorizzato",
+    "separateRoomsAndDms": "Separa stanze e messaggi diretti",
+    "favouritesSection": "Preferiti in una sezione dedicata",
+    "pinned": "Fissati",
+    "pin": "Fissa",
+    "unpin": "Rimuovi"
   }
 }
