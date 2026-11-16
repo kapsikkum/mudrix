@@ -41,6 +41,10 @@ on:
         description: Run the XCTest target after the build
         default: true
         type: boolean
+      device-ipa:
+        description: Also build an unsigned device IPA for SideStore (no signing, no Apple account)
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -249,6 +253,58 @@ jobs:
           sleep 3
           xcrun simctl io "$SIM_ID" screenshot screenshots/02-launch-dark.png
           ls -lh screenshots
+
+      # An unsigned device build for SideStore/AltStore: it signs the app on the phone with the user's own
+      # Apple ID, so this needs no team, no certificate and no Apple Developer account.
+      - name: xcodebuild build (device, unsigned)
+        if: inputs.device-ipa
+        working-directory: apps/ios
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project "$IOS_PROJECT" \
+            -scheme "$IOS_SCHEME" \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -sdk iphoneos \
+            -derivedDataPath build-device \
+            -resultBundlePath ../../ci-logs/build-device.xcresult \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY= \
+            GIPHY_API_KEY="$GIPHY_API_KEY" KLIPY_API_KEY="$KLIPY_API_KEY" \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=YES \
+            2>&1 | tee ../../ci-logs/xcodebuild-device.log \
+            | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
+
+      - name: Package the unsigned IPA
+        if: inputs.device-ipa
+        run: |
+          set -euo pipefail
+          apps=(apps/ios/build-device/Build/Products/Release-iphoneos/*.app)
+          test -n "${apps[0]:-}"
+          APP="${apps[0]}"
+          echo "app=$(basename "$APP")"
+          plutil -extract CFBundleIdentifier raw "$APP/Info.plist"
+          plutil -extract CFBundleShortVersionString raw "$APP/Info.plist"
+          items=(NSMicrophoneUsageDescription NSCameraUsageDescription)
+          for key in "${items[@]}"; do
+            plutil -extract "$key" raw "$APP/Info.plist" > /dev/null
+          done
+          mkdir -p ipa/Payload
+          cp -R "$APP" ipa/Payload/
+          (cd ipa && zip -qry ../Mudrix-unsigned.ipa Payload)
+          shasum -a 256 Mudrix-unsigned.ipa | tee Mudrix-unsigned.ipa.sha256
+          ls -lh Mudrix-unsigned.ipa
+
+      - name: Upload the unsigned IPA
+        if: inputs.device-ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-ios-unsigned-ipa
+          path: |
+            Mudrix-unsigned.ipa
+            Mudrix-unsigned.ipa.sha256
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Upload the Simulator app
         if: always()
