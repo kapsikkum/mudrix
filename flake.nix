@@ -20,9 +20,16 @@
 
       localTarball = builtins.getEnv "MUDRIX_TARBALL";
 
+      # `builtins.path` copies the tarball into the store: a bare path value would reach the build
+      # sandbox as the original workspace path, which is not mounted there.
+      localSrc = builtins.path {
+        path = builtins.toPath localTarball;
+        name = baseNameOf localTarball;
+      };
+
       mkMudrix =
         pkgs: pkgs.callPackage ./nix/package.nix (nixpkgs.lib.optionalAttrs (localTarball != "") {
-          tarball = builtins.toPath localTarball;
+          tarball = localSrc;
         });
     in
     {
