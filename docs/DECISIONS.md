@@ -147,6 +147,14 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
 
 ## Rooms, threads and room lists
 
+- **The DM screen's order is the user's choice** (owner request, 2026-11-16; Android and iOS): most recent activity
+  (the old app's order, default), newest first, oldest first, or categorised. Newest/oldest use the room's
+  `m.room.create` timestamp, so a long-lived room you just joined is not "newest" — that is a deliberate choice over
+  join time. Categorised always shows the sections: pinned, favourites, DMs, rooms. "Separate rooms and direct
+  messages" can be turned off to merge DMs and rooms into one list; categorised ignores it. Favourite rooms (and DMs)
+  can be pulled into their own section or sort inline. Pinned users sit above everything and are saved by user id in
+  `io.github.kapsikkum.mudrix.room_list`, so a pin survives a room upgrade and follows the account to the other app.
+  The manual Home order still wins while the mode is "most recent"; picking newest/oldest replaces it.
 - **An unnamed two-person room stays a room, not a DM.** Core rule: only a room in `m.direct` is a DM
   (`crates/core/src/rooms.rs`). The old app guessed from the member count; that guess is deliberately not ported, and
   such a room is listed under Rooms. R8 in the parity matrix records this as **won't-do** everywhere.

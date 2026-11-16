@@ -297,6 +297,10 @@ headlines.
       edge-to-edge with the time in a pill, emoji-only messages without a bubble, warnings inside the bubble) and Compact
 - [ ] Delete a message: a confirmation dialog appears first
 - [ ] Threads: the All / My threads filters, and Back from a thread opened from a message returns to the room
+- [ ] DM screen sort sheet (Android and iOS): most recent / newest / oldest / categorised; the list reorders
+      immediately and the choice survives a reload and reaches the other app
+- [ ] Pinning a DM (long-press / context menu) puts it in a Pinned section at the top; unpinning returns it
+- [ ] Favourites get their own section, and turning "Separate rooms and direct messages" off merges the two lists
 
 ### People, spaces, settings
 
