@@ -1,22 +1,34 @@
 import { STORAGE_KEY_PREFERENCES } from '@/const/storageKeys';
 import { publicUrl } from '@/util/publicUrl';
+import { playSoundKind } from '@/util/notificationSounds';
 
 /**
- * Call sounds the sound packs do not replace (those are in util/notificationSounds). They are
- * the app's own and play at a fixed volume.
+ * Sounds the sound packs do not replace (those are in util/notificationSounds): a call ending
+ * without a connection has no pack file, so the app's own plays.
  */
 const SOUND_MAP = {
-  deafen: publicUrl('assets/sounds/deafen.wav'),
-  undeafen: publicUrl('assets/sounds/undeafen.wav'),
-  'raise-hand': publicUrl('assets/sounds/raise_hand.wav'),
-  'screenshare-start': publicUrl('assets/sounds/screenshare_start.wav'),
-  'screenshare-stop': publicUrl('assets/sounds/screenshare_stop.wav'),
-  reaction: publicUrl('assets/sounds/reaction.wav'),
   'call-declined': publicUrl('assets/sounds/call_declined.wav'),
   'call-no-answer': publicUrl('assets/sounds/call_no_answer.wav'),
 } as const;
 
-export type VoiceSound = keyof typeof SOUND_MAP;
+/**
+ * Call and voice sounds a pack replaces. These play through the chosen pack (`playSoundKind`), so
+ * the per-sound pack options and volume apply; a client pack falls back to the app's own file.
+ */
+const PACK_SOUNDS = {
+  deafen: 'deafen',
+  undeafen: 'undeafen',
+  'raise-hand': 'raise-hand',
+  'screenshare-start': 'screenshare-start',
+  'screenshare-stop': 'screenshare-stop',
+  reaction: 'reaction',
+} as const;
+
+type PackSound = keyof typeof PACK_SOUNDS;
+
+export type VoiceSound = keyof typeof SOUND_MAP | PackSound;
+
+const isPackSound = (type: VoiceSound): type is PackSound => type in PACK_SOUNDS;
 
 export const VOICE_SOUND_TOGGLES = {
   mute: ['mute', 'unmute'],
@@ -59,6 +71,10 @@ const VOLUME = 0.5;
 
 export function playVoiceSound(type: VoiceSound): void {
   if (!isVoiceSoundEnabled(type)) return;
+  if (isPackSound(type)) {
+    playSoundKind(PACK_SOUNDS[type]);
+    return;
+  }
   try {
     const audio = new Audio(SOUND_MAP[type]);
     audio.volume = VOLUME;

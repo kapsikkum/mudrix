@@ -690,7 +690,7 @@ class CallManager {
             micMuted = true
             Soundboard.stopAll()
         }
-        if (state == State.Joined) CallSounds.play(if (deafened) "deafen" else "undeafen")
+        if (state == State.Joined) Sounds.play(if (deafened) SoundKind.Deafen else SoundKind.Undeafen)
         applyMic()
     }
 
@@ -753,7 +753,7 @@ class CallManager {
                     local?.setScreenShareEnabled(false)
                     screenSharing = false
                 }
-                CallSounds.play(if (screenSharing) "screenshare_start" else "screenshare_stop")
+                Sounds.play(if (screenSharing) SoundKind.ScreenshareStart else SoundKind.ScreenshareStop)
             } catch (error: Exception) {
                 Log.w(TAG, "screen share: $error")
                 screenSharing = local?.isScreenShareEnabled ?: false
@@ -808,14 +808,14 @@ class CallManager {
         handRaised = !handRaised
         val raise = handRaised
         if (raise) raisedHands.add(session.identity) else raisedHands.remove(session.identity)
-        if (raise) CallSounds.play("raise_hand")
+        if (raise) Sounds.play(SoundKind.RaiseHand)
         refresh()
         scope.launch { runCatching { session.setHandRaised(raise) } }
     }
 
     private fun show(emoji: String, identity: String) {
         reactions[identity] = emoji
-        CallSounds.play("reaction")
+        Sounds.play(SoundKind.Reaction)
         refresh()
         scope.launch {
             delay(REACTION_VISIBLE_MILLIS)

@@ -12,10 +12,29 @@ object Sounds {
 
     private class Choice(val resource: String, val volume: Float)
 
+    /** The Settings > Voice & Video switch a sound belongs to */
+    private fun toggle(kind: SoundKind): String? = when (kind) {
+        SoundKind.Mute, SoundKind.Unmute -> "mute"
+        SoundKind.Deafen, SoundKind.Undeafen -> "deafen"
+        SoundKind.CameraOn, SoundKind.CameraOff -> "camera"
+        SoundKind.ScreenshareStart, SoundKind.ScreenshareStop -> "screenshare"
+        SoundKind.Join -> "join"
+        SoundKind.Leave -> "leave"
+        SoundKind.Ring -> "ringtone"
+        SoundKind.Ringback -> "ringback"
+        SoundKind.CallEnd -> "callEnded"
+        SoundKind.RaiseHand -> "raiseHand"
+        SoundKind.Reaction -> "reaction"
+        SoundKind.WatchTogetherStart -> "watchTogether"
+        SoundKind.Message, SoundKind.Mention, SoundKind.Moved -> null
+    }
+
     /** The resource and volume a sound would play with now, or null when it is off */
     private fun choice(kind: SoundKind): Choice? {
         val prefs = prefs
         if (kind.gated && !prefs.notificationSounds) return null
+        // The per-sound switches in Settings > Voice & Video
+        if (toggle(kind)?.let { !CallSounds.isOn(it) } == true) return null
         val pack = SoundPacks.resolve(kind, prefs.notificationSoundPack, prefs.effectiveSoundOverrides()) ?: return null
         val resource = SoundPacks.resource(pack, kind) ?: return null
         return Choice(resource, SoundPacks.volume(kind, prefs.notificationSoundVolume))

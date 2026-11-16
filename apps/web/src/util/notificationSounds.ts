@@ -9,11 +9,17 @@ export type NotificationSoundKind = 'message' | 'mention' | 'ring' | 'ringback' 
 export type VoiceSoundKind =
   | 'mute'
   | 'unmute'
+  | 'deafen'
+  | 'undeafen'
   | 'camera-on'
   | 'camera-off'
+  | 'screenshare-start'
+  | 'screenshare-stop'
   | 'join'
   | 'leave'
   | 'moved'
+  | 'raise-hand'
+  | 'reaction'
   | 'watch-together-start';
 export type SoundKind = NotificationSoundKind | VoiceSoundKind;
 
@@ -38,11 +44,17 @@ export const SOUND_KINDS: readonly SoundKind[] = [
   'callend',
   'mute',
   'unmute',
+  'deafen',
+  'undeafen',
   'camera-on',
   'camera-off',
+  'screenshare-start',
+  'screenshare-stop',
   'join',
   'leave',
   'moved',
+  'raise-hand',
+  'reaction',
   'watch-together-start',
 ];
 
@@ -176,10 +188,16 @@ function applyContextSink(ctx: AudioContext): void {
 const BUILTIN_VOICE_SOUNDS: Partial<Record<VoiceSoundKind, string>> = {
   mute: 'mute.wav',
   unmute: 'unmute.wav',
+  deafen: 'deafen.wav',
+  undeafen: 'undeafen.wav',
   'camera-on': 'camera_on.wav',
   'camera-off': 'camera_off.wav',
+  'screenshare-start': 'screenshare_start.wav',
+  'screenshare-stop': 'screenshare_stop.wav',
   join: 'call_join.wav',
   leave: 'call_leave.wav',
+  'raise-hand': 'raise_hand.wav',
+  reaction: 'reaction.wav',
   'watch-together-start': 'watch_together_start.wav',
 };
 

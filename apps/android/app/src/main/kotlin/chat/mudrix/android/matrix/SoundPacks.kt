@@ -14,11 +14,17 @@ enum class SoundKind(val id: String, val labelKey: String, val gated: Boolean, v
     CallEnd("callend", "settings.voice.sound.callend", true, true),
     Mute("mute", "settings.voice.sound.mute", false, false),
     Unmute("unmute", "settings.voice.sound.unmute", false, false),
+    Deafen("deafen", "call.deafen", false, false),
+    Undeafen("undeafen", "call.undeafen", false, false),
     CameraOn("camera-on", "settings.voice.sound.cameraOn", false, false),
     CameraOff("camera-off", "settings.voice.sound.cameraOff", false, false),
+    ScreenshareStart("screenshare-start", "call.shareScreen", false, false),
+    ScreenshareStop("screenshare-stop", "call.stopShare", false, false),
     Join("join", "settings.voice.sound.join", true, false),
     Leave("leave", "settings.voice.sound.leave", true, false),
     Moved("moved", "settings.voice.sound.moved", false, false),
+    RaiseHand("raise-hand", "call.raiseHand", false, false),
+    Reaction("reaction", "call.reactions", false, false),
     WatchTogetherStart("watch-together-start", "settings.voice.sound.watchTogetherStart", false, false),
     ;
 
@@ -70,10 +76,16 @@ object SoundPacks {
     private val BUILTIN = mapOf(
         SoundKind.Mute to "mute",
         SoundKind.Unmute to "unmute",
+        SoundKind.Deafen to "deafen",
+        SoundKind.Undeafen to "undeafen",
         SoundKind.CameraOn to "camera_on",
         SoundKind.CameraOff to "camera_off",
+        SoundKind.ScreenshareStart to "screenshare_start",
+        SoundKind.ScreenshareStop to "screenshare_stop",
         SoundKind.Join to "call_join",
         SoundKind.Leave to "call_leave",
+        SoundKind.RaiseHand to "raise_hand",
+        SoundKind.Reaction to "reaction",
         SoundKind.WatchTogetherStart to "watch_together_start",
     )
 

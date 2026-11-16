@@ -41,12 +41,16 @@ enum Sounds {
     private static func toggle(_ kind: SoundKind) -> String? {
         switch kind {
         case .mute, .unmute: return "mute"
+        case .deafen, .undeafen: return "deafen"
         case .cameraOn, .cameraOff: return "camera"
+        case .screenshareStart, .screenshareStop: return "screenshare"
         case .join: return "join"
         case .leave: return "leave"
         case .ring: return "ringtone"
         case .ringback: return "ringback"
         case .callEnd: return "callEnded"
+        case .raiseHand: return "raiseHand"
+        case .reaction: return "reaction"
         case .watchTogetherStart: return "watchTogether"
         default: return nil
         }

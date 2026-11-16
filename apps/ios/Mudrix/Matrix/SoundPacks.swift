@@ -6,9 +6,14 @@ enum SoundKind: String, CaseIterable {
     case message, mention, ring, ringback
     case callEnd = "callend"
     case mute, unmute
+    case deafen, undeafen
     case cameraOn = "camera-on"
     case cameraOff = "camera-off"
+    case screenshareStart = "screenshare-start"
+    case screenshareStop = "screenshare-stop"
     case join, leave, moved
+    case raiseHand = "raise-hand"
+    case reaction
     case watchTogetherStart = "watch-together-start"
 
     var id: String { rawValue }
@@ -23,11 +28,17 @@ enum SoundKind: String, CaseIterable {
         case .callEnd: return "settings.voice.sound.callend"
         case .mute: return "settings.voice.sound.mute"
         case .unmute: return "settings.voice.sound.unmute"
+        case .deafen: return "call.deafen"
+        case .undeafen: return "call.undeafen"
         case .cameraOn: return "settings.voice.sound.cameraOn"
         case .cameraOff: return "settings.voice.sound.cameraOff"
+        case .screenshareStart: return "call.shareScreen"
+        case .screenshareStop: return "call.stopShare"
         case .join: return "settings.voice.sound.join"
         case .leave: return "settings.voice.sound.leave"
         case .moved: return "settings.voice.sound.moved"
+        case .raiseHand: return "call.raiseHand"
+        case .reaction: return "call.reactions"
         case .watchTogetherStart: return "settings.voice.sound.watchTogetherStart"
         }
     }
@@ -110,10 +121,16 @@ enum SoundPacks {
     private static let builtin: [SoundKind: String] = [
         .mute: "mute",
         .unmute: "unmute",
+        .deafen: "deafen",
+        .undeafen: "undeafen",
         .cameraOn: "camera_on",
         .cameraOff: "camera_off",
+        .screenshareStart: "screenshare_start",
+        .screenshareStop: "screenshare_stop",
         .join: "call_join",
         .leave: "call_leave",
+        .raiseHand: "raise_hand",
+        .reaction: "reaction",
         .watchTogetherStart: "watch_together_start",
     ]
 

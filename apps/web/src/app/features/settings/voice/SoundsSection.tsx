@@ -28,11 +28,17 @@ const KIND_LABELS: Record<SoundKind, string> = {
   callend: 'settings.voice.sound.callend',
   mute: 'settings.voice.sound.mute',
   unmute: 'settings.voice.sound.unmute',
+  deafen: 'call.deafen',
+  undeafen: 'call.undeafen',
   'camera-on': 'settings.voice.sound.cameraOn',
+  'camera-off': 'settings.voice.sound.cameraOff',
+  'screenshare-start': 'call.shareScreen',
+  'screenshare-stop': 'call.stopShare',
   join: 'settings.voice.sound.join',
   leave: 'settings.voice.sound.leave',
-  'camera-off': 'settings.voice.sound.cameraOff',
   moved: 'settings.voice.sound.moved',
+  'raise-hand': 'call.raiseHand',
+  reaction: 'call.reactions',
   'watch-together-start': 'settings.voice.sound.watchTogetherStart',
 };
 

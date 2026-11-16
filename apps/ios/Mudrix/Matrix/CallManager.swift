@@ -478,7 +478,7 @@ final class CallManager: NSObject, ObservableObject {
             micMuted = true
             soundboard.stopAll()
         }
-        if state == .joined { CallSounds.play(deafened ? "deafen" : "undeafen") }
+        if state == .joined { Sounds.play(deafened ? .deafen : .undeafen) }
         applyMic()
     }
 
@@ -522,7 +522,7 @@ final class CallManager: NSObject, ObservableObject {
             do {
                 let publication = try await publisher?.localParticipant.setScreenShare(enabled: enabled)
                 screenSharing = enabled && publication != nil
-                CallSounds.play(screenSharing ? "screenshare_start" : "screenshare_stop")
+                Sounds.play(screenSharing ? .screenshareStart : .screenshareStop)
             } catch {
                 NSLog("WZCALL screen share: %@", String(describing: error))
                 screenSharing = publisher?.localParticipant.isScreenShareEnabled() ?? false
@@ -575,14 +575,14 @@ final class CallManager: NSObject, ObservableObject {
         handRaised.toggle()
         let raise = handRaised
         if raise { raisedHands.insert(session.identity) } else { raisedHands.remove(session.identity) }
-        if raise { CallSounds.play("raise_hand") }
+        if raise { Sounds.play(.raiseHand) }
         refresh()
         Task { try? await session.setHandRaised(raised: raise) }
     }
 
     private func show(reaction emoji: String, for identity: String) {
         reactions[identity] = emoji
-        CallSounds.play("reaction")
+        Sounds.play(.reaction)
         refresh()
         Task {
             try? await Task.sleep(for: .seconds(Self.reactionVisibleSeconds))
