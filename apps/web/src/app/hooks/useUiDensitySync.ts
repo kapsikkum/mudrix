@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { touchUiAtom, uiDensityAtom, uiScaleAtom } from '@/app/store/atoms';
 import {
+  TOUCH_FIRST_QUERY,
   TOUCH_SIZES,
   UI_DENSITY_SIZES,
   uiDensityVarName,
@@ -22,7 +23,10 @@ export function useUiDensitySizes(): UiDensitySizes {
 export function useUiDensitySync(): void {
   const scale = useAtomValue(uiScaleAtom);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const touch = scale === 'touch' || (scale === 'auto' && isMobile);
+  // A narrow desktop window is not a phone: auto only picks the touch sizes when the primary
+  // pointer is a finger, or resizing the window would cram a 48px avatar into a short row.
+  const coarsePointer = useMediaQuery(TOUCH_FIRST_QUERY);
+  const touch = scale === 'touch' || (scale === 'auto' && isMobile && coarsePointer);
   const setTouch = useSetAtom(touchUiAtom);
   const sizes = useUiDensitySizes();
 
