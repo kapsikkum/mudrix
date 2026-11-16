@@ -63,6 +63,10 @@ Won't-dos are in `docs/DECISIONS.md` with the reason a user would be given (`N1`
 
 Full step/expected/actual tables with screenshots are in
 `C:\Users\kapsikkum\AppData\Local\Temp\opencode\evidence\{web,android}\report.md`, with screenshots beside them.
+**Screenshots note:** a `docs/screenshots` folder was committed and then removed again: this machine's browser and
+emulator are shared with another project, and the captures were mixed up with that project's images. The run evidence
+folders above and the CI `ios-screenshots` artifact are the trustworthy sets; `TESTING.md` describes each screen to
+capture. Re-shoot on a quiet machine (nothing else driving the shared browser or emulator) before publishing them.
 Summary:
 
 | Scenario                               | Web                                            | Android                                                    |
@@ -116,8 +120,8 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 
 ## Ready for review
 
-- CI is green on the final commit of the branch for Check, Branding, Android, Desktop and iOS (see the run for
-  `9303b9fd`… and the last commit; the iOS workflow builds the app and runs XCTest).
+- CI is green on the final commit of the branch for Check, Branding, Android, Desktop and iOS (the iOS workflow
+  builds the app and runs XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
 - Web: `tsc`, eslint, 218 unit tests, Prettier, i18n complete at 2810 keys in 11 languages.
 - Android: 410 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
