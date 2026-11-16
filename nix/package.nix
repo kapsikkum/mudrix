@@ -35,6 +35,10 @@ stdenv.mkDerivation {
   inherit version;
   src = tarball;
 
+  # The tarball's only top-level directory is `usr`, so the default unpackPhase would cd into
+  # it; installPhase needs both `usr/` and `LICENSE`, which are at the archive root.
+  sourceRoot = ".";
+
   nativeBuildInputs = [
     autoPatchelfHook
     wrapGAppsHook3
