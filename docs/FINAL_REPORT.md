@@ -118,12 +118,20 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 - **Status bugs found in review**: setting a status wiped the DND mode, and iOS wrote the expiry under a key the other
   clients did not read. The core now preserves every other key and writes `expires` in milliseconds, reading both keys.
 
+## Packaging
+
+- **Distribution packages are built in CI** (Desktop workflow, Linux leg): a `mudrix-linux-tarball` artifact (the tarball
+  plus a filled `PKGBUILD` and `mudrix.spec`), then `mudrix-arch-package` (`makepkg` on Arch), `mudrix-fedora-package`
+  (`rpmbuild` on Fedora, installable on Bazzite with `rpm-ostree`) and a Nix check (`nix flake check`, `nix build` from
+  the tarball, and a `nixosSystem` evaluation with `nixosModules.mudrix`). All are debug-profile and unsigned, like the
+  other CI artifacts; the Nix package's `sha256` is a placeholder until a release carries the tarball.
+
 ## Ready for review
 
 - CI is green on the final commit of the branch for Check, Branding, Android, Desktop and iOS (the iOS workflow
   builds the app and runs XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
-- Web: `tsc`, eslint, 218 unit tests, Prettier, i18n complete at 2810 keys in 11 languages.
+- Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2810 keys in 11 languages.
 - Android: 410 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
 - iOS: builds and XCTests in CI (no device run — the owner's step).
 
