@@ -155,13 +155,15 @@ fn feed_url(include_prereleases: bool) -> Option<Url> {
     Url::parse(if include_prereleases { NEXT_FEED } else { FEED }).ok()
 }
 
-/// "Check for updates" in About: asks now instead of waiting for the next poll
+/// "Check for updates" in About: asks now instead of waiting for the next poll.
+/// The shipped installers are built with `--debug` (no code-signing certificates), so a debug
+/// profile must still be able to check; only a build without the minisign public key cannot.
 #[tauri::command]
 pub async fn check_for_update(
     app: AppHandle,
     include_prereleases: bool,
 ) -> Result<CheckOutcome, String> {
-    if cfg!(debug_assertions) || !has_pubkey(&app) {
+    if !has_pubkey(&app) {
         return Err("updates are not available in this build".into());
     }
     let feed = feed_url(include_prereleases).ok_or("bad feed")?;
@@ -171,7 +173,7 @@ pub async fn check_for_update(
 }
 
 pub fn start(app: AppHandle) {
-    if cfg!(debug_assertions) || !has_pubkey(&app) {
+    if !has_pubkey(&app) {
         return;
     }
     let Ok(feed) = Url::parse(FEED) else {
