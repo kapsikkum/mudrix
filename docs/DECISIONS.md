@@ -88,6 +88,13 @@ iOS delivered for the same event, so there is only ever one entry.
   `packages/sounds/LICENSES.md`.
 - **Embedded widgets (I5) are in scope**, with a security review of the sandbox.
 
+## Desktop shell
+
+- **The Windows binary is a GUI-subsystem app in every build profile** (owner report, 2026-11-16): the
+  debug-profile test installers used to open a console window beside the app, because `windows_subsystem` was only
+  set for release builds. It is now always `windows`; `tauri dev` still prints the CLI's own output in its terminal,
+  but the app's `println!` is no longer visible there.
+
 ## Keys and secrets
 
 - GIF keys: the owner adds the `VITE_GIPHY_API_KEY` and `VITE_KLIPY_API_KEY` repo secrets.
