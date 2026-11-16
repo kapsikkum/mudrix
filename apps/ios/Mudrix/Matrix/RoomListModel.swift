@@ -26,8 +26,12 @@ enum SidebarSelection: Hashable {
 
 struct RoomGroup: Identifiable {
     enum Kind {
+        /// DMs whose partner is pinned in the room list options
+        case pinned
         case favourites
         case section(RoomSection)
+        /// The direct messages of the Modern Home pane, or the Classic DMs tab
+        case dms
         case rooms
         /// Rooms flagged low priority that are in no section; always last, not movable
         case lowPriority
@@ -40,8 +44,10 @@ struct RoomGroup: Identifiable {
 
     var id: String {
         switch kind {
+        case .pinned: "pinned"
         case .favourites: "favourites"
         case .section(let section): section.tag
+        case .dms: "dms"
         case .rooms: RoomListModel.roomsAnchor
         case .lowPriority: "low-priority"
         }
@@ -73,6 +79,8 @@ final class RoomListModel: ObservableObject {
     @Published private(set) var roomTags: [String: Set<String>] = [:]
     @Published private(set) var favouriteOrder: [String: Double] = [:]
     @Published private(set) var homeOrder: [String] = []
+    /// The DM screen's saved order, sections and pins (`io.github.kapsikkum.mudrix.room_list`)
+    @Published private(set) var options = RoomListOptions()
 
     static let roomsAnchor = "chats"
     static let homeSpace = "home-space"
@@ -118,6 +126,9 @@ final class RoomListModel: ObservableObject {
                     self?.upstreamHomeOrder = Self.roomIds(in: content)
                     self?.updateHomeOrder()
                 }
+            },
+            client.watchAccountData(eventType: RoomListOptions.eventType) { [weak self] content in
+                MainActor.assumeIsolated { self?.options = RoomListOptions(content: content) }
             },
             client.watchSpaces { [weak self] diffs in
                 MainActor.assumeIsolated {
@@ -225,22 +236,71 @@ final class RoomListModel: ObservableObject {
         }
     }
 
-    func groups(for selection: SidebarSelection) -> [RoomGroup] {
-        let rooms = rooms(for: selection)
-        guard selection != .dms else { return [RoomGroup(kind: .rooms, rooms: rooms)] }
-        let context = sectionContext(selection)
-        let favourites = rooms.filter(\.isFavourite).sorted { a, b in
-            switch (favouriteOrder[a.id], favouriteOrder[b.id]) {
-            case let (x?, y?) where x != y: return x < y
-            case (_?, nil): return true
-            case (nil, _?): return false
-            default: return a.displayName.localizedCompare(b.displayName) == .orderedAscending
-            }
+    /// The list's groups. `includeDms` is the Modern shell's Home pane, where the DMs and the rooms
+    /// outside spaces share one screen; the Classic Home tab keeps them apart.
+    func groups(for selection: SidebarSelection, includeDms: Bool = false) -> [RoomGroup] {
+        switch selection {
+        case .dms:
+            return dmGroups()
+        case .home:
+            return includeDms ? modernHomeGroups() : roomBlocks(.home, rooms: rooms(for: .home))
+        case .space:
+            return roomBlocks(selection, rooms: rooms(for: selection))
         }
+    }
+
+    /// The DM screen: pinned DMs, favourites, then the rest in the chosen order.
+    private func dmGroups() -> [RoomGroup] {
+        let dms = rooms(for: .dms)
+        let pinned = pinnedDms(dms)
+        let pinnedIds = Set(pinned.map(\.id))
+        let rest = dms.filter { !pinnedIds.contains($0.id) }
+        let favourites = options.favouritesSection ? sortedFavourites(rest.filter(\.isFavourite)) : []
+        let favouriteIds = Set(favourites.map(\.id))
+        var groups: [RoomGroup] = []
+        if !pinned.isEmpty { groups.append(RoomGroup(kind: .pinned, rooms: pinned)) }
+        if !favourites.isEmpty { groups.append(RoomGroup(kind: .favourites, rooms: favourites)) }
+        let others = rest.filter { !favouriteIds.contains($0.id) }.sortedForRoomList(options)
+        if !others.isEmpty { groups.append(RoomGroup(kind: .dms, rooms: others)) }
+        return groups
+    }
+
+    /// The Modern Home pane: pinned, favourites, DMs, then rooms, or one merged list.
+    private func modernHomeGroups() -> [RoomGroup] {
+        let dms = rooms(for: .dms)
+        let home = rooms(for: .home)
+        let pinned = pinnedDms(dms)
+        let pinnedIds = Set(pinned.map(\.id))
+        let favourites = options.favouritesSection
+            ? sortedFavourites((dms + home).filter { !pinnedIds.contains($0.id) && $0.isFavourite })
+            : []
+        let favouriteIds = Set(favourites.map(\.id))
+        let restDms = dms.filter { !pinnedIds.contains($0.id) && !favouriteIds.contains($0.id) }
+        let restRooms = home.filter { !favouriteIds.contains($0.id) }
+        let separate = options.separateRoomsAndDms || options.sort == .categorised
+        var groups: [RoomGroup] = []
+        if !pinned.isEmpty { groups.append(RoomGroup(kind: .pinned, rooms: pinned)) }
+        if !favourites.isEmpty { groups.append(RoomGroup(kind: .favourites, rooms: favourites)) }
+        if separate {
+            if !restDms.isEmpty {
+                groups.append(RoomGroup(kind: .dms, rooms: restDms.sortedForRoomList(options)))
+            }
+            groups += roomBlocks(.home, rooms: restRooms)
+        } else {
+            groups.append(RoomGroup(kind: .rooms, rooms: (restDms + restRooms).sortedForRoomList(options)))
+        }
+        return groups
+    }
+
+    /// Favourites, Matrix sections above and below the rooms, the rooms, then low priority.
+    private func roomBlocks(_ selection: SidebarSelection, rooms: [RoomSummary]) -> [RoomGroup] {
+        let context = sectionContext(selection)
+        let favourites = options.favouritesSection ? sortedFavourites(rooms.filter(\.isFavourite)) : []
+        let favouriteIds = Set(favourites.map(\.id))
         var bySection: [String: [RoomSummary]] = [:]
         var rest: [RoomSummary] = []
         var lowPriority: [RoomSummary] = []
-        for room in rooms where !room.isFavourite {
+        for room in rooms where !favouriteIds.contains(room.id) {
             let tag = sectionTag(of: room.id)
             if RoomMenu.inLowPriorityGroup(flagged: room.isLowPriority, isFavourite: room.isFavourite, sectionTag: tag) {
                 lowPriority.append(room)
@@ -250,7 +310,7 @@ final class RoomListModel: ObservableObject {
                 rest.append(room)
             }
         }
-        if selection == .home, !homeOrder.isEmpty {
+        if selection == .home, options.sort == .recent, !homeOrder.isEmpty {
             let position = Dictionary(homeOrder.enumerated().map { ($1, $0) }, uniquingKeysWith: { a, _ in a })
             rest = rest.enumerated().sorted { a, b in
                 switch (position[a.element.id], position[b.element.id]) {
@@ -260,6 +320,8 @@ final class RoomListModel: ObservableObject {
                 default: return a.offset < b.offset
                 }
             }.map(\.element)
+        } else {
+            rest = rest.sortedForRoomList(options)
         }
         let visible = sections.filter { bySection[$0.tag] != nil || $0.spaceId == context }
         func block(above: Bool) -> [RoomGroup] {
@@ -270,8 +332,47 @@ final class RoomListModel: ObservableObject {
         groups += block(above: true)
         groups.append(RoomGroup(kind: .rooms, rooms: rest))
         groups += block(above: false)
-        if !lowPriority.isEmpty { groups.append(RoomGroup(kind: .lowPriority, rooms: lowPriority)) }
+        if !lowPriority.isEmpty {
+            groups.append(RoomGroup(kind: .lowPriority, rooms: lowPriority.sortedForRoomList(options)))
+        }
         return groups
+    }
+
+    private func sortedFavourites(_ rooms: [RoomSummary]) -> [RoomSummary] {
+        rooms.sorted { a, b in
+            switch (favouriteOrder[a.id], favouriteOrder[b.id]) {
+            case let (x?, y?) where x != y: return x < y
+            case (_?, nil): return true
+            case (nil, _?): return false
+            default: return a.displayName.localizedCompare(b.displayName) == .orderedAscending
+            }
+        }
+    }
+
+    private func pinnedDms(_ dms: [RoomSummary]) -> [RoomSummary] {
+        options.pinnedUsers.compactMap { id in dms.first { $0.dmUserId == id } }
+    }
+
+    /// Saves the DM screen's options to account data; puts them back when the account cannot be written.
+    func setOptions(_ next: RoomListOptions) async {
+        let previous = options
+        options = next
+        do {
+            try await client.setAccountData(eventType: RoomListOptions.eventType, content: next.content)
+        } catch {
+            options = previous
+        }
+    }
+
+    /// Pins or unpins a DM by its partner's user id, so the pin survives a room upgrade.
+    func setPinned(_ room: RoomSummary, pinned: Bool) async {
+        guard let userId = room.dmUserId else { return }
+        await setOptions(options.withPin(userId, pinned: pinned))
+    }
+
+    func isPinned(_ room: RoomSummary) -> Bool {
+        guard let userId = room.dmUserId else { return false }
+        return options.pinnedUsers.contains(userId)
     }
 
     func sectionContext(_ selection: SidebarSelection) -> String {
@@ -287,7 +388,7 @@ final class RoomListModel: ObservableObject {
     func moveGroup(_ anchor: String, by offset: Int, in groups: [RoomGroup]) async throws {
         var anchors = groups.compactMap { group -> String? in
             switch group.kind {
-            case .favourites, .lowPriority: return nil
+            case .pinned, .favourites, .dms, .lowPriority: return nil
             default: return group.id
             }
         }

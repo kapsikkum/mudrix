@@ -19,6 +19,7 @@ struct RoomListScreen: View {
     @Environment(\.theme) private var theme
     @State private var search = ""
     @State private var searchOpen = false
+    @State private var showSort = false
     @FocusState private var searchFocused: Bool
     @State private var leaving: RoomSummary?
     @State private var showNewRoom = false
@@ -63,17 +64,10 @@ struct RoomListScreen: View {
     /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox
     private var dmPane: Bool { modernHeader && selection == .home }
 
-    /// The direct messages listed above the rooms without a space in that pane
-    private var dmRooms: [RoomSummary] {
-        guard dmPane, roomList.isLoaded else { return [] }
-        let rooms = roomList.rooms(for: .dms)
-        guard !search.isEmpty else { return rooms }
-        return rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }
-    }
-
+    /// The list's groups; the Modern Home pane includes the DMs, the Classic tabs keep them apart
     private var groups: [RoomGroup] {
         guard roomList.isLoaded else { return [] }
-        let groups = roomList.groups(for: selection)
+        let groups = roomList.groups(for: selection, includeDms: dmPane)
         guard !search.isEmpty else { return groups }
         return groups.map { RoomGroup(kind: $0.kind, rooms: $0.rooms.filter { $0.displayName.localizedCaseInsensitiveContains(search) }) }
     }
@@ -94,24 +88,11 @@ struct RoomListScreen: View {
             if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded {
                 ActiveNowSection(roomList: roomList)
             }
-            if !dmRooms.isEmpty {
-                Section {
-                    ForEach(dmRooms) { roomRow($0) }
-                } header: {
-                    Text(String(localized: "room.dm.directMessages"))
-                        .font(.wizard(WZ.FontSize.sm, .semibold))
-                        .foregroundStyle(theme.textMuted)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, WZ.Space.space6)
-                        .padding(.bottom, WZ.Space.space2)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
-                }
-            }
             if !roomList.isLoaded {
                 ForEach(0..<8, id: \.self) { _ in
                     SkeletonRow().listRowBackground(Color.clear).listRowSeparator(.hidden)
                 }
-            } else if dmRooms.isEmpty, groups.allSatisfy({ $0.rooms.isEmpty }) {
+            } else if groups.allSatisfy({ $0.rooms.isEmpty }) {
                 Text(search.isEmpty ? emptyText : "nav.noMatches")
                     .font(.wizard(WZ.FontSize.md))
                     .foregroundStyle(theme.textMuted)
@@ -122,7 +103,7 @@ struct RoomListScreen: View {
             }
             if let spaceId, isModern, roomList.isLoaded {
                 modernRows(spaceId)
-            } else if selection == .dms, groups.count == 1, case .rooms = groups[0].kind {
+            } else if selection == .dms, groups.count == 1, case .dms = groups[0].kind {
                 ForEach(groups[0].rooms) { roomRow($0) }
                     .onMove(perform: selection == .home && reordering ? { moveRooms(groups[0], from: $0, to: $1) } : nil)
             } else {
@@ -191,6 +172,11 @@ struct RoomListScreen: View {
         .sheet(isPresented: $showSpaceSettings) {
             if let spaceId, let space = roomList.space(id: spaceId) {
                 SpaceSettingsView(space: space, roomList: roomList)
+            }
+        }
+        .sheet(isPresented: $showSort) {
+            RoomListSortSheet(options: roomList.options) { next in
+                Task { await roomList.setOptions(next) }
             }
         }
         .alert(String(localized: renaming == nil ? "room.sections.newTitle" : "room.sections.renameTitle"),
@@ -268,6 +254,9 @@ struct RoomListScreen: View {
                 RoundToolButton(icon: "ph-magnifying-glass-regular", label: String(localized: "common.search")) {
                     searchOpen = true
                     searchFocused = true
+                }
+                RoundToolButton(icon: "ph-sliders-regular", label: String(localized: "roomList.sort")) {
+                    showSort = true
                 }
                 if let onOpenInbox {
                     InboxButton(roomList: roomList, action: onOpenInbox, round: true)
@@ -373,6 +362,15 @@ struct RoomListScreen: View {
             } label: {
                 Label(menu: String(localized: "room.notifications.title"), icon: "ph-bell-regular")
             }
+            if room.isDirect {
+                let pinned = roomList.isPinned(room)
+                Button {
+                    Task { await roomList.setPinned(room, pinned: !pinned) }
+                } label: {
+                    Label(menu: String(localized: pinned ? "roomList.unpin" : "roomList.pin"),
+                          icon: pinned ? "ph-push-pin-slash-regular" : "ph-push-pin-regular")
+                }
+            }
             Button {
                 sectionTask { try await roomList.client.setFavourite(roomId: room.id, favourite: !room.isFavourite) }
             } label: {
@@ -440,7 +438,7 @@ struct RoomListScreen: View {
     private func groupHeader(_ group: RoomGroup, in groups: [RoomGroup]) -> some View {
         let anchors = groups.compactMap { group -> String? in
             switch group.kind {
-            case .favourites, .lowPriority: return nil
+            case .pinned, .favourites, .dms, .lowPriority: return nil
             default: return group.id
             }
         }
@@ -527,6 +525,8 @@ struct RoomListScreen: View {
 
     private func groupTitle(_ group: RoomGroup) -> String {
         switch group.kind {
+        case .pinned: String(localized: "roomList.pinned")
+        case .dms: String(localized: "room.dm.directMessages")
         case .favourites: String(localized: "nav.favourites")
         case .section(let section): section.name
         case .rooms: String(localized: "nav.rooms")
@@ -539,7 +539,7 @@ struct RoomListScreen: View {
         switch group.kind {
         case .favourites: return true
         case .rooms: return selection == .home
-        case .section, .lowPriority: return false
+        case .pinned, .dms, .section, .lowPriority: return false
         }
     }
 
