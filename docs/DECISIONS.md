@@ -90,10 +90,10 @@ iOS delivered for the same event, so there is only ever one entry.
 
 ## Desktop shell
 
-- **The Windows binary is a GUI-subsystem app in every build profile** (owner report, 2026-11-16): the
-  debug-profile test installers used to open a console window beside the app, because `windows_subsystem` was only
-  set for release builds. It is now always `windows`; `tauri dev` still prints the CLI's own output in its terminal,
-  but the app's `println!` is no longer visible there.
+- **Only `tauri dev` shows a console window** (owner report, 2026-11-16): the debug-profile test
+  installers used to open one beside the app, because `windows_subsystem` was only set for release builds. The
+  attribute is now `not(dev)` — every built installer, debug-profile included, is a GUI app, while the dev session
+  keeps its console for logs.
 
 ## Keys and secrets
 
