@@ -2506,6 +2506,7 @@ globalStyle(`:root[data-compact-layout] ${msgMeta}`, {
   marginBottom: '0',
   marginRight: '6px',
 });
+// Compact keeps the old app's own sizes: the type-scale merge must not fatten its narrow rows.
 globalStyle(`:root[data-compact-layout] ${msgTime}`, {
   position: 'absolute',
   left: 0,
@@ -2513,10 +2514,10 @@ globalStyle(`:root[data-compact-layout] ${msgTime}`, {
   width: '64px',
   textAlign: 'right',
   opacity: 1,
-  fontSize: fontSize.rem68,
+  fontSize: '0.68rem',
   lineHeight: 'calc(0.95rem * 1.375)',
 });
-globalStyle(`:root[data-compact-layout] ${msgSender}`, { fontSize: fontSize.rem95 });
+globalStyle(`:root[data-compact-layout] ${msgSender}`, { fontSize: '0.95rem' });
 globalStyle(`:root[data-compact-layout] ${msgContent}`, { lineHeight: '1.375' });
 // The edit box takes its own full-width line under the name instead of squeezing in beside it.
 globalStyle(`:root[data-compact-layout] ${editContainer}`, { maxWidth: '100%', marginTop: '4px' });
