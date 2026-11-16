@@ -1148,12 +1148,21 @@ fun ReplyQuoteView(quote: ChatEntry.ReplyQuote, end: Boolean = false, bubble: Bo
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, bubble: Boolean = false, onToggle: (String) -> Unit) {
+fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = null, bubble: Boolean = false, own: Boolean = false, onToggle: (String) -> Unit) {
     var reactors by remember { mutableStateOf<ChatEntry.ReactionGroup?>(null) }
     val chipShape = if (bubble) RoundedCornerShape(WZ.Radius.lg) else CircleShape
     FlowRow(
-        Modifier.padding(top = WZ.Space.space2),
-        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3),
+        Modifier
+            .padding(top = WZ.Space.space2)
+            // Bubble layout: half the pill hangs off the bubble's bottom edge on the bubble's side (Messenger style);
+            // 22dp is half of the 44dp touch box the chip is centred in
+            .then(if (bubble) Modifier.offset(y = (-22).dp) else Modifier)
+            .then(if (bubble && own) Modifier.fillMaxWidth() else Modifier),
+        horizontalArrangement = if (bubble && own) {
+            Arrangement.spacedBy(WZ.Space.space3, Alignment.End)
+        } else {
+            Arrangement.spacedBy(WZ.Space.space3)
+        },
     ) {
         reactions.forEach { reaction ->
             val mine = reaction.reactedByMe

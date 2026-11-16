@@ -1363,6 +1363,24 @@ export const reactionsBar = style({
   marginTop: '4px',
 });
 
+// Bubble layout: the pills hang on the bubble's bottom edge, half over it, on the bubble's own side
+// (right for your messages, left for everyone else's), as Messenger does.
+export const reactionsBarBubble = style({
+  alignSelf: 'flex-start',
+  width: 'fit-content',
+  marginTop: '-12px',
+  marginLeft: '10px',
+  position: 'relative',
+  zIndex: 1,
+  padding: '0 2px',
+});
+
+export const reactionsBarBubbleOwn = style({
+  alignSelf: 'flex-end',
+  marginLeft: 0,
+  marginRight: '10px',
+});
+
 export const reactionChip = style({
   display: 'inline-flex',
   alignItems: 'center',

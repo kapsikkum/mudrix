@@ -1162,7 +1162,8 @@ struct MessageRow: View {
                     IntegrationLinkCards(text: body, roomId: actions?.roomId, isEncrypted: actions?.linkPreviews == nil)
                 }
                 if !entry.reactions.isEmpty && entry.allowsActions {
-                    ReactionsBar(reactions: entry.reactions, roomId: actions?.roomId) { key in actions?.react(key, entry) }
+                    ReactionsBar(reactions: entry.reactions, roomId: actions?.roomId, bubble: isClassic,
+                                 own: entry.isOwn) { key in actions?.react(key, entry) }
                 }
                 if let thread = entry.thread, thread.replies > 0, let actions, let openThread = actions.openThread {
                     ThreadSummaryBadge(thread: thread, roomId: actions.roomId) { openThread(entry) }

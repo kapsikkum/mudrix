@@ -679,6 +679,9 @@ struct ReplyQuoteView: View {
 struct ReactionsBar: View {
     let reactions: [ChatEntry.ReactionGroup]
     var roomId: String?
+    /// Bubble layout: the pills hang on the bubble's bottom edge, half over it, on the bubble's own side
+    var bubble = false
+    var own = false
     let onToggle: (String) -> Void
     @Environment(\.theme) private var theme
     @State private var reactors: ChatEntry.ReactionGroup?
@@ -713,7 +716,10 @@ struct ReactionsBar: View {
                     .accessibilityLabel("\(reaction.key) \(reaction.count)")
             }
         }
-        .padding(.top, WZ.Space.space2)
+        .padding(.top, bubble ? 0 : WZ.Space.space2)
+        // Half of the pill (space8 high) hangs below the bubble's edge
+        .offset(y: bubble ? -(WZ.Space.space8 / 2) : 0)
+        .frame(maxWidth: .infinity, alignment: bubble && own ? .trailing : .leading)
         .sheet(item: $reactors) { reaction in
             if let roomId { ReactorsSheet(roomId: roomId, reaction: reaction) }
         }

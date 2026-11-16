@@ -901,7 +901,13 @@ export const Message = memo(function Message({
     !isRedacted &&
     reactionMap.size > 0 && (
       <div
-        className={css.reactionsBar}
+        className={[
+          css.reactionsBar,
+          isBubble ? css.reactionsBarBubble : null,
+          isBubble && isOwn ? css.reactionsBarBubbleOwn : null,
+        ]
+          .filter(Boolean)
+          .join(' ')}
         role="group"
         aria-label={t('timeline.reactions')}
         onClick={handleReactionDelegate}

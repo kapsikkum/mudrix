@@ -1324,7 +1324,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                     }
                     IntegrationCards(body, actions?.isEncrypted ?: true)
                     if (entry.reactions.isNotEmpty() && entry.allowsActions) {
-                        ReactionsBar(entry.reactions, actions?.roomId, bubble = isBubble) { key -> actions?.react?.invoke(key, entry) }
+                        ReactionsBar(entry.reactions, actions?.roomId, bubble = isBubble, own = ownBubble) { key -> actions?.react?.invoke(key, entry) }
                     }
                     val thread = entry.thread
                     val openThread = actions?.openThread
