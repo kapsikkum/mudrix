@@ -1,4 +1,4 @@
-name: Desktop
+﻿name: Desktop
 
 # `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, unsigned, so testers get
 # something they can double-click. The raw binary is still uploaded next to them for debugging. No signing (see
@@ -17,6 +17,9 @@ on:
       - rust-toolchain.toml
       - package.json
       - package-lock.json
+      - flake.nix
+      - nix/**
+      - packaging/**
       - .github/workflows/desktop.yml
       - .github/actions/**
   pull_request:
@@ -28,6 +31,9 @@ on:
       - rust-toolchain.toml
       - package.json
       - package-lock.json
+      - flake.nix
+      - nix/**
+      - packaging/**
       - .github/workflows/desktop.yml
       - .github/actions/**
   workflow_dispatch:
@@ -153,3 +159,158 @@ jobs:
             target/debug/bundle/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14
+
+      # The tarball the Arch, Fedora and Nix jobs install, with the PKGBUILD and RPM spec filled for it.
+      # It is the deb's tree with the binary's bundle marker cleared, so the app treats it as a
+      # tarball install instead of offering a dpkg upgrade (see packaging/ci/make-linux-tarball.mjs).
+      - name: Linux tarball for the distro packages
+        if: runner.os == 'Linux' && inputs.bundles != 'false'
+        run: node packaging/ci/make-linux-tarball.mjs
+
+      - name: Upload the Linux tarball
+        if: runner.os == 'Linux' && inputs.bundles != 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: target/debug/bundle/tarball/
+          if-no-files-found: error
+          retention-days: 14
+
+  # The three distro packages install the same tarball the Linux leg made. They only build: nothing is
+  # published, and a package that cannot be built fails the run (docs/BUILDING.md, "Distribution
+  # packages").
+  arch:
+    name: Arch package
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # makepkg refuses to run as root, and the PKGBUILD's dependencies are not installed: the package
+      # only copies files, so --nodeps is enough. base-devel brings makepkg, fakeroot and tar.
+      - name: makepkg
+        run: |
+          pacman -Syu --noconfirm --needed base-devel
+          useradd -m builder
+          chown -R builder dist
+          su builder -c 'cd dist && makepkg --nodeps --holdver --noconfirm -f'
+          ls -l dist/*.pkg.tar.zst
+          mkdir -p out
+          cp dist/*.pkg.tar.zst out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-arch-package
+          path: out/*.pkg.tar.zst
+          if-no-files-found: error
+          retention-days: 14
+
+  fedora:
+    name: Fedora package
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # The spec is filled for this tarball (RPM cannot take '-' in a version: a pre-release becomes
+      # version 26.12.1, release 0.next.1), so the build is a plain rpmbuild. The rpm's own
+      # requirements and file list are printed for the log.
+      - name: rpmbuild
+        run: |
+          dnf install -y rpm-build tar
+          mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+          cp dist/mudrix.spec ~/rpmbuild/SPECS/
+          cp dist/mudrix-*-linux-x86_64.tar.gz ~/rpmbuild/SOURCES/
+          rpmbuild -bb ~/rpmbuild/SPECS/mudrix.spec
+          rpm -qp --requires ~/rpmbuild/RPMS/x86_64/*.rpm
+          rpm -qlp ~/rpmbuild/RPMS/x86_64/*.rpm
+          mkdir -p out
+          cp ~/rpmbuild/RPMS/x86_64/*.rpm out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-fedora-package
+          path: out/*.rpm
+          if-no-files-found: error
+          retention-days: 14
+
+  nix:
+    name: Nix package + module
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    runs-on: ubuntu-latest
+    container: nixos/nix:latest
+    timeout-minutes: 45
+    steps:
+      - name: Enable flakes
+        run: |
+          mkdir -p /etc/nix
+          echo 'experimental-features = nix-command flakes' >> /etc/nix/nix.conf
+          nix --version
+
+      # actions/checkout needs git, which the image does not always carry.
+      - name: git for the checkout
+        run: |
+          if command -v git > /dev/null; then
+            git --version
+          else
+            nix profile install nixpkgs#git
+            echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
+            "$HOME/.nix-profile/bin/git" --version
+          fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # Evaluation only (--no-build): the derivation has no release checksum yet, so building it from
+      # GitHub would fail. The next step builds it from the tarball this run just made.
+      - name: nix flake check
+        run: nix flake check --no-build --print-build-logs
+
+      - name: Build the package from the Linux tarball
+        run: |
+          tarball=$(ls "$PWD"/dist/mudrix-*-linux-x86_64.tar.gz)
+          MUDRIX_TARBALL="$tarball" nix build --impure -L .#mudrix
+          test -x result/bin/mudrix-desktop
+          nix path-info -S ./result
+
+      - name: Evaluate the NixOS module
+        run: |
+          nix eval --impure --raw --expr '
+            let
+              flake = builtins.getFlake (toString ./.);
+              system = flake.inputs.nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = [
+                  flake.nixosModules.mudrix
+                  {
+                    system.stateVersion = "25.11";
+                    programs.mudrix.enable = true;
+                    programs.mudrix.autostart = true;
+                  }
+                ];
+              };
+            in system.config.system.build.toplevel.drvPath
+          '

@@ -8,7 +8,10 @@ plan, what already works and what does not, so nothing here should be read as "C
 
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
   `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build **unsigned test builds**; nothing is
-  signed or released automatically, and `pages.yml` only publishes the web client. [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds.
+  signed or released automatically, and `pages.yml` only publishes the web client. `desktop.yml` also builds Arch,
+  Fedora and Nix packages (from the Linux tarball, unsigned, nothing published; see
+  [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes every workflow,
+  [TESTING.md](TESTING.md) what to do with the builds.
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
