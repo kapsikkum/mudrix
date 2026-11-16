@@ -18,12 +18,13 @@ with the old app's release keystore and desktop updater artifacts with the old `
 Developer account). The Desktop workflow also
 builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
-The final code commit is `baa6383e` (two documentation-only commits follow the signed CI runs). The signed runs are
-Android `43845706935` and Desktop `43845712107`; a copy of every artifact is in
-**`E:\code\web\mudrix-builds\signed-20261116\`**: Windows NSIS/MSI, Linux AppImage/DEB, macOS dmg/app zip and the
-minisign updater `.sig` files, Arch and Fedora packages, the Linux tarball with PKGBUILD and spec, the Android
-`Mudrix-26.12.2-release.apk` (old certificate `494a…`), and the web dist. The iOS simulator app and screenshots from
-the earlier run are in `...\062cbfbb\`; `SHA256SUMS` sits beside the desktop and Android files.
+The final code commit is `baa6383e`; documentation-only commits follow it. The Desktop artifacts are from its push run
+`43848422884`, and the Android APK from run `43845706935` (the web-only presence-dot fix does not touch Android). A
+copy of every artifact is in **`E:\code\web\mudrix-builds\signed-20261116\`**: Windows NSIS/MSI, Linux AppImage/DEB,
+macOS dmg/app zip and the minisign updater `.sig` files (each `SHA256SUMS` verifies every file beside it), Arch and
+Fedora packages, the Linux tarball with PKGBUILD and spec, the Android `Mudrix-26.12.2-release.apk` (old certificate
+`494a…`), and the web dist built from `baa6383e`. The iOS simulator app and screenshots from run `43848436941` are
+in the same folder.
 
 ## The rename
 
@@ -189,7 +190,9 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 - The Windows test installer is a GUI app: the rebuilt binary has PE `subsystem=2` (GUI), where the first hand-over's
   binary was `subsystem=3` (console).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
-- Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2821 keys in 11 languages.
+- Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2821 keys in 11 languages. The presence dot was
+  checked in the running app against a decorated test profile: the dot computes `z-index: 15` over the decoration's
+  `1` and sits visibly on top (screenshot in the artifact folder).
 - Android: 416 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
 - iOS: builds and XCTests in CI; it runs in the Simulator only (no device install without an Apple Developer account).
 
