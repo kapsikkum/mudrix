@@ -290,19 +290,30 @@ headlines.
 - [ ] Link previews resolve; clicking a link opens the system browser
 - [ ] Search finds a message in the room and across rooms
 - [ ] Emoji picker, GIF picker (if a key is configured), sticker/custom emoji
+- [ ] Message layouts: Modern (left-aligned, 15 sp, a warning shield only where a message needs one), Bubble (media
+      edge-to-edge with the time in a pill, emoji-only messages without a bubble, warnings inside the bubble) and Compact
+- [ ] Delete a message: a confirmation dialog appears first
+- [ ] Threads: the All / My threads filters, and Back from a thread opened from a message returns to the room
 
 ### People, spaces, settings
 
 - [ ] Direct messages appear under People, including one where the other member left
 - [ ] A two-person room that is not a DM stays in the room list
 - [ ] Space rail: open a space, its categories and rooms are complete; re-opening is instant
+- [ ] Space settings: room-list style (Matrix/Modern), auto-join, banner preset and an uploaded banner image
 - [ ] Invite someone to a room; the invite arrives on the other client and can be accepted
-- [ ] Room settings: name, topic, avatar, notifications, leave room
+- [ ] Room settings: name, topic, avatar, addresses, publish to the directory, notifications, leave room
+- [ ] Room settings → Widgets lists a room's widgets (mobile opens them outside the app)
 - [ ] Profile: display name, avatar, status/presence change and show on the other client
+- [ ] Home: no greeting card; friends playing or listening to something appear under the friends heading; the
+      search tip mentions the search icon on phones and Ctrl K on the desktop
 - [ ] Settings: theme (light/dark/system), accent, message layout, font size; all apply immediately
+- [ ] Settings → Cosmetics: the packs switch, Select Packs and the subscribed lists; Account → Profile cosmetics:
+      pick each kind and upload your own picture (it becomes a custom cosmetic in the personal pack)
 - [ ] Switch language; the UI changes without a restart
 - [ ] Notifications: message from `juno` with the app in the background / closed
 - [ ] Encryption: a room with E2EE sends and receives, and session verification works
+- [ ] A status with Do Not Disturb survives setting the status text; it expires at the time you set
 
 ### Calls
 
@@ -310,6 +321,8 @@ headlines.
 - [ ] Start a video call; camera and microphone toggles work
 - [ ] Screen share (desktop and web), stop sharing
 - [ ] Leave the call; the tile disappears for everyone
+- [ ] On a server without MSC4140 delayed events (the local tuwunel), the call stays connected past a minute
+- [ ] The connection stats sheet opens from the call's ⋯ menu; the soundboard plays for everyone
 
 ### Platform specifics
 
