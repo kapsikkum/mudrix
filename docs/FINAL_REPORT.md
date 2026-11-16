@@ -16,6 +16,11 @@ desktop, Android and iOS: what was done, the evidence for it, and what is left f
 release: the Android signing key and the Apple signing/push setup are owner items (below). The Desktop workflow also
 builds Arch, Fedora and Nix packages from the same Linux tarball; `TESTING.md` lists those artifacts.
 
+The final commit is `062cbfbb`. A copy of every artifact from that commit is in **`E:\code\web\mudrix-builds\062cbfbb\`**
+(Windows NSIS/MSI, Linux AppImage/DEB, macOS dmg/app zip, Arch and Fedora packages, the Linux tarball with PKGBUILD and
+spec, the Android APK, the web dist, and the iOS simulator app plus its screenshots), with `SHA256SUMS` beside the
+desktop and Android files.
+
 ## The rename
 
 - Every user-visible and code-level upstream name is gone: strict branding scan `0 hit(s)` including
@@ -140,23 +145,37 @@ No crashes: no `FATAL EXCEPTION`, `AndroidRuntime` or ANR for the package across
 - **Sounds:** screen share start/stop, deafen/undeafen, raise hand and reaction had no pack sounds. All eight packs
   gained those six clips (48 files, built by `tools/sounds/generate-packs.mjs`) and web, Android and iOS play the
   chosen pack for them like the other cues.
+- **A console window opened beside the Windows app.** `windows_subsystem` was only set for release builds, so the
+  debug-profile installers CI publishes opened a console. It is now gated on tauri's `dev` cfg: `tauri dev` keeps its
+  terminal, and every built installer — debug-profile included — is a GUI app. Verified on the rebuilt binary with a
+  PE-header check (`subsystem=2`, GUI; the previous artifact was `subsystem=3`, console).
 - **Android room list rows** have a little vertical air so full-width nameplates do not read as one block.
+- **The DM screen got sort modes** (owner request): most recent, newest first, oldest first or categorised, plus a
+  switch for separating rooms and DMs, a favourites section and pinned users. Newest/oldest use the room's
+  `m.room.create` time; the options and pins live in `io.github.kapsikkum.mudrix.room_list`, so Android and iOS agree
+  and a pin survives a room upgrade. Android was checked on the emulator (sort applies, pin/unpin, merged list); iOS
+  is covered by its unit tests and the simulator build.
 
 ## Packaging
 
 - **Distribution packages are built in CI** (Desktop workflow, Linux leg): a `mudrix-linux-tarball` artifact (the tarball
   plus a filled `PKGBUILD` and `mudrix.spec`), then `mudrix-arch-package` (`makepkg` on Arch), `mudrix-fedora-package`
   (`rpmbuild` on Fedora, installable on Bazzite with `rpm-ostree`) and a Nix check (`nix flake check`, `nix build` from
-  the tarball, and a `nixosSystem` evaluation with `nixosModules.mudrix`). All are debug-profile and unsigned, like the
-  other CI artifacts; the Nix package's `sha256` is a placeholder until a release carries the tarball.
+  the tarball, and a `nixosSystem` evaluation with `nixosModules.mudrix`). The Nix job is green: the package builds from
+  the tarball and the module evaluates to a system derivation. All are debug-profile and unsigned, like the other CI
+  artifacts; the Nix package's `sha256` is a placeholder until a release carries the tarball.
 
 ## Ready for review
 
-- CI is green on the final commit of the branch for Check, Branding, Android, Desktop and iOS (the iOS workflow
-  builds the app and runs XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts).
+- CI is green on `062cbfbb` for Check, Branding, Android, Desktop and iOS (the iOS workflow builds the app and runs
+  XCTest; the Android workflow builds and unit-tests the APK, and both upload artifacts). The Desktop push run also
+  passes Arch, Fedora and Nix, including the NixOS module evaluation. The only red workflow is Pages, which fails until
+  the repository's Pages source is set to "GitHub Actions" (owner item 2).
+- The Windows test installer is a GUI app: the rebuilt binary from `062cbfbb` has PE `subsystem=2` (GUI), where the
+  first hand-over's binary was `subsystem=3` (console).
 - Core: `cargo fmt`, `clippy -D warnings`, 90+ unit tests, wasm check.
-- Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2810 keys in 11 languages.
-- Android: 410 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
+- Web: `tsc`, eslint, 234 unit tests, Prettier, i18n complete at 2821 keys in 11 languages.
+- Android: 416 unit tests, 0 failures; the app installs and runs on the emulator with no crashes.
 - iOS: builds and XCTests in CI (no device run — the owner's step).
 
 ## Open questions and owner items
