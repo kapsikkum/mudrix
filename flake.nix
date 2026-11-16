@@ -22,7 +22,7 @@
 
       mkMudrix =
         pkgs: pkgs.callPackage ./nix/package.nix (nixpkgs.lib.optionalAttrs (localTarball != "") {
-          src = builtins.toPath localTarball;
+          tarball = builtins.toPath localTarball;
         });
     in
     {

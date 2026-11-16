@@ -15,22 +15,25 @@
   libsoup_3,
   webkitgtk_4_1,
   xorg,
-  # The release the default `src` comes from. It follows the root package.json, which is the source of
-  # truth for the version (RELEASING.md); a pre-release is spelled out in full, as in the tarball name
-  # (26.12.1-next.1).
+  # The release the default `tarball` comes from. It follows the root package.json, which is the source
+  # of truth for the version (RELEASING.md); a pre-release is spelled out in full, as in the tarball
+  # name (26.12.1-next.1).
   version ? (builtins.fromJSON (builtins.readFile ../package.json)).version,
   # Fill this in once a release carries the tarball: `nix store prefetch-file <url>` prints it.
   sha256 ? lib.fakeHash,
   # Point this at a tarball you built yourself (CI does, from the Linux job):
   #   MUDRIX_TARBALL=$PWD/mudrix-26.12.2-linux-x86_64.tar.gz nix build --impure .#mudrix
-  src ? fetchurl {
+  # Not named `src`: `callPackage` would then fill it from `pkgs.src`, a removed package alias that
+  # throws while nixpkgs is evaluated.
+  tarball ? fetchurl {
     url = "https://github.com/kapsikkum/mudrix/releases/download/v${version}/mudrix-${version}-linux-x86_64.tar.gz";
     inherit sha256;
   },
 }:
 stdenv.mkDerivation {
   pname = "mudrix";
-  inherit version src;
+  inherit version;
+  src = tarball;
 
   nativeBuildInputs = [
     autoPatchelfHook
