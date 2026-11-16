@@ -1318,6 +1318,11 @@ data class RoomSummary(
      * "5 min ago"
      */
     val lastActivity: Long? = null,
+    /**
+     * Milliseconds since the Unix epoch of the room's `m.room.create` event, for sorting the
+     * room list by age; `null` for an invite whose stripped state carries no timestamp
+     */
+    val createdAt: Long? = null,
     val isSpace: Boolean,
     /** Asked to join ("knocked") and waiting for an answer; not a member yet */
     val isKnocked: Boolean,

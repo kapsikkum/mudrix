@@ -1112,6 +1112,11 @@ export type RoomSummary = {
    * "5 min ago"
    */
   lastActivity: number | null;
+  /**
+   * Milliseconds since the Unix epoch of the room's `m.room.create` event, for sorting the
+   * room list by age; `null` for an invite whose stripped state carries no timestamp
+   */
+  createdAt: number | null;
   isSpace: boolean;
   /**
    * Asked to join ("knocked") and waiting for an answer; not a member yet

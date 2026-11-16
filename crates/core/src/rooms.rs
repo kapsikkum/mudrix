@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 use eyeball_im::VectorDiff;
 use futures_util::{pin_mut, stream, Stream, StreamExt};
 use matrix_sdk::{
-    deserialized_responses::TimelineEventKind,
+    deserialized_responses::{SyncOrStrippedState, TimelineEventKind},
     latest_events::{LatestEventValue, LatestEvents, LocalLatestEventValue},
     ruma::RoomVersionId,
     ruma::{
@@ -12,9 +12,9 @@ use matrix_sdk::{
             Visibility,
         },
         events::{
-            room::encryption::RoomEncryptionEventContent,
+            room::{create::RoomCreateEventContent, encryption::RoomEncryptionEventContent},
             space::{child::SpaceChildEventContent, parent::SpaceParentEventContent},
-            InitialStateEvent,
+            InitialStateEvent, SyncStateEvent,
         },
         room::RoomType,
         serde::Raw,
@@ -74,6 +74,9 @@ pub struct RoomSummary {
     /// Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
     /// "5 min ago"
     pub last_activity: Option<u64>,
+    /// Milliseconds since the Unix epoch of the room's `m.room.create` event, for sorting the
+    /// room list by age; `null` for an invite whose stripped state carries no timestamp
+    pub created_at: Option<u64>,
     pub is_space: bool,
     /// Asked to join ("knocked") and waiting for an answer; not a member yet
     pub is_knocked: bool,
@@ -170,6 +173,7 @@ pub(crate) struct RoomExtras {
     dm_user_avatar: Option<String>,
     unread: Option<UnreadCounts>,
     last_activity: Option<u64>,
+    created_at: Option<u64>,
     last_message: Option<LastMessage>,
     call: crate::calls::RoomCallState,
 }
@@ -235,6 +239,7 @@ impl RoomSummary {
             last_activity: extras
                 .and_then(|e| e.last_activity)
                 .or_else(|| room.latest_event_timestamp().map(|ts| u64::from(ts.0))),
+            created_at: extras.and_then(|e| e.created_at),
             is_space: room.is_space(),
             is_knocked: room.state() == RoomState::Knocked,
             dm_user_name: extras.and_then(|e| e.dm_user_name.clone()),
@@ -1408,6 +1413,22 @@ fn watch_read_receipts(
 /// Reads what [`RoomSummary`] can't get synchronously: the DM partner (an invite with
 /// `is_direct` counts as a DM from its inviter), their name and picture, the unread counts, the
 /// time of the latest loaded event of any kind and the latest message.
+/// The room's creation time, from the timestamp of its `m.room.create` event. The stripped state
+/// in an invite carries no timestamp, so an invited room sorts without one.
+async fn room_created_at(room: &Room) -> Option<u64> {
+    let raw = room
+        .get_state_event_static::<RoomCreateEventContent>()
+        .await
+        .ok()
+        .flatten()?;
+    match raw.deserialize().ok()? {
+        SyncOrStrippedState::Sync(SyncStateEvent::Original(event)) => {
+            Some(u64::from(event.origin_server_ts.0))
+        }
+        _ => None,
+    }
+}
+
 pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     let mut extras = RoomExtras {
         name: room_display_name(room).await,
@@ -1447,6 +1468,7 @@ pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     extras.dm_user_id = partner;
     extras.unread = unread_counts(room).await;
     extras.last_message = last_message(room).await;
+    extras.created_at = room_created_at(room).await;
     extras.call = crate::calls::room_call_state(room).await;
     if let Ok((cache, _handles)) = room.event_cache().await {
         extras.last_activity = cache
