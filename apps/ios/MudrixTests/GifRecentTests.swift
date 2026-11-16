@@ -45,17 +45,27 @@ final class GifRecentTests: XCTestCase {
         XCTAssertNotEqual(GifRecent.storageKey(userId: "@a:x"), GifRecent.storageKey(userId: "@b:x"))
     }
 
+    @MainActor
     func testOnlyAPlainMxcGifGetsAStar() {
-        XCTAssertEqual(GifFavourites.receivedGifUrl(mimetype: "image/gif", url: "mxc://x/abc"), "mxc://x/abc")
-        XCTAssertNil(GifFavourites.receivedGifUrl(mimetype: "image/png", url: "mxc://x/abc"))
-        XCTAssertNil(GifFavourites.receivedGifUrl(mimetype: "image/gif", url: nil))
-        XCTAssertNil(GifFavourites.receivedGifUrl(mimetype: "image/gif", url: "https://x/abc.gif"))
+        let gif = GifFavourites.receivedGifUrl(mimetype: "image/gif", url: "mxc://x/abc")
+        let png = GifFavourites.receivedGifUrl(mimetype: "image/png", url: "mxc://x/abc")
+        let noUrl = GifFavourites.receivedGifUrl(mimetype: "image/gif", url: nil)
+        let webUrl = GifFavourites.receivedGifUrl(mimetype: "image/gif", url: "https://x/abc.gif")
+        XCTAssertEqual(gif, "mxc://x/abc")
+        XCTAssertNil(png)
+        XCTAssertNil(noUrl)
+        XCTAssertNil(webUrl)
     }
 
+    @MainActor
     func testAFullListRefusesANewStarButStillAllowsRemoving() {
-        let full = (0..<GifFavourites.cap).map { "https://a/\($0).gif" }
-        XCTAssertTrue(GifFavourites.isFull(full, adding: "https://a/new.gif"))
-        XCTAssertFalse(GifFavourites.isFull(full, adding: "https://a/3.gif"))
-        XCTAssertFalse(GifFavourites.isFull([], adding: "https://a/new.gif"))
+        let cap = GifFavourites.cap
+        let full = (0..<cap).map { "https://a/\($0).gif" }
+        let refused = GifFavourites.isFull(full, adding: "https://a/new.gif")
+        let alreadyStarred = GifFavourites.isFull(full, adding: "https://a/3.gif")
+        let empty = GifFavourites.isFull([], adding: "https://a/new.gif")
+        XCTAssertTrue(refused)
+        XCTAssertFalse(alreadyStarred)
+        XCTAssertFalse(empty)
     }
 }
