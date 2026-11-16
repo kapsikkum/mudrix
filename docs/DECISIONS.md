@@ -163,6 +163,9 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
   (Messenger/Instagram style), a media-only message has no coloured frame and shows its time in a small pill over the
   picture, and a caption sits below the media inside the bubble. This is a deliberate deviation from the old web app's
   bubble layout; the other layouts are unchanged.
+- **Bubble reactions hang on the bubble's edge** (owner request, 2026-11-16): the reaction pills overlap the bottom of
+  the bubble by about half their height, aligned right for your messages and left for everyone else's, as Messenger
+  does. The other layouts keep the plain row under the message.
 - **Unslop polish pass on web (owner request, 2026-11-16):** spacing snapped to the token grid, glows and gradient
   washes removed from Home and call tiles, emoji used as chrome replaced by Phosphor icons, no uppercase tracked labels,
   heading weight 600 max, no italics in empty states, and no `!` or trailing full stop on short UI strings in all 11
