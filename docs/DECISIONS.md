@@ -117,6 +117,16 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
   Desktop and mobile offer export/import; web offers server key backup and recovery only.
 - **K5, reset sync cache.** The core keeps sync state and the crypto keys in one store, so clearing the sync cache
   would wipe the encryption keys. It is not offered on any platform; clear-media-cache remains.
+- **I5, running a widget's own code inside the app on mobile.** Mobile lists a room's widgets and opens them outside the
+  app (Android) or in a read-only sandboxed viewer (iOS). Running a widget's driver — third-party code with app
+  capabilities — needs a security review of the sandbox first; until then it is **won't-do** on both phones.
+- **R3, a second Matrix-style rooms panel inside the space settings.** Both phones have the Channels tab and the
+  auto-join runner; a panel duplicating the room list adds no capability, so the rest of the row is **won't-do**.
+- **S5, editing a space's own soundboard from the call sheet (iOS).** Room boards are editable on both phones; a space
+  board is edited from the space settings, which avoids a second editor in the call sheet.
+- **E3, the hosted web build needs one repository setting.** The Pages workflow is in `.github/workflows/pages.yml`
+  (stable on tags, `/next/` on `web-look`/`main`); it cannot deploy until Pages is switched to "GitHub Actions" in the
+  repository settings, which is an owner action. The row stays partial until that is done.
 
 ## Parity: kept web deviations from the old app
 
