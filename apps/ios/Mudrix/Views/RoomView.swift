@@ -1759,6 +1759,9 @@ enum MessageText {
             let original = ns.substring(with: match.range)
             var link = AttributedString(prettifyLinks ? prettified(url) ?? original : original)
             link.link = url
+            // Same affordance as on the web and Android: the underline carries the "this is a
+            // link" signal, the colour alone never has to.
+            link.underlineStyle = .single
             result += link
             cursor = match.range.location + match.range.length
         }
@@ -1894,6 +1897,11 @@ extension MessageText {
             if span.underline { part.underlineStyle = .single }
             if span.code { part.backgroundColor = theme.fill }
             if let link = span.link, let url = URL(string: link) { part.link = url }
+            // Inline markdown links get the web's underline too; mention and room pills are links
+            // of their own and keep their plain pill text.
+            if let link = span.link, span.mention == nil, RoomLinks.target(link) == nil {
+                part.underlineStyle = .single
+            }
             if span.mention == nil, let link = span.link, RoomLinks.target(link) != nil {
                 if let name = style.roomName(link) {
                     part = AttributedString("#" + name)
@@ -1917,6 +1925,7 @@ extension MessageText {
                 part.foregroundColor = theme.textMuted
                 part.backgroundColor = theme.textMuted
                 part.link = nil
+                part.underlineStyle = nil
             }
             result += part
         }

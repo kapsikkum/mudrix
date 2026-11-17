@@ -1832,7 +1832,15 @@ private fun richText(spans: List<RichSpan>, style: RichStyle): AnnotatedString =
                 pop()
             }
             link != null -> {
-                pushLink(LinkAnnotation.Url(link, TextLinkStyles(SpanStyle(color = style.linkColor))))
+                // Same link treatment as the plain-text path: link colour plus an underline.
+                pushLink(
+                    LinkAnnotation.Url(
+                        link,
+                        TextLinkStyles(
+                            SpanStyle(color = style.linkColor, textDecoration = TextDecoration.Underline)
+                        )
+                    )
+                )
                 withStyle(spanStyle) { append(span.text) }
                 pop()
             }
