@@ -335,7 +335,10 @@ final class AppPreferences: ObservableObject {
 
     /// The layout in use on this device: its own phone choice, else the account's main one
     var messageLayout: MessageLayout {
-        get { (phoneMessageLayout ?? mainMessageLayout) == "classic" ? .classic : .modern }
+        // Every value the settings offer has to survive the round trip: the two-way ternary that
+        // came before reported "compact" back as `.modern`, so the picker snapped back to Modern
+        // and the compact timeline (which RoomView already draws) could never be selected.
+        get { MessageLayout(rawValue: phoneMessageLayout ?? mainMessageLayout) ?? .modern }
         set {
             setPhoneLayout(newValue.rawValue)
             syncIfNeeded()
