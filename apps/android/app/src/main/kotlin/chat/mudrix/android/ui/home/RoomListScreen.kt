@@ -319,20 +319,7 @@ fun RoomListScreen(
                 })
                 RoundToolButton("sliders", tr("roomList.sort"), { showSort = true })
                 if (onOpenInbox != null) InboxButton(roomList, onOpenInbox, round = true)
-                Box(
-                    Modifier
-                        .weight(1f)
-                        .height(WZ.Space.space9)
-                        .clip(CircleShape)
-                        .background(theme.fill)
-                        .clickable { showNewMessage = true },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-                        PhIcon("chat-circle", size = WZ.SizeIcon.sm, tint = theme.textPrimary)
-                        Text(tr("common.newMessage"), style = wizardFont(WZ.FontSize.sm, FontWeight.SemiBold), color = theme.textPrimary, maxLines = 1)
-                    }
-                }
+                Spacer(Modifier.weight(1f))
                 Box {
                     RoundToolButton("plus", tr("nav.new"), { menuOpen = true }, accent = true, weight = PhWeight.bold)
                     newMenu()

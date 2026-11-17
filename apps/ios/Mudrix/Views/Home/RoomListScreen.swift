@@ -64,8 +64,9 @@ struct RoomListScreen: View {
         room.isVoice || SpaceModern.isVoiceChannelFlagged(mudrix.state(room.id))
     }
 
-    /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox
-    private var dmPane: Bool { modernHeader && selection == .home }
+    /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox.
+    /// The rail can select either home or the DMs entry; both are the same pane there.
+    private var dmPane: Bool { modernHeader && (selection == .home || selection == .dms) }
 
     /// The list's groups; the Modern Home pane includes the DMs, the Classic tabs keep them apart
     private var groups: [RoomGroup] {
@@ -264,20 +265,7 @@ struct RoomListScreen: View {
                 if let onOpenInbox {
                     InboxButton(roomList: roomList, action: onOpenInbox, round: true)
                 }
-                Button { showNewMessage = true } label: {
-                    HStack(spacing: WZ.Space.space2) {
-                        Image("ph-chat-circle-regular")
-                            .font(.system(size: WZ.SizeIcon.sm))
-                            .foregroundStyle(theme.textPrimary)
-                        Text(String(localized: "common.newMessage"))
-                            .font(.wizard(WZ.FontSize.sm, .semibold))
-                            .foregroundStyle(theme.textPrimary)
-                            .lineLimit(1)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)
-                    .background(theme.fill, in: Capsule())
-                }
-                .buttonStyle(.plain)
+                Spacer(minLength: 0)
                 Menu {
                     newMenuItems
                 } label: {
