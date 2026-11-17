@@ -28,12 +28,13 @@ export const listNameplateImg = style({
 
 /**
  * One horizontal scrim over the artwork: the surface colour at the left where the name and preview
- * sit, clear at the right where the art shows. The art itself keeps its full opacity.
+ * sit, clear by the middle so the right half shows the art at full strength. The art itself keeps
+ * its full opacity.
  */
 export const listNameplateScrim = style({
   position: 'absolute',
   inset: 0,
-  background: `linear-gradient(90deg, ${vars.color.bgPrimary} 0%, ${vars.color.bgPrimary} 42%, transparent 100%)`,
+  background: `linear-gradient(90deg, ${vars.color.bgPrimary} 0%, ${vars.color.bgPrimary} 30%, transparent 52%)`,
 });
 
 export const listDecorated = style({

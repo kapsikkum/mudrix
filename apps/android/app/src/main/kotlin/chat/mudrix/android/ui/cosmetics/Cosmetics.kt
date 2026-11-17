@@ -225,9 +225,18 @@ fun DecorationOverlay(image: CosmeticImageSource?, size: Dp, animate: Boolean = 
 private const val DECORATION_SCALE = 1.2f
 private const val ART_WIDTH = 720
 
-/** Content on top of a nameplate: its art fills the row and fades in from the left, like on the web */
+/**
+ * Content on top of a nameplate: its art fills the box and fades in from the left, like on the web.
+ * A [fullBleed] plate is a list row's card: the art covers the whole card and one horizontal scrim
+ * keeps the left half readable, so the right half shows the artwork at full strength.
+ */
 @Composable
-fun NameplateBox(nameplate: NameplateArt?, modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
+fun NameplateBox(
+    nameplate: NameplateArt?,
+    modifier: Modifier = Modifier,
+    fullBleed: Boolean = false,
+    content: @Composable BoxScope.() -> Unit,
+) {
     val rgb = CosmeticCatalog.PALETTES[nameplate?.palette] ?: "0, 0, 0"
     val tint = numberList(rgb)
     Box(
@@ -244,16 +253,34 @@ fun NameplateBox(nameplate: NameplateArt?, modifier: Modifier = Modifier, conten
         if (nameplate != null) {
             CosmeticImage(
                 nameplate.image,
-                Modifier
-                    .matchParentSize()
-                    .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
-                    .drawWithContent {
-                        drawContent()
-                        drawRect(Brush.horizontalGradient(0f to Color.Transparent, 0.55f to Color.Black), blendMode = BlendMode.DstIn)
-                    },
+                if (fullBleed) {
+                    Modifier.matchParentSize()
+                } else {
+                    Modifier
+                        .matchParentSize()
+                        .graphicsLayer { compositingStrategy = CompositingStrategy.Offscreen }
+                        .drawWithContent {
+                            drawContent()
+                            drawRect(Brush.horizontalGradient(0f to Color.Transparent, 0.55f to Color.Black), blendMode = BlendMode.DstIn)
+                        }
+                },
                 contentScale = ContentScale.Crop,
                 animate = true,
             )
+            if (fullBleed) {
+                // Solid at the left where the avatar and name sit, clear by the middle so the art shows
+                Box(
+                    Modifier
+                        .matchParentSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to theme.bgPrimary,
+                                0.30f to theme.bgPrimary,
+                                0.52f to Color.Transparent,
+                            ),
+                        ),
+                )
+            }
         }
         content()
     }

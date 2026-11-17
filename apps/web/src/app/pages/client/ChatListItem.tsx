@@ -135,6 +135,15 @@ export function ChatListItem({
   );
 
   const badgeCount = Math.max(unread ?? 0, hasNotif ? 1 : 0);
+  // A nameplate row carries its call state as a pill beside the name, the reference's badge slot;
+  // a plain row keeps the small phone badge on the right.
+  const nameBadge =
+    nameplate && (hasActiveCall || isInCall) ? (
+      <span className={css.nameBadge} title={t('call.inProgress')}>
+        <PhoneIcon size={11} weight="fill" aria-hidden />
+        {t('call.live')}
+      </span>
+    ) : null;
 
   const openMenuAt = useCallback(
     (x: number, y: number) => {
@@ -159,6 +168,7 @@ export function ChatListItem({
         ref={setRowEl}
         className={itemClass}
         data-active={isActive}
+        data-nameplate={nameplate ? 'true' : undefined}
         data-has-notif={!isMuted && (hasNotif || (unread ?? 0) > 0) ? 'true' : undefined}
         data-in-call={isInCall ? 'true' : undefined}
         data-fixed-height={fixedHeight ? 'true' : undefined}
@@ -244,23 +254,24 @@ export function ChatListItem({
           </span>
         )}
 
-        {statusEmoji || statusText ? (
-          <span className={css.chatTextColumn}>
+        <span className={css.chatTextColumn}>
+          <span className={css.nameLine}>
             <span className={css.chatTextContent}>{name}</span>
+            {nameBadge}
+          </span>
+          {(statusEmoji || statusText) && (
             <span className={css.chatStatusLine} title={statusText || undefined}>
               {statusEmoji && <span className={css.chatStatusEmoji}>{statusEmoji}</span>}
               {statusText && <span className={css.chatStatusText}>{statusText}</span>}
             </span>
-          </span>
-        ) : (
-          <span className={css.chatTextContent}>{name}</span>
-        )}
+          )}
+        </span>
 
         <span className={css.itemBadges}>
           {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
             <CallTimer roomId={roomId} />
           )}
-          {hasActiveCall && (
+          {hasActiveCall && !nameplate && (
             <span className={css.callBadge} title={t('call.joinCall')}>
               <PhoneIcon size={14} weight="fill" />
             </span>

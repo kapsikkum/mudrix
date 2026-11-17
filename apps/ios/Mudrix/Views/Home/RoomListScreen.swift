@@ -757,11 +757,14 @@ struct RoomRow: View {
 
     var body: some View {
         if room.isDirect, let partner = room.dmUserId, !partner.isEmpty {
-            CosmeticName(userId: partner) { rowContent }
+            CosmeticName(userId: partner, fullBleed: true) { rowContent }
         } else {
             rowContent
         }
     }
+
+    /// A direct message's row is the nameplate's card: the art fills it, so its name and inset follow it
+    private var nameplateRow: Bool { room.isDirect }
 
     /// The nameplate is the row's whole background, so this scrim keeps the name and preview readable
     /// on the left and lets the artwork show on the right. It is a surface wash over the banner, not a
@@ -769,12 +772,25 @@ struct RoomRow: View {
     private var nameplateScrim: some View {
         LinearGradient(stops: [
             .init(color: theme.bgPrimary, location: 0),
-            .init(color: theme.bgPrimary, location: 0.42),
-            .init(color: theme.bgPrimary.opacity(0), location: 1),
+            .init(color: theme.bgPrimary, location: 0.30),
+            .init(color: theme.bgPrimary.opacity(0), location: 0.52),
         ], startPoint: .leading, endPoint: .trailing)
-            // CosmeticNameplate pads its content; reach past that padding so no strip of art stays bright
-            .padding(.horizontal, -WZ.Space.space3)
-            .padding(.vertical, -WZ.Space.space1)
+    }
+
+    /// Optional pill right after a name: a tiny icon and 2-4 uppercase letters, on translucent dark
+    private var nameBadge: some View {
+        HStack(spacing: WZ.Space.space1) {
+            Icon("phone", .fill, size: 10)
+            Text(String(localized: "call.live").uppercased())
+                .font(.wizard(WZ.FontSize.xs, .semibold))
+                .tracking(0.4)
+        }
+        .foregroundStyle(theme.textOnAccent)
+        .padding(.horizontal, WZ.Space.space3)
+        .padding(.vertical, WZ.Space.space1)
+        .background(theme.overlay, in: Capsule())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(String(localized: "call.inProgress"))
     }
 
     /// The other person's nameplate, when they have one, is the row's whole background behind the avatar and text
@@ -788,6 +804,12 @@ struct RoomRow: View {
                 CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: avatarSize,
                                presence: (!room.isDirect || inCall) ? nil : partnerPresence,
                                dot: (!room.isDirect || inCall) ? nil : StatusFields.dot(partnerPresence, mode: partnerStatusMode))
+                    .overlay {
+                        // Inside the banner the avatar keeps a thin dark ring so it separates from the art
+                        if nameplateRow {
+                            Circle().strokeBorder(theme.overlay, lineWidth: WZ.BorderWidth.thin)
+                        }
+                    }
                     .overlay(alignment: .bottomTrailing) {
                         if !room.isDirect || inCall {
                             typeIcon(size: WZ.SizeIcon.xs)
@@ -799,10 +821,15 @@ struct RoomRow: View {
                     }
             }
             VStack(alignment: .leading, spacing: WZ.Space.space2) {
-                Text(room.displayName)
-                    .font(.wizard(WZ.FontSize.md, hasUnread ? .semibold : .regular))
-                    .foregroundStyle(hasUnread ? theme.textPrimary : theme.textSecondary)
-                    .lineLimit(1)
+                HStack(spacing: WZ.Space.space2) {
+                    Text(room.displayName)
+                        .font(.wizard(WZ.FontSize.md, nameplateRow || hasUnread ? .semibold : .regular))
+                        .foregroundStyle(nameplateRow || hasUnread ? theme.textPrimary : theme.textSecondary)
+                        .lineLimit(1)
+                    if nameplateRow && !room.callParticipants.isEmpty {
+                        nameBadge
+                    }
+                }
                 if let preview {
                     Text(preview)
                         .font(.wizard(WZ.FontSize.sm, hasUnread ? .medium : .regular))
@@ -828,7 +855,10 @@ struct RoomRow: View {
                 UnreadBadge(count: room.unreadCount, isMention: false)
             }
         }
+        .padding(.horizontal, nameplateRow ? WZ.Space.space5 : 0)
         .padding(.vertical, prefs.roomRowPadding)
+        // The banner needs the row to read as one card, a step taller than a plain row
+        .frame(minHeight: nameplateRow ? 64 : 0)
         .background { nameplateScrim }
         .contentShape(Rectangle())
         .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {

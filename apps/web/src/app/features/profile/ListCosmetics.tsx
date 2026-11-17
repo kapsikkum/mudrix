@@ -151,9 +151,8 @@ export function ListNameplate({
     <span
       className={css.listNameplate}
       aria-hidden="true"
-      style={{
-        background: `linear-gradient(90deg, rgba(${rgb}, 0.15) 0%, rgba(${rgb}, 0.5) 100%)`,
-      }}
+      // The artwork is the whole wash; a palette tint is only the fallback for a plate with no art.
+      style={src ? undefined : { background: `rgba(${rgb}, 0.35)` }}
     >
       {src && (
         <img

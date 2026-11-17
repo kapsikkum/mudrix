@@ -33,7 +33,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -57,6 +56,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import kotlinx.coroutines.launch
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.matrix.Density
@@ -726,9 +726,12 @@ private fun SwipeableRoomRow(
             false
         },
     )
+    val cosmosNameplate = cosmetics?.nameplate
+    // The nameplate row is one rounded card, so a banner row takes the larger radius
+    val rowShape = RoundedCornerShape(if (cosmosNameplate != null) WZ.Radius.lg else WZ.Radius.md)
     SwipeToDismissBox(
         state,
-        modifier = Modifier.clip(RoundedCornerShape(WZ.Radius.md)),
+        modifier = Modifier.clip(rowShape),
         backgroundContent = {
             // Drawn only mid-swipe: at rest a coloured layer under the row would show its anti-aliased corners
             val direction = state.dismissDirection
@@ -750,33 +753,26 @@ private fun SwipeableRoomRow(
     ) {
         // The nameplate is the whole row's background, so it is drawn behind the avatar, name, preview and time
         chat.mudrix.android.ui.cosmetics.NameplateBox(
-            cosmetics?.nameplate,
+            cosmosNameplate,
             Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(WZ.Radius.md))
+                .clip(rowShape)
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
+            fullBleed = cosmosNameplate != null,
         ) {
-            // One surface scrim over the art: solid on the left so the name and preview read, clear on the
-            // right so the artwork stays visible. The banner itself keeps its opacity.
-            if (cosmetics?.nameplate != null) {
-                Box(
-                    Modifier
-                        .matchParentSize()
-                        .background(
-                            Brush.horizontalGradient(
-                                0f to theme.bgPrimary,
-                                0.42f to theme.bgPrimary,
-                                1f to Color.Transparent,
-                            ),
-                        ),
-                )
-            }
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 RoomRow(
                     room,
                     showsHashIcon,
-                    Modifier.weight(1f).padding(start = WZ.Space.space6, end = if (reorder == null) WZ.Space.space6 else WZ.Space.space0),
+                    Modifier.weight(1f).padding(
+                        start = if (cosmosNameplate != null) WZ.Space.space5 else WZ.Space.space6,
+                        end = if (reorder == null) {
+                            if (cosmosNameplate != null) WZ.Space.space5 else WZ.Space.space6
+                        } else {
+                            WZ.Space.space0
+                        },
+                    ),
                     voiceChannel = voiceChannel || room.isVoice,
                     muted = notificationMode == NotificationMode.mute,
                     cosmetics = cosmetics,
@@ -848,6 +844,27 @@ private fun SwipeableRoomRow(
     }
 }
 
+/** A small pill right after a row's name: a tiny icon and 2-4 uppercase letters, on translucent dark */
+@Composable
+private fun NameBadge(label: String) {
+    Row(
+        Modifier
+            .clip(RoundedCornerShape(WZ.Radius.pill))
+            .background(theme.overlay)
+            .padding(horizontal = WZ.Space.space3, vertical = WZ.Space.space1),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space1),
+    ) {
+        PhIcon("phone", weight = PhWeight.fill, size = 10.dp, tint = theme.textOnAccent)
+        Text(
+            label.uppercase(),
+            style = wizardFont(WZ.FontSize.xs, FontWeight.SemiBold).copy(letterSpacing = 0.04.em),
+            color = theme.textOnAccent,
+            maxLines = 1,
+        )
+    }
+}
+
 @Composable
 fun RoomRow(
     room: RoomSummary,
@@ -858,7 +875,9 @@ fun RoomRow(
     cosmetics: chat.mudrix.android.ui.cosmetics.CosmeticCatalog.Cosmetics? = null,
 ) {
     val prefs = LocalPrefs.current
-    val avatarSize = prefs.roomAvatarSize
+    // A nameplate row carries a banner of art, so its avatar sits at the reference's 40-44dp inside it
+    val nameplate = cosmetics?.nameplate != null
+    val avatarSize = if (nameplate) maxOf(prefs.roomAvatarSize, 40.dp) else prefs.roomAvatarSize
     val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
     val preview = if (prefs.uiDensity == Density.compact) null else room.lastMessage?.let {
@@ -876,7 +895,9 @@ fun RoomRow(
     }
 
     Row(
-        modifier.fillMaxWidth().padding(vertical = prefs.roomRowPadding),
+        modifier.fillMaxWidth()
+            .heightIn(min = if (nameplate) 64.dp else 0.dp)
+            .padding(vertical = prefs.roomRowPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
@@ -885,7 +906,10 @@ fun RoomRow(
                 TypeIcon(avatarSize * 0.45f)
             }
         } else {
-            Box {
+            Box(
+                // Inside the banner the avatar keeps a thin dark ring so it separates from the art
+                if (nameplate) Modifier.border(WZ.BorderWidth.thin, theme.overlay, CircleShape) else Modifier,
+            ) {
                 if (room.dmUserId != null) {
                     Avatar(room.displayName, room.avatarUrl, avatarSize)
                     chat.mudrix.android.ui.cosmetics.DecorationOverlay(cosmetics?.decoration, avatarSize)
@@ -912,13 +936,21 @@ fun RoomRow(
             }
         }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
-            Text(
-                room.displayName,
-                style = wizardFont(WZ.FontSize.md, if (hasUnread) FontWeight.SemiBold else FontWeight.Normal),
-                color = if (hasUnread) theme.textPrimary else theme.textSecondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+            ) {
+                Text(
+                    room.displayName,
+                    Modifier.weight(1f, fill = false),
+                    style = wizardFont(WZ.FontSize.md, if (nameplate || hasUnread) FontWeight.SemiBold else FontWeight.Normal),
+                    color = if (nameplate || hasUnread) theme.textPrimary else theme.textSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if (nameplate && room.callParticipants.isNotEmpty()) NameBadge(tr("call.live"))
+            }
             preview?.let { line ->
                 Text(
                     line,

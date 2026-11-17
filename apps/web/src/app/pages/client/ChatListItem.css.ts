@@ -5,6 +5,17 @@ import { fast } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
 
+/** Nameplate rows carry a banner of art, so their avatar sits at the reference's 40-44px inside it. */
+const nameplateAvatar = `max(40px, ${uiSize('roomAvatar')})`;
+
+/** One rounded card of art, tall enough for the banner to read: 64px, or the avatar plus its 12px. */
+const nameplateRow = {
+  boxSizing: 'border-box' as const,
+  minHeight: `clamp(64px, calc(${nameplateAvatar} + 24px), 72px)`,
+  padding: '0 12px',
+  borderRadius: '12px',
+};
+
 export const roomItem = style({
   position: 'relative',
   isolation: 'isolate',
@@ -26,6 +37,10 @@ export const roomItem = style({
       boxSizing: 'border-box',
       height: `calc(${uiSize('dmRow')} - 4px)`,
     },
+    // The nameplate row is the card: art edge to edge inside one rounded rect, so the row itself is
+    // taller and loses its small side padding to the banner.
+    '&[data-nameplate="true"]': nameplateRow,
+
     '&[data-active="true"]:hover': {
       backgroundColor: vars.color.bgActive,
     },
@@ -53,10 +68,46 @@ export const chatAvatarImg = style({
 });
 
 export const chatTextContent = style({
-  flex: 1,
+  // The name takes its own width (and ellipsises) so a badge can sit right after it
+  flex: '0 1 auto',
+  minWidth: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  selectors: {
+    // Over the banner the name is the row's one strong line: white, semibold, like the reference
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      fontWeight: 600,
+      color: vars.color.textPrimary,
+    },
+  },
+});
+
+/** The name and the badge that may follow it, on one line, centred; the name keeps the ellipsis. */
+export const nameLine = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  minWidth: 0,
+  width: '100%',
+});
+
+/** Optional pill right after a name: a tiny icon and 2-4 uppercase letters, on translucent dark. */
+export const nameBadge = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '2px',
+  flexShrink: 0,
+  height: '16px',
+  padding: '0 6px',
+  borderRadius: vars.radius.pill,
+  backgroundColor: vars.scrim.base,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  lineHeight: 1,
 });
 
 export const itemBadges = style({
@@ -91,6 +142,12 @@ export const chatAvatar = style({
   justifyContent: 'center',
   fontSize: fontSize.rem85,
   position: 'relative',
+  selectors: {
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      width: nameplateAvatar,
+      height: nameplateAvatar,
+    },
+  },
 });
 
 export const avatarWrap = style({
@@ -99,6 +156,16 @@ export const avatarWrap = style({
   height: uiSize('roomAvatar'),
   flexShrink: 0,
   marginRight: '8px',
+  selectors: {
+    // Inside the banner the avatar keeps a thin dark ring so it separates from the art
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      width: nameplateAvatar,
+      height: nameplateAvatar,
+      marginRight: '12px',
+      borderRadius: '50%',
+      boxShadow: `0 0 0 1px ${vars.scrim.base}`,
+    },
+  },
 });
 
 export const roomTypeBadge = style({
