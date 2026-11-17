@@ -5,75 +5,36 @@
 ![license](https://img.shields.io/badge/License-AGPL%203.0-blue.svg)
 [![release](https://img.shields.io/github/v/release/kapsikkum/mudrix?sort=semver&logo=github&include_prereleases)](https://github.com/kapsikkum/mudrix/releases)
 
-Mudrix is a Matrix client. End-to-end encrypted, open source, and works in your browser, as a desktop app for Windows,
-macOS and Linux, and as a native app for iOS and Android. All apps share one Rust core built on matrix-rust-sdk.
+Mudrix is a Matrix client. End-to-end encrypted, open source, and available in your browser, on Windows, macOS and
+Linux, and on Android and iOS.
 
-This repository replaces the earlier `mudrix-web`, `mudrix-desktop` and `mudrix-mobile` repositories: the web client, the
-desktop app and the two native mobile apps now live here, on a new base (see [Based on WizardChat](#based-on-wizardchat)).
-The port is still in progress: [docs/PORT.md](docs/PORT.md) lists what came over from the old Mudrix and
-[docs/MISSING.md](docs/MISSING.md) what is still missing. Most of it has not been run on every platform yet.
+## Try it
+
+| Where                     | How                                                                                                                                                                |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Web**                   | Open <https://kapsikkum.github.io/mudrix/>. Nothing to install.                                                                                                    |
+| **Windows, macOS, Linux** | Download the installer from the [latest release](https://github.com/kapsikkum/mudrix/releases/latest). The app updates itself.                                     |
+| **Android**               | Download the APK from the [latest release](https://github.com/kapsikkum/mudrix/releases/latest), or add `https://kapsikkum.github.io/apps/fdroid/repo` to F-Droid. |
+| **iOS**                   | Add `https://kapsikkum.github.io/apps/sidestore.json` to [SideStore](https://sidestore.io) (iOS 18), or sideload `Mudrix-unsigned.ipa` from the release.           |
+
+The installers are not code-signed, so your system warns the first time:
+
+- **Windows:** click "More info", then "Run anyway".
+- **macOS (Apple silicon):** open **System Settings -> Privacy & Security** and click **Open Anyway**.
+- **Linux:** make the AppImage executable (`chmod +x`) and run it, or install the `.deb` or `.rpm`.
 
 ## Features
 
 - End-to-end encryption, with device verification and key backup
-- Direct messages and Spaces, with a modern or a Matrix-style space layout
-- Voice and video calls (1:1 and group, via MatrixRTC and LiveKit) with screen sharing, push-to-talk and Watch Together
+- Direct messages and Spaces
+- Voice and video calls with screen sharing
 - Threads, replies, reactions, edits and pinned messages
-- Advanced message formatting, custom stickers and emojis, GIFs (GIPHY and KLIPY)
-- File, image and video sharing (big videos are shrunk before sending, photos are stripped of metadata), voice messages,
-  polls and location sharing
-- Link previews, YouTube cards and message search
-- Rich profiles: bio, pronouns, timezone, a "Mudrix user" badge, avatar decorations, frames and an activity line
-- Reminders, a saved-messages inbox, streamer mode and per-sound notification sound packs
-- Integrations and widgets
-- Sign in with SSO, OAuth or a QR code, multiple accounts
-- 29 built-in themes (dark and light), custom themes you make from nine colours, and phone layouts with bottom sheets
-- 11 languages: English, Deutsch, Español, Français, Italiano, Português, Русский, 日本語, Türkçe, Nederlands, Polski
+- Stickers, emojis and GIFs, files, images, video, voice messages, polls and location sharing
+- Profiles with a bio, avatar decorations and frames
+- Sign in with SSO, OAuth or a QR code, and multiple accounts
+- 29 themes, custom themes, and 11 languages
 
-Desktop adds a tray icon, native notifications, an unread badge, launch at login, deep links and in-app updates.
-
-## Try out Mudrix
-
-Pre-built apps are published on the [releases page](https://github.com/kapsikkum/mudrix/releases). No release has been
-cut from this repository yet (see [RELEASING.md](RELEASING.md)), so until then build it yourself (see Local Development).
-
-### Desktop
-
-Windows (installer), macOS (DMG) and Linux (AppImage, `.deb`, `.rpm`): download from the
-[releases page](https://github.com/kapsikkum/mudrix/releases/latest). The installers are not code-signed.
-
-- **Windows:** SmartScreen shows "Windows protected your PC". Click "More info", then "Run anyway".
-- **macOS:** Gatekeeper blocks the first launch. Open **System Settings -> Privacy & Security**, scroll to **Security**
-  and click **Open Anyway**.
-- **Linux:** make the AppImage executable (`chmod +x`) and run it.
-
-In-app updates are checked against a minisign signature before they are installed.
-
-### Android
-
-Download the APK from the [releases page](https://github.com/kapsikkum/mudrix/releases/latest). Release APKs are signed
-with the same key as the old app, so they update it in place; debug APKs install beside it as a separate app.
-Notifications arrive through [UnifiedPush](https://unifiedpush.org) when a distributor is installed.
-
-### iOS
-
-Only the Simulator build exists. There is no signed IPA: without an Apple Developer account the project cannot install
-on a device, use TestFlight, or send APNs push. The old repositories were listed at
-<https://kapsikkum.github.io/apps/>; that listing has not been updated for the new apps.
-
-### Web
-
-There is no hosted client for this repository yet (the old one was at <https://kapsikkum.github.io/mudrix-web/>).
-Build it with `npm run build`, or serve it with Docker:
-
-```sh
-docker build -t mudrix .
-docker run -p 8080:80 mudrix
-```
-
-## Local Development
-
-Short version, from the repo root (Rust via rustup, wasm-pack and Node 22+ installed):
+## For developers
 
 ```sh
 npm install
@@ -81,42 +42,14 @@ npm run core:web:dev   # builds the core for the browser once
 npm run dev            # web app on http://localhost:5180
 ```
 
-`npm run desktop`, `npm run android` and `npm run ios` run the other apps.
-
-To try the apps against a server you can wipe, `tools/test-server` starts a local homeserver with
-calls and seeded accounts, rooms and fixtures: `npm run test-server`, `npm run test-server:seed`,
-then sign in at `http://localhost:5180/welcome/<address>`. Its README has the commands, the
-accounts and the manual parity checks it was built for.
-
-#### GIF search keys
-
-The GIF picker calls GIPHY and KLIPY directly from the client. The API keys are supplied at **build time** and are not in
-the source. For the web and desktop apps put them in a git-ignored `apps/web/.env.local` (see `apps/web/.env.example`):
-
-```bash
-VITE_GIPHY_API_KEY=your_giphy_key
-VITE_KLIPY_API_KEY=your_klipy_key
-```
-
-Restart `npm run dev` after changing them. A provider without a key has its tab disabled ("No API key configured in this
-build"). Android (`GIPHY_API_KEY` in `apps/android/local.properties`) and iOS (`GIPHY_API_KEY` in
-`apps/ios/Config/Secrets.xcconfig`) read a GIPHY key only; without it their GIF picker says it is not configured. `VITE_`
-values are embedded in the built bundle, so those keys are visible to anyone who can load the app. Use your own keys
-(create a GIPHY one at developers.giphy.com). All names, CI secrets and the audit of other embedded identifiers are in
-[docs/SECRETS.md](docs/SECRETS.md).
-
-- [Development](docs/DEVELOPMENT.md): setting up, running the apps, checks
-- [Building](docs/BUILDING.md) and [releasing](RELEASING.md)
-- [Working on the codebase](docs/CODEBASE.md): where code goes, the conventions and the internal names that still say WizardChat
-- [Contributing](CONTRIBUTING.md): reporting bugs, suggesting features and contributing code
-- [Branding and artwork](docs/BRANDING.md)
+Rust (rustup), wasm-pack and Node 22+ are needed. More in [Development](docs/DEVELOPMENT.md),
+[Building](docs/BUILDING.md), [Releasing](RELEASING.md) and [Contributing](CONTRIBUTING.md).
 
 ## Based on WizardChat
 
 Mudrix is a fork of [WizardChat](https://gitlab.com/wizardchat/wizardchat)'s Rust-core rewrite and keeps its
 AGPL-3.0 licence. The core, the native iOS and Android apps and much of the web client come from WizardChat, (c) its
-authors; Mudrix adds its own features on top. Some internal names (crates, npm workspaces, Swift and Kotlin types) still
-say WizardChat to keep merging upstream changes practical.
+authors; Mudrix adds its own features on top.
 
 ## License
 
