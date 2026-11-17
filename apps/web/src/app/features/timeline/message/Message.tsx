@@ -1224,8 +1224,9 @@ export const Message = memo(function Message({
               >
                 {senderName}
               </button>
-              {/* A media-only bubble carries its time in the overlay pill instead. */}
-              {!bubbleMediaOnly && (
+              {/* A media-only bubble carries its time in the overlay pill instead; bubble layout
+                  carries it at the bottom of every bubble, so the header has the name alone. */}
+              {!bubbleMediaOnly && variant !== 'classic' && (
                 <span className={css.msgTime}>{formatTime(ts, i18n.language)}</span>
               )}
               {isEdited && (
@@ -1293,13 +1294,9 @@ export const Message = memo(function Message({
                       <span className={css.bubbleTimePill}>{formatTime(ts, i18n.language)}</span>
                     </div>
                   )}
-                  {!bubbleMediaOnly && (isGrouped || showShield) && (
+                  {!bubbleMediaOnly && (
                     <div className={css.bubbleMetaRow}>
-                      {isGrouped && (
-                        <span className={css.bubbleGroupedTime}>
-                          {formatTime(ts, i18n.language)}
-                        </span>
-                      )}
+                      <span className={css.bubbleGroupedTime}>{formatTime(ts, i18n.language)}</span>
                       {showShield && <EventShield shield={event.shield} />}
                     </div>
                   )}

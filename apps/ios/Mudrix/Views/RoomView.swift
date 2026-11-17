@@ -1102,8 +1102,9 @@ struct MessageRow: View {
                             .foregroundStyle(roomRoles.color(of: entry.sender) ?? senderColor)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
-                        // A media-only bubble shows its time in the pill over the media instead.
-                        if !showsMediaOnlyBubbleTime {
+                        // A media-only bubble shows its time in the pill over the media instead, and
+                        // a text bubble carries it at the bottom of the bubble itself.
+                        if !showsMediaOnlyBubbleTime && !(isClassic && isMessageText) {
                             Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
                                 .font(.wizard(WZ.FontSize.sm * scale))
                                 .foregroundStyle(theme.textMuted)
@@ -1260,16 +1261,13 @@ struct MessageRow: View {
                         .lineSpacing(3 * scale)
                         .tint(entry.isOwn && theme.colorScheme == .dark && !isEmojiOnlyMessage
                               ? theme.textOnAccent : theme.linkColor)
-                    if entry.isGrouped || Shields.display(entry.shield) != nil {
-                        HStack(spacing: WZ.Space.space2) {
-                            if entry.isGrouped {
-                                Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
-                                    .font(.wizard(WZ.FontSize.xs * scale))
-                                    .foregroundStyle((entry.isOwn ? theme.textOnAccent : theme.textPrimary).opacity(0.65))
-                            }
-                            if let shield = Shields.display(entry.shield) {
-                                MessageShieldButton(display: shield, scale: scale)
-                            }
+                    // Every bubble carries its time in the same place, first of a run or not.
+                    HStack(spacing: WZ.Space.space2) {
+                        Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
+                            .font(.wizard(WZ.FontSize.xs * scale))
+                            .foregroundStyle((entry.isOwn ? theme.textOnAccent : theme.textPrimary).opacity(0.65))
+                        if let shield = Shields.display(entry.shield) {
+                            MessageShieldButton(display: shield, scale: scale)
                         }
                     }
                 }

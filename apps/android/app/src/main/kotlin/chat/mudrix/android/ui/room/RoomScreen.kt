@@ -1251,7 +1251,7 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            if (!mediaBubble) Text(
+                            if (!mediaBubble && !(isBubble && isText)) Text(
                                 Formats.time(entry.timestamp),
                                 style = wizardFont((if (isBubble) WZ.FontSize.xs else WZ.FontSize.sm) * scale),
                                 color = theme.textMuted,
@@ -1512,32 +1512,28 @@ private fun MessageContent(
                     onRoomLink = actions?.openRoomLink,
                     roomId = actions?.roomId,
                 )
-                if (entry.isGrouped || warning != null) {
-                    // Grouped bubbles carry their own time; a warning shows on the first message of a run too
-                    Row(
-                        Modifier.align(Alignment.End).padding(top = WZ.Space.space1),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
-                    ) {
-                        warning?.let {
-                            WarningIcon(
-                                it,
-                                tint = if (entry.isOwn && !jumbo) theme.textOnAccent.copy(alpha = 0.8f) else it.tint,
-                                size = WZ.SizeIcon.xs * scale,
-                            )
-                        }
-                        if (entry.isGrouped) {
-                            Text(
-                                Formats.time(entry.timestamp),
-                                style = wizardFont(WZ.FontSize.xs * scale),
-                                color = if (jumbo) {
-                                    theme.textMuted
-                                } else {
-                                    (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f)
-                                },
-                            )
-                        }
+                // Every bubble carries its time in the same place, first of a run or not
+                Row(
+                    Modifier.align(Alignment.End).padding(top = WZ.Space.space1),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(WZ.Space.space2),
+                ) {
+                    warning?.let {
+                        WarningIcon(
+                            it,
+                            tint = if (entry.isOwn && !jumbo) theme.textOnAccent.copy(alpha = 0.8f) else it.tint,
+                            size = WZ.SizeIcon.xs * scale,
+                        )
                     }
+                    Text(
+                        Formats.time(entry.timestamp),
+                        style = wizardFont(WZ.FontSize.xs * scale),
+                        color = if (jumbo) {
+                            theme.textMuted
+                        } else {
+                            (if (entry.isOwn) theme.textOnAccent else theme.textPrimary).copy(alpha = 0.65f)
+                        },
+                    )
                 }
             }
         }

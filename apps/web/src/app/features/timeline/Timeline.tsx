@@ -1049,7 +1049,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       senderId: timelineItem.senderId,
       senderName: timelineItem.senderName,
       senderAvatar: timelineItem.senderAvatar,
-      isGrouped: isSearching ? false : timelineItem.isGrouped,
+      isGrouped: isSearching || layout === 'compact' ? false : timelineItem.isGrouped,
       isLastOwn: !!eventId && eventId === lastOwnEventId,
       variant: layout,
       isSystemMessage: timelineItem.isSystemMessage,

@@ -448,7 +448,7 @@ export function ThreadPanel({
                     senderId={item.senderId}
                     senderName={item.senderName}
                     senderAvatar={item.senderAvatar}
-                    isGrouped={item.isGrouped}
+                    isGrouped={layout !== 'compact' && item.isGrouped}
                     variant={layout}
                     isSystemMessage={item.isSystemMessage}
                     isEdited={item.isEdited}
