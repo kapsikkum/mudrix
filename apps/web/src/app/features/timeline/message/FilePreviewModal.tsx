@@ -5,6 +5,7 @@ import type { MediaSource, MudrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';
+import { saveBlob } from '@/util/download';
 import * as css from '../Timeline.css';
 
 export type FilePreviewKind = 'pdf' | 'text';
@@ -194,11 +195,8 @@ export function TextFileCard({
     });
 
   const handleDownload = () =>
-    withFull((url) => {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
+    withFull(async (url) => {
+      await saveBlob(await (await fetch(url)).blob(), filename);
     });
 
   return (

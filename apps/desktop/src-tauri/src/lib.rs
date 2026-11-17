@@ -234,6 +234,7 @@ pub fn run() {
             loopback::loopback_wait,
             loopback::loopback_cancel,
             downloads::save_download,
+            downloads::save_files,
             keyfile::pick_key_file_to_save,
             keyfile::pick_key_file_to_open,
             shell::get_desktop_settings,

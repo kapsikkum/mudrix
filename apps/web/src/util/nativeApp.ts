@@ -36,7 +36,7 @@ export function openAuthUrlAndWaitForReturn(url: string): Promise<void> {
   });
 }
 
-function blobToBase64(blob: Blob): Promise<string> {
+export function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result).split(',', 2)[1] ?? '');
@@ -57,6 +57,16 @@ async function saveFileNative(blob: Blob, filename: string): Promise<void> {
 export function downloadBlob(blob: Blob, filename: string): void {
   if (isNativeApp()) {
     saveFileNative(blob, filename).catch((err) => console.warn('[native] save failed', err));
+    return;
+  }
+  // The desktop shell writes the file itself: a webview download would go through WebView2's own
+  // download manager, which asks for permission (and asks once per file when there are several).
+  const saveDownload = window.desktopAPI?.saveDownload;
+  if (saveDownload) {
+    blob
+      .arrayBuffer()
+      .then((bytes) => saveDownload(new Uint8Array(bytes), filename))
+      .catch((err) => console.warn('[desktop] save failed', err));
     return;
   }
   const url = URL.createObjectURL(blob);

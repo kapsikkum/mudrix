@@ -55,6 +55,8 @@ export const desktopApi: DesktopAPI = {
     invoke<string>('save_download', bytes, {
       headers: { 'x-filename': encodeURIComponent(filename) },
     }),
+  // Several files from one action: one folder dialog, then every file is written there
+  saveFiles: (files) => invoke<string[] | null>('save_files', { files }),
   pickKeyFileToSave: (defaultName) =>
     invoke<string | null>('pick_key_file_to_save', { defaultName }),
   pickKeyFileToOpen: () => invoke<string | null>('pick_key_file_to_open'),

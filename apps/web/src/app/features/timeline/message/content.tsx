@@ -57,6 +57,7 @@ import { useIntegrationCards } from '@/app/features/integrations/ui/useIntegrati
 import { IntegrationCards } from '@/app/features/integrations/ui/IntegrationCard';
 import { extractFirstUrl } from '@/util/extractFirstUrl';
 import { formatFileSize } from '@/util/format';
+import { DownloadLink } from '@/app/components/DownloadLink/DownloadLink';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import type { EventEntry } from './entry';
 import * as css from '../Timeline.css';
@@ -988,14 +989,14 @@ export function MessageContent({
         </span>
         <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
         <Tooltip content={t('common.download')}>
-          <a
+          <DownloadLink
             href={src}
-            download={filename}
+            filename={filename}
             className={css.fileDownload}
             aria-label={t('common.download')}
           >
             <DownloadSimpleIcon size={16} />
-          </a>
+          </DownloadLink>
         </Tooltip>
       </div>
     ) : mediaFailed ? (
