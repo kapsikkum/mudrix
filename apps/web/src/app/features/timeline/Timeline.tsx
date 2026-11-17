@@ -14,6 +14,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { formatUserId, isDmRoom } from '@/util/matrix';
 import { scrollToBottom } from '@/util/dom';
+import { droppedFiles, hasDraggedFiles } from '@/util/fileDrop';
 import { useRoom, useRoomSettings, useTimeline as useLiveTimeline } from '@/app/data';
 import {
   editMessageAtom,
@@ -719,25 +720,49 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const dragDepthRef = useRef(0);
   const handleDragEnter = useCallback((e: React.DragEvent) => {
+    // Only files: dragging text, a link or a row of the room list in from elsewhere is not a drop
+    // the message area takes.
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
     if (++dragDepthRef.current === 1) setIsDragging(true);
   }, []);
   const handleDragLeave = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
-    if (--dragDepthRef.current === 0) setIsDragging(false);
+    dragDepthRef.current = Math.max(dragDepthRef.current - 1, 0);
+    if (dragDepthRef.current === 0) setIsDragging(false);
   }, []);
   const handleDragOver = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
+    // Without this the webview refuses the drop and follows the file instead.
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
   }, []);
   const [droppedFile, setDroppedFile] = useState<File[] | null>(null);
   const handleDrop = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
     dragDepthRef.current = 0;
     setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files);
+    const files = droppedFiles(e.dataTransfer);
     if (files.length > 0) setDroppedFile(files);
   }, []);
   const clearDroppedFile = useCallback(() => setDroppedFile(null), []);
+
+  // A drag that is dropped outside the message area, or ends outside the window, never sends the
+  // `dragleave` that would take the hint away: clear it on the window's own end of the drag.
+  useEffect(() => {
+    const resetDrag = () => {
+      dragDepthRef.current = 0;
+      setIsDragging(false);
+    };
+    window.addEventListener('drop', resetDrag);
+    window.addEventListener('dragend', resetDrag);
+    return () => {
+      window.removeEventListener('drop', resetDrag);
+      window.removeEventListener('dragend', resetDrag);
+    };
+  }, []);
 
   const [hoveredEventId, handleHover] = useMessageHover();
 

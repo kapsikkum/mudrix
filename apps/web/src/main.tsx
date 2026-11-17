@@ -8,6 +8,7 @@ import { SessionProvider } from '@/app/SessionProvider';
 import { handleAuthCallbackPopup, loadCore } from '@/core/client';
 import { registerNotificationServiceWorker } from '@/app/hooks/useNotifications';
 import { installNativeAppHooks } from '@/util/nativeApp';
+import { installFileDropGuard } from '@/util/fileDrop';
 import { installDesktopHooks } from '@/bridge/desktop';
 import { ROUTER_BASENAME } from '@/util/publicUrl';
 
@@ -46,6 +47,7 @@ if (!handleAuthCallbackPopup()) {
   void registerNotificationServiceWorker();
   installNativeAppHooks();
   installDesktopHooks();
+  installFileDropGuard();
 
   const root = document.getElementById('root');
   if (!root) throw new Error('Root element not found');
