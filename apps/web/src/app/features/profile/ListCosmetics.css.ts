@@ -1,5 +1,6 @@
-import { globalStyle, style } from '@vanilla-extract/css';
+import { style } from '@vanilla-extract/css';
 import { zIndex } from '@/theme/zIndex';
+import { vars } from '@/theme/vars.css';
 
 /**
  * Nameplate behind a whole list row (Discord style): a palette wash with the artwork fading in
@@ -14,13 +15,6 @@ export const listNameplate = style({
   pointerEvents: 'none',
 });
 
-// Nameplate art is dark whatever the theme, so text over it stays light, or light themes' dark text
-// disappears into it. Two attribute selectors outrank the row's own single-class text colours.
-globalStyle(`[class]:has(> ${listNameplate}) [class]`, {
-  color: 'rgba(255, 255, 255, 0.95)',
-  textShadow: '0 1px 2px rgba(0, 0, 0, 0.6)',
-});
-
 export const listNameplateImg = style({
   position: 'absolute',
   inset: 0,
@@ -30,8 +24,16 @@ export const listNameplateImg = style({
   objectPosition: 'right center',
   maxWidth: 'none',
   userSelect: 'none',
-  WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 55%)',
-  maskImage: 'linear-gradient(90deg, transparent 0%, #000 55%)',
+});
+
+/**
+ * One horizontal scrim over the artwork: the surface colour at the left where the name and preview
+ * sit, clear at the right where the art shows. The art itself keeps its full opacity.
+ */
+export const listNameplateScrim = style({
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(90deg, ${vars.color.bgPrimary} 0%, ${vars.color.bgPrimary} 42%, transparent 100%)`,
 });
 
 export const listDecorated = style({

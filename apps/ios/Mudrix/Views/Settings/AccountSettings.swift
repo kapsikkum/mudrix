@@ -37,26 +37,23 @@ struct AccountSettings: View {
                 SettingsDivider()
                 BannerSection { status = ($0, true) }
                 SettingsDivider()
-                VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                VStack(alignment: .leading, spacing: WZ.Space.space3) {
                     Text(String(localized: "settings.account.displayName"))
                         .font(.wizard(WZ.FontSize.sm, .semibold))
                         .foregroundStyle(theme.textMuted)
-                    HStack(spacing: WZ.Space.space4) {
-                        TextField("", text: $displayName,
-                                  prompt: Text(String(localized: "settings.account.displayNamePlaceholder")).foregroundColor(theme.textMuted))
-                            .wizardField()
-                        Button(savingName ? "..." : String(localized: "common.save")) {
-                            Task {
-                                savingName = true
-                                await run { try await session.setDisplayName(displayName.trimmingCharacters(in: .whitespaces)) }
-                                savingName = false
-                            }
+                    TextField("", text: $displayName,
+                              prompt: Text(String(localized: "settings.account.displayNamePlaceholder")).foregroundColor(theme.textMuted))
+                        .wizardField()
+                    Button(savingName ? "..." : String(localized: "common.save")) {
+                        Task {
+                            savingName = true
+                            await run { try await session.setDisplayName(displayName.trimmingCharacters(in: .whitespaces)) }
+                            savingName = false
                         }
-                        .buttonStyle(PrimaryButtonStyle())
-                        .frame(width: WZ.SizeAvatar.xl)
-                        .disabled(savingName || displayName.trimmingCharacters(in: .whitespaces).isEmpty
-                                  || displayName == session.displayName)
                     }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(savingName || displayName.trimmingCharacters(in: .whitespaces).isEmpty
+                              || displayName == session.displayName)
                 }
                 SettingsDivider()
                 CopyRow(label: "auth.username", value: session.userId ?? "")
@@ -69,17 +66,11 @@ struct AccountSettings: View {
                 NavigationLink {
                     CosmeticSettings()
                 } label: {
-                    HStack {
-                        Text(String(localized: "settings.cosmetics.title"))
-                            .font(.wizard(WZ.FontSize.md))
-                            .foregroundStyle(theme.textPrimary)
-                        Spacer()
-                        Image("ph-caret-right-bold")
-                            .font(.system(size: WZ.SizeIcon.sm))
-                            .foregroundStyle(theme.textMuted)
-                    }
-                    .frame(minHeight: WZ.Space.space11)
-                    .contentShape(Rectangle())
+                    Text(String(localized: "settings.cosmetics.title"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.textPrimary)
+                        .frame(maxWidth: .infinity, minHeight: WZ.Space.space11, alignment: .leading)
+                        .contentShape(Rectangle())
                 }
             }
 
@@ -189,7 +180,7 @@ private struct PasswordSection: View {
 
     var body: some View {
         SettingsSection(title: "auth.password") {
-            VStack(spacing: WZ.Space.space4) {
+            VStack(spacing: WZ.Space.space3) {
                 SecureField("", text: $current, prompt: Text(String(localized: "auth.password")).foregroundColor(theme.textMuted))
                     .textContentType(.password).wizardField()
                 SecureField("", text: $new, prompt: Text(String(localized: "settings.account.newPassword")).foregroundColor(theme.textMuted))
@@ -235,7 +226,7 @@ private struct EmailSection: View {
 
     var body: some View {
         SettingsSection(title: "settings.account.emailTitle") {
-            VStack(alignment: .leading, spacing: WZ.Space.space4) {
+            VStack(alignment: .leading, spacing: WZ.Space.space3) {
                 if emails.isEmpty {
                     Text(String(localized: "settings.account.noEmails"))
                         .font(.wizard(WZ.FontSize.sm))

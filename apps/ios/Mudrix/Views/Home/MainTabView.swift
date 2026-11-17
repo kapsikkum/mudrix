@@ -139,8 +139,8 @@ struct MainTabView: View {
     private var tabView: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
             tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
-            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
-            tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
+            tabItem(.dms, title: "nav.dms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.spaces, title: "nav.spaces", icon: "stack", unread: spacesUnread)
             SwiftUI.Tab(value: Tab.me) {
                 tabContent(.me).tint(theme.control)
             } label: {
@@ -205,8 +205,14 @@ struct MainTabView: View {
             NavigationStack(path: binding(for: item)) {
                 Group {
                     switch item {
-                    case .home: RoomListScreen(roomList: roomList, selection: .home) { showInbox = true }
-                    case .dms: RoomListScreen(roomList: roomList, selection: .dms) { showInbox = true }
+                    case .home:
+                        RoomListScreen(roomList: roomList, selection: .home,
+                                       onOpenInbox: { showInbox = true },
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
+                    case .dms:
+                        RoomListScreen(roomList: roomList, selection: .dms,
+                                       onOpenInbox: { showInbox = true },
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
                     default: SpacesScreen(roomList: roomList, onCreateSpace: { showCreateSpace = true },
                                           onExplore: { showExplore = true })
                     }
@@ -227,7 +233,8 @@ struct MainTabView: View {
                         }
                         .toolbar(.hidden, for: .tabBar)
                     case .space(let id):
-                        RoomListScreen(roomList: roomList, selection: .space(id))
+                        RoomListScreen(roomList: roomList, selection: .space(id),
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
                     }
                 }
             }

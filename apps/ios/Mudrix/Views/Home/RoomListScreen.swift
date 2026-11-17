@@ -11,6 +11,9 @@ struct RoomListScreen: View {
     @ObservedObject var roomList: RoomListModel
     let selection: SidebarSelection
     var onOpenInbox: (() -> Void)?
+    /// Opens a room through the shell's navigation path. A row with this is a plain button, so the
+    /// list does not add the trailing disclosure chevron that a NavigationLink row gets.
+    var onOpenRoom: ((String) -> Void)?
     /// The Modern shell's Direct Messages pane: a header under the title instead of the top bar's + and inbox
     var modernHeader = false
 
@@ -83,7 +86,7 @@ struct RoomListScreen: View {
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             }
             if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded, let onOpenInbox {
-                HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox)
+                HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox, onOpenRoom: onOpenRoom)
             }
             if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded {
                 ActiveNowSection(roomList: roomList)
@@ -311,10 +314,21 @@ struct RoomListScreen: View {
     }
 
     private func roomRow(_ room: RoomSummary, modern: Bool = false) -> some View {
-        NavigationLink(value: Route.room(room.id)) {
-            RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
-                    isVoice: modern ? isVoice(room) : nil,
-                    muted: roomList.notificationMode(of: room) == .mute)
+        Group {
+            if let onOpenRoom {
+                Button { onOpenRoom(room.id) } label: {
+                    RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
+                            isVoice: modern ? isVoice(room) : nil,
+                            muted: roomList.notificationMode(of: room) == .mute)
+                }
+                .buttonStyle(.plain)
+            } else {
+                NavigationLink(value: Route.room(room.id)) {
+                    RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
+                            isVoice: modern ? isVoice(room) : nil,
+                            muted: roomList.notificationMode(of: room) == .mute)
+                }
+            }
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
         .listRowBackground(theme.bgPrimary)
@@ -749,6 +763,20 @@ struct RoomRow: View {
         }
     }
 
+    /// The nameplate is the row's whole background, so this scrim keeps the name and preview readable
+    /// on the left and lets the artwork show on the right. It is a surface wash over the banner, not a
+    /// lower opacity on the banner itself.
+    private var nameplateScrim: some View {
+        LinearGradient(stops: [
+            .init(color: theme.bgPrimary, location: 0),
+            .init(color: theme.bgPrimary, location: 0.42),
+            .init(color: theme.bgPrimary.opacity(0), location: 1),
+        ], startPoint: .leading, endPoint: .trailing)
+            // CosmeticNameplate pads its content; reach past that padding so no strip of art stays bright
+            .padding(.horizontal, -WZ.Space.space3)
+            .padding(.vertical, -WZ.Space.space1)
+    }
+
     /// The other person's nameplate, when they have one, is the row's whole background behind the avatar and text
     private var rowContent: some View {
         HStack(spacing: WZ.Space.space5) {
@@ -772,8 +800,8 @@ struct RoomRow: View {
             }
             VStack(alignment: .leading, spacing: WZ.Space.space2) {
                 Text(room.displayName)
-                    .font(.wizard(WZ.FontSize.lg, hasUnread ? .semibold : .regular))
-                    .foregroundStyle(hasUnread ? theme.textPrimary : theme.textPrimary.opacity(0.85))
+                    .font(.wizard(WZ.FontSize.md, hasUnread ? .semibold : .regular))
+                    .foregroundStyle(hasUnread ? theme.textPrimary : theme.textSecondary)
                     .lineLimit(1)
                 if let preview {
                     Text(preview)
@@ -801,6 +829,7 @@ struct RoomRow: View {
             }
         }
         .padding(.vertical, prefs.roomRowPadding)
+        .background { nameplateScrim }
         .contentShape(Rectangle())
         .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {
             guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty,

@@ -120,14 +120,6 @@ struct SettingsView: View {
             .modifier(SettingsTitle(isTab: isTab))
             .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
                         prompt: Text(String(localized: "settings.search")))
-            .toolbar {
-                if !isTab {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(String(localized: "common.done")) { dismiss() }
-                            .fontWeight(.semibold)
-                    }
-                }
-            }
             .navigationDestination(for: Page.self) { page in
                 switch page {
                 case .account: AccountSettings()
@@ -289,11 +281,13 @@ struct SettingsPage<Content: View>: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        Form {
+        // A List in the same inset-grouped style as the settings root: a Form adds its own row
+        // margins, so the pages did not line up with the list above them.
+        List {
             content()
                 .listRowBackground(theme.groupedRow)
         }
-        .formStyle(.grouped)
+        .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.interactively)
         .background(theme.groupedBackground.ignoresSafeArea())

@@ -33,6 +33,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -756,6 +757,21 @@ private fun SwipeableRoomRow(
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
         ) {
+            // One surface scrim over the art: solid on the left so the name and preview read, clear on the
+            // right so the artwork stays visible. The banner itself keeps its opacity.
+            if (cosmetics?.nameplate != null) {
+                Box(
+                    Modifier
+                        .matchParentSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to theme.bgPrimary,
+                                0.42f to theme.bgPrimary,
+                                1f to Color.Transparent,
+                            ),
+                        ),
+                )
+            }
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 RoomRow(
                     room,
@@ -898,8 +914,8 @@ fun RoomRow(
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(WZ.Space.space2)) {
             Text(
                 room.displayName,
-                style = wizardFont(WZ.FontSize.lg, if (hasUnread) FontWeight.SemiBold else FontWeight.Normal),
-                color = if (hasUnread) theme.textPrimary else theme.textPrimary.copy(alpha = 0.85f),
+                style = wizardFont(WZ.FontSize.md, if (hasUnread) FontWeight.SemiBold else FontWeight.Normal),
+                color = if (hasUnread) theme.textPrimary else theme.textSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

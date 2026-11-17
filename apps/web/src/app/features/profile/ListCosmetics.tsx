@@ -166,6 +166,9 @@ export function ListNameplate({
           }}
         />
       )}
+      {/* One horizontal scrim over the art: the surface colour on the left behind the text, clear on the
+          right where the artwork is. */}
+      <span className={css.listNameplateScrim} />
     </span>
   );
 }
