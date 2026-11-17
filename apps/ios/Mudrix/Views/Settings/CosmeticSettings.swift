@@ -54,8 +54,15 @@ struct CosmeticSettings: View {
                         }
                     }
                     if prefs.showCosmeticPacks {
+                        // Plain text, never a spinner: the built-in tiles above are already usable.
                         if loading {
-                            ProgressView().tint(theme.accent)
+                            Text(String(localized: "common.loading"))
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
+                        } else if packs.isEmpty {
+                            Text(String(localized: "settings.cosmetics.empty"))
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.textMuted)
                         }
                         ForEach(Array(packs.enumerated()), id: \.offset) { _, pack in
                             let items = CosmeticPacks.items(of: pack, kind: kind)
@@ -290,18 +297,20 @@ struct CosmeticSettings: View {
     private func load() async {
         error = nil
         loading = true
+        // Whatever happens below, the page stops saying it is loading
+        defer { loading = false }
+        // The pack list is read first: one slow profile request must not hold back the packs
+        if prefs.showCosmeticPacks {
+            packs = await CosmeticPackLibrary.subscribedPacks(session: session)
+        } else {
+            packs = []
+        }
         if let userId = session.userId, let client = session.client {
             supported = ((try? await client.supportsExtendedProfiles()) ?? true)
             if let fields = try? await client.profileFields(userId: userId) {
                 profile = ProfileFields.parse(fields)
             }
         }
-        if prefs.showCosmeticPacks {
-            packs = await CosmeticPackLibrary.subscribedPacks(session: session)
-        } else {
-            packs = []
-        }
-        loading = false
     }
 }
 
@@ -404,9 +413,17 @@ private struct CosmeticPacksSheet: View {
         NavigationStack {
             List {
                 if loading {
-                    ProgressView().tint(theme.accent).frame(maxWidth: .infinity)
+                    Text(String(localized: "common.loading"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.textMuted)
+                        .frame(maxWidth: .infinity)
+                        .listRowBackground(theme.groupedRow)
                 } else if packs.isEmpty {
                     Text(String(localized: "settings.cosmetics.empty")).foregroundStyle(theme.textMuted)
+                        .listRowBackground(theme.groupedRow)
+                    Button(String(localized: "common.retry")) { Task { await load() } }
+                        .foregroundStyle(theme.control)
+                        .listRowBackground(theme.groupedRow)
                 }
                 ForEach(Array(packs.enumerated()), id: \.offset) { _, pack in
                     if let roomId = pack.roomId {

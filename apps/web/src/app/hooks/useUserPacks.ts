@@ -13,6 +13,7 @@ import {
 } from '@/app/features/settings/emojis/imagePackTypes';
 import { mudrixKey } from '@/util/namespace';
 import { mergeSubscriptions, subscriptionRooms } from '@/util/cosmeticPacks';
+import { getErrorMessage } from '@/util/error';
 
 const DEFAULT_USAGE: PackUsage[] = ['emoticon', 'sticker'];
 
@@ -171,10 +172,14 @@ function indexPackContents(client: MatrixClient, contents: PackContent[], fallba
 
 export async function readRoomPackContents(
   client: MatrixClient,
-  roomId: string
+  roomId: string,
+  onError?: (error: unknown) => void
 ): Promise<Map<string, PackContent[]>> {
   const byStateKey = new Map<string, PackContent[]>();
-  const events = await stateEvents(client, roomId, ROOM_PACK_TYPES).catch(() => []);
+  const events = await stateEvents(client, roomId, ROOM_PACK_TYPES).catch((error) => {
+    onError?.(error);
+    return [];
+  });
   for (const type of ROOM_PACK_TYPES) {
     for (const [eventType, stateKey, content] of events) {
       if (eventType !== type) continue;
@@ -253,10 +258,11 @@ function summarizeRoomPack(
 
 async function summarizeRoomPacks(
   client: MatrixClient,
-  roomId: string
+  roomId: string,
+  onError?: (error: unknown) => void
 ): Promise<RoomPackSummary[]> {
   const result: RoomPackSummary[] = [];
-  for (const [stateKey, contents] of await readRoomPackContents(client, roomId)) {
+  for (const [stateKey, contents] of await readRoomPackContents(client, roomId, onError)) {
     const summary = summarizeRoomPack(roomId, stateKey, contents);
     if (summary) result.push(summary);
   }
@@ -332,18 +338,25 @@ export async function readFavoritePacks(
   client: MatrixClient,
   rooms: Record<string, PackContent>
 ): Promise<FavoritePack[]> {
-  if (Object.keys(rooms).length === 0) return [];
+  const roomIds = Object.keys(rooms);
+  if (roomIds.length === 0) return [];
 
   const result: FavoritePack[] = [];
-  for (const [roomId, stateKeys] of Object.entries(rooms)) {
-    const byStateKey = await readRoomPackContents(client, roomId);
-    for (const [sk] of Object.entries(stateKeys)) {
+  let failed = 0;
+  for (const roomId of roomIds) {
+    const byStateKey = await readRoomPackContents(client, roomId, () => {
+      failed += 1;
+    });
+    for (const [sk] of Object.entries(rooms[roomId])) {
       const contents = byStateKey.get(sk);
       if (!contents || contents.length === 0) continue;
       const summary = summarizeRoomPack(roomId, sk, contents);
       if (summary) result.push({ summary, contents });
     }
   }
+  // Reading every subscribed room failed (offline, or the server refused the state): say so
+  // instead of showing an empty list, which reads as "you have no packs".
+  if (failed === roomIds.length) throw new Error('could not read the rooms of your packs');
   return result.sort((a, b) => a.summary.displayName.localeCompare(b.summary.displayName));
 }
 
@@ -362,26 +375,59 @@ export function useUserPack(client: MatrixClient | null): UserPackData | null {
   }, [client, content]);
 }
 
-export function useFavoritePackEntries(client: MatrixClient | null): FavoritePack[] {
+/** A read of some packs: what came back, whether one is still running, and why the last one failed. */
+export interface PackRead<T> {
+  /** The packs as last read; kept while a re-read runs or fails */
+  data: T;
+  loading: boolean;
+  /** Why the last read failed, or null */
+  error: string | null;
+  /** Reads the packs again now */
+  retry: () => void;
+}
+
+const NO_ENTRIES: FavoritePack[] = [];
+const NO_SUMMARIES: RoomPackSummary[] = [];
+
+export function useFavoritePackList(client: MatrixClient | null): PackRead<FavoritePack[]> {
   const rooms = useSubscribedPackRooms();
   const revision = usePackRevision();
-  const [packs, setPacks] = useState<FavoritePack[]>([]);
+  const [data, setData] = useState<FavoritePack[]>(NO_ENTRIES);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!client) {
-      setPacks([]);
+      setData(NO_ENTRIES);
+      setLoading(false);
+      setError(null);
       return;
     }
     let cancelled = false;
-    void readFavoritePacks(client, rooms).then((list) => {
-      if (!cancelled) setPacks(list);
-    });
+    setLoading(true);
+    readFavoritePacks(client, rooms)
+      .then((list) => {
+        if (cancelled) return;
+        setData(list);
+        setError(null);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(getErrorMessage(err));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
     return () => {
       cancelled = true;
     };
-  }, [client, rooms, revision]);
+  }, [client, rooms, revision, attempt]);
 
-  return packs;
+  return { data, loading, error, retry: () => setAttempt((n) => n + 1) };
+}
+
+export function useFavoritePackEntries(client: MatrixClient | null): FavoritePack[] {
+  return useFavoritePackList(client).data;
 }
 
 export function useFavoritePacks(client: MatrixClient | null): RoomPackSummary[] {
@@ -433,19 +479,31 @@ export async function saveFavoritePacks(
     client.setAccountData(EMOTE_ROOMS_UNSTABLE, { rooms }),
     client.setAccountData(EMOTE_ROOMS_STABLE, { rooms }),
   ]);
+  // The newly picked packs are read again at once instead of after the state cache expires.
+  invalidateImagePacks();
 }
 
 export async function getAllRoomsPacks(
   client: MatrixClient,
   roomIds: string[]
 ): Promise<RoomPackSummary[]> {
-  const perRoom = await Promise.all(roomIds.map((id) => summarizeRoomPacks(client, id)));
+  if (roomIds.length === 0) return [];
+  let failed = 0;
+  const perRoom = await Promise.all(
+    roomIds.map((id) =>
+      summarizeRoomPacks(client, id, () => {
+        failed += 1;
+      })
+    )
+  );
+  // Every room failed: a network or server problem, not "this account has no packs".
+  if (failed === roomIds.length) throw new Error('could not read the rooms of your packs');
   return perRoom.flat();
 }
 
-export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[] {
+export function useAllRoomsPackList(client: MatrixClient | null): PackRead<RoomPackSummary[]> {
   const rooms = useAllRooms();
-  const revision = usePackRevision();
+  // A room list row is also how a joined space shows up, so its own packs are read with the rooms'.
   const roomIds = useMemo(
     () =>
       rooms
@@ -454,23 +512,43 @@ export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[]
         .join('\n'),
     [rooms]
   );
-  const [packs, setPacks] = useState<RoomPackSummary[]>([]);
+  const revision = usePackRevision();
+  const [data, setData] = useState<RoomPackSummary[]>(NO_SUMMARIES);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!client) {
-      setPacks([]);
+      setData(NO_SUMMARIES);
+      setLoading(false);
+      setError(null);
       return;
     }
     let cancelled = false;
-    void getAllRoomsPacks(client, roomIds ? roomIds.split('\n') : []).then((list) => {
-      if (!cancelled) setPacks(list);
-    });
+    setLoading(true);
+    getAllRoomsPacks(client, roomIds ? roomIds.split('\n') : [])
+      .then((list) => {
+        if (cancelled) return;
+        setData(list);
+        setError(null);
+      })
+      .catch((err) => {
+        if (!cancelled) setError(getErrorMessage(err));
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
     return () => {
       cancelled = true;
     };
-  }, [client, roomIds, revision]);
+  }, [client, roomIds, revision, attempt]);
 
-  return packs;
+  return { data, loading, error, retry: () => setAttempt((n) => n + 1) };
+}
+
+export function useAllRoomsPacks(client: MatrixClient | null): RoomPackSummary[] {
+  return useAllRoomsPackList(client).data;
 }
 
 // --- Cosmetic Packs -----------------------------------------------------------

@@ -1506,7 +1506,7 @@
       "invalidLink": "Questo non sembra un link a un video di YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Guarda insieme",
       "menu": "Guarda video di YouTube",
       "title": "Guarda un video di YouTube insieme",
       "linkLabel": "Link di YouTube",
@@ -1521,7 +1521,6 @@
       "stopWatching": "Smetti di guardare",
       "consentTitle": "Prima di guardare",
       "consentBody": "Il video è riprodotto da YouTube. Guardarlo lo carica dai server di YouTube, il che invia a YouTube (Google) il tuo indirizzo IP, i dettagli del dispositivo e del browser e ciò che guardi.",
-      "beta": "Beta",
       "playerUnavailable": "Impossibile caricare il lettore. Riprova più tardi o apri il video su YouTube.",
       "focus": "Metti in evidenza il video",
       "waitingFor": "In attesa di {{name}}..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "Cerca pacchetti",
       "subscribeAll": "Iscriviti a tutti",
       "unsubscribeAll": "Annulla tutte le iscrizioni",
-      "noPacksMatch": "Nessun pacchetto corrisponde alla ricerca"
+      "noPacksMatch": "Nessun pacchetto corrisponde alla ricerca",
+      "packsLoadFailed": "Impossibile caricare i pacchetti delle tue stanze."
     },
     "keybinds": {
       "title": "Scorciatoie da tastiera",

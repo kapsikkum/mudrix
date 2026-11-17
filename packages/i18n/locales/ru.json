@@ -1506,7 +1506,7 @@
       "invalidLink": "Это не похоже на ссылку на видео YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Смотреть вместе",
       "menu": "Смотреть видео с YouTube",
       "title": "Смотреть видео YouTube вместе",
       "linkLabel": "Ссылка на YouTube",
@@ -1521,7 +1521,6 @@
       "stopWatching": "Перестать смотреть",
       "consentTitle": "Прежде чем смотреть",
       "consentBody": "Видео воспроизводит YouTube. При просмотре оно загружается с серверов YouTube, из-за чего ваш IP-адрес, данные об устройстве и браузере и то, что вы смотрите, отправляются в YouTube (Google).",
-      "beta": "Бета",
       "playerUnavailable": "Не удалось загрузить плеер. Повторите попытку позже или откройте видео на YouTube.",
       "focus": "Выделить видео",
       "waitingFor": "Ожидание {{name}}..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "Поиск наборов",
       "subscribeAll": "Подписаться на все",
       "unsubscribeAll": "Отписаться от всех",
-      "noPacksMatch": "Наборы, соответствующие запросу, не найдены"
+      "noPacksMatch": "Наборы, соответствующие запросу, не найдены",
+      "packsLoadFailed": "Не удалось загрузить наборы из ваших комнат."
     },
     "keybinds": {
       "title": "Горячие клавиши",

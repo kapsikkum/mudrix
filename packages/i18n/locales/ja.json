@@ -1506,7 +1506,7 @@
       "invalidLink": "YouTube動画のリンクではないようです",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "一緒に見る",
       "menu": "YouTube動画を視聴",
       "title": "YouTube動画を一緒に見る",
       "linkLabel": "YouTubeのリンク",
@@ -1521,7 +1521,6 @@
       "stopWatching": "視聴を停止",
       "consentTitle": "視聴する前に",
       "consentBody": "動画は YouTube によって再生されます。視聴すると YouTube のサーバーから読み込まれ、IP アドレス、デバイスとブラウザの情報、視聴内容が YouTube（Google）に送信されます。",
-      "beta": "ベータ",
       "playerUnavailable": "プレーヤーを読み込めませんでした。後でもう一度試すか、YouTube で動画を開いてください。",
       "focus": "動画を拡大表示",
       "waitingFor": "{{name}} を待っています..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "パックを検索",
       "subscribeAll": "すべて購読",
       "unsubscribeAll": "すべて購読解除",
-      "noPacksMatch": "検索に一致するパックはありません"
+      "noPacksMatch": "検索に一致するパックはありません",
+      "packsLoadFailed": "ルームのパックを読み込めませんでした。"
     },
     "keybinds": {
       "title": "キーバインド",

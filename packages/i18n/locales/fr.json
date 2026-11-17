@@ -1506,7 +1506,7 @@
       "invalidLink": "Ce lien ne ressemble pas à celui d'une vidéo YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Regarder ensemble",
       "menu": "Regarder une vidéo YouTube",
       "title": "Regarder une vidéo YouTube ensemble",
       "linkLabel": "Lien YouTube",
@@ -1521,7 +1521,6 @@
       "stopWatching": "Arrêter de regarder",
       "consentTitle": "Avant de regarder",
       "consentBody": "La vidéo est lue par YouTube. La regarder la charge depuis les serveurs de YouTube, ce qui envoie votre adresse IP, les détails de votre appareil et de votre navigateur, et ce que vous regardez à YouTube (Google).",
-      "beta": "Bêta",
       "playerUnavailable": "Le lecteur n'a pas pu être chargé. Réessayez plus tard ou ouvrez la vidéo sur YouTube.",
       "focus": "Mettre la vidéo en avant",
       "waitingFor": "En attente de {{name}}..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "Rechercher des packs",
       "subscribeAll": "Tout suivre",
       "unsubscribeAll": "Tout ne plus suivre",
-      "noPacksMatch": "Aucun pack ne correspond à votre recherche"
+      "noPacksMatch": "Aucun pack ne correspond à votre recherche",
+      "packsLoadFailed": "Impossible de charger les packs de vos salons."
     },
     "keybinds": {
       "title": "Raccourcis clavier",

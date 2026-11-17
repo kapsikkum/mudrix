@@ -1506,7 +1506,7 @@
       "invalidLink": "That doesn't look like a YouTube video link",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Watch together",
       "menu": "Watch YouTube video",
       "title": "Watch a YouTube video together",
       "linkLabel": "YouTube link",
@@ -1521,7 +1521,6 @@
       "stopWatching": "Stop watching",
       "consentTitle": "Before you watch",
       "consentBody": "The video is played by YouTube. Watching loads it from YouTube's servers, which sends your IP address, device and browser details, and what you watch to YouTube (Google).",
-      "beta": "Beta",
       "playerUnavailable": "The player couldn't be loaded. Try again later or open the video on YouTube.",
       "focus": "Focus video",
       "waitingFor": "Waiting for {{name}}..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "Search packs",
       "subscribeAll": "Subscribe all",
       "unsubscribeAll": "Unsubscribe all",
-      "noPacksMatch": "No packs match your search"
+      "noPacksMatch": "No packs match your search",
+      "packsLoadFailed": "Couldn’t load the packs in your rooms."
     },
     "keybinds": {
       "title": "Keybinds",

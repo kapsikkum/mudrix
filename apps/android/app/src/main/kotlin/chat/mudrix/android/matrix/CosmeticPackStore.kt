@@ -23,12 +23,21 @@ object CosmeticPackStore {
     }
 
     /** The cosmetic packs in one room or space (its own, not the spaces' it belongs to) */
-    suspend fun roomPacks(session: MatrixSession, roomId: String): List<CosmeticPacks.Pack> {
+    suspend fun roomPacks(
+        session: MatrixSession,
+        roomId: String,
+        onError: (Throwable) -> Unit = {},
+    ): List<CosmeticPacks.Pack> {
         roomPacks[roomId]?.takeIf { System.currentTimeMillis() - it.at < TTL_MS }?.let { return it.packs }
         val client = session.client ?: return emptyList()
-        val events = runCatching { client.stateEventsOfTypes(roomId, CosmeticPacks.ROOM_PACK_TYPES) }.getOrDefault(emptyList())
+        var failed = false
+        val events = runCatching { client.stateEventsOfTypes(roomId, CosmeticPacks.ROOM_PACK_TYPES) }
+            .onFailure { failed = true; onError(it) }
+            .getOrDefault(emptyList())
         val packs = CosmeticPacks.parsePacks(roomId, CosmeticPacks.groupByStateKey(events))
-        roomPacks[roomId] = Entry(System.currentTimeMillis(), packs)
+        // A read that failed is not kept: the next look asks the server again instead of showing
+        // "no packs" for the next five minutes.
+        if (!failed) roomPacks[roomId] = Entry(System.currentTimeMillis(), packs)
         return packs
     }
 
@@ -45,25 +54,45 @@ object CosmeticPackStore {
     /** The packs this account is subscribed to, in subscription order */
     suspend fun subscribed(session: MatrixSession): List<CosmeticPacks.Pack> {
         val rooms = subscriptions(session)
-        return coroutineScope {
+        if (rooms.isEmpty()) return emptyList()
+        val results = coroutineScope {
             rooms.entries.map { (roomId, keys) ->
-                async { roomPacks(session, roomId).filter { pack -> keys.containsKey(pack.stateKey) } }
-            }.awaitAll().flatten()
+                async {
+                    var failed = 0
+                    val found = roomPacks(session, roomId) { failed += 1 }
+                        .filter { pack -> keys.containsKey(pack.stateKey) }
+                    found to failed
+                }
+            }.awaitAll()
         }
+        // Every subscribed room failed: a network or server problem, not "you have no packs".
+        if (results.all { it.second > 0 }) error("could not read the rooms of your packs")
+        return results.flatMap { it.first }
     }
 
     /** Every cosmetic pack in a joined room or space, for the picker */
     suspend fun discoverable(session: MatrixSession): List<CosmeticPacks.Pack> {
         val roomList = session.roomList ?: return emptyList()
         val ids = (roomList.joinedRooms.map { it.id } + roomList.spaces.map { it.id }).distinct()
-        return coroutineScope { ids.map { id -> async { roomPacks(session, id) } }.awaitAll().flatten() }
-            .sortedBy { it.displayName.lowercase() }
+        if (ids.isEmpty()) return emptyList()
+        val results = coroutineScope {
+            ids.map { id ->
+                async {
+                    var failed = 0
+                    roomPacks(session, id) { failed += 1 } to failed
+                }
+            }.awaitAll()
+        }
+        if (results.all { it.second > 0 }) error("could not read the rooms of your packs")
+        return results.flatMap { it.first }.sortedBy { it.displayName.lowercase() }
     }
 
     /** Writes both subscription events, so clients that only know one of them see the same list */
     suspend fun saveSubscriptions(session: MatrixSession, rooms: Map<String, Map<String, JsonElement>>) {
         val content = CosmeticPacks.subscriptionsJson(rooms)
         for (type in CosmeticPacks.SUBSCRIPTION_TYPES) session.setAccountDataJSON(type, content)
+        // The just-picked packs are read again at once instead of after the cache expires.
+        forget()
     }
 
     /**
@@ -127,7 +156,8 @@ object CosmeticPackStore {
 
     private suspend fun rebuildIntroIndex(session: MatrixSession) {
         if (System.currentTimeMillis() - introAt < TTL_MS) return
-        val packs = listOfNotNull(personal(session)) + subscribed(session)
+        val subscribedPacks = runCatching { subscribed(session) }.getOrDefault(emptyList())
+        val packs = listOfNotNull(personal(session)) + subscribedPacks
         introByUrl.clear()
         for (pack in packs) for (item in pack.items) item.intro?.let { introByUrl.putIfAbsent(item.url, it) }
         introAt = System.currentTimeMillis()

@@ -1506,7 +1506,7 @@
       "invalidLink": "Isso não parece um link de vídeo do YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Assistir juntos",
       "menu": "Ver vídeo do YouTube",
       "title": "Assistir a um vídeo do YouTube juntos",
       "linkLabel": "Link do YouTube",
@@ -1521,7 +1521,6 @@
       "stopWatching": "Parar de assistir",
       "consentTitle": "Antes de assistir",
       "consentBody": "O vídeo é reproduzido pelo YouTube. Ao assistir, ele é carregado dos servidores do YouTube, o que envia seu endereço IP, os detalhes do dispositivo e do navegador e o que você assiste ao YouTube (Google).",
-      "beta": "Beta",
       "playerUnavailable": "Não foi possível carregar o player. Tente novamente mais tarde ou abra o vídeo no YouTube.",
       "focus": "Destacar vídeo",
       "waitingFor": "Aguardando {{name}}..."
@@ -2371,7 +2370,8 @@
       "searchPacks": "Pesquisar pacotes",
       "subscribeAll": "Assinar todos",
       "unsubscribeAll": "Cancelar todas as assinaturas",
-      "noPacksMatch": "Nenhum pacote corresponde à sua pesquisa"
+      "noPacksMatch": "Nenhum pacote corresponde à sua pesquisa",
+      "packsLoadFailed": "Não foi possível carregar os pacotes das suas salas."
     },
     "keybinds": {
       "title": "Atalhos de teclado",
