@@ -19,6 +19,7 @@ import {
 import {
   fillCaptures,
   findLinkLookup,
+  findLinkViewer,
   matchLinkCard,
   getApiActions,
   getCommands,
@@ -26,6 +27,7 @@ import {
   matchPathPattern,
   renderInsert,
 } from '../src/app/features/integrations/matching.ts';
+import { assertViewerUrlAllowed } from '../src/app/features/integrations/widget.ts';
 import { reconcile } from '../src/app/features/integrations/store.ts';
 import type { GrantMap, InstalledIntegration } from '../src/app/features/integrations/types.ts';
 
@@ -33,6 +35,12 @@ const card = (hosts: string[], pathPrefix?: string) => ({
   hosts,
   title: 'Card',
   ...(pathPrefix ? { pathPrefix } : {}),
+});
+
+const widget = (events?: string[]) => ({
+  url: 'https://widgets.example.com/a',
+  capabilities: ['send.message'],
+  ...(events ? { events } : {}),
 });
 
 const offered = (version: string, permissions: Integration['permissions']): Integration => ({
@@ -107,6 +115,14 @@ export function runBehaviourExamples(): string[] {
     widenedSameVersion.pendingUpdate !== undefined
   );
 
+  // A widget event type is part of what needs approval.
+  const w0 = installed('1.0.0', { widget: widget() });
+  const w1 = reconcile(w0, offered('1.0.0', { widget: widget(['com.example.app.sent']) }));
+  check('a new widget event type is pending', w1.pendingUpdate !== undefined);
+  const w2 = installed('1.0.0', { widget: widget(['com.example.app.sent']) });
+  const w3 = reconcile(w2, offered('1.0.0', { widget: widget() }));
+  check('dropping a widget event type is taken', w3.permissions.widget?.events === undefined);
+
   // Nothing changed: the very same object comes back (no needless writes).
   const plain = installed('1.0.0', { linkCards: [card(['a.example.com'])] });
   check(
@@ -135,6 +151,75 @@ export function runBehaviourExamples(): string[] {
   check(
     'link: no prefix covers the whole host',
     matchLinkCard('https://app.example.com/anything', rootCard, grants) !== null
+  );
+
+  // A card's link opens in a window only on exactly the approved origin.
+  const appOrigin = 'https://chat.example.com';
+  const wUrl = 'https://app.example.com/';
+  const viewerOk = (link: string) => assertViewerUrlAllowed(wUrl, link, appOrigin).ok;
+  check(
+    'viewer: fragment link on the host',
+    viewerOk('https://app.example.com/r#' + 'a'.repeat(64))
+  );
+  check('viewer: query link on the host', viewerOk('https://app.example.com/s?x=1'));
+  check('viewer: not another host', !viewerOk('https://other.example.com/r#abc'));
+  check('viewer: not a look-alike host', !viewerOk('https://app.example.com.evil.example/r#abc'));
+  check('viewer: not another port', !viewerOk('https://app.example.com:8443/r#abc'));
+  check('viewer: not http', !viewerOk('http://app.example.com/r#abc'));
+  check('viewer: not credentials', !viewerOk('https://user:pw@app.example.com/r#abc'));
+  check('viewer: not whitespace', !viewerOk('https://app.example.com/a b'));
+  check('viewer: not too long', !viewerOk('https://app.example.com/' + 'a'.repeat(1000)));
+  check(
+    'viewer: not the app origin',
+    !assertViewerUrlAllowed(`${appOrigin}/`, `${appOrigin}/x`, appOrigin).ok
+  );
+
+  const viewerInstall = installed('1.0.0', {
+    linkCards: [card(['app.example.com'])],
+    widget: { url: wUrl, capabilities: [], fromLinks: true, saveFiles: true },
+  });
+  const widgetGrants: GrantMap = { one: { linkCards: true, widget: true } };
+  const found = findLinkViewer('https://app.example.com/r#abc', [viewerInstall], widgetGrants);
+  check('viewer found with the grant', found !== null && found.saveFiles === true);
+  check(
+    'viewer needs the widget grant',
+    findLinkViewer('https://app.example.com/r#abc', [viewerInstall], grants) === null
+  );
+  check(
+    'viewer needs the integration enabled',
+    findLinkViewer(
+      'https://app.example.com/r#abc',
+      [{ ...viewerInstall, enabled: false }],
+      widgetGrants
+    ) === null
+  );
+  check(
+    'viewer ignores other hosts',
+    findLinkViewer('https://other.example.com/r#abc', [viewerInstall], widgetGrants) === null
+  );
+
+  // Turning on the window or downloads is a widening that needs approval again.
+  const plainWidget = installed('1.0.0', { widget: { url: wUrl, capabilities: [] } });
+  const withViewer = reconcile(
+    plainWidget,
+    offered('1.0.0', { widget: { url: wUrl, capabilities: [], fromLinks: true } })
+  );
+  check('adding fromLinks is pending', withViewer.pendingUpdate !== undefined);
+  const withSave = reconcile(
+    plainWidget,
+    offered('1.0.0', { widget: { url: wUrl, capabilities: [], saveFiles: true } })
+  );
+  check('adding saveFiles is pending', withSave.pendingUpdate !== undefined);
+  const dropped = reconcile(
+    viewerInstall,
+    offered('1.0.0', {
+      linkCards: [card(['app.example.com'])],
+      widget: { url: wUrl, capabilities: [] },
+    })
+  );
+  check(
+    'dropping fromLinks and saveFiles is taken',
+    dropped.permissions.widget?.fromLinks === undefined && dropped.pendingUpdate === undefined
   );
 
   checkLinkDetails(check);

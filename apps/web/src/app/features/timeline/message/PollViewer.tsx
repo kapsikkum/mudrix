@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import type { RoomTimeline } from '@wizardchat/core';
+import type { RoomTimeline } from '@mudrix/core';
 import { ChartBarHorizontalIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 import type { EventEntry } from './entry';
@@ -84,7 +84,7 @@ export function PollViewer({ event, timeline }: PollViewerProps) {
     <div className={css.container} role="status" aria-live="polite">
       <div className={css.header}>
         <ChartBarHorizontalIcon size={18} className={css.icon} weight="fill" />
-        <span className={css.question}>{questionText || t('timeline.poll.create')}</span>
+        <span className={css.question}>{questionText || t('timeline.poll.title')}</span>
       </div>
 
       {answers.length === 0 && (

@@ -5,7 +5,7 @@
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use wizardchat_core::{Session, StoreConfig, WizardClient};
+use mudrix_core::{MudrixClient, Session, StoreConfig};
 
 pub type BoxError = Box<dyn std::error::Error>;
 
@@ -15,14 +15,14 @@ pub fn server() -> String {
 
 /// A fresh store directory for one device of an example
 pub fn store(example: &str, device: &str) -> StoreConfig {
-    let dir = std::env::temp_dir().join(format!(
-        "wizardchat-{example}-{}-{device}",
-        std::process::id()
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("mudrix-{example}-{}-{device}", std::process::id()));
     StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some(format!("{example}-test")),
         exclude_insecure_devices: false,
+        manual_encryption_setup: false,
+        process_name: None,
     }
 }
 
@@ -36,7 +36,7 @@ pub struct Account {
 pub async fn register(
     example: &str,
     device: &str,
-) -> Result<(WizardClient, Session, Account), BoxError> {
+) -> Result<(MudrixClient, Session, Account), BoxError> {
     register_in(example, device, store(example, device)).await
 }
 
@@ -45,13 +45,13 @@ pub async fn register_in(
     example: &str,
     device: &str,
     store: StoreConfig,
-) -> Result<(WizardClient, Session, Account), BoxError> {
+) -> Result<(MudrixClient, Session, Account), BoxError> {
     let stamp = SystemTime::now().duration_since(UNIX_EPOCH)?.as_nanos();
     let account = Account {
         username: format!("wz{example}{device}{stamp}").to_lowercase(),
         password: format!("pw-{stamp:x}-{}", std::process::id()),
     };
-    let (client, session) = WizardClient::register(
+    let (client, session) = MudrixClient::register(
         &server(),
         &account.username,
         &account.password,
@@ -68,8 +68,8 @@ pub async fn sign_in(
     example: &str,
     device: &str,
     account: &Account,
-) -> Result<(WizardClient, Session), BoxError> {
-    Ok(WizardClient::login_password(
+) -> Result<(MudrixClient, Session), BoxError> {
+    Ok(MudrixClient::login_password(
         &server(),
         &account.username,
         &account.password,

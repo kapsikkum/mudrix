@@ -20,7 +20,7 @@ use matrix_sdk::{
 };
 use serde::Serialize;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// The account's end-to-end encryption setup, as far as the UI needs it
 #[derive(Clone, Debug, Serialize, PartialEq, Eq)]
@@ -312,7 +312,7 @@ impl VerificationFlow {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn encryption_status(&self) -> EncryptionStatus {
         status_of(self.sdk()).await
     }

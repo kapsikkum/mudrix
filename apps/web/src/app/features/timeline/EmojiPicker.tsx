@@ -16,7 +16,7 @@ import {
   StickerIcon,
   XIcon,
 } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { emojiPickerAtom, emojiStyleAtom } from '@/app/store/atoms';
 import { getMaxEmojiVersion } from '@/util/emojiStyle';
 import { useRecentEmoji } from '@/app/hooks/useRecentEmoji';

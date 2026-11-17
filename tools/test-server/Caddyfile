@@ -1,0 +1,16 @@
+# HTTPS for the test server name, with Caddy's own local CA. Call clients look up
+# https://mudrix.test/.well-known/matrix/client to find the LiveKit service, and a client that
+# cannot read it falls back to the homeserver's own RTC transports. Test browsers map mudrix.test
+# to this machine (participants.mjs passes --host-resolver-rules) and are started with
+# --ignore-certificate-errors, because the CA is not in any trust store.
+# __HOST__ is filled in by up.mjs.
+{
+	local_certs
+	auto_https disable_redirects
+}
+
+mudrix.test:443, mudrix.test:8448 {
+	bind __HOST__
+	tls internal
+	reverse_proxy __HOST__:6167
+}

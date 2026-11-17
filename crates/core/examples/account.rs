@@ -1,22 +1,23 @@
 //! End-to-end check of account management: registration, availability, password change,
 //! profile fields (banner) and deactivation, on a fresh throwaway account.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example account
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example account
 
 #![recursion_limit = "256"]
 
+use mudrix_core::{MudrixClient, StoreConfig, UiaAuth, UiaOutcome};
 use serde_json::json;
-use wizardchat_core::{StoreConfig, UiaAuth, UiaOutcome, WizardClient};
 
 type BoxError = Box<dyn std::error::Error>;
 
 fn store(name: &str) -> StoreConfig {
-    let dir =
-        std::env::temp_dir().join(format!("wizardchat-account-{}-{name}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("mudrix-account-{}-{name}", std::process::id()));
     StoreConfig {
         location: dir.to_string_lossy().into_owned(),
         passphrase: Some("account-test".into()),
         exclude_insecure_devices: false,
+        manual_encryption_setup: false,
+        process_name: None,
     }
 }
 
@@ -24,17 +25,17 @@ fn store(name: &str) -> StoreConfig {
 async fn main() -> Result<(), BoxError> {
     let server = std::env::var("WZ_SERVER")?;
     let name = format!("wzreg{}", std::process::id());
-    let info = WizardClient::registration_info(&server).await?;
+    let info = MudrixClient::registration_info(&server).await?;
     println!(
         "registration enabled: {}, flows {:?}",
         info.enabled, info.flows
     );
-    assert!(WizardClient::username_available(&server, &name).await?);
+    assert!(MudrixClient::username_available(&server, &name).await?);
     // A throwaway password for a throwaway account; never printed
     let password = format!("pw-{}-{}", std::process::id(), name.len() * 7919);
     let (client, session) =
-        WizardClient::register(&server, &name, &password, "account test", None, store("a")).await?;
-    assert!(!WizardClient::username_available(&server, &name).await?);
+        MudrixClient::register(&server, &name, &password, "account test", None, store("a")).await?;
+    assert!(!MudrixClient::username_available(&server, &name).await?);
     println!("registered {} and the name is taken now", session.user_id);
 
     let types = client.account_data_types().await?;
@@ -64,7 +65,7 @@ async fn main() -> Result<(), BoxError> {
                 }),
             )
             .await,
-        Err(wizardchat_core::Error::InvalidCredentials)
+        Err(mudrix_core::Error::InvalidCredentials)
     ));
     let UiaOutcome::AuthRequired {
         session: uia_session,
@@ -89,7 +90,7 @@ async fn main() -> Result<(), BoxError> {
     println!("password change asks for auth first (flows {flows:?}), refuses a wrong password");
 
     let (extra, extra_session) =
-        WizardClient::login_password(&server, &name, &password, "account test x", store("x"))
+        MudrixClient::login_password(&server, &name, &password, "account test x", store("x"))
             .await?;
     let device = vec![extra_session.device_id.clone()];
     let UiaOutcome::AuthRequired {
@@ -121,19 +122,23 @@ async fn main() -> Result<(), BoxError> {
         .is_err());
     client.change_password(&password, &new_password).await?;
     let (again, _) =
-        WizardClient::login_password(&server, &name, &new_password, "account test 2", store("b"))
+        MudrixClient::login_password(&server, &name, &new_password, "account test 2", store("b"))
             .await?;
     println!("wrong current password refused; changed it and signed in with the new one");
 
     client
-        .set_profile_field("org.wizardchat.test", json!({ "a": 1 }))
+        .set_profile_field("io.github.kapsikkum.mudrix.test", json!({ "a": 1 }))
         .await?;
     let me = session.user_id.clone();
     assert_eq!(
-        again.profile_field(&me, "org.wizardchat.test").await?,
+        again
+            .profile_field(&me, "io.github.kapsikkum.mudrix.test")
+            .await?,
         Some(json!({ "a": 1 }))
     );
-    client.delete_profile_field("org.wizardchat.test").await?;
+    client
+        .delete_profile_field("io.github.kapsikkum.mudrix.test")
+        .await?;
     client
         .set_banner(Some((vec![0x89, 0x50, 0x4e, 0x47], "image/png".into())))
         .await?;
@@ -152,11 +157,11 @@ async fn main() -> Result<(), BoxError> {
     again.logout().await.ok();
     assert!(matches!(
         client.deactivate_account(None, false).await,
-        Err(wizardchat_core::Error::PasswordRequired)
+        Err(mudrix_core::Error::PasswordRequired)
     ));
     client.deactivate_account(Some(&new_password), true).await?;
     assert!(
-        WizardClient::login_password(&server, &name, &new_password, "x", store("c"))
+        MudrixClient::login_password(&server, &name, &new_password, "x", store("c"))
             .await
             .is_err()
     );

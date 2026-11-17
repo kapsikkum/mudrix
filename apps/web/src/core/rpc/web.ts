@@ -1,5 +1,5 @@
-/** `@wizardchat/core` on the web: the core compiled to wasm, in this page */
-import initWasm, { Core } from '@wizardchat/core-wasm';
+/** `@mudrix/core` on the web: the core compiled to wasm, in this page */
+import initWasm, { Core } from '@mudrix/core-wasm';
 import { dispatchEvent, ensure, setTransport } from './runtime';
 
 export * from './api.gen';

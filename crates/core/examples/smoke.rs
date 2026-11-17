@@ -1,7 +1,7 @@
 //! End-to-end check of the core against a real homeserver:
 //! sign in, sync, create a room, send a message, and wait for the room list and timeline.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example smoke
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example smoke
 
 #![recursion_limit = "256"]
 
@@ -11,8 +11,8 @@ mod common;
 use std::{future::Future, time::Duration};
 
 use futures_util::StreamExt;
+use mudrix_core::{EntryContent, RoomSummary, TimelineEntry};
 use tokio::sync::oneshot;
-use wizardchat_core::{EntryContent, RoomSummary, TimelineEntry};
 
 use common::BoxError;
 
@@ -67,7 +67,7 @@ async fn main() -> Result<(), BoxError> {
     .await?;
 
     let timeline = client.timeline(&room_id).await?;
-    let body = "hello from wizardchat-core";
+    let body = "hello from mudrix-core";
     timeline.send_text(body, None).await?;
     let (tx, rx) = oneshot::channel();
     let mut tx = Some(tx);
@@ -107,7 +107,7 @@ async fn main() -> Result<(), BoxError> {
         .await?;
     timeline.toggle_reaction(&first_key, "👍").await?;
     timeline
-        .edit_text(&first_key, "hello from wizardchat-core (edited)")
+        .edit_text(&first_key, "hello from mudrix-core (edited)")
         .await?;
     let png: Vec<u8> = vec![
         0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0x0d, 0x49, 0x48, 0x44, 0x52, 0,
@@ -117,7 +117,7 @@ async fn main() -> Result<(), BoxError> {
     ];
     timeline
         .send_attachment(
-            wizardchat_core::Attachment {
+            mudrix_core::Attachment {
                 bytes: png.clone(),
                 filename: "pixel.png".into(),
                 mimetype: "image/png".into(),
@@ -190,14 +190,14 @@ async fn main() -> Result<(), BoxError> {
 
     // Spaces and room management
     let space_id = client
-        .create_room_with(wizardchat_core::CreateRoomOptions {
+        .create_room_with(mudrix_core::CreateRoomOptions {
             name: "Smoke space".into(),
             is_space: true,
             ..Default::default()
         })
         .await?;
     let child_id = client
-        .create_room_with(wizardchat_core::CreateRoomOptions {
+        .create_room_with(mudrix_core::CreateRoomOptions {
             name: "Space child".into(),
             topic: Some("inside the space".into()),
             parent_space_id: Some(space_id.clone()),
@@ -208,7 +208,7 @@ async fn main() -> Result<(), BoxError> {
 
     let (tx, rx) = oneshot::channel();
     let mut tx = Some(tx);
-    let mut spaces: Vec<wizardchat_core::SpaceSummary> = Vec::new();
+    let mut spaces: Vec<mudrix_core::SpaceSummary> = Vec::new();
     until(
         "the new space in the space list",
         rx,
@@ -233,7 +233,7 @@ async fn main() -> Result<(), BoxError> {
     );
     println!("space hierarchy lists the child room as joined");
 
-    let (filter_tx, filter_rx) = futures_util::stream::iter(vec![wizardchat_core::RoomFilter {
+    let (filter_tx, filter_rx) = futures_util::stream::iter(vec![mudrix_core::RoomFilter {
         space_id: Some(space_id.clone()),
         ..Default::default()
     }])
@@ -288,7 +288,7 @@ async fn main() -> Result<(), BoxError> {
         .set_custom_status(
             "testing the core",
             Some(expires),
-            wizardchat_core::Presence::Online,
+            mudrix_core::Presence::Online,
         )
         .await?;
     let profile = client.own_profile().await?;
@@ -305,7 +305,7 @@ async fn main() -> Result<(), BoxError> {
         profile.presence.map(|p| p.state)
     );
     client
-        .clear_custom_status(wizardchat_core::Presence::Online)
+        .clear_custom_status(mudrix_core::Presence::Online)
         .await?;
     client.remove_avatar().await?;
     assert!(client.own_profile().await?.custom_status.is_none());
@@ -394,7 +394,7 @@ async fn main() -> Result<(), BoxError> {
     let thread = client
         .timeline_of(
             &room,
-            wizardchat_core::TimelineKind::Thread {
+            mudrix_core::TimelineKind::Thread {
                 root_event_id: root_id.clone(),
             },
         )
@@ -430,7 +430,7 @@ async fn main() -> Result<(), BoxError> {
     client.leave(&room).await?;
 
     // Notification settings and synced app settings
-    use wizardchat_core::NotificationMode;
+    use mudrix_core::NotificationMode;
     let before = client.notification_prefs().await;
     client
         .set_default_notification_mode(false, NotificationMode::Mentions)
@@ -467,11 +467,13 @@ async fn main() -> Result<(), BoxError> {
     println!("notification defaults, keywords and per-room mute set and read back");
     client
         .set_account_data(
-            "org.wizardchat.settings",
+            "io.github.kapsikkum.mudrix.settings",
             serde_json::json!({ "theme": "hallow" }),
         )
         .await?;
-    let stored = client.account_data("org.wizardchat.settings").await?;
+    let stored = client
+        .account_data("io.github.kapsikkum.mudrix.settings")
+        .await?;
     assert_eq!(
         stored.and_then(|v| v.get("theme").cloned()),
         Some(serde_json::json!("hallow"))

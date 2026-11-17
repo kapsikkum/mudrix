@@ -1,9 +1,9 @@
 import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Trans, useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import {
   BellRingingIcon,
   CameraIcon,
@@ -13,11 +13,11 @@ import {
   CompassIcon,
   EnvelopeSimpleIcon,
   GameControllerIcon,
-  LockKeyIcon,
   ShieldWarningIcon,
-  SparkleIcon,
+  NewspaperIcon,
   SpeakerHighIcon,
   StackIcon,
+  XIcon,
 } from '@phosphor-icons/react';
 import {
   createSpaceOpenAtom,
@@ -28,20 +28,20 @@ import {
   sessionVerificationAtom,
   settingsOpenAtom,
   settingsPageAtom,
+  verifySkippedDeviceAtom,
   whatsNewOpenAtom,
   type SettingsPage,
 } from '@/app/store/atoms';
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
-import { LogoHover } from '@/app/components/AppLoading';
-import { parentSpacesOf, useJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
+import { parentSpacesOf, useAllJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
 import { activityText } from '@/app/hooks/useExtendedProfile';
 import { useInvites, type Invite } from '@/app/features/inbox/useInvites';
 import { useMentions, type Mention } from '@/app/features/inbox/useMentions';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { useRoomEntries, type RoomEntry } from '@/app/features/roomSwitcher/roomEntries';
 import { latestWhatsNew } from '@/app/features/whatsNew';
-import { ACTIVITY_EMOJI } from '@/util/profileActivity';
+import { ActivityIcon } from '@/app/features/profile/ActivityIcon';
 import { formatUserId } from '@/util/matrix';
 import { MODIFIER_KEY } from '@/app/util/platform';
 import { PersonAvatar } from './ActiveNowPanel';
@@ -67,6 +67,8 @@ interface Action {
   description: string;
   onClick: () => void;
   warning?: boolean;
+  /** A setup row the person can hide for this device (the old app's card could be ignored) */
+  onDismiss?: () => void;
 }
 
 const roomPath = (kind: 'room' | 'dm' | 'space', roomId: string) =>
@@ -145,7 +147,7 @@ function Panel({
 }
 
 /** The Home tab once signed in: a dashboard of what needs you, what is going on, and the way in. */
-export function HomeWelcome({ client }: { client: WizardClient }) {
+export function HomeWelcome({ client }: { client: MudrixClient }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const setNewDmOpen = useSetAtom(newDmOpenAtom);
@@ -157,19 +159,18 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   const setPendingJump = useSetAtom(pendingEventJumpAtom);
   const setWhatsNewOpen = useSetAtom(whatsNewOpenAtom);
   const { status: verification } = useAtomValue(sessionVerificationAtom);
+  const [skippedDevice, setSkippedDevice] = useAtom(verifySkippedDeviceAtom);
+  const deviceId = client.session().deviceId;
   const myId = client.userId();
   const { data: profile } = useProfile(myId);
   const joinVoiceRoom = useJoinVoiceRoom(client);
   const entries = useRoomEntries();
-  const spaces = useJoinedSpaces();
+  const spaces = useAllJoinedSpaces();
   const graph = useSpaceGraph();
 
   const invites = useInvites();
   const { mentions } = useMentions(true);
   const friends = useFriendActivities(client);
-
-  const name = profile?.displayName || undefined;
-  const greeting = name ? t('timeline.home.greeting', { name }) : t('timeline.welcomeTitle');
 
   const openSettings = (page: SettingsPage) => {
     setSettingsPage(page);
@@ -226,21 +227,21 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   const start: Action[] = [
     {
       id: 'dm',
-      icon: <ChatCircleIcon size={22} />,
+      icon: <ChatCircleIcon size={20} />,
       title: t('timeline.startDm'),
       description: t('timeline.home.dmDesc'),
       onClick: () => setNewDmOpen(true),
     },
     {
       id: 'space',
-      icon: <StackIcon size={22} />,
-      title: t('room.space.chooseCreateJoin'),
+      icon: <StackIcon size={20} />,
+      title: t('space.chooseCreateJoin'),
       description: t('timeline.home.spaceDesc'),
       onClick: () => setCreateSpaceOpen({ open: true }),
     },
     {
       id: 'explore',
-      icon: <CompassIcon size={22} />,
+      icon: <CompassIcon size={20} />,
       title: t('timeline.home.exploreTitle'),
       description: t('timeline.home.exploreDesc'),
       onClick: () => setExploreOpen(true),
@@ -259,18 +260,25 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   }
   if (verification === 'no-identity' || verification === 'unverified') {
     const notSetUp = verification === 'no-identity';
-    setup.push({
-      id: 'encryption',
-      icon: notSetUp ? <LockKeyIcon size={20} /> : <ShieldWarningIcon size={20} />,
-      title: notSetUp ? t('verifySession.setupButton') : t('verifySession.title'),
-      description: t('timeline.home.encryptionDesc'),
-      onClick: () => openSettings(notSetUp ? 'encryption' : 'sessions'),
-      warning: true,
-    });
+    // The old app keeps this as an ordinary card the person can leave alone: no dialog, and it
+    // stays out of the way once dismissed for this session's device.
+    const dismissed = !!deviceId && skippedDevice === deviceId;
+    if (!dismissed)
+      setup.push({
+        id: 'encryption',
+        icon: <ShieldWarningIcon size={20} />,
+        title: notSetUp ? t('verification.session.setupButton') : t('verification.session.title'),
+        description: t('timeline.home.encryptionDesc'),
+        // Settings → Sessions is where the old app sent this card: set up encryption and verify
+        // the session from there.
+        onClick: () => openSettings('sessions'),
+        warning: true,
+        onDismiss: deviceId ? () => setSkippedDevice(deviceId) : undefined,
+      });
   }
 
   // Each block that shows takes the next place in the entrance.
-  let place = 2;
+  let place = 1;
   const next = () => place++;
 
   const catchUpIndex = hasCatchUp ? next() : 0;
@@ -314,28 +322,18 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
   return (
     <div className={css.home}>
       <div className={css.inner}>
-        <header className={`${css.hero} ${css.enter}`} style={step(0)}>
-          <div className={css.logo} aria-hidden>
-            <LogoHover size={56} />
-          </div>
-          <div className={css.heroText}>
-            <h1 className={css.title}>{greeting}</h1>
-            <p className={css.tagline}>{t('welcome.tagline')}</p>
-          </div>
-        </header>
-
         {setup.length > 0 && (
           <section className={css.section} aria-labelledby="home-setup-heading">
             <h2
               id="home-setup-heading"
               className={`${css.sectionLabel} ${css.enter}`}
-              style={step(1)}
+              style={step(0)}
             >
               {t('timeline.home.setupHeading')}
             </h2>
-            <ul className={`${css.setupList} ${css.enter}`} style={step(1)}>
+            <ul className={`${css.setupList} ${css.enter}`} style={step(0)}>
               {setup.map((action) => (
-                <li key={action.id}>
+                <li key={action.id} className={css.setupItem}>
                   <button type="button" className={css.setupRow} onClick={action.onClick}>
                     <span
                       className={`${css.setupIcon}${action.warning ? ` ${css.setupIconWarning}` : ''}`}
@@ -349,6 +347,17 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                     </span>
                     <CaretRightIcon size={16} className={css.chevron} aria-hidden />
                   </button>
+                  {action.onDismiss && (
+                    <button
+                      type="button"
+                      className={css.setupDismiss}
+                      aria-label={t('common.dismiss')}
+                      title={t('common.dismiss')}
+                      onClick={action.onDismiss}
+                    >
+                      <XIcon size={14} weight="bold" />
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
@@ -452,7 +461,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                         <span className={css.rowText}>
                           <span className={css.rowTitle}>
                             {entry.isVoice && (
-                              <SpeakerHighIcon size={13} weight="fill" className={css.inlineIcon} />
+                              <SpeakerHighIcon size={14} weight="fill" className={css.inlineIcon} />
                             )}
                             {entry.name}
                           </span>
@@ -539,7 +548,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                           else void joinVoiceRoom(room.roomId);
                         }}
                       >
-                        {room.includesMe ? t('home.open') : t('home.join')}
+                        {room.includesMe ? t('common.open') : t('common.join')}
                       </Button>
                     </li>
                   ))}
@@ -572,7 +581,12 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
                           <span className={css.rowTitle}>{friend.name}</span>
                           {friend.activities.map((activity) => (
                             <span key={`${activity.type}:${activity.name}`} className={css.rowSub}>
-                              {ACTIVITY_EMOJI[activity.type]} {activityText(t, activity)}
+                              <ActivityIcon
+                                type={activity.type}
+                                size={14}
+                                className={css.activityIcon}
+                              />
+                              {activityText(t, activity)}
                             </span>
                           ))}
                         </span>
@@ -587,7 +601,7 @@ export function HomeWelcome({ client }: { client: WizardClient }) {
               <Panel
                 id="home-whatsnew-heading"
                 index={whatsNewIndex}
-                icon={<SparkleIcon size={16} weight="fill" />}
+                icon={<NewspaperIcon size={16} weight="fill" />}
                 title={t('timeline.home.whatsNewHeading')}
                 className={css.whatsNew}
                 action={<span className={css.versionPill}>{whatsNew.version}</span>}

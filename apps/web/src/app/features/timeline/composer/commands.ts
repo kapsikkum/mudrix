@@ -1,10 +1,4 @@
-import type {
-  Member,
-  MessageKind,
-  RoomSummary,
-  RoomTimeline,
-  WizardClient,
-} from '@wizardchat/core';
+import type { Member, MessageKind, RoomSummary, RoomTimeline, MudrixClient } from '@mudrix/core';
 import { Text, type Descendant } from 'slate';
 import { fromMarkdown, type MentionResolver } from './editor/fromMarkdown';
 import { buildTextContent } from './editor/buildTextContent';
@@ -13,7 +7,7 @@ import { viaServersFor } from '@/util/matrix';
 import type { CustomElement, EmoticonElement } from './editor/types';
 
 export interface CommandContext {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   threadId?: string | null;
   replyTo?: ReplyTarget | null;
@@ -38,6 +32,8 @@ export interface CommandContext {
   setComposerText?: (text: string) => void;
   /** Integration commands: asks the person to confirm an api action before it is called. */
   openApiConfirm?: (request: { integrationId: string; actionId: string; args: string }) => void;
+  /** Integration commands: opens the integration's widget over the room. */
+  openIntegrationWidget?: (integrationId: string) => void;
 }
 
 export interface CommandDefinition {
@@ -221,7 +217,7 @@ const handleJoinVoice: CommandHandler = async (args, ctx) => {
 };
 
 const handleCall: CommandHandler = async (args, ctx) => {
-  if (ctx.callActive) throw new Error(ctx.t('voice.toastAlreadyInCall'));
+  if (ctx.callActive) throw new Error(ctx.t('call.toastAlreadyInCall'));
   if (!ctx.placeCall) throw new Error(ctx.t('timeline.commands.callUnavailable'));
   const targetRoomId = await resolveTargetRoomId(ctx, args);
   await ctx.placeCall(targetRoomId);
@@ -232,7 +228,7 @@ const handleHangup: CommandHandler = async (_args, ctx) => {
     ctx.hangup?.();
     return;
   }
-  throw new Error(ctx.t('voice.noActiveCall'));
+  throw new Error(ctx.t('call.noActiveCall'));
 };
 
 const handlePart: CommandHandler = async (

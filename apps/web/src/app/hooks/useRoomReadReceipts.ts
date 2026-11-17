@@ -1,11 +1,11 @@
 import { useCallback, useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import type { RoomTimeline, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, MudrixClient } from '@mudrix/core';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import { markRoomAsRead } from '@/app/pages/client/markAsRead';
 
 export function useRoomReadReceipts(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   timeline?: RoomTimeline | null,
   latestEventId?: string | null

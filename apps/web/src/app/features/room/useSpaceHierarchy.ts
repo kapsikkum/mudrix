@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode } from '@mudrix/core';
 import { childrenOf, useAllRooms, useSpaceGraph } from '@/app/data';
 import { isDmRoom } from '@/util/matrix';
 import { getRoomUnreadCount, roomHasUnreadMention } from '@/util/mentions';

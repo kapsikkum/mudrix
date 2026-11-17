@@ -25,6 +25,26 @@ enum ShareInbox {
         UserDefaults(suiteName: group)?.string(forKey: "theme").flatMap(WZ.Theme.init(rawValue:)) ?? .default
     }
 
+    /// Streamer mode hides private details; the notification service extension can't read the app's
+    /// own settings, so the app mirrors the flag here
+    static func saveHideContent(_ hidden: Bool) {
+        UserDefaults(suiteName: group)?.set(hidden, forKey: "hideNotificationContent")
+    }
+
+    static var hideContent: Bool {
+        UserDefaults(suiteName: group)?.bool(forKey: "hideNotificationContent") ?? false
+    }
+
+    /// Notification sounds: the gateway's alert always plays the system sound, so the extension
+    /// silences it when the app's own settings would not have played one
+    static func saveNotificationSounds(_ enabled: Bool) {
+        UserDefaults(suiteName: group)?.set(enabled, forKey: "notificationSounds")
+    }
+
+    static var notificationSounds: Bool {
+        UserDefaults(suiteName: group)?.object(forKey: "notificationSounds") as? Bool ?? true
+    }
+
     private static var container: URL? {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group)
     }

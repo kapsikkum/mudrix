@@ -1,7 +1,7 @@
 import type { Descendant, Text } from 'slate';
-import { parseFormatting } from './fromMarkdown';
+import { BULLET_RE, HEADING_RE, NUMBERED_RE, parseFormatting } from './fromMarkdown';
 import { isFenceLineParagraph } from './toMarkdown';
-import type { CustomElement, CustomText } from './types';
+import type { CustomElement, CustomText, HeadingLevel } from './types';
 
 function isText(node: Descendant): node is Text {
   return 'text' in node;
@@ -24,7 +24,13 @@ function markLeaf(leaf: CustomText): Descendant[] {
 function transform(node: Descendant): Descendant {
   if (isText(node)) return node;
   const el = node as CustomElement;
-  if (el.type !== 'paragraph' && el.type !== 'block-quote') return node;
+  if (
+    el.type !== 'paragraph' &&
+    el.type !== 'block-quote' &&
+    el.type !== 'heading' &&
+    el.type !== 'list-item'
+  )
+    return node;
   return {
     ...el,
     children: el.children.flatMap((child) =>
@@ -41,6 +47,32 @@ function quoteLineChildren(node: Descendant): Descendant[] | null {
   const text = (first as CustomText).text;
   if (text !== '>' && !text.startsWith('> ')) return null;
   return [{ ...first, text: text.slice(2) } as Descendant, ...children.slice(1)];
+}
+
+function lineBlock(node: Descendant): Descendant | null {
+  if (isText(node) || (node as CustomElement).type !== 'paragraph') return null;
+  const children = (node as CustomElement).children;
+  const first = children[0];
+  if (!first || !isText(first) || (first as CustomText).code) return null;
+  const text = (first as CustomText).text;
+  const strip = (prefix: string) => [
+    { ...first, text: text.slice(prefix.length) } as Descendant,
+    ...children.slice(1),
+  ];
+  const heading = HEADING_RE.exec(text);
+  if (heading) {
+    const level = heading[1].length as HeadingLevel;
+    return { type: 'heading', level, children: strip(heading[0]) } as Descendant;
+  }
+  const bullet = BULLET_RE.exec(text);
+  if (bullet) {
+    return { type: 'list-item', listType: 'bulleted', children: strip(bullet[0]) } as Descendant;
+  }
+  const numbered = NUMBERED_RE.exec(text);
+  if (numbered) {
+    return { type: 'list-item', listType: 'numbered', children: strip(numbered[0]) } as Descendant;
+  }
+  return null;
 }
 
 export function applyInlineMarkdown(value: Descendant[]): Descendant[] {
@@ -70,7 +102,7 @@ export function applyInlineMarkdown(value: Descendant[]): Descendant[] {
       out.push(transform({ type: 'block-quote', children } as Descendant));
       continue;
     }
-    out.push(transform(node));
+    out.push(transform(lineBlock(node) ?? node));
   }
   return out;
 }

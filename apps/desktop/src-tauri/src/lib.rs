@@ -1,13 +1,18 @@
 #![recursion_limit = "256"]
 
+mod activity;
 mod badge;
 mod dev;
 mod downloads;
+mod global_keys;
+mod keep_awake;
+mod keyfile;
 mod links;
 mod loopback;
-mod push_to_talk;
+mod popout;
 mod rpc;
 mod screen_share;
+mod screenshare;
 mod settings;
 mod shell;
 mod toast;
@@ -19,7 +24,7 @@ use std::sync::Mutex;
 use tauri::{
     webview::{PermissionKind, PermissionResponse},
     window::Color,
-    AppHandle, Manager, Runtime, WebviewWindow,
+    AppHandle, Manager, Runtime, WebviewWindow, WebviewWindowBuilder,
 };
 use tauri_plugin_window_state::WindowExt as _;
 
@@ -92,28 +97,49 @@ fn hide_on_close<R: Runtime>(window: &tauri::Window<R>, event: &tauri::WindowEve
 }
 
 pub fn run() {
-    let app = tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+    #[cfg(all(debug_assertions, windows))]
+    if std::env::var_os("WEBVIEW2_USER_DATA_FOLDER").is_none() {
+        if let Ok(local_data) = std::env::var("LOCALAPPDATA") {
+            let dev_webview = std::path::PathBuf::from(local_data)
+                .join("chat.mudrix.desktop")
+                .join("dev-webview");
+            let _ = std::fs::create_dir_all(&dev_webview);
+            std::env::set_var("WEBVIEW2_USER_DATA_FOLDER", dev_webview);
+        }
+    }
+
+    #[allow(unused_mut)]
+    let mut builder = tauri::Builder::default();
+    #[cfg(not(debug_assertions))]
+    {
+        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
             focus_main(app)
-        }))
+        }));
+    }
+
+    let app = builder
         .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_notification::init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_filename(WINDOW_STATE_FILE)
                 .with_state_flags(shell::window_state_flags())
+                .with_denylist(&[screenshare::BAR_WINDOW, popout::POPOUT_WINDOW])
                 .build(),
         )
         .plugin(tauri_plugin_autostart::init(
             tauri_plugin_autostart::MacosLauncher::LaunchAgent,
             Some(vec![AUTOSTART_FLAG]),
         ))
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .manage(rpc::Core::new())
         .manage(shell::FullscreenState::default())
         .manage(links::Pending::default())
-        .manage(push_to_talk::PushToTalk::default())
+        .manage(global_keys::GlobalKeys::default())
+        .manage(keep_awake::KeepAwake::default())
         .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
         // Calls, screen sharing and location sharing
@@ -135,12 +161,36 @@ pub fn run() {
             ) {
                 shell::check_fullscreen(window.app_handle());
             }
+            if matches!(event, tauri::WindowEvent::Destroyed) {
+                screenshare::close_bar(window.app_handle());
+                popout::close_popout(window.app_handle());
+            }
         })
         .setup(|app| {
             // Account stores (`StoreConfig.location`) are relative paths: keep them in app data
             let data = app.path().app_data_dir()?;
+            #[cfg(debug_assertions)]
+            let data = data.join("dev");
             std::fs::create_dir_all(&data)?;
             std::env::set_current_dir(&data)?;
+
+            if let Some(config) = app
+                .config()
+                .app
+                .windows
+                .iter()
+                .find(|w| w.label == MAIN_WINDOW)
+            {
+                let window = WebviewWindowBuilder::from_config(app, config)?;
+                let popout_handle = app.handle().clone();
+                let window = window.on_new_window(move |url, features| {
+                    popout::on_new_window(&popout_handle, url, features)
+                });
+                #[cfg(all(debug_assertions, windows))]
+                let window =
+                    window.data_directory(app.path().app_local_data_dir()?.join("dev-webview"));
+                window.build()?;
+            }
             let loaded = settings::load(app.handle());
             let start_hidden =
                 loaded.start_minimized && std::env::args().any(|a| a == AUTOSTART_FLAG);
@@ -148,6 +198,7 @@ pub fn run() {
             #[cfg(windows)]
             toast::init(app.handle());
             tray::build(app.handle())?;
+            activity::init(app.handle());
             // On Windows the app draws its own title bar, window buttons included. Linux keeps the
             // window manager's frame: many ignore a frameless window and draw theirs anyway
             #[cfg(windows)]
@@ -157,6 +208,12 @@ pub fn run() {
             // The window starts hidden (no flash): place it, then show it unless this is a start
             // at login that should stay in the tray
             if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
+                if let Some(icon) = dev::window_icon() {
+                    let _ = window.set_icon(icon);
+                }
+                if dev::IS_DEV {
+                    let _ = window.set_title(&dev::name(app.handle()));
+                }
                 let _ = window.restore_state(shell::window_state_flags());
                 if !start_hidden {
                     focus_main(app.handle());
@@ -177,20 +234,33 @@ pub fn run() {
             loopback::loopback_wait,
             loopback::loopback_cancel,
             downloads::save_download,
+            keyfile::pick_key_file_to_save,
+            keyfile::pick_key_file_to_open,
             shell::get_desktop_settings,
             shell::set_desktop_settings,
             shell::set_unread_count,
             links::show_notification,
             links::take_pending_room,
             links::take_deep_link,
-            push_to_talk::push_to_talk_set_key,
-            push_to_talk::push_to_talk_permission,
+            global_keys::global_key_set,
+            global_keys::global_keys_permission,
+            keep_awake::keep_awake,
+            popout::hide_call_popout,
             update::update_ready,
+            activity::set_activity_detection,
+            activity::get_activity,
+            activity::list_running_programs,
+            update::check_for_update,
             update::install_update,
             screen_share::screen_capture_supported,
             screen_share::desktop_sources,
             screen_share::start_screen_capture,
             screen_share::stop_screen_capture,
+            screenshare::show_screen_share_bar,
+            screenshare::hide_screen_share_bar,
+            screenshare::screen_share_bar_stop,
+            screenshare::screen_share_bar_return,
+            tray::set_app_icon,
         ])
         .build(tauri::generate_context!())
         .expect("error while running Mudrix");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BookmarkSimpleIcon, ChatDotsIcon } from '@phosphor-icons/react';
-import type { RoomSummary, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, MudrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useProfile, useRoom } from '@/app/data';
@@ -33,7 +33,7 @@ function useLine(senderId: string | null, body: string, fallback: string): strin
 }
 
 interface ThreadRowProps {
-  client: WizardClient;
+  client: MudrixClient;
   item: InboxThread;
   onOpen: (item: InboxThread, kind: RowKind) => void;
 }
@@ -83,7 +83,7 @@ export function ThreadRow({ client, item, onOpen }: ThreadRowProps) {
 }
 
 interface SavedRowProps {
-  client: WizardClient;
+  client: MudrixClient;
   saved: SavedMessage;
   onOpen: (saved: SavedMessage, kind: RowKind) => void;
   onRemove: (saved: SavedMessage) => void;

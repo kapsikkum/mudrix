@@ -18,5 +18,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "WizardChat"
+rootProject.name = "Mudrix"
 include(":app", ":core")

@@ -1,4 +1,4 @@
-import type { MediaInfo } from '@wizardchat/core';
+import type { MediaInfo } from '@mudrix/core';
 
 export const MATRIX_SPOILER_PROPERTY_NAME = 'page.codeberg.everypizza.msc4193.spoiler';
 export const MATRIX_SPOILER_REASON_PROPERTY_NAME =

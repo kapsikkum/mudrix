@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { XIcon, SpinnerGapIcon, StarIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useRoom } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -21,6 +21,9 @@ import { sendGif } from './sendGif';
 import { useComposerTimeline } from './composerTimeline';
 import { getErrorMessage } from '@/util/error';
 import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
+import { AuthMediaImg } from '@/app/components/AuthMediaImg';
+import { readRecentGifs, withRecentGif, writeRecentGifs } from './gifRecent';
+import { favouriteGifItem } from './gifFavourites';
 import {
   GIF_PROVIDER_IDS,
   GifNotConfiguredError,
@@ -42,7 +45,7 @@ function toFeedError(err: unknown): FeedError {
   return 'failed';
 }
 
-type Tab = GifProviderId | 'favourites';
+type Tab = GifProviderId | 'favourites' | 'recent';
 
 interface Feed {
   query: string;
@@ -68,16 +71,6 @@ function isProviderTab(tab: Tab): tab is GifProviderId {
 }
 
 /** A saved GIF is only its URL; which service it came from follows from the host. */
-function favouriteItem(url: string): GifItem {
-  let provider: GifProviderId = 'giphy';
-  try {
-    const host = new URL(url).hostname;
-    if (host === 'klipy.com' || host.endsWith('.klipy.com')) provider = 'klipy';
-  } catch {
-    // keep the default
-  }
-  return { id: url, title: '', thumbUrl: url, sendUrl: url, width: 0, height: 0, provider };
-}
 
 interface Props {
   client: MatrixClient;
@@ -114,6 +107,7 @@ export function GifPicker({
   });
   const [loadingMore, setLoadingMore] = useState(false);
   const { favourites, toggleFavourite } = useGifFavourites(client);
+  const [recent, setRecent] = useState(() => readRecentGifs());
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const wrapRef = useRef<HTMLDivElement>(null);
   usePickerDrawer(wrapRef, onClose, !naked);
@@ -266,6 +260,10 @@ export function GifPicker({
 
   const sendImage = useCallback(
     async (item: GifItem) => {
+      // Record in Recent synchronously: onClose() below may unmount the picker.
+      const nextRecent = withRecentGif(readRecentGifs(), item);
+      writeRecentGifs(nextRecent);
+      setRecent(nextRecent);
       onClose();
       onStatusChange?.(true);
       try {
@@ -305,8 +303,11 @@ export function GifPicker({
   const getAspect = (item: GifItem): number =>
     item.width > 0 && item.height > 0 ? item.width / item.height : (aspects[item.sendUrl] ?? 1);
 
-  const favouriteItems = favourites.map(favouriteItem);
-  const displayItems: GifItem[] = isProviderTab(tab) ? feed.items : favouriteItems;
+  const favouriteItems = favourites.map(favouriteGifItem);
+  let displayItems: GifItem[];
+  if (isProviderTab(tab)) displayItems = feed.items;
+  else if (tab === 'favourites') displayItems = favouriteItems;
+  else displayItems = recent;
 
   // Remember each item's index so keyboard navigation follows list order.
   const indexOf = new Map<string, number>();
@@ -361,6 +362,14 @@ export function GifPicker({
     else focusTile(target);
   };
 
+  const onThumbLoad = (item: GifItem, w: number, h: number) => {
+    if (item.width > 0 && item.height > 0) return;
+    if (w > 0 && h > 0) {
+      const ar = w / h;
+      setAspects((prev) => (prev[item.sendUrl] === ar ? prev : { ...prev, [item.sendUrl]: ar }));
+    }
+  };
+
   const renderItem = (item: GifItem) => {
     const fav = isFavourite(item);
     const full = !fav && favourites.length >= GIF_FAVOURITES_CAP;
@@ -368,6 +377,8 @@ export function GifPicker({
     if (fav) favLabel = t('composer.removeFavourite');
     else if (full) favLabel = t('composer.favouritesFull');
     const itemProviderName = getGifProvider(item.provider).displayName;
+    // A GIF favourited from a message lives on the homeserver, so it has no provider to credit.
+    const fromMessage = item.thumbUrl.startsWith('mxc://');
     return (
       <div
         key={item.sendUrl}
@@ -376,30 +387,37 @@ export function GifPicker({
         role="button"
         tabIndex={0}
         data-gif-idx={indexOf.get(item.sendUrl)}
-        aria-label={`${item.title || t('composer.gif')} (${t('composer.gifSourceTag', { provider: itemProviderName })})`}
+        aria-label={`${item.title || t('composer.gif')} (${fromMessage ? t('composer.gif') : t('composer.gifSourceTag', { provider: itemProviderName })})`}
         onClick={() => void sendImage(item)}
         onKeyDown={(e) => onTileKeyDown(e, item)}
       >
-        <img
-          className={css.gifImg}
-          src={item.thumbUrl}
-          alt=""
-          loading="lazy"
-          onLoad={(e) => {
-            if (item.width > 0 && item.height > 0) return;
-            const w = e.currentTarget.naturalWidth;
-            const h = e.currentTarget.naturalHeight;
-            if (w > 0 && h > 0) {
-              const ar = w / h;
-              setAspects((prev) =>
-                prev[item.sendUrl] === ar ? prev : { ...prev, [item.sendUrl]: ar }
-              );
+        {fromMessage ? (
+          <AuthMediaImg
+            client={client}
+            mxcUrl={item.thumbUrl}
+            className={css.gifImg}
+            alt=""
+            placeholder="none"
+            onLoad={(e) =>
+              onThumbLoad(item, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)
             }
-          }}
-        />
-        <span className={css.sourceTag} aria-hidden="true">
-          {itemProviderName}
-        </span>
+          />
+        ) : (
+          <img
+            className={css.gifImg}
+            src={item.thumbUrl}
+            alt=""
+            loading="lazy"
+            onLoad={(e) =>
+              onThumbLoad(item, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)
+            }
+          />
+        )}
+        {!fromMessage && (
+          <span className={css.sourceTag} aria-hidden="true">
+            {itemProviderName}
+          </span>
+        )}
         <Tooltip content={favLabel} placement="top">
           <button
             type="button"
@@ -442,7 +460,11 @@ export function GifPicker({
   const renderFeedState = () => {
     if (!isProviderTab(tab)) {
       if (displayItems.length > 0) return null;
-      return <div className={css.emptyState}>{t('composer.noFavourites')}</div>;
+      return (
+        <div className={css.emptyState}>
+          {tab === 'favourites' ? t('composer.noFavourites') : t('composer.noRecent')}
+        </div>
+      );
     }
     if (feed.loading) {
       return (
@@ -467,6 +489,7 @@ export function GifPicker({
   const tabs: { id: Tab; label: string }[] = [
     ...GIF_PROVIDER_IDS.map((id) => ({ id: id as Tab, label: getGifProvider(id).displayName })),
     { id: 'favourites', label: t('composer.favourites') },
+    { id: 'recent', label: t('composer.gifTabRecent') },
   ];
 
   const onTabKeyDown = (e: ReactKeyboardEvent<HTMLElement>) => {

@@ -1,4 +1,4 @@
-import type { RoomSummary, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode, MudrixClient } from '@mudrix/core';
 import { markRoomAsRead } from './markAsRead';
 import {
   ChecksIcon,
@@ -11,6 +11,7 @@ import {
   ChatCircleIcon,
   LinkSimpleIcon,
   FolderSimplePlusIcon,
+  IdentificationBadgeIcon,
 } from '@phosphor-icons/react';
 import type { TFunction } from 'i18next';
 import type { NavigateFunction } from 'react-router-dom';
@@ -42,7 +43,7 @@ function spaceRoomIds(rooms: RoomSummary[], graph: SpaceNode[], spaceId: string)
 
 export interface ViewMenuDeps {
   t: TFunction;
-  client: WizardClient | null;
+  client: MudrixClient | null;
   rooms: RoomSummary[];
   graph: SpaceNode[];
   sendReadReceipts: boolean;
@@ -106,7 +107,7 @@ export interface SpaceMenuDeps {
   rooms: RoomSummary[];
   graph: SpaceNode[];
   roomActions: {
-    client: WizardClient | null;
+    client: MudrixClient | null;
     inviteToRoom: (state: { roomId: string; name: string; isSpace: boolean }) => void;
     leaveSpace: (roomId: string, name: string) => void;
   };
@@ -122,6 +123,8 @@ export interface SpaceMenuDeps {
   onCreateSection?: () => void;
   /** Modern list style: makes a category (a sub-space) in this space */
   onCreateCategory?: () => void;
+  /** Asks for the user's nickname in this space */
+  setNickname?: (spaceId: string, spaceName: string) => void;
 }
 
 export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextMenuItem[] {
@@ -146,7 +149,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
   });
   items.push({ divider: true, label: '', onClick: () => {} });
   items.push({
-    label: t('room.space.overview'),
+    label: t('space.overview'),
     icon: <StackIcon size={14} />,
     onClick: () =>
       navigate(`/space/${encodeURIComponent(space.roomId)}`, {
@@ -169,7 +172,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
   }
   if (pinnedSubSpaces.has(space.roomId)) {
     items.push({
-      label: t('room.space.unpinFromSidebar'),
+      label: t('space.unpinFromSidebar'),
       icon: <PushPinIcon size={14} weight="fill" />,
       onClick: () => setPinnedSubSpacesArr((prev) => prev.filter((id) => id !== space.roomId)),
     });
@@ -189,6 +192,15 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
         navigator.clipboard.writeText(makeRoomPermalink({ id: space.roomId })).catch(() => {});
       },
     },
+    ...(deps.setNickname
+      ? [
+          {
+            label: t('room.space.nickname.menu'),
+            icon: <IdentificationBadgeIcon size={14} />,
+            onClick: () => deps.setNickname?.(space.roomId, space.name),
+          },
+        ]
+      : []),
     {
       label: t('common.settings'),
       icon: <GearIcon size={14} />,
@@ -200,7 +212,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
       onClick: () => {},
     },
     {
-      label: t('room.space.leave'),
+      label: t('space.leave'),
       icon: <SignOutIcon size={14} />,
       danger: true,
       onClick: () => roomActions.leaveSpace(space.roomId, space.name),
@@ -210,7 +222,7 @@ export function buildSpaceMenu(space: SpaceEntry, deps: SpaceMenuDeps): ContextM
 }
 
 export function markSpaceAsRead(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   sendReadReceipts: boolean,
   spaceId: string,
   rooms: RoomSummary[],
@@ -223,15 +235,13 @@ export function markSpaceAsRead(
   );
 }
 
-export function markRoomsAsRead(
-  client: WizardClient | null,
+export async function markRoomsAsRead(
+  client: MudrixClient | null,
   sendReadReceipts: boolean,
   roomIds: string[]
-): void {
+): Promise<void> {
   if (!client) return;
-  for (const roomId of roomIds) {
-    void markRoomAsRead(client, roomId, sendReadReceipts);
-  }
+  await Promise.all(roomIds.map((roomId) => markRoomAsRead(client, roomId, sendReadReceipts)));
 }
 
 export function getHomeRoomIds(rooms: RoomSummary[], graph: SpaceNode[]): string[] {

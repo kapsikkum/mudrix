@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { SpeakerHighIcon } from '@phosphor-icons/react';
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
@@ -24,7 +24,7 @@ export function PersonAvatar({
   size = 'xs',
 }: {
   person: ActiveVoicePerson;
-  client: WizardClient;
+  client: MudrixClient;
   size?: 'xs' | 'sm';
 }) {
   const { data: profile } = useProfile(person.known ? null : person.userId);
@@ -39,20 +39,20 @@ export function PersonAvatar({
   );
 }
 
-export function ActiveNowPanel({ client }: { client: WizardClient }) {
+export function ActiveNowPanel({ client }: { client: MudrixClient }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const joinVoiceRoom = useJoinVoiceRoom(client);
   const cards = useActiveVoiceCards(client, { onlyWithKnown: true });
 
   return (
-    <aside className={css.panel} aria-label={t('home.activeNow')}>
+    <aside className={css.panel} aria-label={t('nav.activeNow')}>
       <div className={sidebarCss.membersSidebarHeader}>
-        <span className={sidebarCss.membersSidebarTitle}>{t('home.activeNow')}</span>
+        <span className={sidebarCss.membersSidebarTitle}>{t('nav.activeNow')}</span>
       </div>
       <div className={css.list}>
         {cards.length === 0 ? (
-          <div className={css.empty}>{t('home.activeNowEmpty')}</div>
+          <div className={css.empty}>{t('nav.activeNowEmpty')}</div>
         ) : (
           cards.map(({ roomId, roomName, spaceName, people, includesMe }) => {
             const shown = people.slice(0, PEOPLE_LIMIT);
@@ -79,7 +79,7 @@ export function ActiveNowPanel({ client }: { client: WizardClient }) {
                   ))}
                   {people.length > shown.length && (
                     <span className={css.more}>
-                      {t('home.morePeople', { count: people.length - shown.length })}
+                      {t('nav.morePeople', { count: people.length - shown.length })}
                     </span>
                   )}
                 </div>
@@ -92,7 +92,7 @@ export function ActiveNowPanel({ client }: { client: WizardClient }) {
                     else void joinVoiceRoom(roomId);
                   }}
                 >
-                  {includesMe ? t('home.open') : t('home.join')}
+                  {includesMe ? t('common.open') : t('common.join')}
                 </Button>
               </div>
             );

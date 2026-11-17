@@ -114,12 +114,15 @@ pub fn show_notification(
     title: String,
     body: String,
     icon: Option<String>,
+    // The sender's avatar as PNG bytes; Windows shows it in place of the app icon.
+    avatar: Option<Vec<u8>>,
     room_url: Option<String>,
 ) -> bool {
     // "Mute notifications" in the tray menu
     if crate::settings::get_if_ready(&app).is_some_and(|settings| settings.notifications_muted) {
         return true;
     }
+    let body: String = body.chars().take(240).collect();
     // Windows: the plugin would label an unpackaged build "Windows PowerShell" (see `toast`)
     #[cfg(windows)]
     {
@@ -128,12 +131,16 @@ pub fn show_notification(
             &app,
             &title,
             &body,
+            avatar.as_deref(),
             room_url.filter(|url| url.starts_with('/')),
         )
         .is_ok()
     }
     #[cfg(not(windows))]
-    show_with_plugin(&app, title, body, icon, room_url)
+    {
+        let _ = avatar;
+        show_with_plugin(&app, title, body, icon, room_url)
+    }
 }
 
 #[cfg(not(windows))]

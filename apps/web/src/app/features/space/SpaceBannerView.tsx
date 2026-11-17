@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useMediaBlobUrl } from '@/app/components/Avatar/useMediaBlobUrl';
 import { presetCss, type SpaceBanner } from './spaceBanner';
 import * as css from './SpaceBanner.css';
 
 interface SpaceBannerViewProps {
-  client: WizardClient | null | undefined;
+  client: MudrixClient | null | undefined;
   banner: SpaceBanner | null;
   className?: string;
 }

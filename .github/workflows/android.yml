@@ -1,0 +1,180 @@
+name: Android
+
+# Compile check + unit tests for the fdroid flavour (no Google/Firebase code, so no secrets or google-services needed),
+# and a debug APK as an artifact. The gplay flavour needs Firebase config we don't have and is not built here.
+on:
+  push:
+    # `web-look` is the branch people test from; a push there should always leave a fresh APK behind.
+    # (The path filter below still applies: web-only or docs-only commits don't rebuild the app.)
+    branches: [main, web-look]
+    paths:
+      - apps/android/**
+      - crates/**
+      - packages/**
+      - whatsnew/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/android.yml
+      - .github/actions/setup-rust/**
+  pull_request:
+    paths:
+      - apps/android/**
+      - crates/**
+      - packages/**
+      - whatsnew/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - .github/workflows/android.yml
+      - .github/actions/setup-rust/**
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  # Same versions as upstream's build-android job
+  ANDROID_NDK_VERSION: 28.2.13676358
+  ANDROID_PLATFORM: android-36
+  ANDROID_BUILD_TOOLS: 36.0.0
+  # GIF search (docs/SECRETS.md): Gradle reads these from the environment into BuildConfig
+  GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
+
+jobs:
+  build:
+    name: fdroid debug build + unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          targets: aarch64-linux-android x86_64-linux-android
+          cache-key: android
+
+      - name: Install the Android SDK packages and NDK
+        run: |
+          SDKMANAGER="$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager | sort -V | tail -1)"
+          yes | "$SDKMANAGER" --licenses > /dev/null || true
+          "$SDKMANAGER" "platforms;${ANDROID_PLATFORM}" "build-tools;${ANDROID_BUILD_TOOLS}" "ndk;${ANDROID_NDK_VERSION}" > /dev/null
+          # build-core.sh otherwise takes the newest NDK it finds; pin the one we installed
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/${ANDROID_NDK_VERSION}" >> "$GITHUB_ENV"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: npm ci --ignore-scripts
+
+      # tokens, translations, emoji and icons: the Gradle build reads packages/*/dist
+      - name: Shared assets
+        run: npm run assets
+
+      # Debug profile (fast), arm64-v8a + x86_64; installs cargo-ndk on first use
+      - name: Build the core for Android
+        run: apps/android/scripts/build-core.sh --debug --all
+
+      - name: assembleFdroidDebug
+        working-directory: apps/android
+        run: ./gradlew --no-daemon --stacktrace :app:assembleFdroidDebug
+
+      - name: Unit tests
+        working-directory: apps/android
+        run: ./gradlew --no-daemon --stacktrace :app:testFdroidDebugUnitTest
+
+      # A release-signed APK (package chat.mudrix.mobile) when the signing secrets exist. Pull requests
+      # never get them: fork PRs cannot read secrets, and we do not want to sign untrusted code.
+      - name: Prepare release signing
+        id: signing
+        if: github.event_name != 'pull_request'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ] && [ -n "$ANDROID_KEYSTORE_PASSWORD" ] \
+             && [ -n "$ANDROID_KEY_ALIAS" ] && [ -n "$ANDROID_KEY_PASSWORD" ]; then
+            node tools/ci/sign-android.mjs prepare
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "No Android signing secrets; skipping the signed release APK."
+          fi
+
+      - name: assembleFdroidRelease (signed)
+        if: steps.signing.outputs.enabled == 'true'
+        working-directory: apps/android
+        run: ./gradlew --no-daemon --stacktrace :app:assembleFdroidRelease
+
+      - name: Verify the release signature
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          node tools/ci/sign-android.mjs verify \
+            apps/android/app/build/outputs/apk/fdroid/release/app-fdroid-release.apk
+
+      - name: Name the signed APK and checksum it
+        if: steps.signing.outputs.enabled == 'true'
+        run: |
+          version=$(node -p "require('./package.json').version")
+          cd apps/android/app/build/outputs/apk/fdroid/release
+          mv app-fdroid-release.apk "Mudrix-${version}-release.apk"
+          sha256sum *.apk > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Upload the signed release APK
+        if: steps.signing.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-android-fdroid-release
+          path: |
+            apps/android/app/build/outputs/apk/fdroid/release/*.apk
+            apps/android/app/build/outputs/apk/fdroid/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Checksums
+        working-directory: apps/android/app/build/outputs/apk/fdroid/debug
+        run: sha256sum *.apk > SHA256SUMS.txt
+
+      - name: Upload the debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-android-fdroid-debug
+          path: |
+            apps/android/app/build/outputs/apk/fdroid/debug/*.apk
+            apps/android/app/build/outputs/apk/fdroid/debug/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-reports
+          path: |
+            apps/android/app/build/reports/tests/
+            apps/android/app/build/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

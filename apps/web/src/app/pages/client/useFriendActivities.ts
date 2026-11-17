@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQueries } from '@tanstack/react-query';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { EXTENDED_PROFILE_KEY, fetchExtendedProfileFields } from '@/app/hooks/useExtendedProfile';
 import { useDms } from '@/app/hooks/useDms';
 import { isActivityExpired, type ProfileActivity } from '@/util/profileActivity';
@@ -22,7 +22,7 @@ export interface FriendActivity {
  * now (the `activity` field of their profile). It shares the cached profile of each person with
  * the rest of the app, and drops an activity the moment its expiry passes.
  */
-export function useFriendActivities(client: WizardClient): FriendActivity[] {
+export function useFriendActivities(client: MudrixClient): FriendActivity[] {
   const dms = useDms();
   const friends = useMemo(() => {
     const seen = new Set<string>();

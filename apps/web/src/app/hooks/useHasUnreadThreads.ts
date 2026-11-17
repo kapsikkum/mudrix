@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import type { ThreadInfo } from '@wizardchat/core';
+import type { ThreadInfo } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useRoom } from '@/app/data';
 import { threadLastSeenAtom } from '@/app/store/atoms';

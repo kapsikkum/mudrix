@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon, SmileyIcon, StickerIcon, GifIcon } from '@phosphor-icons/react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import type { ReplyTarget } from './sendMessageContent';
 import { EmojiPicker } from '@/app/features/timeline/EmojiPicker';
 import { GifPicker } from '@/app/features/timeline/composer/GifPicker';
@@ -59,7 +59,7 @@ export function ComposerMediaPicker({
             onClick={() => onTabChange('emoji')}
           >
             <SmileyIcon size={16} weight={tab === 'emoji' ? 'fill' : 'regular'} />
-            {t('composer.emoji')}
+            {t('common.emoji')}
           </button>
           <button
             type="button"

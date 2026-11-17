@@ -38,6 +38,7 @@ import { membersPanelStateAtom, userProfileAtom } from '@/app/store/atoms';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import * as css from '@/app/components/Settings/Settings.css';
+import { fontSize } from '@/theme/typeScale';
 
 interface PermissionsPanelProps {
   roomId: string;
@@ -94,9 +95,7 @@ export function PermissionsPanel({ roomId }: PermissionsPanelProps) {
         t('room.settings.members.permissionsApplySuccess', { name: m.displayName, level: label })
       );
     } catch (err) {
-      toast.error(
-        t('room.settings.members.permissionsApplyFailed', { error: getErrorMessage(err) })
-      );
+      toast.error(t('room.settings.permissions.saveFailed', { error: getErrorMessage(err) }));
     }
   };
 
@@ -223,9 +222,9 @@ export function PermissionsPanel({ roomId }: PermissionsPanelProps) {
 
   const grouped = useMemo(() => {
     const groups: { label: string; key: string; members: MemberEntry[] }[] = [
-      { label: t('room.settings.members.admin'), key: 'admin', members: [] },
-      { label: t('room.settings.members.moderator'), key: 'moderator', members: [] },
-      { label: t('room.settings.members.member'), key: 'member', members: [] },
+      { label: t('room.members.admin'), key: 'admin', members: [] },
+      { label: t('room.members.moderator'), key: 'moderator', members: [] },
+      { label: t('room.members.member'), key: 'member', members: [] },
     ];
 
     for (const m of visibleMembers) {
@@ -304,7 +303,7 @@ export function PermissionsPanel({ roomId }: PermissionsPanelProps) {
                   border: `1px solid ${r.color ?? 'currentColor'}`,
                   borderRadius: 999,
                   padding: '2px 10px',
-                  fontSize: '0.78rem',
+                  fontSize: fontSize.xs,
                   opacity: on ? 1 : 0.45,
                   background: on ? 'rgba(127,127,127,0.18)' : 'none',
                 }}

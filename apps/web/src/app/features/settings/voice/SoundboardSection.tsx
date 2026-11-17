@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useAtom } from 'jotai';
 import { PlayIcon } from '@phosphor-icons/react';
+import { RangeInput } from '@/app/components/Slider';
 import { ToggleRow } from '@/app/components/Toggle';
-import { VolumeSlider } from '@/app/features/calls/VolumeSlider';
 import { soundboardEnabledAtom, soundboardVolumeAtom } from '@/app/store/atoms/settings';
 import { useProfile } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
@@ -43,7 +43,7 @@ export function SoundboardSection() {
       emoji: sample.emoji,
       url: sample.url,
       mimetype: sample.mimetype,
-      volume: sample.volume,
+      volume: volume / 100,
       durationMs: sample.durationMs,
     });
   };
@@ -59,23 +59,27 @@ export function SoundboardSection() {
       />
       <div className={css.soundRow}>
         <span className={css.soundLabel}>{t('settings.voice.soundboardVolume')}</span>
-        <div className={css.volumeSlider}>
-          <VolumeSlider
-            value={volume / 100}
-            label={t('settings.voice.soundboardVolume')}
-            disabled={!enabled}
-            onChange={(v) => setVolume(Math.round(v * 20) * 5)}
-          />
-        </div>
-        <button
-          type="button"
-          className={css.iconButton}
+        <RangeInput
+          max={100}
+          step={5}
+          value={volume}
           disabled={!enabled}
-          aria-label={t('settings.voice.soundboardPreview')}
-          onClick={preview}
-        >
-          <PlayIcon size={16} weight="fill" />
-        </button>
+          className={css.volumeSlider}
+          aria-label={t('settings.voice.soundboardVolume')}
+          onChange={setVolume}
+        />
+        <span>{volume}%</span>
+        {sample && (
+          <button
+            type="button"
+            className={css.iconButton}
+            disabled={!enabled}
+            aria-label={t('settings.voice.soundboardPreview')}
+            onClick={preview}
+          >
+            <PlayIcon size={16} weight="fill" />
+          </button>
+        )}
       </div>
 
       <h4 className={layoutCss.settingLabel}>{t('settings.voice.soundboardMuted')}</h4>

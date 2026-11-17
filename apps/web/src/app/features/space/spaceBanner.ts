@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { mudrixKey } from '@/util/namespace';
 import { setMudrixRoomState, useMudrixRoomState, type MudrixRoomState } from './mudrixRoomState';
 
@@ -40,7 +40,7 @@ export function bannerOf(state: MudrixRoomState | null | undefined): SpaceBanner
 }
 
 export function setSpaceBanner(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   banner: SpaceBanner | null
 ): Promise<void> {

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 /**
  * Styles for the profile card extras (mutual rooms, status, badges, decoration, effects, bio).
@@ -23,7 +24,7 @@ export const mutualRow = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
   color: vars.color.textPrimary,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   textAlign: 'left',
   cursor: 'pointer',
   selectors: {
@@ -65,10 +66,8 @@ export const mutualList = style({
 
 export const mutualHeading = style({
   margin: '8px 0 4px',
-  fontSize: '0.75rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
   selectors: {
     '&:first-child': { marginTop: 0 },
@@ -85,7 +84,7 @@ export const mutualItem = style({
   border: '1px solid transparent',
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   textAlign: 'left',
   cursor: 'pointer',
   selectors: {
@@ -103,7 +102,7 @@ export const mutualItemName = style({
 
 export const mutualNote = style({
   margin: 0,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -118,9 +117,9 @@ export const statusPill = style({
   boxSizing: 'border-box',
   maxWidth: '100%',
   marginTop: '8px',
-  padding: '7px 12px',
+  padding: '8px 12px',
   borderRadius: vars.radius.md,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.3,
   color: vars.color.textPrimary,
   backgroundColor: accentTint(14),
@@ -129,7 +128,7 @@ export const statusPill = style({
 
 export const statusEmoji = style({
   flexShrink: 0,
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   lineHeight: 1,
 });
 
@@ -152,7 +151,7 @@ export const statusEmojiBtn = style({
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
-  fontSize: '1.1rem',
+  fontSize: fontSize.md,
   lineHeight: 1,
   cursor: 'pointer',
   selectors: {
@@ -334,7 +333,7 @@ export const nameplateWrapper = style({
   display: 'inline-flex',
   alignItems: 'center',
   borderRadius: vars.radius.md,
-  padding: '3px 10px',
+  padding: '4px 10px',
   overflow: 'hidden',
   maxWidth: '100%',
   verticalAlign: 'middle',
@@ -366,7 +365,7 @@ export const nameplateContent = style({
 export const bioPlain = style({
   display: 'flex',
   flexDirection: 'column',
-  fontSize: '0.84rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   lineHeight: 1.45,
   whiteSpace: 'pre-wrap',
@@ -376,7 +375,7 @@ export const bioPlain = style({
 export const bioBox = style({
   display: 'flex',
   flexDirection: 'column',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   lineHeight: 1.45,
   whiteSpace: 'pre-wrap',
@@ -402,7 +401,7 @@ export const viewBioButton = style({
   border: 'none',
   background: 'none',
   color: accentText,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   cursor: 'pointer',
   selectors: {
@@ -412,7 +411,7 @@ export const viewBioButton = style({
 });
 
 export const fullBio = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   lineHeight: 1.5,
   whiteSpace: 'pre-wrap',
@@ -448,17 +447,15 @@ export const activityCard = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '12px 14px',
+  padding: '12px 16px',
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bgTertiary,
   border: `1px solid ${vars.color.border}`,
 });
 
 export const activityCardTitle = style({
-  fontSize: '0.75rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -466,8 +463,7 @@ export const activityQuote = style({
   margin: 0,
   padding: '0 0 0 10px',
   borderLeft: `3px solid var(--card-accent, ${vars.color.border})`,
-  fontSize: '0.88rem',
-  fontStyle: 'italic',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   lineHeight: 1.4,
   whiteSpace: 'pre-wrap',
@@ -475,7 +471,7 @@ export const activityQuote = style({
 });
 
 export const activityMeta = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -486,7 +482,7 @@ export const verifyButton = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '12px',
+  fontSize: fontSize.xs,
   cursor: 'pointer',
   ':hover': { backgroundColor: vars.color.bgHover },
   ':disabled': { opacity: 0.5, cursor: 'default' },

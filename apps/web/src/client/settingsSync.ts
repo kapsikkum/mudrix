@@ -4,7 +4,12 @@ import { THEMES } from '@/theme/themes.css';
 import { EMOJI_ONLY_SIZES, EMOJI_STYLES } from '@/util/emojiStyle';
 import { isCustomThemeId, sanitizeCustomThemes, type CustomTheme } from '@/theme/customThemes';
 import { SOUND_KINDS } from '@/util/notificationSounds';
-import { legacyMudrixKey, mudrixKey, wizardchatKey } from '@/util/namespace';
+import {
+  legacyMudrixKey,
+  mudrixKey,
+  UPSTREAM_LEGACY_SETTINGS_TYPE,
+  upstreamKey,
+} from '@/util/namespace';
 
 /**
  * Privacy model: this is Matrix *account data*. Other users can never read it (it is not part of
@@ -29,21 +34,21 @@ export const SETTINGS_WRITE_TYPES = [
   PREVIOUS_SETTINGS_ACCOUNT_DATA_TYPE,
 ] as const;
 
-/** The settings of the WizardChat base this app is built on (flat, not nested). */
-export const WIZARDCHAT_SETTINGS_ACCOUNT_DATA_TYPE = wizardchatKey('settings');
+/** The settings of the upstream base this app is built on (flat, not nested). */
+export const UPSTREAM_SETTINGS_ACCOUNT_DATA_TYPE = upstreamKey('settings');
 
-/** The older WizardChat web app's event. */
-export const LEGACY_SETTINGS_ACCOUNT_DATA_TYPE = 'io.gitlab.wizardchat.settings';
+/** The upstream base's older web app event. */
+export const LEGACY_SETTINGS_ACCOUNT_DATA_TYPE = UPSTREAM_LEGACY_SETTINGS_TYPE;
 
 /**
- * Every settings event, best source first. The WizardChat ones are only a fallback until the first
+ * Every settings event, best source first. The upstream ones are only a fallback until the first
  * save writes a Mudrix event, and are never written: an account signed in to both apps must not
  * have one overwrite the other's settings.
  */
 export const SETTINGS_READ_TYPES = [
   PREVIOUS_SETTINGS_ACCOUNT_DATA_TYPE,
   SETTINGS_ACCOUNT_DATA_TYPE,
-  WIZARDCHAT_SETTINGS_ACCOUNT_DATA_TYPE,
+  UPSTREAM_SETTINGS_ACCOUNT_DATA_TYPE,
   LEGACY_SETTINGS_ACCOUNT_DATA_TYPE,
 ] as const;
 
@@ -64,6 +69,10 @@ const DEVICE_ONLY_PREFERENCES: ReadonlySet<keyof Preferences> = new Set([
   'soundboardEnabled',
   'soundboardVolume',
   'soundboardMutedUsers',
+  // Phones default to off (they keep the keyboard's own), and the dictionaries follow the display
+  // language of this device.
+  'spellcheckEnabled',
+  'spellcheckLanguages',
 ]);
 
 export interface SyncedSettings {
@@ -203,7 +212,7 @@ export function parseSettings(raw: unknown): Partial<SyncedSettings> {
     settings.language = content.language;
   }
 
-  // The WizardChat base keeps the preferences next to the theme instead of in a `preferences` object
+  // The upstream base keeps the preferences next to the theme instead of in a `preferences` object
   const nested =
     content.preferences && typeof content.preferences === 'object' ? content.preferences : {};
   const preferences = sanitizePreferences({ ...content, ...nested });
@@ -227,7 +236,7 @@ export function readSettings(contents: SettingsContents): Partial<SyncedSettings
   return parseSettings(pickSettingsContent(contents));
 }
 
-/** Whether this account has saved Mudrix settings yet (as opposed to only WizardChat's). */
+/** Whether this account has saved Mudrix settings yet (as opposed to only the upstream base's). */
 export function hasMudrixSettings(contents: SettingsContents): boolean {
   return SETTINGS_WRITE_TYPES.some((type) => contents[type] && typeof contents[type] === 'object');
 }

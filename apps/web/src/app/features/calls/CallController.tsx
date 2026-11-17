@@ -18,7 +18,6 @@ import {
   showOwnScreenShareAtom,
   type CallPresentation,
 } from '@/app/store/atoms/call';
-import { roomsByIdAtom } from '@/app/data';
 import { currentRoomIdAtom } from '@/app/store/atoms/rooms';
 import {
   deafenedAtom,
@@ -26,6 +25,9 @@ import {
   noiseSuppressionAtom,
   echoCancellationAtom,
   autoGainControlAtom,
+  screenShareQualityAtom,
+  screenShareFpsAtom,
+  screenShareCursorAtom,
   preferencesAtom,
   DEFAULT_PREFERENCES,
   type Preferences,
@@ -34,8 +36,10 @@ import { useToast } from '@/app/hooks/useToast';
 import { playVoiceSound, type VoiceSound } from '@/app/features/voice/voiceSounds';
 import { loopSoundKind, playSoundKind } from '@/util/notificationSounds';
 import { usePushToTalk } from '@/app/features/calls/usePushToTalk';
+import { useScreenWakeLock } from './useScreenWakeLock';
 import { AloneNotice } from './AloneNotice';
 import { getMatrixClientOrNull, onSessionEnd } from '@/client/initMatrix';
+import { hideScreenShareBar, onScreenShareStop, showScreenShareBar } from '@/util/desktop';
 
 const LEAVE_CONFIRM_TIMEOUT_MS = 30_000;
 
@@ -57,6 +61,48 @@ const IDLE_UI = {
   isScreenSharing: false,
   isSpotlight: true,
 };
+
+/** Mirrors the call's screen-share state onto the desktop shell's floating share bar. */
+function useDesktopScreenShareBar(sharing: boolean, alive: boolean, toggleScreenshare: () => void) {
+  const { t } = useTranslation();
+  const shownRef = useRef(false);
+  const sharingRef = useRef(sharing);
+  sharingRef.current = sharing;
+  const toggleRef = useRef(toggleScreenshare);
+  toggleRef.current = toggleScreenshare;
+  const active = sharing && alive;
+
+  useEffect(() => {
+    if (active === shownRef.current) return;
+    shownRef.current = active;
+    if (active) {
+      showScreenShareBar({
+        title: t('call.sharingTitle'),
+        stop: t('call.stopShare'),
+        back: t('call.returnToCall'),
+      });
+    } else {
+      hideScreenShareBar();
+    }
+  }, [active, t]);
+
+  useEffect(
+    () => () => {
+      if (!shownRef.current) return;
+      shownRef.current = false;
+      hideScreenShareBar();
+    },
+    []
+  );
+
+  useEffect(
+    () =>
+      onScreenShareStop(() => {
+        if (sharingRef.current) toggleRef.current();
+      }),
+    []
+  );
+}
 
 function playParticipantSounds(previous: CallSnapshot, snap: CallSnapshot): void {
   if (previous.ring !== snap.ring) {
@@ -104,7 +150,10 @@ export function CallController() {
   }, [setUi]);
 
   const start = useCallback(
-    async (roomId: string, opts: { voiceOnly?: boolean; presentation?: CallPresentation } = {}) => {
+    async (
+      roomId: string,
+      opts: { voiceOnly?: boolean; presentation?: CallPresentation; ring?: boolean } = {}
+    ) => {
       const client = getMatrixClientOrNull();
       if (!client) return;
       const runStart = async () => {
@@ -152,9 +201,6 @@ export function CallController() {
         }));
         store.set(pendingCallRoomIdAtom, null);
 
-        const room = store.get(roomsByIdAtom).get(roomId);
-        const ongoing = !!room?.callParticipants.some((userId) => userId !== client.userId());
-
         try {
           await next.join({
             video: !voiceOnly,
@@ -165,7 +211,7 @@ export function CallController() {
             inputVolume: store.get(callVolumesAtom).input,
             pushToTalk: store.get(pushToTalkModeAtom),
             outputVolume: store.get(callVolumesAtom).output,
-            ring: !ongoing,
+            ring: !!opts.ring,
           });
         } catch {
           // Reported through the session snapshot (phase 'error')
@@ -310,27 +356,48 @@ export function CallController() {
   const toggleMute = useCallback(
     () =>
       run((s, snap) => {
-        const enable = !snap.microphone;
+        // Until joined the snapshot has no microphone yet; the preferences say what join will do
+        const joined = snap.phase === 'joined';
+        const enable = joined
+          ? !snap.microphone
+          : store.get(micMutedAtom) || store.get(deafenedAtom);
         store.set(micMutedAtom, !enable);
-        if (enable && snap.deafened) store.set(deafenedAtom, false); // unmuting undeafens
+        if (enable) store.set(deafenedAtom, false); // unmuting undeafens
+        if (!joined)
+          setUi((prev) => ({ ...prev, isMuted: !enable, isDeafened: !enable && prev.isDeafened }));
         return s.setMicrophone(enable);
       }),
-    [run, store]
+    [run, store, setUi]
   );
   const toggleDeafen = useCallback(
     () =>
       run(async (s, snap) => {
-        const deafen = !snap.deafened;
+        const joined = snap.phase === 'joined';
+        const deafen = !(joined ? snap.deafened : store.get(deafenedAtom));
         store.set(deafenedAtom, deafen);
+        if (!joined) {
+          const muted = deafen || store.get(micMutedAtom);
+          setUi((prev) => ({ ...prev, isMuted: muted, isDeafened: deafen }));
+        }
         await s.setDeafened(deafen);
         if (!deafen && !store.get(micMutedAtom)) await s.setMicrophone(true);
       }),
-    [run, store]
+    [run, store, setUi]
   );
   const toggleVideo = useCallback(() => run((s, snap) => s.setCamera(!snap.camera)), [run]);
   const toggleScreenshare = useCallback(
-    () => run((s, snap) => s.setScreenShare(!snap.screenshare)),
-    [run]
+    () =>
+      run((s, snap) =>
+        s.setScreenShare(!snap.screenshare, {
+          maxHeight:
+            store.get(screenShareQualityAtom) === 'source'
+              ? null
+              : Number(store.get(screenShareQualityAtom)) || 1080,
+          fps: store.get(screenShareFpsAtom),
+          cursor: store.get(screenShareCursorAtom),
+        })
+      ),
+    [run, store]
   );
   const setSpotlight = useCallback(
     (spotlight: boolean) => setUi((prev) => ({ ...prev, isSpotlight: spotlight })),
@@ -342,6 +409,7 @@ export function CallController() {
   );
 
   usePushToTalk(session ? setTransmitting : null);
+  useScreenWakeLock(!!session);
 
   // A change in Settings > Voice & Audio reaches the microphone of the running call
   const noiseSuppression = useAtomValue(noiseSuppressionAtom);
@@ -352,6 +420,8 @@ export function CallController() {
   }, [session, noiseSuppression, echoCancellation, autoGainControl]);
 
   const roomId = useAtomValue(callUiAtom).roomId;
+  const isScreenSharing = useAtomValue(callUiAtom).isScreenSharing;
+  useDesktopScreenShareBar(isScreenSharing, session !== null, toggleScreenshare);
   useEffect(() => {
     if (roomId === null || currentRoomId === roomId) return;
     setUi((prev) =>

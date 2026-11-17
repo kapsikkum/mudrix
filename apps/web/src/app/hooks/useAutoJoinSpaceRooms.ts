@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { SpaceChild, WizardClient } from '@wizardchat/core';
+import type { SpaceChild, MudrixClient } from '@mudrix/core';
 import { useAllJoinedSpaces, useSpaceGraph, useSyncReady } from '@/app/data';
 import { explicitAutoJoinOf } from '@/app/features/space/spaceAutoJoin';
 import { useMudrixRoomStates } from '@/app/features/space/mudrixRoomState';
@@ -68,7 +68,7 @@ function joinable(child: SpaceChild): boolean {
 /** 'done' joined, 'refused' the server said no for this room, 'later' limited or unreachable. */
 type Outcome = 'done' | 'refused' | 'later';
 
-async function joinOne(client: WizardClient, child: SpaceChild): Promise<Outcome> {
+async function joinOne(client: MudrixClient, child: SpaceChild): Promise<Outcome> {
   try {
     await client.join(child.id, child.via.length > 0 ? child.via : null);
     return 'done';
@@ -81,7 +81,7 @@ async function joinOne(client: WizardClient, child: SpaceChild): Promise<Outcome
 
 /** One pass over a space: joins what is joinable and not tried before. Returns whether to try again. */
 async function passOver(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   done: Set<string>,
   refusals: Map<string, number>,
@@ -122,7 +122,7 @@ async function passOver(
  * leaves is not joined again. Runs once the first sync is in, when the rooms of such a space
  * change, and every few minutes.
  */
-export function useAutoJoinSpaceRooms(client: WizardClient | null): void {
+export function useAutoJoinSpaceRooms(client: MudrixClient | null): void {
   const ready = useSyncReady();
   const spaces = useAllJoinedSpaces();
   const graph = useSpaceGraph();

@@ -1,6 +1,7 @@
 import { DEFAULT_THEME } from './themes.css';
 import { STORAGE_KEY_PREFERENCES, STORAGE_KEY_THEME } from '@/const/storageKeys';
 import type { ThemeName } from '@/app/store/atoms/settings';
+import { publicUrl } from '@/util/publicUrl';
 
 export interface ThemeLogoAssets {
   logo: string;
@@ -8,44 +9,44 @@ export interface ThemeLogoAssets {
 }
 
 const BASE_ASSETS: ThemeLogoAssets = {
-  logo: '/assets/images/logo.svg',
-  notification: '/assets/images/logo-notification.svg',
+  logo: publicUrl('assets/images/logo.svg'),
+  notification: publicUrl('assets/images/logo-notification.svg'),
 };
 
 // Themes without their own artwork fall back to the base logo
 export const THEME_LOGO_ASSETS: Record<ThemeName, ThemeLogoAssets> = {
   Carbon: BASE_ASSETS,
   Parrot: {
-    logo: '/assets/images/logo_parrot.svg',
-    notification: '/assets/images/logo-notification_parrot.svg',
+    logo: publicUrl('assets/images/logo_parrot.svg'),
+    notification: publicUrl('assets/images/logo-notification_parrot.svg'),
   },
   Hallow: {
-    logo: '/assets/images/logo_hallow.svg',
-    notification: '/assets/images/logo-notification_hallow.svg',
+    logo: publicUrl('assets/images/logo_hallow.svg'),
+    notification: publicUrl('assets/images/logo-notification_hallow.svg'),
   },
   Ethereal: {
-    logo: '/assets/images/logo_ethereal.svg',
-    notification: '/assets/images/logo-notification_ethereal.svg',
+    logo: publicUrl('assets/images/logo_ethereal.svg'),
+    notification: publicUrl('assets/images/logo-notification_ethereal.svg'),
   },
   Pewter: {
-    logo: '/assets/images/logo_pewter.svg',
-    notification: '/assets/images/logo-notification_pewter.svg',
+    logo: publicUrl('assets/images/logo_pewter.svg'),
+    notification: publicUrl('assets/images/logo-notification_pewter.svg'),
   },
   Umbra: {
-    logo: '/assets/images/logo_umbra.svg',
-    notification: '/assets/images/logo-notification_umbra.svg',
+    logo: publicUrl('assets/images/logo_umbra.svg'),
+    notification: publicUrl('assets/images/logo-notification_umbra.svg'),
   },
   Eclipse: {
-    logo: '/assets/images/logo_eclipse.svg',
-    notification: '/assets/images/logo-notification_eclipse.svg',
+    logo: publicUrl('assets/images/logo_eclipse.svg'),
+    notification: publicUrl('assets/images/logo-notification_eclipse.svg'),
   },
   Garnet: {
-    logo: '/assets/images/logo_garnet.svg',
-    notification: '/assets/images/logo-notification_garnet.svg',
+    logo: publicUrl('assets/images/logo_garnet.svg'),
+    notification: publicUrl('assets/images/logo-notification_garnet.svg'),
   },
   Blossom: {
-    logo: '/assets/images/logo_blossom.svg',
-    notification: '/assets/images/logo-notification_blossom.svg',
+    logo: publicUrl('assets/images/logo_blossom.svg'),
+    notification: publicUrl('assets/images/logo-notification_blossom.svg'),
   },
 };
 

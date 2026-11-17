@@ -6,7 +6,7 @@ import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import { generateClientSecret } from '@/util/clientSecret';
-import type { ThirdPartyId, UiaOutcome } from '@wizardchat/core';
+import type { ThirdPartyId, UiaOutcome } from '@mudrix/core';
 import { errorCode } from '@/core/client';
 import {
   UiaPanel,

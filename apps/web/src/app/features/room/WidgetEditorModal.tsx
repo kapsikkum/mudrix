@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { CheckCircleIcon, WarningCircleIcon } from '@phosphor-icons/react';
 import type { RoomWidget } from '@/app/hooks/useWidgets';
 import { normalizeUrl } from '@/client/initMatrix';
@@ -30,7 +30,7 @@ function validateJson(
   }
 }
 
-export function buildWidgetEventJson(widget: RoomWidget, client: WizardClient): string {
+export function buildWidgetEventJson(widget: RoomWidget, client: MudrixClient): string {
   return JSON.stringify(
     {
       [widget.stateKey]: {
@@ -89,7 +89,7 @@ export function extractWidgetParts(
 export interface WidgetEditorModalProps {
   open: boolean;
   widget: RoomWidget | null;
-  client: WizardClient;
+  client: MudrixClient;
   saving: boolean;
   onClose: () => void;
   onSave: (stateKey: string, content: Record<string, unknown>) => void;

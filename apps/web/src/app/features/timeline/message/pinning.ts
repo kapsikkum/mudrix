@@ -1,4 +1,4 @@
-import type { RoomTimeline } from '@wizardchat/core';
+import type { RoomTimeline } from '@mudrix/core';
 
 export function isPinnedEvent(
   pinnedIds: readonly string[] | null | undefined,

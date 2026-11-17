@@ -1,4 +1,4 @@
-import type { RoomTimeline, WizardClient } from '@wizardchat/core';
+import type { RoomTimeline, MudrixClient } from '@mudrix/core';
 import { probeIsAnimated } from '../utils/imageAnimation';
 import { getImageDimensions } from './imageDimensions';
 import { sendRawEvent, type ReplyTarget } from './sendMessageContent';
@@ -8,7 +8,7 @@ import { downloadGif, type GifItem } from './gifProviders';
 export const GIF_SOURCE_FIELD = 'xyz.mudrix.gif';
 
 export interface SendGifOptions {
-  client: WizardClient;
+  client: MudrixClient;
   timeline: RoomTimeline;
   isEncrypted: boolean;
   threadId?: string | null;
@@ -23,6 +23,21 @@ export async function sendGif(
   item: GifItem,
   { client, timeline, isEncrypted, threadId, replyTo }: SendGifOptions
 ): Promise<void> {
+  // A GIF favourited from a message is already on the homeserver: send it as it is.
+  if (item.sendUrl.startsWith('mxc://')) {
+    await sendRawEvent(
+      'm.sticker',
+      {
+        body: item.title || 'GIF',
+        info: { mimetype: 'image/gif', is_animated: true },
+        url: item.sendUrl,
+        [GIF_SOURCE_FIELD]: { provider: item.provider, id: item.id },
+      },
+      { timeline, threadId, replyTo: replyTo ?? null, myId: client.userId() ?? '' }
+    );
+    return;
+  }
+
   const { blob, fileName } = await downloadGif(item);
   const file = new File([blob], fileName, { type: blob.type || 'image/gif' });
 

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useAccountData } from '@/app/data';
 
 export interface RecentEmojiEntry {

@@ -1,0 +1,18 @@
+{
+  "name": "mudrix-test-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Throwaway Matrix + LiveKit stack for testing Mudrix on this machine",
+  "scripts": {
+    "up": "node up.mjs",
+    "down": "node up.mjs down",
+    "reset": "node up.mjs reset",
+    "seed": "node seed.mjs",
+    "forward": "node forward.mjs",
+    "bots": "node participants.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
-import type { RoomSettings } from '@wizardchat/core';
+import type { RoomSettings } from '@mudrix/core';
 import { useRoomSettings } from '@/app/data';
 import { NO_ROLES, useRoomRoles, type SpaceRoles } from './spaceRoles';
 

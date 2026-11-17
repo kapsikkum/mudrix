@@ -82,14 +82,14 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
     const confirmed = await confirmDialog({
       title: t('room.space.removeRoomConfirmTitle', { name: child.name }),
       message: t('room.space.removeRoomConfirmMessage', { name: child.name }),
-      confirmLabel: t('room.space.removeRoom'),
+      confirmLabel: t('space.removeRoom'),
       danger: true,
     });
     if (!confirmed) return;
     try {
       await client.removeFromSpace(spaceId, child.roomId);
     } catch (err) {
-      toast.error(t('room.space.removeFailed', { error: getErrorMessage(err) }));
+      toast.error(t('space.removeFailed', { error: getErrorMessage(err) }));
     }
   };
 
@@ -107,7 +107,7 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
             onClick={() => setAddRoom({ open: true, spaceId, spaceName })}
           >
             <PlusIcon size={14} className={css.iconBefore} />
-            {t('room.space.addExistingRoom')}
+            {t('space.addExistingRoom')}
           </Button>
           <Button
             variant="secondary"
@@ -125,7 +125,7 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
             }
           >
             <StackIcon size={14} className={css.iconBefore} />
-            {t('room.addSubSpace')}
+            {t('space.createSubspace')}
           </Button>
           <Button
             variant="secondary"
@@ -133,7 +133,7 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
             onClick={() => setAddRoom({ open: true, spaceId, spaceName, type: 'subspace' })}
           >
             <StackIcon size={14} className={css.iconBefore} />
-            {t('room.space.addExistingSubSpace')}
+            {t('space.addExistingSubSpace')}
           </Button>
         </div>
       )}
@@ -147,11 +147,11 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
             <span className={chCss.rowName}>{child.name}</span>
             {editable && (
               <>
-                <span className={css.permRowRole}>{t('room.suggested')}</span>
+                <span className={css.permRowRole}>{t('space.suggested')}</span>
                 <Toggle
                   size="sm"
                   checked={child.suggested}
-                  ariaLabel={t('room.suggested')}
+                  ariaLabel={t('space.suggested')}
                   onChange={(on) => setSuggested(child, on)}
                 />
                 <IconButton
@@ -170,8 +170,8 @@ export function MatrixRoomsPanel({ spaceId }: { spaceId: string }) {
                 </IconButton>
                 <IconButton
                   danger
-                  aria-label={t('room.space.removeRoom')}
-                  tooltip={t('room.space.removeRoom')}
+                  aria-label={t('space.removeRoom')}
+                  tooltip={t('space.removeRoom')}
                   onClick={() => remove(child)}
                 >
                   <XIcon size={14} />

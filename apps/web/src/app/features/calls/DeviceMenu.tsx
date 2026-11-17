@@ -38,7 +38,7 @@ export function useSelectDevice() {
   return { select, current };
 }
 
-function useDevices(kinds: DeviceKind[]) {
+export function useDevices(kinds: DeviceKind[], requestPermissions = true, reloadKey?: unknown) {
   const [devices, setDevices] = useState<Partial<Record<DeviceKind, MediaDeviceInfo[]>>>({});
   const kindsKey = kinds.join(',');
   useEffect(() => {
@@ -47,7 +47,7 @@ function useDevices(kinds: DeviceKind[]) {
       void Promise.all(
         kindsKey.split(',').map(async (kind) => {
           try {
-            return [kind, await listMediaDevices(kind as DeviceKind)] as const;
+            return [kind, await listMediaDevices(kind as DeviceKind, requestPermissions)] as const;
           } catch {
             return [kind, []] as const;
           }
@@ -62,12 +62,11 @@ function useDevices(kinds: DeviceKind[]) {
       cancelled = true;
       navigator.mediaDevices?.removeEventListener('devicechange', load);
     };
-  }, [kindsKey]);
+  }, [kindsKey, requestPermissions, reloadKey]);
   return devices;
 }
 
-function VolumeRow({ kind }: { kind: 'input' | 'output' }) {
-  const { t } = useTranslation();
+export function useCallVolume(kind: 'input' | 'output') {
   const session = useAtomValue(callSessionAtom);
   const [volumes, setVolumes] = useAtom(callVolumesAtom);
   const set = (value: number) => {
@@ -75,12 +74,18 @@ function VolumeRow({ kind }: { kind: 'input' | 'output' }) {
     if (kind === 'input') void session?.setInputVolume(value);
     else session?.setOutputVolume(value);
   };
+  return [volumes[kind], set] as const;
+}
+
+function VolumeRow({ kind }: { kind: 'input' | 'output' }) {
+  const { t } = useTranslation();
+  const [volume, set] = useCallVolume(kind);
   const Icon = kind === 'input' ? MicrophoneIcon : SpeakerHighIcon;
   return (
     <div className={css.volumeRow}>
       <Icon size={16} className={css.volumeIcon} />
       <VolumeSlider
-        value={volumes[kind]}
+        value={volume}
         max={kind === 'input' ? 2 : 1}
         label={t(kind === 'input' ? 'call.inputVolume' : 'call.outputVolume')}
         onChange={set}
@@ -91,6 +96,15 @@ function VolumeRow({ kind }: { kind: 'input' | 'output' }) {
 
 const FLYOUT_EDGE = 8;
 const PSEUDO_DEVICES = new Set(['default', 'communications']);
+
+export function deviceChoices(all: MediaDeviceInfo[], active: string | undefined) {
+  const list = all.filter((d) => !PSEUDO_DEVICES.has(d.deviceId));
+  const current = active ?? 'default';
+  const pseudo = all.find((d) => d.deviceId === current && PSEUDO_DEVICES.has(d.deviceId));
+  const resolved = pseudo ? list.find((d) => d.groupId === pseudo.groupId)?.deviceId : current;
+  const selected = list.some((d) => d.deviceId === resolved) ? resolved : list[0]?.deviceId;
+  return { list, selected };
+}
 
 function DeviceRow({
   kind,
@@ -204,13 +218,8 @@ function DeviceList({ kinds, onDone }: { kinds: DeviceKind[]; onDone: () => void
   return (
     <div className={css.menu}>
       {kinds.map((kind, index) => {
-        const all = devices[kind] ?? [];
-        const list = all.filter((d) => !PSEUDO_DEVICES.has(d.deviceId));
+        const { list, selected } = deviceChoices(devices[kind] ?? [], current(kind));
         const showRow = !(kind === 'audiooutput' && list.length === 0);
-        const active = current(kind) ?? 'default';
-        const pseudo = all.find((d) => d.deviceId === active && PSEUDO_DEVICES.has(d.deviceId));
-        const resolved = pseudo ? list.find((d) => d.groupId === pseudo.groupId)?.deviceId : active;
-        const selected = list.some((d) => d.deviceId === resolved) ? resolved : list[0]?.deviceId;
         return (
           <Fragment key={kind}>
             {index > 0 && <div className={css.divider} role="separator" />}

@@ -36,7 +36,7 @@ export function useUnignoreUser() {
       const reload = await confirmDialog({
         title: t('profile.unignoreReloadTitle'),
         message: t('profile.unignoreReloadBody', { name: displayName }),
-        confirmLabel: t('profile.unignoreReloadConfirm'),
+        confirmLabel: t('common.reloadNow'),
         danger: false,
       });
       if (reload) window.location.reload();

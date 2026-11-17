@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const body = style({
   display: 'flex',
@@ -13,7 +14,7 @@ export const facts = style({
   columnGap: '12px',
   rowGap: '4px',
   margin: 0,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const factLabel = style({
@@ -29,7 +30,7 @@ export const factValue = style({
 });
 
 export const sectionLabel = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
 });
@@ -40,7 +41,7 @@ export const preview = style({
   maxHeight: '240px',
   overflow: 'auto',
   fontFamily: 'monospace',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.5,
   color: vars.color.textPrimary,
   backgroundColor: vars.color.bgInput,
@@ -53,13 +54,13 @@ export const preview = style({
 
 export const note = style({
   margin: 0,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   lineHeight: 1.5,
 });
 
 export const errorText = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.error,
   overflowWrap: 'anywhere',
 });

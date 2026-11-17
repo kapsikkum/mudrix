@@ -1,7 +1,7 @@
 //! End-to-end check of sign-in discovery, recovery, device verification and sessions,
 //! using two devices of the same account:
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example security
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example security
 
 #![recursion_limit = "256"]
 
@@ -10,10 +10,10 @@ mod common;
 
 use std::{sync::Arc, time::Duration};
 
-use tokio::sync::mpsc;
-use wizardchat_core::{
-    StoreConfig, UiaAuth, UiaOutcome, VerificationFlow, VerificationStatus, WizardClient,
+use mudrix_core::{
+    MudrixClient, StoreConfig, UiaAuth, UiaOutcome, VerificationFlow, VerificationStatus,
 };
+use tokio::sync::mpsc;
 
 use common::BoxError;
 
@@ -70,7 +70,7 @@ async fn main() -> Result<(), BoxError> {
     let server = common::server();
     let user = format!("wzsec{}", std::process::id());
     let password = format!("pw-{}-{}", std::process::id(), user.len() * 7919);
-    WizardClient::register(
+    MudrixClient::register(
         &server,
         &user,
         &password,
@@ -83,7 +83,7 @@ async fn main() -> Result<(), BoxError> {
     .logout()
     .await?;
 
-    let info = WizardClient::discover(&server).await?;
+    let info = MudrixClient::discover(&server).await?;
     println!(
         "discovered {}: password {}, oauth {}, sso {}",
         info.homeserver_url,
@@ -93,7 +93,7 @@ async fn main() -> Result<(), BoxError> {
     );
 
     let (a, _) =
-        WizardClient::login_password(&server, &user, &password, "security test A", store("a"))
+        MudrixClient::login_password(&server, &user, &password, "security test A", store("a"))
             .await?;
     a.start_sync().await?;
     wait_for("device A to set up cross-signing", async || {
@@ -115,11 +115,10 @@ async fn main() -> Result<(), BoxError> {
     println!("recovery key set up on device A (was {})", status.recovery);
 
     let (b, session_b) =
-        WizardClient::login_password(&server, &user, &password, "security test B", store("b"))
+        MudrixClient::login_password(&server, &user, &password, "security test B", store("b"))
             .await?;
     b.start_sync().await?;
-    let own =
-        |devices: Vec<wizardchat_core::DeviceInfo>| devices.into_iter().find(|d| d.is_current);
+    let own = |devices: Vec<mudrix_core::DeviceInfo>| devices.into_iter().find(|d| d.is_current);
     assert!(
         !own(b.devices().await?).is_some_and(|d| d.is_verified),
         "a fresh device must not be listed as verified"
@@ -139,7 +138,7 @@ async fn main() -> Result<(), BoxError> {
 
     // Fresh device C, verified by emoji comparison with A
     let (c, session_c) =
-        WizardClient::login_password(&server, &user, &password, "security test C", store("c"))
+        MudrixClient::login_password(&server, &user, &password, "security test C", store("c"))
             .await?;
     c.start_sync().await?;
     let device_c = session_c.device_id.clone();
@@ -247,7 +246,7 @@ async fn main() -> Result<(), BoxError> {
         b.encryption_status().await
     );
     let (d, _) =
-        WizardClient::login_password(&server, &user, &password, "security test D", store("d"))
+        MudrixClient::login_password(&server, &user, &password, "security test D", store("d"))
             .await?;
     d.start_sync().await?;
     d.recover(&new_key).await?;

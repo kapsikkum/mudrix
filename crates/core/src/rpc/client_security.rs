@@ -1,14 +1,14 @@
-//! `WizardClient`: encryption, recovery, verification, identity, push rules, threads, space
+//! `MudrixClient`: encryption, recovery, verification, identity, push rules, threads, space
 //! children and devices
 
 use super::{Handle, Listener, Subscription};
 use crate::{
-    DeviceInfo, EncryptionStatus, IdentityChange, PublicRoomsPage, SessionEvent, ThreadPage,
-    UiaAuth, UiaOutcome, UrlPreview, UserTrust, VerificationFlow, WizardClient,
+    DeviceInfo, EncryptionStatus, IdentityChange, MudrixClient, PublicRoomsPage, SessionEvent,
+    ThreadPage, UiaAuth, UiaOutcome, UrlPreview, UserTrust, VerificationFlow,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// Calls `listener` when tokens are refreshed (store the new session) or the session ends.
         watch fn watchSession(listener: Listener<SessionEvent>) -> Subscription {
             Ok(listener.clone().watch(async move {

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { SyncState } from '@wizardchat/core';
+import type { SyncState } from '@mudrix/core';
 import { connectionLostAtom, syncStateAtom } from '@/app/store/atoms';
 
 const SHOW_DELAY_MS = 2000;

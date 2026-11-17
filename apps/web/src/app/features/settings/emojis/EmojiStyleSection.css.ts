@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const preview = style({
   display: 'flex',
@@ -8,20 +9,18 @@ export const preview = style({
   backgroundColor: vars.color.bgSecondary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
-  padding: '10px 14px',
+  padding: '10px 16px',
   marginBottom: '8px',
   userSelect: 'none',
 });
 
 export const previewLabel = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
 });
 
 export const previewLine = style({
-  fontSize: '1.25rem',
+  fontSize: fontSize.lg,
   lineHeight: 1.4,
   color: vars.color.textPrimary,
   wordBreak: 'break-word',

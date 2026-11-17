@@ -1,10 +1,11 @@
-import { WizardClient, type HomeserverSoftware, type IdentityProvider } from '@wizardchat/core';
+import { MudrixClient, type HomeserverSoftware, type IdentityProvider } from '@mudrix/core';
 import { appInfo, loadCore, loginWithPopup } from '@/client/initMatrix';
 import type { MatrixCredentials } from '@/client/types';
 import { matrixErrcode } from '@/app/features/auth/matrixError';
 import { errorCode, knownOAuthClients } from '@/core/client';
 import { isNativeApp, openAuthUrlAndWaitForReturn } from '@/util/nativeApp';
 import { isDesktop } from '@/bridge/desktop';
+import { safeExternalUrl } from '@/util/safeUrl';
 
 export type { IdentityProvider };
 
@@ -73,6 +74,31 @@ function isRateLimited(err: unknown): boolean {
   return matrixErrcode(err) === 'M_LIMIT_EXCEEDED';
 }
 
+/**
+ * What the server says it runs, asked of the base URL the client actually talks to (the address in
+ * the box, or what its `.well-known` names). Best effort: a server that refuses cross-site requests
+ * from browsers, or hides its version, just has no name. The reply is untrusted, so only short
+ * plain strings are kept.
+ */
+async function detectSoftware(baseUrl: string): Promise<HomeserverSoftware | undefined> {
+  try {
+    const res = await fetch(`${baseUrl.replace(/\/+$/, '')}/_matrix/federation/v1/version`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return undefined;
+    const body = (await res.json()) as { server?: { name?: unknown; version?: unknown } };
+    const name = typeof body.server?.name === 'string' ? body.server.name.trim().slice(0, 40) : '';
+    if (!name) return undefined;
+    return {
+      name,
+      version:
+        typeof body.server?.version === 'string' ? body.server.version.trim().slice(0, 40) : '',
+    };
+  } catch {
+    return undefined;
+  }
+}
+
 export async function discoverAuthCapabilities(homeserverUrl: string): Promise<AuthCapabilities> {
   await loadCore();
   const result: AuthCapabilities = {
@@ -89,7 +115,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
 
   let info;
   try {
-    info = await WizardClient.discover(homeserverUrl);
+    info = await MudrixClient.discover(homeserverUrl);
   } catch (err) {
     console.warn('[auth] login flow discovery failed for', homeserverUrl, err);
     const code = errorCode(err);
@@ -109,10 +135,16 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
   result.qrLogin = info.qrLogin;
   result.software = info.software ?? undefined;
 
-  const [registration, accountManagementUri] = await Promise.allSettled([
-    WizardClient.registrationInfo(info.homeserverUrl),
+  const [registration, accountManagementUri, software] = await Promise.allSettled([
+    MudrixClient.registrationInfo(info.homeserverUrl),
     info.oauth ? fetchAccountManagementUri(info.homeserverUrl) : Promise.resolve(undefined),
+    // The core asks the server name over https, which misses an address like `192.0.2.10:6167`;
+    // asking the URL the client will talk to names the software for any server that answers.
+    detectSoftware(info.homeserverUrl),
   ]);
+  if (software.status === 'fulfilled' && software.value) {
+    result.software = software.value;
+  }
 
   if (registration.status === 'fulfilled') {
     result.registerStatus = registration.value.enabled
@@ -140,7 +172,7 @@ export async function discoverAuthCapabilities(homeserverUrl: string): Promise<A
 function openSignInPopup(): Window | null {
   // The desktop app signs in through the system browser
   if (isDesktop) return null;
-  return window.open('about:blank', 'wizardchat-sign-in');
+  return window.open('about:blank', 'mudrix-sign-in');
 }
 
 /** Signs in on the server's own page (OAuth). Call synchronously from the click handler. */
@@ -150,7 +182,7 @@ export function startOAuthPopupLogin(
 ): Promise<MatrixCredentials> {
   const popup = openSignInPopup();
   return loginWithPopup(popup, (store, redirectUri) =>
-    WizardClient.startOAuthLogin(
+    MudrixClient.startOAuthLogin(
       homeserverUrl,
       store,
       redirectUri,
@@ -168,7 +200,7 @@ export function startSsoPopupLogin(
 ): Promise<MatrixCredentials> {
   const popup = openSignInPopup();
   return loginWithPopup(popup, (store, redirectUri) =>
-    WizardClient.startSsoLogin(homeserverUrl, store, redirectUri, idpId ?? undefined)
+    MudrixClient.startSsoLogin(homeserverUrl, store, redirectUri, idpId ?? undefined)
   );
 }
 
@@ -193,7 +225,12 @@ export function waitForSsoFallback(fallbackUrl: string, homeserverUrl: string): 
   if (isDesktop) return waitForBrowserReturn(fallbackUrl);
 
   return new Promise((resolve, reject) => {
-    const popup = window.open(fallbackUrl, '_blank');
+    const safeFallback = safeExternalUrl(fallbackUrl);
+    if (!safeFallback) {
+      reject(new Error('invalid_fallback_url'));
+      return;
+    }
+    const popup = window.open(safeFallback, '_blank');
     if (!popup) {
       reject(new Error('popup_blocked'));
       return;
@@ -249,7 +286,7 @@ export async function requestPasswordReset(
   clientSecret: string
 ): Promise<string> {
   await loadCore();
-  return WizardClient.requestPasswordReset(homeserverUrl, email, clientSecret, 1);
+  return MudrixClient.requestPasswordReset(homeserverUrl, email, clientSecret, 1);
 }
 
 export async function completePasswordReset(
@@ -260,5 +297,5 @@ export async function completePasswordReset(
   logoutDevices: boolean = true
 ): Promise<void> {
   await loadCore();
-  await WizardClient.resetPassword(homeserverUrl, newPassword, clientSecret, sid, logoutDevices);
+  await MudrixClient.resetPassword(homeserverUrl, newPassword, clientSecret, sid, logoutDevices);
 }

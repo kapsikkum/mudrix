@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
-import type { RoomSummary, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode, MudrixClient } from '@mudrix/core';
 import { currentRoomIdAtom, pendingEventJumpAtom, userProfileAtom } from '@/app/store/atoms';
 import { STORAGE_KEY_PENDING_LINK } from '@/const/storageKeys';
 import { parseMatrixToFragment, parseMatrixToUrl, type MatrixToTarget } from '@/util/matrixTo';
@@ -23,7 +23,7 @@ function existingDmRoomId(rooms: RoomSummary[], userId: string): string | null {
   return rooms.find((r) => r.isDirect && !r.isInvite && r.dmUserId === userId)?.id ?? null;
 }
 
-export function useMatrixToLinks(client: WizardClient | null): void {
+export function useMatrixToLinks(client: MudrixClient | null): void {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const confirm = useConfirm();
@@ -94,7 +94,7 @@ export function useMatrixToLinks(client: WizardClient | null): void {
           const ok = await confirm({
             title: t('link.joinTitle'),
             message: t('link.joinMessage', { room: known?.name || roomIdOrAlias }),
-            confirmLabel: t('link.join'),
+            confirmLabel: t('common.join'),
           });
           if (!ok) return;
           roomId = await client.join(

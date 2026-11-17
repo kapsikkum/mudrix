@@ -11,7 +11,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::{json, Value};
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// What the homeserver found at a link (OpenGraph)
 #[derive(Clone, Debug, Serialize)]
@@ -61,7 +61,7 @@ fn text(value: &Value, pointer: &str) -> Option<String> {
         .map(ToOwned::to_owned)
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// A preview of a link, if the server can make one.
     pub async fn url_preview(&self, url: &str) -> Result<Option<UrlPreview>> {
         let response = self
@@ -146,7 +146,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Every global account data type the account has, read from the server
     pub async fn account_data_types(&self) -> Result<Vec<String>> {
         use matrix_sdk::ruma::{

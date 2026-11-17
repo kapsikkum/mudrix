@@ -1,4 +1,4 @@
-/** `@wizardchat/core` in the desktop app: the core runs natively in the Tauri process */
+/** `@mudrix/core` in the desktop app: the core runs natively in the Tauri process */
 import { Channel, invoke } from '@tauri-apps/api/core';
 import { dispatchEvent, ensure, setTransport, type Encoded } from './runtime';
 

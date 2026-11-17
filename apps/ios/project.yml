@@ -1,4 +1,4 @@
-name: WizardChat
+name: Mudrix
 options:
   deploymentTarget:
     iOS: '18.0'
@@ -6,8 +6,8 @@ options:
   developmentLanguage: en
 
 packages:
-  WizardChatCore:
-    path: WizardChatCore
+  MudrixCore:
+    path: MudrixCore
   LiveKit:
     url: https://github.com/livekit/client-sdk-swift
     exactVersion: 2.19.0
@@ -28,15 +28,18 @@ settings:
     TARGETED_DEVICE_FAMILY: '1'
 
 targets:
-  WizardChat:
+  Mudrix:
     type: application
     platform: iOS
     sources:
-      - WizardChat
+      - Mudrix
       - Shared
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/design-tokens/dist/apple/Tokens.xcassets
       - ../../packages/icons/dist/apple/Icons.xcassets
+      - ../../packages/icons/dist/apple/Cosmetics.xcassets
+      - path: ../../packages/icons/dist/ios/cosmetics.json
+        buildPhase: resources
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
       - path: ../../packages/emoji/dist/emoji.json
         buildPhase: resources
@@ -46,33 +49,46 @@ targets:
         type: folder
         buildPhase: resources
     info:
-      path: WizardChat/Info.plist
+      path: Mudrix/Info.plist
       properties:
         # The theme's background, so launching doesn't flash white before the first frame
         UILaunchScreen:
           UIColorName: LaunchBackground
         # Keep voice room audio running with the screen off or the app in the background
-        UIBackgroundModes: [audio, voip, fetch]
-        # Opened by the share extension to send what you shared
+        # remote-notification: silent pushes (apns mode); fetch: BGAppRefreshTask syncs (keepalive mode)
+        UIBackgroundModes: [audio, remote-notification, fetch]
+        BGTaskSchedulerPermittedIdentifiers: [chat.mudrix.mobile.refresh]
+        # How notifications arrive while closed: apns (needs a push gateway and the Push capability) or keepalive
+        WZPushMode: $(WZ_PUSH_MODE)
+        WZPushGateway: $(WZ_PUSH_GATEWAY_URL)
+        # Opened by the share extension to send what you shared. chat.mudrix is the scheme new sign-in
+        # redirect URIs use; ASWebAuthenticationSession itself still watches the upstream scheme
+        # (MatrixSession.callbackScheme) because it takes one scheme only.
         CFBundleURLTypes:
           - CFBundleURLName: chat.mudrix.mobile
-            CFBundleURLSchemes: [mudrix]
-        # Background checks for new messages (until there's push)
-        BGTaskSchedulerPermittedIdentifiers: [chat.mudrix.mobile.refresh]
+            CFBundleURLSchemes: [mudrix, chat.mudrix]
         # Calls show in the Dynamic Island and on the lock screen
         NSSupportsLiveActivities: true
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         WZAppGroup: $(WZ_APP_GROUP)
+        WZKeychainAccessGroup: $(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)
+        # GIF search keys from Config/Secrets.xcconfig or the GIPHY_API_KEY / KLIPY_API_KEY build settings;
+        # an empty key turns that provider off
+        WZGiphyApiKey: $(GIPHY_API_KEY)
+        WZKlipyApiKey: $(KLIPY_API_KEY)
         CFBundleLocalizations: [en, de, es, fr, it, pt, ru, ja, tr, nl, pl]
+        # End-to-end encryption uses standard algorithms in open-source code, which is exempt
+        ITSAppUsesNonExemptEncryption: false
     dependencies:
-      - package: WizardChatCore
+      - package: MudrixCore
       - package: LiveKit
-      - target: WizardChatWidgets
-      - target: WizardChatShare
+      - target: MudrixWidgets
+      - target: MudrixShare
+      - target: NotificationService
     scheme:
       testTargets:
-        - WizardChatTests
+        - MudrixTests
     postBuildScripts:
       - name: Version from package.json
         script: ./scripts/set-version.sh
@@ -80,7 +96,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile
-        CODE_SIGN_ENTITLEMENTS: WizardChat/WizardChat.entitlements
+        CODE_SIGN_ENTITLEMENTS: $(WZ_ENTITLEMENTS)
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: Mudrix
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
@@ -91,22 +107,25 @@ targets:
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: 'Mudrix uses your location only when you share it in a chat.'
         INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: 'Mudrix saves the photos you choose from a chat to your photo library.'
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: 'AppIcon-Parrot AppIcon-Hallow'
+        ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: 'AppIcon-Parrot AppIcon-Hallow AppIcon-Ethereal AppIcon-Pewter AppIcon-Umbra AppIcon-Eclipse AppIcon-Garnet AppIcon-Blossom'
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # Live Activities: the call in the Dynamic Island and on the lock screen
-  WizardChatWidgets:
+  MudrixWidgets:
     type: app-extension
     platform: iOS
     sources:
-      - WizardChatWidgets
-      - Shared
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - MudrixWidgets
+      # The account store helper needs the core package, which the widgets don't link
+      - path: Shared
+        excludes:
+          - StoredSession.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/icons/dist/apple/Icons.xcassets
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
-      path: WizardChatWidgets/Info.plist
+      path: MudrixWidgets/Info.plist
       properties:
         CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -125,17 +144,17 @@ targets:
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # "Share -> Mudrix" from Photos, Safari and other apps
-  WizardChatShare:
+  MudrixShare:
     type: app-extension
     platform: iOS
     sources:
-      - WizardChatShare
+      - MudrixShare
       - path: Shared/ShareInbox.swift
       - path: Shared/L10n.swift
-      - ../../packages/design-tokens/dist/swift/WizardChatTokens.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
       - ../../packages/i18n/dist/apple/Localizable.xcstrings
     info:
-      path: WizardChatShare/Info.plist
+      path: MudrixShare/Info.plist
       properties:
         CFBundleDisplayName: Mudrix
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -158,19 +177,56 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.share
-        CODE_SIGN_ENTITLEMENTS: WizardChatShare/WizardChatShare.entitlements
+        CODE_SIGN_ENTITLEMENTS: MudrixShare/MudrixShare.entitlements
+        SKIP_INSTALL: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+  # The text on a push before iOS shows it, also after the app was force-quit:
+  # the app's pusher asks for `mutable-content`, so iOS runs this extension first
+  NotificationService:
+    type: app-extension
+    platform: iOS
+    sources:
+      - NotificationService
+      - path: Shared/ShareInbox.swift
+      - path: Shared/PushPayload.swift
+      - path: Shared/NotificationPreview.swift
+      - path: Shared/StoredSession.swift
+      - ../../packages/design-tokens/dist/swift/MudrixTokens.swift
+      - ../../packages/i18n/dist/apple/Localizable.xcstrings
+    info:
+      path: NotificationService/Info.plist
+      properties:
+        CFBundleDisplayName: Mudrix
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        WZAppGroup: $(WZ_APP_GROUP)
+        WZKeychainAccessGroup: $(AppIdentifierPrefix)$(WZ_KEYCHAIN_GROUP)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.usernotifications.service
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).NotificationService
+    dependencies:
+      - package: MudrixCore
+    postBuildScripts:
+      - name: Version from package.json
+        script: ./scripts/set-version.sh
+        basedOnDependencyAnalysis: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(WZ_BUNDLE_PREFIX).mobile.notifications
+        CODE_SIGN_ENTITLEMENTS: NotificationService/NotificationService.entitlements
         SKIP_INSTALL: YES
         ENABLE_USER_SCRIPT_SANDBOXING: NO
 
   # Unit tests of the pure parts (theme derivation, settings sync, video plan, image strip), run inside the app
-  WizardChatTests:
+  MudrixTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - WizardChatTests
+      - MudrixTests
     dependencies:
-      - target: WizardChat
-      - package: WizardChatCore
+      - target: Mudrix
+      - package: MudrixCore
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { ACTIVITY_EMOJI, type ProfileActivity } from '@/util/profileActivity';
+import type { ProfileActivity } from '@/util/profileActivity';
+import { ActivityIcon } from './ActivityIcon';
 import * as css from './ActivityCards.css';
 
 const MINUTE_MS = 60_000;
@@ -58,7 +59,7 @@ function ActivityCard({ activity }: { activity: ProfileActivity }) {
       </span>
       <div className={css.body}>
         <span className={css.icon} aria-hidden>
-          {ACTIVITY_EMOJI[activity.type]}
+          <ActivityIcon type={activity.type} size={24} />
         </span>
         <span className={css.text}>
           <span className={css.title}>{activity.name}</span>

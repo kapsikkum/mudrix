@@ -1,4 +1,4 @@
-import type { Session, StoreConfig } from '@wizardchat/core';
+import type { Session, StoreConfig } from '@mudrix/core';
 
 /** A signed-in account as stored on this device */
 export interface MatrixCredentials {

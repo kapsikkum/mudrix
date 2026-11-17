@@ -19,7 +19,7 @@ use matrix_sdk::{
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
-use crate::{Error, Result, Session, StoreConfig, WizardClient};
+use crate::{Error, MudrixClient, Result, Session, StoreConfig};
 
 /// An email address on the account
 #[derive(Clone, Debug, Serialize)]
@@ -101,7 +101,7 @@ fn uiaa_of(error: &matrix_sdk::HttpError) -> Option<&UiaaInfo> {
     error.as_uiaa_response()
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Whether a username can be registered on the server.
     pub async fn username_available(server: &str, username: &str) -> Result<bool> {
         let client = plain_client(server).await?;
@@ -213,7 +213,7 @@ impl WizardClient {
                             || (s.as_str() == "m.login.registration_token" && token.is_some())
                     })
                 })
-                .ok_or_else(|| Error::Sdk("this server needs a step WizardChat can't do here (like a captcha or email); register on the server's website".into()))?;
+                .ok_or_else(|| Error::Sdk("this server needs a step Mudrix can't do here (like a captcha or email); register on the server's website".into()))?;
             let next = flow
                 .stages
                 .iter()
@@ -619,7 +619,7 @@ pub struct ServerFeatures {
     pub unstable_features: Vec<String>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn server_features(&self) -> Result<ServerFeatures> {
         let versions = self.sdk().server_versions().await?;
         let unstable = self.sdk().unstable_features().await?;

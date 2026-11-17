@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const tabs = style({
   display: 'flex',
@@ -14,7 +15,7 @@ export const tab = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
   transition: `background-color ${fast}, color ${fast}`,
@@ -64,7 +65,7 @@ export const sourceName = style({
   alignItems: 'center',
   gap: '6px',
   minWidth: 0,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
 });
 
 export const appIcon = style({ width: '16px', height: '16px', flexShrink: 0 });
@@ -81,6 +82,42 @@ export const audioToggle = style({
   alignItems: 'center',
   gap: '8px',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   cursor: 'pointer',
+});
+
+export const options = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'flex-end',
+  gap: '12px 20px',
+  marginTop: '4px',
+});
+
+export const optionSelect = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+  minWidth: '130px',
+  flex: '1 1 130px',
+});
+
+export const optionLabel = style({
+  color: vars.color.textMuted,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+});
+
+export const optionToggle = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  minHeight: '36px',
+  fontSize: fontSize.sm,
+  color: vars.color.textPrimary,
+});
+
+export const optionToggleLabel = style({
+  cursor: 'pointer',
+  userSelect: 'none',
 });

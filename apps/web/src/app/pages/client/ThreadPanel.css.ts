@@ -1,8 +1,9 @@
 import { style } from '@vanilla-extract/css';
-import { TABLET_QUERY } from '@/const/breakpoints';
-import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { vars } from '@/theme/vars.css';
-import { med, slideInRight } from '@/theme/animations.css';
+import { med, slideInUp } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 const base = {
   width: '450px',
@@ -14,31 +15,22 @@ const base = {
   overflow: 'hidden',
   flexShrink: 0,
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
+      // Bottom drawer, like the pickers and menus.
       position: 'fixed',
-      left: 'env(safe-area-inset-left)',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
-      width: 'auto',
-      zIndex: 5000,
-      transform: 'translateX(100%)',
-      transition: `transform ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
-      borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
-      transform: 'translateX(100%)',
+      left: 0,
+      right: 0,
+      top: 'auto',
+      bottom: 0,
+      // The desktop resizer sets an inline width.
+      width: '100% !important',
+      height: '80dvh',
+      paddingBottom: 'var(--safe-bottom)',
+      borderLeft: 'none',
+      borderRadius: '20px 20px 0 0',
+      boxShadow: vars.shadow.sheet,
+      zIndex: zIndex.panel,
+      transform: 'translateY(100%)',
       transition: `transform ${med} ease`,
     },
   },
@@ -49,30 +41,16 @@ export const threadPanel = style(base);
 export const threadPanelOpen = style({
   ...base,
   '@media': {
-    '(max-width: 768px)': {
+    [PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
-      right: 'env(safe-area-inset-right)',
-      top: 'env(safe-area-inset-top)',
-      bottom: 'env(safe-area-inset-bottom)',
-      zIndex: 5000,
-      transform: 'translateX(0)',
-      animation: `${slideInRight} ${med} ease`,
-    },
-    // Touch tablets: a drawer on the right under the title bar, not a full-screen page.
-    [TABLET_QUERY]: {
-      position: 'fixed',
-      left: 'auto',
-      right: 'env(safe-area-inset-right)',
-      top: `calc(env(safe-area-inset-top) + ${TITLE_BAR_HEIGHT}px)`,
-      bottom: 'env(safe-area-inset-bottom)',
-      width: '360px !important',
-      minWidth: 0,
-      flex: '0 0 auto',
-      padding: 'initial',
-      borderLeft: `1px solid ${vars.color.border}`,
-      zIndex: 5000,
-      transform: 'translateX(0)',
-      animation: `${slideInRight} ${med} ease`,
+      left: 0,
+      right: 0,
+      top: 'auto',
+      bottom: 0,
+      height: '80dvh',
+      zIndex: zIndex.panel,
+      transform: 'translateY(0)',
+      animation: `${slideInUp} ${med} ease`,
     },
   },
 });
@@ -86,10 +64,10 @@ export const threadPanelHeader = style({
   alignItems: 'center',
   gap: '8px',
   padding: '12px',
-  fontSize: '1rem',
-  fontWeight: 700,
+  fontSize: fontSize.md,
+  fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
 });
@@ -155,7 +133,7 @@ export const threadRootWrap = style({
   padding: '12px',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadRootMeta = style({
@@ -168,18 +146,18 @@ export const threadRootMeta = style({
 export const threadRootSender = style({
   fontWeight: 600,
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadRootTime = style({
   color: vars.color.textMuted,
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   flexShrink: 0,
 });
 
 export const threadRootContent = style({
   color: vars.color.textPrimary,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   lineHeight: '1.5',
   wordBreak: 'break-word',
   overflow: 'hidden',
@@ -192,9 +170,8 @@ export const threadRootUndecryptable = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '4px',
-  fontStyle: 'italic',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const threadReplyList = style({
@@ -211,10 +188,10 @@ export const dateSeparator = style({
   alignItems: 'center',
   gap: '10px',
   padding: '12px 12px 4px',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   fontWeight: 600,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.01em',
   '::before': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
   '::after': { content: '""', flex: 1, height: '1px', backgroundColor: vars.color.border },
 });
@@ -225,7 +202,7 @@ export const threadLoading = style({
   justifyContent: 'center',
   padding: '24px',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   flex: 1,
 });
 
@@ -235,8 +212,7 @@ export const threadEmpty = style({
   justifyContent: 'center',
   padding: '32px 16px',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
-  fontStyle: 'italic',
+  fontSize: fontSize.sm,
   flex: 1,
 });
 

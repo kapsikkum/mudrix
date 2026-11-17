@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useAccountData, spaceGraphAtom } from '@/app/data';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { callUiAtom } from '@/app/store/atoms/call';
@@ -74,7 +74,7 @@ export interface UseSoundboardResult {
   removeSound: (clip: SoundboardClip) => Promise<void>;
 }
 
-function requireClient(): WizardClient {
+function requireClient(): MudrixClient {
   const client = getMatrixClientOrNull();
   if (!client) throw new SoundboardError('offline');
   return client;
@@ -108,10 +108,10 @@ export function useSoundboard(roomId: string | null | undefined): UseSoundboardR
 
   useEffect(() => subscribeRoomSoundboardData(() => setRevision((n) => n + 1)), []);
 
-  // Opening the soundboard looks at the room again; a change by someone else shows after 30 seconds.
+  // Opening the soundboard reads the room once; changes by others arrive as events.
   useEffect(() => {
     if (!client || !roomId) return;
-    void loadRoomSoundboardData(client, roomId, true).catch(() => {});
+    void loadRoomSoundboardData(client, roomId).catch(() => {});
   }, [client, roomId]);
 
   useEffect(() => {

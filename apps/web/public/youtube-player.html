@@ -22,7 +22,10 @@
     <script>
       // Hosts the YouTube player on a web origin for Mudrix's watch together (desktop)
       (function () {
-        var SOURCE = 'wizardchat-youtube';
+        var SOURCE = 'mudrix-youtube';
+        // The upstream-hosted copy of this page (still loaded by desktop and the native apps)
+        // speaks the old id. Accept its commands too, so both bridges keep working.
+        var LEGACY_SOURCE = 'wizardchat-youtube';
         var player = null;
         var ready = false;
         var queue = [];
@@ -149,7 +152,7 @@
         window.addEventListener('message', function (event) {
           if (event.source !== window.parent) return;
           var command = event.data;
-          if (!command || command.target !== SOURCE) return;
+          if (!command || (command.target !== SOURCE && command.target !== LEGACY_SOURCE)) return;
           if (command.type === 'init') create(command);
           else run(command);
         });

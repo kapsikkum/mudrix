@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { STORAGE_KEY_CALL_DEVICES } from '@/const/storageKeys';
 import { getSoundboardDevicePrefs, soundboardRuntime } from './runtime';
 import {
@@ -35,7 +35,7 @@ function remember(url: string, objectUrl: string): void {
 }
 
 async function download(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   url: string,
   mimetype: SoundboardMimetype
 ): Promise<string> {
@@ -57,7 +57,7 @@ async function download(
 
 /** Downloads (or reuses) a clip and returns an object URL for it. Rejects on any failure. */
 export function loadClip(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   url: string,
   mimetype: SoundboardMimetype
 ): Promise<string> {
@@ -81,7 +81,7 @@ export function loadClip(
 
 /** Warms the cache for a clip about to be used. Never throws. */
 export function prefetchClip(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   url: string,
   mimetype: SoundboardMimetype
 ): void {
@@ -104,7 +104,7 @@ function routeToCallSpeaker(audio: HTMLAudioElement): void {
 }
 
 export interface LocalPlayRequest {
-  client: WizardClient | null;
+  client: MudrixClient | null;
   /** Who pressed it (shown in the "playing" list). */
   senderId: string;
   soundId: string;

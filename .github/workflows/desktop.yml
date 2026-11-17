@@ -1,0 +1,349 @@
+﻿name: Desktop
+
+# `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, so testers get
+# something they can double-click. The raw binary is still uploaded next to them for debugging. Windows
+# code signing and notarisation are not set up; in-app update artifacts are signed with the old
+# mudrix-desktop minisign key when the TAURI_SIGNING_PRIVATE_KEY secret exists (see docs/SIGNING.md).
+# Runs on pull requests and pushes when desktop or core files change, or by hand (the macOS leg bills 10x
+# minutes).
+on:
+  push:
+    branches: [main, web-look]
+    paths:
+      - apps/desktop/**
+      - apps/web/**
+      - crates/**
+      - packages/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - flake.nix
+      - nix/**
+      - packaging/**
+      - .github/workflows/desktop.yml
+      - .github/actions/**
+  pull_request:
+    paths:
+      - apps/desktop/**
+      - crates/**
+      - Cargo.toml
+      - Cargo.lock
+      - rust-toolchain.toml
+      - package.json
+      - package-lock.json
+      - flake.nix
+      - nix/**
+      - packaging/**
+      - .github/workflows/desktop.yml
+      - .github/actions/**
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'Runners to build on, as a JSON array'
+        default: '["windows-latest","ubuntu-latest","macos-latest"]'
+        type: string
+      bundles:
+        description: 'Build installers ("true") or compile only ("false")'
+        default: 'true'
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  # GIF search (docs/SECRETS.md): public build-time keys, embedded in the web bundle
+  VITE_GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: desktop
+
+      - name: Tauri system libraries
+        if: runner.os == 'Linux'
+        uses: ./.github/actions/tauri-linux-deps
+
+      - run: npm ci --ignore-scripts
+
+      - name: Design tokens
+        run: npm run tokens
+
+      # Tauri rejects a bundle target it cannot build on this OS, so each runner gets its own list.
+      # nsis is per-user; msi needs WiX (Tauri downloads it) and only takes numeric versions.
+      - name: Bundle targets for this runner
+        id: bundles
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Windows) list="nsis,msi" ;;
+            Linux)   list="appimage,deb" ;;
+            macOS)   list="app,dmg" ;;
+          esac
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+
+      # beforeBuildCommand (tsc + vite build --mode desktop) builds the web UI that Tauri embeds
+      - name: Tauri build (debug, installers)
+        if: inputs.bundles != 'false'
+        shell: bash
+        env:
+          # The same minisign key the old mudrix-desktop releases used; without it the build is unsigned.
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          signing=()
+          if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ] && [ -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" ]; then
+            signing=(--config src-tauri/tauri.updater.conf.json)
+            echo "Updater artifacts will be signed with the minisign key."
+          else
+            echo "No updater signing key and password; building unsigned."
+          fi
+          npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }} "${signing[@]}"
+
+      - name: Tauri build (debug, no bundle)
+        if: inputs.bundles == 'false'
+        run: npm run tauri -w @mudrix/desktop -- build --debug --no-bundle
+
+      # upload-artifact cannot carry a .app's symlinks and file modes, so the macOS app is zipped with ditto
+      - name: Package the macOS app
+        if: runner.os == 'macOS' && inputs.bundles != 'false'
+        shell: bash
+        run: |
+          apps=(target/debug/bundle/macos/*.app)
+          app="${apps[0]}"
+          ditto -c -k --sequesterRsrc --keepParent "$app" \
+            "target/debug/bundle/macos/$(basename "$app" .app)-unsigned-${GITHUB_SHA::7}.zip"
+
+      - name: Checksums
+        if: inputs.bundles != 'false'
+        shell: bash
+        run: |
+          cd target/debug/bundle
+          if command -v sha256sum > /dev/null; then SH="sha256sum"; else SH="shasum -a 256"; fi
+          find . -maxdepth 2 -type f \
+            \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' -o -name '*.zip' \
+               -o -name '*.AppImage' -o -name '*.deb' -o -name '*.sig' \
+               -o -name '*.nsis.zip' -o -name '*.app.tar.gz' -o -name '*.AppImage.tar.gz' \) -print0 \
+            | xargs -0 $SH > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Upload the binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-debug-${{ runner.os }}
+          path: |
+            target/debug/mudrix-desktop
+            target/debug/mudrix-desktop.exe
+            target/debug/mudrix_desktop.pdb
+          if-no-files-found: error
+          retention-days: 14
+
+      # Unsigned and debug-profile on purpose: SmartScreen and Gatekeeper will complain, which is what the
+      # testing notes explain. Globs, so a productName rename doesn't break the upload.
+      - name: Upload the installers
+        if: inputs.bundles != 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-${{ runner.os }}-unsigned
+          path: |
+            target/debug/bundle/nsis/*.exe
+            target/debug/bundle/msi/*.msi
+            target/debug/bundle/dmg/*.dmg
+            target/debug/bundle/macos/*.zip
+            target/debug/bundle/appimage/*.AppImage
+            target/debug/bundle/deb/*.deb
+            target/debug/bundle/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
+
+      # The minisign-signed updater bundles (and their .sig files) for in-app updates. Only present when
+      # the old mudrix-desktop signing key is configured.
+      - name: Upload updater artifacts
+        if: inputs.bundles != 'false' && hashFiles('target/debug/bundle/**/*.sig') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-desktop-updater-${{ runner.os }}
+          path: |
+            target/debug/bundle/**/*.sig
+            target/debug/bundle/**/*.nsis.zip
+            target/debug/bundle/**/*.app.tar.gz
+            target/debug/bundle/**/*.AppImage.tar.gz
+          if-no-files-found: ignore
+          retention-days: 14
+
+      # The tarball the Arch, Fedora and Nix jobs install, with the PKGBUILD and RPM spec filled for it.
+      # It is the deb's tree with the binary's bundle marker cleared, so the app treats it as a
+      # tarball install instead of offering a dpkg upgrade (see packaging/ci/make-linux-tarball.mjs).
+      - name: Linux tarball for the distro packages
+        if: runner.os == 'Linux' && inputs.bundles != 'false'
+        run: node packaging/ci/make-linux-tarball.mjs
+
+      - name: Upload the Linux tarball
+        if: runner.os == 'Linux' && inputs.bundles != 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: target/debug/bundle/tarball/
+          if-no-files-found: error
+          retention-days: 14
+
+  # The three distro packages install the same tarball the Linux leg made. They only build: nothing is
+  # published, and a package that cannot be built fails the run (docs/BUILDING.md, "Distribution
+  # packages").
+  arch:
+    name: Arch package
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # makepkg refuses to run as root, and the PKGBUILD's dependencies are not installed: the package
+      # only copies files, so --nodeps is enough. base-devel brings makepkg, fakeroot and tar.
+      - name: makepkg
+        run: |
+          pacman -Syu --noconfirm --needed base-devel
+          useradd -m builder
+          chown -R builder dist
+          su builder -c 'cd dist && makepkg --nodeps --holdver --noconfirm -f'
+          ls -l dist/*.pkg.tar.zst
+          mkdir -p out
+          cp dist/*.pkg.tar.zst out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-arch-package
+          path: out/*.pkg.tar.zst
+          if-no-files-found: error
+          retention-days: 14
+
+  fedora:
+    name: Fedora package
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # The spec is filled for this tarball (RPM cannot take '-' in a version: a pre-release becomes
+      # version 26.12.1, release 0.next.1), so the build is a plain rpmbuild. The rpm's own
+      # requirements and file list are printed for the log.
+      - name: rpmbuild
+        run: |
+          dnf install -y rpm-build tar
+          mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
+          cp dist/mudrix.spec ~/rpmbuild/SPECS/
+          cp dist/mudrix-*-linux-x86_64.tar.gz ~/rpmbuild/SOURCES/
+          rpmbuild -bb ~/rpmbuild/SPECS/mudrix.spec
+          rpm -qp --requires ~/rpmbuild/RPMS/x86_64/*.rpm
+          rpm -qlp ~/rpmbuild/RPMS/x86_64/*.rpm
+          mkdir -p out
+          cp ~/rpmbuild/RPMS/x86_64/*.rpm out/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mudrix-fedora-package
+          path: out/*.rpm
+          if-no-files-found: error
+          retention-days: 14
+
+  nix:
+    name: Nix package + module
+    needs: build
+    if: >-
+      needs.build.result == 'success' && inputs.bundles != 'false' &&
+      contains(fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]'), 'ubuntu-latest')
+    # Not the nixos/nix container: that image has no FHS loader, so the runner's Node binary, which
+    # actions/checkout needs, cannot execute inside it (exec /__e/node24/bin/node: no such file).
+    # Installing Nix on the runner gives the same clean Nix without breaking the JS actions.
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: mudrix-linux-tarball
+          path: dist
+
+      # Evaluation only (--no-build): the derivation has no release checksum yet, so building it from
+      # GitHub would fail. The next step builds it from the tarball this run just made.
+      - name: nix flake check
+        run: nix flake check --no-build --print-build-logs
+
+      - name: Build the package from the Linux tarball
+        run: |
+          tarball=$(ls "$PWD"/dist/mudrix-*-linux-x86_64.tar.gz)
+          MUDRIX_TARBALL="$tarball" nix build --impure -L .#mudrix
+          test -x result/bin/mudrix-desktop
+          nix path-info -S ./result
+
+      - name: Evaluate the NixOS module
+        run: |
+          nix eval --impure --raw --expr "$(cat <<'NIX'
+            let
+              flake = builtins.getFlake (toString ./.);
+              system = flake.inputs.nixpkgs.lib.nixosSystem {
+                system = "x86_64-linux";
+                modules = [
+                  flake.nixosModules.mudrix
+                  {
+                    system.stateVersion = "25.11";
+                    # A minimal machine so the toplevel assertions pass; this only evaluates the
+                    # module, it is not a bootable configuration.
+                    fileSystems."/" = {
+                      device = "/dev/sda1";
+                      fsType = "ext4";
+                    };
+                    boot.loader.grub.devices = [ "/dev/sda" ];
+                    programs.mudrix.enable = true;
+                    programs.mudrix.autostart = true;
+                  }
+                ];
+              };
+            in system.config.system.build.toplevel.drvPath
+          NIX
+          )"

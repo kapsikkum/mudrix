@@ -1,12 +1,12 @@
-//! `WizardClient`: session, sync, rooms, timelines and media
+//! `MudrixClient`: session, sync, rooms, timelines and media
 
 use serde::Deserialize;
 
 use super::{Bytes, Handle, Listener, RoomListSubscription, Subscription};
 use crate::{
-    CreateRoomOptions, InviteInfo, ListDiff, LoadState, Member, PublicRoom, RoomDetails,
-    RoomSummary, RoomTimeline, Session, SpaceChild, SpaceSummary, SyncState, UserResult,
-    WizardClient,
+    CreateRoomOptions, InviteInfo, ListDiff, LoadState, Member, MudrixClient, PublicRoom,
+    RoomDetails, RoomSummary, RoomTimeline, Session, SpaceChild, SpaceSummary, SyncState,
+    UserResult,
 };
 
 /// Which part of a room a timeline shows
@@ -39,7 +39,7 @@ impl From<TimelineKind> for crate::TimelineKind {
 }
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         prop fn session() -> Session {
             this.session()
         }
@@ -156,6 +156,11 @@ rpc_methods! {
 
         call fn setFavourite(room_id: String, favourite: bool) -> () {
             this.set_favourite(&room_id, favourite).await
+        }
+
+        /// Moves a room to the low priority group (or back); a favourite stops being one.
+        call fn setLowPriority(room_id: String, low_priority: bool) -> () {
+            this.set_low_priority(&room_id, low_priority).await
         }
 
         call fn setMarkedUnread(room_id: String, unread: bool) -> () {

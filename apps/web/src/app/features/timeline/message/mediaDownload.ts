@@ -1,4 +1,4 @@
-import type { DownloadProgress, MediaSource, WizardClient } from '@wizardchat/core';
+import type { DownloadProgress, MediaSource, MudrixClient } from '@mudrix/core';
 
 /** No byte for this long after the first ones arrived: the download is stalled. */
 export const DOWNLOAD_STALL_MS = 30_000;
@@ -37,7 +37,7 @@ export interface DownloadOptions {
  * within `stallMs` after the last progress. Rejects with `DownloadStalledError` in that case.
  */
 export async function downloadMedia(
-  client: WizardClient,
+  client: MudrixClient,
   source: MediaSource,
   options: DownloadOptions = {}
 ): Promise<Uint8Array> {

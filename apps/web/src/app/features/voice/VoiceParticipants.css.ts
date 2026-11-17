@@ -3,6 +3,7 @@ import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
 import { TOUCH_UI } from '@/theme/uiDensity';
 import { PARTICIPANT_SIZES } from './participantSize';
+import { fontSize } from '@/theme/typeScale';
 
 const desktop = PARTICIPANT_SIZES.desktop;
 const touch = PARTICIPANT_SIZES.touch;
@@ -22,10 +23,10 @@ export const wrap = style({
 const entryBase = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '7px',
+  gap: '8px',
   padding: `${px((desktop.row - desktop.avatar) / 2)} 6px ${px((desktop.row - desktop.avatar) / 2)} 4px`,
   borderRadius: vars.radius.sm,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   cursor: 'default',
   transition: `background-color ${fast}`,
@@ -51,10 +52,10 @@ const ringBase = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '0.6rem',
-  fontWeight: 700,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   selectors: {
-    [`${TOUCH_UI} &`]: { width: px(touch.avatar), height: px(touch.avatar), fontSize: '0.85rem' },
+    [`${TOUCH_UI} &`]: { width: px(touch.avatar), height: px(touch.avatar), fontSize: fontSize.sm },
   },
 });
 
@@ -72,21 +73,21 @@ export const name = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '0.82rem',
-  selectors: { [`${TOUCH_UI} &`]: { fontSize: '0.95rem' } },
+  fontSize: fontSize.sm,
+  selectors: { [`${TOUCH_UI} &`]: { fontSize: fontSize.md } },
 });
 
 export const icons = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   flexShrink: 0,
   marginLeft: 'auto',
   selectors: { [`${TOUCH_UI} &`]: { gap: '8px' } },
 });
 
 const iconBase = style({
-  fontSize: '0.68rem',
+  fontSize: fontSize.xs,
   display: 'inline-flex',
   alignItems: 'center',
   flexShrink: 0,
@@ -99,18 +100,16 @@ export const iconCamera = style([iconBase, { color: vars.color.success }]);
 export const livePill = style({
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '0 5px',
+  padding: '0 6px',
   borderRadius: '999px',
-  background: '#593695',
-  color: '#ffffff',
-  fontSize: '0.56rem',
-  fontWeight: 700,
-  lineHeight: '14px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
+  background: vars.color.live,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  lineHeight: 1.33,
   userSelect: 'none',
   selectors: {
-    [`${TOUCH_UI} &`]: { fontSize: '0.68rem', lineHeight: '18px', padding: '0 7px' },
+    [`${TOUCH_UI} &`]: { fontSize: fontSize.xs, lineHeight: 1.5, padding: '0 8px' },
   },
 });
 
@@ -148,8 +147,8 @@ export const compactAvatarSpeaking = style([
 ]);
 
 export const compactMore = style({
-  fontSize: '0.75rem',
-  selectors: { [`${TOUCH_UI} &`]: { fontSize: '0.9rem' } },
+  fontSize: fontSize.xs,
+  selectors: { [`${TOUCH_UI} &`]: { fontSize: fontSize.sm } },
   fontWeight: 600,
   color: vars.color.textMuted,
   whiteSpace: 'nowrap',

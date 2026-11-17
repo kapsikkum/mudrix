@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SpinnerGapIcon, ArrowSquareOutIcon, LockIcon } from '@phosphor-icons/react';
-import type { UiaAuth, UiaOutcome } from '@wizardchat/core';
+import type { UiaAuth, UiaOutcome } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { waitForSsoFallback } from '@/app/features/sso/sso';
 import * as css from './Sessions.css';
@@ -160,7 +160,7 @@ export function UiaPanel({
             ) : (
               <ArrowSquareOutIcon size={14} />
             )}
-            {t('settings.sessions.continueWithSso')}
+            {t('common.continueWithSso')}
           </button>
         </div>
       )}

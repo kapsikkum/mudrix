@@ -1,7 +1,7 @@
 //! End-to-end check of room administration with two accounts: settings, addresses, power
 //! levels, knocking, bans, reports, view source, forwarding, media and upgrades.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example admin
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example admin
 
 #![recursion_limit = "256"]
 
@@ -10,8 +10,8 @@ mod common;
 
 use std::time::Duration;
 
+use mudrix_core::CreateRoomOptions;
 use serde_json::json;
-use wizardchat_core::CreateRoomOptions;
 
 use common::BoxError;
 

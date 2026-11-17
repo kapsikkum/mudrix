@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useAtomValue, useSetAtom } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useTranslation } from 'react-i18next';
 import { CaretDownIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import {
@@ -9,6 +9,7 @@ import {
   callDedicatedScreenAtom,
   callEffectiveViewAtom,
   callIsVoiceRoomAtom,
+  callPopoutOpenAtom,
   callUiAtom,
   callSessionAtom,
 } from '@/app/store/atoms/call';
@@ -20,12 +21,14 @@ import { useSoundboardReceiver } from '@/app/features/soundboard/useSoundboardRe
 import { IncomingCallOverlay } from './IncomingCallOverlay';
 import { CallControlBar } from './CallControlBar';
 import { CallReactionsRail } from './CallReactionsRail';
+import { ScreenShareNotice } from './ScreenShareNotice';
 import { CallStage } from './stage/CallStage';
+import { CallPopoutWindow, CallWindowProvider, callPopoutRootAtom } from './CallPopoutWindow';
 import * as css from './CallLayer.css';
 import { DOCKED_HEADER_HEIGHT } from './CallLayer.css';
 
 interface Props {
-  client: WizardClient | null;
+  client: MudrixClient | null;
 }
 
 const DEFAULT_DOCKED_HEIGHT = 360;
@@ -89,6 +92,19 @@ export function CallLayer({ client }: Props) {
   // Phones and tablets: the fullscreen call has a header of its own, with a way to minimize it.
   const dedicatedScreen = useAtomValue(callDedicatedScreenAtom);
   const isDedicatedScreen = isFullscreen && dedicatedScreen;
+  const popoutOpen = useAtomValue(callPopoutOpenAtom);
+  const popoutRoot = useAtomValue(callPopoutRootAtom);
+
+  // Popped out into its own window (desktop): the call's interface is in that window, and what is
+  // left here (the call engine) keeps running out of sight.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return undefined;
+    el.style.visibility = isPip && popoutOpen ? 'hidden' : '';
+    return () => {
+      el.style.visibility = '';
+    };
+  }, [containerRef, isPip, popoutOpen]);
 
   const joined = ui.phase === 'joined';
   const callSession = useAtomValue(callSessionAtom);
@@ -348,6 +364,21 @@ export function CallLayer({ client }: Props) {
     [isPip, containerRef]
   );
 
+  // The call's interface goes into the window of its own when there is one, otherwise into the
+  // container in the app. In the window it is always shown, whatever the main window is showing.
+  const uiEl = popoutOpen ? popoutRoot : containerEl;
+  const showUi = popoutOpen || !isHidden;
+  const inUi = (node: React.ReactNode) =>
+    uiEl &&
+    createPortal(
+      popoutOpen && popoutRoot ? (
+        <CallWindowProvider root={popoutRoot}>{node}</CallWindowProvider>
+      ) : (
+        node
+      ),
+      uiEl
+    );
+
   return (
     <>
       {isDocked &&
@@ -370,7 +401,7 @@ export function CallLayer({ client }: Props) {
               type="button"
               className={css.headerButton}
               onClick={() => showPresentation('tile')}
-              aria-label={t('voice.minimizeCall')}
+              aria-label={t('call.minimize')}
             >
               <CaretDownIcon size={20} />
             </button>
@@ -409,30 +440,27 @@ export function CallLayer({ client }: Props) {
           containerEl
         )}
 
-      {inCall &&
-        callSession &&
-        !isHidden &&
-        containerEl &&
-        createPortal(<CallStage />, containerEl)}
+      {inCall && callSession && showUi && inUi(<CallStage />)}
+
+      {inCall && joined && showUi && inUi(<CallControlBar />)}
+
+      {inCall && joined && showUi && (popoutOpen || !isPip) && inUi(<CallReactionsRail />)}
 
       {inCall &&
         joined &&
-        !isHidden &&
-        containerEl &&
-        createPortal(<CallControlBar />, containerEl)}
+        ui.isScreenSharing &&
+        showUi &&
+        (popoutOpen || !isPip) &&
+        inUi(<ScreenShareNotice />)}
 
-      {inCall &&
-        joined &&
-        !isHidden &&
-        !isPip &&
-        containerEl &&
-        createPortal(<CallReactionsRail />, containerEl)}
+      <CallPopoutWindow />
 
       {ui.incoming && client && (
         <IncomingCallOverlay
           callerName={ui.incoming.callerName}
           callerId={ui.incoming.callerId}
           voiceOnly={ui.incoming.voiceOnly}
+          roomName={ui.incoming.roomName}
           client={client}
           onAccept={() => accept(ui.incoming!)}
           onDecline={decline}

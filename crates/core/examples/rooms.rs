@@ -2,7 +2,7 @@
 //! mentions, DM and space invites, knocking, top-level spaces, the space hierarchy, power levels
 //! of new rooms, room account data and removing a user's recent messages.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example rooms
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example rooms
 
 #![recursion_limit = "256"]
 
@@ -12,8 +12,8 @@ mod common;
 use std::time::Duration;
 
 use futures_channel::oneshot;
+use mudrix_core::{CreateRoomOptions, MudrixClient, RoomSummary, SpaceSummary};
 use serde_json::{json, Value};
-use wizardchat_core::{CreateRoomOptions, RoomSummary, SpaceSummary, WizardClient};
 
 use common::BoxError;
 
@@ -32,7 +32,7 @@ async fn eventually<T>(
 
 /// Watches the room list until `done` holds for it
 async fn room_list_until(
-    client: &WizardClient,
+    client: &MudrixClient,
     what: &str,
     done: impl Fn(&[RoomSummary]) -> bool,
 ) -> Result<Vec<RoomSummary>, BoxError> {
@@ -57,7 +57,7 @@ async fn room_list_until(
 }
 
 async fn spaces_until(
-    client: &WizardClient,
+    client: &MudrixClient,
     what: &str,
     done: impl Fn(&[SpaceSummary]) -> bool,
 ) -> Result<Vec<SpaceSummary>, BoxError> {
@@ -376,7 +376,7 @@ async fn main() -> Result<(), BoxError> {
         _ = rx => {},
         _ = watch => return Err("account data watch ended".into()),
         _ = tokio::time::sleep(Duration::from_secs(20)) => return Err("timed out waiting for m.tag".into()),
-        result = async { set.await?; std::future::pending::<Result<(), wizardchat_core::Error>>().await } => { result?; }
+        result = async { set.await?; std::future::pending::<Result<(), mudrix_core::Error>>().await } => { result?; }
     }
     println!("favourite order arrives through the room account data watch");
 
@@ -385,7 +385,8 @@ async fn main() -> Result<(), BoxError> {
     println!(
         "local settings: join rule {}, profile status writable: {}",
         local.join_rule,
-        me.can_set_profile_field("org.wizardchat.status").await?
+        me.can_set_profile_field("io.github.kapsikkum.mudrix.status")
+            .await?
     );
 
     println!("All room checks passed in {:.1?}", started.elapsed());

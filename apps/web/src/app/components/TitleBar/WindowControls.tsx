@@ -40,7 +40,7 @@ export function WindowControls() {
       <button
         type="button"
         className={css.closeButton}
-        aria-label={t('titleBar.close')}
+        aria-label={t('common.close')}
         onClick={() => void appWindow.close()}
       >
         <XIcon size={14} />

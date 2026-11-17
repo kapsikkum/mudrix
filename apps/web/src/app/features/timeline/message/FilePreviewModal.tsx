@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ArrowsOutSimpleIcon, CopyIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
-import type { MediaSource, WizardClient } from '@wizardchat/core';
+import { ArrowsOutSimpleIcon, CodeIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
+import type { MediaSource, MudrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';
@@ -116,7 +116,7 @@ export function TextFileCard({
   size,
   loadFull,
 }: {
-  client: WizardClient;
+  client: MudrixClient;
   source: MediaSource;
   filename: string;
   size?: number;
@@ -218,7 +218,7 @@ export function TextFileCard({
               disabled={busy}
               aria-label={t('common.copy')}
             >
-              <CopyIcon size={18} />
+              <CodeIcon size={18} />
             </button>
           </Tooltip>
           <Tooltip content={t('common.expand')}>
@@ -232,13 +232,13 @@ export function TextFileCard({
               <ArrowsOutSimpleIcon size={18} />
             </button>
           </Tooltip>
-          <Tooltip content={t('mediaLightbox.download')}>
+          <Tooltip content={t('common.download')}>
             <button
               type="button"
               className={css.textFileAction}
               onClick={handleDownload}
               disabled={busy}
-              aria-label={t('mediaLightbox.download')}
+              aria-label={t('common.download')}
             >
               <DownloadSimpleIcon size={18} />
             </button>

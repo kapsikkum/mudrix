@@ -50,8 +50,8 @@ export function useRoomActions() {
   const leaveSpace = useCallback(
     async (spaceId: string, spaceName: string) => {
       const ok = await confirm(
-        t('room.space.leave'),
-        t('room.space.leaveConfirm', { name: spaceName }),
+        t('space.leave'),
+        t('space.leaveConfirm', { name: spaceName }),
         true
       );
       if (!ok || !client) return;

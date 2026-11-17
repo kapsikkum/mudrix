@@ -1,4 +1,5 @@
 import type { BuiltInSound, SoundboardClip, SoundboardMimetype } from './types';
+import { publicUrl } from '@/util/publicUrl';
 
 /**
  * The clips every Mudrix has (CC0, credits in packages/sounds/LICENSES.md). The ids are what other
@@ -188,7 +189,7 @@ export const BUILT_IN_SOUNDS: readonly BuiltInSound[] = [
   },
 ];
 
-const soundUrl = (file: string) => `/assets/sounds/${file}`;
+const soundUrl = (file: string) => publicUrl(`assets/sounds/${file}`);
 
 function mimetypeFromFileName(file: string): SoundboardMimetype {
   const ext = file.split('.').pop()?.toLowerCase();

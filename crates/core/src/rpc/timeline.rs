@@ -169,6 +169,10 @@ rpc_methods! {
             this.edit_text(&item_key, &body).await
         }
 
+        call fn editCaption(item_key: String, caption: String, html: Option<String>, mentions: Option<MentionsInput>) -> () {
+            this.edit_caption(&item_key, &caption, html.as_deref(), mentions).await
+        }
+
         call fn redact(item_key: String, reason: Option<String>) -> () {
             this.redact(&item_key, reason.as_deref()).await
         }
@@ -305,12 +309,12 @@ rpc_methods! {
     }
 }
 
-/// `WizardClient` methods of the timeline area
+/// `MudrixClient` methods of the timeline area
 pub(super) mod client {
-    use crate::WizardClient;
+    use crate::MudrixClient;
 
     rpc_methods! {
-        WizardClient(this: WizardClient) {
+        MudrixClient(this: MudrixClient) {
             /// "Mark as read": moves the unthreaded read receipt and the fully-read marker to
             /// the room's latest message. Private receipts aren't shown to others.
             call fn markRoomAsRead(room_id: String, private: Option<bool>) -> () {

@@ -255,7 +255,7 @@ export function useSwipeToReply(
       const transition = animate ? 'transform 0.2s ease, opacity 0.2s ease' : '';
       if (content) {
         content.style.transition = transition;
-        content.style.transform = x ? `translateX(${x}px)` : '';
+        content.style.transform = x ? `translateX(${-x}px)` : '';
       }
       if (icon) {
         const progress = Math.min(1, x / SWIPE_TRIGGER);
@@ -288,11 +288,11 @@ export function useSwipeToReply(
           mode = null;
           return;
         }
-        if (mx > MOVE_SLOP && mx > Math.abs(my) * 1.5) mode = 'swipe';
+        if (mx < -MOVE_SLOP && -mx > Math.abs(my) * 1.5) mode = 'swipe';
         else return;
       }
       if (e.cancelable) e.preventDefault();
-      const next = Math.min(SWIPE_MAX, Math.max(0, mx - MOVE_SLOP));
+      const next = Math.min(SWIPE_MAX, Math.max(0, -mx - MOVE_SLOP));
       if (dx < SWIPE_TRIGGER && next >= SWIPE_TRIGGER) haptic();
       dx = next;
       apply(dx, false);

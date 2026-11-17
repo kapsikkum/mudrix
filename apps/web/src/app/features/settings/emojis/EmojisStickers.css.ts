@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const packList = style({
   display: 'flex',
@@ -12,7 +13,7 @@ export const packCard = style({
   display: 'flex',
   alignItems: 'center',
   gap: '12px',
-  padding: '14px 16px',
+  padding: '16px 16px',
   backgroundColor: vars.color.bgSecondary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
@@ -45,7 +46,7 @@ export const packCardInfo = style({
 });
 
 export const packCardName = style({
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -54,7 +55,7 @@ export const packCardName = style({
 });
 
 export const packCardMeta = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
@@ -69,11 +70,10 @@ export const emptyPacks = style({
   padding: '16px',
   textAlign: 'center',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   backgroundColor: vars.color.bgSecondary,
   border: `1px dashed ${vars.color.border}`,
   borderRadius: vars.radius.md,
-  fontStyle: 'italic',
 });
 
 export const headerRow = style({
@@ -92,7 +92,7 @@ export const popEmpty = style({
   padding: '16px',
   textAlign: 'center',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
 });
 
 export const popRoomGroup = style({
@@ -102,11 +102,9 @@ export const popRoomGroup = style({
 });
 
 export const popRoomName = style({
-  fontSize: '0.72rem',
-  fontWeight: 700,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
   padding: '8px 10px 4px',
 });
 
@@ -122,7 +120,7 @@ export const popPackRow = style({
   cursor: 'pointer',
   color: vars.color.textPrimary,
   textAlign: 'left',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   transition: `background-color ${fast}`,
   ':hover': { backgroundColor: vars.color.bgHover },
 });

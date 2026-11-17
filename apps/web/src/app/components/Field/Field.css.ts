@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const field = style({
   display: 'flex',
@@ -11,19 +12,19 @@ export const field = style({
 
 export const label = style({
   display: 'block',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.05em',
+  letterSpacing: '0.01em',
   cursor: 'text',
 });
 
 export const hint = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
 export const error = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.danger,
 });

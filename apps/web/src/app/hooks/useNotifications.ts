@@ -1,7 +1,10 @@
 import { playNotificationSoundFor } from '@/util/notificationSounds';
 import { getThemeLogoAssets } from '@/theme/themeLogos';
 import i18n from '@/i18n';
+import { publicUrl } from '@/util/publicUrl';
 import { isStreamerModeActive } from '@/util/streamerMode';
+import { fetchMediaBlobUrl } from '@/app/components/Avatar';
+import type { MudrixClient } from '@mudrix/core';
 
 export type NotifLevel = 'default' | 'all' | 'mentions' | 'mute';
 
@@ -32,7 +35,7 @@ export function registerNotificationServiceWorker(): Promise<ServiceWorkerRegist
   }
   swRegistrationPromise = (async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js');
+      const reg = await navigator.serviceWorker.register(publicUrl('sw.js'));
       await navigator.serviceWorker.ready;
 
       await reg.update();
@@ -60,11 +63,65 @@ export function registerNotificationServiceWorker(): Promise<ServiceWorkerRegist
   return swRegistrationPromise;
 }
 
+const taggedNotifications = new Map<string, Notification>();
+
+const NOTIFICATION_AVATAR_PX = 96;
+
+/**
+ * The sender's avatar as PNG bytes: the desktop toast shows it in place of the app icon, and can
+ * only take a local image. Null when they have no avatar or it doesn't load in time.
+ */
+export async function notificationAvatar(
+  client: MudrixClient,
+  roomId: string,
+  senderId: string
+): Promise<Uint8Array | null> {
+  try {
+    const px = NOTIFICATION_AVATAR_PX;
+    const member = (await client.members(roomId)).find((m) => m.userId === senderId);
+    const src = await fetchMediaBlobUrl(member?.avatarUrl ?? '', client, 0, px, px, 'crop');
+    if (!src) return null;
+    const img = new Image();
+    img.src = src;
+    await Promise.race([
+      img.decode(),
+      new Promise((_, reject) => {
+        window.setTimeout(() => reject(new Error('timeout')), 3000);
+      }),
+    ]);
+    const canvas = document.createElement('canvas');
+    canvas.width = px;
+    canvas.height = px;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+    // Cover-crop to a square, the way avatars are shown.
+    const side = Math.min(img.naturalWidth, img.naturalHeight);
+    ctx.drawImage(
+      img,
+      (img.naturalWidth - side) / 2,
+      (img.naturalHeight - side) / 2,
+      side,
+      side,
+      0,
+      0,
+      px,
+      px
+    );
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+    return blob ? new Uint8Array(await blob.arrayBuffer()) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function showBrowserNotification(
   title: string,
   body: string,
   roomUrl?: string,
-  icon = getThemeLogoAssets().notification
+  icon = getThemeLogoAssets().notification,
+  tag?: string,
+  /** The sender's avatar as PNG bytes, for the desktop toast's own icon. */
+  avatar?: Uint8Array
 ): Promise<void> {
   // Streamer mode: the banner says who, not what.
   if (isStreamerModeActive()) body = i18n.t('settings.privacy.streamer.notificationBody');
@@ -74,6 +131,7 @@ export async function showBrowserNotification(
         title,
         body,
         icon,
+        avatar,
         silent: true,
         roomUrl,
       });
@@ -86,12 +144,12 @@ export async function showBrowserNotification(
   if (!('Notification' in window)) return;
   if (Notification.permission !== 'granted') return;
 
-  const data = roomUrl ? { url: roomUrl } : undefined;
+  const data = roomUrl ? { url: publicUrl(roomUrl) } : undefined;
 
   const reg = await registerNotificationServiceWorker();
   if (reg) {
     try {
-      await reg.showNotification(title, { body, icon, silent: true, data });
+      await reg.showNotification(title, { body, icon, silent: true, data, tag });
       return;
     } catch (err) {
       console.warn('[useNotifications] SW showNotification failed, falling back', err);
@@ -99,15 +157,26 @@ export async function showBrowserNotification(
   }
 
   try {
-    const n = new Notification(title, { body, icon, silent: true, data });
+    const n = new Notification(title, { body, icon, silent: true, data, tag });
+    if (tag) taggedNotifications.set(tag, n);
     n.onclick = roomUrl
       ? () => {
           window.focus();
-          window.location.href = roomUrl;
+          window.location.href = publicUrl(roomUrl);
         }
       : null;
     n.onerror = () => {};
   } catch {
     // ignore
   }
+}
+
+/** Closes a notification shown with `tag`; desktop notifications can't be withdrawn */
+export async function closeBrowserNotification(tag: string): Promise<void> {
+  taggedNotifications.get(tag)?.close();
+  taggedNotifications.delete(tag);
+  if (!('serviceWorker' in navigator) || !swRegistrationPromise) return;
+  const reg = await swRegistrationPromise;
+  const shown = await reg?.getNotifications({ tag }).catch(() => []);
+  for (const notification of shown ?? []) notification.close();
 }

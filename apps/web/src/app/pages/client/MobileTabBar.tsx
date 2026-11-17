@@ -113,12 +113,12 @@ export function MobileTabBar() {
     <nav
       ref={barRef}
       className={nativeBar ? `${css.tabBar} ${css.tabBarNative}` : css.tabBar}
-      aria-label={t('room.navigation')}
+      aria-label={t('nav.title')}
       data-back-root
     >
       <Tab
         id="home"
-        label={t('mobileNav.home')}
+        label={t('nav.home')}
         active={activeTab === 'home'}
         icon={<HouseIcon size={22} weight={activeTab === 'home' ? 'fill' : 'regular'} />}
         notif={homeHasNotif}
@@ -128,7 +128,7 @@ export function MobileTabBar() {
       />
       <Tab
         id="dms"
-        label={t('mobileNav.dms')}
+        label={t('nav.dms')}
         active={activeTab === 'dms'}
         icon={<ChatCircleIcon size={22} weight={activeTab === 'dms' ? 'fill' : 'regular'} />}
         notif={dmsHasNotif}
@@ -138,7 +138,7 @@ export function MobileTabBar() {
       />
       <Tab
         id="spaces"
-        label={t('mobileNav.spaces')}
+        label={t('nav.spaces')}
         active={activeTab === 'space'}
         icon={<StackIcon size={22} weight={activeTab === 'space' ? 'fill' : 'regular'} />}
         notif={spaces.some((s) => s.hasNotif)}
@@ -160,7 +160,7 @@ export function MobileTabBar() {
       />
       <Tab
         id="you"
-        label={t('mobileNav.you')}
+        label={t('nav.you')}
         icon={
           <Avatar
             name={me?.displayName ?? userId ?? ''}

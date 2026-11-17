@@ -1,6 +1,6 @@
 [package]
-name = "wizardchat-core-wasm"
-description = "Carries wizardchat-core RPC calls between the web app and the core compiled to wasm"
+name = "mudrix-core-wasm"
+description = "Carries mudrix-core RPC calls between the web app and the core compiled to wasm"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -10,7 +10,7 @@ publish = false
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-wizardchat-core = { path = "../core" }
+mudrix-core = { path = "../core" }
 wasm-bindgen = "0.2.129"
 wasm-bindgen-futures = "0.4.79"
 js-sys = "0.3.106"

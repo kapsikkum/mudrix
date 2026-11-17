@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { LogoLoader } from '@/app/components/AppLoading/LogoLoader';
 import { Button } from '@/app/components/Button';
 import { getActiveAccountId } from '@/client/accounts';
 import { endSessionForOtherTab } from '@/client/initMatrix';
+import { ACCOUNTS_KEY } from '@/core/storage';
+import { publicUrl } from '@/util/publicUrl';
 import * as css from './AccountSwitchGuard.css';
 
 const RELOAD_DELAY_MS = 3000;
-const ACCOUNTS_KEY = 'wizardchat.accounts';
 
 function localpart(userId: string): string {
   return userId.replace(/^@/, '').split(':')[0];
 }
 
 interface Props {
-  client: WizardClient | null;
+  client: MudrixClient | null;
 }
 
 export function AccountSwitchGuard({ client }: Props) {
@@ -55,7 +56,7 @@ export function AccountSwitchGuard({ client }: Props) {
     if (!hasConflict) return;
     void endSessionForOtherTab();
     const timer = setTimeout(() => {
-      window.location.replace('/');
+      window.location.replace(publicUrl(''));
     }, RELOAD_DELAY_MS);
     return () => clearTimeout(timer);
   }, [hasConflict]);
@@ -76,8 +77,8 @@ export function AccountSwitchGuard({ client }: Props) {
             ? t('auth.accountSwitchedMessage', { account: accountLabel })
             : t('auth.signedOutElsewhereMessage')}
         </p>
-        <Button variant="primary" onClick={() => window.location.replace('/')}>
-          {t('auth.reloadNow')}
+        <Button variant="primary" onClick={() => window.location.replace(publicUrl(''))}>
+          {t('common.reloadNow')}
         </Button>
       </div>
     </div>

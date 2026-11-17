@@ -2,9 +2,9 @@
 
 use std::sync::{Arc, Mutex};
 
+use mudrix_core::rpc::Rpc;
 use serde::Deserialize;
 use tauri::ipc::{Channel, InvokeBody, Request, Response};
-use wizardchat_core::rpc::Rpc;
 
 pub struct Core {
     rpc: Rpc,

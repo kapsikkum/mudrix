@@ -26,42 +26,39 @@ export function RemindersList() {
   };
 
   return (
-    <>
-      <div className={layoutCss.divider} />
-      <div className={layoutCss.section}>
-        <h3 className={layoutCss.sectionTitle}>{t('settings.notifications.reminders.title')}</h3>
-        {reminders.length === 0 ? (
-          <p className={`${layoutCss.settingNote} ${css.keywordEmpty}`}>
-            {t('settings.notifications.reminders.empty')}
-          </p>
-        ) : (
-          <ul className={css.keywordList}>
-            {reminders.map((reminder) => (
-              <li key={reminder.id} className={css.keywordItem}>
-                <span className={css.keywordText}>
-                  {t('settings.notifications.reminders.entry', {
-                    room: roomLabel(reminder.roomId),
-                    time: formatReminderTime(reminder.at, i18n.language),
-                  })}
-                </span>
-                <button
-                  type="button"
-                  className={css.keywordDel}
-                  onClick={() => {
-                    if (!client) return;
-                    removeReminder(client, reminder.id).catch((err) =>
-                      toast.error(t('timeline.remind.failed', { error: getErrorMessage(err) }))
-                    );
-                  }}
-                  aria-label={t('settings.notifications.reminders.cancel')}
-                >
-                  <XIcon size={14} />
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </>
+    <div className={layoutCss.section}>
+      <h3 className={layoutCss.sectionTitle}>{t('settings.notifications.reminders.title')}</h3>
+      {reminders.length === 0 ? (
+        <p className={`${layoutCss.settingNote} ${css.keywordEmpty}`}>
+          {t('settings.notifications.reminders.empty')}
+        </p>
+      ) : (
+        <ul className={css.keywordList}>
+          {reminders.map((reminder) => (
+            <li key={reminder.id} className={css.keywordItem}>
+              <span className={css.keywordText}>
+                {t('settings.notifications.reminders.entry', {
+                  room: roomLabel(reminder.roomId),
+                  time: formatReminderTime(reminder.at, i18n.language),
+                })}
+              </span>
+              <button
+                type="button"
+                className={css.keywordDel}
+                onClick={() => {
+                  if (!client) return;
+                  removeReminder(client, reminder.id).catch((err) =>
+                    toast.error(t('timeline.remind.failed', { error: getErrorMessage(err) }))
+                  );
+                }}
+                aria-label={t('settings.notifications.reminders.cancel')}
+              >
+                <XIcon size={14} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const typeList = style({
   display: 'flex',
@@ -14,13 +15,13 @@ const typeOptionBase = style({
   gap: '12px',
   boxSizing: 'border-box',
   width: '100%',
-  padding: '11px 12px',
+  padding: '12px 12px',
   borderRadius: vars.radius.md,
   border: `1px solid ${vars.color.border}`,
   background: vars.color.bgSecondary,
   color: vars.color.textPrimary,
   fontFamily: vars.font.body,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   lineHeight: '1.2',
   textAlign: 'left',
@@ -57,13 +58,13 @@ export const typeIconActive = style({
 export const typeText = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
 });
 
 export const typeNote = style({
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 400,
   lineHeight: '1.3',
 });

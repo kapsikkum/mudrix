@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useAtomValue } from 'jotai';
-import type { InviteInfo, RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { InviteInfo, RoomSummary, SpaceNode } from '@mudrix/core';
 import { useHomeOrder, sortByHomeOrder } from './roomOrder';
+import { selectHomeRooms } from './homeRooms';
 import { pinnedSubSpacesAtom } from '@/app/store/atoms/rooms';
 import { callRoomIdAtom } from '@/app/store/atoms/call';
 import {
@@ -58,16 +59,9 @@ export function useRooms() {
   const loading = !useSyncReady();
 
   const rooms = useMemo((): RoomEntry[] => {
-    const entries = allRooms
-      .filter((room) => {
-        if (room.isInvite) return false;
-        if (room.isTombstoned) return false;
-        if (isDmRoom(room)) return false;
-
-        // Home: rooms not in any space.
-        return !isInAnySpace(graph, room.id);
-      })
-      .map((room) => buildRoomEntry(room));
+    const entries = selectHomeRooms(allRooms, (roomId) => isInAnySpace(graph, roomId)).map((room) =>
+      buildRoomEntry(room)
+    );
     return sortByHomeOrder(
       entries,
       homeOrder,
@@ -178,9 +172,7 @@ export function useSpaces() {
     const joinedRooms = allRooms.filter((room) => !room.isInvite && !room.isTombstoned);
 
     // Home: rooms not in any space, not DMs
-    const homeRooms = joinedRooms.filter(
-      (room) => !isDmRoom(room) && !isInAnySpace(graph, room.id)
-    );
+    const homeRooms = selectHomeRooms(allRooms, (roomId) => isInAnySpace(graph, roomId));
     const homeHasMention = homeRooms.some((r) => roomHasUnreadMention(r));
     const homeHasNotif = homeHasMention || homeRooms.some((r) => getRoomUnreadCount(r) > 0);
     const homeHasCall = homeRooms.some((r) => r.id === callRoomId);

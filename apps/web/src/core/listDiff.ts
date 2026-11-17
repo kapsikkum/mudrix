@@ -1,4 +1,4 @@
-import type { ListDiff } from '@wizardchat/core';
+import type { ListDiff } from '@mudrix/core';
 
 /** Applies the core's list diffs to an immutable array, returning a new one. */
 export function applyDiffs<T>(list: readonly T[], diffs: ListDiff<T>[]): T[] {

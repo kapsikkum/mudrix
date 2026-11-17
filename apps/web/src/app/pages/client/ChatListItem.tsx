@@ -9,11 +9,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
+import { ListDecoration, ListNameplate } from '@/app/features/profile/ListCosmetics';
+import type { DotPresence, NameplateId } from '@/util/profileCosmetics';
 import { RoomVoiceParticipants } from '@/app/features/voice/VoiceParticipants';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useTouchUi } from '@/app/hooks/useUiDensitySync';
 import { isMenuOpenKey, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
-import type { CallMember } from '@wizardchat/core';
 import * as css from './ChatListItem.css';
 import { vars } from '@/theme/vars.css';
 
@@ -26,15 +27,31 @@ function formatElapsed(ms: number): string {
 }
 
 /** Time since the first person joined the call. */
-function CallTimer({ members }: { members: CallMember[] }) {
-  const since = Math.min(...members.map((m) => m.joinedAt));
+function CallTimer({ roomId }: { roomId: string }) {
+  const client = getMatrixClientOrNull();
+  const [since, setSince] = useState<number | null>(null);
+  useEffect(() => {
+    if (!client) return undefined;
+    const subscription = client.watchCallMembers(roomId, (members) =>
+      setSince(members.length > 0 ? Math.min(...members.map((m) => m.joinedAt)) : null)
+    );
+    return () => subscription.cancel();
+  }, [client, roomId]);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, []);
+  if (since === null) return null;
   return <span className={css.callTimer}>{formatElapsed(now - since)}</span>;
 }
+
+const PRESENCE_CLASS: Record<DotPresence, string> = {
+  online: css.presenceOnline,
+  unavailable: css.presenceIdle,
+  dnd: css.presenceDnd,
+  offline: css.presenceOffline,
+};
 
 interface ChatListItemProps {
   name: string;
@@ -51,9 +68,20 @@ interface ChatListItemProps {
   isMuted?: boolean;
   showTypeBadge?: boolean;
   hideAvatar?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
+  /** People in the voice channel can be dragged to another channel */
   canMoveVoiceUsers?: boolean;
   compactVoice?: boolean;
+  /** DM rows: avatar decoration id (static overlay), presence dot and custom status line. */
+  decoration?: string | null;
+  nameplate?: NameplateId | null;
+  /** Fixed 44px row (DM list) so rows match with or without a status line. */
+  fixedHeight?: boolean;
+  presence?: DotPresence;
+  statusEmoji?: string;
+  statusText?: string;
+  /** Receives the row element so callers can lazily load per-row data when it scrolls into view. */
+  rowRef?: (el: HTMLDivElement | null) => void;
   onClick: () => void;
   onDoubleClick?: () => void;
   onContextMenu?: (e: React.MouseEvent) => void;
@@ -78,6 +106,13 @@ export function ChatListItem({
   voiceMembers,
   canMoveVoiceUsers,
   compactVoice,
+  decoration,
+  nameplate,
+  fixedHeight,
+  presence,
+  statusEmoji,
+  statusText,
+  rowRef: externalRowRef,
   onClick,
   onDoubleClick,
   onContextMenu,
@@ -90,6 +125,14 @@ export function ChatListItem({
   const prevUnreadRef = useRef<number | undefined>(undefined);
   const [bumping, setBumping] = useState(false);
   const rowRef = useRef<HTMLDivElement>(null);
+
+  const setRowEl = useCallback(
+    (el: HTMLDivElement | null) => {
+      rowRef.current = el;
+      externalRowRef?.(el);
+    },
+    [externalRowRef]
+  );
 
   const badgeCount = Math.max(unread ?? 0, hasNotif ? 1 : 0);
 
@@ -113,11 +156,12 @@ export function ChatListItem({
   return (
     <div>
       <div
-        ref={rowRef}
+        ref={setRowEl}
         className={itemClass}
         data-active={isActive}
         data-has-notif={!isMuted && (hasNotif || (unread ?? 0) > 0) ? 'true' : undefined}
         data-in-call={isInCall ? 'true' : undefined}
+        data-fixed-height={fixedHeight ? 'true' : undefined}
         onClick={onClick}
         onDoubleClick={onDoubleClick}
         onContextMenu={onContextMenu}
@@ -136,6 +180,7 @@ export function ChatListItem({
           }
         }}
       >
+        {nameplate && <ListNameplate nameplate={nameplate} client={client} />}
         {/* Avatar with optional type badge */}
         {showTypeBadge && hideAvatar ? (
           <span
@@ -170,6 +215,13 @@ export function ChatListItem({
                 />
               )}
             </span>
+            {decoration && <ListDecoration decoration={decoration} client={client} />}
+            {presence && (
+              <span
+                className={`${css.presenceDot} ${PRESENCE_CLASS[presence]}`}
+                aria-hidden="true"
+              />
+            )}
             {showTypeBadge && (
               <span
                 className={hasVoiceRoom && isInCall ? css.roomTypeBadgeVoice : css.roomTypeBadge}
@@ -192,20 +244,30 @@ export function ChatListItem({
           </span>
         )}
 
-        <span className={css.chatTextContent}>{name}</span>
+        {statusEmoji || statusText ? (
+          <span className={css.chatTextColumn}>
+            <span className={css.chatTextContent}>{name}</span>
+            <span className={css.chatStatusLine} title={statusText || undefined}>
+              {statusEmoji && <span className={css.chatStatusEmoji}>{statusEmoji}</span>}
+              {statusText && <span className={css.chatStatusText}>{statusText}</span>}
+            </span>
+          </span>
+        ) : (
+          <span className={css.chatTextContent}>{name}</span>
+        )}
 
         <span className={css.itemBadges}>
           {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
-            <CallTimer members={voiceMembers} />
+            <CallTimer roomId={roomId} />
           )}
           {hasActiveCall && (
-            <span className={css.callBadge} title={t('voice.joinCall')}>
+            <span className={css.callBadge} title={t('call.joinCall')}>
               <PhoneIcon size={14} weight="fill" />
             </span>
           )}
 
           {isMuted && (
-            <span className={css.mutedBadge} title={t('notifLevel.mute')}>
+            <span className={css.mutedBadge} title={t('room.notifications.mute')}>
               <BellSlashIcon size={13} />
             </span>
           )}
@@ -237,7 +299,7 @@ export function ChatListItem({
       {/* Voice participants list: only mounted for rooms that actually have a voice room */}
       {hasVoiceRoom && !!voiceMembers && voiceMembers.length > 0 && (
         <RoomVoiceParticipants
-          members={voiceMembers}
+          userIds={voiceMembers}
           roomId={roomId}
           compact={compactVoice}
           draggable={canMoveVoiceUsers}

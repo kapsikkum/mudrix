@@ -1,39 +1,17 @@
-import type { Session, StoreConfig } from '@wizardchat/core';
+import type { Session, StoreConfig } from '@mudrix/core';
 import { deleteDesktopStore, isDesktop } from '@/bridge/desktop';
 import { STORAGE_KEY_ACTIVE_ACCOUNT } from '@/const/storageKeys';
+import {
+  ACCOUNTS_KEY,
+  readAccountsState,
+  type AccountsState,
+  type StoredAccount,
+} from './accountsState';
 
-export const ACCOUNTS_KEY = 'wizardchat.accounts';
-const LEGACY_ACCOUNT_KEY = 'wizardchat.account';
-
-export interface StoredAccount {
-  session: Session;
-  store: StoreConfig;
-}
-
-interface AccountsState {
-  active: string | null;
-  accounts: Record<string, StoredAccount>;
-}
+export { ACCOUNTS_KEY, type StoredAccount };
 
 function read(): AccountsState {
-  try {
-    const raw = localStorage.getItem(ACCOUNTS_KEY);
-    if (raw) return JSON.parse(raw) as AccountsState;
-    const legacy = localStorage.getItem(LEGACY_ACCOUNT_KEY);
-    if (legacy) {
-      const account = JSON.parse(legacy) as StoredAccount;
-      const migrated = {
-        active: account.session.userId,
-        accounts: { [account.session.userId]: account },
-      };
-      write(migrated);
-      localStorage.removeItem(LEGACY_ACCOUNT_KEY);
-      return migrated;
-    }
-  } catch {
-    // Unreadable storage is treated as signed out
-  }
-  return { active: null, accounts: {} };
+  return readAccountsState(localStorage);
 }
 
 function write(state: AccountsState): void {
@@ -91,8 +69,9 @@ export function removeAccount(userId: string): StoredAccount | null {
 export function newStoreConfig(): StoreConfig {
   const bytes = crypto.getRandomValues(new Uint8Array(32));
   return {
-    location: `wizardchat-${crypto.randomUUID()}`,
+    location: `mudrix-${crypto.randomUUID()}`,
     passphrase: btoa(String.fromCharCode(...bytes)),
+    manualEncryptionSetup: true,
   };
 }
 

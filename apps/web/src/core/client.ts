@@ -1,9 +1,9 @@
 import init, {
-  WizardClient,
+  MudrixClient,
   type LoginIdentifier,
   type PendingLogin,
   type Session,
-} from '@wizardchat/core';
+} from '@mudrix/core';
 import {
   activeAccount,
   deleteStore,
@@ -14,13 +14,14 @@ import {
 } from './storage';
 import { STORAGE_KEY_OIDC_CLIENT_ID_PREFIX } from '@/const/storageKeys';
 import { isDesktop, signInInBrowser } from '@/bridge/desktop';
+import { publicUrl } from '@/util/publicUrl';
 
 let ready: Promise<unknown> | null = null;
 
 export const DEVICE_NAME = isDesktop ? 'Mudrix Desktop' : 'Mudrix Web';
-export const AUTH_CALLBACK_PATH = '/auth/callback';
-const AUTH_MESSAGE = 'wizardchat-auth-callback';
-const AUTH_CHANNEL = 'wizardchat-auth';
+export const AUTH_CALLBACK_PATH = publicUrl('auth/callback');
+const AUTH_MESSAGE = 'mudrix-auth-callback';
+const AUTH_CHANNEL = 'mudrix-auth';
 
 /** Loads and starts the wasm core once */
 export function loadCore(): Promise<unknown> {
@@ -49,8 +50,19 @@ export function knownOAuthClients(): Record<string, string> {
   return clients;
 }
 
+/** Whether a sign-in finished in this page load and its verification prompt hasn't been shown yet */
+let freshSignIn = false;
+
+/** True once after a sign-in in this page load; reloads and restored sessions don't count */
+export function takeFreshSignIn(): boolean {
+  const wasFresh = freshSignIn;
+  freshSignIn = false;
+  return wasFresh;
+}
+
 /** Stores a new sign-in as the active account, replacing an older sign-in of the same account */
 export function rememberSignIn(session: Session, store: ReturnType<typeof newStoreConfig>): void {
+  freshSignIn = true;
   const replaced = listAccounts().find(
     (account) =>
       account.session.userId === session.userId && account.store.location !== store.location
@@ -67,7 +79,7 @@ export function rememberSignIn(session: Session, store: ReturnType<typeof newSto
 }
 
 /** Saves the sign-in; the session is restored from storage, so this handle isn't needed */
-function remember(client: WizardClient, store: ReturnType<typeof newStoreConfig>) {
+function remember(client: MudrixClient, store: ReturnType<typeof newStoreConfig>) {
   rememberSignIn(client.session(), store);
   client.free();
 }
@@ -81,7 +93,7 @@ export async function signInWithPassword(
   const store = newStoreConfig();
   try {
     remember(
-      await WizardClient.loginPassword(server, identifier, password, DEVICE_NAME, store),
+      await MudrixClient.loginPassword(server, identifier, password, DEVICE_NAME, store),
       store
     );
   } catch (error) {
@@ -108,7 +120,7 @@ export function handleAuthCallbackPopup(): boolean {
   }
   window.close();
   // Tabs the user opened themselves can't be closed by script
-  setTimeout(() => location.replace('/'), 1000);
+  setTimeout(() => location.replace(publicUrl('')), 1000);
   return true;
 }
 

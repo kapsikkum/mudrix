@@ -1,0 +1,707 @@
+import MudrixCore
+import SwiftUI
+import UIKit
+
+struct AppearanceSettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @State private var iconError: String?
+
+    private var themeHasIcon: Bool { !prefs.followSystemTheme && Themes.hasThemedLogo(prefs.theme) }
+
+    private func swatch(for name: String) -> LinearGradient {
+        let resolved = Themes.resolve(name, customs: prefs.customThemes)
+        return LinearGradient(
+            stops: [.init(color: resolved.bgSecondary, location: 0.5), .init(color: resolved.accent, location: 0.5)],
+            startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    private var themeNames: [String] {
+        Themes.all.map(\.name) + prefs.customThemes.map(\.themeName)
+    }
+
+    var body: some View {
+        SettingsPage(title: "settings.appearance.title") {
+            ChatPreview()
+                .settingsCard()
+
+            SettingsSection {
+                ToggleRow(label: "settings.appearance.followSystemTheme",
+                          note: "settings.appearance.followSystemThemeNote",
+                          isOn: $prefs.followSystemTheme)
+                if prefs.followSystemTheme {
+                    ThemeMenuRow(label: "settings.appearance.systemDarkTheme", selection: $prefs.systemDarkTheme)
+                    ThemeMenuRow(label: "settings.appearance.systemLightTheme", selection: $prefs.systemLightTheme)
+                } else {
+                    // Thirty themes don't fit beside the label, so it sits above them
+                    VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                        Text(String(localized: "settings.appearance.theme"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: WZ.Space.space4) {
+                                ForEach(themeNames, id: \.self) { name in
+                                    Button {
+                                        prefs.theme = name
+                                    } label: {
+                                        Circle()
+                                            .fill(swatch(for: name))
+                                            .frame(width: WZ.Space.space9, height: WZ.Space.space9)
+                                            .overlay(Circle().stroke(prefs.theme == name ? theme.accent : theme.border,
+                                                                     lineWidth: prefs.theme == name ? 2.5 : 1))
+                                            .padding(WZ.Space.space1)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel(Themes.label(name, customs: prefs.customThemes))
+                                    .accessibilityAddTraits(prefs.theme == name ? .isSelected : [])
+                                }
+                            }
+                        }
+                    }
+                    .padding(.vertical, WZ.Space.space4)
+                }
+                NavigationLink {
+                    CustomThemesSettings()
+                } label: {
+                    Text("settings.appearance.customTheme.title")
+                        .font(.wizard(WZ.FontSize.lg))
+                        .foregroundStyle(theme.textPrimary)
+                }
+                SettingsDivider()
+                PickerRow(label: "settings.appearance.messageLayout", selection: $prefs.messageLayout,
+                          options: [(.modern, "settings.appearance.modern"), (.classic, "settings.appearance.classic"),
+                                    (.compact, "settings.appearance.compact")])
+                SettingsDivider()
+                PickerRow(label: "settings.appearance.navigation.title", selection: $prefs.navigationStyle,
+                          options: [(.rail, "settings.appearance.navigation.modern"), (.classic, "settings.appearance.navigation.classic")])
+                SettingsDivider()
+                VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                    HStack {
+                        Text(String(localized: "settings.appearance.textSize"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                        Spacer()
+                        Text(L10n.format("settings.appearance.textSizePx", "\(Int(prefs.chatFontSize))"))
+                            .font(.wizard(WZ.FontSize.sm, .medium))
+                            .foregroundStyle(theme.textMuted)
+                    }
+                    Slider(
+                        value: Binding(
+                            get: { Double(AppPreferences.chatFontSizes.firstIndex(of: prefs.chatFontSize) ?? 2) },
+                            set: { prefs.chatFontSize = AppPreferences.chatFontSizes[Int($0.rounded())] }
+                        ),
+                        in: 0...Double(AppPreferences.chatFontSizes.count - 1),
+                        step: 1
+                    )
+                    .tint(theme.accent)
+                    .onTapGesture(count: 2) { prefs.chatFontSize = AppPreferences.defaultChatFontSize }
+                }
+                .padding(.vertical, WZ.Space.space4)
+                SettingsDivider()
+                PickerRow(label: "settings.appearance.density", selection: $prefs.chatDensity,
+                          options: [(.compact, "settings.appearance.densityCompact"), (.default, "settings.appearance.densityDefault"), (.spacious, "settings.appearance.densitySpacious")])
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.colorUsernames", isOn: $prefs.colorUsernames)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.prettifyLinks",
+                          note: "settings.appearance.prettifyLinksNote",
+                          isOn: $prefs.prettifyLinks)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.themedAppIcon",
+                          isOn: Binding(get: { themeHasIcon && prefs.themedAppIcon },
+                                        set: { prefs.themedAppIcon = $0 }),
+                          disabled: !themeHasIcon)
+            }
+            if let iconError { StatusText(text: iconError) }
+
+            SettingsSection {
+                PickerRow(label: "settings.appearance.uiDensity",
+                          note: "settings.appearance.uiDensityNote",
+                          selection: $prefs.uiDensity,
+                          options: [(.compact, "settings.appearance.densityCompact"), (.default, "settings.appearance.densityDefault"), (.spacious, "settings.appearance.densitySpacious")])
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.showRoomAvatars", isOn: $prefs.showRoomAvatars)
+            }
+
+            SettingsSection {
+                PickerRow(label: "settings.appearance.timeFormat", selection: $prefs.timeFormat,
+                          options: [(.auto, "settings.appearance.timeFormatAuto"), (.h12, "settings.appearance.timeFormat12h"), (.h24, "settings.appearance.timeFormat24h")])
+                PickerRow(label: "settings.appearance.dateFormat", selection: $prefs.dateFormat,
+                          options: [(.long, "settings.appearance.dateFormatLong"), (.dmy, "settings.appearance.dateFormatDmy"), (.mdy, "settings.appearance.dateFormatMdy"), (.ymd, "settings.appearance.dateFormatYmd")])
+                PickerRow(label: "settings.appearance.emojiOnlySize", note: "settings.appearance.emojiOnlySizeNote",
+                          selection: $prefs.emojiOnlySize,
+                          options: [(.normal, "settings.appearance.emojiOnlySizeNormal"), (.large, "settings.appearance.emojiOnlySizeLarge"), (.jumbo, "settings.appearance.emojiOnlySizeJumbo")])
+                ToggleRow(label: "settings.appearance.emoticonsToEmoji",
+                          note: "settings.appearance.emoticonsToEmojiNote",
+                          isOn: $prefs.emoticonsToEmoji)
+                ToggleRow(label: "settings.appearance.groupImages",
+                          note: "settings.appearance.groupImagesNote",
+                          isOn: $prefs.groupImages)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.hideMembershipEvents",
+                          note: "settings.appearance.hideMembershipEventsNote",
+                          isOn: $prefs.hideMembershipEvents)
+                SettingsDivider()
+                ToggleRow(label: "settings.appearance.hideProfileEvents",
+                          note: "settings.appearance.hideProfileEventsNote",
+                          isOn: $prefs.hideProfileEvents)
+            }
+        }
+    }
+}
+
+/// A theme picked from a menu: the built-in ones, then the user's own
+struct ThemeMenuRow: View {
+    let label: LocalizedStringKey
+    @Binding var selection: String
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+
+    private var names: [String] {
+        Themes.all.map(\.name) + prefs.customThemes.map(\.themeName)
+    }
+
+    var body: some View {
+        Picker(selection: $selection) {
+            ForEach(names, id: \.self) { name in
+                Text(verbatim: Themes.label(name, customs: prefs.customThemes)).tag(name)
+            }
+        } label: {
+            Text(label)
+                .font(.wizard(WZ.FontSize.lg))
+                .foregroundStyle(theme.textPrimary)
+        }
+        .pickerStyle(.menu)
+        .tint(theme.textMuted)
+    }
+}
+
+private struct ChatPreview: View {
+    @EnvironmentObject private var session: MatrixSession
+
+    private static let otherId = "@merlin:example.org"
+    private static let otherName = "Merlin"
+
+    var body: some View {
+        let now = Date()
+        let myId = session.userId ?? "@you:example.org"
+        let myName = session.displayName ?? session.userId ?? "You"
+        VStack(spacing: WZ.Space.space0) {
+            MessageRow(entry: entry(
+                id: "preview-1", text: "settings.appearance.previewOtherMessage",
+                mention: MessageMention(label: Self.label(myName), userId: myId, isOwn: true),
+                sender: Self.otherId, senderName: Self.otherName, avatarUrl: nil, isOwn: false,
+                timestamp: now.addingTimeInterval(-120)))
+            MessageRow(entry: entry(
+                id: "preview-2", text: "settings.appearance.previewOwnMessage",
+                mention: MessageMention(label: Self.label(Self.otherName), userId: Self.otherId, isOwn: false),
+                sender: myId, senderName: myName, avatarUrl: session.avatarUrl, isOwn: true,
+                timestamp: now.addingTimeInterval(-60)))
+        }
+        .padding(.vertical, WZ.Space.space4)
+        .allowsHitTesting(false)
+    }
+
+    private static func label(_ name: String) -> String {
+        name.hasPrefix("@") ? name : "@" + name
+    }
+
+    private func entry(id: String, text: String, mention: MessageMention, sender: String, senderName: String,
+                       avatarUrl: String?, isOwn: Bool, timestamp: Date) -> ChatEntry {
+        var entry = ChatEntry(
+            id: id, kind: .message(body: L10n.format(text, mention.label), isEmote: false, isNotice: false),
+            sender: sender, senderName: senderName, senderAvatarUrl: avatarUrl, isOwn: isOwn,
+            timestamp: timestamp, isSending: false, isEdited: false)
+        entry.mentions = [mention]
+        return entry
+    }
+}
+
+struct AccessibilitySettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+
+    var body: some View {
+        SettingsPage(title: "settings.accessibility.title") {
+            SettingsSection {
+                PickerRow(label: "settings.accessibility.reducedMotion", note: "settings.accessibility.reducedMotionNote",
+                          selection: $prefs.reducedMotion,
+                          options: [(.system, "settings.accessibility.reducedMotionSystem"), (.on, "settings.accessibility.reducedMotionOn"), (.off, "settings.accessibility.reducedMotionOff")])
+                SettingsDivider()
+                ToggleRow(label: "settings.accessibility.autoplayGifs",
+                          note: "settings.accessibility.autoplayGifsNote",
+                          isOn: $prefs.autoplayGifs)
+            }
+        }
+    }
+}
+
+struct PrivacySettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+    @EnvironmentObject private var session: MatrixSession
+    /// The custom status' dot mode, which is where "Do not disturb" lives (the web sends presence online
+    /// and marks the dot busy through the status field)
+    @State private var statusMode: StatusMode?
+    /// Whether the homeserver has extended profiles, which is where the status field lives
+    @State private var supportsStatus = false
+    @State private var presenceError: String?
+
+    /// The tag of the "Do not disturb" entry; it is not a presence of its own
+    private static let dndTag = "dnd"
+
+    var body: some View {
+        SettingsPage(title: "settings.privacy.title") {
+            SettingsSection(title: "settings.privacy.chat") {
+                ToggleRow(label: "settings.privacy.typingIndicators",
+                          note: "settings.privacy.typingIndicatorsNote",
+                          isOn: $prefs.typingIndicators)
+                SettingsDivider()
+                ToggleRow(label: "settings.privacy.readReceipts",
+                          note: "settings.privacy.readReceiptsNote",
+                          isOn: $prefs.sendReadReceipts)
+            }
+            SettingsSection(title: "settings.privacy.streamer.title", note: "settings.privacy.streamer.note") {
+                PickerRow(label: "settings.privacy.streamer.mode", selection: $prefs.streamerMode,
+                          options: [(.off, "settings.privacy.streamer.off"), (.auto, "settings.privacy.streamer.auto"), (.on, "settings.privacy.streamer.on")])
+            }
+            SettingsSection(title: "settings.privacy.other") {
+                ToggleRow(label: "settings.privacy.showPresence",
+                          note: "settings.privacy.showPresenceNote",
+                          isOn: $prefs.showPresence)
+                if prefs.showPresence {
+                    SettingsDivider()
+                    PickerRow(label: "presence.changeStatus",
+                              selection: presenceSelection,
+                              options: presenceOptions)
+                }
+                ToggleRow(label: "settings.privacy.showHomeserverSoftware",
+                          note: "settings.privacy.showHomeserverSoftwareNote",
+                          isOn: $prefs.showHomeserverSoftware)
+                BlockInvitesToggle()
+            }
+        }
+        .task { await loadStatusMode() }
+        .alert(presenceError ?? "", isPresented: Binding(get: { presenceError != nil },
+                                                        set: { if !$0 { presenceError = nil } })) {
+            Button(String(localized: "common.close"), role: .cancel) {}
+        }
+    }
+
+    /// Auto, online, away and invisible are the presence itself; "Do not disturb" keeps the presence online
+    /// and puts the busy dot in the status field, as the web and Android do
+    private var presenceSelection: Binding<String> {
+        Binding(
+            get: { statusMode == .dnd ? Self.dndTag : prefs.presenceChoice.rawValue },
+            set: { choice in
+                guard choice == Self.dndTag else {
+                    prefs.presenceChoice = PresenceChoice(rawValue: choice) ?? .auto
+                    if statusMode != nil { setStatusMode(nil) }
+                    return
+                }
+                prefs.presenceChoice = .online
+                setStatusMode(.dnd)
+            })
+    }
+
+    private var presenceOptions: [(String, LocalizedStringKey)] {
+        var options: [(String, LocalizedStringKey)] = [
+            (PresenceChoice.auto.rawValue, "presence.auto"),
+            (PresenceChoice.online.rawValue, "presence.online"),
+            (PresenceChoice.away.rawValue, "presence.away"),
+            (PresenceChoice.invisible.rawValue, "presence.invisible"),
+        ]
+        if supportsStatus || statusMode == .dnd { options.append((Self.dndTag, "profile.status.modeDnd")) }
+        return options
+    }
+
+    private func loadStatusMode() async {
+        guard let client = session.client else { return }
+        supportsStatus = (try? await client.supportsExtendedProfiles()) ?? false
+        statusMode = await StatusFields.read(client: client)
+    }
+
+    private func setStatusMode(_ mode: StatusMode?) {
+        guard let client = session.client else { return }
+        let before = statusMode
+        statusMode = mode
+        Task {
+            do {
+                try await StatusFields.write(client: client, mode: mode)
+            } catch {
+                statusMode = before
+                presenceError = L10n.format("common.saveFailed", error.localizedDescription)
+            }
+        }
+    }
+}
+
+/// "Block all invites" (MSC4380), shown only when the homeserver has the setting
+private struct BlockInvitesToggle: View {
+    @EnvironmentObject private var session: MatrixSession
+    @State private var eventType: String?
+    @State private var blocked = false
+
+    var body: some View {
+        Group {
+            if let eventType {
+                SettingsDivider()
+                ToggleRow(label: "settings.privacy.blockInvites",
+                          note: "settings.privacy.blockInvitesNote",
+                          isOn: Binding(get: { blocked }, set: { next in
+                              blocked = next
+                              Task { await save(next, eventType: eventType) }
+                          }))
+            }
+        }
+        .task { await load() }
+    }
+
+    private func load() async {
+        guard let client = session.client,
+              let type = (try? await client.serverFeatures()).flatMap({
+                  InviteBlocking.eventType(unstableFeatures: $0.unstableFeatures)
+              }) else { return }
+        blocked = InviteBlocking.isBlocked((try? await client.accountData(eventType: type)) ?? nil)
+        eventType = type
+    }
+
+    private func save(_ next: Bool, eventType: String) async {
+        guard let client = session.client else { return }
+        let before = blocked
+        do {
+            try await client.setAccountData(eventType: eventType, content: InviteBlocking.content(blocked: next))
+        } catch {
+            blocked = before
+            CopyToast.shared.show(L10n.format("settings.privacy.blockInvitesFailed", error.localizedDescription))
+        }
+    }
+}
+
+struct LanguageSettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+    @State private var changed = false
+
+    /// The languages in `AppPreferences.languages` order, each under its own name
+    private static let options: [(String, LocalizedStringKey)] = [
+        ("", "settings.language.languageSystem"),
+        ("en", "settings.language.languageEn"),
+        ("de", "settings.language.languageDe"),
+        ("es", "settings.language.languageEs"),
+        ("fr", "settings.language.languageFr"),
+        ("it", "settings.language.languageIt"),
+        ("pt", "settings.language.languagePt"),
+        ("ru", "settings.language.languageRu"),
+        ("ja", "settings.language.languageJa"),
+        ("tr", "settings.language.languageTr"),
+        ("nl", "settings.language.languageNl"),
+        ("pl", "settings.language.languagePl"),
+    ]
+
+    var body: some View {
+        SettingsPage(title: "settings.language.title") {
+            SettingsSection {
+                PickerRow(label: "settings.language.languageDisplay", selection: $prefs.language,
+                          options: Self.options)
+            }
+            if changed {
+                StatusText(text: String(localized: "settings.language.restartHint"), isError: false)
+            }
+        }
+        .onChange(of: prefs.language) { _, _ in changed = true }
+    }
+}
+
+struct DeveloperSettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @State private var tokenExpanded = false
+    @State private var features: ServerFeatures?
+    @State private var cleared = false
+
+    private var version: String {
+        let info = Bundle.main.infoDictionary
+        let short = info?["CFBundleShortVersionString"] as? String ?? "?"
+        let build = info?["CFBundleVersion"] as? String ?? "?"
+        return "\(short) (\(build))"
+    }
+
+    private var joined: Int { session.roomList?.joinedRooms.count ?? 0 }
+    private var invited: Int { session.roomList?.invites.count ?? 0 }
+
+    var body: some View {
+        SettingsPage(title: "developer.title") {
+            SettingsSection {
+                ToggleRow(label: "developer.enable",
+                          note: "developer.enableDescription",
+                          isOn: $prefs.developerMode)
+            }
+            if prefs.developerMode {
+                sessionSection
+                encryptionSection
+                if let features { serverFeatures(features) }
+                toolsSection
+                SettingsSection {
+                    DisclosureGroup(isExpanded: $tokenExpanded) {
+                        VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                            Label(String(localized: "developer.accessTokenWarning"),
+                                  image: "ph-warning-regular")
+                                .font(.wizard(WZ.FontSize.sm))
+                                .foregroundStyle(theme.warningColor)
+                            CopyRow(label: "developer.accessToken", value: session.client?.session.accessToken ?? "", secret: true)
+                        }
+                        .padding(.top, WZ.Space.space4)
+                    } label: {
+                        Text(String(localized: "developer.accessToken"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                    }
+                    SettingsDivider()
+                    CopyRow(label: "developer.homeserverUrl", value: session.client?.session.homeserverUrl ?? "")
+                    if let deviceId = session.deviceId {
+                        SettingsDivider()
+                        CopyRow(label: "settings.sessions.deviceId", value: deviceId)
+                    }
+                }
+                SettingsSection {
+                    NavigationLink {
+                        AccountDataExplorer()
+                    } label: {
+                        Text(String(localized: "developer.accountData.title"))
+                            .font(.wizard(WZ.FontSize.md))
+                            .foregroundStyle(theme.textPrimary)
+                    }
+                }
+            }
+        }
+        .task {
+            guard let client = session.client, features == nil else { return }
+            features = try? await client.serverFeatures()
+        }
+    }
+
+    /// Who is signed in, how sync is doing and how much is loaded, as Android's Developer tools show it
+    private var sessionSection: some View {
+        SettingsSection(title: "settings.developer.session") {
+            CopyRow(label: "settings.developer.userId", value: session.userId ?? "")
+                .sensitive()
+            SettingsDivider()
+            CopyRow(label: "settings.developer.appVersion", value: version)
+            SettingsDivider()
+            CopyRow(label: "settings.developer.syncState", value: session.syncState.rawValue)
+            SettingsDivider()
+            CopyRow(label: "settings.developer.rooms",
+                    value: L10n.format("settings.developer.roomsValue", joined, invited))
+            if let spec = features?.versions.last {
+                SettingsDivider()
+                CopyRow(label: "settings.developer.specVersion", value: spec)
+            }
+        }
+    }
+
+    private var encryptionSection: some View {
+        SettingsSection(title: "settings.developer.encryption") {
+            if let encryption = session.encryption {
+                CopyRow(label: "settings.developer.crossSigning", value: ready(encryption.crossSigningComplete))
+                SettingsDivider()
+                CopyRow(label: "settings.developer.secretStorage", value: ready(encryption.recovery == "enabled"))
+                SettingsDivider()
+                CopyRow(label: "settings.developer.keyBackup", value: ready(encryption.backupEnabled))
+            } else {
+                Text(String(localized: "settings.developer.cryptoUnavailable"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+            }
+        }
+    }
+
+    private func serverFeatures(_ features: ServerFeatures) -> some View {
+        SettingsSection(title: LocalizedStringKey(
+            L10n.format("settings.developer.serverFeatures", features.unstableFeatures.count))) {
+            ForEach(Array(features.unstableFeatures.enumerated()), id: \.offset) { index, feature in
+                if index > 0 { SettingsDivider() }
+                CopyRow(label: LocalizedStringKey(feature), value: feature)
+            }
+        }
+    }
+
+    private var toolsSection: some View {
+        SettingsSection(title: "settings.developer.tools") {
+            Button {
+                UIPasteboard.general.string = DeveloperInfo.text(DeveloperInfo.Snapshot(
+                    userId: session.userId,
+                    deviceId: session.deviceId,
+                    homeserver: session.client?.session.homeserverUrl,
+                    version: version,
+                    syncState: session.syncState.rawValue,
+                    joined: joined,
+                    invited: invited,
+                    encryption: session.encryption,
+                    features: features))
+                CopyToast.shared.show(L10n.format("common.copied"))
+            } label: {
+                Text(String(localized: "settings.developer.copyDebugInfo"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.control)
+            }
+            SettingsDivider()
+            Button {
+                session.media?.clearCache()
+                cleared = true
+                CopyToast.shared.show(L10n.format("settings.developer.clearMediaDone"))
+                Task {
+                    try? await Task.sleep(for: .seconds(1.6))
+                    cleared = false
+                }
+            } label: {
+                Text(String(localized: "settings.developer.clearMedia"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.control)
+            }
+            if cleared {
+                Text(String(localized: "settings.developer.clearMediaDone"))
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            }
+        }
+    }
+
+    private func ready(_ flag: Bool) -> String {
+        flag ? String(localized: "settings.developer.ready") : String(localized: "settings.developer.notReady")
+    }
+}
+
+extension MudrixTheme {
+}
+
+struct AboutSettings: View {
+    @Environment(\.theme) private var theme
+    @State private var showWhatsNew = false
+    @StateObject private var updates = AppUpdateModel()
+
+    private var version: String {
+        let info = Bundle.main.infoDictionary
+        return "v\(info?["CFBundleShortVersionString"] as? String ?? "?") (\(info?["CFBundleVersion"] as? String ?? "?"))"
+    }
+
+    var body: some View {
+        SettingsPage(title: "settings.about.title") {
+            VStack(spacing: WZ.Space.space4) {
+                WizardLogo(size: WZ.Space.space12)
+                Text(String(localized: "app.name"))
+                    .font(.wizard(WZ.FontSize.xxl, .bold))
+                    .foregroundStyle(theme.textPrimary)
+                Text(String(localized: "auth.tagline"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+                Text(version)
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, WZ.Space.space4)
+            .listRowSeparator(.hidden)
+
+            updateSection
+
+            Link(destination: URL(string: "https://github.com/kapsikkum/mudrix/releases/latest")!) {
+                Label(String(localized: "settings.downloadMudrixForDesktop"), image: "ph-download-simple-regular")
+            }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
+
+            Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
+                Label(String(localized: "settings.about.viewSourceOnGitHub"), image: "ph-code-regular")
+            }
+            .buttonStyle(SecondaryButtonStyle())
+            .listRowSeparator(.hidden)
+
+            SettingsSection(title: "settings.about.credits") {
+                VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                    credit("matrix-rust-sdk", url: "https://github.com/matrix-org/matrix-rust-sdk",
+                           text: String(localized: "settings.about.creditMatrix"))
+                    credit("Roboto", url: "https://fonts.google.com/specimen/Roboto",
+                           text: String(localized: "settings.about.creditRoboto"))
+                }
+            }
+
+            HStack(spacing: WZ.Space.space7) {
+                if let entry = WhatsNew.latest() {
+                    Button { showWhatsNew = true } label: {
+                        Label(String(localized: "whatsNew.title"), image: "ph-sparkle-regular")
+                    }
+                    .sheet(isPresented: $showWhatsNew) { WhatsNewSheet(entry: entry) }
+                }
+                Link(destination: URL(string: "https://github.com/kapsikkum/mudrix")!) {
+                    Label(String(localized: "settings.about.privacyPolicy"), image: "ph-shield-check-regular")
+                }
+            }
+            .labelStyle(FooterLinkLabelStyle())
+            .buttonStyle(.borderless)
+            .font(.wizard(WZ.FontSize.sm))
+            .foregroundStyle(theme.textMuted)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, WZ.Space.space7)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+        }
+    }
+
+    private struct FooterLinkLabelStyle: LabelStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            HStack(spacing: WZ.Space.space3) {
+                configuration.icon
+                configuration.title
+            }
+        }
+    }
+
+    /// The newest release on GitHub: iOS has no in-app updater, so a newer version is a link to its page
+    /// (the web's "Check for updates" in About)
+    @ViewBuilder
+    private var updateSection: some View {
+        SettingsSection(title: "settings.about.updates") {
+            switch updates.state {
+            case .checking:
+                HStack(spacing: WZ.Space.space3) {
+                    ProgressView().tint(theme.accent)
+                    Text(String(localized: "update.checking"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.textMuted)
+                }
+            case .upToDate:
+                Label(String(localized: "update.upToDate"), image: "ph-check-circle-regular")
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textMuted)
+            case .available(let latest):
+                Text(String(localized: "update.available"))
+                    .font(.wizard(WZ.FontSize.md))
+                    .foregroundStyle(theme.textPrimary)
+                Text(verbatim: "v\(latest)")
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+                Link(destination: AppUpdates.releasesUrl) {
+                    Label(String(localized: "update.action"), image: "ph-download-simple-regular")
+                }
+                .buttonStyle(SecondaryButtonStyle())
+            case .idle, .failed:
+                if updates.state == .failed {
+                    Text(String(localized: "update.checkFailed"))
+                        .font(.wizard(WZ.FontSize.md))
+                        .foregroundStyle(theme.danger)
+                }
+                Button(String(localized: "update.checkNow")) {
+                    Task { await updates.check() }
+                }
+                .buttonStyle(SecondaryButtonStyle())
+            }
+        }
+    }
+
+    private func credit(_ name: String, url: String, text: String) -> some View {
+        (Text(.init("[\(name)](\(url))")).foregroundColor(theme.accent)
+         + Text(" ") + Text(LocalizedStringKey(text)).foregroundColor(theme.textMuted))
+            .font(.wizard(WZ.FontSize.sm))
+    }
+}

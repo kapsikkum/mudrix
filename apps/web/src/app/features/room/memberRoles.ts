@@ -1,4 +1,4 @@
-import type { RoomSettings } from '@wizardchat/core';
+import type { RoomSettings } from '@mudrix/core';
 import type { MemberEntry } from './useMembers';
 
 const CREATORS_MIN_ROOM_VERSION = 12;

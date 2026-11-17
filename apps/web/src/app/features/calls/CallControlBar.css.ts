@@ -1,6 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const bar = style({
   position: 'absolute',
@@ -90,7 +91,7 @@ export const menuItem = style({
   borderRadius: vars.radius.sm,
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   cursor: 'pointer',
   textAlign: 'left',
@@ -119,18 +120,6 @@ export const menuItemSpacer = style({
   flexShrink: 0,
 });
 
-export const menuBadge = style({
-  flexShrink: 0,
-  padding: '1px 6px',
-  borderRadius: '999px',
-  backgroundColor: `rgba(${vars.color.accentRgb}, 0.18)`,
-  color: vars.color.accent,
-  fontSize: '0.65rem',
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
-});
-
 export const menuDivider = style({
   height: '1px',
   backgroundColor: vars.color.border,
@@ -152,7 +141,7 @@ export const reconnecting = style({
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgSecondary,
   color: vars.color.warning,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
   whiteSpace: 'nowrap',
   pointerEvents: 'none',
@@ -216,7 +205,7 @@ export const reactionBtn = style({
   borderRadius: vars.radius.md,
   background: 'transparent',
   color: vars.color.textPrimary,
-  fontSize: '20px',
+  fontSize: fontSize.lg,
   cursor: 'pointer',
   transition: 'transform .12s ease, background .12s ease',
   selectors: {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WizardClient, type MediaSource } from '@wizardchat/core';
+import { MudrixClient, type MediaSource } from '@mudrix/core';
 import { getSafeMimeType } from '@/util/safeMimeType';
 
 const cache = new Map<string, Promise<string | null>>();
@@ -11,13 +11,13 @@ function load(key: string, fetchBytes: () => Promise<Uint8Array>, mimetype?: str
       .then(async (bytes) => {
         const type =
           mimetype ||
-          (await WizardClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null)) ||
+          (await MudrixClient.sniffMimeType(bytes.subarray(0, 32)).catch(() => null)) ||
           '';
         return URL.createObjectURL(new Blob([bytes as BlobPart], { type: getSafeMimeType(type) }));
       })
       .catch((error: unknown) => {
         cache.delete(key);
-        console.warn('[wizardchat] media failed to load', error);
+        console.warn('[mudrix] media failed to load', error);
         return null;
       });
     cache.set(key, request);
@@ -47,7 +47,7 @@ function useBlobUrl(
 
 /** A blob URL for message media, decrypted by the core; with a size, a thumbnail */
 export function useMediaUrl(
-  client: WizardClient | null,
+  client: MudrixClient | null,
   source: MediaSource | null,
   options: { thumbnail?: number; mimetype?: string | null; enabled?: boolean } = {}
 ) {
@@ -68,7 +68,7 @@ export function useMediaUrl(
 
 /** Saves a media file to disk */
 export async function downloadMedia(
-  client: WizardClient,
+  client: MudrixClient,
   source: MediaSource,
   filename: string,
   mimetype?: string | null

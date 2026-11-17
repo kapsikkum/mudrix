@@ -1,15 +1,16 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const inputBase = style({
   width: '100%',
-  padding: '9px 12px',
+  padding: '10px 12px',
   backgroundColor: vars.color.bgInput,
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontFamily: vars.font.body,
   outline: 'none',
   cursor: 'text',

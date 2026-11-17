@@ -1,11 +1,12 @@
-import { style } from '@vanilla-extract/css';
+import { keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const hero = style({
   display: 'flex',
-  alignItems: 'center',
-  gap: '18px',
+  alignItems: 'flex-start',
+  gap: '20px',
   paddingBottom: '20px',
   marginBottom: '20px',
   borderBottom: `1px solid ${vars.color.border}`,
@@ -13,9 +14,11 @@ export const hero = style({
 
 export const heroInfo = style({
   display: 'flex',
+  flex: 1,
+  minWidth: 0,
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: '10px',
+  gap: '12px',
 });
 
 export const nameRow = style({
@@ -25,14 +28,14 @@ export const nameRow = style({
 });
 
 export const appName = style({
-  fontSize: '1.4rem',
-  fontWeight: 700,
+  fontSize: fontSize.rem140,
+  fontWeight: 600,
   lineHeight: 1.2,
   color: vars.color.textPrimary,
 });
 
 export const versionTag = style({
-  fontSize: '0.75rem',
+  fontSize: fontSize.rem75,
   fontWeight: 600,
   padding: '2px 8px',
   borderRadius: vars.radius.sm,
@@ -45,14 +48,38 @@ export const heroActions = style({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
-  gap: '10px',
+  gap: '8px',
+});
+
+/** The "include pre-releases" switch under the buttons. */
+export const prereleaseRow = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '8px',
+  fontSize: fontSize.rem85,
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+});
+
+/** The result of a manual update check; quiet unless it failed. */
+export const updateStatus = style({
+  fontSize: fontSize.rem85,
+  lineHeight: 1.35,
+  color: vars.color.textMuted,
+  selectors: {
+    '&[data-error="true"]': { color: vars.color.error },
+  },
 });
 
 export const sourceBtn = style({
   display: 'inline-flex',
   alignItems: 'center',
+  boxSizing: 'border-box',
   gap: '8px',
-  padding: '6px 14px',
+  // Links and buttons start from different line heights; the same box keeps them one height.
+  minHeight: '34px',
+  lineHeight: 1.25,
+  padding: '6px 16px',
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgTertiary,
@@ -60,19 +87,42 @@ export const sourceBtn = style({
   cursor: 'pointer',
   textDecoration: 'none',
   fontFamily: vars.font.body,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   fontWeight: 500,
   whiteSpace: 'nowrap',
-  transition: `border-color ${fast}, background-color ${fast}`,
+  transition: `border-color ${fast}, background-color ${fast}, opacity ${fast}`,
   ':hover': { borderColor: vars.color.accent, textDecoration: 'none' },
+  selectors: {
+    // A button that is working says so: dimmed, and the pointer shows progress.
+    '&:disabled': { opacity: 0.7, cursor: 'progress' },
+  },
 });
+
+const spin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+const fadeIn = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } });
+
+/** A button's label: it fades in when it changes, and out just before it changes back. */
+export const label = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '8px',
+  opacity: 1,
+  transition: 'opacity 0.4s ease',
+  animation: `${fadeIn} 0.4s ease`,
+});
+
+export const labelFading = style({ opacity: 0 });
+
+/** An icon that turns while its button is busy. */
+export const spinning = style({ animation: `${spin} 0.9s linear infinite` });
 
 export const downloadBtn = style([
   sourceBtn,
   {
     backgroundColor: vars.color.accent,
     borderColor: vars.color.accent,
-    color: '#fff',
+    color: vars.color.onAccent,
     selectors: {
       '&:hover': {
         backgroundColor: vars.color.accentHover,
@@ -81,40 +131,3 @@ export const downloadBtn = style([
     },
   },
 ]);
-
-export const donateBtn = style([
-  sourceBtn,
-  {
-    color: vars.color.danger,
-    selectors: {
-      '&:hover': {
-        borderColor: vars.color.danger,
-      },
-    },
-  },
-]);
-
-export const footerLinks = style({
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '6px 20px',
-  marginTop: '28px',
-  paddingTop: '16px',
-  borderTop: `1px solid ${vars.color.border}`,
-});
-
-export const footerLink = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '6px',
-  padding: 0,
-  border: 'none',
-  background: 'none',
-  color: vars.color.textMuted,
-  font: 'inherit',
-  fontSize: '0.82rem',
-  textDecoration: 'none',
-  cursor: 'pointer',
-  transition: `color ${fast}`,
-  ':hover': { color: vars.color.textPrimary },
-});

@@ -1,5 +1,6 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useAtom, useAtomValue, useStore } from 'jotai';
+import { selectAtom } from 'jotai/utils';
 import { useTranslation } from 'react-i18next';
 import {
   GearIcon,
@@ -16,13 +17,25 @@ import {
   FolderSimpleIcon,
   FolderSimplePlusIcon,
   FolderSimpleMinusIcon,
+  EnvelopeSimpleIcon,
+  ArrowLineDownIcon,
+  SpeakerHighIcon,
+  HashStraightIcon,
+  StackIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
 } from '@phosphor-icons/react';
 import {
   roomSettingsRoomIdAtom,
   favouriteRoomsAtom,
+  lowPriorityRoomsAtom,
   currentSpaceIdAtom,
   sidebarViewAtom,
+  presenceMapAtom,
+  presenceVisibleAtom,
 } from '@/app/store/atoms';
+import { useInViewOnce, useListCosmetics } from '@/app/features/profile/ListCosmetics';
+import { effectiveDotPresence } from '@/util/profileCosmetics';
 import { HOME_SPACE, getRoomSectionTag } from '@/app/features/room/roomSections';
 import { usePrompt } from '@/app/hooks/usePrompt';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
@@ -38,10 +51,15 @@ import type { NotifLevel } from '@/app/hooks/useNotifications';
 import { ChatListItem } from './ChatListItem';
 import { getErrorMessage } from '@/util/error';
 import { makeRoomPermalink } from '@/util/matrix';
+import { useCanSendState } from '@/app/hooks/useCanSendState';
+import {
+  VOICE_CHANNEL_STATE_TYPE,
+  setVoiceChannel,
+  useVoiceChannelFlag,
+} from '@/app/features/room/voiceChannel';
 import { roomSectionsAtom, roomTagNamesAtom, useRoom } from '@/app/data';
 import type { RoomEntry } from '@/app/features/room/useRooms';
 import type { DmEntry } from '@/app/hooks/useDms';
-import type { CallMember } from '@wizardchat/core';
 
 function notifMenuItems(
   level: NotifLevel,
@@ -49,10 +67,14 @@ function notifMenuItems(
   t: (key: string) => string
 ) {
   const options: { value: NotifLevel; label: string; icon: React.ReactNode }[] = [
-    { value: 'default', label: t('notifLevel.default'), icon: <BellIcon size={14} /> },
-    { value: 'all', label: t('notifLevel.all'), icon: <BellRingingIcon size={14} /> },
-    { value: 'mentions', label: t('notifLevel.mentions'), icon: <BellSimpleIcon size={14} /> },
-    { value: 'mute', label: t('notifLevel.mute'), icon: <BellSlashIcon size={14} /> },
+    { value: 'default', label: t('room.notifications.default'), icon: <BellIcon size={14} /> },
+    { value: 'all', label: t('room.notifications.all'), icon: <BellRingingIcon size={14} /> },
+    {
+      value: 'mentions',
+      label: t('room.notifications.mentions'),
+      icon: <BellSimpleIcon size={14} />,
+    },
+    { value: 'mute', label: t('room.notifications.mute'), icon: <BellSlashIcon size={14} /> },
   ];
   return options.map((opt) => ({
     label: opt.label,
@@ -80,9 +102,15 @@ interface RoomListItemProps {
   isActive: boolean;
   hasActiveCall?: boolean;
   isInCall?: boolean;
-  voiceMembers?: CallMember[];
+  voiceMembers?: string[];
   /** People in the voice channel can be dragged to another channel */
   canMoveVoiceUsers?: boolean;
+  /** Modern lists: where the room sits among its category's rooms, and the other categories it can go to */
+  canMoveUp?: boolean;
+  canMoveDown?: boolean;
+  onMove?: (roomId: string, direction: -1 | 1) => void;
+  categoryTargets?: { id: string; name: string }[];
+  onMoveToCategory?: (roomId: string, targetSpaceId: string) => void;
   compactVoice?: boolean;
   onSelect: (roomId: string) => void;
   onOpenChat: (roomId: string) => void;
@@ -96,6 +124,11 @@ export const RoomListItem = memo(function RoomListItem({
   isInCall,
   voiceMembers,
   canMoveVoiceUsers,
+  canMoveUp,
+  canMoveDown,
+  onMove,
+  categoryTargets,
+  onMoveToCategory,
   compactVoice,
   onSelect,
   onOpenChat,
@@ -113,6 +146,13 @@ export const RoomListItem = memo(function RoomListItem({
   const showRoomAvatars = avatarsOn && !modernStyle;
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const favourite = useAtomValue(favouriteRoomsAtom).has(entry.roomId);
+  const lowPriority = useAtomValue(lowPriorityRoomsAtom).has(entry.roomId);
+  // Modern spaces can turn a text room into a voice channel (and back); real voice rooms are fixed.
+  // Only Modern lists look up whether the person may.
+  const modernMenu = useAtomValue(activeRoomListStyleAtom) === 'modern';
+  const isFlaggedVoice = useVoiceChannelFlag(entry.roomId);
+  const canFlagVoice = useCanSendState(modernMenu ? entry.roomId : null)(VOICE_CHANNEL_STATE_TYPE);
+  const offerVoiceFlag = modernMenu && canFlagVoice && !entry.room.isVoice;
   const sidebarView = useAtomValue(sidebarViewAtom);
   const currentSpaceId = useAtomValue(currentSpaceIdAtom);
   const prompt = usePrompt();
@@ -126,7 +166,10 @@ export const RoomListItem = memo(function RoomListItem({
     const fail = (err: unknown) =>
       toast.error(t('room.sections.failed', { error: getErrorMessage(err) }));
     const move = (tag: string | null) => {
-      if (client) client.setRoomSection(entry.roomId, tag).catch(fail);
+      if (!client) return;
+      // A section is a place in the normal list, so the room leaves low priority for it
+      const leaveLow = lowPriority ? client.setLowPriority(entry.roomId, false) : Promise.resolve();
+      leaveLow.then(() => client.setRoomSection(entry.roomId, tag)).catch(fail);
     };
     const context = sidebarView === 'space' && currentSpaceId ? currentSpaceId : HOME_SPACE;
     return {
@@ -163,7 +206,7 @@ export const RoomListItem = memo(function RoomListItem({
           : []),
       ],
     };
-  }, [client, store, entry.roomId, sidebarView, currentSpaceId, prompt, toast, t]);
+  }, [client, store, entry.roomId, lowPriority, sidebarView, currentSpaceId, prompt, toast, t]);
 
   const handleClick = useCallback(() => {
     onSelect(entry.roomId);
@@ -177,6 +220,29 @@ export const RoomListItem = memo(function RoomListItem({
     if (!client) return;
     void markRoomAsRead(client, entry.roomId, sendReadReceipts);
   }, [client, entry.roomId, sendReadReceipts]);
+
+  const handleMarkAsUnread = useCallback(() => {
+    if (!client) return;
+    client
+      .setMarkedUnread(entry.roomId, true)
+      .catch((err) => toast.error(t('room.markUnreadFailed', { error: getErrorMessage(err) })));
+  }, [client, entry.roomId, toast, t]);
+
+  const handleToggleLowPriority = useCallback(async () => {
+    if (!client) return;
+    try {
+      await client.setLowPriority(entry.roomId, !lowPriority);
+    } catch (err) {
+      toast.error(t('room.toggleLowPriorityFailed', { error: getErrorMessage(err) }));
+    }
+  }, [client, entry.roomId, lowPriority, toast, t]);
+
+  const handleToggleVoiceChannel = useCallback(() => {
+    if (!client) return;
+    setVoiceChannel(client, entry.roomId, !isFlaggedVoice).catch((err) =>
+      toast.error(t('room.voiceChannelFailed', { error: getErrorMessage(err) }))
+    );
+  }, [client, entry.roomId, isFlaggedVoice, toast, t]);
 
   const handleCopyLink = useCallback(() => {
     if (!room) return;
@@ -196,6 +262,42 @@ export const RoomListItem = memo(function RoomListItem({
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
       openContextMenu(e, [
+        ...(offerVoiceFlag
+          ? [
+              {
+                label: isFlaggedVoice ? t('room.makeTextChannel') : t('room.makeVoiceChannel'),
+                icon: isFlaggedVoice ? (
+                  <HashStraightIcon size={14} />
+                ) : (
+                  <SpeakerHighIcon size={14} />
+                ),
+                onClick: handleToggleVoiceChannel,
+              },
+            ]
+          : []),
+        ...(onMoveToCategory && categoryTargets
+          ? categoryTargets.map((target) => ({
+              label: t('room.moveToCategory', { name: target.name }),
+              icon: <StackIcon size={14} />,
+              onClick: () => onMoveToCategory(entry.roomId, target.id),
+            }))
+          : []),
+        ...(onMove
+          ? [
+              {
+                label: t('room.moveUp'),
+                icon: <ArrowUpIcon size={14} />,
+                disabled: !canMoveUp,
+                onClick: () => onMove(entry.roomId, -1),
+              },
+              {
+                label: t('room.moveDown'),
+                icon: <ArrowDownIcon size={14} />,
+                disabled: !canMoveDown,
+                onClick: () => onMove(entry.roomId, 1),
+              },
+            ]
+          : []),
         ...(entry.hasVoiceRoom
           ? [
               {
@@ -212,6 +314,12 @@ export const RoomListItem = memo(function RoomListItem({
           onClick: handleMarkAsRead,
         },
         {
+          label: t('room.markUnread'),
+          icon: <EnvelopeSimpleIcon size={14} />,
+          disabled: entry.unreadCount > 0 || entry.hasNotif,
+          onClick: handleMarkAsUnread,
+        },
+        {
           divider: true,
           label: '',
           onClick: () => {},
@@ -220,6 +328,11 @@ export const RoomListItem = memo(function RoomListItem({
           label: favourite ? t('room.removeFavourite') : t('room.addFavourite'),
           icon: <StarIcon size={14} weight={favourite ? 'fill' : 'regular'} />,
           onClick: handleToggleFavourite,
+        },
+        {
+          label: lowPriority ? t('room.removeLowPriority') : t('room.addLowPriority'),
+          icon: <ArrowLineDownIcon size={14} weight={lowPriority ? 'fill' : 'regular'} />,
+          onClick: handleToggleLowPriority,
         },
         sectionMenu(),
         {
@@ -271,10 +384,22 @@ export const RoomListItem = memo(function RoomListItem({
       handleMarkAsRead,
       handleCopyLink,
       handleToggleFavourite,
+      canMoveUp,
+      canMoveDown,
+      onMove,
+      categoryTargets,
+      onMoveToCategory,
+      handleMarkAsUnread,
+      handleToggleLowPriority,
+      handleToggleVoiceChannel,
+      offerVoiceFlag,
+      isFlaggedVoice,
+      lowPriority,
       sectionMenu,
-      onOpenChat,
       onOpenChatOnly,
       entry.hasVoiceRoom,
+      entry.unreadCount,
+      entry.hasNotif,
       favourite,
       t,
       level,
@@ -323,11 +448,27 @@ export const DmListItem = memo(function DmListItem({
   onSelect,
 }: DmListItemProps) {
   const { t } = useTranslation();
+  const toast = useToast();
   const { openContextMenu } = useContextMenu();
   const roomActions = useRoomActions();
   const { level, setLevel } = useRoomNotifLevel(entry.roomId);
   const client = getMatrixClientOrNull();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
+  const [, setRoomSettings] = useAtom(roomSettingsRoomIdAtom);
+
+  // DM rows only: the partner's decoration, custom status and presence. The profile request
+  // waits until the row has been on screen once; the query is shared and cached per user.
+  const showPresence = useAtomValue(presenceVisibleAtom);
+  const partnerPresenceAtom = useMemo(
+    () => selectAtom(presenceMapAtom, (m) => m[entry.partnerId]),
+    [entry.partnerId]
+  );
+  const partnerPresence = useAtomValue(partnerPresenceAtom);
+  const [observeRow, rowSeen] = useInViewOnce<HTMLDivElement>();
+  const { decoration, nameplate, status } = useListCosmetics(client, entry.partnerId, rowSeen);
+  const dotPresence = showPresence
+    ? effectiveDotPresence(partnerPresence, status?.mode)
+    : undefined;
 
   const handleClick = useCallback(() => {
     onSelect(entry.roomId, true);
@@ -338,6 +479,13 @@ export const DmListItem = memo(function DmListItem({
     void markRoomAsRead(client, entry.roomId, sendReadReceipts);
   }, [client, entry.roomId, sendReadReceipts]);
 
+  const handleMarkAsUnread = useCallback(() => {
+    if (!client) return;
+    client
+      .setMarkedUnread(entry.roomId, true)
+      .catch((err) => toast.error(t('room.markUnreadFailed', { error: getErrorMessage(err) })));
+  }, [client, entry.roomId, toast, t]);
+
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
       openContextMenu(e, [
@@ -346,6 +494,22 @@ export const DmListItem = memo(function DmListItem({
           icon: <ChecksIcon size={14} />,
           disabled: entry.unreadCount === 0 && !entry.hasNotif,
           onClick: handleMarkAsRead,
+        },
+        {
+          label: t('room.markUnread'),
+          icon: <EnvelopeSimpleIcon size={14} />,
+          disabled: entry.unreadCount > 0 || entry.hasNotif,
+          onClick: handleMarkAsUnread,
+        },
+        {
+          divider: true,
+          label: '',
+          onClick: () => {},
+        },
+        {
+          label: t('common.settings'),
+          icon: <GearIcon size={14} />,
+          onClick: () => setRoomSettings(entry.roomId),
         },
         {
           divider: true,
@@ -369,11 +533,13 @@ export const DmListItem = memo(function DmListItem({
     [
       openContextMenu,
       roomActions,
+      setRoomSettings,
       entry.roomId,
       entry.partnerName,
       entry.unreadCount,
       entry.hasNotif,
       handleMarkAsRead,
+      handleMarkAsUnread,
       t,
       level,
       setLevel,
@@ -384,7 +550,7 @@ export const DmListItem = memo(function DmListItem({
     <ChatListItem
       name={entry.partnerName}
       roomId={entry.roomId}
-      avatarMxc={entry.partnerAvatarMxc}
+      avatarMxc={entry.avatarMxc}
       avatarPlaceholder="logo"
       isActive={isActive}
       unread={entry.unreadCount}
@@ -392,6 +558,13 @@ export const DmListItem = memo(function DmListItem({
       hasActiveCall={hasActiveCall}
       isInCall={isInCall}
       isMuted={level === 'mute'}
+      decoration={decoration}
+      nameplate={nameplate}
+      fixedHeight
+      presence={dotPresence}
+      statusEmoji={status?.emoji}
+      statusText={status?.text}
+      rowRef={observeRow}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
       onMenuClick={handleContextMenu}

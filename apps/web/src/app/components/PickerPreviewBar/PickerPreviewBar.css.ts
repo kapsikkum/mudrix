@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const bar = style({
   flexShrink: 0,
@@ -21,14 +22,14 @@ export const image = style({
 
 export const emoji = style({
   width: 28,
-  fontSize: '1.5rem',
+  fontSize: fontSize.xl,
   lineHeight: 1,
   textAlign: 'center',
   flexShrink: 0,
 });
 
 export const text = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',

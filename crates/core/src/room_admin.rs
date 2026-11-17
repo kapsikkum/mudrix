@@ -22,7 +22,7 @@ use serde_json::{json, Value};
 
 use crate::{
     rooms::{parse_room_id, parse_user_id},
-    Error, Result, WizardClient,
+    Error, MudrixClient, Result,
 };
 
 const SYNCED_STATE_TYPES: [&str; 2] = ["m.space.parent", "m.space.child"];
@@ -152,7 +152,7 @@ fn alias_id(alias: &str) -> Result<OwnedRoomAliasId> {
     OwnedRoomAliasId::try_from(alias).map_err(|e| Error::InvalidId(e.to_string()))
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The room's full settings, fetched from the server (sliding sync only carries a subset).
     pub async fn room_settings(&self, room_id: &str) -> Result<RoomSettings> {
         let room = self.room(room_id)?;
@@ -307,7 +307,7 @@ fn settings_from_events(
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// `invite`, `public`, `knock`, `restricted` or `knock_restricted` (the last two allow
     /// members of `allowed_spaces`).
     pub async fn set_join_rule(
@@ -681,6 +681,19 @@ impl WizardClient {
             .collect())
     }
 
+    /// The room's whole current state from the server, as full events
+    pub async fn room_state(&self, room_id: &str) -> Result<Vec<Value>> {
+        let request = get_state_events::v3::Request::new(parse_room_id(room_id)?.to_owned());
+        Ok(self
+            .sdk()
+            .send(request)
+            .await?
+            .room_state
+            .iter()
+            .filter_map(|raw| serde_json::from_str::<Value>(raw.json().get()).ok())
+            .collect())
+    }
+
     pub async fn set_state_event(
         &self,
         room_id: &str,
@@ -793,7 +806,7 @@ pub struct StateChange {
     pub state_key: String,
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn room_tags(&self, room_id: &str) -> Result<Vec<RoomTag>> {
         let tags = self
             .room(room_id)?
@@ -886,7 +899,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Encrypts and uploads a file for use in an encrypted room; returns the `file` object
     /// (`EncryptedFile` JSON with its `mxc://` URL) to put in message content.
     pub async fn upload_encrypted_media(&self, data: Vec<u8>) -> Result<Value> {
@@ -900,7 +913,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Whether the server lets the user set an extended profile field (MSC4133): it must support
     /// extended profiles, and its `m.profile_fields` capability must allow the field.
     pub async fn can_set_profile_field(&self, field: &str) -> Result<bool> {

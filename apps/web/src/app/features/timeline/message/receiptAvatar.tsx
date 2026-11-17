@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Tooltip } from '@/app/components/Tooltip';
 import { useAvatarBlobUrl } from '@/app/components/Avatar/useAvatarBlobUrl';
 import { WizardMark, getInitialAndHue } from '@/app/components/Avatar';

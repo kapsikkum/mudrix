@@ -2,6 +2,7 @@ import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast, fadeIn } from '@/theme/animations.css';
 import { SHEET_RADIUS, SHEET_SCRIM, SHEET_SHADOW } from '@/theme/sheet';
+import { fontSize } from '@/theme/typeScale';
 
 export const menu = style({
   position: 'fixed',
@@ -32,8 +33,8 @@ export const menuItem = style({
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
-  padding: '8px 14px',
-  fontSize: '0.88rem',
+  padding: '8px 16px',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   cursor: 'pointer',
   transition: `background-color ${fast}`,
@@ -107,7 +108,7 @@ export const menuItemLabel = style({
 
 export const menuItemCheck = style({
   color: vars.color.accent,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   flexShrink: 0,
 });
 
@@ -189,7 +190,7 @@ export const sheetBack = style({
   gap: '12px',
   minHeight: '52px',
   padding: '0 16px',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: vars.color.textPrimary,
   borderBottom: `1px solid ${vars.color.border}`,
@@ -203,7 +204,7 @@ globalStyle(`${sheet} [role="menuitem"]:not(${sheetBack}), ${sheet} [role="menui
   minHeight: '52px',
   padding: '0 16px',
   gap: '16px',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   borderRadius: '12px',
 });
 
@@ -245,9 +246,9 @@ export const quickBtn = style({
   minWidth: 0,
   height: '52px',
   border: 'none',
-  borderRadius: '14px',
+  borderRadius: '12px',
   background: 'none',
-  fontSize: '1.7rem',
+  fontSize: fontSize.xl,
   lineHeight: 1,
   cursor: 'pointer',
   selectors: { '&:active': { backgroundColor: vars.color.bgHover } },

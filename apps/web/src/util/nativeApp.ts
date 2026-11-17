@@ -2,7 +2,7 @@ export function isNativeApp(): boolean {
   return Boolean(window.Capacitor?.isNativePlatform?.());
 }
 
-export const NATIVE_APP_SCHEME = 'org.wizardchat.mobile';
+export const NATIVE_APP_SCHEME = 'chat.mudrix.mobile';
 
 export function nativeAppUrl(path: string): URL {
   return new URL(`${NATIVE_APP_SCHEME}:${path}`);
@@ -11,7 +11,7 @@ export function nativeAppUrl(path: string): URL {
 export function callNative<T = void>(method: string, options: Record<string, unknown>): Promise<T> {
   const nativePromise = window.Capacitor?.nativePromise;
   if (!nativePromise) return Promise.reject(new Error('native_bridge_unavailable'));
-  return nativePromise<T>('WizardChat', method, options);
+  return nativePromise<T>('Mudrix', method, options);
 }
 
 export function openAuthUrl(url: string): void {
@@ -148,7 +148,7 @@ function listenForAppLinks(): void {
 
 export function installNativeAppHooks(): void {
   if (!isNativeApp()) return;
-  window.wizardchatNativeBack = navigateBack;
+  window.mudrixNativeBack = navigateBack;
   interceptDownloadLinks();
   listenForAppLinks();
 }

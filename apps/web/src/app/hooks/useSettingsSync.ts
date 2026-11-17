@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import {
   themeAtom,
   customThemesAtom,
@@ -131,7 +131,7 @@ export function useSettingsSync(client: MatrixClient | null): void {
         keybinds,
       };
       const current = readSettings(contents);
-      // Until the first save there is no Mudrix event, only (maybe) WizardChat's copy to carry over.
+      // Until the first save there is no Mudrix event, only (maybe) the upstream base's copy to carry over.
       const hasSaved = hasMudrixSettings(contents);
       if (hasSaved && settingsEqual(next, current)) return;
       // Under the current name and the one earlier versions read, so devices not updated yet

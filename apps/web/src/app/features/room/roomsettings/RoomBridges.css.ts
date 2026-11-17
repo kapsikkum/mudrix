@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const list = style({
   display: 'flex',
@@ -22,7 +23,7 @@ export const text = style({
 
 export const protocol = style({
   fontWeight: 600,
-  fontSize: '0.92rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
 });
 
@@ -31,7 +32,7 @@ export const target = style({
   alignItems: 'center',
   flexWrap: 'wrap',
   gap: '4px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   wordBreak: 'break-word',
 });
@@ -44,13 +45,13 @@ export const separator = style({
 export const channelLink = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   color: vars.color.link,
   ':hover': { textDecoration: 'underline' },
 });
 
 export const meta = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const keywordRow = style({
   display: 'flex',
@@ -30,8 +31,8 @@ export const keywordButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   gap: '6px',
-  padding: '10px 14px',
-  fontSize: '0.9rem',
+  padding: '10px 16px',
+  fontSize: fontSize.rem90,
   fontWeight: 500,
   color: vars.color.textPrimary,
   backgroundColor: vars.color.bgTertiary,
@@ -74,7 +75,7 @@ export const keywordItem = style({
 });
 
 export const keywordText = style({
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   color: vars.color.textPrimary,
   minWidth: 0,
   overflow: 'hidden',
@@ -105,7 +106,7 @@ export const keywordDel = style({
 
 export const errorText = style({
   color: vars.color.error,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   marginTop: '8px',
 });
 

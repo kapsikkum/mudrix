@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const TAB_BAR_HEIGHT = 56;
 
@@ -33,7 +34,7 @@ export const tab = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
   border: 'none',
   background: 'none',
@@ -41,7 +42,7 @@ export const tab = style({
   cursor: 'pointer',
   color: vars.color.textMuted,
   fontFamily: 'inherit',
-  fontSize: '0.68rem',
+  fontSize: fontSize.xs,
   fontWeight: 500,
   transition: `color ${fast}`,
   WebkitTapHighlightColor: 'transparent',

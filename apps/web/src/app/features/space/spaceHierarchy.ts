@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query';
-import type { SpaceChild, SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceChild, SpaceNode, MudrixClient } from '@mudrix/core';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
 import { useAllJoinedSpaces, useSpaceGraph } from '@/app/data';
 import { useThrottle } from '@/app/hooks/useThrottle';
@@ -90,7 +90,7 @@ export function resolveSpaceChildren(
 /** One level of the space's hierarchy, the space itself included; partial if a page failed */
 export async function fetchSpaceHierarchyLevel(
   spaceId: string,
-  client: WizardClient
+  client: MudrixClient
 ): Promise<Map<string, RoomSummary>> {
   const { space, children, complete } = await client.spaceHierarchy(spaceId);
   if (!complete) console.warn('[space-hierarchy] response truncated', spaceId);
@@ -167,7 +167,7 @@ export function findCachedSummary(
 }
 
 async function fetchAndPersist(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string
 ): Promise<Map<string, RoomSummary>> {
   const map = await fetchSpaceHierarchyLevel(spaceId, client);
@@ -177,7 +177,7 @@ async function fetchAndPersist(
 
 export function loadSpaceHierarchy(
   queryClient: QueryClient,
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   opts: { force?: boolean } = {}
 ): Promise<Map<string, RoomSummary>> {
@@ -195,7 +195,7 @@ const PREFETCH_CONCURRENCY = 2;
 
 export function prefetchSpaceHierarchies(
   queryClient: QueryClient,
-  client: WizardClient,
+  client: MudrixClient,
   spaceIds: string[]
 ): void {
   const queue = spaceIds.filter((id) => {

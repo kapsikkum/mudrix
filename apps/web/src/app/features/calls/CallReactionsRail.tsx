@@ -54,7 +54,7 @@ export function CallReactionsRail() {
           className={css.reactionsColumn}
           role="toolbar"
           aria-orientation="vertical"
-          aria-label={t('voice.reactions')}
+          aria-label={t('call.reactions')}
         >
           <button
             type="button"
@@ -80,12 +80,12 @@ export function CallReactionsRail() {
           ))}
         </div>
       )}
-      <Tooltip content={t('voice.reactions')}>
+      <Tooltip content={t('call.reactions')}>
         <button
           type="button"
           className={open ? css.reactionsToggleOpen : css.reactionsToggle}
           onClick={() => setOpen((v) => !v)}
-          aria-label={t('voice.reactions')}
+          aria-label={t('call.reactions')}
           aria-expanded={open}
         >
           <SmileyIcon size={20} />

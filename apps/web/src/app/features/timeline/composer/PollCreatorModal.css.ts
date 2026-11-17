@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const optionsList = style({
   display: 'flex',
@@ -21,7 +22,7 @@ export const optionInput = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
   color: vars.color.textPrimary,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   fontFamily: 'inherit',
   outline: 'none',
   transition: `border-color ${fast}, box-shadow ${fast}`,
@@ -65,7 +66,7 @@ export const addOptionBtn = style({
   border: `1px dashed ${vars.color.border}`,
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.88rem',
+  fontSize: fontSize.rem88,
   cursor: 'pointer',
   transition: `border-color ${fast}, color ${fast}, background-color ${fast}`,
   ':hover': {

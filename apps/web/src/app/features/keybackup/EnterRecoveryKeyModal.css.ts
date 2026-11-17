@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const textarea = style({
   width: '100%',
@@ -9,7 +10,7 @@ export const textarea = style({
   color: vars.color.textPrimary,
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontFamily: 'monospace',
   resize: 'vertical',
   outline: 'none',

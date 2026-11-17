@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { CaretUpDownIcon, PlusIcon, SignOutIcon, UserIcon } from '@phosphor-icons/react';
@@ -6,7 +7,12 @@ import { userIdAtom } from '@/app/store/atoms';
 import { useContextMenu, syntheticMouseEvent } from '@/app/hooks/useContextMenu';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { getMatrixClientOrNull, logout, switchAccount } from '@/client/initMatrix';
-import { getActiveAccountId, listAccounts } from '@/client/accounts';
+import {
+  getActiveAccountId,
+  listAccounts,
+  rememberAccountProfile,
+  storedAccountProfile,
+} from '@/client/accounts';
 import { useProfile } from '@/app/data';
 import * as css from './Settings.css';
 
@@ -18,7 +24,6 @@ export function AccountSwitcher({ onAddAccount }: { onAddAccount: () => void }) 
   const userId = useAtomValue(userIdAtom) ?? '';
   const { data: user } = useProfile(client && userId ? userId : null);
   const displayName = user?.displayName || localpart(userId);
-  const avatarMxc = user?.avatarUrl ?? null;
   const { openContextMenu } = useContextMenu();
 
   const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,15 +33,7 @@ export function AccountSwitcher({ onAddAccount }: { onAddAccount: () => void }) 
         const isActive = acc.userId === activeId;
         return {
           label: acc.userId,
-          icon: (
-            <Avatar
-              name={isActive ? displayName : localpart(acc.userId)}
-              mxcUrl={isActive ? avatarMxc : undefined}
-              client={isActive ? (client ?? undefined) : undefined}
-              size="xs"
-              placeholder="logo"
-            />
-          ),
+          icon: <AccountAvatar userId={acc.userId} />,
           checked: isActive,
           onClick: () => {
             if (!isActive) void switchAccount(acc.userId);
@@ -79,5 +76,29 @@ export function AccountSwitcher({ onAddAccount }: { onAddAccount: () => void }) 
       </span>
       <CaretUpDownIcon size={16} className={css.accountCardCaret} />
     </button>
+  );
+}
+
+function AccountAvatar({ userId }: { userId: string }) {
+  const client = getMatrixClientOrNull();
+  const { data: profile } = useProfile(client ? userId : null);
+  const stored = storedAccountProfile(userId);
+
+  useEffect(() => {
+    if (!profile) return;
+    rememberAccountProfile(userId, {
+      displayName: profile.displayName ?? null,
+      avatarUrl: profile.avatarUrl ?? null,
+    });
+  }, [profile, userId]);
+
+  return (
+    <Avatar
+      name={profile?.displayName || stored?.displayName || localpart(userId)}
+      mxcUrl={profile ? (profile.avatarUrl ?? null) : (stored?.avatarUrl ?? null)}
+      client={client}
+      size="xs"
+      placeholder="logo"
+    />
   );
 }

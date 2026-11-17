@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import type { TFunction } from 'i18next';
 import {
   ArrowsInIcon,
   ArrowsOutIcon,
@@ -8,18 +9,21 @@ import {
   LockKeyIcon,
   EyeIcon,
   EyeSlashIcon,
+  HandIcon,
   MicrophoneSlashIcon,
   MonitorIcon,
   PhoneIcon,
 } from '@phosphor-icons/react';
 import type { CallParticipant, RingState, TrackHandle } from '@/call/media';
-import { useClient, useMembers } from '@/app/data';
+import { useClient, useMembers, useRoom } from '@/app/data';
+import { isDmRoom } from '@/util/matrix';
+import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 import { Avatar, useAvatarBlobUrl } from '@/app/components/Avatar';
 import { SoundboardTileChip } from '@/app/features/soundboard/SoundboardPersonUi';
 import { useBannerGradient } from '@/app/hooks/useBannerGradient';
 import { Tooltip } from '@/app/components/Tooltip';
 import {
-  callEffectiveViewAtom,
   callUiAtom,
   callSessionAtom,
   callShowReactionsAtom,
@@ -28,6 +32,7 @@ import {
 } from '@/app/store/atoms/call';
 import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { buildCallBackground } from '@/app/features/calls/callBackground';
+import { useCallView } from '../useCallView';
 import { useCallSnapshot } from './useCallSnapshot';
 import { TileAvatar } from './TileAvatar';
 import { StreamCallMenu, UserCallMenu, type UserMenuAnchor } from './UserCallMenu';
@@ -100,9 +105,22 @@ function useFullscreen(ref: React.RefObject<HTMLElement | null>): [boolean, () =
   return [active, toggle];
 }
 
+/** The user's other devices in the call are named as such */
+function participantInfo(
+  participant: CallParticipant,
+  lookup: (userId: string) => MemberInfo,
+  myId: string | null,
+  t: TFunction
+): MemberInfo {
+  const info = lookup(participant.userId);
+  if (participant.isLocal || participant.userId !== myId) return info;
+  return { ...info, name: t('call.ownOtherDevice', { name: info.name }) };
+}
+
 function Tile({
   tile,
   lookup,
+  colorFor,
   focused,
   onSelect,
   onMenu,
@@ -110,6 +128,8 @@ function Tile({
 }: {
   tile: ParticipantTile;
   lookup: (userId: string) => MemberInfo;
+  /** The sender-name colour of a person: their role's, or the one everyone gets */
+  colorFor: (userId: string) => string | undefined;
   focused?: boolean;
   onSelect?: () => void;
   onMenu?: (x: number, y: number) => void;
@@ -121,7 +141,8 @@ function Tile({
   const ref = useRef<HTMLDivElement>(null);
   const client = useClient();
   const { participant, screen } = tile;
-  const { name, avatarUrl: mxc } = lookup(participant.userId);
+  const { name, avatarUrl: mxc } = participantInfo(participant, lookup, client.userId(), t);
+  const nameColor = colorFor(participant.userId);
   const previewHidden = screen && participant.isLocal && !showOwnScreen;
   const unwatched = screen && !participant.watchingScreen;
   const track = screen ? participant.screen : participant.camera;
@@ -129,7 +150,7 @@ function Tile({
   const videoHidden = !screen && participant.cameraHidden;
   const canFullscreen = !!track && !previewHidden && !unwatched;
   const [isFullscreen, toggleFullscreen] = useFullscreen(ref);
-  const fullscreenLabel = isFullscreen ? t('call.exitFullscreen') : t('call.fullscreen');
+  const fullscreenLabel = isFullscreen ? t('common.exitFullscreen') : t('common.fullscreen');
 
   const classes = [
     css.tile,
@@ -193,6 +214,7 @@ function Tile({
             name={name}
             mxc={mxc}
             speaking={participant.speaking}
+            connected={participant.connected}
           />
         )
       )}
@@ -215,7 +237,7 @@ function Tile({
       )}
       {!screen && showReactions && participant.handRaised && (
         <span className={css.badge} title={t('call.handRaised')}>
-          ✋
+          <HandIcon size={16} weight="fill" />
         </span>
       )}
       {!screen && showReactions && participant.reaction && (
@@ -280,7 +302,16 @@ function Tile({
         {!screen && participant.audioMuted && (
           <MicrophoneSlashIcon size={13} weight="fill" className={css.mutedIcon} />
         )}
-        <span className={css.labelName}>{name}</span>
+        <span className={css.labelName} style={nameColor ? { color: nameColor } : undefined}>
+          {name}
+        </span>
+        {!screen && !participant.connected && (
+          <span
+            className={css.connectingSpinner}
+            role="status"
+            aria-label={t('call.statusConnecting')}
+          />
+        )}
       </span>
     </div>
   );
@@ -298,7 +329,7 @@ function AvatarBubble({
   const { t } = useTranslation();
   const client = useClient();
   const showReactions = useAtomValue(callShowReactionsAtom);
-  const { name, avatarUrl } = lookup(participant.userId);
+  const { name, avatarUrl } = participantInfo(participant, lookup, client.userId(), t);
   return (
     <div
       className={css.bubble}
@@ -308,17 +339,33 @@ function AvatarBubble({
         onMenu(e.clientX, e.clientY);
       }}
     >
-      <span className={participant.speaking ? css.bubbleRingSpeaking : css.bubbleRing}>
+      <span
+        className={[
+          participant.speaking ? css.bubbleRingSpeaking : css.bubbleRing,
+          participant.connected ? '' : css.connecting,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <Avatar name={name} mxcUrl={avatarUrl} client={client} size="fill" placeholder="logo" />
       </span>
+      {!participant.connected && (
+        <span
+          className={css.bubbleConnecting}
+          role="status"
+          aria-label={t('call.statusConnecting')}
+        >
+          <span className={css.connectingSpinner} />
+        </span>
+      )}
       {participant.audioMuted && (
-        <span className={css.bubbleMuted} aria-label={t('voice.mute')}>
+        <span className={css.bubbleMuted} aria-label={t('call.mute')}>
           <MicrophoneSlashIcon size={14} weight="fill" />
         </span>
       )}
       {showReactions && participant.handRaised && (
         <span className={css.bubbleHand} title={t('call.handRaised')}>
-          ✋
+          <HandIcon size={16} weight="fill" />
         </span>
       )}
       {showReactions && participant.reaction && (
@@ -346,12 +393,19 @@ function CallingView({
   const { t } = useTranslation();
   const client = useClient();
   const { data: members } = useMembers(roomId);
+  const room = useRoom(roomId);
   const myId = client.userId();
   const self = myId ? lookup(myId) : null;
+  // A group rings everyone in it, so it shows the room instead of one person
+  const group = !!room && !isDmRoom(room);
   const targetId = members?.find((m) => m.userId !== myId)?.userId ?? null;
-  const target = targetId ? lookup(targetId) : null;
+  const target = group
+    ? { name: room.name ?? '', avatarUrl: room.avatarUrl }
+    : targetId
+      ? lookup(targetId)
+      : null;
   const targetName = target?.name ?? '';
-  const bubble = (member: typeof self, pulsing: boolean) => (
+  const bubble = (member: { name: string; avatarUrl: string | null } | null, pulsing: boolean) => (
     <span
       className={[css.bubbleRing, compact ? css.bubbleRingSmall : '', pulsing ? css.ringPulse : '']
         .filter(Boolean)
@@ -370,8 +424,10 @@ function CallingView({
     ring === 'ringing'
       ? t('call.calling', { name: targetName })
       : ring === 'declined'
-        ? t('call.declined', { name: targetName })
-        : t('call.noAnswer');
+        ? group
+          ? t('call.event.declined')
+          : t('call.declined', { name: targetName })
+        : t('call.event.unanswered');
 
   return (
     <div className={css.calling}>
@@ -423,13 +479,22 @@ export function CallStage() {
   const session = useAtomValue(callSessionAtom);
   const snapshot = useCallSnapshot();
   const [ui, setUi] = useAtom(callUiAtom);
-  const view = useAtomValue(callEffectiveViewAtom);
+  const view = useCallView();
   const theme = useAtomValue(effectiveThemeAtom);
   const [focusedKey, setFocusedKey] = useState<string | null>(null);
   const [userMenu, setUserMenu] = useState<UserMenuAnchor | null>(null);
   const closeUserMenu = useCallback(() => setUserMenu(null), []);
   const roomId = session?.roomId ?? null;
   const lookup = useMemberLookup(roomId);
+  const roleColorFor = useRoleNameColor(roomId);
+  const nameColorFor = useUsernameColor();
+  const colorFor = useCallback(
+    (userId: string) => {
+      const member = lookup(userId).member;
+      return roleColorFor(userId, member?.powerLevel ?? 0) ?? nameColorFor(userId);
+    },
+    [lookup, roleColorFor, nameColorFor]
+  );
   const client = useClient();
   const background = buildCallBackground(theme);
 
@@ -537,6 +602,7 @@ export function CallStage() {
       <Tile
         tile={tile}
         lookup={lookup}
+        colorFor={colorFor}
         focused={opts.focused}
         onSelect={opts.onSelect}
         onWatch={watchFor(tile)}
@@ -556,7 +622,7 @@ export function CallStage() {
       />
     );
   } else if (tiles.length === 0 || !focused) {
-    content = <span className={css.empty}>{t('voice.statusConnecting')}</span>;
+    content = <span className={css.empty}>{t('call.statusConnecting')}</span>;
   } else if (docked) {
     content = (
       <div className={css.dockedRow}>

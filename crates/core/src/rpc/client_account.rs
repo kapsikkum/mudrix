@@ -1,15 +1,15 @@
-//! `WizardClient`: profile, presence, notification settings, account data, search, emoji packs, widgets
+//! `MudrixClient`: profile, presence, notification settings, account data, search, emoji packs, widgets
 
 use serde_json::Value;
 
 use super::{Bytes, Listener, Subscription};
 use crate::{
-    EmojiPack, MentionRule, NotificationMode, NotificationPrefs, Presence, PresenceInfo, SearchHit,
-    UiaAuth, UiaOutcome, UserProfile, Widget, WizardClient,
+    EmojiPack, MentionRule, MudrixClient, NotificationMode, NotificationPrefs, Presence,
+    PresenceInfo, SearchHit, UiaAuth, UiaOutcome, UserProfile, Widget,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         call fn userProfile(user_id: String) -> UserProfile {
             this.user_profile(&user_id).await
         }
@@ -158,6 +158,17 @@ rpc_methods! {
         /// Searches messages on the server (not possible for encrypted rooms).
         call fn searchMessages(term: String, room_id: Option<String>) -> Vec<SearchHit> {
             this.search_messages(&term, room_id.as_deref()).await
+        }
+
+        /// Searches messages on the server one page at a time (not possible for encrypted
+        /// rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+        /// last page has been read.
+        call fn searchMessagesPage(
+            term: String,
+            room_id: Option<String>,
+            from: Option<String>,
+        ) -> crate::SearchResults {
+            this.search_messages_page(&term, room_id.as_deref(), from.as_deref()).await
         }
 
         call fn emojiPacks(room_id: Option<String>) -> Vec<EmojiPack> {

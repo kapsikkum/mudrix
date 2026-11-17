@@ -1,5 +1,5 @@
 /** The wasm build of the core (`npm run core:web`): only the transport, see crates/wasm */
-declare module '@wizardchat/core-wasm' {
+declare module '@mudrix/core-wasm' {
   export default function init(): Promise<unknown>;
 
   export class Core {

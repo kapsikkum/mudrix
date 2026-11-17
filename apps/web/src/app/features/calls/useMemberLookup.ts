@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import type { Member } from '@wizardchat/core';
+import type { Member } from '@mudrix/core';
 import { useMembers } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 

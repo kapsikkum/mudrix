@@ -1,5 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const player = style({
   position: 'relative',
@@ -33,7 +34,7 @@ export const playerError = style({
   padding: '24px',
   textAlign: 'center',
   color: '#fff',
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   backgroundColor: 'rgba(0, 0, 0, 0.75)',
 });
 
@@ -45,7 +46,7 @@ export const playerWaiting = style({
   padding: '6px 12px',
   borderRadius: '999px',
   color: '#fff',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   backgroundColor: 'rgba(0, 0, 0, 0.7)',
   pointerEvents: 'none',
   whiteSpace: 'nowrap',
@@ -70,15 +71,15 @@ export const playerLabel = style({
   left: '8px',
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   maxWidth: 'calc(100% - 60px)',
   padding: '0 8px',
   borderRadius: '999px',
-  background: '#593695',
-  color: '#ffffff',
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  lineHeight: '20px',
+  background: vars.color.live,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  lineHeight: 1.67,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -118,7 +119,7 @@ export const dialogBody = style({
 });
 
 export const dialogNote = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   lineHeight: 1.45,
 });
@@ -134,22 +135,22 @@ export const invite = style([
     padding: '24px',
     textAlign: 'center',
     color: '#fff',
-    background: 'linear-gradient(160deg, #1b1b22, #0b0b0f)',
+    background: '#0b0b0f',
   },
 ]);
 
 export const inviteCompact = style([invite, { gap: '8px', padding: '10px' }]);
 
-export const inviteIcon = style({ color: '#ff3d3d' });
+export const inviteIcon = style({ color: vars.color.danger });
 
 export const inviteTitle = style({
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
 });
 
 export const inviteBody = style({
   maxWidth: '360px',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.5,
   color: 'rgba(255, 255, 255, 0.72)',
 });
@@ -163,7 +164,7 @@ const inviteButton = {
   padding: '8px 16px',
   border: 'none',
   borderRadius: vars.radius.sm,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
 } as const;
@@ -186,7 +187,7 @@ export const inviteLink = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: 'rgba(255, 255, 255, 0.72)',
   textDecoration: 'none',
   ':hover': { color: '#fff', textDecoration: 'underline' },

@@ -1,6 +1,7 @@
-import type { TimelineEntry, WizardClient } from '@wizardchat/core';
+import type { TimelineEntry, MudrixClient } from '@mudrix/core';
 import { composerDraftKey, type EditMessageState } from '@/app/store/atoms';
 import { entryEventId, entryMsgtype, entryText, isEventEntry, type EventEntry } from './entry';
+import { editableBody } from './textContent';
 
 const published = new Map<string, TimelineEntry[]>();
 const localIds = new Map<string, string>();
@@ -69,7 +70,7 @@ function getEditableMessages(roomId: string, threadId?: string | null): EventEnt
 }
 
 export function findAdjacentEditableMessage(
-  _client: WizardClient,
+  _client: MudrixClient,
   roomId: string,
   threadId: string | null | undefined,
   fromEventId: string | null,
@@ -91,7 +92,7 @@ export function editStateFor(
   return {
     roomId,
     eventId: entryEventId(event),
-    body: entryText(event)?.body ?? '',
+    body: editableBody(event),
     msgtype: entryMsgtype(event) ?? 'm.text',
     threadId: threadId ?? null,
   };

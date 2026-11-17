@@ -4,7 +4,7 @@ use matrix_sdk::{
 };
 use serde::Serialize;
 
-use crate::{Result, WizardClient};
+use crate::{MudrixClient, Result};
 
 /// What the user may do in a room, for showing or hiding actions
 #[derive(Clone, Debug, Default, Serialize)]
@@ -21,6 +21,7 @@ pub struct RoomPermissions {
     pub change_permissions: bool,
     pub pin: bool,
     pub manage_widgets: bool,
+    pub enable_encryption: bool,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -82,6 +83,7 @@ async fn details_of(room: &Room) -> RoomDetails {
             pin: pl.user_can_send_state(&own_id, StateEventType::RoomPinnedEvents),
             manage_widgets: pl
                 .user_can_send_state(&own_id, StateEventType::from(crate::widgets::WIDGET_EVENT)),
+            enable_encryption: pl.user_can_send_state(&own_id, StateEventType::RoomEncryption),
         })
         .unwrap_or_default();
     let is_encrypted = matches!(
@@ -90,7 +92,7 @@ async fn details_of(room: &Room) -> RoomDetails {
     );
     RoomDetails {
         id: room.room_id().to_string(),
-        name: room.cached_display_name().map(|n| n.to_string()),
+        name: crate::rooms::room_display_name(room).await,
         topic: room.topic(),
         avatar_url: room.avatar_url().map(|u| u.to_string()),
         canonical_alias: room.canonical_alias().map(|a| a.to_string()),
@@ -113,7 +115,7 @@ async fn details_of(room: &Room) -> RoomDetails {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn room_details(&self, room_id: &str) -> Result<RoomDetails> {
         Ok(details_of(&self.room(room_id)?).await)
     }

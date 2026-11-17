@@ -1,12 +1,13 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const bar = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '8px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderBottom: `1px solid ${vars.color.border}`,
   flexShrink: 0,
 });
@@ -76,10 +77,8 @@ export const info = style({
 });
 
 export const callStatus = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
   color: 'inherit',
   selectors: {
     [`${statusRow}:hover &`]: { textDecoration: 'underline' },
@@ -87,7 +86,7 @@ export const callStatus = style({
 });
 
 export const callerName = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   color: vars.color.textMuted,
   overflow: 'hidden',
@@ -125,7 +124,7 @@ export const ctrl = style({
   cursor: 'pointer',
   border: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   backgroundColor: 'transparent',
   transition: `background-color ${fast}, color ${fast}`,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
@@ -156,10 +155,8 @@ export const stats = style({
 });
 
 export const statsTitle = style({
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -181,7 +178,7 @@ export const statsGraphLine = style({
 export const statsPings = style({
   display: 'flex',
   justifyContent: 'space-between',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   marginBottom: '4px',
 });
@@ -190,7 +187,7 @@ export const statsRow = style({
   display: 'flex',
   justifyContent: 'space-between',
   gap: '12px',
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
 });
 
 export const statsLabel = style({
@@ -209,7 +206,7 @@ export const statsValue = style({
 
 export const statsNote = style({
   margin: 0,
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 

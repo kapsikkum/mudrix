@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -9,7 +9,7 @@ import * as css from './LinkPreview.css';
 
 interface LinkPreviewProps {
   url: string;
-  client: WizardClient;
+  client: MudrixClient;
   isEncrypted: boolean;
 }
 

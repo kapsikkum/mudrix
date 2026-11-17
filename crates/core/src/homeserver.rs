@@ -8,7 +8,7 @@ use serde_json::Value;
 
 use crate::{
     net::{read_limited, with_timeout},
-    Result, WizardClient,
+    MudrixClient, Result,
 };
 
 /// What `/_matrix/federation/v1/version` says a server runs
@@ -191,7 +191,7 @@ pub(crate) async fn lookup(server_name: &str) -> Option<HomeserverSoftware> {
     None
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The software and version the server named `server_name` runs, from its federation
     /// version endpoint, or `None` when it can't be asked. A browser can only ask servers that
     /// allow cross-site requests; native apps can ask any public server.

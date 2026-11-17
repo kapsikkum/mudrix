@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 /** Cards for what someone is playing or listening to, under their name on the profile. */
 
@@ -26,10 +27,8 @@ export const heading = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.7rem',
-  fontWeight: 700,
-  textTransform: 'uppercase',
-  letterSpacing: '0.04em',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
   selectors: {
     // A small accent dot before the label.
@@ -57,8 +56,7 @@ export const icon = style({
   width: '40px',
   height: '40px',
   borderRadius: vars.radius.sm,
-  fontSize: '1.4rem',
-  lineHeight: 1,
+  color: vars.color.textPrimary,
   backgroundColor: `color-mix(in srgb, var(--card-accent, ${vars.color.accent}) 26%, ${vars.color.bgSecondary})`,
 });
 
@@ -71,19 +69,19 @@ export const text = style({
 
 // Wrapped, never cut off: the whole point of the card is to read the full title.
 export const title = style({
-  fontSize: '0.92rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflowWrap: 'anywhere',
 });
 
 export const detail = style({
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   color: vars.color.textSecondary,
   overflowWrap: 'anywhere',
 });
 
 export const meta = style({
-  fontSize: '0.78rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });

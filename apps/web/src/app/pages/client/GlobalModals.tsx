@@ -4,11 +4,7 @@ import { PromptModal } from '@/app/components/PromptModal';
 import { CreateRoomModal, InviteModal, RoomSettings } from '@/app/features/room';
 import { EmojiPicker, ReportMessageModal } from '@/app/features/timeline';
 import { NewDmModal } from '@/app/features/dm/NewDmModal';
-import {
-  VerificationBanner,
-  EmojiVerificationModal,
-  VerifySessionGate,
-} from '@/app/features/device';
+import { VerificationBanner, EmojiVerificationModal } from '@/app/features/device';
 import {
   RecoveryKeyModal,
   EnterRecoveryKeyModal,
@@ -24,6 +20,7 @@ import { GlobalSearch } from '@/app/features/globalSearch';
 import { WhatsNewModal } from '@/app/features/whatsNew';
 import { DesktopSourcePicker } from '@/app/features/calls/desktopPicker/DesktopSourcePicker';
 import { ExploreModal } from '@/app/features/explore';
+import { GetAppsModal } from '@/app/features/getApps';
 import { CustomStatusDialog } from '@/app/features/status/CustomStatusDialog';
 
 export function GlobalModals() {
@@ -43,7 +40,6 @@ export function GlobalModals() {
       <RoomSettings />
       <EmojiPicker />
       <ReportMessageModal />
-      <VerifySessionGate />
       <VerificationBanner />
       <WhatsNewModal />
       <DesktopSourcePicker />
@@ -57,6 +53,7 @@ export function GlobalModals() {
       <RoomSwitcher />
       <GlobalSearch />
       <ExploreModal />
+      <GetAppsModal />
     </>
   );
 }

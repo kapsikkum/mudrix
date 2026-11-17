@@ -2,6 +2,7 @@ import { useMemo, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
+  CodeIcon,
   DownloadSimpleIcon,
   LinkIcon,
   PaperPlaneRightIcon,
@@ -11,7 +12,7 @@ import {
 import type { Icon } from '@phosphor-icons/react';
 import type { ContextMenuItem } from '@/app/features/contextMenu/contextMenuAtom';
 import { grantsAtom, installedIntegrationsAtom, integrationSettingsAtom } from '../store';
-import { getApiActions, getComposerActions, renderInsert } from '../matching';
+import { getApiActions, getComposerActions, getWidgets, renderInsert } from '../matching';
 import { useIntegrationLauncher } from './runtime';
 
 const ICONS: Record<string, Icon> = {
@@ -23,9 +24,10 @@ const ICONS: Record<string, Icon> = {
 
 /**
  * The composer's "more options" entries for installed integrations. Composer actions only insert
- * text at the cursor and never send. Api actions open a confirmation dialog first.
+ * text at the cursor and never send. Api actions open a confirmation dialog first. Widgets are
+ * marked "(code)" because they run third-party code.
  *
- * @param owner the composer's `integrationOwner`, so its dialog is shown by that composer
+ * @param owner the composer's `integrationOwner`, so its dialogs are shown by that composer
  * @param draftText the current draft as plain text, used for `{text}` in api actions
  */
 export function useComposerIntegrationItems(
@@ -62,6 +64,11 @@ export function useComposerIntegrationItems(
       icon: <PaperPlaneTiltIcon size={14} />,
       onClick: () => launcher.openApi(a.integrationId, a.id, draftRef.current),
     }));
-    return [...inserts, ...apis];
+    const widgets = getWidgets(installed, grants).map((w): ContextMenuItem => ({
+      label: t('integrations.composer.widgetLabel', { name: w.name ?? w.integrationName }),
+      icon: <CodeIcon size={14} />,
+      onClick: () => launcher.openWidget(w.integrationId),
+    }));
+    return [...inserts, ...apis, ...widgets];
   }, [installed, grants, stored, roomId, onInsert, launcher, t]);
 }

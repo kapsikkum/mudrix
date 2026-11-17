@@ -4,7 +4,7 @@
 
 use std::sync::{Arc, LazyLock};
 
-use wizardchat_core::rpc::{Rpc, RpcError};
+use mudrix_core::rpc::{Rpc, RpcError};
 
 uniffi::setup_scaffolding!();
 
@@ -12,15 +12,25 @@ uniffi::setup_scaffolding!();
 static RUNTIME: LazyLock<tokio::runtime::Runtime> = LazyLock::new(|| {
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
-        .thread_name("wizardchat-core")
+        .thread_name("mudrix-core")
         .build()
         .expect("a Tokio runtime")
 });
 
-/// Debug builds log the SDK to stderr (the Xcode console); `WIZARDCHAT_LOG` takes a tracing filter
+#[cfg(target_os = "android")]
+mod logcat;
+
+/// Android sends the core's logs to logcat, under the tag `MudrixCore`
+#[cfg(target_os = "android")]
+fn init_logging() {
+    logcat::init();
+}
+
+/// Debug builds log the SDK to stderr (the Xcode console); `MUDRIX_LOG` takes a tracing filter
+#[cfg(not(target_os = "android"))]
 fn init_logging() {
     if cfg!(debug_assertions) {
-        let filter = std::env::var("WIZARDCHAT_LOG")
+        let filter = std::env::var("MUDRIX_LOG")
             .unwrap_or_else(|_| "warn,matrix_sdk_crypto::verification=debug".into());
         let _ = tracing_subscriber::fmt()
             .with_env_filter(tracing_subscriber::EnvFilter::new(filter))
@@ -110,7 +120,7 @@ impl Core {
 
 /// Android: `CoreInit.init(context)` runs this once, before the first network request
 #[cfg(target_os = "android")]
-#[jni::jni_mangle("org.wizardchat.core.CoreInit")]
+#[jni::jni_mangle("chat.mudrix.core.CoreInit")]
 pub fn init<'caller>(
     mut env: jni::EnvUnowned<'caller>,
     _class: jni::objects::JClass<'caller>,

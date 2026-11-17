@@ -1,3 +1,5 @@
+import { isVoiceSoundEnabled } from '../app/features/voice/voiceSounds';
+import { publicUrl } from '@/util/publicUrl';
 /**
  * Sound packs: a set of sounds for messages, calls and voice rooms. The files live in
  * `packages/sounds/raw` (flat, shared with the native apps) and are served at /assets/sounds/.
@@ -7,11 +9,17 @@ export type NotificationSoundKind = 'message' | 'mention' | 'ring' | 'ringback' 
 export type VoiceSoundKind =
   | 'mute'
   | 'unmute'
+  | 'deafen'
+  | 'undeafen'
   | 'camera-on'
   | 'camera-off'
+  | 'screenshare-start'
+  | 'screenshare-stop'
   | 'join'
   | 'leave'
   | 'moved'
+  | 'raise-hand'
+  | 'reaction'
   | 'watch-together-start';
 export type SoundKind = NotificationSoundKind | VoiceSoundKind;
 
@@ -36,11 +44,17 @@ export const SOUND_KINDS: readonly SoundKind[] = [
   'callend',
   'mute',
   'unmute',
+  'deafen',
+  'undeafen',
   'camera-on',
   'camera-off',
+  'screenshare-start',
+  'screenshare-stop',
   'join',
   'leave',
   'moved',
+  'raise-hand',
+  'reaction',
   'watch-together-start',
 ];
 
@@ -91,8 +105,8 @@ export const SOUND_PACKS: readonly SoundPack[] = [
   mudrixPack('megadrive2', 'Velvet'),
   mudrixPack('nes2', 'Shuffle'),
   mudrixPack('sms', 'Chirp'),
-  // The base's own alert is the message sound of the WizardChat pack
-  clientPack('wizardchat', 'WizardChat', { message: 'alert.wav' }),
+  // The base's own alert is the message sound of the Original pack
+  clientPack('wizardchat', 'Original', { message: 'alert.wav' }),
   clientPack('element', 'Element', {
     message: 'mp3',
     ring: 'mp3',
@@ -141,7 +155,7 @@ export function getSoundPack(id: string | undefined): SoundPack {
   );
 }
 
-const soundUrl = (file: string) => `/assets/sounds/${file}`;
+const soundUrl = (file: string) => publicUrl(`assets/sounds/${file}`);
 
 let outputDeviceId = '';
 type SinkTarget = { setSinkId?: (id: string) => Promise<void> };
@@ -174,10 +188,16 @@ function applyContextSink(ctx: AudioContext): void {
 const BUILTIN_VOICE_SOUNDS: Partial<Record<VoiceSoundKind, string>> = {
   mute: 'mute.wav',
   unmute: 'unmute.wav',
+  deafen: 'deafen.wav',
+  undeafen: 'undeafen.wav',
   'camera-on': 'camera_on.wav',
   'camera-off': 'camera_off.wav',
+  'screenshare-start': 'screenshare_start.wav',
+  'screenshare-stop': 'screenshare_stop.wav',
   join: 'call_join.wav',
   leave: 'call_leave.wav',
+  'raise-hand': 'raise_hand.wav',
+  reaction: 'reaction.wav',
   'watch-together-start': 'watch_together_start.wav',
 };
 
@@ -260,6 +280,8 @@ function playUrl(url: string, volume: number): void {
 /** The URL and volume a sound would play with now, or null when it is off. */
 function activeSound(kind: SoundKind): { url: string; volume: number } | null {
   if (GATED_KINDS.has(kind) && !active.enabled) return null;
+  // The per-sound switches in Settings > Voice & Video
+  if (!isVoiceSoundEnabled(kind)) return null;
   const pack = resolveSoundPack(kind, active.pack, active.overrides);
   if (!pack) return null;
   const url = getSoundUrl(pack, kind);

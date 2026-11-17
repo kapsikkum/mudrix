@@ -1,4 +1,4 @@
-import type { Mentions, MessageKind, RoomTimeline } from '@wizardchat/core';
+import type { Mentions, MessageKind, RoomTimeline } from '@mudrix/core';
 import type { EventEntry } from '../message/entry';
 
 export type ReplyTarget = EventEntry;
@@ -38,7 +38,7 @@ export function applyReplyMetadata(
   content['m.mentions'] = newMentions;
 }
 
-function applyThreadRelation(
+export function applyThreadRelation(
   content: Record<string, unknown>,
   threadId: string,
   replyTo?: ReplyTarget | null

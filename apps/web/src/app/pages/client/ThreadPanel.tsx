@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import type { EntryContent, TimelineEntry, WizardClient } from '@wizardchat/core';
+import type { EntryContent, TimelineEntry, MudrixClient } from '@mudrix/core';
 import {
   XIcon,
   ArrowLeftIcon,
@@ -35,14 +35,20 @@ import { useMessageLayout } from '@/app/hooks/useMessageLayout';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
+import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import { buildItems, useBuildContext } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { useMessageHover } from '@/app/features/timeline/useMessageHover';
-import { publishTimelineEntries } from '@/app/features/timeline/message/editNavigation';
+import {
+  editStateFor,
+  publishTimelineEntries,
+} from '@/app/features/timeline/message/editNavigation';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
 import * as css from './ThreadPanel.css';
 import { useUsernameColor } from '@/app/hooks/useUsernameColor';
+import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 
 const MAX_PAGES = 10;
 
@@ -78,7 +84,7 @@ function contentBody(content: EntryContent): string {
 }
 
 interface ThreadPanelProps {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   rootEventId: string;
   className?: string;
@@ -96,6 +102,7 @@ export function ThreadPanel({
 }: ThreadPanelProps) {
   const { t, i18n } = useTranslation();
   const colorFor = useUsernameColor();
+  const roleColorFor = useRoleNameColor(roomId);
   const toast = useToast();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const confirmDialog = useConfirm();
@@ -109,7 +116,11 @@ export function ThreadPanel({
   const setReport = useSetAtom(reportMessageAtom);
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
   const [expanded, setExpanded] = useAtom(threadPanelExpandedAtom);
-  const isDesktop = useMediaQuery('(min-width: 769px)');
+  // Phones and touch tablets: a bottom sheet that a drag down closes.
+  const overlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const isDesktop = useMediaQuery('(min-width: 769px)') && !overlay;
+  const sheetRef = useRef<HTMLElement>(null);
+  useSwipeDownDismiss({ enabled: overlay, sheetRef, onClose });
 
   const { entries, atStart, loading, loadOlder, timeline } = useTimeline(client, roomId, {
     type: 'thread',
@@ -238,15 +249,7 @@ export function ThreadPanel({
         toast.info(t('timeline.editNotSent'));
         return;
       }
-      const content = event.content;
-      setEditMessage({
-        roomId,
-        eventId: event.eventId ?? event.itemKey,
-        body: contentBody(content),
-        msgtype:
-          content.type === 'emote' ? 'm.emote' : content.type === 'notice' ? 'm.notice' : 'm.text',
-        threadId: rootId || null,
-      });
+      setEditMessage(editStateFor(event, roomId, rootId || null));
     },
     [roomId, rootId, setEditMessage, toast, t]
   );
@@ -334,8 +337,10 @@ export function ThreadPanel({
 
   return (
     <aside
+      ref={sheetRef}
       data-swipe-back="panel"
-      data-swipe-drawer="right"
+      data-swipe-drawer={overlay ? undefined : 'right'}
+      data-no-swipe={overlay ? true : undefined}
       className={`${css.threadPanel}${className ? ` ${className}` : ''}${expanded ? ` ${css.threadPanelExpanded}` : ''}`}
       aria-label={t('timeline.threadPanel')}
       style={isDesktop && !expanded ? { width: `${threadPanelWidth}px` } : undefined}
@@ -363,7 +368,7 @@ export function ThreadPanel({
         <h2 className={css.threadPanelLabel}>{t('timeline.threadPanel')}</h2>
         <span className={css.threadPanelDivider} />
         <span className={css.threadPanelTitle}>
-          {t('timeline.threadPanelCount', { count: items.length })}
+          {t('timeline.threadReplies', { count: items.length })}
         </span>
         {isDesktop && (
           <Tooltip content={expanded ? t('common.collapse') : t('common.expand')}>
@@ -398,7 +403,13 @@ export function ThreadPanel({
             size="sm"
             placeholder="logo"
           />
-          <span className={css.threadRootSender} style={{ color: colorFor(rootSenderId) }}>
+          <span
+            className={css.threadRootSender}
+            style={{
+              color:
+                roleColorFor(rootSenderId, rootMember?.powerLevel ?? 0) ?? colorFor(rootSenderId),
+            }}
+          >
             {rootSenderName}
           </span>
           <span className={css.threadRootTime}>
@@ -437,7 +448,7 @@ export function ThreadPanel({
                     senderId={item.senderId}
                     senderName={item.senderName}
                     senderAvatar={item.senderAvatar}
-                    isGrouped={item.isGrouped}
+                    isGrouped={layout !== 'compact' && item.isGrouped}
                     variant={layout}
                     isSystemMessage={item.isSystemMessage}
                     isEdited={item.isEdited}

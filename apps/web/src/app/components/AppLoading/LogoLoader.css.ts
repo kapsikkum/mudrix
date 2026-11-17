@@ -54,12 +54,15 @@ function polygonVariants(index: number) {
   );
 }
 
-export const p0 = polygonVariants(0);
-export const p1 = polygonVariants(1);
-export const p2 = polygonVariants(2);
-export const p3 = polygonVariants(3);
-export const p4 = polygonVariants(4);
-export const p5 = polygonVariants(5);
+/** One animated fill per mud facet tone (0 darkest .. 5 lightest). */
+export const tones = [
+  polygonVariants(0),
+  polygonVariants(1),
+  polygonVariants(2),
+  polygonVariants(3),
+  polygonVariants(4),
+  polygonVariants(5),
+];
 
 export const svg = style({
   width: '80px',

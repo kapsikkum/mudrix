@@ -23,14 +23,18 @@ function hashCode(text: string): number {
   return Math.abs(hash);
 }
 
-export function usernameColor(userId: string): string {
-  return COLORS[hashCode(userId) % COLORS.length];
+export function usernameColor(userId: string, profileAccent?: string | null): string {
+  return profileAccent || COLORS[hashCode(userId) % COLORS.length];
 }
 
-export function useUsernameColor(): (userId: string | null | undefined) => string | undefined {
+export function useUsernameColor(): (
+  userId: string | null | undefined,
+  profileAccent?: string | null
+) => string | undefined {
   const enabled = useAtomValue(colorUsernamesAtom);
   return useCallback(
-    (userId) => (enabled && userId ? usernameColor(userId) : undefined),
+    (userId, profileAccent) =>
+      enabled && userId ? usernameColor(userId, profileAccent) : undefined,
     [enabled]
   );
 }

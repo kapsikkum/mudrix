@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient, UiaAuth, UiaOutcome } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient, UiaAuth, UiaOutcome } from '@mudrix/core';
 import { errorCode } from '@/core/client';
 import { waitForSsoFallback } from '@/app/features/sso/sso';
 import type { CrossSigningUiaState } from '@/app/store/atoms';

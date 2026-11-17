@@ -1,6 +1,8 @@
 import { style, globalStyle, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast, med } from '@/theme/animations.css';
+import { zIndex } from '@/theme/zIndex';
+import { fontSize } from '@/theme/typeScale';
 
 export const composerWrap = style({
   backgroundColor: vars.color.bgSecondary,
@@ -18,7 +20,7 @@ export const hiddenInput = style({
 
 export const popoverLayerFixed = style({
   position: 'fixed',
-  zIndex: 5000,
+  zIndex: zIndex.panel,
 });
 
 export const replyPreview = style({
@@ -28,7 +30,7 @@ export const replyPreview = style({
   minWidth: 0,
   padding: '6px 8px 6px 14px',
   borderBottom: `1px solid ${vars.color.border}`,
-  fontSize: '0.85rem',
+  fontSize: fontSize.rem85,
   color: vars.color.textMuted,
 });
 
@@ -119,7 +121,7 @@ export const floatingToolbar = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.md,
   boxShadow: '0 4px 16px rgba(0,0,0,0.35)',
-  zIndex: 200,
+  zIndex: zIndex.pinnedHigh,
   pointerEvents: 'auto',
 });
 
@@ -134,7 +136,7 @@ export const fmtBtn = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   flexShrink: 0,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
 });
@@ -150,7 +152,7 @@ export const fmtBtnActive = style({
   border: 'none',
   background: 'none',
   color: vars.color.accent,
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   flexShrink: 0,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.accent },
 });
@@ -189,7 +191,7 @@ export const attachBtn = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   flexShrink: 0,
   transition: `background-color ${fast}, color ${fast}`,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
@@ -243,9 +245,9 @@ globalStyle(`${richEditor} pre`, {
   margin: '2px 0',
   padding: '4px 8px',
   backgroundColor: vars.color.bgTertiary,
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   fontFamily: 'monospace',
-  fontSize: '0.9em',
+  fontSize: fontSize.em90,
   overflowX: 'auto',
 });
 globalStyle(`${richEditor} code`, {
@@ -253,7 +255,7 @@ globalStyle(`${richEditor} code`, {
   borderRadius: '3px',
   padding: '1px 4px',
   fontFamily: 'monospace',
-  fontSize: '0.9em',
+  fontSize: fontSize.em90,
 });
 globalStyle(`${richEditor} a`, {
   color: vars.color.link,
@@ -276,9 +278,9 @@ globalStyle(`${richEditor} .mention-pill`, {
   display: 'inline-block',
   backgroundColor: `color-mix(in srgb, ${vars.color.accent} 15%, transparent)`,
   color: vars.color.accent,
-  borderRadius: '4px',
+  borderRadius: vars.radius.sm,
   padding: '0 4px',
-  fontSize: '0.9em',
+  fontSize: fontSize.em90,
   fontWeight: 600,
   userSelect: 'none',
   cursor: 'default',
@@ -289,14 +291,15 @@ globalStyle(`${richEditor} .mention-pill.room-mention-pill`, {
   color: vars.color.mention,
 });
 
-// The send button pops in the moment there is something to send.
+// The send button slides in from the right, where the other buttons leave to.
 const sendPop = keyframes({
-  from: { opacity: 0, transform: 'scale(0.6)' },
-  to: { opacity: 1, transform: 'scale(1)' },
+  from: { transform: 'translateX(40px)' },
+  to: { transform: 'translateX(0)' },
 });
 
 export const sendBtn = style({
-  animation: `${sendPop} 160ms ease-out`,
+  animation: `${sendPop} 240ms cubic-bezier(0.2, 0.9, 0.3, 1) both`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
   width: '28px',
   height: '28px',
   borderRadius: vars.radius.sm,
@@ -304,14 +307,132 @@ export const sendBtn = style({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: vars.color.accent,
-  color: '#fff',
+  color: vars.color.onAccent,
   border: 'none',
   cursor: 'pointer',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   flexShrink: 0,
   transition: `background-color ${fast}, transform ${fast}`,
   ':hover': { backgroundColor: vars.color.accentHover },
   ':disabled': { opacity: 0.4, cursor: 'not-allowed', transform: 'none' },
+});
+
+// Plays while the button leaves (it is unmounted right after): back out to the right.
+const sendOut = keyframes({
+  from: { transform: 'translateX(0)' },
+  to: { transform: 'translateX(40px)' },
+});
+
+export const sendBtnExit = style({
+  animation: `${sendOut} 180ms ease-in both`,
+  pointerEvents: 'none',
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+// The sticker, GIF and more buttons leave while there is something to send, and return when it is
+// cleared. They slide together along the row into the send button's place and back out of it, and
+// the group's width follows, so the emoji button glides over instead of jumping.
+const TOOL_SHIFT = '40px';
+
+const toolIn = keyframes({
+  from: { transform: `translateX(${TOOL_SHIFT})` },
+  to: { transform: 'translateX(0)' },
+});
+
+const toolOut = keyframes({
+  from: { transform: 'translateX(0)' },
+  to: { transform: `translateX(${TOOL_SHIFT})` },
+});
+
+const toolsExpand = keyframes({
+  from: { gridTemplateColumns: '0fr' },
+  to: { gridTemplateColumns: '1fr' },
+});
+
+const toolsCollapse = keyframes({
+  from: { gridTemplateColumns: '1fr' },
+  to: { gridTemplateColumns: '0fr' },
+});
+
+export const TOOLS_EXIT_MS = 180;
+
+export const toolsGroup = style({
+  display: 'grid',
+  gridTemplateColumns: '1fr',
+  flexShrink: 0,
+});
+
+export const toolsGroupIn = style({
+  animation: `${toolsExpand} 240ms cubic-bezier(0.2, 0.9, 0.3, 1) both`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+export const toolsGroupOut = style({
+  animation: `${toolsCollapse} ${TOOLS_EXIT_MS}ms ease-in both`,
+  pointerEvents: 'none',
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+// The buttons slide through the group's right edge while it opens and closes: it fades out there
+// instead of cutting them off, and that fade is all the opacity change they need.
+export const toolsRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
+});
+
+const EDGE_FADE = 'linear-gradient(to right, #000 calc(100% - 28px), transparent)';
+
+export const toolsRowClip = style({
+  overflow: 'hidden',
+  maskImage: EDGE_FADE,
+  WebkitMaskImage: EDGE_FADE,
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+  maskSize: '100% 100%',
+  WebkitMaskSize: '100% 100%',
+});
+
+// The fade is a mask a little wider than the row, so growing the mask pushes the fade past the
+// edge. It holds while the buttons slide in, then vanishes as they settle; on the way out it
+// returns at once.
+const MASK_FADED = { maskSize: '100% 100%', WebkitMaskSize: '100% 100%' };
+const MASK_CLEAR = {
+  maskSize: 'calc(100% + 28px) 100%',
+  WebkitMaskSize: 'calc(100% + 28px) 100%',
+};
+
+const fadeVanish = keyframes({
+  '0%': MASK_FADED,
+  '55%': MASK_FADED,
+  '100%': MASK_CLEAR,
+});
+
+const fadeReturn = keyframes({
+  '0%': MASK_CLEAR,
+  '35%': MASK_FADED,
+  '100%': MASK_FADED,
+});
+
+export const toolsRowReveal = style({
+  animation: `${fadeVanish} 240ms linear both`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+export const toolsRowHide = style({
+  animation: `${fadeReturn} ${TOOLS_EXIT_MS}ms ease-out both`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+export const toolBtnPop = style({
+  animation: `${toolIn} 240ms cubic-bezier(0.2, 0.9, 0.3, 1) both`,
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
+});
+
+export const toolBtnExit = style({
+  animation: `${toolOut} ${TOOLS_EXIT_MS}ms ease-in both`,
+  pointerEvents: 'none',
+  '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
 });
 
 export const emojiBtn = style([attachBtn]);
@@ -335,7 +456,7 @@ export const moreBtn = style({
   border: 'none',
   background: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.95rem',
+  fontSize: fontSize.rem95,
   flexShrink: 0,
   transition: `background-color ${fast}, color ${fast}`,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
@@ -353,7 +474,7 @@ export const linkPopover = style({
   position: 'absolute',
   bottom: TOOLBAR_ABOVE,
   left: 0,
-  zIndex: 5000,
+  zIndex: zIndex.panel,
   display: 'flex',
   flexDirection: 'column',
   gap: '6px',
@@ -365,7 +486,7 @@ export const linkPopover = style({
 });
 
 export const linkLabel = style({
-  fontSize: '0.72rem',
+  fontSize: fontSize.rem72,
   fontWeight: 600,
   color: vars.color.textMuted,
   textTransform: 'uppercase',
@@ -380,7 +501,7 @@ export const linkInput = style({
   border: `1px solid ${vars.color.border}`,
   borderRadius: vars.radius.sm,
   outline: 'none',
-  fontSize: '0.9rem',
+  fontSize: fontSize.rem90,
   fontFamily: 'inherit',
   transition: `border-color ${fast}, box-shadow ${fast}`,
   ':focus': {
@@ -401,7 +522,7 @@ const linkBtnBase = style({
   borderRadius: vars.radius.sm,
   border: 'none',
   cursor: 'pointer',
-  fontSize: '0.82rem',
+  fontSize: fontSize.rem82,
   fontWeight: 600,
   transition: `background-color ${fast}, color ${fast}`,
 });
@@ -410,7 +531,7 @@ export const linkApply = style([
   linkBtnBase,
   {
     backgroundColor: vars.color.accent,
-    color: '#fff',
+    color: vars.color.onAccent,
     ':hover': { backgroundColor: vars.color.accentHover },
     ':disabled': { opacity: 0.4, cursor: 'not-allowed' },
   },

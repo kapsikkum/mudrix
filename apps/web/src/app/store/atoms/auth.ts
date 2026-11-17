@@ -1,11 +1,12 @@
 import { atom } from 'jotai';
+import { atomWithDefault } from 'jotai/utils';
 import type { MatrixCredentials } from '@/client/types';
 import { loadCredentials } from '@/client/initMatrix';
 
 export type { MatrixCredentials };
 
-/** The active account's stored credentials */
-export const credentialsAtom = atom<MatrixCredentials | null>(loadCredentials());
+/** The active account's stored credentials, read per account store */
+export const credentialsAtom = atomWithDefault<MatrixCredentials | null>(() => loadCredentials());
 
 export const userIdAtom = atom<string | null>(null);
 

@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import type { JsonValue, RoomTimeline, UploadedThumbnail } from '@wizardchat/core';
+import type { JsonValue, RoomTimeline, UploadedThumbnail } from '@mudrix/core';
 import { getMediaDetails, type MediaDetails } from '../encryptedMedia';
 
 export type AttachmentUploadStatus = 'uploading' | 'done' | 'error';

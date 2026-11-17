@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { LockKeyIcon, ShieldWarningIcon } from '@phosphor-icons/react';
+import { WarningIcon } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { sessionVerificationAtom, settingsOpenAtom, settingsPageAtom } from '@/app/store/atoms';
 import * as css from './EncryptionWarningButton.css';
@@ -14,7 +14,7 @@ export function EncryptionWarningButton() {
   if (status !== 'no-identity' && status !== 'unverified') return null;
 
   const notSetUp = status === 'no-identity';
-  const label = notSetUp ? t('verifySession.setupButton') : t('verifySession.title');
+  const label = notSetUp ? t('verification.session.setupButton') : t('verification.session.title');
 
   const handleClick = () => {
     setSettingsPage(notSetUp ? 'encryption' : 'sessions');
@@ -24,11 +24,7 @@ export function EncryptionWarningButton() {
   return (
     <Tooltip placement="bottom" content={label}>
       <button type="button" className={css.button} onClick={handleClick} aria-label={label}>
-        {notSetUp ? (
-          <LockKeyIcon size={18} weight="regular" />
-        ) : (
-          <ShieldWarningIcon size={18} weight="regular" />
-        )}
+        <WarningIcon size={18} weight="regular" />
       </button>
     </Tooltip>
   );

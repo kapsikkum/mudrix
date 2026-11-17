@@ -7,7 +7,7 @@ import { useConfirm } from '@/app/hooks/useConfirm';
 import { getErrorMessage } from '@/util/error';
 import { Button } from '@/app/components/Button';
 import { ToggleRow } from '@/app/components/Toggle/Toggle';
-import type { UiaOutcome } from '@wizardchat/core';
+import type { UiaOutcome } from '@mudrix/core';
 import {
   UiaPanel,
   confirmWithSso,

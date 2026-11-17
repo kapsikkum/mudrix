@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use url::Url;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// What the original app reads and writes
 pub(crate) const WIDGET_EVENT: &str = "m.room.widget";
@@ -86,7 +86,7 @@ pub(crate) fn fill_url(widget: &Widget, values: &[(&str, &str)]) -> String {
     url
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Read from the server: sliding sync doesn't send widget state.
     pub async fn widgets(&self, room_id: &str) -> Result<Vec<Widget>> {
         let room = self.room(room_id)?;
@@ -166,7 +166,7 @@ impl WizardClient {
         }
         let id = id
             .map(ToOwned::to_owned)
-            .unwrap_or_else(|| format!("wizardchat_{}", matrix_sdk::ruma::TransactionId::new()));
+            .unwrap_or_else(|| format!("mudrix_{}", matrix_sdk::ruma::TransactionId::new()));
         let content = json!({
             "type": "m.custom",
             "url": parsed.as_str(),
@@ -230,7 +230,7 @@ impl WizardClient {
                 ("matrix_display_name", &display_name),
                 ("matrix_avatar_url", &avatar_url),
                 ("matrix_widget_id", &widget.id),
-                ("org.matrix.msc2873.client_id", "org.wizardchat"),
+                ("org.matrix.msc2873.client_id", "io.github.kapsikkum.mudrix"),
                 ("org.matrix.msc2873.client_theme", theme),
                 ("org.matrix.msc2873.client_language", language),
             ],

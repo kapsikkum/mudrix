@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { pickerPopover } from '@/theme/pickerShell';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const popover = style(pickerPopover('360px', '440px'));
 
@@ -14,10 +15,10 @@ export const header = style({
 });
 
 export const headerTitle = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textMuted,
-  letterSpacing: '0.05em',
+  letterSpacing: '0.01em',
   paddingLeft: '4px',
 });
 
@@ -31,7 +32,7 @@ export const closeBtn = style({
   cursor: 'pointer',
   border: 'none',
   color: vars.color.textMuted,
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   ':hover': { backgroundColor: vars.color.bgHover, color: vars.color.textPrimary },
   ':focus-visible': {
     outline: `2px solid ${vars.color.accent}`,
@@ -62,5 +63,5 @@ export const loadingState = style({
   justifyContent: 'center',
   gap: '8px',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });

@@ -2,7 +2,7 @@
 //! media key exchange, membership renewal, the delayed leave (also when the server loses it),
 //! rejoining after the membership vanished, and ringing another account. Needs no SFU.
 //!
-//!     WZ_SERVER=http://localhost:8008 cargo run -p wizardchat-core --example calls
+//!     WZ_SERVER=http://localhost:8008 cargo run -p mudrix-core --example calls
 
 #![recursion_limit = "256"]
 
@@ -11,9 +11,9 @@ mod common;
 
 use std::{sync::Arc, time::Duration};
 
+use mudrix_core::{CallEvent, CallTimings, CreateRoomOptions, IncomingCallEvent, RingEnd};
 use serde_json::json;
 use tokio::{sync::mpsc, task::JoinHandle};
-use wizardchat_core::{CallEvent, CallTimings, CreateRoomOptions, IncomingCall};
 
 use common::BoxError;
 
@@ -38,7 +38,7 @@ async fn next_matching(
 }
 
 fn run(
-    session: Arc<wizardchat_core::CallSession>,
+    session: Arc<mudrix_core::CallSession>,
 ) -> (mpsc::UnboundedReceiver<CallEvent>, JoinHandle<()>) {
     let (tx, rx) = mpsc::unbounded_channel();
     let task = tokio::spawn(async move { session.run(|event| drop(tx.send(event))).await });
@@ -224,33 +224,79 @@ async fn main() -> Result<(), BoxError> {
         })
     })
     .await?;
-    let (ring_tx, mut rings) = mpsc::unbounded_channel::<IncomingCall>();
+    let (ring_tx, mut rings) = mpsc::unbounded_channel::<IncomingCallEvent>();
     tokio::spawn({
         let c = c.clone();
         async move {
-            c.watch_incoming_calls(|call| drop(ring_tx.send(call)))
+            c.watch_incoming_calls(|event| drop(ring_tx.send(event)))
                 .await
         }
     });
     tokio::time::sleep(Duration::from_secs(1)).await;
+    let mut next_ring = async |what: &str| {
+        tokio::time::timeout(Duration::from_secs(30), async {
+            loop {
+                match rings.recv().await {
+                    Some(event) => match &event {
+                        IncomingCallEvent::Ringing { call } if call.room_id == dm => {
+                            return Some(event)
+                        }
+                        IncomingCallEvent::Ended { call, .. } if call.room_id == dm => {
+                            return Some(event)
+                        }
+                        _ => println!("  (incoming: {event:?})"),
+                    },
+                    None => return None,
+                }
+            }
+        })
+        .await
+        .map_err(|_| format!("timed out waiting for {what}"))?
+        .ok_or_else(|| format!("C's incoming calls ended before {what}"))
+    };
     let ring = a.join_call_via(&dm, sfu, true, true).await?;
     assert!(ring.rang(), "joining an empty DM call should ring");
-    let incoming = tokio::time::timeout(Duration::from_secs(30), async {
-        loop {
-            match rings.recv().await {
-                Some(call) if call.ring && call.room_id == dm && !call.event_id.is_empty() => {
-                    return Some(call)
-                }
-                Some(call) => println!("  (incoming: {call:?})"),
-                None => return None,
-            }
-        }
-    })
-    .await?
-    .ok_or("C's incoming calls ended")?;
+    let IncomingCallEvent::Ringing { call: incoming } = next_ring("the ring").await? else {
+        return Err("expected a ring".into());
+    };
+    assert!(incoming.ring && !incoming.event_id.is_empty());
     println!("C is rung by A ({:?})", incoming.sender_name);
     c.decline_call(&dm, &incoming.event_id).await?;
+    let ended = next_ring("the decline").await?;
+    assert!(
+        matches!(
+            ended,
+            IncomingCallEvent::Ended {
+                reason: RingEnd::Declined,
+                ..
+            }
+        ),
+        "declining should end the ring: {ended:?}"
+    );
     ring.leave().await?;
+    println!("C declined and the ring ended");
+
+    eventually("A's first ring call to end", 40, async || {
+        a.call_members(&dm).await.is_ok_and(|m| m.is_empty())
+    })
+    .await?;
+    let ring = a.join_call_via(&dm, sfu, true, true).await?;
+    let IncomingCallEvent::Ringing { .. } = next_ring("the second ring").await? else {
+        return Err("expected a second ring".into());
+    };
+    ring.leave().await?;
+    let ended = next_ring("the caller leaving").await?;
+    assert!(
+        matches!(
+            ended,
+            IncomingCallEvent::Ended {
+                reason: RingEnd::CallerLeft,
+                ..
+            }
+        ),
+        "the caller leaving should end the ring: {ended:?}"
+    );
+    println!("the caller hanging up ends the ring as missed");
     c.logout().await.ok();
 
     let widget = a

@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const stageRoot = style({
   flex: 1,
@@ -34,15 +35,15 @@ export const stageContent = style({
 
 export const stageTitle = style({
   margin: 0,
-  fontSize: '1.5rem',
-  fontWeight: 700,
+  fontSize: fontSize.xl,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   wordBreak: 'break-word',
 });
 
 export const stageNote = style({
   margin: 0,
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   color: vars.color.textMuted,
 });
 
@@ -61,7 +62,7 @@ const stageButtonBase = {
   padding: '10px 20px',
   borderRadius: vars.radius.md,
   border: 'none',
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   cursor: 'pointer',
   transition: 'background-color 0.15s ease, opacity 0.15s ease',

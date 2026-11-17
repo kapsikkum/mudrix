@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "org.wizardchat.core"
+    namespace = "chat.mudrix.core"
     compileSdk = 36
     defaultConfig {
         minSdk = 26

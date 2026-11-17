@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { EventSource, WizardClient } from '@wizardchat/core';
+import type { EventSource, MudrixClient } from '@mudrix/core';
 import { CodeIcon } from '@phosphor-icons/react';
 import { Modal } from '@/app/components/Modal';
 import { CopyButton } from '@/app/components/Button';
@@ -11,7 +11,7 @@ import { Sensitive } from '@/app/components/Sensitive';
 interface ViewSourceModalProps {
   event: EventEntry | null;
   roomId: string;
-  client: WizardClient;
+  client: MudrixClient;
   onClose: () => void;
 }
 

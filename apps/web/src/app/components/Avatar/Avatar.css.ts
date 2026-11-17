@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
+import { zIndex } from '@/theme/zIndex';
 
 export const avatarWrap = style({
   position: 'relative',
@@ -30,7 +32,7 @@ export const avatar = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   color: '#fff',
   flexShrink: 0,
@@ -38,17 +40,17 @@ export const avatar = style({
   userSelect: 'none',
 });
 
-export const avatarXs = style([avatar, { width: '20px', height: '20px', fontSize: '0.6rem' }]);
-export const avatarSm = style([avatar, { width: '28px', height: '28px', fontSize: '0.75rem' }]);
-export const avatarLg = style([avatar, { width: '56px', height: '56px', fontSize: '1.4rem' }]);
-export const avatarXl = style([avatar, { width: '80px', height: '80px', fontSize: '2rem' }]);
+export const avatarXs = style([avatar, { width: '20px', height: '20px', fontSize: fontSize.xs }]);
+export const avatarSm = style([avatar, { width: '28px', height: '28px', fontSize: fontSize.xs }]);
+export const avatarLg = style([avatar, { width: '56px', height: '56px', fontSize: fontSize.xl }]);
+export const avatarXl = style([avatar, { width: '80px', height: '80px', fontSize: fontSize.xxl }]);
 
 export const avatarFill = style([
   avatar,
   {
     width: '100%',
     height: '100%',
-    fontSize: '1rem',
+    fontSize: fontSize.md,
     borderRadius: 'inherit',
   },
 ]);
@@ -73,6 +75,9 @@ const presenceDotBase = style({
   boxSizing: 'border-box',
   border: `2px solid ${vars.color.bgSecondary}`,
   pointerEvents: 'none',
+  // Above decorations (1), profile effects (10) and the avatar itself: the status stays readable
+  // whatever cosmetic it is drawn over.
+  zIndex: zIndex.avatar,
 });
 
 export const presenceDotXs = style([
@@ -135,9 +140,10 @@ export const presenceDotFill = style([
   },
 ]);
 
-export const presenceOnline = style({ backgroundColor: '#4ade80' });
-export const presenceUnavailable = style({ backgroundColor: '#facc15' });
-export const presenceOffline = style({ backgroundColor: '#6b7280' });
+export const presenceOnline = style({ backgroundColor: vars.color.success });
+export const presenceUnavailable = style({ backgroundColor: vars.color.warning });
+export const presenceOffline = style({ backgroundColor: vars.color.textMuted });
+export const presenceDnd = style({ backgroundColor: vars.color.danger });
 
 export const presenceDotButton = style({
   pointerEvents: 'auto',

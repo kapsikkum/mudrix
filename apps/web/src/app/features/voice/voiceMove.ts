@@ -1,4 +1,4 @@
-import type { SpaceNode, WizardClient } from '@wizardchat/core';
+import type { SpaceNode, MudrixClient } from '@mudrix/core';
 import { canSendState } from '@/app/data';
 import { legacyTypeOf, mudrixKey } from '@/util/namespace';
 
@@ -31,7 +31,7 @@ const asContent = (value: unknown): Record<string, unknown> =>
  * (or was moved by someone without power in it) still counts when the sender could have set it.
  */
 async function confirmsParent(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string,
   spaceId: string,
   senderId: string
@@ -46,7 +46,7 @@ async function confirmsParent(
  * only through spaces we are in (the graph holds just those).
  */
 export async function ancestorSpaces(
-  client: WizardClient,
+  client: MudrixClient,
   graph: readonly SpaceNode[],
   roomId: string,
   senderId: string
@@ -71,7 +71,7 @@ export async function ancestorSpaces(
  * channels.
  */
 export async function mayMoveBetween(
-  client: WizardClient,
+  client: MudrixClient,
   graph: readonly SpaceNode[],
   userId: string,
   fromRoomId: string,
@@ -114,7 +114,7 @@ export function manageableAncestors(
 }
 
 export async function moveVoiceUser(
-  client: WizardClient,
+  client: MudrixClient,
   fromRoomId: string,
   userId: string,
   toRoomId: string

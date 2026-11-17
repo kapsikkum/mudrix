@@ -1,6 +1,6 @@
 //! Media downloads that report progress and can be cancelled, and reads of just the start of a
 //! file. The SDK only returns a finished download, so these stream the body themselves from the
-//! media endpoint and use the SDK (`WizardClient::media`) when that isn't possible.
+//! media endpoint and use the SDK (`MudrixClient::media`) when that isn't possible.
 
 use std::{
     collections::{HashMap, VecDeque},
@@ -19,7 +19,7 @@ use matrix_sdk::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{Error, Result, WizardClient};
+use crate::{Error, MudrixClient, Result};
 
 /// How much of a download has arrived, in bytes
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -91,7 +91,7 @@ fn range_header(length: u64) -> String {
     format!("bytes=0-{}", length.saturating_sub(1))
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Downloads a message's media (decrypting it if needed), reporting how much has arrived.
     /// `token` is picked by the caller and unique per download; `cancel_media_download` with it
     /// ends the download with [`Error::Cancelled`]. `size_hint` (the size in the event) stands

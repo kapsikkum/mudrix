@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useAccountData } from '@/app/data';
 import { legacyMudrixKey, mudrixKey } from '@/util/namespace';
 

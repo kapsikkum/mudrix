@@ -4,7 +4,7 @@
 use std::{
     collections::HashMap,
     ffi::c_void,
-    mem::size_of,
+    mem::{size_of, ManuallyDrop},
     ptr::null_mut,
     sync::{
         atomic::{AtomicBool, Ordering},
@@ -536,7 +536,8 @@ fn loopback_client() -> windows::core::Result<IAudioClient> {
             },
         },
     };
-    let mut variant = PROPVARIANT::default();
+    // PROPVARIANT's Drop would CoTaskMemFree the blob, but `params` is on the stack
+    let mut variant = ManuallyDrop::new(PROPVARIANT::default());
     unsafe {
         let inner = &mut *variant.Anonymous.Anonymous;
         inner.vt = VT_BLOB;
@@ -551,7 +552,7 @@ fn loopback_client() -> windows::core::Result<IAudioClient> {
         ActivateAudioInterfaceAsync(
             VIRTUAL_AUDIO_DEVICE_PROCESS_LOOPBACK,
             &IAudioClient::IID,
-            Some(&raw const variant),
+            Some(&raw const *variant),
             &handler,
         )
     }?;

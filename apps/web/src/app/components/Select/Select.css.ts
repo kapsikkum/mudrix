@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const triggerBase = style({
   display: 'flex',
@@ -26,7 +27,7 @@ export const triggerMd = style([
   triggerBase,
   {
     padding: '8px 12px',
-    fontSize: '0.9rem',
+    fontSize: fontSize.sm,
     backgroundColor: vars.color.bgInput,
     color: vars.color.textPrimary,
     border: `1px solid ${vars.color.border}`,
@@ -44,7 +45,7 @@ export const triggerPill = style([
   {
     gap: '6px',
     padding: '2px 8px 2px 6px',
-    fontSize: '0.75rem',
+    fontSize: fontSize.xs,
     fontWeight: 600,
     textTransform: 'capitalize',
     backgroundColor: vars.color.bgTertiary,
@@ -79,7 +80,7 @@ export const caret = style({
 export const option = style({
   padding: '6px 8px',
   borderRadius: vars.radius.sm,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -89,10 +90,8 @@ export const option = style({
 
 export const groupLabel = style({
   padding: '8px 8px 4px',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
-  letterSpacing: '0.02em',
-  textTransform: 'uppercase',
   color: vars.color.textMuted,
   cursor: 'default',
 });

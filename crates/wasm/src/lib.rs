@@ -4,8 +4,8 @@
 #![recursion_limit = "256"]
 
 use js_sys::{Array, Function, Uint8Array};
+use mudrix_core::rpc::Rpc;
 use wasm_bindgen::prelude::*;
-use wizardchat_core::rpc::Rpc;
 
 #[wasm_bindgen(start)]
 pub fn start() {

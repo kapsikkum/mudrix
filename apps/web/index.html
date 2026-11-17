@@ -1,23 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script src="%BASE_URL%frame-guard.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#11111e" />
+    <meta name="theme-color" content="#1a1b1e" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Mudrix" />
     <title>Mudrix</title>
-    <link rel="icon" href="/assets/images/logo.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/assets/images/logo.svg" />
+    <link rel="icon" href="%BASE_URL%assets/images/logo.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="%BASE_URL%assets/images/logo.svg" />
     <style>
       html,
       body {
         margin: 0;
         padding: 0;
         height: 100%;
-        background: #11111e;
+        background: #1a1b1e;
       }
       #loading-shell {
         display: flex;
@@ -39,16 +40,13 @@
   <body>
     <div id="root">
       <div id="loading-shell">
-        <svg viewBox="0 0 400 400" width="80" height="80" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(0, 40)" stroke="none">
-            <polygon points="0,280 100,320 200,270 100,230" fill="#6A329F" />
-            <polygon points="100,320 300,320 200,270" fill="#784CC8" />
-            <polygon points="400,280 300,320 200,270 300,230" fill="#6A329F" />
-            <polygon points="100,230 200,270 230,80 200,70" fill="#784CC8" />
-            <polygon points="200,270 300,230 260,75 230,80" fill="#5E3079" />
-            <polygon points="200,70 230,80 260,75 300,0" fill="#885EE7" />
-          </g>
-        </svg>
+        <img
+          src="%BASE_URL%assets/images/logo.svg"
+          width="80"
+          height="80"
+          alt=""
+          aria-hidden="true"
+        />
       </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>

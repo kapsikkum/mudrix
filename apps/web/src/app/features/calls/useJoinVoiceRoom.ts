@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { callActionsAtom, isInCallAtom } from '@/app/store/atoms/call';
 import { roomsByIdAtom } from '@/app/data';
 import { useConfirm } from '@/app/hooks/useConfirm';
 
 export function useJoinVoiceRoom(
-  client: WizardClient | null
+  client: MudrixClient | null
 ): (roomId: string, opts?: { skipConfirm?: boolean }) => Promise<void> {
   const { t } = useTranslation();
   const confirmDialog = useConfirm();

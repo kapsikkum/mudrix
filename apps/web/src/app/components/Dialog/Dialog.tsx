@@ -5,6 +5,7 @@ import { XIcon } from '@phosphor-icons/react';
 import { FocusTrap } from 'focus-trap-react';
 import { IconButton } from '@/app/components/Button';
 import { useBackToClose } from '@/app/hooks/useBackToClose';
+import { usePortalContainer } from '@/app/components/PortalContainer';
 import * as css from './Dialog.css';
 
 export type DialogSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -21,6 +22,7 @@ interface DialogProps {
   open: boolean;
   onClose?: () => void;
   title?: string;
+  subtitle?: React.ReactNode;
   titleIcon?: React.ReactNode;
   size?: DialogSize;
   zIndex?: number;
@@ -33,6 +35,7 @@ interface DialogProps {
   className?: string;
   overlayClassName?: string;
   bodyClassName?: string;
+  footerClassName?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
 }
@@ -41,6 +44,7 @@ export function Dialog({
   open,
   onClose,
   title,
+  subtitle,
   titleIcon,
   size = 'md',
   zIndex,
@@ -52,6 +56,7 @@ export function Dialog({
   className,
   overlayClassName,
   bodyClassName,
+  footerClassName,
   ariaLabel,
   children,
   footer,
@@ -66,24 +71,27 @@ export function Dialog({
   useBackToClose(open && !!onClose, () => onCloseRef.current?.());
 
   const rendered = open;
+  const portalContainer = usePortalContainer();
+  const doc = portalContainer.ownerDocument;
 
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onCloseRef.current?.();
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [open]);
+    const win = doc.defaultView ?? window;
+    win.addEventListener('keydown', handler);
+    return () => win.removeEventListener('keydown', handler);
+  }, [open, doc]);
 
   useEffect(() => {
     if (!rendered) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const prev = doc.body.style.overflow;
+    doc.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = prev;
+      doc.body.style.overflow = prev;
     };
-  }, [rendered]);
+  }, [rendered, doc]);
 
   useEffect(() => {
     if (!rendered) return;
@@ -102,7 +110,7 @@ export function Dialog({
       if (disposed || disarmed || !root || !root.isConnected) return;
       const el = root.querySelector<HTMLElement>('[data-dialog-autofocus]');
       if (!isEditableField(el)) return;
-      const active = document.activeElement;
+      const active = doc.activeElement;
       if (active === el) return;
       if (active instanceof HTMLElement && root.contains(active)) return;
       el.focus();
@@ -128,11 +136,18 @@ export function Dialog({
         root.removeEventListener('keydown', disarm, true);
       }
     };
-  }, [rendered]);
+  }, [rendered, doc]);
 
   if (!rendered) return null;
 
   const titleId = title ? `dialog-title-${generatedTitleId}` : undefined;
+
+  const titleEl = (
+    <span className={css.title} id={titleId}>
+      {titleIcon && <span className={css.titleIcon}>{titleIcon}</span>}
+      {title}
+    </span>
+  );
 
   const sizeClass = css.sizes[size];
   const surfaceClass = surface === 'primary' ? css.panelPrimary : undefined;
@@ -166,7 +181,8 @@ export function Dialog({
             const el = root?.querySelector<HTMLElement>('[data-dialog-autofocus]') ?? null;
             return isEditableField(el) ? el : false;
           },
-          fallbackFocus: () => panelRef.current ?? document.body,
+          fallbackFocus: () => panelRef.current ?? doc.body,
+          document: doc,
           escapeDeactivates: false,
           allowOutsideClick: true,
         }}
@@ -186,10 +202,14 @@ export function Dialog({
         >
           {title && (
             <div className={css.header}>
-              <span className={css.title} id={titleId}>
-                {titleIcon && <span className={css.titleIcon}>{titleIcon}</span>}
-                {title}
-              </span>
+              {subtitle ? (
+                <div className={css.titleGroup}>
+                  {titleEl}
+                  <span className={css.subtitle}>{subtitle}</span>
+                </div>
+              ) : (
+                titleEl
+              )}
               {onClose && (
                 <IconButton size="sm" onClick={onClose} aria-label={t('common.close')}>
                   <XIcon size={16} />
@@ -200,11 +220,15 @@ export function Dialog({
 
           <div className={`${css.body}${bodyClassName ? ` ${bodyClassName}` : ''}`}>{children}</div>
 
-          {footer && <div className={css.footer}>{footer}</div>}
+          {footer && (
+            <div className={`${css.footer}${footerClassName ? ` ${footerClassName}` : ''}`}>
+              {footer}
+            </div>
+          )}
         </div>
       </FocusTrap>
     </div>
   );
 
-  return createPortal(overlay, document.body);
+  return createPortal(overlay, portalContainer);
 }

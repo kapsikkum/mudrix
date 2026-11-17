@@ -1,5 +1,6 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const container = style({
   display: 'flex',
@@ -38,8 +39,8 @@ export const spaceInfo = style({
 });
 
 export const spaceName = style({
-  fontSize: '1.25rem',
-  fontWeight: 700,
+  fontSize: fontSize.lg,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   margin: 0,
   overflow: 'hidden',
@@ -49,7 +50,7 @@ export const spaceName = style({
 });
 
 export const spaceTopic = style({
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
   marginTop: '4px',
   overflow: 'hidden',
@@ -59,18 +60,18 @@ export const spaceTopic = style({
 });
 
 export const spaceMeta = style({
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   marginTop: '4px',
 });
 
 export const errorBanner = style({
   margin: '8px 16px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderRadius: vars.radius.sm,
   backgroundColor: 'rgba(220, 60, 60, 0.12)',
   color: vars.color.error ?? '#d43b3b',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   textAlign: 'center',
   wordBreak: 'break-word',
 });
@@ -120,21 +121,21 @@ export const roomInfo = style({
 });
 
 export const roomName = style({
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   color: vars.color.textPrimary,
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   overflow: 'hidden',
 });
 
 export const roomMeta = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   overflow: 'hidden',
   marginTop: '1px',
 });
@@ -158,7 +159,7 @@ export const roomTopicText = style({
 export const memberCount = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   flexShrink: 0,
 });
 
@@ -171,7 +172,7 @@ export const emptyState = style({
   backgroundColor: vars.color.bgPrimary,
   border: `1px solid ${vars.color.border}`,
   color: vars.color.textMuted,
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
 });
 
 export const noPreviewScreen = style({
@@ -180,14 +181,14 @@ export const noPreviewScreen = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '14px',
+  gap: '12px',
   padding: '0 32px',
   textAlign: 'center',
 });
 
 export const noPreviewText = style({
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   maxWidth: '320px',
 });
 
@@ -273,7 +274,7 @@ export const skeletonSectionInfo = style({
   minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
 });
 
 export const skeletonSectionLine = style({
@@ -332,7 +333,7 @@ export const skeletonRoomInfo = style({
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
 });
 
 export const skeletonRoomName = style({
@@ -425,7 +426,7 @@ export const spaceSectionTitle = style({
 });
 
 export const spaceSectionName = style({
-  fontSize: '0.92rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -434,11 +435,11 @@ export const spaceSectionName = style({
 });
 
 export const spaceSectionMeta = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   display: 'flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   marginTop: '1px',
 });
 
@@ -455,9 +456,26 @@ export const spaceSectionRoomsNested = style([
     display: 'flex',
     flexDirection: 'column',
     gap: '4px',
-    padding: '2px 0 4px',
+    padding: '2px 0 4px 16px',
   },
 ]);
+
+/** A category title: a small label over its rooms, not a room of its own. */
+export const categoryName = style({
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  color: vars.color.textMuted,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
+
+/** The rooms and categories, kept to a readable width. */
+export const sectionList = style({
+  width: '100%',
+  maxWidth: '760px',
+  margin: '0 auto',
+});
 
 export const spaceSectionRoomItem = style({
   boxSizing: 'border-box',

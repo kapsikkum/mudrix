@@ -1,5 +1,5 @@
 import { isFlaggedVoiceChannel } from './voiceChannelFlags';
-import type { RoomSummary, SpaceNode } from '@wizardchat/core';
+import type { RoomSummary, SpaceNode } from '@mudrix/core';
 
 export function formatUserId(userId: string | null | undefined): string {
   if (!userId) return '';
@@ -13,6 +13,15 @@ export function getDmPartnerId(room: RoomSummary): string | null {
 
 export function isDmRoom(room: RoomSummary | null | undefined): boolean {
   return !!room?.isDirect;
+}
+
+/**
+ * The name a room is shown under. A DM is named after the other person: the SDK's own name reads
+ * "Empty Room (was X)" once they have left.
+ */
+export function getRoomDisplayName(room: RoomSummary | null | undefined): string | null {
+  if (room?.isDirect && room.dmUserName) return room.dmUserName;
+  return room?.name ?? null;
 }
 
 export function isVoiceRoom(room: RoomSummary | null | undefined): boolean {

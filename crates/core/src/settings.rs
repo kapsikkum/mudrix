@@ -22,7 +22,7 @@ use matrix_sdk::{
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
-use crate::{rooms::parse_room_id, Error, Result, WizardClient};
+use crate::{rooms::parse_room_id, Error, MudrixClient, Result};
 
 /// How much a room notifies
 #[derive(Clone, Copy, Debug, Serialize, Deserialize, PartialEq, Eq)]
@@ -80,9 +80,9 @@ fn notification_error(error: impl std::fmt::Display) -> Error {
     Error::Sdk(error.to_string())
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// One shared instance, so changes made here are visible before the next sync
-    async fn notification_settings(&self) -> NotificationSettings {
+    pub(crate) async fn notification_settings(&self) -> NotificationSettings {
         if let Some(settings) = self.notifications.lock().unwrap().clone() {
             return settings;
         }
@@ -333,7 +333,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The whole push rule set as JSON (`override`, `content`, `room`, `sender`, `underride`).
     pub async fn push_rules(&self) -> Result<Value> {
         let ruleset = self.notification_settings().await.ruleset().await;
@@ -402,7 +402,7 @@ impl WizardClient {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Calls `on_change` with an account data event's content now and whenever it changes.
     pub async fn watch_account_data(
         &self,

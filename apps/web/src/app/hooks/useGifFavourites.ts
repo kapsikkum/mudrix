@@ -1,21 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
 import { accountStorageKey } from '@/const/accountStorage';
 import { useAccountData, useSyncReady } from '@/app/data';
-import { mudrixKey, wizardchatKey } from '@/util/namespace';
+import { mudrixKey, upstreamKey } from '@/util/namespace';
 
 export const GIF_FAVOURITES_CAP = 50;
 const GIF_FAVOURITES_ACCOUNT_DATA = mudrixKey('gif_favourites');
-/** Where the WizardChat base kept them, read until the first change writes the Mudrix event */
-const WIZARDCHAT_GIF_FAVOURITES = wizardchatKey('gif_favourites');
+/** Where the upstream base kept them, read until the first change writes the Mudrix event */
+const UPSTREAM_GIF_FAVOURITES = upstreamKey('gif_favourites');
 
 function parseFavourites(content: unknown): string[] {
   if (!content || typeof content !== 'object') return [];
   const urls = (content as Record<string, unknown>).urls;
   if (!Array.isArray(urls)) return [];
   const valid = urls.filter(
-    (url): url is string => typeof url === 'string' && /^https:\/\//.test(url)
+    (url): url is string =>
+      typeof url === 'string' && (/^https:\/\//.test(url) || /^mxc:\/\//.test(url))
   );
   return Array.from(new Set(valid)).slice(0, GIF_FAVOURITES_CAP);
 }
@@ -38,19 +39,19 @@ function readLegacyFavourites(): string[] {
   }
 }
 
-function writeFavourites(client: WizardClient, urls: string[]): Promise<void> {
+function writeFavourites(client: MudrixClient, urls: string[]): Promise<void> {
   return client.setAccountData(GIF_FAVOURITES_ACCOUNT_DATA, {
     urls: urls.slice(0, GIF_FAVOURITES_CAP),
   });
 }
 
-export function useGifFavourites(client: WizardClient | null | undefined): {
+export function useGifFavourites(client: MudrixClient | null | undefined): {
   favourites: string[];
   toggleFavourite: (url: string) => void;
 } {
   const mudrixSynced = useAccountData(GIF_FAVOURITES_ACCOUNT_DATA);
-  const wizardchatSynced = useAccountData(WIZARDCHAT_GIF_FAVOURITES);
-  const synced = mudrixSynced ?? wizardchatSynced;
+  const upstreamSynced = useAccountData(UPSTREAM_GIF_FAVOURITES);
+  const synced = mudrixSynced ?? upstreamSynced;
   const syncReady = useSyncReady();
   const [favourites, setFavourites] = useState<string[]>([]);
 

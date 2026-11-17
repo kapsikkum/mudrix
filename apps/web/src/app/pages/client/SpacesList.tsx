@@ -33,6 +33,7 @@ import {
   createSpaceOpenAtom,
   exploreOpenAtom,
   pinnedSubSpacesAtom,
+  legacySpaceOrderAtom,
   mobileDrawerOpenAtom,
 } from '@/app/store/atoms';
 import type { SidebarView } from '@/app/store/atoms';
@@ -54,11 +55,14 @@ import {
   sortSpaceBar,
   useSpaceBarOrders,
 } from '@/app/features/room/roomOrder';
+import { applySpaceOrder } from '@/app/features/room/spaceRailOrder';
 import { getErrorMessage } from '@/util/error';
 import { isModOnly } from '@/app/features/keyboardShortcuts/keyEvents';
 import { prefetchSpaceHierarchies } from '@/app/features/space/spaceHierarchy';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSpaceNicknamePrompt } from '@/app/hooks/useSpaceNicknames';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
+import { isNativeApp } from '@/util/nativeApp';
 import * as css from './SpacesList.css';
 import { vars } from '@/theme/vars.css';
 
@@ -96,7 +100,16 @@ function SortableSpaceItem({
   const className = [isActive ? css.spaceBtnActive : css.spaceBarBtn].filter(Boolean).join(' ');
 
   return (
-    <div ref={setNodeRef} className={className} style={style} {...attributes} {...listeners}>
+    // The inner button is the focus target; the sortable wrapper must not be a second tab stop.
+    <div
+      ref={setNodeRef}
+      className={className}
+      style={style}
+      {...attributes}
+      role={undefined}
+      tabIndex={-1}
+      {...listeners}
+    >
       <span className={css.spacePill} />
       <Tooltip placement="right" content={space.name}>
         <button
@@ -157,9 +170,10 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
   const [createSpaceOpen, setCreateSpaceOpen] = useAtom(createSpaceOpenAtom);
   const [exploreOpen, openExplore] = useAtom(exploreOpenAtom);
   const setDrawerOpen = useSetAtom(mobileDrawerOpenAtom);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 768px)') && isNativeApp();
   const sendReadReceipts = useAtomValue(sendReadReceiptsAtom);
   const client = getMatrixClientOrNull();
+  const setNickname = useSpaceNicknamePrompt(client);
   const rooms = useAllRooms();
   const graph = useSpaceGraph();
   const queryClient = useQueryClient();
@@ -202,6 +216,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
         pinnedSubSpaces,
         setPinnedSubSpacesArr,
         setSpaceSettings,
+        setNickname,
         markSpaceAsRead: handleMarkSpaceAsRead,
       });
     },
@@ -215,6 +230,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       toast,
       pinnedSubSpaces,
       setPinnedSubSpacesArr,
+      setNickname,
       handleMarkSpaceAsRead,
     ]
   );
@@ -232,10 +248,16 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
 
   const [pendingOrder, setPendingOrder] = useState<string[] | null>(null);
   const spaceBarOrdersVersion = useSpaceBarOrders();
-  const sortedSpaces = useMemo(
-    () => sortSpaceBar(spaces, (s) => s.roomId),
-    [spaces, spaceBarOrdersVersion]
-  );
+  const legacySpaceOrder = useAtomValue(legacySpaceOrderAtom);
+  const sortedSpaces = useMemo(() => {
+    // Bumped whenever a stored space order changes, which is what re-runs this sort.
+    void spaceBarOrdersVersion;
+    const ordered = sortSpaceBar(spaces, (s) => s.roomId);
+    // A drag in this app writes room account data; only while there is none does the order the
+    // old app saved on this device decide the rail.
+    if (spaces.some((s) => getSpaceBarOrder(s.roomId) !== undefined)) return ordered;
+    return applySpaceOrder(ordered, legacySpaceOrder, (s) => s.roomId);
+  }, [spaces, spaceBarOrdersVersion, legacySpaceOrder]);
   const orderedSpaces = useMemo(
     () =>
       applyPendingOrder(
@@ -335,7 +357,7 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       const updates = planSpaceReorder(reorderedIds, currentOrders, String(active.id));
       saveSpaceBarOrders(client, updates).catch((err: unknown) => {
         setPendingOrder(null);
-        toast.error(t('room.reorderFailed', { error: getErrorMessage(err) }));
+        toast.error(t('nav.reorderFailed', { error: getErrorMessage(err) }));
       });
     },
     [orderedSpaces, client, toast, t]
@@ -351,14 +373,14 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
       {!isMobile && (
         <>
           {/* Home button */}
-          <Tooltip placement="right" content={t('room.home')}>
+          <Tooltip placement="right" content={t('nav.home')}>
             <button
               type="button"
               className={sidebarView === 'home' ? css.spaceBarBtnActive : css.spaceBarBtn}
               style={{
                 color: sidebarView !== 'home' && homeHasNotif ? vars.color.textPrimary : undefined,
               }}
-              aria-label={t('room.home')}
+              aria-label={t('nav.home')}
               onClick={() => {
                 // Home always lands on the dashboard; its room list sits beside it. On a phone,
                 // switching from another tab keeps the drawer open so a Home room can be picked.
@@ -467,11 +489,11 @@ export function SpacesList({ sidebarView, currentSpaceId, onSelectView }: Spaces
             <div className={css.spacesStickyBottom}>
               {orderedSpaces.length > 0 && <div className={css.spacesSeparator} />}
               {/* Create / Join Space button */}
-              <Tooltip placement="right" content={t('room.space.add')}>
+              <Tooltip placement="right" content={t('space.add')}>
                 <button
                   type="button"
                   className={createSpaceOpen.open ? css.spaceBarBtnActive : css.spaceBarBtn}
-                  aria-label={t('room.space.create.title')}
+                  aria-label={t('space.create.title')}
                   onClick={() => setCreateSpaceOpen({ open: true })}
                 >
                   <span className={css.spacePill} />

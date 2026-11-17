@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { applyDiffs } from '@/core/listDiff';
 import { invalidateImagePacks } from '@/app/hooks/useUserPacks';
 import {
@@ -28,7 +28,7 @@ function staleQueries(roomId: string, eventType: string): unknown[][] {
 }
 
 /** Mirrors the core's live room list, spaces, sections and sync state into atoms */
-export function DataSync({ client }: { client: WizardClient }) {
+export function DataSync({ client }: { client: MudrixClient }) {
   const setRooms = useSetAtom(roomsAtom);
   const setSpaces = useSetAtom(spacesAtom);
   const setGraph = useSetAtom(spaceGraphAtom);
@@ -40,18 +40,19 @@ export function DataSync({ client }: { client: WizardClient }) {
 
   useEffect(() => {
     let graphTimer: ReturnType<typeof setTimeout> | undefined;
+    const refreshGraphNow = () => {
+      clearTimeout(graphTimer);
+      void client
+        .spaceGraph()
+        .then(setGraph)
+        .catch(() => {});
+    };
     // The space graph comes from local state; refresh it shortly after rooms or spaces change
     const refreshGraph = () => {
       clearTimeout(graphTimer);
-      graphTimer = setTimeout(
-        () =>
-          void client
-            .spaceGraph()
-            .then(setGraph)
-            .catch(() => {}),
-        150
-      );
+      graphTimer = setTimeout(refreshGraphNow, 150);
     };
+    refreshGraphNow();
     const subscriptions = [
       client.watchSyncState(setSyncState),
       client.watchLoadState((state) => {
@@ -59,7 +60,7 @@ export function DataSync({ client }: { client: WizardClient }) {
       }),
       client.watchSpaces((diffs) => {
         setSpaces((spaces) => applyDiffs(spaces, diffs));
-        refreshGraph();
+        refreshGraphNow();
       }),
       client.watchRooms(5000, (diffs) => {
         setRooms((rooms) => applyDiffs(rooms, diffs));
@@ -79,11 +80,10 @@ export function DataSync({ client }: { client: WizardClient }) {
       client.watchStateChanges(({ roomId, eventType }) => {
         for (const queryKey of staleQueries(roomId, eventType))
           void queryClient.invalidateQueries({ queryKey });
+        if (eventType === 'm.space.child' || eventType === 'm.space.parent') refreshGraph();
         if (/^(im\.ponies\.room_emotes|m\.room\.image_pack|m\.space\.parent)$/.test(eventType))
           invalidateImagePacks();
-        window.dispatchEvent(
-          new CustomEvent('wizardchat:state', { detail: { roomId, eventType } })
-        );
+        window.dispatchEvent(new CustomEvent('mudrix:state', { detail: { roomId, eventType } }));
       }),
     ];
     return () => {

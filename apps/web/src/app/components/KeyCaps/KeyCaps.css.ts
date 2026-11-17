@@ -1,10 +1,11 @@
 import { style, styleVariants } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const caps = style({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '3px',
+  gap: '4px',
   flexShrink: 0,
   verticalAlign: 'middle',
 });
@@ -31,8 +32,8 @@ export const key = styleVariants({
       minWidth: '22px',
       height: '22px',
       padding: '0 6px',
-      borderRadius: '5px',
-      fontSize: '0.75rem',
+      borderRadius: '6px',
+      fontSize: fontSize.xs,
     },
   ],
   sm: [
@@ -42,7 +43,7 @@ export const key = styleVariants({
       height: '18px',
       padding: '0 4px',
       borderRadius: '4px',
-      fontSize: '0.68rem',
+      fontSize: fontSize.xs,
     },
   ],
 });

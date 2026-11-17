@@ -1,6 +1,7 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const CONTROL_BAR_SPACE = 76;
 const DISCORD_SPEAKING = '#23a55a';
@@ -167,7 +168,7 @@ export const avatarCircle = style({
 export const avatarCircleSpeaking = style([
   avatarCircle,
   {
-    boxShadow: `0 0 0 3px ${DISCORD_SPEAKING}, 0 0 22px 6px color-mix(in srgb, ${DISCORD_SPEAKING} 50%, transparent)`,
+    boxShadow: `0 0 0 3px ${DISCORD_SPEAKING}`,
   },
 ]);
 
@@ -210,12 +211,12 @@ export const label = style({
   maxWidth: 'calc(100% - 16px)',
   display: 'flex',
   alignItems: 'center',
-  gap: '5px',
-  padding: '3px 8px',
+  gap: '6px',
+  padding: '4px 8px',
   borderRadius: vars.radius.sm,
   backgroundColor: 'rgba(0, 0, 0, 0.6)',
   color: '#fff',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
 });
 
@@ -225,7 +226,7 @@ export const labelName = style({
   whiteSpace: 'nowrap',
 });
 
-export const mutedIcon = style({ flexShrink: 0, color: '#f23f43' });
+export const mutedIcon = style({ flexShrink: 0, color: vars.color.danger });
 
 export const liveRow = style({
   position: 'absolute',
@@ -240,27 +241,25 @@ export const viewersChip = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '4px',
-  padding: '0 7px',
+  padding: '0 8px',
   borderRadius: '999px',
   background: 'rgba(0, 0, 0, 0.6)',
   color: '#ffffff',
-  fontSize: '0.68rem',
-  fontWeight: 700,
-  lineHeight: '18px',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  lineHeight: 1.5,
   fontVariantNumeric: 'tabular-nums',
   userSelect: 'none',
 });
 
 export const liveBadge = style({
-  padding: '0 7px',
+  padding: '0 8px',
   borderRadius: '999px',
-  background: '#593695',
-  color: '#ffffff',
-  fontSize: '0.68rem',
-  fontWeight: 700,
-  lineHeight: '18px',
-  textTransform: 'uppercase',
-  letterSpacing: '0.03em',
+  background: vars.color.live,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  lineHeight: 1.5,
   userSelect: 'none',
 });
 
@@ -271,13 +270,13 @@ export const keyMissing = style({
   transform: 'translateX(-50%)',
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
+  gap: '6px',
   maxWidth: 'calc(100% - 96px)',
-  padding: '3px 9px',
+  padding: '4px 10px',
   borderRadius: '999px',
   backgroundColor: 'rgba(0, 0, 0, 0.65)',
   color: '#ffd166',
-  fontSize: '0.72rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -296,7 +295,7 @@ export const badge = style({
   height: '28px',
   borderRadius: '50%',
   backgroundColor: 'rgba(0, 0, 0, 0.55)',
-  fontSize: '1rem',
+  color: vars.color.warning,
 });
 
 const pop = keyframes({
@@ -310,7 +309,7 @@ export const reaction = style({
   position: 'absolute',
   top: '8px',
   right: '10px',
-  fontSize: '2rem',
+  fontSize: fontSize.xxl,
   animation: `${pop} 3s ease-out forwards`,
   pointerEvents: 'none',
 });
@@ -365,7 +364,7 @@ export const bubbleMuted = style({
   height: '32px',
   borderRadius: '50%',
   backgroundColor: vars.color.bgTertiary,
-  color: '#f23f43',
+  color: vars.color.danger,
   border: `3px solid ${vars.color.bgTertiary}`,
   boxSizing: 'border-box',
 });
@@ -374,25 +373,32 @@ export const bubbleHand = style({
   position: 'absolute',
   left: '-4px',
   top: '-4px',
-  fontSize: '1.1rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0, 0, 0, 0.55)',
+  color: vars.color.warning,
 });
 
 export const bubbleReaction = style([
   reaction,
-  { top: '-10px', right: '-14px', fontSize: '1.6rem' },
+  { top: '-10px', right: '-14px', fontSize: fontSize.xl },
 ]);
 
 export const previewHidden = style({
   padding: '0 16px',
   color: 'rgba(255, 255, 255, 0.7)',
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   textAlign: 'center',
 });
 
 export const empty = style({
   margin: 'auto',
   color: vars.color.textMuted,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
 });
 
 export const tileMenuBtn = style({
@@ -460,8 +466,8 @@ export const watchBtn = style({
   borderRadius: '999px',
   backgroundColor: 'rgba(255, 255, 255, 0.92)',
   color: '#111',
-  fontSize: '0.88rem',
-  fontWeight: 700,
+  fontSize: fontSize.sm,
+  fontWeight: 600,
   cursor: 'pointer',
   boxShadow: '0 4px 14px rgba(0, 0, 0, 0.35)',
   transition: `transform ${fast}, background-color ${fast}`,
@@ -484,8 +490,8 @@ export const userMenu = style({
 
 export const userMenuName = style({
   padding: '6px 8px 4px',
-  fontSize: '0.85rem',
-  fontWeight: 700,
+  fontSize: fontSize.sm,
+  fontWeight: 600,
   color: vars.color.textPrimary,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -506,7 +512,7 @@ export const userMenuIcon = style({ flexShrink: 0, color: vars.color.textMuted }
 export const userMenuText = style({
   flex: 1,
   minWidth: 0,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   color: vars.color.textPrimary,
 });
 
@@ -531,7 +537,7 @@ const rangeThumb = {
   appearance: 'none',
   width: '14px',
   height: '14px',
-  marginTop: '-5px',
+  marginTop: '-6px',
   borderRadius: '50%',
   border: 'none',
   backgroundColor: '#fff',
@@ -562,7 +568,7 @@ export const userMenuItem = style({
   border: 'none',
   background: 'none',
   color: vars.color.textPrimary,
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   textAlign: 'left',
   cursor: 'pointer',
   transition: `background-color ${fast}`,
@@ -588,7 +594,7 @@ export const calling = style({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '14px',
+  gap: '12px',
 });
 
 export const callingRow = style({
@@ -599,7 +605,34 @@ export const callingRow = style({
 
 export const callingStatus = style({
   color: vars.color.textPrimary,
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   textAlign: 'center',
+});
+
+const connectingSpin = keyframes({ to: { transform: 'rotate(360deg)' } });
+
+export const connectingSpinner = style({
+  flexShrink: 0,
+  width: '11px',
+  height: '11px',
+  borderRadius: '50%',
+  border: '2px solid rgba(255, 255, 255, 0.3)',
+  borderTopColor: '#fff',
+  animation: `${connectingSpin} 0.8s linear infinite`,
+});
+
+export const connecting = style({ opacity: 0.5 });
+
+export const bubbleConnecting = style({
+  position: 'absolute',
+  left: '6px',
+  bottom: '6px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '32px',
+  height: '32px',
+  borderRadius: '50%',
+  backgroundColor: vars.color.bgTertiary,
 });

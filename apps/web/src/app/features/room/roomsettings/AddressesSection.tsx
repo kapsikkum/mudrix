@@ -8,6 +8,7 @@ import { getErrorMessage } from '@/util/error';
 import * as css from '@/app/components/Settings/Settings.css';
 import { vars } from '@/theme/vars.css';
 import type { RoomAliases } from './useRoomAliases';
+import { fontSize } from '@/theme/typeScale';
 
 function isValidAlias(value: string): boolean {
   return /^#[A-Za-z0-9.\-_/=]+:[A-Za-z0-9.\-_]+$/.test(value);
@@ -25,7 +26,7 @@ const ROW_STYLE: CSSProperties = {
 
 const ALIAS_STYLE: CSSProperties = {
   flex: 1,
-  fontSize: '0.9rem',
+  fontSize: fontSize.sm,
   fontFamily: 'monospace',
   color: vars.color.textPrimary,
   minWidth: 0,
@@ -81,7 +82,7 @@ export function AddressesSection({ aliases }: { aliases: RoomAliases }) {
           <span style={ALIAS_STYLE}>{canonicalAlias}</span>
           <span
             style={{
-              fontSize: '0.72rem',
+              fontSize: fontSize.xs,
               fontWeight: 600,
               padding: '2px 8px',
               borderRadius: 10,
@@ -106,7 +107,7 @@ export function AddressesSection({ aliases }: { aliases: RoomAliases }) {
           <IconButton
             size="sm"
             onClick={() => remove(alias)}
-            aria-label={t('room.settings.addresses.removeAddress')}
+            aria-label={t('common.remove')}
             disabled={!canEdit}
           >
             <TrashIcon size={14} />

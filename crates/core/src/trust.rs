@@ -7,8 +7,8 @@ use matrix_sdk_crypto::IdentityState;
 use serde::Serialize;
 
 use crate::{
-    encryption::VerificationFlow, rooms::parse_user_id, Error, Result, UiaAuth, UiaOutcome,
-    WizardClient,
+    encryption::VerificationFlow, rooms::parse_user_id, Error, MudrixClient, Result, UiaAuth,
+    UiaOutcome,
 };
 
 /// What is known about someone's cryptographic identity
@@ -32,7 +32,7 @@ pub struct IdentityChange {
     pub state: String,
 }
 
-impl WizardClient {
+impl MudrixClient {
     pub async fn user_trust(&self, user_id: &str) -> Result<UserTrust> {
         let user = parse_user_id(user_id)?;
         let identity = self

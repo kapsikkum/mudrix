@@ -1,7 +1,16 @@
 import { useState, useCallback, useRef } from 'react';
 import { Editor, Transforms, Element, Range } from 'slate';
 import { ReactEditor } from 'slate-react';
-import { toggleMark, toggleBlock, isMarkActive, isBlockActive } from './editor/keyboard';
+import {
+  toggleMark,
+  toggleBlock,
+  toggleHeading,
+  toggleList,
+  isMarkActive,
+  isBlockActive,
+  isHeadingActive,
+  isListActive,
+} from './editor/keyboard';
 import type { CustomEditor, LinkElement } from './editor/types';
 import type { FormatType } from './FormatToolbar';
 
@@ -104,8 +113,10 @@ export function useFormatToolbar({ editor }: UseFormatToolbarOptions) {
         return;
       }
 
-      if (fmt === 'quote') {
-        toggleBlock(editor, 'block-quote');
+      if (fmt === 'quote' || fmt === 'heading' || fmt === 'bulletList' || fmt === 'numberedList') {
+        if (fmt === 'quote') toggleBlock(editor, 'block-quote');
+        else if (fmt === 'heading') toggleHeading(editor);
+        else toggleList(editor, fmt === 'bulletList' ? 'bulleted' : 'numbered');
         setToolbar(null);
         ReactEditor.focus(editor);
         return;
@@ -137,6 +148,9 @@ function detectActiveFormats(editor: CustomEditor): FormatType[] {
   if (isMarkActive(editor, 'italic')) active.push('italic');
   if (isMarkActive(editor, 'strikethrough')) active.push('strike');
   if (isMarkActive(editor, 'code')) active.push('code');
+  if (isHeadingActive(editor)) active.push('heading');
+  if (isListActive(editor, 'bulleted')) active.push('bulletList');
+  if (isListActive(editor, 'numbered')) active.push('numberedList');
   if (isBlockActive(editor, 'block-quote')) active.push('quote');
 
   const [linkMatch] = Editor.nodes(editor, {

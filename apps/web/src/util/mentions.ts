@@ -1,4 +1,4 @@
-import type { RoomSummary } from '@wizardchat/core';
+import type { RoomSummary } from '@mudrix/core';
 
 export interface RoomUnreadState {
   count: number;

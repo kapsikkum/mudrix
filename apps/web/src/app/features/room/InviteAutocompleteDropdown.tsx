@@ -1,4 +1,4 @@
-import type { WizardClient as MatrixClient } from '@wizardchat/core';
+import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { Avatar } from '@/app/components/Avatar';
 import { useTranslation } from 'react-i18next';
 import type { InviteAutocompleteState, UserSuggestion } from './useInviteAutocomplete';
@@ -115,7 +115,7 @@ export function InviteAutocompleteDropdown({
         })}
 
       {!hasDirectory && !state.loading && (
-        <div className={css.emptyRow}>{t('invite.noResults')}</div>
+        <div className={css.emptyRow}>{t('common.noResults')}</div>
       )}
 
       {!hasDirectory && state.loading && (

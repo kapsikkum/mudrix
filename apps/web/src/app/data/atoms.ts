@@ -1,11 +1,5 @@
 import { atom, type Getter, type PrimitiveAtom, type SetStateAction, type Setter } from 'jotai';
-import type {
-  RoomSection,
-  RoomSummary,
-  SpaceNode,
-  SpaceSummary,
-  SyncState,
-} from '@wizardchat/core';
+import type { RoomSection, RoomSummary, SpaceNode, SpaceSummary, SyncState } from '@mudrix/core';
 
 /** The core's room list as it streams in: joined, invited (spaces too) and knocked rooms */
 export const roomListAtom = atom<RoomSummary[]>([]);

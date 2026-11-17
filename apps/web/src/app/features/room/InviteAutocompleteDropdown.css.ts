@@ -1,6 +1,7 @@
 import { style, keyframes } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { fast } from '@/theme/animations.css';
+import { fontSize } from '@/theme/typeScale';
 
 const spin = keyframes({
   from: { transform: 'rotate(0deg)' },
@@ -21,9 +22,9 @@ export const sectionHeader = style({
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '6px 12px',
-  fontSize: '0.72rem',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  letterSpacing: '0.01em',
   color: vars.color.textMuted,
   backgroundColor: vars.color.bgTertiary,
   borderBottom: `1px solid ${vars.color.border}`,
@@ -75,7 +76,7 @@ export const itemInfo = style({
 });
 
 export const displayName = style({
-  fontSize: '0.88rem',
+  fontSize: fontSize.sm,
   fontWeight: 500,
   color: vars.color.textPrimary,
   overflow: 'hidden',
@@ -84,7 +85,7 @@ export const displayName = style({
 });
 
 export const userId = style({
-  fontSize: '0.76rem',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -93,14 +94,13 @@ export const userId = style({
 
 export const emptyRow = style({
   padding: '10px 12px',
-  fontSize: '0.84rem',
+  fontSize: fontSize.sm,
   color: vars.color.textMuted,
-  fontStyle: 'italic',
 });
 
 export const selectHint = style({
-  padding: '5px 12px',
-  fontSize: '0.74rem',
+  padding: '6px 12px',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
   backgroundColor: vars.color.bgTertiary,
   borderTop: `1px solid ${vars.color.border}`,

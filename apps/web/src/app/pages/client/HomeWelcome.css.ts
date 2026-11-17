@@ -1,5 +1,6 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 /** Phones: everything stacks and fills the width. */
 const PHONE = '(max-width: 480px)';
@@ -33,12 +34,12 @@ export const home = style({
   display: 'flex',
   flexDirection: 'column',
   padding:
-    '32px max(24px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left))',
+    '24px max(24px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left))',
   color: vars.color.textPrimary,
   '@media': {
     '(max-width: 768px)': {
       padding:
-        '20px max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))',
+        '16px max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left))',
     },
   },
 });
@@ -52,63 +53,6 @@ export const inner = style({
   gap: '24px',
   containerType: 'inline-size',
   '@media': { [PHONE]: { gap: '20px' } },
-});
-
-// ---------- hero ----------
-
-/** A compact welcome: the mound, the greeting and the tagline on a wash of the accent. */
-export const hero = style({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '18px',
-  padding: '18px 22px',
-  borderRadius: vars.radius.lg,
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.bgPrimary,
-  backgroundImage: `linear-gradient(120deg, rgba(${vars.color.accentRgb}, 0.16), rgba(${vars.color.accentRgb}, 0.03) 55%, transparent)`,
-  '@media': { [PHONE]: { gap: '14px', padding: '14px 16px' } },
-});
-
-export const heroText = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-  minWidth: 0,
-});
-
-/** The mound sits on a soft pool of its own colour. */
-export const logo = style({
-  position: 'relative',
-  isolation: 'isolate',
-  display: 'flex',
-  flexShrink: 0,
-  '::before': {
-    content: '""',
-    position: 'absolute',
-    inset: '-24px',
-    zIndex: -1,
-    borderRadius: '50%',
-    background: `radial-gradient(closest-side, ${vars.logo.hoverGlow}, transparent)`,
-    opacity: 0.35,
-    filter: 'blur(12px)',
-    pointerEvents: 'none',
-  },
-});
-
-export const title = style({
-  fontSize: '1.6rem',
-  fontWeight: 700,
-  lineHeight: 1.2,
-  color: vars.color.textPrimary,
-  overflowWrap: 'anywhere',
-  '@media': { [PHONE]: { fontSize: '1.3rem' } },
-});
-
-export const tagline = style({
-  color: vars.color.textMuted,
-  fontSize: '0.92rem',
-  lineHeight: 1.4,
 });
 
 // ---------- sections ----------
@@ -144,10 +88,8 @@ export const sectionLabel = style({
   display: 'flex',
   alignItems: 'center',
   gap: '6px',
-  fontSize: '0.78rem',
-  fontWeight: 700,
-  letterSpacing: '0.04em',
-  textTransform: 'uppercase',
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.textMuted,
 });
 
@@ -155,7 +97,7 @@ export const sectionLabel = style({
 export const grid = style({
   display: 'grid',
   gridTemplateColumns: '1fr',
-  gap: '10px',
+  gap: '12px',
   margin: 0,
   padding: 0,
   listStyle: 'none',
@@ -171,9 +113,9 @@ export const card = style({
   minWidth: 0,
   display: 'flex',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   minHeight: '72px',
-  padding: '14px 16px',
+  padding: '16px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgPrimary,
@@ -184,7 +126,7 @@ export const card = style({
   transition: 'border-color 150ms, background-color 150ms, transform 150ms, box-shadow 150ms',
   ':hover': {
     borderColor: `rgba(${vars.color.accentRgb}, 0.55)`,
-    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.18)',
+    boxShadow: vars.shadow.lift,
   },
   ':active': { transform: 'translateY(1px)' },
   ':focus-visible': {
@@ -196,12 +138,7 @@ export const card = style({
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: '12px',
-      padding: '18px',
-    },
-  },
-  '@media': {
-    '(hover: hover) and (prefers-reduced-motion: no-preference)': {
-      selectors: { '&:hover': { transform: 'translateY(-2px)' } },
+      padding: '16px',
     },
   },
 });
@@ -221,19 +158,19 @@ export const cardIcon = style({
 export const cardText = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '3px',
+  gap: '4px',
   minWidth: 0,
 });
 
 export const cardTitle = style({
-  fontSize: '0.95rem',
+  fontSize: fontSize.md,
   fontWeight: 600,
   lineHeight: 1.3,
   color: vars.color.textPrimary,
 });
 
 export const cardDesc = style({
-  fontSize: '0.83rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.4,
   color: vars.color.textMuted,
 });
@@ -254,7 +191,7 @@ export const setupRow = style({
   width: '100%',
   display: 'flex',
   alignItems: 'center',
-  gap: '14px',
+  gap: '12px',
   minHeight: '64px',
   padding: '12px 16px',
   border: 'none',
@@ -274,6 +211,39 @@ export const setupRow = style({
 
 globalStyle(`${setupList} > li + li`, {
   borderTop: `1px solid ${vars.color.border}`,
+});
+
+/** Anchors the row's dismiss button; the row itself keeps the old app's layout. */
+export const setupItem = style({ position: 'relative' });
+
+export const setupDismiss = style({
+  position: 'absolute',
+  top: '6px',
+  insetInlineEnd: '8px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '20px',
+  height: '20px',
+  padding: 0,
+  border: 'none',
+  borderRadius: '50%',
+  background: 'transparent',
+  color: vars.color.textMuted,
+  cursor: 'pointer',
+  opacity: 0,
+  transition: 'opacity 120ms, background-color 120ms, color 120ms',
+  selectors: {
+    [`${setupItem}:hover &`]: { opacity: 1 },
+    '&:hover': { backgroundColor: vars.color.bgTertiary, color: vars.color.textPrimary },
+    '&:focus-visible': {
+      opacity: 1,
+      outline: `2px solid ${vars.color.accent}`,
+      outlineOffset: '1px',
+    },
+  },
+  // No hover on a touch screen: the row's dismiss button stays visible there.
+  '@media': { '(hover: none)': { opacity: 1 } },
 });
 
 export const setupIcon = style([cardIcon, { width: '36px', height: '36px', borderRadius: '50%' }]);
@@ -310,7 +280,7 @@ export const panelHeader = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  padding: '12px 14px 8px',
+  padding: '12px 16px 8px',
 });
 
 export const panelIcon = style({
@@ -329,8 +299,8 @@ export const panelTitle = style({
   flex: 1,
   minWidth: 0,
   margin: 0,
-  fontSize: '0.95rem',
-  fontWeight: 700,
+  fontSize: fontSize.md,
+  fontWeight: 600,
   color: vars.color.textPrimary,
 });
 
@@ -345,7 +315,7 @@ export const panelAction = style({
   background: 'none',
   color: vars.color.accent,
   font: 'inherit',
-  fontSize: '0.83rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   cursor: 'pointer',
   ':hover': { backgroundColor: `rgba(${vars.color.accentRgb}, 0.12)` },
@@ -367,7 +337,7 @@ export const row = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '60px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   border: 'none',
   background: 'none',
   color: vars.color.textPrimary,
@@ -392,7 +362,7 @@ export const rowTitle = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '0.92rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   lineHeight: 1.3,
   color: vars.color.textPrimary,
@@ -402,7 +372,7 @@ export const rowSub = style({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  fontSize: '0.8rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.35,
   color: vars.color.textMuted,
 });
@@ -411,13 +381,18 @@ export const rowTag = style({
   flexShrink: 0,
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '5px',
-  fontSize: '0.75rem',
+  gap: '6px',
+  fontSize: fontSize.xs,
   color: vars.color.textMuted,
 });
 
+export const activityIcon = style({
+  marginRight: '4px',
+  verticalAlign: '-2px',
+});
+
 export const inlineIcon = style({
-  marginRight: '5px',
+  marginRight: '6px',
   verticalAlign: '-1px',
   color: vars.color.success,
 });
@@ -427,7 +402,7 @@ export const inlineIcon = style({
 export const roomGrid = style({
   display: 'grid',
   gridTemplateColumns: 'minmax(0, 1fr)',
-  gap: '10px',
+  gap: '12px',
   margin: 0,
   padding: 0,
   listStyle: 'none',
@@ -443,7 +418,7 @@ export const roomCard = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '64px',
-  padding: '10px 14px',
+  padding: '10px 16px',
   borderRadius: vars.radius.lg,
   border: `1px solid ${vars.color.border}`,
   backgroundColor: vars.color.bgPrimary,
@@ -454,7 +429,7 @@ export const roomCard = style({
   transition: 'border-color 150ms, box-shadow 150ms, transform 150ms',
   ':hover': {
     borderColor: `rgba(${vars.color.accentRgb}, 0.55)`,
-    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.18)',
+    boxShadow: vars.shadow.lift,
   },
   ':active': { transform: 'translateY(1px)' },
   ':focus-visible': { outline: `2px solid ${vars.color.accent}`, outlineOffset: '2px' },
@@ -463,10 +438,10 @@ export const roomCard = style({
 const badgeBase = {
   flexShrink: 0,
   minWidth: '22px',
-  padding: '2px 7px',
-  borderRadius: '999px',
-  fontSize: '0.73rem',
-  fontWeight: 700,
+  padding: '2px 8px',
+  borderRadius: vars.radius.pill,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   lineHeight: 1.4,
   textAlign: 'center',
 } as const;
@@ -479,7 +454,7 @@ export const badge = style({
 
 export const badgeMention = style({
   ...badgeBase,
-  color: '#fff',
+  color: vars.color.onAccent,
   backgroundColor: vars.color.danger,
 });
 
@@ -510,7 +485,7 @@ export const chip = style({
   backgroundColor: vars.color.bgPrimary,
   color: vars.color.textPrimary,
   font: 'inherit',
-  fontSize: '0.82rem',
+  fontSize: fontSize.sm,
   fontWeight: 600,
   lineHeight: 1.25,
   textAlign: 'center',
@@ -537,7 +512,7 @@ export const liveRow = style({
   alignItems: 'center',
   gap: '12px',
   minHeight: '60px',
-  padding: '10px 14px',
+  padding: '10px 16px',
 });
 
 export const avatarStack = style({
@@ -555,7 +530,7 @@ export const stackItem = style({
 
 export const stackMore = style({
   marginLeft: '6px',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   fontWeight: 600,
   color: vars.color.textMuted,
 });
@@ -563,16 +538,15 @@ export const stackMore = style({
 // ---------- what's new ----------
 
 export const whatsNew = style({
-  backgroundImage: `linear-gradient(180deg, rgba(${vars.color.accentRgb}, 0.12), transparent 140px)`,
-  paddingBottom: '14px',
+  paddingBottom: '16px',
 });
 
 export const versionPill = style({
   flexShrink: 0,
-  padding: '2px 9px',
-  borderRadius: '999px',
-  fontSize: '0.73rem',
-  fontWeight: 700,
+  padding: '2px 10px',
+  borderRadius: vars.radius.pill,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
   color: vars.color.accent,
   backgroundColor: `rgba(${vars.color.accentRgb}, 0.16)`,
 });
@@ -582,14 +556,14 @@ export const notes = style({
   flexDirection: 'column',
   gap: '8px',
   margin: 0,
-  padding: '2px 14px 12px',
+  padding: '2px 16px 12px',
   listStyle: 'none',
 });
 
 export const note = style({
   position: 'relative',
   paddingInlineStart: '16px',
-  fontSize: '0.86rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.45,
   color: vars.color.textSecondary,
   '::before': {
@@ -610,7 +584,7 @@ globalStyle(`${whatsNew} > button`, { alignSelf: 'flex-start', marginInline: '14
 
 export const hint = style({
   textAlign: 'center',
-  fontSize: '0.83rem',
+  fontSize: fontSize.sm,
   lineHeight: 1.6,
   color: vars.color.textMuted,
   '@media': { [TOUCH]: { display: 'none' } },
@@ -621,7 +595,7 @@ export const kbd = style({
   margin: '0 2px',
   padding: '1px 6px',
   fontFamily: 'inherit',
-  fontSize: '0.75rem',
+  fontSize: fontSize.xs,
   lineHeight: 1.5,
   borderRadius: vars.radius.sm,
   border: `1px solid ${vars.color.border}`,

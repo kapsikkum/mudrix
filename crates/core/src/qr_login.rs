@@ -14,7 +14,7 @@ use matrix_sdk::authentication::oauth::{
 };
 use serde::Serialize;
 
-use crate::{auth::registration_data, AppInfo, Error, Result, Session, StoreConfig, WizardClient};
+use crate::{auth::registration_data, AppInfo, Error, MudrixClient, Result, Session, StoreConfig};
 
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
@@ -153,7 +153,7 @@ fn scanned(progress: QrProgress) -> QrLoginStatus {
     }
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// Signs this new device in through an existing one. With `scanned` (the other device's QR
     /// code bytes) it joins that code; otherwise it shows its own code to be scanned.
     pub async fn login_with_qr(

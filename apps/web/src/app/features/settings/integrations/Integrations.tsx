@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';
-import { ShieldWarningIcon } from '@phosphor-icons/react';
+import { ShieldWarningIcon, WarningIcon } from '@phosphor-icons/react';
 import { Button } from '@/app/components/Button';
 import { Input } from '@/app/components/Input/Input';
 import { Modal } from '@/app/components/Modal/Modal';
@@ -13,9 +13,12 @@ import {
   confirmRepositoryAtom,
   previewRepositoryAtom,
   approveUpdateAtom,
+  assertWidgetUrlAllowed,
   contactedHosts,
   dismissUpdateAtom,
+  getWidgetCapabilityDef,
   grantsAtom,
+  hostOf as sharedHostOf,
   installAtom,
   hasCapability,
   installedIntegrationsAtom,
@@ -26,6 +29,7 @@ import {
   repoHost,
   resetIntegrationSettingsAtom,
   resolveSettings,
+  runsCode,
   setIntegrationSettingAtom,
   removeRepositoryAtom,
   repositoriesAtom,
@@ -51,6 +55,10 @@ function IconTile({ name, src }: { name: string; src?: string }) {
       {name.trim().charAt(0).toUpperCase() || '?'}
     </span>
   );
+}
+
+function hostOf(url: string): string {
+  return sharedHostOf(url, { fallback: url });
 }
 
 /** First four groups of a grouped fingerprint. */
@@ -114,6 +122,32 @@ function SourceNote({
     <span className={ic.muted}>
       {t('settings.integrations.fromPublisher', { repo, short: shortFingerprint(fingerprint) })}
     </span>
+  );
+}
+
+function CodeBadge({ t }: { t: TFunction }) {
+  return <span className={ic.codeBadge}>{t('settings.integrations.badge.runsCode')}</span>;
+}
+
+/** Shown wherever approving would let third-party code run. Plain statements, no softening. */
+function CodeWarning({ t, host }: { t: TFunction; host: string }) {
+  return (
+    <div
+      className={ic.codeWarning}
+      role="group"
+      aria-label={t('settings.integrations.widget.warning.title')}
+    >
+      <div className={ic.codeWarningHead}>
+        <WarningIcon size={20} weight="fill" aria-hidden="true" />
+        <span>{t('settings.integrations.widget.warning.title')}</span>
+      </div>
+      <ul className={ic.codeWarningList}>
+        <li>{t('settings.integrations.widget.warning.source', { host })}</li>
+        <li>{t('settings.integrations.widget.warning.changes')}</li>
+        <li>{t('settings.integrations.widget.warning.isolated')}</li>
+        <li>{t('settings.integrations.widget.warning.trust')}</li>
+      </ul>
+    </div>
   );
 }
 
@@ -210,7 +244,9 @@ function CapabilityDetail({
               {': '}
               {cmd.description}
               {' ('}
-              {cmd.api !== undefined ? (
+              {cmd.widget ? (
+                t('settings.integrations.cap.commands.opensWidget')
+              ) : cmd.api !== undefined ? (
                 t('settings.integrations.cap.commands.runsApi', {
                   label: actions.find((a) => a.id === cmd.api)?.label ?? cmd.api,
                 })
@@ -259,11 +295,105 @@ function CapabilityDetail({
       </>
     );
   }
+  if (capability === 'widget' && permissions.widget) {
+    const w = permissions.widget;
+    const extra = (w.parameters ?? []).map((p) => t(`settings.integrations.widget.param.${p}`));
+    return (
+      <>
+        <span className={ic.nameRow}>
+          <span className={ic.permTitle}>{t('settings.integrations.cap.widget.title')}</span>
+          <CodeBadge t={t} />
+        </span>
+        <span className={ic.muted}>
+          {t('settings.integrations.cap.widget.summary', { host: hostOf(w.url) })}
+        </span>
+        <ul className={ic.permList}>
+          {w.capabilities.length === 0 &&
+          (w.events ?? []).length === 0 &&
+          !w.fromLinks &&
+          !w.saveFiles ? (
+            <li>{t('settings.integrations.widget.noAccess')}</li>
+          ) : (
+            w.capabilities.map((id) => {
+              const def = getWidgetCapabilityDef(id);
+              if (!def) return null;
+              return (
+                <li key={id}>
+                  {t(def.descriptionKey)}
+                  {def.risk === 'high' && (
+                    <span className={ic.highAccess}>
+                      {t('settings.integrations.widget.highAccess')}
+                    </span>
+                  )}
+                </li>
+              );
+            })
+          )}
+          {(w.events ?? []).map((type) => (
+            <li key={type}>
+              <Trans
+                t={t}
+                i18nKey="settings.integrations.widget.events.item"
+                values={{ type }}
+                components={{ mono: <span className={ic.code} /> }}
+              />
+              <span className={ic.highAccess}>{t('settings.integrations.widget.highAccess')}</span>
+            </li>
+          ))}
+          {w.fromLinks && (
+            <li>
+              {t('settings.integrations.widget.fromLinks', { host: hostOf(w.url) })}
+              <span className={ic.highAccess}>{t('settings.integrations.widget.highAccess')}</span>
+            </li>
+          )}
+          {w.saveFiles && (
+            <li>
+              {t('settings.integrations.widget.saveFiles')}
+              <span className={ic.highAccess}>{t('settings.integrations.widget.highAccess')}</span>
+            </li>
+          )}
+          <li>
+            {t('settings.integrations.widget.address')}
+            {extra.length > 0 &&
+              ` ${t('settings.integrations.widget.addressExtra', { values: extra.join(', ') })}`}
+          </li>
+        </ul>
+      </>
+    );
+  }
   return null;
 }
 
 function activeCapabilities(permissions: Permissions): Capability[] {
   return CAPABILITIES.filter((c) => hasCapability(permissions, c));
+}
+
+/** The tick that has to be set before code from a third party can be installed or updated. */
+function UnderstandCodeCheckbox({
+  t,
+  host,
+  checked,
+  onChange,
+  disabled,
+}: {
+  t: TFunction;
+  host: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <label className={ic.ackRow}>
+      <input
+        type="checkbox"
+        className={ic.ackBox}
+        checked={checked}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.checked)}
+      />
+      <span>{t('settings.integrations.widget.understand', { host })}</span>
+    </label>
+  );
 }
 
 /** The settings an integration offers, by name, for the install and update dialogs. */
@@ -278,8 +408,9 @@ function SettingNames({ t, settings }: { t: TFunction; settings?: IntegrationSet
 }
 
 /**
- * The servers an integration may contact, shown before it is installed or updated. Mudrix refuses
- * every other address (see util/integrationFetch.ts), so this list is the whole of it.
+ * The servers an integration may contact, shown before it is installed or updated: the lookup and
+ * api hosts (see util/integrationFetch.ts) and a widget's own host, which only loads in the
+ * sandboxed frame. Anything else is refused.
  */
 function HostList({ t, permissions }: { t: TFunction; permissions: Permissions }) {
   const hosts = contactedHosts(permissions);
@@ -414,10 +545,19 @@ function ConsentDialog({
   const { t } = useTranslation();
   const install = useSetAtom(installAtom);
   const [error, setError] = useState('');
+  const [understood, setUnderstood] = useState(false);
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  // Each opening starts with Cancel focused, so that Enter can not install by accident.
+  const widget = integration?.permissions.widget;
+  const code = integration ? runsCode(integration.permissions) : false;
+  const host = widget ? hostOf(widget.url) : '';
+  // A widget on this app's own origin (or any other refused address) can never be installed.
+  const urlCheck = useMemo(() => (widget ? assertWidgetUrlAllowed(widget.url) : null), [widget]);
+  const blocked = urlCheck !== null && !urlCheck.ok;
+
+  // Each opening starts unticked, with Cancel focused so that Enter can not install by accident.
   useEffect(() => {
+    setUnderstood(false);
     setError('');
     if (!integration) return undefined;
     const id = requestAnimationFrame(() => cancelRef.current?.focus());
@@ -426,6 +566,14 @@ function ConsentDialog({
 
   const confirm = () => {
     if (!integration || !repo) return;
+    if (integration.permissions.widget) {
+      const check = assertWidgetUrlAllowed(integration.permissions.widget.url);
+      if (!check.ok) {
+        setError(t('settings.integrations.widget.refused', { error: check.error }));
+        return;
+      }
+    }
+    setError('');
     const res = install({
       integration,
       repoUrl: repo.url,
@@ -450,7 +598,12 @@ function ConsentDialog({
           <Button ref={cancelRef} variant="secondary" size="md" onClick={onClose}>
             {t('common.cancel')}
           </Button>
-          <Button variant="primary" size="md" onClick={confirm}>
+          <Button
+            variant="primary"
+            size="md"
+            onClick={confirm}
+            disabled={blocked || (code && !understood)}
+          >
             {t('settings.integrations.install')}
           </Button>
         </>
@@ -458,7 +611,11 @@ function ConsentDialog({
     >
       {integration && (
         <div className={ic.consentBody}>
-          <p className={css.settingNote}>{integration.description}</p>
+          <div className={ic.nameRow}>
+            <p className={css.settingNote}>{integration.description}</p>
+            {code && <CodeBadge t={t} />}
+          </div>
+          {code && <CodeWarning t={t} host={host} />}
           {repo && (
             <SourceNote
               t={t}
@@ -468,6 +625,11 @@ function ConsentDialog({
               full
             />
           )}
+          {urlCheck && !urlCheck.ok && (
+            <span className={ic.errorText} role="alert">
+              {t('settings.integrations.widget.refused', { error: urlCheck.error })}
+            </span>
+          )}
           <p className={css.settingLabel}>{t('settings.integrations.consent.intro')}</p>
           {activeCapabilities(integration.permissions).map((c) => (
             <div key={c} className={ic.permBody}>
@@ -475,13 +637,23 @@ function ConsentDialog({
             </div>
           ))}
           <SettingNames t={t} settings={integration.settings} />
+          {code && (
+            <UnderstandCodeCheckbox
+              t={t}
+              host={host}
+              checked={understood}
+              onChange={setUnderstood}
+            />
+          )}
           <HostList t={t} permissions={integration.permissions} />
           <p className={css.settingNote}>
-            {hasDetails
-              ? t('settings.integrations.consent.safetyDetails')
-              : hasApi
-                ? t('settings.integrations.consent.safetyApi')
-                : t('settings.integrations.consent.safety')}
+            {code
+              ? t('settings.integrations.consent.safetyCode')
+              : hasDetails
+                ? t('settings.integrations.consent.safetyDetails')
+                : hasApi
+                  ? t('settings.integrations.consent.safetyApi')
+                  : t('settings.integrations.consent.safety')}
           </p>
           {error && (
             <span className={ic.errorText} role="alert">
@@ -503,17 +675,32 @@ function InstalledItem({ item, repoName }: { item: InstalledIntegration; repoNam
   const approveUpdate = useSetAtom(approveUpdateAtom);
   const dismissUpdate = useSetAtom(dismissUpdateAtom);
   const [updateError, setUpdateError] = useState('');
+  const [understood, setUnderstood] = useState(false);
   const pending = item.pendingUpdate;
 
-  // Any change to what the update asks for clears the error again, even with the same version.
+  // Code that is new or changed in the update needs the warning (and the tick) again.
+  const pendingWidget = pending?.permissions.widget;
+  const codeChanged =
+    pendingWidget !== undefined &&
+    JSON.stringify(pendingWidget) !== JSON.stringify(item.permissions.widget);
+
+  // Any change to what the update asks for starts the tick and the errors again, even with the same version.
   const pendingKey = JSON.stringify(
     pending ? [pending.version, pending.permissions, pending.settings] : null
   );
   useEffect(() => {
+    setUnderstood(false);
     setUpdateError('');
   }, [pendingKey]);
 
   const approve = () => {
+    if (pendingWidget) {
+      const check = assertWidgetUrlAllowed(pendingWidget.url);
+      if (!check.ok) {
+        setUpdateError(t('settings.integrations.widget.refused', { error: check.error }));
+        return;
+      }
+    }
     const res = approveUpdate(item.id);
     setUpdateError(res.ok ? '' : res.error);
   };
@@ -525,6 +712,7 @@ function InstalledItem({ item, repoName }: { item: InstalledIntegration; repoNam
         <div className={ic.info}>
           <span className={ic.nameRow}>
             <span className={ic.name}>{item.name}</span>
+            {runsCode(item.permissions) && <CodeBadge t={t} />}
           </span>
           <span className={ic.muted}>{item.description}</span>
           <span className={ic.muted}>
@@ -563,6 +751,7 @@ function InstalledItem({ item, repoName }: { item: InstalledIntegration; repoNam
           <span className={ic.bannerTitle}>
             {t('settings.integrations.updateAvailableVersion', { version: pending.version })}
           </span>
+          {codeChanged && pendingWidget && <CodeWarning t={t} host={hostOf(pendingWidget.url)} />}
           <span className={ic.muted}>{t('settings.integrations.updateRequests')}</span>
           {activeCapabilities(pending.permissions).map((c) => (
             <div key={c} className={ic.permBody}>
@@ -570,6 +759,14 @@ function InstalledItem({ item, repoName }: { item: InstalledIntegration; repoNam
             </div>
           ))}
           <SettingNames t={t} settings={pending.settings} />
+          {codeChanged && pendingWidget && (
+            <UnderstandCodeCheckbox
+              t={t}
+              host={hostOf(pendingWidget.url)}
+              checked={understood}
+              onChange={setUnderstood}
+            />
+          )}
           <HostList t={t} permissions={pending.permissions} />
           <span className={ic.muted}>{t('settings.integrations.updateOldStays')}</span>
           {updateError && (
@@ -578,7 +775,12 @@ function InstalledItem({ item, repoName }: { item: InstalledIntegration; repoNam
             </span>
           )}
           <div className={ic.row}>
-            <Button variant="primary" size="sm" onClick={approve}>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={approve}
+              disabled={codeChanged && !understood}
+            >
               {t('settings.integrations.approveUpdate')}
             </Button>
             <Button variant="secondary" size="sm" onClick={() => dismissUpdate(item.id)}>
@@ -727,6 +929,10 @@ function TrustDialog({
     else setError(res.error);
   };
 
+  const codeCount = preview
+    ? preview.integrations.filter((i) => runsCode(i.permissions)).length
+    : 0;
+
   return (
     <Modal
       open={preview !== null}
@@ -757,9 +963,16 @@ function TrustDialog({
             </p>
             <ul className={ic.integrationNames}>
               {preview.integrations.map((i) => (
-                <li key={i.id}>{i.name}</li>
+                <li key={i.id}>
+                  {i.name} {runsCode(i.permissions) && <CodeBadge t={t} />}
+                </li>
               ))}
             </ul>
+            {codeCount > 0 && (
+              <p className={css.settingNote}>
+                {t('settings.integrations.trust.runCode', { count: codeCount })}
+              </p>
+            )}
             {preview.rejected.length > 0 && (
               <>
                 <p className={css.settingNote}>
@@ -893,6 +1106,7 @@ export function Integrations() {
                   <div className={ic.info}>
                     <span className={ic.nameRow}>
                       <span className={ic.name}>{integration.name}</span>
+                      {runsCode(integration.permissions) && <CodeBadge t={t} />}
                     </span>
                     <span className={ic.muted}>{integration.description}</span>
                     <span className={ic.muted}>

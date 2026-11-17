@@ -2,11 +2,16 @@
 
 The files named `snd_<pack>_<sound>.<ext>` in `raw/` are the sound packs from Mudrix, so a user can pick a familiar
 message sound. They are kept flat (Android resources have no folders); `<sound>` is `message`, `mention`, `ring`,
-`ringback`, `callend`, `mute`, `unmute`, `camera_on`, `camera_off`, `join`, `leave`, `moved` or `watch_together_start`.
+`ringback`, `callend`, `mute`, `unmute`, `deafen`, `undeafen`, `camera_on`, `camera_off`, `screenshare_start`,
+`screenshare_stop`, `join`, `leave`, `moved`, `raise_hand`, `reaction` or `watch_together_start`.
 The ring and ringback files are WAV so they loop without a gap; the rest are MP3 or OGG.
 
 The packs made for Mudrix (`bloop`, `glass`, `warm`, `megadrive`, `megadrive2`, `nes`, `nes2`, `sms`) are generated with
-chip-sound emulation for Mudrix and are released under the same licence as this repository (AGPL-3.0). The other packs
+chip-sound emulation for Mudrix and are released under the same licence as this repository (AGPL-3.0). The `deafen`,
+`undeafen`, `screenshare_start`, `screenshare_stop`, `raise_hand` and `reaction` sounds of those eight packs are
+synthesised reproducibly by `tools/sounds/generate-packs.mjs` (Node, then ffmpeg with libmp3lame encodes mono 44.1 kHz
+160 kbps MP3); run `npm run generate` from this package (or `node tools/sounds/generate-packs.mjs` from the repository root) to regenerate them. The earlier sounds of the
+packs were made the same way before the script was added. The other packs
 are copied unmodified from other open-source Matrix clients:
 
 | Pack       | Source repository                         | Licence of source                                                         | Files                                                                                        |

@@ -1,4 +1,4 @@
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { getPublishedEntries, localEchoEntryId, subscribePublishedEntries } from './editNavigation';
 
 const DEFAULT_TIMEOUT_MS = 10_000;
@@ -17,7 +17,7 @@ function lookup(roomId: string, entryId: string): Lookup {
 }
 
 export function resolveRelationTarget(
-  _client: WizardClient,
+  _client: MudrixClient,
   roomId: string,
   eventId: string,
   timeoutMs: number = DEFAULT_TIMEOUT_MS

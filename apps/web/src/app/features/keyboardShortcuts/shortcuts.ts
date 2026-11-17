@@ -83,13 +83,13 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
     labelKey: 'settings.keybinds.groupComposer',
     items: [
       { id: 'close', labelKey: 'settings.keybinds.close', keys: 'Esc' },
-      { id: 'send', labelKey: 'settings.keybinds.send', keys: 'Enter' },
+      { id: 'send', labelKey: 'composer.send', keys: 'Enter' },
       { id: 'newLine', labelKey: 'settings.keybinds.newLine', keys: `${SHIFT_KEY} + Enter` },
-      { id: 'bold', labelKey: 'settings.keybinds.bold', keys: `${MODIFIER_KEY} + B` },
-      { id: 'italic', labelKey: 'settings.keybinds.italic', keys: `${MODIFIER_KEY} + I` },
+      { id: 'bold', labelKey: 'composer.formatting.bold', keys: `${MODIFIER_KEY} + B` },
+      { id: 'italic', labelKey: 'composer.formatting.italic', keys: `${MODIFIER_KEY} + I` },
       {
         id: 'strikethrough',
-        labelKey: 'settings.keybinds.strikethrough',
+        labelKey: 'composer.formatting.strikethrough',
         keys: `${MODIFIER_KEY} + ${SHIFT_KEY} + S`,
       },
       { id: 'inlineCode', labelKey: 'settings.keybinds.inlineCode', keys: `${MODIFIER_KEY} + E` },
@@ -141,6 +141,12 @@ export const SHORTCUT_GROUPS: ShortcutGroup[] = [
       {
         id: 'disconnect',
         labelKey: 'settings.keybinds.disconnect',
+        keys: '',
+        editable: true,
+      },
+      {
+        id: 'toggleScreenShare',
+        labelKey: 'settings.keybinds.toggleScreenShare',
         keys: '',
         editable: true,
       },

@@ -1,15 +1,15 @@
-//! `WizardClient`: room administration, state events, media, accounts and profile fields
+//! `MudrixClient`: room administration, state events, media, accounts and profile fields
 
 use serde_json::Value;
 
 use super::{Bytes, Listener, Subscription};
 use crate::{
-    EventSource, ListDiff, MemberEntry, RoomSettings, ServerCapabilities, SpaceHierarchy,
-    SpaceSummary, ThirdPartyId, UnreadMention, WizardClient,
+    EventSource, ListDiff, MemberEntry, MudrixClient, RoomSettings, ServerCapabilities,
+    SpaceHierarchy, SpaceSummary, ThirdPartyId, UnreadMention,
 };
 
 rpc_methods! {
-    WizardClient(this: WizardClient) {
+    MudrixClient(this: MudrixClient) {
         /// The room's full settings, fetched from the server.
         call fn roomSettings(room_id: String) -> RoomSettings {
             this.room_settings(&room_id).await
@@ -166,6 +166,11 @@ rpc_methods! {
         /// to the server at most.
         call fn stateEventsOfTypes(room_id: String, event_types: Vec<String>) -> Vec<(String, String, Value)> {
             this.state_events_of_types(&room_id, &event_types).await
+        }
+
+        /// Every current state event of the room in full, for exploring it.
+        call fn roomState(room_id: String) -> Vec<Value> {
+            this.room_state(&room_id).await
         }
 
         call fn setStateEvent(room_id: String, event_type: String, state_key: String, content: Value) -> () {

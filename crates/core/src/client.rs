@@ -1,4 +1,5 @@
 use std::{
+    collections::HashMap,
     sync::{Arc, Mutex},
     time::Duration,
 };
@@ -18,7 +19,7 @@ use matrix_sdk::{
         },
         OwnedDeviceId, OwnedMxcUri, OwnedUserId, TransactionId, UInt,
     },
-    Client, ClientBuilder, SessionMeta,
+    Client, ClientBuilder, SessionMeta, ThreadingSupport,
 };
 use matrix_sdk_ui::{
     room_list_service,
@@ -29,6 +30,10 @@ use serde::Serialize;
 use serde_json::Value;
 
 use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
+
+/// Events the room list keeps per room from sync. The SDK's default of one never reaches a
+/// room's read marker, so unread counts would only see one message.
+const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
 
 /// The state of the background sync, as shown to the user.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -78,20 +83,24 @@ fn has_synced(state: &room_list_service::State) -> bool {
 }
 
 /// A signed-in Matrix account. One per account; apps with several accounts create several.
-pub struct WizardClient {
+pub struct MudrixClient {
     client: Client,
     restored: bool,
     /// The newest tokens another instance on the same store refreshed (another browser tab)
     shared_tokens: Arc<Mutex<Option<SessionTokens>>>,
     sync: Mutex<Option<Arc<SyncService>>>,
+    /// The connection that brings Mudrix's own room state (see `custom_state`)
+    pub(crate) state_sync: Mutex<Option<matrix_sdk::executor::JoinHandle<()>>>,
     pub(crate) identity_reset_cancel: Mutex<Option<futures_channel::oneshot::Sender<()>>>,
     pub(crate) downloads: Mutex<crate::media_download::Downloads>,
     pub(crate) spaces: Mutex<Option<Arc<SpaceService>>>,
+    /// Space hierarchies fetched this session, so revisiting a space doesn't ask the server again
+    pub(crate) hierarchies: Mutex<HashMap<String, crate::spaces::CachedHierarchy>>,
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
 }
 
-impl WizardClient {
+impl MudrixClient {
     /// The SDK client every sign-in path uses: persistent stores, refresh-token handling, and
     /// cross-signing plus key backup set up automatically.
     pub(crate) async fn build_client(server: &str, store: &StoreConfig) -> Result<Client> {
@@ -107,14 +116,26 @@ impl WizardClient {
     }
 
     async fn finish_build(builder: ClientBuilder, store: &StoreConfig) -> Result<Client> {
-        let builder =
-            builder
-                .handle_refresh_tokens()
-                .with_encryption_settings(EncryptionSettings {
-                    auto_enable_cross_signing: true,
-                    backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
-                    auto_enable_backups: true,
-                });
+        let builder = builder
+            .handle_refresh_tokens()
+            .with_encryption_settings(EncryptionSettings {
+                auto_enable_cross_signing: !store.manual_encryption_setup,
+                backup_download_strategy: BackupDownloadStrategy::AfterDecryptionFailure,
+                auto_enable_backups: !store.manual_encryption_setup,
+            })
+            // Thread replies stay out of the SDK's read-receipt counts (`Room::num_unread_*`);
+            // thread subscriptions stay off
+            .with_threading_support(ThreadingSupport::Enabled {
+                with_subscriptions: false,
+            });
+        // Another process on this store (the iOS notification extension) must not share our lock
+        // holder name, or the SDK's locks would let both write at once
+        let builder = match store.process_name.as_deref() {
+            Some(name) => builder.cross_process_store_config(
+                matrix_sdk::cross_process_lock::CrossProcessLockConfig::multi_process(name),
+            ),
+            None => builder,
+        };
         let builder = if store.exclude_insecure_devices {
             builder
                 .with_decryption_settings(matrix_sdk_crypto::DecryptionSettings {
@@ -141,9 +162,11 @@ impl WizardClient {
             restored: false,
             shared_tokens: Arc::new(Mutex::new(None)),
             sync: Mutex::new(None),
+            state_sync: Mutex::new(None),
             identity_reset_cancel: Mutex::new(None),
             downloads: Mutex::default(),
             spaces: Mutex::new(None),
+            hierarchies: Mutex::default(),
             notifications: Mutex::new(None),
         }
     }
@@ -273,22 +296,25 @@ impl WizardClient {
 
     /// Starts (or resumes) the background sync. Room list and timelines need it running.
     pub async fn start_sync(&self) -> Result<()> {
-        let existing = self.sync.lock().unwrap().clone();
-        let service = match existing {
-            Some(service) => service,
-            None => {
-                let service = Arc::new(
-                    SyncService::builder(self.client.clone())
-                        .with_offline_mode()
-                        .build()
-                        .await?,
-                );
-                *self.sync.lock().unwrap() = Some(service.clone());
-                service
-            }
-        };
-        service.start().await;
+        self.built_sync_service().await?.start().await;
+        self.start_state_sync();
         Ok(())
+    }
+
+    /// The sync service, created (but not started) when there's none yet
+    pub(crate) async fn built_sync_service(&self) -> Result<Arc<SyncService>> {
+        if let Some(service) = self.sync.lock().unwrap().clone() {
+            return Ok(service);
+        }
+        let service = Arc::new(
+            SyncService::builder(self.client.clone())
+                .with_offline_mode()
+                .with_room_list_timeline_limit(ROOM_LIST_TIMELINE_LIMIT)
+                .build()
+                .await?,
+        );
+        let mut sync = self.sync.lock().unwrap();
+        Ok(sync.get_or_insert(service).clone())
     }
 
     /// Pauses the background sync, e.g. while the app is in the background.
@@ -297,6 +323,7 @@ impl WizardClient {
     }
 
     pub async fn stop_sync(&self) {
+        self.stop_state_sync();
         let service = self.sync.lock().unwrap().clone();
         if let Some(service) = service {
             service.stop().await;

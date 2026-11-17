@@ -6,7 +6,7 @@
  * here produces a URL, HTML or style string from remote data.
  */
 
-const publicUrl = (path: string): string => `/${path}`;
+import { publicUrl } from '@/util/publicUrl';
 import { getBuiltinFrame, getBuiltinNameplate } from '@/util/builtinCosmetics';
 import {
   PROFILE_ACTIVITY_KEYS,
@@ -310,6 +310,10 @@ export function parseProfileEffect(value: unknown): ProfileEffectId | null {
     return value as ProfileEffectId;
   }
   return null;
+}
+
+export function profileEffectThumbnailSrc(_id: ProfileEffectId): string {
+  return '';
 }
 
 export function parseIsMudrixUser(value: unknown): boolean {

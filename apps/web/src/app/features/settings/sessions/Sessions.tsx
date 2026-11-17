@@ -1,4 +1,4 @@
-import { WizardClient, type UiaAuth, type UiaOutcome } from '@wizardchat/core';
+import { MudrixClient, type UiaAuth, type UiaOutcome } from '@mudrix/core';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSetAtom, useAtomValue } from 'jotai';
@@ -36,6 +36,7 @@ import type { DeviceEntry } from './DeviceCard';
 import { LinkDeviceModal } from '@/app/features/qrLogin/LinkDeviceModal';
 import { useSessionVerificationActions } from '@/app/features/device/useSessionVerificationActions';
 import * as css from './Sessions.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 import * as layoutCss from '../Settings.css';
 
 export function Sessions() {
@@ -76,7 +77,7 @@ export function Sessions() {
       return;
     }
     if (!session.oauthClientId) return;
-    void WizardClient.discover(session.homeserverUrl)
+    void MudrixClient.discover(session.homeserverUrl)
       .then((info) => {
         if (!cancelled) setQrLinkAvailable(info.qrLogin);
       })
@@ -121,7 +122,9 @@ export function Sessions() {
         deviceId: d.deviceId,
         displayName: d.displayName || d.deviceId,
         isCurrentDevice: d.isCurrent,
-        isVerified: d.isVerified,
+        // The old app counted a device as verified once the account's cross-signing identity signed
+        // it; the core's `isVerified` for this device can still lag behind that after verifying.
+        isVerified: d.isVerified || d.crossSignedByOwner,
         lastSeenIp: d.lastSeenIp,
         lastSeenTs: d.lastSeenTs,
       }));
@@ -228,7 +231,7 @@ export function Sessions() {
     async (deviceId: string, displayName: string, managementUrl: string | null) => {
       if (!client) return;
       if (managementUrl) {
-        window.open(managementUrl, '_blank', 'noopener,noreferrer');
+        openSafeExternalUrl(managementUrl);
         toastRef.current.info(t('settings.sessions.accountManagementOpened'));
         return;
       }
@@ -369,9 +372,11 @@ export function Sessions() {
                     currentDevice.isVerified === false ? (
                       <div className={css.recoveryKeyBox}>
                         <p className={css.recoveryKeyHint}>
-                          {canVerify
-                            ? t('settings.sessions.verifyThisSession')
-                            : t('settings.sessions.cannotVerifyThisSession')}
+                          {sessionStatus === 'no-identity'
+                            ? t('settings.encryption.notSetUpNote')
+                            : canVerify
+                              ? t('settings.sessions.verifyThisSession')
+                              : t('settings.sessions.cannotVerifyThisSession')}
                         </p>
                         <div className={css.recoveryKeyActions}>
                           {hasOtherVerifiedSession && (
@@ -383,7 +388,7 @@ export function Sessions() {
                               onClick={verifyWithOtherDevice}
                             >
                               <DevicesIcon size={14} />
-                              {t('verifySession.useOtherDevice')}
+                              {t('verification.session.useOtherDevice')}
                             </Button>
                           )}
                           {hasRecoveryKey && (
@@ -398,16 +403,20 @@ export function Sessions() {
                               }}
                             >
                               <KeyIcon size={14} />
-                              {t('verifySession.useRecoveryKey')}
+                              {t('verification.session.useRecoveryKey')}
                             </Button>
                           )}
                           {!canVerify && (
+                            // No identity yet: send the person to the one setup flow instead of
+                            // leaving them on a page that cannot verify this session.
                             <Button
-                              variant="secondary"
+                              variant={sessionStatus === 'no-identity' ? 'primary' : 'secondary'}
                               size="sm"
                               onClick={() => setSettingsPage('encryption')}
                             >
-                              {t('settings.encryption.title')}
+                              {sessionStatus === 'no-identity'
+                                ? t('verification.session.setupButton')
+                                : t('settings.encryption.title')}
                             </Button>
                           )}
                         </div>
@@ -462,7 +471,7 @@ export function Sessions() {
                       onClick={() => setLinkingDevice(true)}
                     >
                       <QrCodeIcon size={14} />
-                      {t('qrLogin.linkTitle')}
+                      {t('auth.qr.linkTitle')}
                     </button>
                   )}
                 </div>

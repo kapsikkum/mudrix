@@ -23,6 +23,8 @@ function toDefinition(c: ActiveCommand): CommandDefinition {
         ctx.setComposerText?.(renderInsert(c.insert ?? '', ctx.roomId, args, c.settings));
       } else if (c.kind === 'api' && c.api) {
         ctx.openApiConfirm?.({ integrationId: c.integrationId, actionId: c.api, args });
+      } else if (c.kind === 'widget') {
+        ctx.openIntegrationWidget?.(c.integrationId);
       }
     },
   };

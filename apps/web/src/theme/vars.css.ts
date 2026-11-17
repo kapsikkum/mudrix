@@ -1,7 +1,7 @@
-import { vars as tokens } from '@wizardchat/design-tokens';
+import { vars as tokens } from '@mudrix/design-tokens';
 
 /**
- * The WizardChat style contract, backed by the shared design tokens (CSS variables set per
+ * The style contract, backed by the shared design tokens (CSS variables set per
  * theme in themes.css.ts).
  */
 export const vars = {
@@ -16,6 +16,7 @@ export const vars = {
     accentRgb: 'var(--wz-accent-rgb)',
     accentHover: tokens.color.accent.hover,
     link: tokens.color.text.link,
+    onAccent: tokens.color.text.onAccent,
     textPrimary: tokens.color.text.primary,
     textMuted: tokens.color.text.muted,
     textSecondary: tokens.color.text.disabled,
@@ -27,8 +28,23 @@ export const vars = {
     danger: tokens.color.status.danger,
     success: tokens.color.status.success,
     warning: tokens.color.status.warning,
+    live: tokens.color.live,
     bgAccentGlow1: tokens.color.accent.glow1,
     bgAccentGlow2: tokens.color.accent.glow2,
+  },
+  shadow: {
+    sheet: '0 -8px 32px rgba(0,0,0,0.45)',
+    popup: '0 8px 32px rgba(0,0,0,0.45)',
+    popover: '0 8px 28px rgba(0,0,0,0.35)',
+    menu: '0 8px 24px rgba(0,0,0,0.4)',
+    lift: '0 6px 20px rgba(0, 0, 0, 0.12)',
+  },
+  scrim: {
+    soft: 'rgba(0, 0, 0, 0.3)',
+    base: 'rgba(0, 0, 0, 0.5)',
+    modal: 'rgba(0, 0, 0, 0.6)',
+    deep: 'rgba(0, 0, 0, 0.65)',
+    media: 'rgba(0, 0, 0, 0.85)',
   },
   username: {
     c1: tokens.color.username.c1,
@@ -54,6 +70,7 @@ export const vars = {
     sm: tokens.radius.sm,
     md: tokens.radius.md,
     lg: tokens.radius.xl,
+    pill: tokens.radius.pill,
   },
   font: {
     // The emoji style puts its font before the UI font (so a whole emoji sequence is shaped by one

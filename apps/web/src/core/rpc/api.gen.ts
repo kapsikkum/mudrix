@@ -54,6 +54,11 @@ export type AttachmentThumbnail = {
   height: number;
 };
 
+/**
+ * What happened to a picture: the new one isn't named, as it is shown from the member list
+ */
+export type AvatarChange = 'changed' | 'removed';
+
 export type CallEvent =
   | { type: 'members'; members: Array<CallMember> }
   | {
@@ -70,6 +75,30 @@ export type CallEvent =
   | { type: 'reaction'; identity: string; emoji: string }
   | { type: 'handRaised'; identity: string; raised: boolean }
   | { type: 'error'; message: string; fatal: boolean };
+
+export type CallHistoryView = {
+  outcome: CallOutcome;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  startedAt: number;
+  endedAt: number | null;
+  startedBy: string;
+  /**
+   * Everyone who joined, in the order they joined
+   */
+  participants: Array<CallParticipantView>;
+  video: boolean;
+  /**
+   * The call rang (a DM or small room)
+   */
+  rang: boolean;
+  declinedBy: Array<string>;
+  /**
+   * The call started before the loaded part of the timeline
+   */
+  partial: boolean;
+};
 
 /**
  * One device in a room's call
@@ -98,6 +127,14 @@ export type CallMember = {
   /**
    * The name to show, with the user ID added when others in the room share it
    */
+  displayName: string | null;
+  avatarUrl: string | null;
+};
+
+export type CallOutcome = 'ongoing' | 'ended' | 'missed' | 'declined' | 'unanswered';
+
+export type CallParticipantView = {
+  userId: string;
   displayName: string | null;
   avatarUrl: string | null;
 };
@@ -163,6 +200,35 @@ export type CustomStatus = {
   expiresAt?: number | null;
 };
 
+/**
+ * A delayed event the homeserver holds for the user
+ */
+export type DelayedEvent = {
+  /**
+   * What `cancelDelayedEvent` and `sendDelayedEventNow` take
+   */
+  delayId: string;
+  roomId: string;
+  eventType: string;
+  /**
+   * Set when the delayed event is a state event
+   */
+  stateKey: string | null;
+  /**
+   * The content to send
+   */
+  content: JsonValue;
+  /**
+   * How long the server waits, in milliseconds
+   */
+  delayMs: number;
+  /**
+   * When the wait started (or was last restarted), milliseconds since the Unix epoch; the
+   * event goes out at `runningSince + delayMs`
+   */
+  runningSince: number;
+};
+
 export type DeviceInfo = {
   deviceId: string;
   displayName: string | null;
@@ -175,6 +241,11 @@ export type DeviceInfo = {
    */
   crossSignedByOwner: boolean;
 };
+
+/**
+ * A display name change: `from` is null when there was no name, `to` when it was removed
+ */
+export type DisplayNameChange = { from: string | null; to: string | null };
 
 /**
  * How much of a download has arrived, in bytes
@@ -222,12 +293,36 @@ export type EncryptionStatus = {
 
 /**
  * What a message shows. Media keeps its source opaque; pass it to
- * [`crate::WizardClient::media`] to get the (decrypted) bytes.
+ * [`crate::MudrixClient::media`] to get the (decrypted) bytes.
  */
 export type EntryContent =
-  | { type: 'text'; body: string; html: string | null }
-  | { type: 'notice'; body: string; html: string | null }
-  | { type: 'emote'; body: string; html: string | null }
+  | {
+      type: 'text';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'notice';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
+  | {
+      type: 'emote';
+      body: string;
+      html: string | null;
+      /**
+       * The formatting in `html` as blocks to draw; `None` when it has none
+       */
+      rich: Array<RichBlock> | null;
+    }
   | { type: 'image'; media: MediaInfo }
   | { type: 'video'; media: MediaInfo }
   | { type: 'audio'; media: MediaInfo }
@@ -253,7 +348,18 @@ export type EntryContent =
       change: string | null;
       reason: string | null;
     }
-  | { type: 'profileChange'; userId: string }
+  | {
+      type: 'profileChange';
+      userId: string;
+      /**
+       * Set when the display name changed
+       */
+      displayName: DisplayNameChange | null;
+      /**
+       * Set when the picture changed
+       */
+      avatar: AvatarChange | null;
+    }
   | {
       type: 'state';
       eventType: string;
@@ -261,6 +367,8 @@ export type EntryContent =
       content: JsonValue;
       prevContent: JsonValue | null;
     }
+  | { type: 'call'; call: CallHistoryView }
+  | { type: 'callPart' }
   | { type: 'other' };
 
 /**
@@ -277,6 +385,29 @@ export type EventSource = {
    * Decrypted, when it was encrypted
    */
   decrypted: JsonValue | null;
+};
+
+/**
+ * One version of a message: the original or an edit
+ */
+export type EventVersion = {
+  /**
+   * The original event's or the edit's ID
+   */
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch
+   */
+  timestamp: number;
+  isOriginal: boolean;
+  msgtype: string | null;
+  body: string;
+  /**
+   * Set with `formattedBody` when the version has HTML
+   */
+  format: string | null;
+  formattedBody: string | null;
 };
 
 /**
@@ -319,19 +450,20 @@ export type IdentityProvider = {
 };
 
 /**
- * Someone calling, from a ring or notification event, or a caller's new membership in a direct chat
+ * Someone calling: a ring (direct chats) or call notification (other rooms) whose sender is
+ * in the call
  */
 export type IncomingCall = {
   roomId: string;
   roomName: string | null;
   /**
-   * The ring or notification event to decline; empty when only the membership is known so far
+   * The ring or notification event to decline
    */
   eventId: string;
   sender: string;
   senderName: string | null;
   /**
-   * Ring audibly (direct chats), or just show a notification
+   * Ring audibly (DMs and rooms up to 10 members), or just show a notification
    */
   ring: boolean;
   intent: string | null;
@@ -340,6 +472,9 @@ export type IncomingCall = {
    */
   expiresAt: number;
 };
+
+export type IncomingCallEvent =
+  { type: 'ringing'; call: IncomingCall } | { type: 'ended'; call: IncomingCall; reason: RingEnd };
 
 /**
  * Who invited the user to a room
@@ -362,6 +497,20 @@ export type JoinRule = 'invite' | 'public' | 'knock' | 'restricted' | 'knock_res
 export type JsonValue = any;
 
 /**
+ * What an import found
+ */
+export type KeyImportResult = {
+  /**
+   * Keys that were new or better than the ones this device had
+   */
+  imported: number;
+  /**
+   * Keys the file holds
+   */
+  total: number;
+};
+
+/**
  * How far restoring the room keys from the key backup has come
  */
 export type KeyRestoreProgress = {
@@ -378,6 +527,40 @@ export type KeyRestoreProgress = {
    */
   keysRestored: number;
 };
+
+/**
+ * The one-line preview of a room's latest message
+ */
+export type LastMessage = {
+  /**
+   * Plain text of at most 140 characters: the reply fallback stripped, whitespace collapsed.
+   * Empty for every non-text kind, and for an event that can't be shown.
+   */
+  body: string;
+  senderId: string;
+  /**
+   * The sender's display name, omitted when it's the user's own message
+   */
+  senderName: string | null;
+  /**
+   * Sent by the user, from this or another of their devices
+   */
+  isOwn: boolean;
+  /**
+   * Milliseconds since the Unix epoch of the message
+   */
+  timestamp: number;
+  kind: LastMessageKind;
+};
+
+/**
+ * What the latest message of a room is, so the app can show a localized label when [`body`] is
+ * empty.
+ *
+ * [`body`]: LastMessage::body
+ */
+export type LastMessageKind =
+  'text' | 'image' | 'video' | 'audio' | 'file' | 'sticker' | 'poll' | 'call' | 'other';
 
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
@@ -497,6 +680,7 @@ export type MessageKind = 'text' | 'emote' | 'notice';
 export type Notification = {
   roomId: string;
   roomName: string | null;
+  roomAvatarUrl: string | null;
   eventId: string;
   sender: string;
   senderName: string | null;
@@ -508,6 +692,10 @@ export type Notification = {
    * The message hides a spoiler: show a placeholder instead of its text
    */
   spoiler: boolean;
+  /**
+   * Its keys haven't arrived yet: show a placeholder
+   */
+  encrypted: boolean;
   /**
    * Mentions and keywords: show more prominently
    */
@@ -588,6 +776,21 @@ export type PublicRoomsPage = {
   total: number | null;
 };
 
+export type PusherConfig = {
+  appId: string;
+  pushkey: string;
+  gatewayUrl: string;
+  appName: string;
+  deviceName: string;
+  lang: string;
+  /**
+   * Extra fields for every notification, as the Matrix API's `default_payload`: gateways
+   * (Sygnal and the like) merge them into what they send, so the app can give iOS an
+   * `aps.alert` to show even though it only ever gets the event's ids.
+   */
+  defaultPayload: JsonValue | null;
+};
+
 export type QrLoginStatus =
   | { type: 'starting' }
   | { type: 'showQr'; data: string }
@@ -646,6 +849,55 @@ export type ReplyPreview =
 
 export type ResolvedAlias = { roomId: string; servers: Array<string> };
 
+export type RichBlock =
+  | { type: 'paragraph'; spans: Array<RichSpan> }
+  | {
+      type: 'heading';
+      /**
+       * 1 to 6
+       */
+      level: number;
+      spans: Array<RichSpan>;
+    }
+  | { type: 'quote'; blocks: Array<RichBlock> }
+  | {
+      type: 'itemList';
+      ordered: boolean;
+      /**
+       * The first number of an ordered list
+       */
+      start: number;
+      items: Array<Array<RichBlock>>;
+    }
+  | { type: 'code'; text: string }
+  | { type: 'rule' };
+
+/**
+ * A run of text with one style
+ */
+export type RichSpan = {
+  text: string;
+  bold: boolean;
+  italic: boolean;
+  strike: boolean;
+  underline: boolean;
+  /**
+   * Inline code
+   */
+  code: boolean;
+  link: string | null;
+  /**
+   * A mentioned user's ID; `text` is "@name", as the plain body shows mentions
+   */
+  mention: string | null;
+  spoiler: boolean;
+};
+
+/**
+ * Why a ring stopped
+ */
+export type RingEnd = 'answered' | 'declined' | 'callerLeft' | 'expired';
+
 export type RoomDetails = {
   id: string;
   name: string | null;
@@ -685,6 +937,20 @@ export type RoomEvent = {
   originServerTs: number;
 };
 
+/**
+ * One page of a room's past, newest first
+ */
+export type RoomEventsPage = {
+  /**
+   * The events of the wanted types on this page; can be empty while `next` is set
+   */
+  events: Array<RoomEvent>;
+  /**
+   * Pass as `from` for the page before this one; `None` at the start of the room
+   */
+  next: string | null;
+};
+
 export type RoomFilter = {
   kind?: RoomKind;
   /**
@@ -703,6 +969,21 @@ export type RoomFilter = {
 export type RoomKind = 'all' | 'people' | 'groups' | 'unread' | 'favourites' | 'invites';
 
 /**
+ * What a room's member event says about a person
+ */
+export type RoomMemberProfile = {
+  /**
+   * `join`, `invite`, `leave`, `ban` or `knock`; null when the room has no member event
+   */
+  membership: string | null;
+  displayname: string | null;
+  /**
+   * `mxc://` URI
+   */
+  avatarUrl: string | null;
+};
+
+/**
  * What the user may do in a room, for showing or hiding actions
  */
 export type RoomPermissions = {
@@ -716,6 +997,7 @@ export type RoomPermissions = {
   changePermissions: boolean;
   pin: boolean;
   manageWidgets: boolean;
+  enableEncryption: boolean;
 };
 
 /**
@@ -814,14 +1096,27 @@ export type RoomSummary = {
    */
   notificationMode: NotificationMode | null;
   /**
-   * Users in the room's call, oldest first (a user appears once per device)
+   * Users in the room's call, oldest first, once each
    */
   callParticipants: Array<string>;
+  /**
+   * This device is in the room's call
+   */
+  inCall: boolean;
+  /**
+   * The user is in the room's call on another device, not on this one
+   */
+  inCallElsewhere: boolean;
   /**
    * Milliseconds since the Unix epoch of the latest event of any kind, for sorting and
    * "5 min ago"
    */
   lastActivity: number | null;
+  /**
+   * Milliseconds since the Unix epoch of the room's `m.room.create` event, for sorting the
+   * room list by age; `null` for an invite whose stripped state carries no timestamp
+   */
+  createdAt: number | null;
   isSpace: boolean;
   /**
    * Asked to join ("knocked") and waiting for an answer; not a member yet
@@ -832,12 +1127,22 @@ export type RoomSummary = {
    */
   dmUserName: string | null;
   dmUserAvatar: string | null;
+  /**
+   * The latest message, for a one-line preview in the room list; `null` for a room with
+   * nothing to show yet (an invite, or a latest event that isn't a message)
+   */
+  lastMessage: LastMessage | null;
 };
 
 /**
  * A room tag with its sort order (favourites, low priority, custom `u.*` tags)
  */
 export type RoomTag = { name: string; order: number | null };
+
+/**
+ * Which way `timestampToEvent` looks from the date
+ */
+export type SearchDirection = 'forward' | 'backward';
 
 /**
  * A message found by search
@@ -848,6 +1153,17 @@ export type SearchHit = {
   sender: string;
   body: string;
   timestamp: number;
+};
+
+/**
+ * One page of server-side search results
+ */
+export type SearchResults = {
+  hits: Array<SearchHit>;
+  /**
+   * Pass as `from` for the next page of results; `None` when there are no more
+   */
+  next: string | null;
 };
 
 export type SendState = 'sending' | 'failed' | 'sent';
@@ -904,8 +1220,29 @@ export type ServerInfo = {
 };
 
 /**
+ * A notification the server keeps for the user, read or not
+ */
+export type ServerNotification = {
+  roomId: string;
+  eventId: string;
+  sender: string;
+  /**
+   * Milliseconds since the Unix epoch of the event
+   */
+  timestamp: number;
+  /**
+   * The user has read up to this event
+   */
+  read: boolean;
+  /**
+   * The thread the event is a reply in
+   */
+  threadRootId: string | null;
+};
+
+/**
  * Everything needed to restore a signed-in client. Apps store it securely and hand it back to
- * [`crate::WizardClient::restore`] on the next start.
+ * [`crate::MudrixClient::restore`] on the next start.
  */
 export type Session = {
   homeserverUrl: string;
@@ -938,6 +1275,28 @@ export type SfuConfig = {
    */
   alias: string;
 };
+
+/**
+ * Why a message gets a shield
+ */
+export type ShieldCode =
+  | 'authenticityNotGuaranteed'
+  | 'unknownDevice'
+  | 'unsignedDevice'
+  | 'unverifiedIdentity'
+  | 'verificationViolation'
+  | 'mismatchedSender'
+  | 'sentInClear';
+
+/**
+ * How serious a message's encryption warning is
+ */
+export type ShieldColor = 'red' | 'grey';
+
+/**
+ * The encryption warning to show on a message
+ */
+export type ShieldView = { color: ShieldColor; code: ShieldCode };
 
 /**
  * A room or subspace inside a space, joined or not
@@ -1031,6 +1390,25 @@ export type SpaceSummary = {
 export type StateChange = { roomId: string; eventType: string; stateKey: string };
 
 /**
+ * A state event with who sent it and when
+ */
+export type StateEventView = {
+  roomId: string;
+  type: string;
+  stateKey: string;
+  /**
+   * The user ID of whoever set it; permission checks need this
+   */
+  sender: string;
+  content: JsonValue;
+  eventId: string | null;
+  /**
+   * When the sender's server saw it, in milliseconds; `0` when missing
+   */
+  originServerTs: number;
+};
+
+/**
  * Where the client keeps its state, crypto keys and caches.
  *
  * `location` is an IndexedDB database name on the web and a directory path on native platforms.
@@ -1043,6 +1421,20 @@ export type StoreConfig = {
    * Don't share keys with, or read messages from, devices their owner hasn't verified
    */
   excludeInsecureDevices?: boolean;
+  manualEncryptionSetup?: boolean;
+  /**
+   * Which process this client is, for the store locks two processes share (the SDK's
+   * cross-process lock holder name). Omitted, the SDK's own name (`main`) is used, so the app
+   * itself keeps the current behaviour.
+   *
+   * A second process that restores the same store while the app runs — the iOS
+   * `NotificationService` extension — must pass a different, stable name, e.g.
+   * `notification-service`, so the SDK's locks actually keep the two processes apart. Never
+   * give two concurrently running processes the same name: they would both think they hold
+   * the lock. The value must not be `notifications`, which the SDK's notification client uses
+   * for its own store access.
+   */
+  processName?: string | null;
 };
 
 /**
@@ -1143,6 +1535,11 @@ export type TimelineEntry =
        * as an object; null when there are none or the content is not at hand (a local echo)
        */
       customContent: JsonValue | null;
+      /**
+       * A warning about the message's authenticity; null when it is fine (verified sender) or
+       * the room isn't encrypted
+       */
+      shield: ShieldView | null;
     }
   | { kind: 'dateDivider'; id: string; timestamp: number }
   | { kind: 'readMarker'; id: string }
@@ -1156,6 +1553,17 @@ export type TimelineKind =
   | { type: 'thread'; rootEventId: string }
   | { type: 'pinned' }
   | { type: 'event'; eventId: string };
+
+/**
+ * The event `timestampToEvent` found
+ */
+export type TimestampEvent = {
+  eventId: string;
+  /**
+   * When the sender's server saw it, in milliseconds
+   */
+  timestamp: number;
+};
 
 export type Tombstone = { replacementRoom: string; body: string };
 
@@ -1337,8 +1745,8 @@ export type Widget = {
   data: JsonValue;
 };
 
-export class WizardClient extends Remote {
-  static readonly className = 'WizardClient';
+export class MudrixClient extends Remote {
+  static readonly className = 'MudrixClient';
 
   session(): Session {
     return this.props['session'] as Session;
@@ -1349,33 +1757,33 @@ export class WizardClient extends Remote {
   }
 
   startSync(): Promise<void> {
-    return runtime.call('WizardClient.startSync', this, []) as Promise<void>;
+    return runtime.call('MudrixClient.startSync', this, []) as Promise<void>;
   }
 
   stopSync(): Promise<void> {
-    return runtime.call('WizardClient.stopSync', this, []) as Promise<void>;
+    return runtime.call('MudrixClient.stopSync', this, []) as Promise<void>;
   }
 
   /** Calls `listener` with the sync state now and on every change. */
   watchSyncState(listener: (value: SyncState) => void): Subscription {
-    return runtime.watch('WizardClient.watchSyncState', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchSyncState', this, [listener], Subscription);
   }
 
   /** Calls `listener` with how far the account has loaded (cached data, then the first sync). */
   watchLoadState(listener: (value: LoadState) => void): Subscription {
-    return runtime.watch('WizardClient.watchLoadState', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchLoadState', this, [listener], Subscription);
   }
 
   /** Account data as this device stored it at the last sync (no request to the server). */
   cachedAccountData(eventType: string): Promise<JsonValue | null> {
-    return runtime.call('WizardClient.cachedAccountData', this, [
+    return runtime.call('MudrixClient.cachedAccountData', this, [
       eventType,
     ]) as Promise<JsonValue | null>;
   }
 
   /** Hands over a session another tab on the same store saved after refreshing its tokens. */
   adoptSession(session: Session): Promise<void> {
-    return runtime.call('WizardClient.adoptSession', this, [session]) as Promise<void>;
+    return runtime.call('MudrixClient.adoptSession', this, [session]) as Promise<void>;
   }
 
   /** Calls `listener` with room list diffs, starting with the current list. */
@@ -1384,7 +1792,7 @@ export class WizardClient extends Remote {
     listener: (value: Array<ListDiff<RoomSummary>>) => void
   ): RoomListSubscription {
     return runtime.watch(
-      'WizardClient.watchRooms',
+      'MudrixClient.watchRooms',
       this,
       [pageSize, listener],
       RoomListSubscription
@@ -1393,85 +1801,93 @@ export class WizardClient extends Remote {
 
   /** Calls `listener` with diffs of the top-level joined spaces. */
   watchSpaces(listener: (value: Array<ListDiff<SpaceSummary>>) => void): Subscription {
-    return runtime.watch('WizardClient.watchSpaces', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchSpaces', this, [listener], Subscription);
   }
 
   spaceChildren(spaceId: string): Promise<Array<SpaceChild>> {
-    return runtime.call('WizardClient.spaceChildren', this, [spaceId]) as Promise<
+    return runtime.call('MudrixClient.spaceChildren', this, [spaceId]) as Promise<
       Array<SpaceChild>
     >;
   }
 
   /** Joins by room ID or alias; resolves to the room ID. */
   join(idOrAlias: string, via?: Array<string> | null): Promise<string> {
-    return runtime.call('WizardClient.join', this, [idOrAlias, via]) as Promise<string>;
+    return runtime.call('MudrixClient.join', this, [idOrAlias, via]) as Promise<string>;
   }
 
   leave(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.leave', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.leave', this, [roomId]) as Promise<void>;
   }
 
   acceptInvite(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.acceptInvite', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.acceptInvite', this, [roomId]) as Promise<void>;
   }
 
   declineInvite(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.declineInvite', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.declineInvite', this, [roomId]) as Promise<void>;
   }
 
   inviteInfo(roomId: string): Promise<InviteInfo> {
-    return runtime.call('WizardClient.inviteInfo', this, [roomId]) as Promise<InviteInfo>;
+    return runtime.call('MudrixClient.inviteInfo', this, [roomId]) as Promise<InviteInfo>;
   }
 
   /** Creates a room or space; resolves to its ID. */
   createRoom(options: CreateRoomOptions): Promise<string> {
-    return runtime.call('WizardClient.createRoom', this, [options]) as Promise<string>;
+    return runtime.call('MudrixClient.createRoom', this, [options]) as Promise<string>;
   }
 
   /** Opens or creates the direct chat with a user; resolves to the room ID. */
   startDm(userId: string): Promise<string> {
-    return runtime.call('WizardClient.startDm', this, [userId]) as Promise<string>;
+    return runtime.call('MudrixClient.startDm', this, [userId]) as Promise<string>;
   }
 
   invite(roomId: string, userId: string): Promise<void> {
-    return runtime.call('WizardClient.invite', this, [roomId, userId]) as Promise<void>;
+    return runtime.call('MudrixClient.invite', this, [roomId, userId]) as Promise<void>;
   }
 
   setFavourite(roomId: string, favourite: boolean): Promise<void> {
-    return runtime.call('WizardClient.setFavourite', this, [roomId, favourite]) as Promise<void>;
+    return runtime.call('MudrixClient.setFavourite', this, [roomId, favourite]) as Promise<void>;
+  }
+
+  /** Moves a room to the low priority group (or back); a favourite stops being one. */
+  setLowPriority(roomId: string, lowPriority: boolean): Promise<void> {
+    return runtime.call('MudrixClient.setLowPriority', this, [
+      roomId,
+      lowPriority,
+    ]) as Promise<void>;
   }
 
   setMarkedUnread(roomId: string, unread: boolean): Promise<void> {
-    return runtime.call('WizardClient.setMarkedUnread', this, [roomId, unread]) as Promise<void>;
+    return runtime.call('MudrixClient.setMarkedUnread', this, [roomId, unread]) as Promise<void>;
   }
 
   roomDetails(roomId: string): Promise<RoomDetails> {
-    return runtime.call('WizardClient.roomDetails', this, [roomId]) as Promise<RoomDetails>;
+    return runtime.call('MudrixClient.roomDetails', this, [roomId]) as Promise<RoomDetails>;
   }
 
   /** Calls `listener` with the room's details now and on every change. */
   watchRoomDetails(roomId: string, listener: (value: RoomDetails) => void): Subscription {
-    return runtime.watch('WizardClient.watchRoomDetails', this, [roomId, listener], Subscription);
+    return runtime.watch('MudrixClient.watchRoomDetails', this, [roomId, listener], Subscription);
   }
 
   members(roomId: string): Promise<Array<Member>> {
-    return runtime.call('WizardClient.members', this, [roomId]) as Promise<Array<Member>>;
+    return runtime.call('MudrixClient.members', this, [roomId]) as Promise<Array<Member>>;
   }
 
   kick(roomId: string, userId: string, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.kick', this, [roomId, userId, reason]) as Promise<void>;
+    return runtime.call('MudrixClient.kick', this, [roomId, userId, reason]) as Promise<void>;
   }
 
   ban(roomId: string, userId: string, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.ban', this, [roomId, userId, reason]) as Promise<void>;
+    return runtime.call('MudrixClient.ban', this, [roomId, userId, reason]) as Promise<void>;
   }
 
   setRoomName(roomId: string, name: string): Promise<void> {
-    return runtime.call('WizardClient.setRoomName', this, [roomId, name]) as Promise<void>;
+    return runtime.call('MudrixClient.setRoomName', this, [roomId, name]) as Promise<void>;
   }
 
   setRoomTopic(roomId: string, topic: string): Promise<void> {
-    return runtime.call('WizardClient.setRoomTopic', this, [roomId, topic]) as Promise<void>;
+    return runtime.call('MudrixClient.setRoomTopic', this, [roomId, topic]) as Promise<void>;
   }
 
   searchPublicRooms(
@@ -1479,24 +1895,24 @@ export class WizardClient extends Remote {
     server?: string | null,
     limit?: number | null
   ): Promise<Array<PublicRoom>> {
-    return runtime.call('WizardClient.searchPublicRooms', this, [query, server, limit]) as Promise<
+    return runtime.call('MudrixClient.searchPublicRooms', this, [query, server, limit]) as Promise<
       Array<PublicRoom>
     >;
   }
 
   searchUsers(query: string, limit?: number | null): Promise<Array<UserResult>> {
-    return runtime.call('WizardClient.searchUsers', this, [query, limit]) as Promise<
+    return runtime.call('MudrixClient.searchUsers', this, [query, limit]) as Promise<
       Array<UserResult>
     >;
   }
 
   /** A thread's or the pinned messages' timeline (or the main one). */
   timelineOf(roomId: string, kind: TimelineKind): Promise<RoomTimeline> {
-    return runtime.call('WizardClient.timelineOf', this, [roomId, kind]) as Promise<RoomTimeline>;
+    return runtime.call('MudrixClient.timelineOf', this, [roomId, kind]) as Promise<RoomTimeline>;
   }
 
   timeline(roomId: string): Promise<RoomTimeline> {
-    return runtime.call('WizardClient.timeline', this, [roomId]) as Promise<RoomTimeline>;
+    return runtime.call('MudrixClient.timeline', this, [roomId]) as Promise<RoomTimeline>;
   }
 
   /**
@@ -1504,7 +1920,7 @@ export class WizardClient extends Remote {
    * of unencrypted media is fetched instead of the full file.
    */
   media(source: MediaSource, width?: number | null, height?: number | null): Promise<Uint8Array> {
-    return runtime.call('WizardClient.media', this, [source, width, height]) as Promise<Uint8Array>;
+    return runtime.call('MudrixClient.media', this, [source, width, height]) as Promise<Uint8Array>;
   }
 
   /**
@@ -1519,7 +1935,7 @@ export class WizardClient extends Remote {
     token: string,
     listener: (value: DownloadProgress) => void
   ): Promise<Uint8Array> {
-    return runtime.call('WizardClient.mediaDownload', this, [
+    return runtime.call('MudrixClient.mediaDownload', this, [
       source,
       sizeHint,
       token,
@@ -1529,7 +1945,7 @@ export class WizardClient extends Remote {
 
   /** Stops the `mediaDownload` that was started with `token`. */
   cancelMediaDownload(token: string): Promise<void> {
-    return runtime.call('WizardClient.cancelMediaDownload', this, [token]) as Promise<void>;
+    return runtime.call('MudrixClient.cancelMediaDownload', this, [token]) as Promise<void>;
   }
 
   /**
@@ -1537,7 +1953,7 @@ export class WizardClient extends Remote {
    * downloading the rest of unencrypted media. Encrypted media is fetched whole and cut.
    */
   mediaHead(source: MediaSource, length: number): Promise<Uint8Array> {
-    return runtime.call('WizardClient.mediaHead', this, [source, length]) as Promise<Uint8Array>;
+    return runtime.call('MudrixClient.mediaHead', this, [source, length]) as Promise<Uint8Array>;
   }
 
   /**
@@ -1550,7 +1966,7 @@ export class WizardClient extends Remote {
     height: number,
     crop?: boolean | null
   ): Promise<Uint8Array> {
-    return runtime.call('WizardClient.thumbnail', this, [
+    return runtime.call('MudrixClient.thumbnail', this, [
       mxc,
       width,
       height,
@@ -1560,32 +1976,32 @@ export class WizardClient extends Remote {
 
   /** The MIME type of media bytes, from their first bytes (images, audio, video, PDF). */
   static sniffMimeType(head: Uint8Array): Promise<string | null> {
-    return runtime.call('WizardClient.sniffMimeType', null, [head]) as Promise<string | null>;
+    return runtime.call('MudrixClient.sniffMimeType', null, [head]) as Promise<string | null>;
   }
 
   userProfile(userId: string): Promise<UserProfile> {
-    return runtime.call('WizardClient.userProfile', this, [userId]) as Promise<UserProfile>;
+    return runtime.call('MudrixClient.userProfile', this, [userId]) as Promise<UserProfile>;
   }
 
   ownProfile(): Promise<UserProfile> {
-    return runtime.call('WizardClient.ownProfile', this, []) as Promise<UserProfile>;
+    return runtime.call('MudrixClient.ownProfile', this, []) as Promise<UserProfile>;
   }
 
   presence(userId: string): Promise<PresenceInfo | null> {
-    return runtime.call('WizardClient.presence', this, [userId]) as Promise<PresenceInfo | null>;
+    return runtime.call('MudrixClient.presence', this, [userId]) as Promise<PresenceInfo | null>;
   }
 
   setDisplayName(name: string): Promise<void> {
-    return runtime.call('WizardClient.setDisplayName', this, [name]) as Promise<void>;
+    return runtime.call('MudrixClient.setDisplayName', this, [name]) as Promise<void>;
   }
 
   /** Uploads and sets a new avatar; resolves to its mxc:// URI. */
   setAvatar(bytes: Uint8Array, mimetype: string): Promise<string> {
-    return runtime.call('WizardClient.setAvatar', this, [bytes, mimetype]) as Promise<string>;
+    return runtime.call('MudrixClient.setAvatar', this, [bytes, mimetype]) as Promise<string>;
   }
 
   removeAvatar(): Promise<void> {
-    return runtime.call('WizardClient.removeAvatar', this, []) as Promise<void>;
+    return runtime.call('MudrixClient.removeAvatar', this, []) as Promise<void>;
   }
 
   setCustomStatus(
@@ -1593,7 +2009,7 @@ export class WizardClient extends Remote {
     expiresAt: number | null | undefined,
     presence: Presence
   ): Promise<void> {
-    return runtime.call('WizardClient.setCustomStatus', this, [
+    return runtime.call('MudrixClient.setCustomStatus', this, [
       text,
       expiresAt,
       presence,
@@ -1601,27 +2017,27 @@ export class WizardClient extends Remote {
   }
 
   clearCustomStatus(presence: Presence): Promise<void> {
-    return runtime.call('WizardClient.clearCustomStatus', this, [presence]) as Promise<void>;
+    return runtime.call('MudrixClient.clearCustomStatus', this, [presence]) as Promise<void>;
   }
 
   setPresence(presence: Presence, statusMsg?: string | null): Promise<void> {
-    return runtime.call('WizardClient.setPresence', this, [presence, statusMsg]) as Promise<void>;
+    return runtime.call('MudrixClient.setPresence', this, [presence, statusMsg]) as Promise<void>;
   }
 
   presenceSupported(): Promise<boolean> {
-    return runtime.call('WizardClient.presenceSupported', this, []) as Promise<boolean>;
+    return runtime.call('MudrixClient.presenceSupported', this, []) as Promise<boolean>;
   }
 
   ignoreUser(userId: string): Promise<void> {
-    return runtime.call('WizardClient.ignoreUser', this, [userId]) as Promise<void>;
+    return runtime.call('MudrixClient.ignoreUser', this, [userId]) as Promise<void>;
   }
 
   unignoreUser(userId: string): Promise<void> {
-    return runtime.call('WizardClient.unignoreUser', this, [userId]) as Promise<void>;
+    return runtime.call('MudrixClient.unignoreUser', this, [userId]) as Promise<void>;
   }
 
   setPowerLevel(roomId: string, userId: string, level: number): Promise<void> {
-    return runtime.call('WizardClient.setPowerLevel', this, [
+    return runtime.call('MudrixClient.setPowerLevel', this, [
       roomId,
       userId,
       level,
@@ -1629,37 +2045,37 @@ export class WizardClient extends Remote {
   }
 
   notificationPrefs(): Promise<NotificationPrefs> {
-    return runtime.call('WizardClient.notificationPrefs', this, []) as Promise<NotificationPrefs>;
+    return runtime.call('MudrixClient.notificationPrefs', this, []) as Promise<NotificationPrefs>;
   }
 
   setDefaultNotificationMode(direct: boolean, mode: NotificationMode): Promise<void> {
-    return runtime.call('WizardClient.setDefaultNotificationMode', this, [
+    return runtime.call('MudrixClient.setDefaultNotificationMode', this, [
       direct,
       mode,
     ]) as Promise<void>;
   }
 
   setMentionRule(rule: MentionRule, enabled: boolean): Promise<void> {
-    return runtime.call('WizardClient.setMentionRule', this, [rule, enabled]) as Promise<void>;
+    return runtime.call('MudrixClient.setMentionRule', this, [rule, enabled]) as Promise<void>;
   }
 
   addNotificationKeyword(keyword: string): Promise<void> {
-    return runtime.call('WizardClient.addNotificationKeyword', this, [keyword]) as Promise<void>;
+    return runtime.call('MudrixClient.addNotificationKeyword', this, [keyword]) as Promise<void>;
   }
 
   removeNotificationKeyword(keyword: string): Promise<void> {
-    return runtime.call('WizardClient.removeNotificationKeyword', this, [keyword]) as Promise<void>;
+    return runtime.call('MudrixClient.removeNotificationKeyword', this, [keyword]) as Promise<void>;
   }
 
   roomNotificationMode(roomId: string): Promise<NotificationMode | null> {
-    return runtime.call('WizardClient.roomNotificationMode', this, [
+    return runtime.call('MudrixClient.roomNotificationMode', this, [
       roomId,
     ]) as Promise<NotificationMode | null>;
   }
 
   /** Sets the room's own notification mode; `null` goes back to the default. */
   setRoomNotificationMode(roomId: string, mode?: NotificationMode | null): Promise<void> {
-    return runtime.call('WizardClient.setRoomNotificationMode', this, [
+    return runtime.call('MudrixClient.setRoomNotificationMode', this, [
       roomId,
       mode,
     ]) as Promise<void>;
@@ -1667,16 +2083,16 @@ export class WizardClient extends Remote {
 
   /** Reads an account data document (synced across the account's devices). */
   accountData(eventType: string): Promise<JsonValue | null> {
-    return runtime.call('WizardClient.accountData', this, [eventType]) as Promise<JsonValue | null>;
+    return runtime.call('MudrixClient.accountData', this, [eventType]) as Promise<JsonValue | null>;
   }
 
   setAccountData(eventType: string, content: JsonValue): Promise<void> {
-    return runtime.call('WizardClient.setAccountData', this, [eventType, content]) as Promise<void>;
+    return runtime.call('MudrixClient.setAccountData', this, [eventType, content]) as Promise<void>;
   }
 
   /** Every global account data type the account has (asks the server). */
   accountDataTypes(): Promise<Array<string>> {
-    return runtime.call('WizardClient.accountDataTypes', this, []) as Promise<Array<string>>;
+    return runtime.call('MudrixClient.accountDataTypes', this, []) as Promise<Array<string>>;
   }
 
   /**
@@ -1684,7 +2100,7 @@ export class WizardClient extends Remote {
    * the server asks for.
    */
   changePasswordWithAuth(newPassword: string, auth?: UiaAuth | null): Promise<UiaOutcome> {
-    return runtime.call('WizardClient.changePasswordWithAuth', this, [
+    return runtime.call('MudrixClient.changePasswordWithAuth', this, [
       newPassword,
       auth,
     ]) as Promise<UiaOutcome>;
@@ -1692,7 +2108,7 @@ export class WizardClient extends Remote {
 
   /** Deactivates the account for good; `erase` also asks the server to forget its messages. */
   deactivateAccountWithAuth(erase: boolean, auth?: UiaAuth | null): Promise<UiaOutcome> {
-    return runtime.call('WizardClient.deactivateAccountWithAuth', this, [
+    return runtime.call('MudrixClient.deactivateAccountWithAuth', this, [
       erase,
       auth,
     ]) as Promise<UiaOutcome>;
@@ -1700,7 +2116,7 @@ export class WizardClient extends Remote {
 
   /** Signs other devices out, reporting what the server asks for to confirm it. */
   deleteDevicesWithAuth(deviceIds: Array<string>, auth?: UiaAuth | null): Promise<UiaOutcome> {
-    return runtime.call('WizardClient.deleteDevicesWithAuth', this, [
+    return runtime.call('MudrixClient.deleteDevicesWithAuth', this, [
       deviceIds,
       auth,
     ]) as Promise<UiaOutcome>;
@@ -1713,7 +2129,7 @@ export class WizardClient extends Remote {
     token?: string | null,
     auth?: UiaAuth | null
   ): Promise<UiaOutcome> {
-    return runtime.call('WizardClient.addEmailWithAuth', this, [
+    return runtime.call('MudrixClient.addEmailWithAuth', this, [
       secret,
       sid,
       token,
@@ -1723,42 +2139,59 @@ export class WizardClient extends Remote {
 
   /** The account page for removing a device, on servers with next-generation auth. */
   deviceManagementUrl(deviceId: string): Promise<string | null> {
-    return runtime.call('WizardClient.deviceManagementUrl', this, [deviceId]) as Promise<
+    return runtime.call('MudrixClient.deviceManagementUrl', this, [deviceId]) as Promise<
       string | null
     >;
   }
 
   /** The homeserver URL from the server name's `.well-known`, if any. */
   wellKnownHomeserverUrl(): Promise<string | null> {
-    return runtime.call('WizardClient.wellKnownHomeserverUrl', this, []) as Promise<string | null>;
+    return runtime.call('MudrixClient.wellKnownHomeserverUrl', this, []) as Promise<string | null>;
   }
 
   keyBackupExistsOnServer(): Promise<boolean> {
-    return runtime.call('WizardClient.keyBackupExistsOnServer', this, []) as Promise<boolean>;
+    return runtime.call('MudrixClient.keyBackupExistsOnServer', this, []) as Promise<boolean>;
   }
 
   /** Calls `listener` whenever the account's own devices change. */
   watchOwnDevices(listener: () => void): Subscription {
-    return runtime.watch('WizardClient.watchOwnDevices', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchOwnDevices', this, [listener], Subscription);
   }
 
   /** Searches messages on the server (not possible for encrypted rooms). */
   searchMessages(term: string, roomId?: string | null): Promise<Array<SearchHit>> {
-    return runtime.call('WizardClient.searchMessages', this, [term, roomId]) as Promise<
+    return runtime.call('MudrixClient.searchMessages', this, [term, roomId]) as Promise<
       Array<SearchHit>
     >;
   }
 
+  /**
+   * Searches messages on the server one page at a time (not possible for encrypted
+   * rooms). Pass a page's `next` as `from` for the page after it; `next` is null once the
+   * last page has been read.
+   */
+  searchMessagesPage(
+    term: string,
+    roomId?: string | null,
+    from?: string | null
+  ): Promise<SearchResults> {
+    return runtime.call('MudrixClient.searchMessagesPage', this, [
+      term,
+      roomId,
+      from,
+    ]) as Promise<SearchResults>;
+  }
+
   emojiPacks(roomId?: string | null): Promise<Array<EmojiPack>> {
-    return runtime.call('WizardClient.emojiPacks', this, [roomId]) as Promise<Array<EmojiPack>>;
+    return runtime.call('MudrixClient.emojiPacks', this, [roomId]) as Promise<Array<EmojiPack>>;
   }
 
   widgets(roomId: string): Promise<Array<Widget>> {
-    return runtime.call('WizardClient.widgets', this, [roomId]) as Promise<Array<Widget>>;
+    return runtime.call('MudrixClient.widgets', this, [roomId]) as Promise<Array<Widget>>;
   }
 
   watchWidgets(roomId: string, listener: (value: Array<Widget>) => void): Subscription {
-    return runtime.watch('WizardClient.watchWidgets', this, [roomId, listener], Subscription);
+    return runtime.watch('MudrixClient.watchWidgets', this, [roomId, listener], Subscription);
   }
 
   /** Adds a web page widget (or replaces the one with `id`); returns its id. */
@@ -1768,16 +2201,16 @@ export class WizardClient extends Remote {
     name: string,
     url: string
   ): Promise<string> {
-    return runtime.call('WizardClient.setWidget', this, [roomId, id, name, url]) as Promise<string>;
+    return runtime.call('MudrixClient.setWidget', this, [roomId, id, name, url]) as Promise<string>;
   }
 
   removeWidget(roomId: string, id: string): Promise<void> {
-    return runtime.call('WizardClient.removeWidget', this, [roomId, id]) as Promise<void>;
+    return runtime.call('MudrixClient.removeWidget', this, [roomId, id]) as Promise<void>;
   }
 
   /** The URL to load for a widget, with the user's and room's details filled in. */
   widgetUrl(roomId: string, widget: Widget, theme: string, language: string): Promise<string> {
-    return runtime.call('WizardClient.widgetUrl', this, [
+    return runtime.call('MudrixClient.widgetUrl', this, [
       roomId,
       widget,
       theme,
@@ -1787,7 +2220,7 @@ export class WizardClient extends Remote {
 
   /** The room's full settings, fetched from the server. */
   roomSettings(roomId: string): Promise<RoomSettings> {
-    return runtime.call('WizardClient.roomSettings', this, [roomId]) as Promise<RoomSettings>;
+    return runtime.call('MudrixClient.roomSettings', this, [roomId]) as Promise<RoomSettings>;
   }
 
   /**
@@ -1795,7 +2228,7 @@ export class WizardClient extends Remote {
    * right away; `published` and `localAliases` stay empty.
    */
   localRoomSettings(roomId: string): Promise<RoomSettings> {
-    return runtime.call('WizardClient.localRoomSettings', this, [roomId]) as Promise<RoomSettings>;
+    return runtime.call('MudrixClient.localRoomSettings', this, [roomId]) as Promise<RoomSettings>;
   }
 
   /**
@@ -1803,19 +2236,19 @@ export class WizardClient extends Remote {
    * replies to them), newest first.
    */
   unreadMentions(roomId: string, limit: number): Promise<Array<UnreadMention>> {
-    return runtime.call('WizardClient.unreadMentions', this, [roomId, limit]) as Promise<
+    return runtime.call('MudrixClient.unreadMentions', this, [roomId, limit]) as Promise<
       Array<UnreadMention>
     >;
   }
 
   /** Calls `listener` with diffs of every joined space, subspaces included. */
   watchAllSpaces(listener: (value: Array<ListDiff<SpaceSummary>>) => void): Subscription {
-    return runtime.watch('WizardClient.watchAllSpaces', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchAllSpaces', this, [listener], Subscription);
   }
 
   /** A space and its direct children from the server; partial when a page failed. */
   spaceHierarchy(spaceId: string): Promise<SpaceHierarchy> {
-    return runtime.call('WizardClient.spaceHierarchy', this, [spaceId]) as Promise<SpaceHierarchy>;
+    return runtime.call('MudrixClient.spaceHierarchy', this, [spaceId]) as Promise<SpaceHierarchy>;
   }
 
   /**
@@ -1827,7 +2260,7 @@ export class WizardClient extends Remote {
     listener: (value: Array<[string, JsonValue]>) => void
   ): Subscription {
     return runtime.watch(
-      'WizardClient.watchRoomAccountData',
+      'MudrixClient.watchRoomAccountData',
       this,
       [eventType, listener],
       Subscription
@@ -1836,19 +2269,19 @@ export class WizardClient extends Remote {
 
   /** Whether the server lets the user set this extended profile field. */
   canSetProfileField(field: string): Promise<boolean> {
-    return runtime.call('WizardClient.canSetProfileField', this, [field]) as Promise<boolean>;
+    return runtime.call('MudrixClient.canSetProfileField', this, [field]) as Promise<boolean>;
   }
 
   /** IDs of the loaded, not yet deleted messages a user sent in a room, oldest first. */
   recentUserMessages(roomId: string, userId: string): Promise<Array<string>> {
-    return runtime.call('WizardClient.recentUserMessages', this, [roomId, userId]) as Promise<
+    return runtime.call('MudrixClient.recentUserMessages', this, [roomId, userId]) as Promise<
       Array<string>
     >;
   }
 
   /** Deletes these events. */
   redactEvents(roomId: string, eventIds: Array<string>, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.redactEvents', this, [
+    return runtime.call('MudrixClient.redactEvents', this, [
       roomId,
       eventIds,
       reason,
@@ -1856,7 +2289,7 @@ export class WizardClient extends Remote {
   }
 
   setJoinRule(roomId: string, rule: JoinRule, allowedSpaces: Array<string>): Promise<void> {
-    return runtime.call('WizardClient.setJoinRule', this, [
+    return runtime.call('MudrixClient.setJoinRule', this, [
       roomId,
       rule,
       allowedSpaces,
@@ -1864,27 +2297,27 @@ export class WizardClient extends Remote {
   }
 
   setHistoryVisibility(roomId: string, visibility: HistoryVisibility): Promise<void> {
-    return runtime.call('WizardClient.setHistoryVisibility', this, [
+    return runtime.call('MudrixClient.setHistoryVisibility', this, [
       roomId,
       visibility,
     ]) as Promise<void>;
   }
 
   setGuestAccess(roomId: string, allowed: boolean): Promise<void> {
-    return runtime.call('WizardClient.setGuestAccess', this, [roomId, allowed]) as Promise<void>;
+    return runtime.call('MudrixClient.setGuestAccess', this, [roomId, allowed]) as Promise<void>;
   }
 
   /** Lists the room in the server's directory (often admins only). */
   setPublished(roomId: string, published: boolean): Promise<void> {
-    return runtime.call('WizardClient.setPublished', this, [roomId, published]) as Promise<void>;
+    return runtime.call('MudrixClient.setPublished', this, [roomId, published]) as Promise<void>;
   }
 
   enableEncryption(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.enableEncryption', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.enableEncryption', this, [roomId]) as Promise<void>;
   }
 
   setRoomAvatar(roomId: string, data: Uint8Array, mimetype: string): Promise<void> {
-    return runtime.call('WizardClient.setRoomAvatar', this, [
+    return runtime.call('MudrixClient.setRoomAvatar', this, [
       roomId,
       data,
       mimetype,
@@ -1892,15 +2325,15 @@ export class WizardClient extends Remote {
   }
 
   removeRoomAvatar(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.removeRoomAvatar', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.removeRoomAvatar', this, [roomId]) as Promise<void>;
   }
 
   addRoomAlias(roomId: string, alias: string): Promise<void> {
-    return runtime.call('WizardClient.addRoomAlias', this, [roomId, alias]) as Promise<void>;
+    return runtime.call('MudrixClient.addRoomAlias', this, [roomId, alias]) as Promise<void>;
   }
 
   removeRoomAlias(alias: string): Promise<void> {
-    return runtime.call('WizardClient.removeRoomAlias', this, [alias]) as Promise<void>;
+    return runtime.call('MudrixClient.removeRoomAlias', this, [alias]) as Promise<void>;
   }
 
   setCanonicalAlias(
@@ -1908,7 +2341,7 @@ export class WizardClient extends Remote {
     alias: string | null | undefined,
     altAliases: Array<string>
   ): Promise<void> {
-    return runtime.call('WizardClient.setCanonicalAlias', this, [
+    return runtime.call('MudrixClient.setCanonicalAlias', this, [
       roomId,
       alias,
       altAliases,
@@ -1916,35 +2349,35 @@ export class WizardClient extends Remote {
   }
 
   setPowerLevels(roomId: string, content: JsonValue): Promise<void> {
-    return runtime.call('WizardClient.setPowerLevels', this, [roomId, content]) as Promise<void>;
+    return runtime.call('MudrixClient.setPowerLevels', this, [roomId, content]) as Promise<void>;
   }
 
   /** Moves the room to a new version; returns the new room's id. */
   upgradeRoom(roomId: string, version: string): Promise<string> {
-    return runtime.call('WizardClient.upgradeRoom', this, [roomId, version]) as Promise<string>;
+    return runtime.call('MudrixClient.upgradeRoom', this, [roomId, version]) as Promise<string>;
   }
 
   serverCapabilities(): Promise<ServerCapabilities> {
-    return runtime.call('WizardClient.serverCapabilities', this, []) as Promise<ServerCapabilities>;
+    return runtime.call('MudrixClient.serverCapabilities', this, []) as Promise<ServerCapabilities>;
   }
 
   /** Banned (`ban`), knocking (`knock`) or invited (`invite`) people. */
   membersInState(roomId: string, membership: string): Promise<Array<MemberEntry>> {
-    return runtime.call('WizardClient.membersInState', this, [roomId, membership]) as Promise<
+    return runtime.call('MudrixClient.membersInState', this, [roomId, membership]) as Promise<
       Array<MemberEntry>
     >;
   }
 
   unban(roomId: string, userId: string, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.unban', this, [roomId, userId, reason]) as Promise<void>;
+    return runtime.call('MudrixClient.unban', this, [roomId, userId, reason]) as Promise<void>;
   }
 
   acceptKnock(roomId: string, userId: string): Promise<void> {
-    return runtime.call('WizardClient.acceptKnock', this, [roomId, userId]) as Promise<void>;
+    return runtime.call('MudrixClient.acceptKnock', this, [roomId, userId]) as Promise<void>;
   }
 
   rejectKnock(roomId: string, userId: string, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.rejectKnock', this, [
+    return runtime.call('MudrixClient.rejectKnock', this, [
       roomId,
       userId,
       reason,
@@ -1957,7 +2390,7 @@ export class WizardClient extends Remote {
     reason: string | null | undefined,
     via: Array<string>
   ): Promise<string> {
-    return runtime.call('WizardClient.knock', this, [
+    return runtime.call('MudrixClient.knock', this, [
       roomIdOrAlias,
       reason,
       via,
@@ -1965,7 +2398,7 @@ export class WizardClient extends Remote {
   }
 
   reportEvent(roomId: string, eventId: string, reason?: string | null): Promise<void> {
-    return runtime.call('WizardClient.reportEvent', this, [
+    return runtime.call('MudrixClient.reportEvent', this, [
       roomId,
       eventId,
       reason,
@@ -1973,12 +2406,12 @@ export class WizardClient extends Remote {
   }
 
   reportRoom(roomId: string, reason: string): Promise<void> {
-    return runtime.call('WizardClient.reportRoom', this, [roomId, reason]) as Promise<void>;
+    return runtime.call('MudrixClient.reportRoom', this, [roomId, reason]) as Promise<void>;
   }
 
   /** One state event's content from the server, or null. */
   stateEvent(roomId: string, eventType: string, stateKey: string): Promise<JsonValue | null> {
-    return runtime.call('WizardClient.stateEvent', this, [
+    return runtime.call('MudrixClient.stateEvent', this, [
       roomId,
       eventType,
       stateKey,
@@ -1987,7 +2420,7 @@ export class WizardClient extends Remote {
 
   /** Every state event of a type as [stateKey, content] pairs. */
   stateEventsOfType(roomId: string, eventType: string): Promise<Array<[string, JsonValue]>> {
-    return runtime.call('WizardClient.stateEventsOfType', this, [roomId, eventType]) as Promise<
+    return runtime.call('MudrixClient.stateEventsOfType', this, [roomId, eventType]) as Promise<
       Array<[string, JsonValue]>
     >;
   }
@@ -2000,9 +2433,14 @@ export class WizardClient extends Remote {
     roomId: string,
     eventTypes: Array<string>
   ): Promise<Array<[string, string, JsonValue]>> {
-    return runtime.call('WizardClient.stateEventsOfTypes', this, [roomId, eventTypes]) as Promise<
+    return runtime.call('MudrixClient.stateEventsOfTypes', this, [roomId, eventTypes]) as Promise<
       Array<[string, string, JsonValue]>
     >;
+  }
+
+  /** Every current state event of the room in full, for exploring it. */
+  roomState(roomId: string): Promise<Array<JsonValue>> {
+    return runtime.call('MudrixClient.roomState', this, [roomId]) as Promise<Array<JsonValue>>;
   }
 
   setStateEvent(
@@ -2011,7 +2449,7 @@ export class WizardClient extends Remote {
     stateKey: string,
     content: JsonValue
   ): Promise<void> {
-    return runtime.call('WizardClient.setStateEvent', this, [
+    return runtime.call('MudrixClient.setStateEvent', this, [
       roomId,
       eventType,
       stateKey,
@@ -2021,7 +2459,7 @@ export class WizardClient extends Remote {
 
   /** Sends any message-like event; returns its id. */
   sendEvent(roomId: string, eventType: string, content: JsonValue): Promise<string> {
-    return runtime.call('WizardClient.sendEvent', this, [
+    return runtime.call('MudrixClient.sendEvent', this, [
       roomId,
       eventType,
       content,
@@ -2030,18 +2468,18 @@ export class WizardClient extends Remote {
 
   /** Uploads a file; returns its `mxc://` URI. */
   uploadMedia(data: Uint8Array, mimetype: string): Promise<string> {
-    return runtime.call('WizardClient.uploadMedia', this, [data, mimetype]) as Promise<string>;
+    return runtime.call('MudrixClient.uploadMedia', this, [data, mimetype]) as Promise<string>;
   }
 
   eventSource(roomId: string, eventId: string): Promise<EventSource> {
-    return runtime.call('WizardClient.eventSource', this, [
+    return runtime.call('MudrixClient.eventSource', this, [
       roomId,
       eventId,
     ]) as Promise<EventSource>;
   }
 
   forwardEvent(fromRoomId: string, eventId: string, toRoomId: string): Promise<void> {
-    return runtime.call('WizardClient.forwardEvent', this, [
+    return runtime.call('MudrixClient.forwardEvent', this, [
       fromRoomId,
       eventId,
       toRoomId,
@@ -2049,12 +2487,12 @@ export class WizardClient extends Remote {
   }
 
   emailAddresses(): Promise<Array<ThirdPartyId>> {
-    return runtime.call('WizardClient.emailAddresses', this, []) as Promise<Array<ThirdPartyId>>;
+    return runtime.call('MudrixClient.emailAddresses', this, []) as Promise<Array<ThirdPartyId>>;
   }
 
   /** Sends a verification email; returns the session id for `addEmail`. */
   requestEmailToken(email: string, secret: string, attempt: number): Promise<string> {
-    return runtime.call('WizardClient.requestEmailToken', this, [
+    return runtime.call('MudrixClient.requestEmailToken', this, [
       email,
       secret,
       attempt,
@@ -2062,12 +2500,12 @@ export class WizardClient extends Remote {
   }
 
   removeEmail(address: string): Promise<void> {
-    return runtime.call('WizardClient.removeEmail', this, [address]) as Promise<void>;
+    return runtime.call('MudrixClient.removeEmail', this, [address]) as Promise<void>;
   }
 
   /** Any extended profile field (MSC4133), or null. */
   profileField(userId: string, field: string): Promise<JsonValue | null> {
-    return runtime.call('WizardClient.profileField', this, [
+    return runtime.call('MudrixClient.profileField', this, [
       userId,
       field,
     ]) as Promise<JsonValue | null>;
@@ -2078,12 +2516,12 @@ export class WizardClient extends Remote {
    * as one object, from one request.
    */
   profileFields(userId: string): Promise<JsonValue> {
-    return runtime.call('WizardClient.profileFields', this, [userId]) as Promise<JsonValue>;
+    return runtime.call('MudrixClient.profileFields', this, [userId]) as Promise<JsonValue>;
   }
 
   /** Whether the homeserver supports extended profile fields (MSC4133). */
   supportsExtendedProfiles(): Promise<boolean> {
-    return runtime.call('WizardClient.supportsExtendedProfiles', this, []) as Promise<boolean>;
+    return runtime.call('MudrixClient.supportsExtendedProfiles', this, []) as Promise<boolean>;
   }
 
   /**
@@ -2092,27 +2530,27 @@ export class WizardClient extends Remote {
    * only ask servers that allow cross-site requests; native apps can ask any public one.
    */
   homeserverSoftware(serverName: string): Promise<HomeserverSoftware | null> {
-    return runtime.call('WizardClient.homeserverSoftware', this, [
+    return runtime.call('MudrixClient.homeserverSoftware', this, [
       serverName,
     ]) as Promise<HomeserverSoftware | null>;
   }
 
   setProfileField(field: string, value: JsonValue): Promise<void> {
-    return runtime.call('WizardClient.setProfileField', this, [field, value]) as Promise<void>;
+    return runtime.call('MudrixClient.setProfileField', this, [field, value]) as Promise<void>;
   }
 
   deleteProfileField(field: string): Promise<void> {
-    return runtime.call('WizardClient.deleteProfileField', this, [field]) as Promise<void>;
+    return runtime.call('MudrixClient.deleteProfileField', this, [field]) as Promise<void>;
   }
 
   /** A user's profile banner (`mxc://`), or null. */
   banner(userId: string): Promise<string | null> {
-    return runtime.call('WizardClient.banner', this, [userId]) as Promise<string | null>;
+    return runtime.call('MudrixClient.banner', this, [userId]) as Promise<string | null>;
   }
 
   /** Uploads and sets the own banner; with no data it removes it. */
   setBanner(data?: Uint8Array | null, mimetype?: string | null): Promise<void> {
-    return runtime.call('WizardClient.setBanner', this, [data, mimetype]) as Promise<void>;
+    return runtime.call('MudrixClient.setBanner', this, [data, mimetype]) as Promise<void>;
   }
 
   /** Lets a new device sign in to this account through this one (QR code). */
@@ -2121,7 +2559,7 @@ export class WizardClient extends Remote {
     control: QrLoginControl,
     listener: (value: QrLoginStatus) => void
   ): Promise<void> {
-    return runtime.call('WizardClient.grantLoginWithQr', this, [
+    return runtime.call('MudrixClient.grantLoginWithQr', this, [
       scanned,
       control,
       listener,
@@ -2130,13 +2568,13 @@ export class WizardClient extends Remote {
 
   /** Every joined space with its children (local state; call again on changes). */
   spaceGraph(): Promise<Array<SpaceNode>> {
-    return runtime.call('WizardClient.spaceGraph', this, []) as Promise<Array<SpaceNode>>;
+    return runtime.call('MudrixClient.spaceGraph', this, []) as Promise<Array<SpaceNode>>;
   }
 
   /** Calls `listener` with an account data event's content now and on every change. */
   watchAccountData(eventType: string, listener: (value: JsonValue | null) => void): Subscription {
     return runtime.watch(
-      'WizardClient.watchAccountData',
+      'MudrixClient.watchAccountData',
       this,
       [eventType, listener],
       Subscription
@@ -2144,52 +2582,52 @@ export class WizardClient extends Remote {
   }
 
   roomTags(roomId: string): Promise<Array<RoomTag>> {
-    return runtime.call('WizardClient.roomTags', this, [roomId]) as Promise<Array<RoomTag>>;
+    return runtime.call('MudrixClient.roomTags', this, [roomId]) as Promise<Array<RoomTag>>;
   }
 
   /** Favourites the room at a position (0-1, lower first). */
   setFavouriteOrder(roomId: string, order?: number | null): Promise<void> {
-    return runtime.call('WizardClient.setFavouriteOrder', this, [roomId, order]) as Promise<void>;
+    return runtime.call('MudrixClient.setFavouriteOrder', this, [roomId, order]) as Promise<void>;
   }
 
   /** Calls `listener` with the room list sections in order, now and on every change. */
   watchRoomSections(listener: (value: Array<RoomSection>) => void): Subscription {
-    return runtime.watch('WizardClient.watchRoomSections', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchRoomSections', this, [listener], Subscription);
   }
 
   /** Adds a room list section (Element compatible); returns its tag. */
   createRoomSection(name: string, spaceId: string): Promise<string> {
-    return runtime.call('WizardClient.createRoomSection', this, [name, spaceId]) as Promise<string>;
+    return runtime.call('MudrixClient.createRoomSection', this, [name, spaceId]) as Promise<string>;
   }
 
   renameRoomSection(tag: string, name: string): Promise<void> {
-    return runtime.call('WizardClient.renameRoomSection', this, [tag, name]) as Promise<void>;
+    return runtime.call('MudrixClient.renameRoomSection', this, [tag, name]) as Promise<void>;
   }
 
   /** Reorders the given sections; `chats` stands for the rooms in no section. */
   setRoomSectionOrder(tags: Array<string>): Promise<void> {
-    return runtime.call('WizardClient.setRoomSectionOrder', this, [tags]) as Promise<void>;
+    return runtime.call('MudrixClient.setRoomSectionOrder', this, [tags]) as Promise<void>;
   }
 
   /** Deletes a section and takes its tag off every room. */
   deleteRoomSection(tag: string): Promise<void> {
-    return runtime.call('WizardClient.deleteRoomSection', this, [tag]) as Promise<void>;
+    return runtime.call('MudrixClient.deleteRoomSection', this, [tag]) as Promise<void>;
   }
 
   /** Moves a room into a section, or out of its section with `null`. */
   setRoomSection(roomId: string, tag?: string | null): Promise<void> {
-    return runtime.call('WizardClient.setRoomSection', this, [roomId, tag]) as Promise<void>;
+    return runtime.call('MudrixClient.setRoomSection', this, [roomId, tag]) as Promise<void>;
   }
 
   roomAccountData(roomId: string, eventType: string): Promise<JsonValue | null> {
-    return runtime.call('WizardClient.roomAccountData', this, [
+    return runtime.call('MudrixClient.roomAccountData', this, [
       roomId,
       eventType,
     ]) as Promise<JsonValue | null>;
   }
 
   setRoomAccountData(roomId: string, eventType: string, content: JsonValue): Promise<void> {
-    return runtime.call('WizardClient.setRoomAccountData', this, [
+    return runtime.call('MudrixClient.setRoomAccountData', this, [
       roomId,
       eventType,
       content,
@@ -2197,12 +2635,12 @@ export class WizardClient extends Remote {
   }
 
   resolveAlias(alias: string): Promise<ResolvedAlias> {
-    return runtime.call('WizardClient.resolveAlias', this, [alias]) as Promise<ResolvedAlias>;
+    return runtime.call('MudrixClient.resolveAlias', this, [alias]) as Promise<ResolvedAlias>;
   }
 
   /** Reports every state change arriving through sync (to refresh cached settings). */
   watchStateChanges(listener: (value: StateChange) => void): Subscription {
-    return runtime.watch('WizardClient.watchStateChanges', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchStateChanges', this, [listener], Subscription);
   }
 
   /**
@@ -2211,40 +2649,68 @@ export class WizardClient extends Remote {
    * recent history sync also delivers.
    */
   watchRoomEvents(types: Array<string>, listener: (value: RoomEvent) => void): Subscription {
-    return runtime.watch('WizardClient.watchRoomEvents', this, [types, listener], Subscription);
+    return runtime.watch('MudrixClient.watchRoomEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * A page of a room's message-like events of one of `types`, newest first, decrypted in
+   * encrypted rooms (undecryptable events are left out). `limit` is capped at 100. Pass a
+   * page's `next` as `from` for the page before it; `next` is null at the start of the room.
+   * A page can hold fewer events than `limit`, even none, while `next` is set.
+   */
+  roomEvents(
+    roomId: string,
+    types: Array<string>,
+    limit: number,
+    from?: string | null
+  ): Promise<RoomEventsPage> {
+    return runtime.call('MudrixClient.roomEvents', this, [
+      roomId,
+      types,
+      limit,
+      from,
+    ]) as Promise<RoomEventsPage>;
   }
 
   serverFeatures(): Promise<ServerFeatures> {
-    return runtime.call('WizardClient.serverFeatures', this, []) as Promise<ServerFeatures>;
+    return runtime.call('MudrixClient.serverFeatures', this, []) as Promise<ServerFeatures>;
   }
 
   /** Encrypts and uploads a file; returns the `file` object for message content. */
   uploadEncryptedMedia(data: Uint8Array): Promise<JsonValue> {
-    return runtime.call('WizardClient.uploadEncryptedMedia', this, [data]) as Promise<JsonValue>;
+    return runtime.call('MudrixClient.uploadEncryptedMedia', this, [data]) as Promise<JsonValue>;
+  }
+
+  /**
+   * The HTML a message's Markdown turns into; `None` when it has no formatting. Apps add
+   * mentions and custom emoji to it, which plain Markdown sending can't.
+   */
+  markdownToHtml(body: string): Promise<string | null> {
+    return runtime.call('MudrixClient.markdownToHtml', this, [body]) as Promise<string | null>;
   }
 
   /** The LiveKit service the homeserver offers for calls, if any */
   rtcServiceUrl(): Promise<string | null> {
-    return runtime.call('WizardClient.rtcServiceUrl', this, []) as Promise<string | null>;
+    return runtime.call('MudrixClient.rtcServiceUrl', this, []) as Promise<string | null>;
   }
 
   /** Whether calls can work on this server (lenient: unknown counts as yes) */
   rtcSupported(): Promise<boolean> {
-    return runtime.call('WizardClient.rtcSupported', this, []) as Promise<boolean>;
+    return runtime.call('MudrixClient.rtcSupported', this, []) as Promise<boolean>;
   }
 
   callMembers(roomId: string): Promise<Array<CallMember>> {
-    return runtime.call('WizardClient.callMembers', this, [roomId]) as Promise<Array<CallMember>>;
+    return runtime.call('MudrixClient.callMembers', this, [roomId]) as Promise<Array<CallMember>>;
   }
 
   /** Calls `listener` with the room's call members now and on every change. */
   watchCallMembers(roomId: string, listener: (value: Array<CallMember>) => void): Subscription {
-    return runtime.watch('WizardClient.watchCallMembers', this, [roomId, listener], Subscription);
+    return runtime.watch('MudrixClient.watchCallMembers', this, [roomId, listener], Subscription);
   }
 
   /** A token for a LiveKit service, for this device in the room's call. */
   sfuConfig(roomId: string, serviceUrl: string): Promise<SfuConfig> {
-    return runtime.call('WizardClient.sfuConfig', this, [roomId, serviceUrl]) as Promise<SfuConfig>;
+    return runtime.call('MudrixClient.sfuConfig', this, [roomId, serviceUrl]) as Promise<SfuConfig>;
   }
 
   /**
@@ -2257,7 +2723,7 @@ export class WizardClient extends Remote {
     ring: boolean,
     serviceUrl?: string | null
   ): Promise<CallSession> {
-    return runtime.call('WizardClient.joinCall', this, [
+    return runtime.call('MudrixClient.joinCall', this, [
       roomId,
       video,
       ring,
@@ -2265,16 +2731,16 @@ export class WizardClient extends Remote {
     ]) as Promise<CallSession>;
   }
 
-  watchIncomingCalls(listener: (value: IncomingCall) => void): Subscription {
-    return runtime.watch('WizardClient.watchIncomingCalls', this, [listener], Subscription);
-  }
-
-  watchCallsHandledElsewhere(listener: (value: string) => void): Subscription {
-    return runtime.watch('WizardClient.watchCallsHandledElsewhere', this, [listener], Subscription);
+  /**
+   * Rings as they start and end: answered or declined on one of the user's devices, the
+   * caller left, or it expired.
+   */
+  watchIncomingCalls(listener: (value: IncomingCallEvent) => void): Subscription {
+    return runtime.watch('MudrixClient.watchIncomingCalls', this, [listener], Subscription);
   }
 
   declineCall(roomId: string, eventId: string): Promise<void> {
-    return runtime.call('WizardClient.declineCall', this, [roomId, eventId]) as Promise<void>;
+    return runtime.call('MudrixClient.declineCall', this, [roomId, eventId]) as Promise<void>;
   }
 
   /**
@@ -2282,42 +2748,243 @@ export class WizardClient extends Remote {
    * the user, messages decrypted later).
    */
   watchNotifications(listener: (value: Notification) => void): Subscription {
-    return runtime.watch('WizardClient.watchNotifications', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchNotifications', this, [listener], Subscription);
+  }
+
+  setPusher(config: PusherConfig): Promise<void> {
+    return runtime.call('MudrixClient.setPusher', this, [config]) as Promise<void>;
+  }
+
+  removePusher(appId: string, pushkey: string): Promise<void> {
+    return runtime.call('MudrixClient.removePusher', this, [appId, pushkey]) as Promise<void>;
+  }
+
+  pushedNotification(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('MudrixClient.pushedNotification', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
+  }
+
+  /**
+   * The server's notifications, newest first, read or not; `highlights` keeps only the
+   * mentions and keywords. Unlike the room counts, these don't need the messages loaded.
+   */
+  serverNotifications(highlights: boolean, limit: number): Promise<Array<ServerNotification>> {
+    return runtime.call('MudrixClient.serverNotifications', this, [highlights, limit]) as Promise<
+      Array<ServerNotification>
+    >;
+  }
+
+  /**
+   * Like `pushedNotification`, for the iOS notification service extension: a second
+   * process restored over the same store with its own `StoreConfig.processName`, safe
+   * while the app runs. It never starts the sync; an event whose keys this process
+   * doesn't have comes back with `encrypted: true` and an empty body.
+   */
+  pushedNotificationFromExtension(roomId: string, eventId: string): Promise<Notification | null> {
+    return runtime.call('MudrixClient.pushedNotificationFromExtension', this, [
+      roomId,
+      eventId,
+    ]) as Promise<Notification | null>;
   }
 
   logout(): Promise<void> {
-    return runtime.call('WizardClient.logout', this, []) as Promise<void>;
+    return runtime.call('MudrixClient.logout', this, []) as Promise<void>;
+  }
+
+  /**
+   * Asks the homeserver to send an event later (MSC4140, "send later"): `eventType` with
+   * `content` after `delayMs` milliseconds, as a state event when `stateKey` is given.
+   * Resolves to the delay id. Rejects with `unsupportedByServer` when the homeserver
+   * hasn't switched delayed events on, and with `unsupported` for an encrypted room (the
+   * server would have to send the plain event).
+   */
+  sendDelayedEvent(
+    roomId: string,
+    eventType: string,
+    content: JsonValue,
+    delayMs: number,
+    stateKey?: string | null
+  ): Promise<string> {
+    return runtime.call('MudrixClient.sendDelayedEvent', this, [
+      roomId,
+      eventType,
+      content,
+      delayMs,
+      stateKey,
+    ]) as Promise<string>;
+  }
+
+  /**
+   * The user's scheduled delayed events, soonest first; only a room's with `roomId`.
+   * Rejects with `unsupportedByServer` like `sendDelayedEvent`.
+   */
+  listDelayedEvents(roomId?: string | null): Promise<Array<DelayedEvent>> {
+    return runtime.call('MudrixClient.listDelayedEvents', this, [roomId]) as Promise<
+      Array<DelayedEvent>
+    >;
+  }
+
+  /**
+   * The ID of the event nearest `timestamp` (milliseconds since the Unix epoch) in a room,
+   * looking `direction` from it ("jump to date"); null when the room has no event that
+   * way. Open it with `timelineOf(roomId, { type: 'event', eventId })`. Rejects with
+   * `unsupportedByServer` when the homeserver can't look up dates.
+   */
+  timestampToEvent(
+    roomId: string,
+    timestamp: number,
+    direction: SearchDirection
+  ): Promise<TimestampEvent | null> {
+    return runtime.call('MudrixClient.timestampToEvent', this, [
+      roomId,
+      timestamp,
+      direction,
+    ]) as Promise<TimestampEvent | null>;
+  }
+
+  /**
+   * Every version of a message, oldest first: the original (`isOriginal`) and its edits,
+   * decrypted in encrypted rooms (up to 200 edits; edits by anyone but the sender are
+   * left out).
+   */
+  eventEditHistory(roomId: string, eventId: string): Promise<Array<EventVersion>> {
+    return runtime.call('MudrixClient.eventEditHistory', this, [roomId, eventId]) as Promise<
+      Array<EventVersion>
+    >;
+  }
+
+  /**
+   * A person's name and picture in one room or space (its `m.room.member` event), which
+   * can differ from their account profile. Works for any user; the server answers for
+   * people this device hasn't loaded.
+   */
+  roomMemberProfile(roomId: string, userId: string): Promise<RoomMemberProfile> {
+    return runtime.call('MudrixClient.roomMemberProfile', this, [
+      roomId,
+      userId,
+    ]) as Promise<RoomMemberProfile>;
+  }
+
+  /**
+   * Sets the own name in one room or space only (the member event's `displayname`); null
+   * or empty goes back to the account's display name. Needs a joined room.
+   */
+  setRoomNickname(roomId: string, displayname?: string | null): Promise<void> {
+    return runtime.call('MudrixClient.setRoomNickname', this, [
+      roomId,
+      displayname,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Sets the own picture in one room or space only; without `data` it goes back to the
+   * account's picture. Needs a joined room.
+   */
+  setRoomMemberAvatar(
+    roomId: string,
+    data?: Uint8Array | null,
+    mimetype?: string | null
+  ): Promise<void> {
+    return runtime.call('MudrixClient.setRoomMemberAvatar', this, [
+      roomId,
+      data,
+      mimetype,
+    ]) as Promise<void>;
+  }
+
+  /**
+   * Every state event of the given types in a room, with who set it and when (the sender
+   * is what permission checks need). Mudrix's own types (`io.github.kapsikkum.mudrix.*`
+   * and the older `chat.mudrix.*`) and space children come from this device; the server
+   * is asked once when there are none there or for other types.
+   */
+  stateEventsWithSender(roomId: string, eventTypes: Array<string>): Promise<Array<StateEventView>> {
+    return runtime.call('MudrixClient.stateEventsWithSender', this, [
+      roomId,
+      eventTypes,
+    ]) as Promise<Array<StateEventView>>;
+  }
+
+  /**
+   * Calls `listener` with every state event of one of `types` arriving in a joined room,
+   * the first sync's and your own changes included. Mudrix's state types are requested
+   * from the server in every room (a separate light sync connection runs beside the room
+   * list's), so this hears them without polling.
+   */
+  watchStateEvents(types: Array<string>, listener: (value: StateEventView) => void): Subscription {
+    return runtime.watch('MudrixClient.watchStateEvents', this, [types, listener], Subscription);
+  }
+
+  /**
+   * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
+   * `stateEventsWithSender` or `watchStateEvents`.
+   */
+  static mudrixStateTypes(): Promise<Array<string>> {
+    return runtime.call('MudrixClient.mudrixStateTypes', null, []) as Promise<Array<string>>;
+  }
+
+  /**
+   * Writes every room key this device has to a file, encrypted with `passphrase`
+   * (Element's key file format). Desktop and mobile only: in the browser it rejects with
+   * `unsupported`.
+   */
+  exportRoomKeys(path: string, passphrase: string): Promise<void> {
+    return runtime.call('MudrixClient.exportRoomKeys', this, [path, passphrase]) as Promise<void>;
+  }
+
+  /**
+   * Adds the room keys of a key file (from `exportRoomKeys` or Element); messages they
+   * unlock decrypt by themselves. A wrong passphrase rejects with `wrongRecoveryKey`.
+   * Desktop and mobile only: in the browser it rejects with `unsupported`.
+   */
+  importRoomKeys(path: string, passphrase: string): Promise<KeyImportResult> {
+    return runtime.call('MudrixClient.importRoomKeys', this, [
+      path,
+      passphrase,
+    ]) as Promise<KeyImportResult>;
+  }
+
+  /** Calls a delayed event off so it is never sent. */
+  cancelDelayedEvent(delayId: string): Promise<void> {
+    return runtime.call('MudrixClient.cancelDelayedEvent', this, [delayId]) as Promise<void>;
+  }
+
+  /** Has the server send a delayed event right now. */
+  sendDelayedEventNow(delayId: string): Promise<void> {
+    return runtime.call('MudrixClient.sendDelayedEventNow', this, [delayId]) as Promise<void>;
   }
 
   /** Calls `listener` when tokens are refreshed (store the new session) or the session ends. */
   watchSession(listener: (value: SessionEvent) => void): Subscription {
-    return runtime.watch('WizardClient.watchSession', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchSession', this, [listener], Subscription);
   }
 
   accountManagementUrl(): Promise<string | null> {
-    return runtime.call('WizardClient.accountManagementUrl', this, []) as Promise<string | null>;
+    return runtime.call('MudrixClient.accountManagementUrl', this, []) as Promise<string | null>;
   }
 
   encryptionStatus(): Promise<EncryptionStatus> {
-    return runtime.call('WizardClient.encryptionStatus', this, []) as Promise<EncryptionStatus>;
+    return runtime.call('MudrixClient.encryptionStatus', this, []) as Promise<EncryptionStatus>;
   }
 
   watchEncryptionStatus(listener: (value: EncryptionStatus) => void): Subscription {
-    return runtime.watch('WizardClient.watchEncryptionStatus', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchEncryptionStatus', this, [listener], Subscription);
   }
 
   /** Sets up recovery; resolves to the new recovery key (show it once). */
   enableRecovery(): Promise<string> {
-    return runtime.call('WizardClient.enableRecovery', this, []) as Promise<string>;
+    return runtime.call('MudrixClient.enableRecovery', this, []) as Promise<string>;
   }
 
   resetRecoveryKey(): Promise<string> {
-    return runtime.call('WizardClient.resetRecoveryKey', this, []) as Promise<string>;
+    return runtime.call('MudrixClient.resetRecoveryKey', this, []) as Promise<string>;
   }
 
   /** Unlocks (and verifies) this device with the recovery key. */
   recover(recoveryKey: string): Promise<void> {
-    return runtime.call('WizardClient.recover', this, [recoveryKey]) as Promise<void>;
+    return runtime.call('MudrixClient.recover', this, [recoveryKey]) as Promise<void>;
   }
 
   /**
@@ -2326,7 +2993,7 @@ export class WizardClient extends Remote {
    * in the room's timelines by itself.
    */
   retryDecryption(roomId: string): Promise<void> {
-    return runtime.call('WizardClient.retryDecryption', this, [roomId]) as Promise<void>;
+    return runtime.call('MudrixClient.retryDecryption', this, [roomId]) as Promise<void>;
   }
 
   /**
@@ -2335,40 +3002,40 @@ export class WizardClient extends Remote {
    * `listener` hears the progress after each room; resolves to the final one.
    */
   restoreKeyBackup(listener: (value: KeyRestoreProgress) => void): Promise<KeyRestoreProgress> {
-    return runtime.call('WizardClient.restoreKeyBackup', this, [
+    return runtime.call('MudrixClient.restoreKeyBackup', this, [
       listener,
     ]) as Promise<KeyRestoreProgress>;
   }
 
   requestSelfVerification(): Promise<VerificationFlow> {
     return runtime.call(
-      'WizardClient.requestSelfVerification',
+      'MudrixClient.requestSelfVerification',
       this,
       []
     ) as Promise<VerificationFlow>;
   }
 
   userTrust(userId: string): Promise<UserTrust> {
-    return runtime.call('WizardClient.userTrust', this, [userId]) as Promise<UserTrust>;
+    return runtime.call('MudrixClient.userTrust', this, [userId]) as Promise<UserTrust>;
   }
 
   /** Starts emoji verification with another person. */
   requestUserVerification(userId: string): Promise<VerificationFlow> {
-    return runtime.call('WizardClient.requestUserVerification', this, [
+    return runtime.call('MudrixClient.requestUserVerification', this, [
       userId,
     ]) as Promise<VerificationFlow>;
   }
 
   /** Starts emoji verification with one of the own other devices. */
   requestDeviceVerification(deviceId: string): Promise<VerificationFlow> {
-    return runtime.call('WizardClient.requestDeviceVerification', this, [
+    return runtime.call('MudrixClient.requestDeviceVerification', this, [
       deviceId,
     ]) as Promise<VerificationFlow>;
   }
 
   /** Accepts someone's changed identity so messages can be sent again. */
   acknowledgeIdentity(userId: string): Promise<void> {
-    return runtime.call('WizardClient.acknowledgeIdentity', this, [userId]) as Promise<void>;
+    return runtime.call('MudrixClient.acknowledgeIdentity', this, [userId]) as Promise<void>;
   }
 
   /** Reports room members whose identity changed. */
@@ -2377,7 +3044,7 @@ export class WizardClient extends Remote {
     listener: (value: Array<IdentityChange>) => void
   ): Subscription {
     return runtime.watch(
-      'WizardClient.watchIdentityChanges',
+      'MudrixClient.watchIdentityChanges',
       this,
       [roomId, listener],
       Subscription
@@ -2393,28 +3060,28 @@ export class WizardClient extends Remote {
     auth: UiaAuth | null | undefined,
     onApprovalUrl: (value: string) => void
   ): Promise<UiaOutcome> {
-    return runtime.call('WizardClient.resetIdentityWithAuth', this, [
+    return runtime.call('MudrixClient.resetIdentityWithAuth', this, [
       auth,
       onApprovalUrl,
     ]) as Promise<UiaOutcome>;
   }
 
   cancelIdentityReset(): Promise<void> {
-    return runtime.call('WizardClient.cancelIdentityReset', this, []) as Promise<void>;
+    return runtime.call('MudrixClient.cancelIdentityReset', this, []) as Promise<void>;
   }
 
   /** Calls `listener` with the users whose devices or identity (and so their trust) changed. */
   watchTrustChanges(listener: (value: Array<string>) => void): Subscription {
-    return runtime.watch('WizardClient.watchTrustChanges', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchTrustChanges', this, [listener], Subscription);
   }
 
   pushRules(): Promise<JsonValue> {
-    return runtime.call('WizardClient.pushRules', this, []) as Promise<JsonValue>;
+    return runtime.call('MudrixClient.pushRules', this, []) as Promise<JsonValue>;
   }
 
   /** `off`, `silent`, `loud` or `highlight` for a push rule. */
   setPushRuleLevel(kind: string, ruleId: string, level: string): Promise<void> {
-    return runtime.call('WizardClient.setPushRuleLevel', this, [
+    return runtime.call('MudrixClient.setPushRuleLevel', this, [
       kind,
       ruleId,
       level,
@@ -2422,16 +3089,16 @@ export class WizardClient extends Remote {
   }
 
   urlPreview(url: string): Promise<UrlPreview | null> {
-    return runtime.call('WizardClient.urlPreview', this, [url]) as Promise<UrlPreview | null>;
+    return runtime.call('MudrixClient.urlPreview', this, [url]) as Promise<UrlPreview | null>;
   }
 
   /** The room's threads; `mine` only those the user took part in. */
   threads(roomId: string, mine: boolean, from?: string | null): Promise<ThreadPage> {
-    return runtime.call('WizardClient.threads', this, [roomId, mine, from]) as Promise<ThreadPage>;
+    return runtime.call('MudrixClient.threads', this, [roomId, mine, from]) as Promise<ThreadPage>;
   }
 
   addToSpace(spaceId: string, childId: string, suggested: boolean): Promise<void> {
-    return runtime.call('WizardClient.addToSpace', this, [
+    return runtime.call('MudrixClient.addToSpace', this, [
       spaceId,
       childId,
       suggested,
@@ -2439,7 +3106,7 @@ export class WizardClient extends Remote {
   }
 
   removeFromSpace(spaceId: string, childId: string): Promise<void> {
-    return runtime.call('WizardClient.removeFromSpace', this, [spaceId, childId]) as Promise<void>;
+    return runtime.call('MudrixClient.removeFromSpace', this, [spaceId, childId]) as Promise<void>;
   }
 
   /** Sets a child's `suggested` flag and/or `order` (pass `clearOrder` to remove it). */
@@ -2450,7 +3117,7 @@ export class WizardClient extends Remote {
     order: string | null | undefined,
     clearOrder: boolean
   ): Promise<void> {
-    return runtime.call('WizardClient.updateSpaceChild', this, [
+    return runtime.call('MudrixClient.updateSpaceChild', this, [
       spaceId,
       childId,
       suggested,
@@ -2467,7 +3134,7 @@ export class WizardClient extends Remote {
     limit: number,
     since?: string | null
   ): Promise<PublicRoomsPage> {
-    return runtime.call('WizardClient.publicRoomsPage', this, [
+    return runtime.call('MudrixClient.publicRoomsPage', this, [
       query,
       server,
       kind,
@@ -2478,15 +3145,15 @@ export class WizardClient extends Remote {
 
   /** Calls `listener` with a `VerificationFlow` for every incoming verification request. */
   watchVerificationRequests(listener: (value: VerificationFlow) => void): Subscription {
-    return runtime.watch('WizardClient.watchVerificationRequests', this, [listener], Subscription);
+    return runtime.watch('MudrixClient.watchVerificationRequests', this, [listener], Subscription);
   }
 
   devices(): Promise<Array<DeviceInfo>> {
-    return runtime.call('WizardClient.devices', this, []) as Promise<Array<DeviceInfo>>;
+    return runtime.call('MudrixClient.devices', this, []) as Promise<Array<DeviceInfo>>;
   }
 
   renameDevice(deviceId: string, name: string): Promise<void> {
-    return runtime.call('WizardClient.renameDevice', this, [deviceId, name]) as Promise<void>;
+    return runtime.call('MudrixClient.renameDevice', this, [deviceId, name]) as Promise<void>;
   }
 
   /**
@@ -2500,25 +3167,25 @@ export class WizardClient extends Remote {
     password: string,
     deviceName: string,
     store: StoreConfig
-  ): Promise<WizardClient> {
-    return runtime.call('WizardClient.loginPassword', null, [
+  ): Promise<MudrixClient> {
+    return runtime.call('MudrixClient.loginPassword', null, [
       server,
       identifier,
       password,
       deviceName,
       store,
-    ]) as Promise<WizardClient>;
+    ]) as Promise<MudrixClient>;
   }
 
   /** Whether and how the server lets people register. */
   static registrationInfo(server: string): Promise<RegistrationInfo> {
-    return runtime.call('WizardClient.registrationInfo', null, [
+    return runtime.call('MudrixClient.registrationInfo', null, [
       server,
     ]) as Promise<RegistrationInfo>;
   }
 
   static usernameAvailable(server: string, username: string): Promise<boolean> {
-    return runtime.call('WizardClient.usernameAvailable', null, [
+    return runtime.call('MudrixClient.usernameAvailable', null, [
       server,
       username,
     ]) as Promise<boolean>;
@@ -2532,15 +3199,15 @@ export class WizardClient extends Remote {
     deviceName: string,
     token: string | null | undefined,
     store: StoreConfig
-  ): Promise<WizardClient> {
-    return runtime.call('WizardClient.register', null, [
+  ): Promise<MudrixClient> {
+    return runtime.call('MudrixClient.register', null, [
       server,
       username,
       password,
       deviceName,
       token,
       store,
-    ]) as Promise<WizardClient>;
+    ]) as Promise<MudrixClient>;
   }
 
   /** Emails a reset link; returns the session id for `resetPassword`. */
@@ -2550,7 +3217,7 @@ export class WizardClient extends Remote {
     secret: string,
     attempt: number
   ): Promise<string> {
-    return runtime.call('WizardClient.requestPasswordReset', null, [
+    return runtime.call('MudrixClient.requestPasswordReset', null, [
       server,
       email,
       secret,
@@ -2565,7 +3232,7 @@ export class WizardClient extends Remote {
     sid: string,
     logoutDevices: boolean
   ): Promise<void> {
-    return runtime.call('WizardClient.resetPassword', null, [
+    return runtime.call('MudrixClient.resetPassword', null, [
       server,
       newPassword,
       secret,
@@ -2585,15 +3252,15 @@ export class WizardClient extends Remote {
     scanned: Uint8Array | null | undefined,
     control: QrLoginControl,
     listener: (value: QrLoginStatus) => void
-  ): Promise<WizardClient> {
-    return runtime.call('WizardClient.loginWithQr', null, [
+  ): Promise<MudrixClient> {
+    return runtime.call('MudrixClient.loginWithQr', null, [
       server,
       store,
       app,
       scanned,
       control,
       listener,
-    ]) as Promise<WizardClient>;
+    ]) as Promise<MudrixClient>;
   }
 
   /**
@@ -2601,7 +3268,7 @@ export class WizardClient extends Remote {
    * the address answers but is not a Matrix server, and `homeserver` when it can't be reached.
    */
   static discover(server: string): Promise<ServerInfo> {
-    return runtime.call('WizardClient.discover', null, [server]) as Promise<ServerInfo>;
+    return runtime.call('MudrixClient.discover', null, [server]) as Promise<ServerInfo>;
   }
 
   static startOAuthLogin(
@@ -2612,7 +3279,7 @@ export class WizardClient extends Remote {
     createAccount?: boolean | null,
     knownClients?: { [key in string]?: string } | null
   ): Promise<PendingLogin> {
-    return runtime.call('WizardClient.startOAuthLogin', null, [
+    return runtime.call('MudrixClient.startOAuthLogin', null, [
       server,
       store,
       redirectUri,
@@ -2628,7 +3295,7 @@ export class WizardClient extends Remote {
     redirectUri: string,
     idpId?: string | null
   ): Promise<PendingLogin> {
-    return runtime.call('WizardClient.startSsoLogin', null, [
+    return runtime.call('MudrixClient.startSsoLogin', null, [
       server,
       store,
       redirectUri,
@@ -2638,12 +3305,12 @@ export class WizardClient extends Remote {
 
   /** Ends a stored session on the server without restoring it (when restoring failed). */
   static logoutSession(session: Session): Promise<void> {
-    return runtime.call('WizardClient.logoutSession', null, [session]) as Promise<void>;
+    return runtime.call('MudrixClient.logoutSession', null, [session]) as Promise<void>;
   }
 
   /** Restores a session previously returned by `session()`. */
-  static restore(session: Session, store: StoreConfig): Promise<WizardClient> {
-    return runtime.call('WizardClient.restore', null, [session, store]) as Promise<WizardClient>;
+  static restore(session: Session, store: StoreConfig): Promise<MudrixClient> {
+    return runtime.call('MudrixClient.restore', null, [session, store]) as Promise<MudrixClient>;
   }
 
   /**
@@ -2651,16 +3318,16 @@ export class WizardClient extends Remote {
    * the room's latest message. Private receipts aren't shown to others.
    */
   markRoomAsRead(roomId: string, _private?: boolean | null): Promise<void> {
-    return runtime.call('WizardClient.markRoomAsRead', this, [roomId, _private]) as Promise<void>;
+    return runtime.call('MudrixClient.markRoomAsRead', this, [roomId, _private]) as Promise<void>;
   }
 
   /** Joins the room that replaced an upgraded room; resolves to its ID. */
   joinUpgradedRoom(roomId: string): Promise<string> {
-    return runtime.call('WizardClient.joinUpgradedRoom', this, [roomId]) as Promise<string>;
+    return runtime.call('MudrixClient.joinUpgradedRoom', this, [roomId]) as Promise<string>;
   }
 }
 
-runtime.define(WizardClient);
+runtime.define(MudrixClient);
 
 export class PendingLogin extends Remote {
   static readonly className = 'PendingLogin';
@@ -2671,11 +3338,11 @@ export class PendingLogin extends Remote {
   }
 
   /** Completes the sign-in with the URL the server redirected back to. */
-  finish(callbackUrl: string, deviceName: string): Promise<WizardClient> {
+  finish(callbackUrl: string, deviceName: string): Promise<MudrixClient> {
     return runtime.call('PendingLogin.finish', this, [
       callbackUrl,
       deviceName,
-    ]) as Promise<WizardClient>;
+    ]) as Promise<MudrixClient>;
   }
 
   abort(): Promise<void> {
@@ -2743,6 +3410,20 @@ export class RoomTimeline extends Remote {
 
   editText(itemKey: string, body: string): Promise<void> {
     return runtime.call('RoomTimeline.editText', this, [itemKey, body]) as Promise<void>;
+  }
+
+  editCaption(
+    itemKey: string,
+    caption: string,
+    html?: string | null,
+    mentions?: Mentions | null
+  ): Promise<void> {
+    return runtime.call('RoomTimeline.editCaption', this, [
+      itemKey,
+      caption,
+      html,
+      mentions,
+    ]) as Promise<void>;
   }
 
   redact(itemKey: string, reason?: string | null): Promise<void> {

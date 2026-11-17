@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import type { VerificationEmoji, VerificationFlow, WizardClient } from '@wizardchat/core';
+import type { VerificationEmoji, VerificationFlow, MudrixClient } from '@mudrix/core';
 import {
   STORAGE_KEY_SIDEBAR_VIEW,
   STORAGE_KEY_CLOSED_NAV_CATEGORIES,
@@ -16,7 +16,7 @@ import {
 } from '@/const/storageKeys';
 import { atomWithAccountStorage } from './accountStorage';
 
-export type { SyncState } from '@wizardchat/core';
+export type { SyncState } from '@mudrix/core';
 export { syncStateAtom } from '@/app/data/atoms';
 
 // Mobile
@@ -104,7 +104,7 @@ export interface InviteModalState {
 export const inviteModalRoomIdAtom = atom<InviteModalState | null>(null);
 export const roomSettingsRoomIdAtom = atom<string | null>(null);
 export const roomSettingsTabAtom = atom<
-  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | null
+  'general' | 'members' | 'permissions' | 'widgets' | 'emojis' | 'developer' | null
 >(null);
 export const spaceSettingsRoomIdAtom = atom<string | null>(null);
 
@@ -195,9 +195,13 @@ export interface RoomSearchResults {
   activeMatch: number;
   next: () => void;
   prev: () => void;
+  /** False while the homeserver's results are shown: there is no match to step through */
+  showNav?: boolean;
 }
 export const roomSearchResultsAtom = atom<RoomSearchResults | null>(null);
 export const exploreOpenAtom = atom(false);
+
+export const getAppsOpenAtom = atom(false);
 export const inboxOpenAtom = atom(false);
 export const mobileYouOpenAtom = atom(false);
 
@@ -255,17 +259,21 @@ export type SettingsPage =
   | 'accessibility'
   | 'privacy'
   | 'notifications'
+  | 'voice-video'
   | 'emojis-stickers'
+  | 'cosmetics'
   | 'integrations'
   | 'media'
   | 'voice'
   | 'keybinds'
+  | 'activity'
   | 'language'
   | 'developer'
   | 'sessions'
   | 'encryption'
   | 'about';
 export const settingsPageAtom = atom<SettingsPage | null>(null);
+export const settingsHighlightAtom = atom<string | null>(null);
 
 export interface EmojiVerificationState {
   open: boolean;
@@ -299,7 +307,7 @@ export interface EmojiPickerState {
   anchor: HTMLElement | null;
   anchorRect?: { x: number; y: number; width: number; height: number } | null;
   onPick: (emoji: string, mxcUrl?: string) => void;
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
 }
 export const emojiPickerAtom = atom<EmojiPickerState | null>(null);

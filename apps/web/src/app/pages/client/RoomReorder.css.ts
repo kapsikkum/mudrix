@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const row = style({
   position: 'relative',
@@ -43,7 +44,7 @@ export const personOverlay = style({
   border: `1px solid color-mix(in srgb, ${vars.color.accent} 45%, transparent)`,
   boxShadow: '0 10px 28px rgba(0, 0, 0, 0.4)',
   color: vars.color.textPrimary,
-  fontSize: '0.85rem',
+  fontSize: fontSize.sm,
   whiteSpace: 'nowrap',
   cursor: 'grabbing',
 });

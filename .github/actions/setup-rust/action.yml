@@ -1,0 +1,33 @@
+name: Set up Rust
+description: Installs the toolchain pinned in rust-toolchain.toml (plus extra targets) and caches cargo's registry and target directory.
+
+inputs:
+  targets:
+    description: Extra rustup targets, space separated
+    default: ''
+  cache-key:
+    description: Extra cache key, to keep jobs with different targets or profiles apart
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    # Needs rustup 1.28+ (every hosted runner image has it): with no arguments it installs what rust-toolchain.toml lists
+    - name: Install the toolchain from rust-toolchain.toml
+      shell: bash
+      run: rustup toolchain install --profile minimal
+    - name: Add targets
+      if: inputs.targets != ''
+      shell: bash
+      env:
+        TARGETS: ${{ inputs.targets }}
+      run: rustup target add $TARGETS
+    - name: Show versions
+      shell: bash
+      run: |
+        rustup show
+        rustc --version
+        cargo --version
+    - uses: Swatinem/rust-cache@v2
+      with:
+        key: ${{ inputs.cache-key }}

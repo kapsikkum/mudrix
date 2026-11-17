@@ -1,6 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import type { TimelineEntry, WizardClient } from '@wizardchat/core';
+import type { TimelineEntry, MudrixClient } from '@mudrix/core';
 import { useMembers } from '@/app/data';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
 import { formatUserId } from '@/util/matrix';
@@ -26,7 +26,7 @@ function sameReaders(a: ReceiptUser[], b: ReceiptUser[]): boolean {
 }
 
 export function useRoomReceipts(
-  client: WizardClient,
+  client: MudrixClient,
   roomId: string | null,
   entries: TimelineEntry[]
 ): Map<string, ReceiptUser[]> {

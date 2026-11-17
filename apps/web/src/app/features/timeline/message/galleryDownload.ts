@@ -1,4 +1,4 @@
-import type { MediaInfo } from '@wizardchat/core';
+import type { MediaInfo } from '@mudrix/core';
 
 export interface SaveAllResult {
   saved: number;

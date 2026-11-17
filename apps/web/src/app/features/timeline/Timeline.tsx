@@ -8,7 +8,7 @@ import {
   type ComponentProps,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { WizardClient } from '@wizardchat/core';
+import type { MudrixClient } from '@mudrix/core';
 import { CaretDownIcon, UploadIcon, ChatTeardropTextIcon, XIcon } from '@phosphor-icons/react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +37,8 @@ import { useRoomReceipts } from '@/app/hooks/useRoomReceipts';
 import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useTimeline, itemContainsEvent, buildItems } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
+import { isServerEventId, roomHasUnread } from './readReceipt';
+import { useTimelineReadReceipts } from './useTimelineReadReceipts';
 import { itemMatchesQuery, useSearch } from '@/app/hooks/useSearch';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
@@ -44,6 +46,9 @@ import { useWidgets } from '@/app/hooks/useWidgets';
 import { useVirtualPaginator } from '@/app/hooks/useVirtualPaginator';
 import { MessageSkeletonList } from './MessageSkeleton';
 import { ROW_KEY_ATTR, useTimelineScrollAnchor } from './useTimelineScrollAnchor';
+import { SearchResults } from './SearchResults';
+import { useRoomServerSearch } from '@/app/hooks/useRoomServerSearch';
+import * as searchCss from './SearchResults.css';
 import {
   UndecryptableCollapse,
   UndecryptableFold,
@@ -59,7 +64,6 @@ import {
   getIntersectionObserverEntry,
   useIntersectionObserver,
 } from '@/app/hooks/useIntersectionObserver';
-import { useRoomReadReceipts } from '@/app/hooks/useRoomReadReceipts';
 import { DecryptionGate, Message } from './message';
 import { toggleReaction } from './message/reactions';
 import { editStateFor, publishTimelineEntries } from './message/editNavigation';
@@ -69,12 +73,11 @@ import { Composer } from './composer';
 import { RoomHeader } from './RoomHeader';
 import { getErrorMessage } from '@/util/error';
 import { ImagePacksProvider } from '@/app/hooks/useImagePacks';
-import { useCallMemberships, uniqueMembers } from '@/app/features/calls/useCallMemberships';
 import * as css from './Timeline.css';
 import { scrollBehavior } from '@/app/hooks/useReducedMotion';
 
 interface Props {
-  client: WizardClient;
+  client: MudrixClient;
   roomId: string;
   hideHeader?: boolean;
 }
@@ -206,25 +209,21 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const isInCall = useAtomValue(isInCallAtom);
   const callActiveInRoom = callUi.roomId === roomId && isInCall;
 
-  const callMemberships = useCallMemberships(client, [roomId]);
-  const othersInCall = (() => {
-    const members = callMemberships.get(roomId);
-    if (!members) return false;
-    const myId = client.userId();
-    return uniqueMembers(members).some((m) => m.userId !== myId);
-  })();
+  const room = useRoom(roomId);
+  const myUserId = client.userId();
+  const othersInCall = !!room?.callParticipants.some((userId) => userId !== myUserId);
+  const inCallElsewhere = !!room?.inCallElsewhere;
 
   const handleStartCall = useCallback(
-    async (targetRoomId: string) => {
+    async (targetRoomId: string, ring: boolean) => {
       if (isInCall && callUi.roomId === targetRoomId) {
         return;
       }
-      await callActions?.start(targetRoomId, { voiceOnly: true, presentation: 'room' });
+      await callActions?.start(targetRoomId, { voiceOnly: true, presentation: 'room', ring });
     },
     [isInCall, callUi.roomId, callActions]
   );
 
-  const room = useRoom(roomId);
   const receiptMap = useRoomReceipts(client, roomId, entries);
   const members = useLoadedMembers(roomId);
 
@@ -311,6 +310,11 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     isSearching,
   } = useSearch(searchItems);
 
+  // Unencrypted rooms are searched on the homeserver, which can page through every message;
+  // encrypted ones can only be matched against what this device has loaded.
+  const serverSearchEnabled = isSearching && !room?.isEncrypted;
+  const serverSearch = useRoomServerSearch(client, roomId, search.query, serverSearchEnabled);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const stickToBottomRef = useRef(false);
@@ -363,24 +367,31 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const latestEventId = useMemo(() => {
     for (let i = events.length - 1; i >= 0; i--) {
       const id = events[i].eventId;
-      if (id) return id;
+      // A local echo has no server id yet; a receipt for it is refused, and the previous event is
+      // the newest one the server can be read up to.
+      if (isServerEventId(id)) return id;
     }
     return null;
   }, [events]);
-  const sendReadReceiptIfAtBottom = useRoomReadReceipts(
+  const sendReadReceiptIfDue = useTimelineReadReceipts({
     client,
     roomId,
-    liveTimelineLinked ? timeline : null,
-    latestEventId
-  );
+    timeline: liveTimelineLinked ? timeline : null,
+    latestEventId,
+    roomUnread: roomHasUnread(room),
+    getScrollElement: useCallback(() => scrollRef.current, []),
+    isAtLiveEnd: useCallback(() => atLiveEndRef.current, []),
+  });
 
   useEffect(() => {
-    if (items.length > 0 && atBottomRef.current) sendReadReceiptIfAtBottom();
-  }, [items, sendReadReceiptIfAtBottom]);
+    // The receipt hook decides from the live scroll geometry whether the newest event is on
+    // screen, so a stale atBottomRef can no longer swallow the receipt for a new message.
+    if (items.length > 0) sendReadReceiptIfDue();
+  }, [items, sendReadReceiptIfDue]);
 
   const tryAutoMarkAsRead = useCallback(() => {
-    requestAnimationFrame(() => sendReadReceiptIfAtBottom());
-  }, [sendReadReceiptIfAtBottom]);
+    requestAnimationFrame(() => sendReadReceiptIfDue());
+  }, [sendReadReceiptIfDue]);
 
   const atBottomDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const debounceSetAtBottom = useCallback((entry: IntersectionObserverEntry) => {
@@ -498,6 +509,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     handleJumpToLatest();
   }, [clearSearch, handleJumpToLatest]);
 
+  const handleSearchResultJump = useCallback(
+    (result: { eventId: string }) => {
+      clearSearch();
+      // Let the regular timeline render again before scrolling/loading around the event.
+      setTimeout(() => void handleJumpToEvent(result.eventId), 50);
+    },
+    [clearSearch, handleJumpToEvent]
+  );
+
   const [roomSearch, setRoomSearch] = useAtom(roomSearchAtom);
   const setRoomSearchResults = useSetAtom(roomSearchResultsAtom);
   const setGlobalSearchOpen = useSetAtom(globalSearchOpenAtom);
@@ -517,15 +537,22 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     if (searchQueryForRoom === null) return;
     setRoomSearchResults({
       roomId,
-      matchCount: isSearching ? search.matchIndices.length : 0,
-      activeMatch: search.activeMatch,
+      matchCount: serverSearchEnabled
+        ? serverSearch.hits.length
+        : isSearching
+          ? search.matchIndices.length
+          : 0,
+      activeMatch: serverSearchEnabled ? 0 : search.activeMatch,
       next: goToNext,
       prev: goToPrev,
+      showNav: !serverSearchEnabled,
     });
   }, [
     searchQueryForRoom,
     roomId,
     isSearching,
+    serverSearchEnabled,
+    serverSearch.hits.length,
     search.matchIndices.length,
     search.activeMatch,
     goToNext,
@@ -663,21 +690,15 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     if (!liveArrival) return;
     if (atBottomRef.current && atLiveEndRef.current) {
       if (document.hasFocus()) {
-        requestAnimationFrame(() => sendReadReceiptIfAtBottom());
+        requestAnimationFrame(() => sendReadReceiptIfDue());
       }
       const scrollEl = scrollRef.current;
       if (scrollEl) scrollToBottom(scrollEl, 'instant');
     }
-  }, [liveArrival, sendReadReceiptIfAtBottom]);
+  }, [liveArrival, sendReadReceiptIfDue]);
 
-  useEffect(() => {
-    const onFocus = () => {
-      if (!atBottomRef.current) return;
-      tryAutoMarkAsRead();
-    };
-    window.addEventListener('focus', onFocus);
-    return () => window.removeEventListener('focus', onFocus);
-  }, [tryAutoMarkAsRead]);
+  // Regaining focus and becoming visible again are handled by useTimelineReadReceipts, so a
+  // receipt is sent even when the message arrived while the tab was in the background.
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -921,6 +942,77 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return map;
   }, [items]);
 
+  // Where each reader has got to: their read receipt, or their own latest message if that is later
+  // (replying means they saw what came before). A reader's marker never sits on their own messages,
+  // so it moves back to the last message from someone else.
+  const effectiveReceiptMap = useMemo(() => {
+    const myUserId = client.userId();
+    const indexOfEvent = new Map<string, number>();
+    const lastSenderPos = new Map<string, number>();
+    items.forEach((it, i) => {
+      const id = it.eventId;
+      if (id) indexOfEvent.set(id, i);
+      if (it.senderId && !it.isSystemMessage) {
+        lastSenderPos.set(it.senderId, i);
+      }
+      it.galleryEvents?.forEach((e) => {
+        const gid = entryEventId(e);
+        if (gid) indexOfEvent.set(gid, i);
+      });
+    });
+
+    const readers = new Map<string, { user: ReceiptUser; pos: number }>();
+    for (const [eventId, users] of receiptMap) {
+      const idx = indexOfEvent.get(eventId);
+      if (idx === undefined) continue;
+      for (const user of users) {
+        // If a receipt landed on the timeline tail from a thread or server synthesis,
+        // do not advance past the reader's latest message in the room unless they sent one here.
+        const senderPos = lastSenderPos.get(user.userId);
+        const effectivePos =
+          senderPos !== undefined && idx === items.length - 1 && idx > senderPos ? senderPos : idx;
+        const known = readers.get(user.userId);
+        if (!known || effectivePos > known.pos)
+          readers.set(user.userId, { user, pos: effectivePos });
+      }
+    }
+    items.forEach((it, i) => {
+      if (!it.senderId || it.senderId === myUserId || it.isSystemMessage) return;
+      const known = readers.get(it.senderId);
+      if (known && known.pos >= i) return;
+      readers.set(it.senderId, {
+        user: {
+          userId: it.senderId,
+          displayName: it.senderName,
+          avatarUrl: it.senderAvatar ?? null,
+          ts: it.event.timestamp ?? 0,
+        },
+        pos: i,
+      });
+    });
+
+    const out = new Map<string, ReceiptUser[]>();
+    for (const { user, pos } of readers.values()) {
+      let i = pos;
+      while (i >= 0 && items[i].senderId === user.userId) i -= 1;
+      const targetId = i >= 0 ? items[i].eventId : null;
+      if (!targetId) continue;
+      const list = out.get(targetId) ?? [];
+      list.push(user);
+      out.set(targetId, list);
+    }
+    return out;
+  }, [items, receiptMap, client]);
+
+  // Your latest message that has actually been sent: the bubble layout marks it Sent until read.
+  const lastOwnEventId = useMemo(() => {
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+      const it = items[i];
+      if (it.isOwn && !it.isSending && !it.isFailed) return it.eventId || null;
+    }
+    return null;
+  }, [items]);
+
   const renderMessage = (timelineItem: TimelineItem, opts: { index?: number } = {}) => {
     const eventId = timelineItem.eventId;
     const isActiveMatch =
@@ -934,24 +1026,14 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     const isLive = liveIdsRef.current.has(timelineItem.event.id);
     const isFlashing = flashEventId === eventId;
 
-    let receiptUsers = receiptMap.get(eventId) ?? EMPTY_RECEIPTS;
+    let receiptUsers = effectiveReceiptMap.get(eventId) ?? EMPTY_RECEIPTS;
     if (timelineItem.galleryEvents) {
       for (const galleryEvent of timelineItem.galleryEvents) {
         const galleryEventId = entryEventId(galleryEvent);
         if (galleryEventId === eventId) continue;
-        const galleryReceipts = receiptMap.get(galleryEventId);
+        const galleryReceipts = effectiveReceiptMap.get(galleryEventId);
         if (galleryReceipts && galleryReceipts !== receiptUsers) {
           receiptUsers = [...receiptUsers, ...galleryReceipts];
-        }
-      }
-    }
-    if (timelineItem.callSession) {
-      for (const callEvent of timelineItem.callSession.events) {
-        const callEventId = entryEventId(callEvent);
-        if (callEventId === eventId) continue;
-        const callReceipts = receiptMap.get(callEventId);
-        if (callReceipts && callReceipts !== receiptUsers) {
-          receiptUsers = [...receiptUsers, ...callReceipts];
         }
       }
     }
@@ -967,7 +1049,8 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       senderId: timelineItem.senderId,
       senderName: timelineItem.senderName,
       senderAvatar: timelineItem.senderAvatar,
-      isGrouped: isSearching ? false : timelineItem.isGrouped,
+      isGrouped: isSearching || layout === 'compact' ? false : timelineItem.isGrouped,
+      isLastOwn: !!eventId && eventId === lastOwnEventId,
       variant: layout,
       isSystemMessage: timelineItem.isSystemMessage,
       isEdited: timelineItem.isEdited,
@@ -983,7 +1066,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       sendError: timelineItem.sendError,
       optimisticBody: timelineItem.optimisticBody,
       galleryEvents: timelineItem.galleryEvents,
-      callSession: timelineItem.callSession,
       client,
       searchQuery: isSearching ? search.query : '',
       receiptUsers,
@@ -1021,7 +1103,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           <UnreadDivider
             onDismiss={() => {
               clearUnreadDivider();
-              sendReadReceiptIfAtBottom();
+              sendReadReceiptIfDue();
             }}
             label={t('timeline.unreadMessages')}
           />
@@ -1125,7 +1207,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                     onClick={handleJoinReplacement}
                     disabled={joiningReplacement}
                   >
-                    {joiningReplacement ? t('explore.joining') : t('explore.join')}
+                    {joiningReplacement ? t('explore.joining') : t('common.join')}
                   </button>
                 )}
               </div>
@@ -1139,15 +1221,22 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                 onStartCall={handleStartCall}
                 callActive={callActiveInRoom}
                 othersInCall={othersInCall}
+                inCallElsewhere={inCallElsewhere}
               />
             )}
 
-            {isSearching && filteredItems.length > 0 && (
+            {isSearching && !serverSearchEnabled && filteredItems.length > 0 && (
               <div className={css.searchBanner} role="status">
                 {t('room.header.searchBanner', {
                   count: filteredItems.length,
                   query: search.query,
                 })}
+              </div>
+            )}
+
+            {isSearching && room?.isEncrypted && (
+              <div className={searchCss.encryptedNote} role="status">
+                {t('room.header.searchEncryptedNote')}
               </div>
             )}
 
@@ -1204,9 +1293,23 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
                   </div>
                 )}
 
-                {isSearching
-                  ? filteredItems.map((timelineItem) => renderMessage(timelineItem))
-                  : getItems().map(eventRenderer)}
+                {serverSearchEnabled ? (
+                  <SearchResults
+                    roomId={roomId}
+                    query={search.query}
+                    status={serverSearch.status}
+                    results={serverSearch.hits}
+                    loadingMore={serverSearch.loadingMore}
+                    next={serverSearch.next}
+                    error={serverSearch.error}
+                    onLoadMore={serverSearch.loadMore}
+                    onJump={handleSearchResultJump}
+                  />
+                ) : isSearching ? (
+                  filteredItems.map((timelineItem) => renderMessage(timelineItem))
+                ) : (
+                  getItems().map(eventRenderer)
+                )}
 
                 {!isSearching && (!liveTimelineLinked || !rangeAtEnd) && (
                   <div ref={observeFrontAnchor} className={css.timelinePlaceholder}>
@@ -1218,7 +1321,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
               </div>
             </div>
 
-            {isSearching && filteredItems.length === 0 && (
+            {isSearching && !serverSearchEnabled && filteredItems.length === 0 && (
               <div className={css.searchEmpty}>
                 {t('room.header.searchEmpty', { query: search.query })}
               </div>

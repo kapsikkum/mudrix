@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState, type SyntheticEvent } from 'react';
 import { QrCodeIcon } from '@phosphor-icons/react';
 import { SignInWithQrModal } from '@/app/features/qrLogin/SignInWithQrModal';
 import { useSetAtom } from 'jotai';
@@ -17,13 +17,15 @@ import {
   type AuthCapabilities,
 } from '@/app/features/sso/sso';
 import type { MatrixCredentials } from '@/client/types';
-import { SpinnerOverlay, Spinner } from '@/app/components/Spinner';
+import { Spinner } from '@/app/components/Spinner';
 import { Button } from '@/app/components/Button';
-import { Input } from '@/app/components/Input';
+import { AuthField } from './AuthField';
 import { ServerPicker, type ServerPickerState } from './ServerPicker';
+import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { interpretIdentifier, toLoginIdentifier } from './signInIdentifier';
 import type { Homeserver } from './useHomeserver';
 import * as css from './WelcomePage.css';
+import { openSafeExternalUrl } from '@/util/safeUrl';
 
 interface Props {
   onSuccess: () => void;
@@ -50,31 +52,42 @@ export function LoginForm({
   const setCredentials = useSetAtom(credentialsAtom);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [idError, setIdError] = useState('');
+  const [pwError, setPwError] = useState('');
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
   const [oidcLoading, setOidcLoading] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const idRef = useRef<HTMLInputElement>(null);
+  const pwRef = useRef<HTMLInputElement>(null);
 
   const oidcMetadata = capabilities?.delegatedAuth ?? false;
-  const hasPassword =
-    !oidcMetadata &&
-    (!capabilities ||
-      capabilities.discoveryStatus !== DiscoveryStatus.Ok ||
-      capabilities.hasPasswordLogin);
   const ssoProviders = capabilities?.ssoProviders ?? [];
   const hasSso = !oidcMetadata && ssoProviders.length > 0;
+  // Like the old app, the password form stays whenever the server accepts passwords (or says
+  // nothing usable), even when OIDC is offered as well: a broken OIDC client registration then
+  // never locks anyone out of their account.
+  const hasPassword =
+    !capabilities ||
+    capabilities.discoveryStatus !== DiscoveryStatus.Ok ||
+    capabilities.hasPasswordLogin ||
+    (!oidcMetadata && !hasSso) ||
+    !!username ||
+    !!password;
+  const coarsePointer = useMediaQuery('(pointer: coarse)');
   const idps = ssoProviders.flatMap((idp) => (idp.id ? [{ ...idp, id: idp.id }] : []));
   const isChecking = capabilitiesLoading && !capabilities;
   const qrAvailable = oidcMetadata && !!serverUrl && !!capabilities?.qrLogin;
 
   const identifier = interpretIdentifier(username, hs.serverName);
   const byEmail = identifier?.kind === 'email' || identifier?.kind === 'phone';
-  const idHint =
-    identifier?.kind === 'email'
-      ? t('welcome.idEmail')
-      : identifier?.kind === 'phone'
-        ? t('welcome.idPhone')
-        : '';
+  let idHint = '';
+  if (identifier?.kind === 'email') idHint = t('welcome.idEmail');
+  else if (identifier?.kind === 'phone') idHint = t('welcome.idPhone');
+  else if (identifier?.kind === 'mxid') idHint = t('welcome.idPreview', { id: identifier.user });
+  else if (identifier?.kind === 'user' && hs.serverName && !identifier.user.includes(':')) {
+    idHint = t('welcome.idPreview', { id: `@${identifier.user}:${hs.serverName}` });
+  }
 
   const loginErrorMessage = (err: unknown): string => {
     const code = errorCode(err);
@@ -96,9 +109,15 @@ export function LoginForm({
     return getErrorMessage(err);
   };
 
-  const handleLogin = async () => {
-    if (!identifier || !password) {
-      setStatus(t('welcome.fillAllFields'));
+  const handleLogin = async (e?: SyntheticEvent) => {
+    e?.preventDefault();
+    if (loading) return;
+    const missingId = !username.trim();
+    const missingPw = !password;
+    setIdError(missingId ? t('welcome.idRequired') : '');
+    setPwError(missingPw ? t('welcome.passwordRequired') : '');
+    if (missingId || missingPw || !identifier) {
+      (missingId ? idRef : pwRef).current?.focus();
       return;
     }
     if (capabilities?.discoveryStatus === DiscoveryStatus.NotMatrix) {
@@ -113,6 +132,7 @@ export function LoginForm({
       onSuccess();
     } catch (err) {
       setStatus(loginErrorMessage(err));
+      pwRef.current?.select();
     } finally {
       setLoading(false);
     }
@@ -143,133 +163,190 @@ export function LoginForm({
 
   const handleForgotPassword = () => {
     if (capabilities?.delegatedAuth && capabilities.accountManagementUri) {
-      window.open(capabilities.accountManagementUri, '_blank', 'noopener');
+      openSafeExternalUrl(capabilities.accountManagementUri);
     } else {
       onShowReset();
     }
   };
 
-  return (
-    <div className={css.formSection}>
-      <h2 className={css.formTitle}>{t('welcome.login')}</h2>
+  const oidcButton = (primary: boolean) => (
+    <Button
+      fullWidth
+      size="lg"
+      variant={primary ? 'primary' : 'secondary'}
+      className={css.submit}
+      onClick={handleOidc}
+      loading={oidcLoading}
+      spinnerWhileLoading
+    >
+      {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcContinue', { server: hs.host })}
+    </Button>
+  );
 
-      <ServerPicker hs={hs} label={t('welcome.serverLabelLogin')} {...picker} />
+  const qrButton = qrAvailable ? (
+    <Button
+      fullWidth
+      size="lg"
+      variant="secondary"
+      className={css.submit}
+      onClick={() => setQrOpen(true)}
+    >
+      <QrCodeIcon size={18} />
+      {t('auth.qr.signInTitle')}
+    </Button>
+  ) : null;
+
+  const ssoButtons =
+    idps.length === 0 ? (
+      <Button
+        fullWidth
+        size="lg"
+        variant="secondary"
+        className={css.submit}
+        onClick={() => handleSso()}
+      >
+        {t('common.continueWithSso')}
+      </Button>
+    ) : (
+      idps.map((idp) => {
+        const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
+        return (
+          <Button
+            key={idp.id}
+            fullWidth
+            size="lg"
+            variant="secondary"
+            className={css.submit}
+            onClick={() => handleSso(idp.id)}
+          >
+            {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
+            {t('welcome.continueWithIdp', { name: idp.name })}
+          </Button>
+        );
+      })
+    );
+
+  const browserMethods = oidcMetadata || hasSso;
+  const altMethods = (
+    <div className={css.altMethods}>
+      {oidcMetadata && oidcButton(!hasPassword)}
+      {oidcMetadata && qrButton}
+      {hasSso && ssoButtons}
+    </div>
+  );
+
+  const registerLine = (
+    <p className={css.altText}>
+      {t('welcome.noAccount')}{' '}
+      <button type="button" className={css.inlineLink} onClick={onShowRegister}>
+        {t('welcome.registerLink')}
+      </button>
+    </p>
+  );
+
+  return (
+    <form
+      className={css.form}
+      onSubmit={handleLogin}
+      noValidate
+      aria-label={t('welcome.loginTitle')}
+    >
+      <ServerPicker
+        hs={hs}
+        label={t('welcome.serverLabelLogin')}
+        {...picker}
+        onAddressEntered={() => (hasPassword ? idRef.current?.focus() : undefined)}
+      />
 
       {isChecking ? (
         <div className={css.checkingServer}>
           <Spinner size="sm" />
-          <span>{t('welcome.checkingServer')}</span>
+          <span>{t('auth.checkingServer')}</span>
         </div>
       ) : (
         <>
-          {oidcMetadata && (
-            <Button
-              fullWidth
-              size="lg"
-              variant="primary"
-              onClick={handleOidc}
-              disabled={oidcLoading}
-            >
-              {oidcLoading ? t('welcome.redirecting') : t('welcome.oidcLogin')}
-            </Button>
-          )}
-
-          {oidcMetadata && qrAvailable && (
-            <Button fullWidth size="lg" variant="secondary" onClick={() => setQrOpen(true)}>
-              <QrCodeIcon size={18} />
-              {t('qrLogin.signInTitle')}
-            </Button>
-          )}
-          {qrOpen && (
-            <SignInWithQrModal
-              serverUrl={serverUrl}
-              onClose={() => setQrOpen(false)}
-              onSuccess={onSuccess}
-            />
-          )}
-
-          {hasPassword && (
+          {hasPassword ? (
             <>
-              <Input
+              <AuthField
+                ref={idRef}
+                label={t('welcome.identifier')}
+                name="username"
                 type="text"
-                placeholder={t('welcome.username')}
-                aria-label={t('welcome.username')}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                inputMode="email"
                 autoComplete="username"
+                enterKeyHint="next"
+                autoFocus={hasPassword && !coarsePointer}
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setIdError('');
+                }}
+                hint={idHint}
+                error={idError}
               />
-              {idHint && <p className={css.switchText}>{idHint}</p>}
-              <Input
+              <AuthField
+                ref={pwRef}
+                label={t('welcome.password')}
+                name="password"
                 type="password"
-                placeholder={t('welcome.password')}
-                aria-label={t('welcome.password')}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
+                enterKeyHint="go"
                 showPasswordToggle
-                onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setPwError('');
+                }}
+                error={pwError}
+                hint={
+                  <button type="button" className={css.textLink} onClick={handleForgotPassword}>
+                    {t('welcome.forgotPassword')}
+                  </button>
+                }
               />
-
-              <p className={css.switchText}>
-                <button type="button" className={css.switchLink} onClick={handleForgotPassword}>
-                  {t('welcome.forgotPassword')}
-                </button>
-              </p>
-
+              <div className={css.formError} role="alert">
+                {status}
+              </div>
               <Button
+                type="submit"
                 fullWidth
                 size="lg"
                 variant="primary"
-                onClick={handleLogin}
-                disabled={loading}
+                className={css.submit}
+                loading={loading}
+                spinnerWhileLoading
               >
-                {loading ? t('welcome.loggingIn') : t('welcome.login')}
+                {loading ? t('welcome.loggingIn') : t('welcome.loginSubmit')}
               </Button>
-            </>
-          )}
-
-          {hasSso && (
-            <>
-              {hasPassword && <div className={css.divider}>{t('common.or')}</div>}
-              {idps.length === 0 ? (
-                <Button fullWidth size="lg" variant="secondary" onClick={() => handleSso()}>
-                  {t('welcome.ssoLogin')}
-                </Button>
-              ) : (
-                idps.map((idp) => {
-                  const iconUrl = resolveIdpIconUrl(serverUrl, idp.icon);
-                  return (
-                    <Button
-                      key={idp.id}
-                      fullWidth
-                      variant="secondary"
-                      onClick={() => handleSso(idp.id)}
-                    >
-                      {iconUrl && <img src={iconUrl} alt="" className={css.idpIcon} />}
-                      {t('welcome.continueWithIdp', { name: idp.name })}
-                    </Button>
-                  );
-                })
+              {registerLine}
+              {browserMethods && (
+                <>
+                  <div className={css.divider}>{t('common.or')}</div>
+                  {altMethods}
+                </>
               )}
             </>
-          )}
-
-          {!capabilitiesLoading && !hasPassword && !hasSso && !oidcMetadata && (
-            <p className={css.statusText}>{t('welcome.noLoginMethod')}</p>
+          ) : (
+            <>
+              {browserMethods
+                ? altMethods
+                : !capabilitiesLoading && <p className={css.note}>{t('auth.noLoginMethod')}</p>}
+              <div className={css.formError} role="alert">
+                {status}
+              </div>
+              {registerLine}
+            </>
           )}
         </>
       )}
 
-      {status && <p className={css.statusText}>{status}</p>}
-
-      <p className={css.switchText}>
-        {t('welcome.noAccount')}{' '}
-        <button type="button" className={css.switchLink} onClick={onShowRegister}>
-          {t('welcome.register')}
-        </button>
-      </p>
-
-      {loading && <SpinnerOverlay />}
-    </div>
+      {qrOpen && (
+        <SignInWithQrModal
+          serverUrl={serverUrl}
+          onClose={() => setQrOpen(false)}
+          onSuccess={onSuccess}
+        />
+      )}
+    </form>
   );
 }

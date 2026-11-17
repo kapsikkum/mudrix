@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
-import type { RoomSettings, SpaceNode, WizardClient } from '@wizardchat/core';
-import { canSendState, useSpaceGraph, useUserId } from '@/app/data';
+import { useCallback, useMemo } from 'react';
+import type { RoomSettings, SpaceNode, MudrixClient } from '@mudrix/core';
+import { useRoomSettings, useSpaceGraph, useUserId } from '@/app/data';
 import { getRoomCreators } from '@/app/features/room/memberRoles';
 import { findParentSpaceId } from '@/util/matrix';
 import { mudrixKey } from '@/util/namespace';
 import { setMudrixRoomState, useMudrixRoomStates, type MudrixRoomState } from './mudrixRoomState';
+import type { StateEntry } from './mudrixStateEntries';
+import { mayChangeSpace } from './rolesTrust';
 import { rootSpaceOf, styleOf } from './spaceListStyle';
 import { useLocalRoomSettings } from './useStatePermissions';
 
@@ -18,9 +20,9 @@ import { useLocalRoomSettings } from './useStatePermissions';
  *
  * Roles are part of the Modern room list style: a Matrix style space shows none of them.
  *
- * Both come from untrusted senders, so everything read is validated. The core hands over the
- * content without who sent it, so "only people who may change the space count" is checked through
- * the space's power levels instead: the roles count only while changing them takes at least level 50.
+ * Both come from untrusted senders, so everything read is validated, and an event only counts when
+ * its sender may change the space's state (`rolesTrust.ts`): its creators, or people at the level
+ * the space asks for that event type and at least 50.
  */
 export const SPACE_ROLES_STATE_TYPE = mudrixKey('space_roles');
 export const SPACE_MEMBER_ROLES_STATE_TYPE = mudrixKey('space_member_roles');
@@ -34,8 +36,6 @@ export const memberStateKey = (userId: string) => userId.replace(/^@/, '');
 export const MAX_ROLES = 50;
 export const MAX_ROLES_PER_MEMBER = 20;
 export const MAX_ROLE_NAME = 32;
-/** Roles only count when they take at least this much power to set, whatever the room allows. */
-const MIN_WRITER_LEVEL = 50;
 
 export interface SpaceRole {
   id: string;
@@ -46,9 +46,8 @@ export interface SpaceRole {
   hoist?: boolean;
 }
 
-/** The roles every Matrix room already has, by power level. They cannot be removed or moved. */
-export const BUILTIN_ROLE_KEYS = ['founder', '100', '50', '0'] as const;
-export type BuiltinRoleKey = (typeof BUILTIN_ROLE_KEYS)[number];
+export { BUILTIN_ROLE_KEYS, roleColorOf, type BuiltinRoleKey, type RoleColors } from './roleColors';
+import { BUILTIN_ROLE_KEYS, roleColorOf, type BuiltinRoleKey } from './roleColors';
 
 /** A look given to a built-in role: its name and colour, both optional. */
 export interface BuiltinRoleLook {
@@ -116,27 +115,21 @@ function sanitizeRole(raw: unknown): SpaceRole | null {
   return role;
 }
 
-type PowerLevels = {
-  users?: Record<string, number>;
-  users_default?: number;
-  events?: Record<string, number>;
-  state_default?: number;
-};
-
-/** The power level it takes to send this kind of state in the space. */
-function levelNeeded(settings: RoomSettings | undefined, type: string): number {
-  const levels = (settings?.powerLevels ?? {}) as PowerLevels;
-  return levels.events?.[type] ?? levels.state_default ?? 50;
+/** Whether the sender of a role event could change the space's state, going by its power levels now. */
+function trusted(
+  settings: RoomSettings | undefined,
+  entry: StateEntry | undefined
+): entry is StateEntry {
+  return (
+    !!entry &&
+    !!settings &&
+    mayChangeSpace(settings.powerLevels, getRoomCreators(settings), entry.sender, entry.type)
+  );
 }
-
-/** Whether the roles a space holds can be trusted: only people with real power could have set them. */
-function trusted(settings: RoomSettings | undefined, type: string): boolean {
-  return !!settings && levelNeeded(settings, type) >= MIN_WRITER_LEVEL;
-}
-
 function readRoles(state: MudrixRoomState, settings: RoomSettings | undefined): SpaceRoles {
-  if (!trusted(settings, SPACE_ROLES_STATE_TYPE)) return NO_ROLES;
-  const content = state.get(SPACE_ROLES_STATE_TYPE);
+  const rolesEntry = state.entry(SPACE_ROLES_STATE_TYPE);
+  if (!trusted(settings, rolesEntry)) return NO_ROLES;
+  const content = rolesEntry.content as Record<string, unknown>;
   const list = content?.['roles'];
   const roles: SpaceRole[] = [];
   const seen = new Set<string>();
@@ -166,10 +159,12 @@ function readRoles(state: MudrixRoomState, settings: RoomSettings | undefined): 
   }
 
   const byUser = new Map<string, SpaceRole[]>();
-  if (roles.length > 0 && trusted(settings, SPACE_MEMBER_ROLES_STATE_TYPE)) {
+  if (roles.length > 0) {
     const order = new Map(roles.map((role, i) => [role.id, i]));
-    for (const [key, assigned] of state.all(SPACE_MEMBER_ROLES_STATE_TYPE)) {
-      if (!key) continue;
+    for (const member of state.allEntries(SPACE_MEMBER_ROLES_STATE_TYPE)) {
+      const key = member.stateKey;
+      const assigned = member.content as Record<string, unknown>;
+      if (!key || !trusted(settings, member)) continue;
       const ids = assigned['roles'];
       if (!Array.isArray(ids)) continue;
       const held = new Set<number>();
@@ -252,26 +247,25 @@ export function builtinKeyOf(
 }
 
 /**
- * The colour to show for someone: their Admin/Moderator look first, then their own roles from the
- * top of the list, then the plain Member look. Founders fall back to the Admin look.
+ * [`roleColorOf`] for a room's people outside the timeline (call tiles, threads, reply previews),
+ * where no provider holds the roles: call the returned function with the person's power level.
  */
-export function roleColorOf(
-  roles: SpaceRoles,
-  userId: string,
-  builtinKey: BuiltinRoleKey = '0'
-): string | undefined {
-  let high: string | undefined;
-  if (builtinKey === 'founder') high = roles.builtin.founder?.color ?? roles.builtin['100']?.color;
-  else if (builtinKey !== '0') high = roles.builtin[builtinKey]?.color;
-  return (
-    high ?? roles.byUser.get(userId)?.find((role) => role.color)?.color ?? roles.builtin['0']?.color
+export function useRoleNameColor(
+  roomId: string | null | undefined
+): (userId: string, powerLevel?: number) => string | undefined {
+  const roles = useRoomRoles(roomId);
+  const { data: settings } = useRoomSettings(roomId);
+  return useCallback(
+    (userId: string, powerLevel = 0) =>
+      roleColorOf(roles, userId, builtinKeyOf(settings, userId, powerLevel)),
+    [roles, settings]
   );
 }
 
 // --- writing ----------------------------------------------------------------------------------
 
 export function saveSpaceRoles(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   roles: SpaceRole[],
   builtin: BuiltinRoleLooks
@@ -283,7 +277,7 @@ export function saveSpaceRoles(
 }
 
 export function saveMemberRoles(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   userId: string,
   roleIds: string[]
@@ -320,7 +314,7 @@ export class RoleCleanupError extends Error {
  * gone, a leftover assignment refers to nothing and is ignored, so failures there are only untidy.
  */
 export async function deleteSpaceRole(
-  client: WizardClient,
+  client: MudrixClient,
   spaceId: string,
   current: SpaceRoles,
   roleId: string
@@ -356,15 +350,18 @@ export async function deleteSpaceRole(
   if (failed.length > 0) throw new RoleCleanupError(failed, total, firstError);
 }
 
-/** Whether you may create and assign roles in this space (both kinds of state, at level 50 or up). */
+/**
+ * Whether you may create and assign roles in this space: you must be someone whose roles would
+ * count (both kinds of state, at level 50 or up).
+ */
 export function useCanManageRoles(spaceId: string | null | undefined): boolean {
   const userId = useUserId();
   const ids = useMemo(() => (spaceId ? [spaceId] : []), [spaceId]);
   const settings = useLocalRoomSettings(ids).get(spaceId ?? '');
+  if (!settings) return false;
+  const creators = getRoomCreators(settings);
   return (
-    trusted(settings, SPACE_ROLES_STATE_TYPE) &&
-    trusted(settings, SPACE_MEMBER_ROLES_STATE_TYPE) &&
-    canSendState(settings, userId, SPACE_ROLES_STATE_TYPE) &&
-    canSendState(settings, userId, SPACE_MEMBER_ROLES_STATE_TYPE)
+    mayChangeSpace(settings.powerLevels, creators, userId, SPACE_ROLES_STATE_TYPE) &&
+    mayChangeSpace(settings.powerLevels, creators, userId, SPACE_MEMBER_ROLES_STATE_TYPE)
   );
 }

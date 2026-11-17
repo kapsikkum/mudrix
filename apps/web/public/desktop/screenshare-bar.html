@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Mudrix</title>
+    <!-- The screen share bar window of Mudrix Desktop (opened by the native shell).
+         Labels come from the query string: ?title=...&stop=...&back=... -->
+    <style>
+      :root {
+        --bg: #1a1b1e;
+        --fg: #f2f3f5;
+        --muted: #b5bac1;
+        --border: rgba(255, 255, 255, 0.12);
+        --btn: rgba(255, 255, 255, 0.1);
+        --btn-hover: rgba(255, 255, 255, 0.18);
+        --danger: #ed4245;
+        --danger-hover: #c93b3e;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f2f3f5;
+          --fg: #1a1b1e;
+          --muted: #4e5058;
+          --border: rgba(0, 0, 0, 0.14);
+          --btn: rgba(0, 0, 0, 0.07);
+          --btn-hover: rgba(0, 0, 0, 0.13);
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--fg);
+        font:
+          13px/1.2 system-ui,
+          'Segoe UI',
+          -apple-system,
+          'Helvetica Neue',
+          Arial,
+          sans-serif;
+        user-select: none;
+        -webkit-user-select: none;
+        cursor: default;
+      }
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 100%;
+        padding: 0 8px 0 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+      }
+      .dot {
+        flex: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--danger);
+        box-shadow: 0 0 0 0 rgba(237, 66, 69, 0.6);
+        animation: pulse 2s ease-out infinite;
+      }
+      @keyframes pulse {
+        70% {
+          box-shadow: 0 0 0 7px rgba(237, 66, 69, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(237, 66, 69, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .dot {
+          animation: none;
+        }
+      }
+      .title {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      button {
+        flex: none;
+        height: 30px;
+        padding: 0 12px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--btn);
+        color: var(--fg);
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        background: var(--btn-hover);
+      }
+      button:focus-visible {
+        outline: 2px solid var(--muted);
+        outline-offset: 1px;
+      }
+      button.stop {
+        background: var(--danger);
+        color: #fff;
+      }
+      button.stop:hover {
+        background: var(--danger-hover);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="title" id="title">You are sharing your screen</span>
+      <button type="button" id="back">Return to call</button>
+      <button type="button" id="stop" class="stop">Stop sharing</button>
+    </div>
+    <script src="screenshare-bar.js"></script>
+  </body>
+</html>

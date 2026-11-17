@@ -1,0 +1,1 @@
+export { Cosmetics } from './Cosmetics';

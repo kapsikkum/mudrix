@@ -10,19 +10,19 @@ export type QrFailureReason =
 export function failureKey(reason: QrFailureReason | undefined): string {
   switch (reason) {
     case 'cancelled':
-      return 'qrLogin.failCancelled';
+      return 'auth.qr.failCancelled';
     case 'expired':
-      return 'qrLogin.failExpired';
+      return 'auth.qr.failExpired';
     case 'insecure':
-      return 'qrLogin.failInsecure';
+      return 'auth.qr.failInsecure';
     case 'unsupported':
-      return 'qrLogin.failUnsupported';
+      return 'auth.qr.failUnsupported';
     case 'alreadySignedIn':
-      return 'qrLogin.failAlreadySignedIn';
+      return 'auth.qr.failAlreadySignedIn';
     case 'checkCode':
-      return 'qrLogin.codeMismatch';
+      return 'auth.qr.codeMismatch';
     default:
-      return 'qrLogin.failGeneric';
+      return 'auth.qr.failGeneric';
   }
 }
 
