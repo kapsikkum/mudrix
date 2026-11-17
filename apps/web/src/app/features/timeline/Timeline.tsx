@@ -40,6 +40,7 @@ import { useTimeline, itemContainsEvent, buildItems } from '@/app/hooks/useTimel
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { isServerEventId, roomHasUnread } from './readReceipt';
 import { useTimelineReadReceipts } from './useTimelineReadReceipts';
+import { isAppVisible } from '@/bridge/windowActivity';
 import { itemMatchesQuery, useSearch } from '@/app/hooks/useSearch';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
@@ -420,7 +421,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           debounceSetAtBottom(targetEntry);
           if (targetEntry.isIntersecting && atLiveEndRef.current) {
             setAtBottom(true);
-            if (document.hasFocus()) {
+            if (isAppVisible()) {
               tryAutoMarkAsRead();
             }
           }
@@ -690,7 +691,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   useLayoutEffect(() => {
     if (!liveArrival) return;
     if (atBottomRef.current && atLiveEndRef.current) {
-      if (document.hasFocus()) {
+      if (isAppVisible()) {
         requestAnimationFrame(() => sendReadReceiptIfDue());
       }
       const scrollEl = scrollRef.current;

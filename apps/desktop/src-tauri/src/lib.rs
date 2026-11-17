@@ -142,12 +142,18 @@ pub fn run() {
         .manage(keep_awake::KeepAwake::default())
         .manage(update::PendingUpdate::default())
         .manage(screen_share::Capture::default())
-        // Calls, screen sharing and location sharing
+        // Calls, screen sharing, location sharing and what WebView2 asks the host for
         .on_permission_request(|_, kind| match kind {
             PermissionKind::Microphone
             | PermissionKind::Camera
             | PermissionKind::DisplayCapture
-            | PermissionKind::Geolocation => PermissionResponse::Allow,
+            | PermissionKind::Geolocation
+            // WebView2 has no permission prompt of its own, so a kind left at the default answer
+            // counts as refused. That muted message sounds (WebView2 gates `audio.play()` on the
+            // media autoplay permission) and made `Notification.requestPermission()` come back
+            // denied, so the web app's notification switch could never be turned on.
+            | PermissionKind::Notifications
+            | PermissionKind::Autoplay => PermissionResponse::Allow,
             _ => PermissionResponse::Default,
         })
         .on_window_event(|window, event| {

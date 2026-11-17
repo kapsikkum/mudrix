@@ -19,6 +19,7 @@ import { useAllRooms } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { stripBase } from '@/util/publicUrl';
+import { isAppFocused, isAppVisible } from '@/bridge/windowActivity';
 
 export function useClientNotifications() {
   const { t } = useTranslation();
@@ -53,7 +54,9 @@ export function useClientNotifications() {
     const myId = mx?.userId();
     if (notification.sender === myId) return;
 
-    const isWindowVisible = document.visibilityState === 'visible';
+    // On desktop a window behind another app reads as hidden, so a message in another room (or
+    // even in this one while the person is elsewhere) raises a notification like a background tab.
+    const isWindowVisible = isAppVisible();
     const isCurrentRoom = notification.roomId === currentRoomIdRef.current;
     if (isWindowVisible && isCurrentRoom) return;
 
@@ -77,7 +80,7 @@ export function useClientNotifications() {
       );
     }
     // The window being looked at is quiet unless the person asked for sounds there too.
-    const isWindowActive = isWindowVisible && document.hasFocus();
+    const isWindowActive = isWindowVisible && isAppFocused();
     if (!isWindowActive || soundsWhenFocusedRef.current) {
       playNotificationSound(notification.isDirect || notification.highlight);
     }
@@ -149,7 +152,7 @@ export function useClientNotifications() {
 
           const msg = t('invite.receivedInviteSimple', { user: inviterName });
 
-          if (document.visibilityState !== 'visible' && notificationBannersRef.current) {
+          if (!isAppVisible() && notificationBannersRef.current) {
             showBrowserNotification(t('invite.newInvite'), msg);
           }
           playNotificationSound(true);
