@@ -7,14 +7,17 @@ import { fontSize } from '@/theme/typeScale';
 import { listNameplateWash } from '@/app/features/profile/ListCosmetics.css';
 
 /**
- * One DM row, nameplate or not: a rounded card inset 8px from the list's edge, with the virtualizer's
- * 4px left under it as air, so the stride (dmRow) is the estimate and the height together.
+ * One DM row, nameplate or not: a rounded card whose edges are the lines every other list row's
+ * content sits on. A plain room row is `margin 4px + padding 8px` from the list's edge, so its avatar
+ * starts and its text/badges end 12px in; the card takes that same 12px as its own inset and carries
+ * no padding, so a nameplate's art starts on the avatar line and stops on the badges line, just
+ * clear of the scrollbar. The virtualizer's 4px under the card is the air between DM rows.
  */
 const dmRowCard = {
   boxSizing: 'border-box' as const,
   height: `calc(${uiSize('dmRow')} - 4px)`,
-  margin: '0 8px',
-  padding: '0 8px',
+  margin: '0 12px',
+  padding: 0,
   borderRadius: vars.radius.md,
 };
 

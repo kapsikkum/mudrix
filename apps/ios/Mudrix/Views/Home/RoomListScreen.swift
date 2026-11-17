@@ -864,8 +864,9 @@ struct RoomRow: View {
                 UnreadBadge(count: room.unreadCount, isMention: false)
             }
         }
-        .padding(.horizontal, dmRow ? WZ.Space.space4 : 0)
-        // A DM row's avatar always fits its 64pt card, so the density padding is only for plain rows
+        // A DM card's own edges are the list's row inset, which is where a plain row's content starts,
+        // so neither kind adds horizontal padding inside it. A DM row's avatar always fits its 64pt
+        // card, so the density padding is vertical only for plain rows
         .padding(.vertical, dmRow ? 0 : prefs.roomRowPadding)
         // Every DM row is one card height, with or without a nameplate, so the list never jumps
         .frame(minHeight: dmRow ? 64 : 0)

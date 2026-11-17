@@ -759,8 +759,10 @@ private fun SwipeableRoomRow(
             cosmosNameplate,
             Modifier
                 .fillMaxWidth()
-                // A DM row is a card inset from the list's edge, like every other row's content
-                .padding(horizontal = if (dmRow) WZ.Space.space4 else WZ.Space.space0)
+                // A DM row is a card whose edge is the line every plain row's content sits on (16dp):
+                // the card takes that inset, and RoomRow below adds no further padding, so the art
+                // starts on the avatar column and stops on the badges column, clear of the scrollbar
+                .padding(horizontal = if (dmRow) WZ.Space.space6 else WZ.Space.space0)
                 .clip(rowShape)
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
@@ -771,9 +773,10 @@ private fun SwipeableRoomRow(
                     room,
                     showsHashIcon,
                     Modifier.weight(1f).padding(
-                        start = if (dmRow) WZ.Space.space4 else WZ.Space.space6,
+                        // The card itself now sits on the content line, so a DM row adds no inset inside
+                        start = if (dmRow) WZ.Space.space0 else WZ.Space.space6,
                         end = if (reorder == null) {
-                            if (dmRow) WZ.Space.space4 else WZ.Space.space6
+                            if (dmRow) WZ.Space.space0 else WZ.Space.space6
                         } else {
                             WZ.Space.space0
                         },
