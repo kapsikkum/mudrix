@@ -253,7 +253,7 @@ private struct MediaBackdrop: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        theme.overlay.opacity(1 - progress.value * 0.85).ignoresSafeArea()
+        theme.overlay.opacity(1.0 - (progress.value * 0.85)).ignoresSafeArea()
     }
 }
 
