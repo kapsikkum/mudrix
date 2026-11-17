@@ -32,8 +32,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -727,8 +729,9 @@ private fun SwipeableRoomRow(
         },
     )
     val cosmosNameplate = cosmetics?.nameplate
-    // The nameplate row is one rounded card, so a banner row takes the larger radius
-    val rowShape = RoundedCornerShape(if (cosmosNameplate != null) WZ.Radius.lg else WZ.Radius.md)
+    // Every DM row is one card, with or without a nameplate, so it shares the box and the radius
+    val dmRow = room.dmUserId != null
+    val rowShape = RoundedCornerShape(WZ.Radius.md)
     SwipeToDismissBox(
         state,
         modifier = Modifier.clip(rowShape),
@@ -756,6 +759,8 @@ private fun SwipeableRoomRow(
             cosmosNameplate,
             Modifier
                 .fillMaxWidth()
+                // A DM row is a card inset from the list's edge, like every other row's content
+                .padding(horizontal = if (dmRow) WZ.Space.space4 else WZ.Space.space0)
                 .clip(rowShape)
                 .background(theme.bgPrimary)
                 .combinedClickable(onClick = onOpen, onLongClick = { menuOpen = true }),
@@ -766,9 +771,9 @@ private fun SwipeableRoomRow(
                     room,
                     showsHashIcon,
                     Modifier.weight(1f).padding(
-                        start = if (cosmosNameplate != null) WZ.Space.space5 else WZ.Space.space6,
+                        start = if (dmRow) WZ.Space.space4 else WZ.Space.space6,
                         end = if (reorder == null) {
-                            if (cosmosNameplate != null) WZ.Space.space5 else WZ.Space.space6
+                            if (dmRow) WZ.Space.space4 else WZ.Space.space6
                         } else {
                             WZ.Space.space0
                         },
@@ -875,9 +880,10 @@ fun RoomRow(
     cosmetics: chat.mudrix.android.ui.cosmetics.CosmeticCatalog.Cosmetics? = null,
 ) {
     val prefs = LocalPrefs.current
-    // A nameplate row carries a banner of art, so its avatar sits at the reference's 40-44dp inside it
+    // A DM row is one card: nameplate or not, every row shares the box, so the list never changes height
     val nameplate = cosmetics?.nameplate != null
-    val avatarSize = if (nameplate) maxOf(prefs.roomAvatarSize, 40.dp) else prefs.roomAvatarSize
+    val dmRow = room.dmUserId != null
+    val avatarSize = prefs.roomAvatarSize
     val inCall = voiceChannel && room.callParticipants.isNotEmpty()
     val hasUnread = room.unreadCount > 0 || room.mentionCount > 0
     val preview = if (prefs.uiDensity == Density.compact) null else room.lastMessage?.let {
@@ -896,8 +902,9 @@ fun RoomRow(
 
     Row(
         modifier.fillMaxWidth()
-            .heightIn(min = if (nameplate) 64.dp else 0.dp)
-            .padding(vertical = prefs.roomRowPadding),
+            // One card height for the whole DM list, with or without a nameplate
+            .heightIn(min = if (dmRow) 64.dp else 0.dp)
+            .padding(vertical = if (dmRow) WZ.Space.space0 else prefs.roomRowPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(WZ.Space.space5),
     ) {
@@ -916,7 +923,7 @@ fun RoomRow(
                     chat.mudrix.android.ui.cosmetics.CosmeticStatusDot(
                         cosmetics?.status,
                         avatarSize,
-                        Modifier.align(Alignment.BottomEnd).offset(WZ.Space.space1, WZ.Space.space1),
+                        Modifier.align(Alignment.BottomEnd),
                     )
                 } else {
                     Avatar(room.displayName, room.avatarUrl, avatarSize)
@@ -944,7 +951,15 @@ fun RoomRow(
                 Text(
                     room.displayName,
                     Modifier.weight(1f, fill = false),
-                    style = wizardFont(WZ.FontSize.md, if (nameplate || hasUnread) FontWeight.SemiBold else FontWeight.Normal),
+                    style = wizardFont(WZ.FontSize.md, if (nameplate || hasUnread) FontWeight.SemiBold else FontWeight.Normal)
+                        // Over the banner's art a local halo keeps the name crisp on a bright patch
+                        .copy(
+                            shadow = if (nameplate) {
+                                Shadow(color = Color.Black.copy(alpha = 0.55f), offset = Offset(0f, 1f), blurRadius = 2f)
+                            } else {
+                                null
+                            },
+                        ),
                     color = if (nameplate || hasUnread) theme.textPrimary else theme.textSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

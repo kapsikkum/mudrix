@@ -763,18 +763,25 @@ struct RoomRow: View {
         }
     }
 
-    /// A direct message's row is the nameplate's card: the art fills it, so its name and inset follow it
-    private var nameplateRow: Bool { room.isDirect }
+    /// A direct message's row is a card: the art fills it, so the name and the scrim follow it
+    private var dmRow: Bool { room.isDirect }
 
     /// The nameplate is the row's whole background, so this scrim keeps the name and preview readable
     /// on the left and lets the artwork show on the right. It is a surface wash over the banner, not a
-    /// lower opacity on the banner itself.
+    /// lower opacity on the banner itself. The quiet dim under it carries a long name over bright art.
     private var nameplateScrim: some View {
-        LinearGradient(stops: [
-            .init(color: theme.bgPrimary, location: 0),
-            .init(color: theme.bgPrimary, location: 0.30),
-            .init(color: theme.bgPrimary.opacity(0), location: 0.52),
-        ], startPoint: .leading, endPoint: .trailing)
+        ZStack {
+            LinearGradient(stops: [
+                .init(color: .black.opacity(0.30), location: 0),
+                .init(color: .black.opacity(0.30), location: 0.66),
+                .init(color: .black.opacity(0), location: 1),
+            ], startPoint: .leading, endPoint: .trailing)
+            LinearGradient(stops: [
+                .init(color: theme.bgPrimary, location: 0),
+                .init(color: theme.bgPrimary, location: 0.40),
+                .init(color: theme.bgPrimary.opacity(0), location: 0.74),
+            ], startPoint: .leading, endPoint: .trailing)
+        }
     }
 
     /// Optional pill right after a name: a tiny icon and 2-4 uppercase letters, on translucent dark
@@ -806,7 +813,7 @@ struct RoomRow: View {
                                dot: (!room.isDirect || inCall) ? nil : StatusFields.dot(partnerPresence, mode: partnerStatusMode))
                     .overlay {
                         // Inside the banner the avatar keeps a thin dark ring so it separates from the art
-                        if nameplateRow {
+                        if dmRow {
                             Circle().strokeBorder(theme.overlay, lineWidth: WZ.BorderWidth.thin)
                         }
                     }
@@ -823,10 +830,12 @@ struct RoomRow: View {
             VStack(alignment: .leading, spacing: WZ.Space.space2) {
                 HStack(spacing: WZ.Space.space2) {
                     Text(room.displayName)
-                        .font(.wizard(WZ.FontSize.md, nameplateRow || hasUnread ? .semibold : .regular))
-                        .foregroundStyle(nameplateRow || hasUnread ? theme.textPrimary : theme.textSecondary)
+                        .font(.wizard(WZ.FontSize.md, dmRow || hasUnread ? .semibold : .regular))
+                        .foregroundStyle(dmRow || hasUnread ? theme.textPrimary : theme.textSecondary)
                         .lineLimit(1)
-                    if nameplateRow && !room.callParticipants.isEmpty {
+                        // Over the banner's art a local halo keeps the name crisp on a bright patch
+                        .shadow(color: dmRow ? .black.opacity(0.55) : .clear, radius: 1, x: 0, y: 1)
+                    if dmRow && !room.callParticipants.isEmpty {
                         nameBadge
                     }
                 }
@@ -855,11 +864,14 @@ struct RoomRow: View {
                 UnreadBadge(count: room.unreadCount, isMention: false)
             }
         }
-        .padding(.horizontal, nameplateRow ? WZ.Space.space5 : 0)
-        .padding(.vertical, prefs.roomRowPadding)
-        // The banner needs the row to read as one card, a step taller than a plain row
-        .frame(minHeight: nameplateRow ? 64 : 0)
+        .padding(.horizontal, dmRow ? WZ.Space.space4 : 0)
+        // A DM row's avatar always fits its 64pt card, so the density padding is only for plain rows
+        .padding(.vertical, dmRow ? 0 : prefs.roomRowPadding)
+        // Every DM row is one card height, with or without a nameplate, so the list never jumps
+        .frame(minHeight: dmRow ? 64 : 0)
         .background { nameplateScrim }
+        // Air between two cards, unclipped by the list's zero row insets
+        .padding(.vertical, dmRow ? WZ.Space.space1 : 0)
         .contentShape(Rectangle())
         .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {
             guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty,

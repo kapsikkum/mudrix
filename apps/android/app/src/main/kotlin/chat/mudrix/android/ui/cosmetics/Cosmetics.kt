@@ -160,13 +160,14 @@ fun PresenceDot(dot: DotPresence?, size: Dp, modifier: Modifier = Modifier) {
         DotPresence.dnd -> theme.presenceBusy
         null -> return
     }
-    val diameter = size * 0.3f
+    val diameter = (size * 0.3f).coerceAtMost(12.dp)
     Box(
         modifier
             .size(diameter)
             .clip(CircleShape)
+            // The ring is the page's own background, so the dot separates from avatar art behind it
             .background(theme.bgPrimary)
-            .padding(diameter * 0.14f)
+            .padding(diameter / 6f)
             .clip(CircleShape)
             .background(color),
     )
@@ -268,6 +269,18 @@ fun NameplateBox(
                 animate = true,
             )
             if (fullBleed) {
+                // A quiet dim that carries a long name's last characters over a bright patch of art
+                Box(
+                    Modifier
+                        .matchParentSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                0f to Color.Black.copy(alpha = 0.30f),
+                                0.66f to Color.Black.copy(alpha = 0.30f),
+                                1f to Color.Transparent,
+                            ),
+                        ),
+                )
                 // Solid at the left where the avatar and name sit, clear by the middle so the art shows
                 Box(
                     Modifier
@@ -275,8 +288,8 @@ fun NameplateBox(
                         .background(
                             Brush.horizontalGradient(
                                 0f to theme.bgPrimary,
-                                0.30f to theme.bgPrimary,
-                                0.52f to Color.Transparent,
+                                0.40f to theme.bgPrimary,
+                                0.74f to Color.Transparent,
                             ),
                         ),
                 )

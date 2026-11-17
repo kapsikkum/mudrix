@@ -1,20 +1,25 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { uiSize } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
+import { listNameplateWash } from '@/app/features/profile/ListCosmetics.css';
 
-/** Nameplate rows carry a banner of art, so their avatar sits at the reference's 40-44px inside it. */
-const nameplateAvatar = `max(40px, ${uiSize('roomAvatar')})`;
-
-/** One rounded card of art, tall enough for the banner to read: 64px, or the avatar plus its 12px. */
-const nameplateRow = {
+/**
+ * One DM row, nameplate or not: a rounded card inset 8px from the list's edge, with the virtualizer's
+ * 4px left under it as air, so the stride (dmRow) is the estimate and the height together.
+ */
+const dmRowCard = {
   boxSizing: 'border-box' as const,
-  minHeight: `clamp(64px, calc(${nameplateAvatar} + 24px), 72px)`,
-  padding: '0 12px',
-  borderRadius: '12px',
+  height: `calc(${uiSize('dmRow')} - 4px)`,
+  margin: '0 8px',
+  padding: '0 8px',
+  borderRadius: vars.radius.md,
 };
+
+/** The avatar always fits the card with 6px above and below it, at every density. */
+const dmAvatar = `min(${uiSize('roomAvatar')}, calc(${uiSize('dmRow')} - 16px))`;
 
 export const roomItem = style({
   position: 'relative',
@@ -33,13 +38,9 @@ export const roomItem = style({
     color: vars.color.textPrimary,
   },
   selectors: {
-    '&[data-fixed-height="true"]': {
-      boxSizing: 'border-box',
-      height: `calc(${uiSize('dmRow')} - 4px)`,
-    },
-    // The nameplate row is the card: art edge to edge inside one rounded rect, so the row itself is
-    // taller and loses its small side padding to the banner.
-    '&[data-nameplate="true"]': nameplateRow,
+    '&[data-fixed-height="true"]': dmRowCard,
+    // A nameplate is the card's whole surface, so it shares the plain DM row's box exactly
+    '&[data-nameplate="true"]': dmRowCard,
 
     '&[data-active="true"]:hover': {
       backgroundColor: vars.color.bgActive,
@@ -47,9 +48,12 @@ export const roomItem = style({
     '&[data-active="true"]': {
       backgroundColor: vars.color.bgActive,
       color: vars.color.textPrimary,
-      // Painted over the row's contents so it still shows on top of a custom nameplate.
-      outline: `1px solid color-mix(in srgb, ${vars.color.accent} 70%, transparent)`,
-      outlineOffset: '-1px',
+    },
+    // The surface is the whole affordance: a focus ring only for a keyboard visitor, never on click
+    '&:focus': { outline: 'none' },
+    '&:focus-visible': {
+      outline: `2px solid ${vars.color.accent}`,
+      outlineOffset: '-2px',
     },
     '&[data-has-notif="true"]': {
       color: vars.color.textPrimary,
@@ -58,6 +62,14 @@ export const roomItem = style({
       color: vars.color.textPrimary,
     },
   },
+});
+
+// A nameplate is an image above the row's own background, so hover and selection wash the card itself
+globalStyle(`${roomItem}:hover ${listNameplateWash}`, {
+  backgroundColor: vars.color.bgHover,
+});
+globalStyle(`${roomItem}[data-active="true"] ${listNameplateWash}`, {
+  backgroundColor: vars.color.bgActive,
 });
 
 export const chatAvatarImg = style({
@@ -143,9 +155,9 @@ export const chatAvatar = style({
   fontSize: fontSize.rem85,
   position: 'relative',
   selectors: {
-    [`${roomItem}[data-nameplate="true"] &`]: {
-      width: nameplateAvatar,
-      height: nameplateAvatar,
+    [`${roomItem}[data-fixed-height="true"] &`]: {
+      width: dmAvatar,
+      height: dmAvatar,
     },
   },
 });
@@ -157,10 +169,12 @@ export const avatarWrap = style({
   flexShrink: 0,
   marginRight: '8px',
   selectors: {
+    [`${roomItem}[data-fixed-height="true"] &`]: {
+      width: dmAvatar,
+      height: dmAvatar,
+    },
     // Inside the banner the avatar keeps a thin dark ring so it separates from the art
     [`${roomItem}[data-nameplate="true"] &`]: {
-      width: nameplateAvatar,
-      height: nameplateAvatar,
       marginRight: '12px',
       borderRadius: '50%',
       boxShadow: `0 0 0 1px ${vars.scrim.base}`,
@@ -320,6 +334,13 @@ export const chatTextColumn = style({
   flexDirection: 'column',
   justifyContent: 'center',
   lineHeight: 1.2,
+  selectors: {
+    // The scrim keeps the left readable, and this local halo keeps the name crisp where a bright
+    // patch of art reaches it, whatever the name's length
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      textShadow: `0 1px 2px ${vars.scrim.deep}`,
+    },
+  },
 });
 
 export const chatStatusLine = style({
@@ -347,13 +368,14 @@ export const chatStatusText = style({
 
 export const presenceDot = style({
   position: 'absolute',
-  right: '-2px',
-  bottom: '-2px',
-  width: '14px',
-  height: '14px',
+  // Tucked into the avatar's corner, 12px with a 2px page-coloured ring so it reads over art
+  right: 0,
+  bottom: 0,
+  width: '12px',
+  height: '12px',
   boxSizing: 'border-box',
   borderRadius: '50%',
-  border: `2px solid ${vars.color.bgSecondary}`,
+  border: `2px solid ${vars.color.bgPrimary}`,
   pointerEvents: 'none',
   zIndex: zIndex.avatar,
 });

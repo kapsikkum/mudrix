@@ -134,8 +134,9 @@ struct PresenceDot: View {
 
     var body: some View {
         if let color {
-            let diameter = max(8, size * 0.3)
-            let inset = max(1.5, diameter * 0.14)
+            // 12pt at the corner, a 2pt ring of the page's own background so it separates from art
+            let diameter = min(12, max(8, size * 0.3))
+            let inset = diameter / 6
             Circle()
                 .fill(color)
                 .padding(inset)
@@ -208,7 +209,7 @@ struct CosmeticNameplate<Content: View>: View {
                         }
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: fullBleed ? WZ.Radius.lg : WZ.Radius.sm, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: fullBleed ? WZ.Radius.md : WZ.Radius.sm, style: .continuous))
                 .task(id: "\(value.url)|\(CosmeticPacks.nameplatePalette(value) ?? "")") {
                     packPalette = nil
                     guard CosmeticPacks.nameplatePalette(value) == nil,

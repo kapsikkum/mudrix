@@ -1573,9 +1573,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const dmVirtualizer = useVirtualizer({
     count: dms.length,
     getScrollElement: () => roomListRef.current,
+    // Every DM row is the same card height, so the stride is the estimate exactly and nothing measures
     estimateSize: () => dmRowHeight,
-    // A DM with a nameplate is a taller banner row than a plain one, so rows measure themselves
-    measureElement: (el) => el.getBoundingClientRect().height,
     overscan: LIST_OVERSCAN,
     enabled: isDmView,
   });
@@ -1987,13 +1986,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
             return (
               <div
                 key={entry.roomId}
-                data-index={virtualRow.index}
-                ref={dmVirtualizer.measureElement}
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: 0,
                   width: '100%',
+                  height: `${virtualRow.size}px`,
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >

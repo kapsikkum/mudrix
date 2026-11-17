@@ -168,6 +168,8 @@ export function ListNameplate({
       {/* One horizontal scrim over the art: the surface colour on the left behind the text, clear on the
           right where the artwork is. */}
       <span className={css.listNameplateScrim} />
+      {/* Hover and selection wash the art itself; the row's background is under it. */}
+      <span className={css.listNameplateWash} />
     </span>
   );
 }
