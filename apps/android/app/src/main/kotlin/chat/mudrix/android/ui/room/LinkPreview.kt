@@ -35,11 +35,13 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import java.net.URL
+import java.net.URI
+import java.net.URISyntaxException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.LocalMedia
+import chat.mudrix.android.integrations.IntegrationNetwork
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -82,6 +84,48 @@ class LinkPreviewLoader(val client: MudrixClient) {
     }
 }
 
+/** Longest side kept when decoding a preview, so a small file cannot ask for a huge bitmap */
+private const val MAX_PREVIEW_SIDE = 2048
+
+/**
+ * Loads a public https preview image through [IntegrationNetwork], so it gets the same rules as
+ * every other third-party request: https only, no IP literals or local-looking names, only the one
+ * host the preview named (and redirects may not leave it), a 5 MiB cap, a timeout, and no request
+ * while streamer mode blocks passive traffic. Only the returned bytes are decoded. Anything else
+ * (an `http` image, a local host, an answer that failed a rule) simply yields no image.
+ */
+private suspend fun fetchPreviewImage(imageUrl: String): Bitmap? {
+    val uri = try {
+        URI(imageUrl)
+    } catch (_: URISyntaxException) {
+        return null
+    }
+    if (!uri.scheme.equals("https", ignoreCase = true)) return null
+    val host = uri.host?.lowercase() ?: return null
+    if (IntegrationNetwork.isForbiddenHost(host)) return null
+    val result = IntegrationNetwork.fetch(
+        IntegrationNetwork.Request(
+            url = imageUrl,
+            allow = listOf(host),
+            expect = IntegrationNetwork.Expect.image,
+            maxBytes = IntegrationNetwork.MAX_IMAGE_BYTES,
+            passive = true,
+        ),
+    ) as? IntegrationNetwork.Success ?: return null
+    return decodePreviewImage(result.bytes)
+}
+
+private fun decodePreviewImage(bytes: ByteArray): Bitmap? {
+    if (bytes.isEmpty()) return null
+    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds) }.getOrNull() ?: return null
+    if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
+    var sample = 1
+    while (maxOf(bounds.outWidth, bounds.outHeight) / sample > MAX_PREVIEW_SIDE) sample *= 2
+    val options = BitmapFactory.Options().apply { inSampleSize = sample }
+    return runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options) }.getOrNull()
+}
+
 @Composable
 fun LinkPreviewCard(url: String, loader: LinkPreviewLoader) {
     val media = LocalMedia.current
@@ -94,9 +138,7 @@ fun LinkPreviewCard(url: String, loader: LinkPreviewLoader) {
         image = if (imageUrl.startsWith("mxc://")) {
             media?.thumbnail(imageUrl, 400)
         } else {
-            withContext(Dispatchers.IO) {
-                runCatching { URL(imageUrl).openStream().use { BitmapFactory.decodeStream(it) } }.getOrNull()
-            }
+            withContext(Dispatchers.IO) { fetchPreviewImage(imageUrl) }
         }
     }
     val preview = data ?: return

@@ -36,6 +36,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import chat.mudrix.android.util.safeFileName
 
 /**
  * Re-encodes a video to H.264 before it is sent: the short side is scaled down to what
@@ -103,7 +104,9 @@ object VideoCompressor {
     ): File? {
         val plan = VideoPlan.planCompression(meta, target) ?: return null
         val outputDir = File(context.cacheDir, UUID.randomUUID().toString()).apply { mkdirs() }
-        val output = File(outputDir, outputName)
+        // The transformer picks the container from the extension, so keep one even after a fallback name
+        val safeName = safeFileName(outputName)
+        val output = File(outputDir, if (safeName.endsWith(".mp4", ignoreCase = true)) safeName else "$safeName.mp4")
         var keep = false
         try {
             val (width, height) = VideoPlan.scaledSize(meta.width, meta.height, plan.height)

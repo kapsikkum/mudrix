@@ -225,7 +225,7 @@ internal fun SessionsSettings(onBack: (() -> Unit)?, onDone: (() -> Unit)? = nul
             },
             confirmButton = {
                 TextButton(onClick = {
-                    copyToClipboard(key)
+                    copyToClipboard(key, sensitive = true)
                     newRecoveryKey = null
                 }) { Text(tr("common.copy"), color = theme.accent, style = wizardFont(WZ.FontSize.lg, FontWeight.SemiBold)) }
             },

@@ -197,11 +197,46 @@ class CallService : Service() {
                 .setOnlyAlertOnce(true)
                 .setSilent(true)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setPublicVersion(publicVersion(context, state, open))
                 .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
                 .setWhen(controller.startedAt)
                 .setShowWhen(!state.ringing)
                 .setUsesChronometer(!state.ringing)
+                .addAction(
+                    PhIcons.id(if (state.micMuted) "microphone-slash" else "microphone"),
+                    L10n.format(if (state.micMuted) "call.unmute" else "call.mute"),
+                    action(context, ACTION_TOGGLE_MIC, 1),
+                )
+                .addAction(
+                    PhIcons.id(if (state.deafened) "speaker-slash" else "speaker-high", PhWeight.regular),
+                    L10n.format(if (state.deafened) "call.undeafen" else "call.deafen"),
+                    action(context, ACTION_TOGGLE_DEAFEN, 2),
+                )
+                .addAction(PhIcons.id("phone-x"), L10n.format("common.leave"), action(context, ACTION_LEAVE, 3))
+                .build()
+        }
+
+        /**
+         * What a locked device may show: that Mudrix is in a call, never the room name or who is
+         * talking. The controls are the same, so mute, deafen and leave keep working there.
+         */
+        private fun publicVersion(context: Context, state: CallActivityState, open: PendingIntent?): Notification {
+            val status = if (state.ringing) {
+                L10n.format("call.callingShort")
+            } else {
+                L10n.format("call.mudrixVoiceInCall", state.participantCount)
+            }
+            return NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(PhIcons.id("phone", PhWeight.regular))
+                .setContentTitle(L10n.format("call.mudrixCall"))
+                .setContentText(status)
+                .setContentIntent(open)
+                .setOngoing(true)
+                .setOnlyAlertOnce(true)
+                .setSilent(true)
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .addAction(
                     PhIcons.id(if (state.micMuted) "microphone-slash" else "microphone"),
                     L10n.format(if (state.micMuted) "call.unmute" else "call.mute"),

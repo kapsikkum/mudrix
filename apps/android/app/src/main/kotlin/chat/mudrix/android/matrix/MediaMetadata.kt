@@ -12,6 +12,7 @@ import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.MudrixApplication
+import chat.mudrix.android.util.safeFileName
 
 /** Pixel sizes and durations of local files before they're sent */
 object MediaMetadata {
@@ -68,7 +69,7 @@ object MediaMetadata {
     suspend fun temporaryCopy(data: ByteArray, filename: String): File = withContext(Dispatchers.IO) {
         val dir = File(MudrixApplication.instance.cacheDir, UUID.randomUUID().toString())
         dir.mkdirs()
-        File(dir, filename).also { it.writeBytes(data) }
+        File(dir, safeFileName(filename)).also { it.writeBytes(data) }
     }
 
     private fun <T> retrieve(uri: Uri, read: (MediaMetadataRetriever) -> T): T? {
