@@ -48,6 +48,13 @@ on:
         description: 'Build installers ("true") or compile only ("false")'
         default: 'true'
         type: string
+      profile:
+        description: 'Build profile: debug for test builds, release for what a release ships'
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - release
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -67,13 +74,29 @@ jobs:
   build:
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 75
+    timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
         os: ${{ fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]') }}
     steps:
       - uses: actions/checkout@v4
+
+      # The release profile runs the whole Rust build optimised (LTO, opt-level z): much slower than
+      # the debug test builds, and only meant for the files a release actually ships.
+      - name: Build profile
+        id: profile
+        shell: bash
+        run: |
+          if [ "${{ inputs.profile }}" = "release" ]; then
+            echo "flag=" >> "$GITHUB_OUTPUT"
+            echo "dir=release" >> "$GITHUB_OUTPUT"
+            echo "label=release" >> "$GITHUB_OUTPUT"
+          else
+            echo "flag=--debug" >> "$GITHUB_OUTPUT"
+            echo "dir=debug" >> "$GITHUB_OUTPUT"
+            echo "label=debug" >> "$GITHUB_OUTPUT"
+          fi
 
       - uses: actions/setup-node@v4
         with:
@@ -107,13 +130,14 @@ jobs:
           echo "list=$list" >> "$GITHUB_OUTPUT"
 
       # beforeBuildCommand (tsc + vite build --mode desktop) builds the web UI that Tauri embeds
-      - name: Tauri build (debug, installers)
+      - name: Tauri build (${{ inputs.profile }}, installers)
         if: inputs.bundles != 'false'
         shell: bash
         env:
           # The same minisign key the old mudrix-desktop releases used; without it the build is unsigned.
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          PROFILE_FLAG: ${{ steps.profile.outputs.flag }}
         run: |
           signing=()
           if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ] && [ -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" ]; then
@@ -122,27 +146,30 @@ jobs:
           else
             echo "No updater signing key and password; building unsigned."
           fi
-          npm run tauri -w @mudrix/desktop -- build --debug --bundles ${{ steps.bundles.outputs.list }} "${signing[@]}"
+          npm run tauri -w @mudrix/desktop -- build $PROFILE_FLAG --bundles ${{ steps.bundles.outputs.list }} "${signing[@]}"
 
-      - name: Tauri build (debug, no bundle)
+      - name: Tauri build (${{ inputs.profile }}, no bundle)
         if: inputs.bundles == 'false'
-        run: npm run tauri -w @mudrix/desktop -- build --debug --no-bundle
+        shell: bash
+        env:
+          PROFILE_FLAG: ${{ steps.profile.outputs.flag }}
+        run: npm run tauri -w @mudrix/desktop -- build $PROFILE_FLAG --no-bundle
 
       # upload-artifact cannot carry a .app's symlinks and file modes, so the macOS app is zipped with ditto
       - name: Package the macOS app
         if: runner.os == 'macOS' && inputs.bundles != 'false'
         shell: bash
         run: |
-          apps=(target/debug/bundle/macos/*.app)
+          apps=(target/${{ steps.profile.outputs.dir }}/bundle/macos/*.app)
           app="${apps[0]}"
           ditto -c -k --sequesterRsrc --keepParent "$app" \
-            "target/debug/bundle/macos/$(basename "$app" .app)-unsigned-${GITHUB_SHA::7}.zip"
+            "target/${{ steps.profile.outputs.dir }}/bundle/macos/$(basename "$app" .app)-unsigned-${GITHUB_SHA::7}.zip"
 
       - name: Checksums
         if: inputs.bundles != 'false'
         shell: bash
         run: |
-          cd target/debug/bundle
+          cd target/${{ steps.profile.outputs.dir }}/bundle
           if command -v sha256sum > /dev/null; then SH="sha256sum"; else SH="shasum -a 256"; fi
           find . -maxdepth 2 -type f \
             \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' -o -name '*.zip' \
@@ -154,44 +181,44 @@ jobs:
       - name: Upload the binary
         uses: actions/upload-artifact@v4
         with:
-          name: mudrix-desktop-debug-${{ runner.os }}
+          name: mudrix-desktop-${{ steps.profile.outputs.label }}-${{ runner.os }}
           path: |
-            target/debug/mudrix-desktop
-            target/debug/mudrix-desktop.exe
-            target/debug/mudrix_desktop.pdb
+            target/${{ steps.profile.outputs.dir }}/mudrix-desktop
+            target/${{ steps.profile.outputs.dir }}/mudrix-desktop.exe
+            target/${{ steps.profile.outputs.dir }}/mudrix_desktop.pdb
           if-no-files-found: error
           retention-days: 14
 
-      # Unsigned and debug-profile on purpose: SmartScreen and Gatekeeper will complain, which is what the
-      # testing notes explain. Globs, so a productName rename doesn't break the upload.
+      # Unsigned on purpose: SmartScreen and Gatekeeper will complain, which is what the testing notes
+      # explain. Globs, so a productName rename doesn't break the upload.
       - name: Upload the installers
         if: inputs.bundles != 'false'
         uses: actions/upload-artifact@v4
         with:
-          name: mudrix-desktop-${{ runner.os }}-unsigned
+          name: mudrix-desktop-${{ runner.os }}-${{ steps.profile.outputs.label }}
           path: |
-            target/debug/bundle/nsis/*.exe
-            target/debug/bundle/msi/*.msi
-            target/debug/bundle/dmg/*.dmg
-            target/debug/bundle/macos/*.zip
-            target/debug/bundle/appimage/*.AppImage
-            target/debug/bundle/deb/*.deb
-            target/debug/bundle/SHA256SUMS.txt
+            target/${{ steps.profile.outputs.dir }}/bundle/nsis/*.exe
+            target/${{ steps.profile.outputs.dir }}/bundle/msi/*.msi
+            target/${{ steps.profile.outputs.dir }}/bundle/dmg/*.dmg
+            target/${{ steps.profile.outputs.dir }}/bundle/macos/*.zip
+            target/${{ steps.profile.outputs.dir }}/bundle/appimage/*.AppImage
+            target/${{ steps.profile.outputs.dir }}/bundle/deb/*.deb
+            target/${{ steps.profile.outputs.dir }}/bundle/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14
 
       # The minisign-signed updater bundles (and their .sig files) for in-app updates. Only present when
       # the old mudrix-desktop signing key is configured.
       - name: Upload updater artifacts
-        if: inputs.bundles != 'false' && hashFiles('target/debug/bundle/**/*.sig') != ''
+        if: inputs.bundles != 'false'
         uses: actions/upload-artifact@v4
         with:
           name: mudrix-desktop-updater-${{ runner.os }}
           path: |
-            target/debug/bundle/**/*.sig
-            target/debug/bundle/**/*.nsis.zip
-            target/debug/bundle/**/*.app.tar.gz
-            target/debug/bundle/**/*.AppImage.tar.gz
+            target/${{ steps.profile.outputs.dir }}/bundle/**/*.sig
+            target/${{ steps.profile.outputs.dir }}/bundle/**/*.nsis.zip
+            target/${{ steps.profile.outputs.dir }}/bundle/**/*.app.tar.gz
+            target/${{ steps.profile.outputs.dir }}/bundle/**/*.AppImage.tar.gz
           if-no-files-found: ignore
           retention-days: 14
 
@@ -200,6 +227,8 @@ jobs:
       # tarball install instead of offering a dpkg upgrade (see packaging/ci/make-linux-tarball.mjs).
       - name: Linux tarball for the distro packages
         if: runner.os == 'Linux' && inputs.bundles != 'false'
+        env:
+          MUDRIX_BUNDLE_DIR: target/${{ steps.profile.outputs.dir }}/bundle
         run: node packaging/ci/make-linux-tarball.mjs
 
       - name: Upload the Linux tarball
@@ -207,7 +236,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mudrix-linux-tarball
-          path: target/debug/bundle/tarball/
+          path: target/${{ steps.profile.outputs.dir }}/bundle/tarball/
           if-no-files-found: error
           retention-days: 14
 

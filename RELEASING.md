@@ -16,9 +16,11 @@ plan, what already works and what does not, so nothing here should be read as "C
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
-- A release is still built and published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
-  release of `kapsikkum/mudrix`: the CI builds are debug-profile, expire after 14 days, and only the Android release APK
-  and the desktop updater signatures are signed.
+- A release is still published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
+  release of `kapsikkum/mudrix`. The release files come from the workflows with the release profile:
+  `desktop.yml` with `profile=release` (Windows, Linux, macOS installers plus the signed updater bundles),
+  `android.yml` (the signed APK, built from a release core) and `ios.yml` with `device-ipa=true` (the unsigned
+  IPA). The default `desktop.yml` runs are debug builds for testers and expire after 14 days.
 - The old repositories had `check.yml`, `release.yml`, `pages.yml` (web), `release.yml` (desktop) and `android.yml` /
   `ios.yml` (mobile). They are the model for the release workflow that is still to be written.
 
@@ -82,9 +84,11 @@ release APK and updater signatures are signed, the rest is not.
    git tag v26.12.0
    git push origin main v26.12.0
    ```
-4. Build the apps on their platforms (`npm run build`, `npm run desktop:release`, `npm run android:build`,
-   `npm run ios:build`), then create the GitHub release (a pre-release for any `-` tag) and attach the files, including a
-   `latest.json` written from the `.sig` files of the desktop build.
+4. Build the release files from the tag: run `desktop.yml` with `profile=release` (Windows, Linux, macOS) and
+   `ios.yml` with `device-ipa=true`; `android.yml` builds the signed APK from a release core on its own. Download
+   the artifacts, rename them to the names in the table above, write `latest.json` from the `.sig` files of the
+   release build, add `SHA256SUMS`, then create the GitHub release (a pre-release for any `-` tag) and attach
+   everything.
 5. Smoke test on a clean profile: install, sign in, receive a notification with the window closed (tray), check the
    unread badge, open a `matrix:` link, quit from the tray, and update from an older build.
 

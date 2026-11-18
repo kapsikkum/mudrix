@@ -20,13 +20,14 @@ import {
 import { join } from 'node:path';
 
 const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
-const bundle = 'target/debug/bundle';
+// The CI passes the profile directory it built (target/debug or target/release); a local run defaults to debug.
+const bundle = process.env.MUDRIX_BUNDLE_DIR ?? 'target/debug/bundle';
 
 const deb = join(bundle, 'deb');
 const debDir =
   existsSync(deb) && readdirSync(deb).find((name) => existsSync(join(deb, name, 'data')));
 if (!debDir)
-  throw new Error(`no deb bundle in ${deb}: run "tauri build --debug --bundles deb" first`);
+  throw new Error(`no deb bundle in ${deb}: build the deb bundle for this profile first`);
 
 const out = join(bundle, 'tarball');
 const stage = join(out, 'stage');
