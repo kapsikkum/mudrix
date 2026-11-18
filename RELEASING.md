@@ -70,8 +70,12 @@ release APK and updater signatures are signed, the rest is not.
 ## Cutting a release (manual, until workflows exist)
 
 1. Merge what you want to ship (`next` for a pre-release, `main` for a stable release) and run `npm run check`.
-2. Set the version: `npm version 26.12.0 --no-git-tag-version`, plus the Android `versionName` / `versionCode` and,
-   if wanted, the Cargo workspace version. Add `whatsnew/<version>.md` (and `.de.md`) for the in-app "What's new".
+2. Set the version: `npm version 26.12.0 --no-git-tag-version` (Android's `versionName`/`versionCode` follow it
+   automatically; the Cargo workspace version is set by hand if wanted). Write the notes with
+   `node scripts/release-notes.mjs <version>` — it reads the conventional commits since the previous stable tag and
+   writes `whatsnew/<version>.md`, which is both the in-app "What's new" and (with `--body <file>`) the GitHub release
+   body. Commits can steer their line with a `Release-note:` trailer, and `scripts/release-notes.overrides.json`
+   steers ones already made. The notes are English only; every language falls back to them.
 3. Commit, tag and push the tag only when the user wants it released:
    ```sh
    git commit -am "chore(release): prepare v26.12.0"
