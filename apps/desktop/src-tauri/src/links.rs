@@ -16,7 +16,25 @@ pub struct Pending {
     link: Mutex<Option<String>>,
 }
 
-/// The app path of a link: `chat.mudrix.desktop://app/r/...` and `chat.mudrix.desktop:/r/...` open `/r/...`
+/// The routes a deep link may open. Anything else (including `/` and `/welcome/...`) stays out.
+const ROUTES: [&str; 5] = ["/r/", "/dm/", "/room/", "/space/", "/settings/"];
+
+/// Whether `path` is one route the app's router knows: a single leading slash, no `//` (which a
+/// browser reads as another host), no backslashes, control characters or `.`/`..` segments, and
+/// one of [`ROUTES`]' prefixes.
+fn is_app_route(path: &str) -> bool {
+    path.starts_with('/')
+        && !path.contains("//")
+        && !path.contains('\\')
+        && !path.chars().any(char::is_control)
+        && path
+            .split('/')
+            .all(|segment| segment != "." && segment != "..")
+        && ROUTES.iter().any(|route| path.starts_with(route))
+}
+
+/// The app path of a link: `chat.mudrix.desktop://app/r/...` and `chat.mudrix.desktop:/r/...` open
+/// `/r/...`; a link to any other route is ignored.
 fn app_path(url: &Url) -> Option<String> {
     if url.scheme() != SCHEME {
         return None;
@@ -27,6 +45,9 @@ fn app_path(url: &Url) -> Option<String> {
     };
     if !path.starts_with('/') {
         path.insert(0, '/');
+    }
+    if !is_app_route(&path) {
+        return None;
     }
     if let Some(query) = url.query() {
         path = format!("{path}?{query}");
@@ -173,4 +194,72 @@ pub fn take_pending_room(pending: State<'_, Pending>) -> Option<String> {
 #[tauri::command]
 pub fn take_deep_link(pending: State<'_, Pending>) -> Option<String> {
     pending.link.lock().unwrap().take()
+}
+
+#[cfg(test)]
+mod route_tests {
+    use super::*;
+
+    fn open(url: &str) -> Option<String> {
+        app_path(&Url::parse(url).expect("a valid test url"))
+    }
+
+    #[test]
+    fn known_routes_are_opened() {
+        assert_eq!(
+            open("chat.mudrix.desktop://app/r/!room:server?via=matrix.org#msg").as_deref(),
+            Some("/r/!room:server?via=matrix.org#msg")
+        );
+        assert_eq!(
+            open("chat.mudrix.desktop://r/!room:server").as_deref(),
+            Some("/r/!room:server")
+        );
+        assert_eq!(
+            open("chat.mudrix.desktop:/dm/@me:server").as_deref(),
+            Some("/dm/@me:server")
+        );
+        assert_eq!(
+            open("chat.mudrix.desktop://room/!room:server").as_deref(),
+            Some("/room/!room:server")
+        );
+        assert_eq!(
+            open("chat.mudrix.desktop://space/!space:server").as_deref(),
+            Some("/space/!space:server")
+        );
+        assert_eq!(
+            open("chat.mudrix.desktop://settings/appearance").as_deref(),
+            Some("/settings/appearance")
+        );
+    }
+
+    #[test]
+    fn other_routes_and_schemes_are_dropped() {
+        for url in [
+            "chat.mudrix.desktop://app/",
+            "chat.mudrix.desktop://app",
+            "chat.mudrix.desktop://app/welcome/https://example.com",
+            "chat.mudrix.desktop://app/to",
+            "chat.mudrix.desktop://app/settings",
+            "https://example.com/r/!room:server",
+            "javascript:alert(1)",
+        ] {
+            assert_eq!(open(url), None, "{url} must be dropped");
+        }
+    }
+
+    #[test]
+    fn paths_that_leave_the_app_are_dropped() {
+        for url in [
+            // A second slash would be another host once pushed into the browser.
+            "chat.mudrix.desktop://app//example.com/r/x",
+            // The host is part of the path unless it is `app`, so this is not `/r/...`.
+            "chat.mudrix.desktop://evil.com/r/x",
+            "chat.mudrix.desktop://app/evil/r/x",
+            "chat.mudrix.desktop://app/%2F%2Fexample.com/r/x",
+            // Dot segments are resolved by the URL parser; this one leaves the allowed routes.
+            "chat.mudrix.desktop://app/r/x/../../evil",
+        ] {
+            assert_eq!(open(url), None, "{url} must be dropped");
+        }
+    }
 }

@@ -5,10 +5,11 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "opener:default",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [{ "url": "http://*" }, { "url": "https://*" }, { "url": "mailto:*" }]
+    },
     "notification:default",
-    "dialog:allow-save",
-    "dialog:allow-open",
     "core:window:allow-start-dragging",
     "core:window:allow-internal-toggle-maximize",
     "core:window:allow-minimize",

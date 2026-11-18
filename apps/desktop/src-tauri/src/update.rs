@@ -116,6 +116,8 @@ async fn check(
     if app.state::<PendingUpdate>().0.lock().unwrap().is_some() {
         return Ok(CheckOutcome::Ready);
     }
+    // The builder starts from the `plugins.updater` config (pubkey, `requireSignedVersion`,
+    // `allowDowngrades`); only the feed changes here, so those guards stay in force.
     let updater = app
         .updater_builder()
         .endpoints(vec![feed.clone()])?

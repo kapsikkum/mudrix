@@ -124,8 +124,12 @@ pub struct RunningProgram {
 }
 
 /// The programs with a window open right now (one per exe), so the person can pick the one to add.
+/// Nothing is looked at unless activity detection is on: it is the same opt-in as the scan.
 #[tauri::command]
-pub fn list_running_programs() -> Vec<RunningProgram> {
+pub fn list_running_programs(state: State<'_, ActivityState>) -> Vec<RunningProgram> {
+    if !lock(&state.shared.config).any() {
+        return Vec::new();
+    }
     #[cfg(windows)]
     {
         let mut seen = std::collections::HashSet::new();
