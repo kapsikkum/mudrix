@@ -79,7 +79,9 @@ struct SessionsSettings: View {
         }
         .alert(String(localized: "settings.encryption.setUpRecoveryKey"), isPresented: Binding(get: { newRecoveryKey != nil },
                                                           set: { if !$0 { newRecoveryKey = nil } })) {
-            Button(String(localized: "common.copy")) { UIPasteboard.general.string = newRecoveryKey }
+            Button(String(localized: "common.copy")) {
+                if let newRecoveryKey { SecretClipboard.copy(newRecoveryKey) }
+            }
             Button(String(localized: "common.done"), role: .cancel) {}
         } message: {
             // Streamer mode keeps the key off the screen; Copy still puts it on the clipboard

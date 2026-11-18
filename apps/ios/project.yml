@@ -61,12 +61,12 @@ targets:
         # How notifications arrive while closed: apns (needs a push gateway and the Push capability) or keepalive
         WZPushMode: $(WZ_PUSH_MODE)
         WZPushGateway: $(WZ_PUSH_GATEWAY_URL)
-        # Opened by the share extension to send what you shared. chat.mudrix is the scheme new sign-in
-        # redirect URIs use; ASWebAuthenticationSession itself still watches the upstream scheme
-        # (MatrixSession.callbackScheme) because it takes one scheme only.
+        # Opened by the share extension and by sign-in redirects. Links from other apps use mudrix
+        # and chat.mudrix; org.wizardchat is the one ASWebAuthenticationSession watches (and what
+        # client registrations made before the rename redirect on).
         CFBundleURLTypes:
           - CFBundleURLName: chat.mudrix.mobile
-            CFBundleURLSchemes: [mudrix, chat.mudrix]
+            CFBundleURLSchemes: [mudrix, chat.mudrix, org.wizardchat]
         # Calls show in the Dynamic Island and on the lock screen
         NSSupportsLiveActivities: true
         CFBundleShortVersionString: $(MARKETING_VERSION)

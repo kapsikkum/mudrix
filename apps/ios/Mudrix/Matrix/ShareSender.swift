@@ -11,6 +11,8 @@ enum ShareSender {
         defer { busy = false }
         // Shared photos and videos follow the Media settings like the ones picked in the composer
         let prep = UploadPrep(prefs: prefs, maxUploadBytes: uploadLimit)
+        // Shares from an account that never came back are dropped rather than sent by this one
+        ShareInbox.expireStale()
         for item in ShareInbox.pending() {
             guard let room = roomList.room(id: item.roomId) else { continue }
             let timeline = TimelineModel(client: roomList.client, roomId: room.id)

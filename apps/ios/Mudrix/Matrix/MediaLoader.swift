@@ -7,10 +7,39 @@ final class MediaLoader {
     let client: MudrixClient
     private let cache = NSCache<NSString, UIImage>()
     private var inFlight: [String: Task<UIImage?, Never>] = [:]
-    private let files = FileManager.default.temporaryDirectory.appendingPathComponent("media", isDirectory: true)
+    /// Each account decrypts into a folder of its own, so switching accounts never shows the
+    /// previous one's pictures (the folder is dropped when that account signs out).
+    private let files: URL
 
-    init(client: MudrixClient) {
+    init(client: MudrixClient, userId: String) {
         self.client = client
+        self.files = Self.root.appendingPathComponent(AccountScope.folderName(userId), isDirectory: true)
+        Self.removeOldLayout()
+    }
+
+    private static var root: URL {
+        FileManager.default.temporaryDirectory.appendingPathComponent("media", isDirectory: true)
+    }
+
+    /// The cache used to be one folder per media key, readable by whichever account was signed
+    /// in; those folders (not the per-account ones) are dropped when a loader starts.
+    private static func removeOldLayout() {
+        let root = Self.root
+        Task.detached(priority: .utility) {
+            guard let entries = try? FileManager.default.contentsOfDirectory(
+                at: root, includingPropertiesForKeys: [.isDirectoryKey]) else { return }
+            for entry in entries where !entry.lastPathComponent.hasPrefix("user-") {
+                let values = try? entry.resourceValues(forKeys: [.isDirectoryKey])
+                guard values?.isDirectory == true else { continue }
+                try? FileManager.default.removeItem(at: entry)
+            }
+        }
+    }
+
+    /// Drops the decrypted media cached for an account that signs out or is switched away from.
+    static func purge(account userId: String) {
+        try? FileManager.default.removeItem(
+            at: root.appendingPathComponent(AccountScope.folderName(userId), isDirectory: true))
     }
 
     func cachedThumbnail(_ key: String) -> UIImage? {
@@ -54,7 +83,8 @@ final class MediaLoader {
         let place = location(for: source, filename: filename, mimetype: mimetype)
         if FileManager.default.fileExists(atPath: place.file.path) { return place.file }
         let data = try await client.media(source: source)
-        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true,
+                                                attributes: [.protectionKey: FileProtectionType.complete])
         try data.write(to: place.file, options: [.atomic, .completeFileProtection])
         return place.file
     }
@@ -74,7 +104,8 @@ final class MediaLoader {
         let data = try await client.mediaDownload(source: source, sizeHint: sizeHint, token: token) { update in
             Task { @MainActor in progress(update) }
         }
-        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true)
+        try FileManager.default.createDirectory(at: place.folder, withIntermediateDirectories: true,
+                                                attributes: [.protectionKey: FileProtectionType.complete])
         try data.write(to: place.file, options: [.atomic, .completeFileProtection])
         return place.file
     }
@@ -84,7 +115,8 @@ final class MediaLoader {
         Task { try? await client.cancelMediaDownload(token: token) }
     }
 
-    /// Drops every picture and file downloaded into the cache (Settings > Developer's "Clear media cache")
+    /// Drops the signed-in account's pictures and files (Settings > Developer's "Clear media cache");
+    /// signing out drops them too, through `purge(account:)`
     func clearCache() {
         cache.removeAllObjects()
         thumbnailSizes.removeAll()

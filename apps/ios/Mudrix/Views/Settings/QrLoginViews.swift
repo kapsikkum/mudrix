@@ -200,6 +200,23 @@ private struct ScanFrame: Shape {
     }
 }
 
+/// What the QR flow may open: a web page with a host, never a scheme the server chose for us
+enum QrApproval {
+    static func isSafe(_ url: URL) -> Bool {
+        guard url.scheme?.lowercased() == "https", let host = url.host(), !host.isEmpty else { return false }
+        return url.user() == nil && url.password() == nil
+    }
+
+    static func safeURL(_ string: String) -> URL? {
+        guard let url = URL(string: string.trimmingCharacters(in: .whitespacesAndNewlines)),
+              isSafe(url) else { return nil }
+        return url
+    }
+
+    /// The host shown before it is opened
+    static func host(of url: URL) -> String { url.host() ?? url.absoluteString }
+}
+
 @MainActor
 final class QrFlow: ObservableObject {
     enum Step {
@@ -237,6 +254,7 @@ final class QrFlow: ObservableObject {
     }
 
     private func update(_ status: QrLoginStatus) {
+        guard !cancelled else { return }
         switch status {
         case .starting: step = .starting
         case .showQr(let qr):
@@ -248,7 +266,14 @@ final class QrFlow: ObservableObject {
         case .waitingForApproval(let waiting):
             step = .showCode(check: checkCode, approval: waiting.user_code.flatMap { $0.isEmpty ? nil : $0 })
         case .approveInBrowser(let approval):
-            if let url = URL(string: approval.url) { step = .approve(url) }
+            // The server picks this page: show it only if it is a web page the user can recognise, and
+            // stop rather than let the sign-in continue with a link that cannot be opened safely
+            guard let url = QrApproval.safeURL(approval.url) else {
+                step = .failed(String(localized: "auth.qr.failGeneric"))
+                cancel()
+                return
+            }
+            step = .approve(url)
             Task {
                 do { try await control?.confirm() } catch {
                     step = .failed(QrLogin.failureMessage(error))
@@ -344,11 +369,18 @@ private struct QrFlowView: View {
                     Text(String(localized: "auth.qr.waitingForApproval")).multilineTextAlignment(.center)
                     ProgressView().tint(theme.accent)
                 case .approve(let url):
-                    Text(String(localized: "auth.qr.approveInBrowser")).multilineTextAlignment(.center)
+                    Text(String(localized: "auth.qr.waitingForApproval")).multilineTextAlignment(.center)
+                    Text(verbatim: QrApproval.host(of: url))
+                        .font(.wizard(WZ.FontSize.lg, .semibold))
+                        .foregroundStyle(theme.textPrimary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
                     ProgressView().tint(theme.accent)
-                    Button(String(localized: "auth.qr.openApproval")) { openURL(url) }
-                        .buttonStyle(SecondaryButtonStyle())
-                        .onAppear { openURL(url) }
+                    Button(String(localized: "common.open")) {
+                        guard QrApproval.isSafe(url) else { return }
+                        openURL(url)
+                    }
+                    .buttonStyle(SecondaryButtonStyle())
                 case .done:
                     if let doneText {
                         Image("ph-check-circle-fill").font(.system(size: WZ.SizeIcon.xxl)).foregroundStyle(theme.success)

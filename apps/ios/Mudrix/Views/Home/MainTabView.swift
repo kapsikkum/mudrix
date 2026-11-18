@@ -93,7 +93,7 @@ struct MainTabView: View {
             if isSpace { showSpace(id) } else { show(id) }
         })
         .onOpenURL { url in
-            guard url.scheme == "mudrix" else { return }
+            guard let scheme = url.scheme, MatrixSession.shareSchemes.contains(scheme) else { return }
             sendShared()
         }
         .onChange(of: scenePhase) { _, phase in

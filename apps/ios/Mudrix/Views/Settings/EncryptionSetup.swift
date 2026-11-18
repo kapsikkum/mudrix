@@ -123,7 +123,7 @@ struct RecoveryKeyView: View {
                 .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
             HStack(spacing: WZ.Space.space4) {
                 Button {
-                    UIPasteboard.general.string = recoveryKey
+                    SecretClipboard.copy(recoveryKey)
                     saved = true
                 } label: {
                     Label(String(localized: "common.copy"), image: "ph-copy-regular").frame(maxWidth: .infinity)

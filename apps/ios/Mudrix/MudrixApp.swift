@@ -79,6 +79,12 @@ struct MudrixApp: App {
                 }
             }
             .task(id: session.state == .loggedIn ? session.userId : nil) { await onLoginChanged() }
+            // A sign-in finished in the browser comes back on the scheme ASWebAuthenticationSession
+            // watches; the core checks the nonce in the query, so the URL is passed on whole
+            .onOpenURL { url in
+                guard url.scheme == MatrixSession.callbackScheme else { return }
+                Task { try? await session.finishBrowserLogin(callbackUrl: url) }
+            }
             .onChange(of: notifier.accountToOpen) { _, _ in openNotificationAccount() }
             .onChange(of: prefs.theme, initial: true) { _, _ in applyAppIcon() }
             .onChange(of: prefs.followSystemTheme) { _, _ in applyAppIcon() }
@@ -197,6 +203,7 @@ private struct ThemedRoot<Content: View>: View {
     @ObservedObject var prefs: AppPreferences
     @ViewBuilder let content: (MudrixTheme) -> Content
     @Environment(\.colorScheme) private var systemScheme
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         let name = prefs.effectiveThemeName(systemDark: systemScheme == .dark)
@@ -207,6 +214,68 @@ private struct ThemedRoot<Content: View>: View {
             .toggleStyle(SwitchToggleStyle(tint: theme.accent))
             .preferredColorScheme(prefs.followSystemTheme ? nil : theme.colorScheme)
             .background(theme.bgPrimary.ignoresSafeArea())
+            // The switcher thumbnail is taken while the app is inactive: cover everything before that
+            .overlay {
+                if scenePhase != .active {
+                    PrivacyCover(theme: theme)
+                }
+            }
             .onChange(of: theme.id, initial: true) { _, id in ShareInbox.saveTheme(id.rawValue) }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active {
+                    PrivacyCoverWindow.hide()
+                } else {
+                    PrivacyCoverWindow.show(theme: theme)
+                }
+            }
     }
+}
+
+/// An opaque cover over the app while it is not active, so the app switcher thumbnail never shows a chat
+private struct PrivacyCover: View {
+    let theme: MudrixTheme
+
+    var body: some View {
+        ZStack {
+            theme.bgPrimary
+            WizardLogoShape()
+                .frame(width: WZ.SizeAvatar.xl, height: WZ.SizeAvatar.xl)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
+        .accessibilityHidden(true)
+    }
+}
+
+/// The cover in a window above every screen, sheets included, which the root view's overlay cannot cover
+@MainActor
+private enum PrivacyCoverWindow {
+    private static var window: UIWindow?
+
+    static func show(theme: MudrixTheme) {
+        guard window == nil else { return }
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState != .background }) else { return }
+        let background = UIColor(theme.bgPrimary)
+        let host = UIHostingController(rootView: PrivacyCover(theme: theme))
+        host.view.backgroundColor = background
+        let window = CoverWindow(windowScene: scene)
+        window.rootViewController = host
+        window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.alert.rawValue + 1)
+        window.backgroundColor = background
+        window.isUserInteractionEnabled = false
+        window.isHidden = false
+        self.window = window
+    }
+
+    static func hide() {
+        window?.isHidden = true
+        window = nil
+    }
+}
+
+/// A cover window is only there to be seen: it must not take key status or focus from the app
+private final class CoverWindow: UIWindow {
+    override var canBecomeKey: Bool { false }
 }

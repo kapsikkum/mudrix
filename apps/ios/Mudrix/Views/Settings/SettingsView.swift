@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     var isTab = false
@@ -429,6 +430,19 @@ struct PickerRow<Value: Hashable>: View {
     }
 }
 
+/// Copies something that must not stay on the clipboard (a recovery key, an access token): this
+/// device only, and gone after a minute.
+@MainActor
+enum SecretClipboard {
+    static func copy(_ value: String) {
+        let items: [[String: Any]] = [[UTType.utf8PlainText.identifier: value]]
+        UIPasteboard.general.setItems(items, options: [
+            .localOnly: true,
+            .expirationDate: Date().addingTimeInterval(60),
+        ])
+    }
+}
+
 struct CopyRow: View {
     let label: LocalizedStringKey
     let value: String
@@ -458,7 +472,7 @@ struct CopyRow: View {
                     .accessibilityLabel(revealed ? String(localized: "common.hide") : String(localized: "common.show"))
                 }
                 Button {
-                    UIPasteboard.general.string = value
+                    if secret { SecretClipboard.copy(value) } else { UIPasteboard.general.string = value }
                     copied = true
                 } label: {
                     Image(copied ? "ph-check-bold" : "ph-copy-regular")
