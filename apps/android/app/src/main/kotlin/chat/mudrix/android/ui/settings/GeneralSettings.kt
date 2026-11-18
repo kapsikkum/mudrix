@@ -331,20 +331,20 @@ private fun ChatPreview() {
     val ownName = session.displayName ?: session.userId ?: "You"
     Column(Modifier.fillMaxWidth().padding(vertical = WZ.Space.space4)) {
         PreviewMessage(
-            "Merlin",
+            "Muddy",
             null,
             "settings.appearance.previewOtherMessage",
             mention = mentionLabel(ownName),
             mentionsMe = true,
             isOwn = false,
-            senderId = "@merlin:example.org",
+            senderId = "@muddy:example.org",
             timestamp = now - 120_000,
         )
         PreviewMessage(
             ownName,
             session.avatarUrl,
             "settings.appearance.previewOwnMessage",
-            mention = mentionLabel("Merlin"),
+            mention = mentionLabel("Muddy"),
             mentionsMe = false,
             senderId = session.userId ?: "@you:example.org",
             isOwn = true,

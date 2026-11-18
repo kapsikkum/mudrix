@@ -716,7 +716,7 @@ struct ReactionsBar: View {
                     .accessibilityLabel("\(reaction.key) \(reaction.count)")
             }
         }
-        .padding(.top, bubble ? 0 : WZ.Space.space2)
+        .padding(.top, bubble ? 0 : WZ.Space.space1)
         // Half of the pill (space8 high) hangs below the bubble's edge
         .offset(y: bubble ? -(WZ.Space.space8 / 2) : 0)
         .frame(maxWidth: .infinity, alignment: bubble && own ? .trailing : .leading)

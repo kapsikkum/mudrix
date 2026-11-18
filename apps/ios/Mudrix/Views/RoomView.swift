@@ -1357,7 +1357,7 @@ struct MessageRow: View {
             } else {
                 textContent
                     .font(.wizard((emojiOnlyFontSize ?? Self.bodySize) * scale))
-                    .lineSpacing(3 * scale)
+                    .lineSpacing(isCompact ? 0 : 3 * scale)
                     .multilineTextAlignment(.leading)
                     .tint(theme.linkColor)
             }
@@ -1433,11 +1433,11 @@ struct MessageRow: View {
         return Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
             .font(.wizard(WZ.FontSize.xs * scale))
             .foregroundColor(theme.textMuted)
-            + Text(verbatim: "  ")
+            + Text(verbatim: " ")
             + Text(entry.senderName)
             .font(.wizard(WZ.FontSize.md * scale, .semibold))
             .foregroundColor(senderColor)
-            + Text(verbatim: "  ")
+            + Text(verbatim: " ")
     }
 
     @ViewBuilder

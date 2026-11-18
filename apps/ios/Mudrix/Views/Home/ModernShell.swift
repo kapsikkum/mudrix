@@ -79,7 +79,7 @@ struct ModernShell: View {
             if !chatOpen { dock }
         }
         .background(theme.bgPrimary.ignoresSafeArea())
-        .animation(reduceMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal), value: chatOpen)
+        .animation(reduceMotion ? nil : .spring(duration: 0.34, bounce: 0), value: chatOpen)
         .fullScreenCover(isPresented: $showOwnProfile, onDismiss: {
             guard settingsAfterProfile else { return }
             settingsAfterProfile = false
