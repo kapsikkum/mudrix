@@ -12,5 +12,6 @@
   "349d0c25": "Cosmetics packs load on every platform, and the call beta label is gone.",
   "37f6bcc6": "Direct message rows, the nameplate scrim and the settings layout are tidier.",
   "91f1b7cf": "Room layout, bubble colours and the gallery are fixed on iOS.",
-  "b0887799": "Attachments save through the system dialog."
+  "b0887799": "Attachments save through the system dialog.",
+  "06df2de1": "The iOS app keeps drafts and shared files protected, asks before joining a linked room, and hides chats in the app switcher."
 }
