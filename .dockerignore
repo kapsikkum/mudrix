@@ -1,6 +1,7 @@
 .git/
 **/node_modules/
 target/
+**/target/
 **/dist/
 **/dist-desktop/
 crates/wasm/pkg*/
@@ -11,3 +12,19 @@ apps/desktop/src-tauri/gen/
 *.log
 .DS_Store
 .env*
+
+# Signing material and local platform secrets: never in the build context
+apps/android/keystore.properties
+apps/android/release.keystore
+apps/ios/Config/Secrets.xcconfig
+**/*.jks
+**/*.keystore
+
+# Local build outputs
+apps/android/app/build/
+apps/android/.gradle/
+apps/ios/build/
+apps/ios/build-device/
+ci-logs/
+screenshots/
+**/*.tsbuildinfo

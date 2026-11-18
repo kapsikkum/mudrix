@@ -32,8 +32,10 @@ Repository secrets (Settings -> Secrets and variables -> Actions):
 | `ANDROID_KEY_PASSWORD`      | the key password (usually the same as the store password)                         |
 
 The Android workflow builds `assembleFdroidRelease`, verifies the signature with `apksigner`, and
-uploads `mudrix-android-fdroid-release` (package `chat.mudrix.mobile`) when all four secrets exist. On
-pull requests, and when the secrets are absent, it uploads only the debug APK.
+uploads `mudrix-android-fdroid-release` (package `chat.mudrix.mobile`) only when the run started from
+the version tag `v<package.json version>` and all four secrets exist. A branch push (including
+`web-look`) and a pull request upload only the debug APK. Every run removes the keystore copy and
+`keystore.properties` from the workspace at the end, whatever happened.
 
 For a local signed build:
 
@@ -66,9 +68,11 @@ Repository secrets:
 | `TAURI_SIGNING_PRIVATE_KEY`          | the contents of `mudrix-updater.key` |
 | `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` | the key's password                   |
 
-When both secrets exist, the Desktop workflow adds `--config src-tauri/tauri.updater.conf.json` so Tauri
-writes the updater bundles and their `.sig` files, then uploads them as
-`mudrix-desktop-updater-<os>`. Without both secrets it builds unsigned, exactly as before.
+When both secrets exist, a release-profile run started from the version tag adds
+`--config src-tauri/tauri.updater.conf.json` so Tauri writes the updater bundles and their `.sig`
+files, then uploads them as `mudrix-desktop-updater-<os>`. Debug builds, branch pushes and pull
+requests build unsigned even when the secrets exist: only a tagged release may see the key. The run
+fails before building when the tag is not `v<package.json version>`.
 
 For a local signed build:
 
@@ -80,5 +84,5 @@ npm run tauri -w @mudrix/desktop -- build --debug --bundles nsis,msi,dmg,app,app
 ```
 
 The `.sig` files sit beside the bundles under `target/debug/bundle/` (release: `target/release/bundle/`).
-The updater feed stays `https://github.com/kapsikkum/mudrix-desktop/releases/latest/download/latest.json`
-until a new release feed replaces it.
+The updater feed is `https://github.com/kapsikkum/mudrix/releases/latest/download/latest.json` (that
+is what `apps/desktop/src-tauri/src/update.rs` reads). The old `mudrix-desktop` feed is no longer used.

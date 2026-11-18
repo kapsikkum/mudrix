@@ -7,20 +7,23 @@ plan, what already works and what does not, so nothing here should be read as "C
 ## State of CI
 
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
-  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build test builds. The Android release APK
-  and the desktop updater artifacts are signed with the old apps' keys when the signing secrets exist; the desktop
-  installers themselves remain unsigned, and nothing is published automatically. `pages.yml` only publishes the web
-  client. `desktop.yml` also builds Arch, Fedora and Nix packages (from the Linux tarball, unsigned, nothing published;
-  see [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes every workflow,
-  [TESTING.md](TESTING.md) what to do with the builds. Signing is in [docs/SIGNING.md](docs/SIGNING.md).
+  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build test builds. A release-profile
+  `desktop.yml` run and an `android.yml` run **started from the version tag** sign with the old apps' keys; every
+  other run — a branch push (including `web-look`), a debug build, a pull request — is unsigned. Nothing is
+  published automatically, the installers themselves remain unsigned, and `pages.yml` only publishes the web
+  client. `desktop.yml` also builds Arch, Fedora and Nix packages (from the Linux tarball, unsigned, nothing
+  published; see [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes
+  every workflow, [TESTING.md](TESTING.md) what to do with the builds. Signing is in
+  [docs/SIGNING.md](docs/SIGNING.md).
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
 - A release is still published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
-  release of `kapsikkum/mudrix`. The release files come from the workflows with the release profile:
-  `desktop.yml` with `profile=release` (Windows, Linux, macOS installers plus the signed updater bundles),
-  `android.yml` (the signed APK, built from a release core) and `ios.yml` with `device-ipa=true` (the unsigned
-  IPA). The default `desktop.yml` runs are debug builds for testers and expire after 14 days.
+  release of `kapsikkum/mudrix`. The release files come from workflow runs dispatched on the version tag
+  (`--ref v26.12.0`, step 4 below): `desktop.yml` with `profile=release` (Windows, Linux, macOS installers plus
+  the signed updater bundles), `android.yml` (the signed APK, built from a release core) and `ios.yml` with
+  `device-ipa=true` (the unsigned IPA). The default `desktop.yml` runs are debug builds for testers and expire
+  after 14 days.
 - The old repositories had `check.yml`, `release.yml`, `pages.yml` (web), `release.yml` (desktop) and `android.yml` /
   `ios.yml` (mobile). They are the model for the release workflow that is still to be written.
 
@@ -84,11 +87,18 @@ release APK and updater signatures are signed, the rest is not.
    git tag v26.12.0
    git push origin main v26.12.0
    ```
-4. Build the release files from the tag: run `desktop.yml` with `profile=release` (Windows, Linux, macOS) and
-   `ios.yml` with `device-ipa=true`; `android.yml` builds the signed APK from a release core on its own. Download
-   the artifacts, rename them to the names in the table above, write `latest.json` from the `.sig` files of the
-   release build, add `SHA256SUMS`, then create the GitHub release (a pre-release for any `-` tag) and attach
-   everything.
+4. Build the release files **from the version tag**, never from a branch. A dispatch without `--ref`, or with
+   `--ref web-look`, runs the workflow from a branch, where the desktop release config refuses to sign and the
+   Android build stays unsigned; the assets would then not be the release:
+   ```sh
+   gh workflow run desktop.yml --ref v26.12.0 -f profile=release
+   gh workflow run android.yml --ref v26.12.0
+   gh workflow run ios.yml --ref v26.12.0 -f device-ipa=true
+   ```
+   Wait for those runs and download the artifacts **from those runs only**: do not reuse a branch build, an older
+   run or a local build, even when a file name looks the same (the signing steps never run for them). Rename the
+   files to the names in the table above, write `latest.json` from the `.sig` files of the desktop release run, add
+   `SHA256SUMS`, then create the GitHub release (a pre-release for any `-` tag) and attach everything.
 5. Refresh the distribution repos: `gh workflow run update.yml -R kapsikkum/apps`. That rebuilds the F-Droid
    repository and the SideStore source (`https://kapsikkum.github.io/apps/sidestore.json`); creating a release does
    not notify it, and its own schedule only runs every 6 hours.
@@ -108,15 +118,17 @@ No secret values belong in this repository or in this file.
   `plugins.updater.pubkey` in `apps/desktop/src-tauri/tauri.conf.json`. The private key and its password live only in the
   CI secrets `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` (and in a backup you keep). Installs
   only accept updates signed by that key; if it is lost or replaced, installed apps cannot update in place and users must
-  reinstall. `desktop.yml` adds `src-tauri/tauri.updater.conf.json` when the key exists; a local
+  reinstall. `desktop.yml` adds `src-tauri/tauri.updater.conf.json` only for a release-profile run started from the
+  version tag: branch builds, debug builds and pull requests never see the key. A local
   `npm run desktop:release` also needs those two variables. The key is at `~/.tauri/mudrix-updater.key`; a replacement
   pair comes from `npx -w @mudrix/desktop tauri signer generate -w ~/.tauri/mudrix-updater.key`.
 - **Android** is signed with the old `mudrix-release.keystore` (alias `mudrix`), so existing installs update in place.
   Losing it means installed apps cannot be updated in place. The Android workflow reads the repository secrets
   `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD`, builds
-  `assembleFdroidRelease`, verifies the signature and uploads `mudrix-android-fdroid-release`; without them it falls back
-  to the debug-signed APK. Locally, `tools/ci/sign-android.mjs prepare` writes the git-ignored `keystore.properties`.
-  Never commit a keystore.
+  `assembleFdroidRelease`, verifies the signature and uploads `mudrix-android-fdroid-release` — only when the run is
+  for the version tag; a branch run or pull request falls back to the debug-signed APK. Every run then deletes the
+  keystore copy and `keystore.properties` from the workspace. Locally, `tools/ci/sign-android.mjs prepare` writes the
+  git-ignored `keystore.properties`. Never commit a keystore.
 - **iOS** has no signing: there is no Apple Developer account, so only the Simulator build exists (no device install,
   TestFlight, App Store or APNs push). The team and bundle prefix in `apps/ios/Config/Signing.xcconfig` are upstream's;
   `Local.xcconfig` remains for anyone who later signs their own build.

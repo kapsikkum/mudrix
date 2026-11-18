@@ -86,10 +86,12 @@ Run by hand: Actions -> iOS -> Run workflow.
 Matrix `windows-latest`, `ubuntu-latest`, `macos-latest` (`fail-fast: false`). Each: `npm ci --ignore-scripts`,
 `npm run tokens`, then `npm run tauri -w @mudrix/desktop -- build --debug --bundles <list>` (Tauri's
 `beforeBuildCommand` runs `tsc` and `vite build --mode desktop`). The bundle list is per runner, because Tauri rejects a
-target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. When
-`TAURI_SIGNING_PRIVATE_KEY` exists the command also gets `--config src-tauri/tauri.updater.conf.json`, which makes Tauri
-write the minisign-signed updater bundles (`.sig` files) into `target/debug/bundle/`; they are uploaded as
-`mudrix-desktop-updater-<OS>`. Two artifacts per leg:
+target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. A release run
+(`--ref v<version> -f profile=release`) builds the optimised profile, runs `release-config.mjs` to require that tag, and
+passes `--config src-tauri/tauri.release.conf.json`, which makes Tauri write the minisign-signed updater bundles
+(`.sig` files) into the bundle directory; the signing key is only exposed on that tag-and-release path. Debug builds,
+branch pushes and pull requests stay unsigned. The updater bundles are uploaded as `mudrix-desktop-updater-<OS>`. Two
+artifacts per leg:
 `mudrix-desktop-<OS>-unsigned` (the installers plus a `SHA256SUMS.txt`; the macOS `.app` is zipped with `ditto`, because
 `upload-artifact` loses a bundle's symlinks and file modes) and `mudrix-desktop-debug-<OS>` (the raw
 `target/debug/mudrix-desktop[.exe]`, plus `.pdb` on Windows). The installers themselves are not code-signed, so
@@ -97,8 +99,9 @@ SmartScreen and Gatekeeper complain.
 Ubuntu installs `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev
 librsvg2-dev libx11-dev libxi-dev libxtst-dev libxdo-dev libssl-dev patchelf`.
 
-Run by hand: Actions -> Desktop -> Run workflow. The `platforms` input takes a JSON array, for example `["ubuntu-latest"]`
-to skip the expensive runners; `bundles` set to `"false"` compiles without building installers.
+Run by hand: Actions -> Desktop -> Run workflow. A release must be dispatched on the version tag (`--ref v<version>`) with
+`profile=release`; `platforms` takes a JSON array, for example `["ubuntu-latest"]` to skip the expensive runners, and
+`bundles` set to `"false"` compiles without building installers.
 
 ### branding-gate.yml
 

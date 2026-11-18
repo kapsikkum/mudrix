@@ -1,11 +1,12 @@
-﻿name: Desktop
+name: Desktop
 
 # `tauri build --debug` on Windows, Linux and macOS: builds the app and its installers, so testers get
 # something they can double-click. The raw binary is still uploaded next to them for debugging. Windows
 # code signing and notarisation are not set up; in-app update artifacts are signed with the old
-# mudrix-desktop minisign key when the TAURI_SIGNING_PRIVATE_KEY secret exists (see docs/SIGNING.md).
+# mudrix-desktop minisign key only when a release-profile run starts from a v* version tag (see
+# docs/SIGNING.md). Branch pushes, debug builds and pull requests never get the key.
 # Runs on pull requests and pushes when desktop or core files change, or by hand (the macOS leg bills 10x
-# minutes).
+# minutes). A release is dispatched on its tag: gh workflow run desktop.yml --ref v26.12.0 -f profile=release.
 on:
   push:
     branches: [main, web-look]
@@ -49,7 +50,7 @@ on:
         default: 'true'
         type: string
       profile:
-        description: 'Build profile: debug for test builds, release for what a release ships'
+        description: 'Build profile: debug for test builds, release for what a release ships (release only runs from the version tag)'
         default: 'debug'
         type: choice
         options:
@@ -71,8 +72,45 @@ env:
   VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
 
 jobs:
+  # The free-text `platforms` input ends up as the matrix, and a label is a shell in a data centre:
+  # only the standard GitHub-hosted images are accepted. This job runs first, so an unknown label fails
+  # here instead of asking for a runner.
+  validate:
+    name: Validate the runner labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Only windows-latest, ubuntu-latest and macos-latest
+        shell: bash
+        env:
+          PLATFORMS: ${{ inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]' }}
+        run: |
+          set -euo pipefail
+          node -e '
+            const allowed = new Set(["windows-latest", "ubuntu-latest", "macos-latest"]);
+            let value;
+            try {
+              value = JSON.parse(process.env.PLATFORMS);
+            } catch (error) {
+              console.error(`platforms is not valid JSON: ${error.message}`);
+              process.exit(1);
+            }
+            if (!Array.isArray(value) || value.length === 0) {
+              console.error("platforms must be a non-empty JSON array of runner labels");
+              process.exit(1);
+            }
+            const bad = value.filter((label) => typeof label !== "string" || !allowed.has(label));
+            if (bad.length > 0) {
+              console.error(`unsupported runner label(s): ${JSON.stringify(bad)}`);
+              console.error(`allowed: ${[...allowed].join(", ")}`);
+              process.exit(1);
+            }
+            console.log(`runners: ${value.join(", ")}`);
+          '
+
   build:
     name: ${{ matrix.os }}
+    needs: validate
     runs-on: ${{ matrix.os }}
     timeout-minutes: 180
     strategy:
@@ -80,7 +118,7 @@ jobs:
       matrix:
         os: ${{ fromJSON(inputs.platforms || '["windows-latest","ubuntu-latest","macos-latest"]') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       # The release profile runs the whole Rust build optimised (LTO, opt-level z): much slower than
       # the debug test builds, and only meant for the files a release actually ships.
@@ -98,10 +136,20 @@ jobs:
             echo "label=debug" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
+
+      # The first build step of a release: release-config refuses anything but a run on the
+      # v<package.json> tag, and fills the updater public key in tauri.release.conf.json (used by
+      # local release builds; CI signs with tauri.updater.conf.json below).
+      - name: Release config (version tag and updater key)
+        if: inputs.profile == 'release'
+        shell: bash
+        env:
+          TAURI_UPDATER_PUBKEY: ${{ vars.TAURI_UPDATER_PUBKEY }}
+        run: node apps/desktop/scripts/release-config.mjs --profile=release
 
       - uses: ./.github/actions/setup-rust
         with:
@@ -134,14 +182,16 @@ jobs:
         if: inputs.bundles != 'false'
         shell: bash
         env:
-          # The same minisign key the old mudrix-desktop releases used; without it the build is unsigned.
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          # The same minisign key the old mudrix-desktop releases used; without it the build is
+          # unsigned. Only a release-profile run of a v* tag gets it: pull requests and branch pushes
+          # run code the contributor controls (beforeBuildCommand, npm scripts) and must never see it.
+          TAURI_SIGNING_PRIVATE_KEY: ${{ startsWith(github.ref, 'refs/tags/v') && inputs.profile == 'release' && secrets.TAURI_SIGNING_PRIVATE_KEY || '' }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ startsWith(github.ref, 'refs/tags/v') && inputs.profile == 'release' && secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD || '' }}
           PROFILE_FLAG: ${{ steps.profile.outputs.flag }}
         run: |
           signing=()
           if [ -n "$TAURI_SIGNING_PRIVATE_KEY" ] && [ -n "$TAURI_SIGNING_PRIVATE_KEY_PASSWORD" ]; then
-            signing=(--config src-tauri/tauri.updater.conf.json)
+            signing=(--config src-tauri/tauri.release.conf.json)
             echo "Updater artifacts will be signed with the minisign key."
           else
             echo "No updater signing key and password; building unsigned."
@@ -179,7 +229,7 @@ jobs:
           cat SHA256SUMS.txt
 
       - name: Upload the binary
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-desktop-${{ steps.profile.outputs.label }}-${{ runner.os }}
           path: |
@@ -193,7 +243,7 @@ jobs:
       # explain. Globs, so a productName rename doesn't break the upload.
       - name: Upload the installers
         if: inputs.bundles != 'false'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-desktop-${{ runner.os }}-${{ steps.profile.outputs.label }}
           path: |
@@ -211,7 +261,7 @@ jobs:
       # the old mudrix-desktop signing key is configured.
       - name: Upload updater artifacts
         if: inputs.bundles != 'false'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-desktop-updater-${{ runner.os }}
           path: |
@@ -233,7 +283,7 @@ jobs:
 
       - name: Upload the Linux tarball
         if: runner.os == 'Linux' && inputs.bundles != 'false'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-linux-tarball
           path: target/${{ steps.profile.outputs.dir }}/bundle/tarball/
@@ -253,7 +303,7 @@ jobs:
     container: archlinux:latest
     timeout-minutes: 30
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: mudrix-linux-tarball
           path: dist
@@ -270,7 +320,7 @@ jobs:
           mkdir -p out
           cp dist/*.pkg.tar.zst out/
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-arch-package
           path: out/*.pkg.tar.zst
@@ -287,7 +337,7 @@ jobs:
     container: fedora:latest
     timeout-minutes: 30
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: mudrix-linux-tarball
           path: dist
@@ -307,7 +357,7 @@ jobs:
           mkdir -p out
           cp ~/rpmbuild/RPMS/x86_64/*.rpm out/
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: mudrix-fedora-package
           path: out/*.rpm
@@ -326,14 +376,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@08dcb3a5e62fa31e2da3d490afc4176ef55ecd72 # v30
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: mudrix-linux-tarball
           path: dist
