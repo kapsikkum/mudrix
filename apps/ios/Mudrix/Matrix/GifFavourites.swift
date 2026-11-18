@@ -68,8 +68,11 @@ final class GifFavourites: ObservableObject {
         guard next != before else { return }
         urls = next
         do {
-            try await client.setAccountData(eventType: Self.type, content: Self.content(next))
-            contents[Self.type] = Self.content(next)
+            try await client.setAccountData(
+                eventType: Self.type,
+                content: Self.content(next, previous: contents[Self.type])
+            )
+            contents[Self.type] = Self.content(next, previous: contents[Self.type])
         } catch {
             urls = before
         }
@@ -83,15 +86,17 @@ final class GifFavourites: ObservableObject {
         let data = defaults.data(forKey: Self.legacyKey) ?? Data()
         let legacy = Self.legacyUrls(from: data)
         guard !legacy.isEmpty else { return }
-        let current = Self.parse(await client.firstAccountData(Self.readTypes))
+        let raw = await client.firstAccountData(Self.readTypes)
+        let current = Self.parse(raw)
         let merged = Self.sanitize(current + legacy)
         guard merged != current else { return }
+        let content = Self.content(merged, previous: raw)
         do {
-            try await client.setAccountData(eventType: Self.type, content: Self.content(merged))
+            try await client.setAccountData(eventType: Self.type, content: content)
         } catch {
             return
         }
-        contents[Self.type] = Self.content(merged)
+        contents[Self.type] = content
         urls = merged
     }
 
@@ -134,8 +139,20 @@ final class GifFavourites: ObservableObject {
     }
 
     /// The stored event for a list
-    static func content(_ urls: [String]) -> JSONValue {
-        .object(["urls": .array(sanitize(urls).map { JSONValue.string($0) })])
+    static func content(_ urls: [String], previous: JSONValue? = nil) -> JSONValue {
+        let kept = sanitize(urls)
+        var fields = previous?.object ?? [:]
+        fields.removeValue(forKey: "urls")
+        if let stored = fields["files"]?.object {
+            let files = stored.filter { kept.contains($0.key) }
+            if files.isEmpty {
+                fields.removeValue(forKey: "files")
+            } else {
+                fields["files"] = .object(files)
+            }
+        }
+        fields["urls"] = .array(kept.map { JSONValue.string($0) })
+        return .object(fields)
     }
 
     /// The list in a stored event

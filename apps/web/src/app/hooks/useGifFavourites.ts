@@ -10,15 +10,33 @@ const GIF_FAVOURITES_ACCOUNT_DATA = mudrixKey('gif_favourites');
 /** Where the upstream base kept them, read until the first change writes the Mudrix event */
 const UPSTREAM_GIF_FAVOURITES = upstreamKey('gif_favourites');
 
-function parseFavourites(content: unknown): string[] {
-  if (!content || typeof content !== 'object') return [];
-  const urls = (content as Record<string, unknown>).urls;
-  if (!Array.isArray(urls)) return [];
-  const valid = urls.filter(
-    (url): url is string =>
-      typeof url === 'string' && (/^https:\/\//.test(url) || /^mxc:\/\//.test(url))
-  );
-  return Array.from(new Set(valid)).slice(0, GIF_FAVOURITES_CAP);
+/** Encrypted media can only be shown again with its own key, so a favourite keeps the file descriptor too. */
+export type GifFavouriteFiles = Record<string, unknown>;
+
+export interface GifFavouriteState {
+  urls: string[];
+  files: GifFavouriteFiles;
+}
+
+function validUrl(url: unknown): url is string {
+  return typeof url === 'string' && (/^https:\/\//.test(url) || /^mxc:\/\//.test(url));
+}
+
+export function parseFavourites(content: unknown): GifFavouriteState {
+  if (!content || typeof content !== 'object') return { urls: [], files: {} };
+  const record = content as Record<string, unknown>;
+  const urls = Array.isArray(record.urls)
+    ? Array.from(new Set(record.urls.filter(validUrl))).slice(0, GIF_FAVOURITES_CAP)
+    : [];
+  const files: GifFavouriteFiles = {};
+  const stored = record.files;
+  if (stored && typeof stored === 'object') {
+    for (const url of urls) {
+      const file = (stored as Record<string, unknown>)[url];
+      if (file && typeof file === 'object') files[url] = file;
+    }
+  }
+  return { urls, files };
 }
 
 function readLegacyFavourites(): string[] {
@@ -33,29 +51,37 @@ function readLegacyFavourites(): string[] {
         Record<string, { url?: string }> | undefined;
       return images?.downsized?.url ?? images?.original?.url ?? images?.fixed_width?.url ?? '';
     });
-    return parseFavourites({ urls });
+    return parseFavourites({ urls }).urls;
   } catch {
     return [];
   }
 }
 
-function writeFavourites(client: MudrixClient, urls: string[]): Promise<void> {
+function writeFavourites(client: MudrixClient, state: GifFavouriteState): Promise<void> {
+  const files: GifFavouriteFiles = {};
+  for (const url of state.urls) {
+    const file = state.files[url];
+    if (file) files[url] = file;
+  }
   return client.setAccountData(GIF_FAVOURITES_ACCOUNT_DATA, {
-    urls: urls.slice(0, GIF_FAVOURITES_CAP),
+    urls: state.urls.slice(0, GIF_FAVOURITES_CAP),
+    ...(Object.keys(files).length ? { files } : {}),
   });
 }
 
 export function useGifFavourites(client: MudrixClient | null | undefined): {
   favourites: string[];
-  toggleFavourite: (url: string) => void;
+  /** The encrypted file descriptor of a favourite, when its media is encrypted */
+  files: GifFavouriteFiles;
+  toggleFavourite: (url: string, file?: unknown) => void;
 } {
   const mudrixSynced = useAccountData(GIF_FAVOURITES_ACCOUNT_DATA);
   const upstreamSynced = useAccountData(UPSTREAM_GIF_FAVOURITES);
   const synced = mudrixSynced ?? upstreamSynced;
   const syncReady = useSyncReady();
-  const [favourites, setFavourites] = useState<string[]>([]);
+  const [state, setState] = useState<GifFavouriteState>({ urls: [], files: {} });
 
-  useEffect(() => setFavourites(parseFavourites(synced)), [synced]);
+  useEffect(() => setState(parseFavourites(synced)), [synced]);
 
   // Favourites used to live in this browser only: merge them into the synced list once
   useEffect(() => {
@@ -65,11 +91,12 @@ export function useGifFavourites(client: MudrixClient | null | undefined): {
     void client
       .accountData(GIF_FAVOURITES_ACCOUNT_DATA)
       .then((existing) => {
-        const merged = Array.from(new Set([...parseFavourites(existing), ...legacy])).slice(
-          0,
-          GIF_FAVOURITES_CAP
-        );
-        setFavourites(merged);
+        const current = parseFavourites(existing);
+        const merged: GifFavouriteState = {
+          urls: Array.from(new Set([...current.urls, ...legacy])).slice(0, GIF_FAVOURITES_CAP),
+          files: current.files,
+        };
+        setState(merged);
         return writeFavourites(client, merged);
       })
       .then(() => localStorage.removeItem(accountStorageKey(STORAGE_KEY_GIF_FAVOURITES)))
@@ -77,17 +104,27 @@ export function useGifFavourites(client: MudrixClient | null | undefined): {
   }, [client, syncReady]);
 
   const toggleFavourite = useCallback(
-    (url: string) => {
+    (url: string, file?: unknown) => {
       if (!client) return;
-      const next = favourites.includes(url)
-        ? favourites.filter((u) => u !== url)
-        : [url, ...favourites].slice(0, GIF_FAVOURITES_CAP);
-      const previous = favourites;
-      setFavourites(next);
-      writeFavourites(client, next).catch(() => setFavourites(previous));
+      const removing = state.urls.includes(url);
+      const urls = removing
+        ? state.urls.filter((u) => u !== url)
+        : [url, ...state.urls].slice(0, GIF_FAVOURITES_CAP);
+      const files: GifFavouriteFiles = {};
+      for (const kept of urls) {
+        if (kept === url) {
+          if (!removing && file) files[kept] = file;
+        } else if (state.files[kept]) {
+          files[kept] = state.files[kept];
+        }
+      }
+      const next: GifFavouriteState = { urls, files };
+      const previous = state;
+      setState(next);
+      writeFavourites(client, next).catch(() => setState(previous));
     },
-    [client, favourites]
+    [client, state]
   );
 
-  return { favourites, toggleFavourite };
+  return { favourites: state.urls, files: state.files, toggleFavourite };
 }

@@ -11,10 +11,12 @@ interface Props {
   client: MudrixClient;
   /** The GIF's own address: an mxc URL on the homeserver, or the provider's. */
   url: string;
+  /** The encrypted file descriptor, when the GIF lives on the homeserver encrypted. */
+  file?: unknown;
 }
 
 /** The star on a received GIF that saves it to the picker's favourites. */
-export function GifFavouriteButton({ client, url }: Props) {
+export function GifFavouriteButton({ client, url, file }: Props) {
   const { t } = useTranslation();
   const coarse = useCoarsePointer();
   const { favourites, toggleFavourite } = useGifFavourites(client);
@@ -28,9 +30,9 @@ export function GifFavouriteButton({ client, url }: Props) {
     (e: React.MouseEvent) => {
       e.stopPropagation();
       if (full) return;
-      toggleFavourite(url);
+      toggleFavourite(url, file);
     },
-    [full, toggleFavourite, url]
+    [file, full, toggleFavourite, url]
   );
 
   return (

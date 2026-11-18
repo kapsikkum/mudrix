@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { XIcon, SpinnerGapIcon, StarIcon } from '@phosphor-icons/react';
-import type { MudrixClient as MatrixClient } from '@mudrix/core';
+import type { MediaSource, MudrixClient as MatrixClient } from '@mudrix/core';
 import { useRoom } from '@/app/data';
 import { useToast } from '@/app/hooks/useToast';
 import { Tooltip } from '@/app/components/Tooltip';
@@ -22,6 +22,7 @@ import { useComposerTimeline } from './composerTimeline';
 import { getErrorMessage } from '@/util/error';
 import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
+import { useMediaUrl } from '@/core/media';
 import { readRecentGifs, withRecentGif, writeRecentGifs } from './gifRecent';
 import { favouriteGifItem } from './gifFavourites';
 import {
@@ -83,6 +84,22 @@ interface Props {
   onReplySent?: () => void;
 }
 
+/** An mxc GIF from a favourite that is encrypted on the homeserver; needs its file descriptor to decrypt. */
+function EncryptedGifThumb({
+  client,
+  file,
+  className,
+  onLoad,
+}: {
+  client: MatrixClient;
+  file: unknown;
+  className?: string;
+  onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+}) {
+  const src = useMediaUrl(client, { file } as MediaSource, { mimetype: 'image/gif' });
+  return <img className={className} src={src ?? undefined} alt="" loading="lazy" onLoad={onLoad} />;
+}
+
 export function GifPicker({
   client,
   roomId,
@@ -106,7 +123,7 @@ export function GifPicker({
     klipy: EMPTY_FEED,
   });
   const [loadingMore, setLoadingMore] = useState(false);
-  const { favourites, toggleFavourite } = useGifFavourites(client);
+  const { favourites, files, toggleFavourite } = useGifFavourites(client);
   const [recent, setRecent] = useState(() => readRecentGifs());
   const [aspects, setAspects] = useState<Record<string, number>>({});
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -392,16 +409,27 @@ export function GifPicker({
         onKeyDown={(e) => onTileKeyDown(e, item)}
       >
         {fromMessage ? (
-          <AuthMediaImg
-            client={client}
-            mxcUrl={item.thumbUrl}
-            className={css.gifImg}
-            alt=""
-            placeholder="none"
-            onLoad={(e) =>
-              onThumbLoad(item, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)
-            }
-          />
+          files[item.thumbUrl] ? (
+            <EncryptedGifThumb
+              client={client}
+              file={files[item.thumbUrl]}
+              className={css.gifImg}
+              onLoad={(e) =>
+                onThumbLoad(item, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)
+              }
+            />
+          ) : (
+            <AuthMediaImg
+              client={client}
+              mxcUrl={item.thumbUrl}
+              className={css.gifImg}
+              alt=""
+              placeholder="none"
+              onLoad={(e) =>
+                onThumbLoad(item, e.currentTarget.naturalWidth, e.currentTarget.naturalHeight)
+              }
+            />
+          )
         ) : (
           <img
             className={css.gifImg}
@@ -428,7 +456,7 @@ export function GifPicker({
             onClick={(e) => {
               e.stopPropagation();
               if (full) return;
-              toggleFavourite(item.sendUrl);
+              toggleFavourite(item.sendUrl, files[item.sendUrl]);
             }}
             aria-label={favLabel}
           >
