@@ -143,11 +143,14 @@ fn is_not_matrix_status(status: u16) -> bool {
     matches!(status, 400..=499) && !matches!(status, 408 | 429)
 }
 
-/// Whether the server's /_matrix/client/versions answers like a Matrix server.
+/// Whether the server's /_matrix/client/versions answers like a Matrix server. A bad server
+/// URL never answers, so callers keep failing closed.
 async fn answers_versions(server: &str) -> bool {
-    let server = server.trim().trim_end_matches('/');
+    let Ok(server) = crate::client::normalize_homeserver(server) else {
+        return false;
+    };
     let base = if server.contains("://") {
-        server.to_owned()
+        server
     } else {
         format!("https://{server}")
     };
@@ -163,6 +166,65 @@ fn parse_url(url: &str) -> Result<Url> {
     Url::parse(url).map_err(|e| Error::InvalidId(format!("url: {e}")))
 }
 
+/// A random one-time value that ties an SSO callback to the login that started it.
+fn new_sso_nonce() -> Result<String> {
+    let mut bytes = [0u8; 16];
+    getrandom::fill(&mut bytes)
+        .map_err(|e| Error::Sdk(format!("no randomness for the sign-in nonce: {e}")))?;
+    let mut nonce = String::with_capacity(bytes.len() * 2);
+    use std::fmt::Write as _;
+    for byte in bytes {
+        let _ = write!(nonce, "{byte:02x}");
+    }
+    Ok(nonce)
+}
+
+/// Puts `nonce` in the redirect URI's query, before any fragment, so the homeserver returns it
+/// next to the `loginToken` (with `&` when the URI already has a query).
+fn redirect_with_nonce(redirect_uri: &str, nonce: &str) -> String {
+    let (base, fragment) = match redirect_uri.split_once('#') {
+        Some((base, fragment)) => (base, Some(fragment)),
+        None => (redirect_uri, None),
+    };
+    let separator = if !base.contains('?') {
+        "?"
+    } else if base.ends_with('?') || base.ends_with('&') {
+        ""
+    } else {
+        "&"
+    };
+    let mut url = format!("{base}{separator}nonce={nonce}");
+    if let Some(fragment) = fragment {
+        url.push('#');
+        url.push_str(fragment);
+    }
+    url
+}
+
+/// The `loginToken` of an SSO callback, after checking that the callback carries this login's
+/// `nonce` (an unsolicited redirect must not sign the app into someone else's account).
+fn sso_callback_token(callback: &Url, expected_nonce: &str) -> Result<String> {
+    let mut nonce = None;
+    let mut token = None;
+    for (key, value) in callback.query_pairs() {
+        match key.as_ref() {
+            "nonce" => nonce = Some(value.into_owned()),
+            "loginToken" => token = Some(value.into_owned()),
+            _ => {}
+        }
+    }
+    match nonce {
+        None => return Err(Error::Sdk("the redirect carries no sign-in nonce".into())),
+        Some(nonce) if nonce != expected_nonce => {
+            return Err(Error::Sdk(
+                "the redirect doesn't belong to this sign-in (nonce mismatch)".into(),
+            ));
+        }
+        Some(_) => {}
+    }
+    token.ok_or_else(|| Error::Sdk("the redirect carries no login token".into()))
+}
+
 /// A sign-in that continues in the browser (OAuth or SSO) and finishes with the redirect URL
 pub struct PendingLogin {
     client: Client,
@@ -172,7 +234,7 @@ pub struct PendingLogin {
 
 enum PendingKind {
     OAuth { state: CsrfToken },
-    Sso,
+    Sso { nonce: String },
 }
 
 impl MudrixClient {
@@ -181,7 +243,8 @@ impl MudrixClient {
     /// `notMatrix` when the address answers but isn't a Matrix server, and `homeserver` when
     /// it can't be reached.
     pub async fn discover(server: &str) -> Result<ServerInfo> {
-        let server_name = crate::homeserver::server_name_of(server);
+        let server = crate::client::normalize_homeserver(server)?;
+        let server_name = crate::homeserver::server_name_of(&server);
         let software = async {
             match &server_name {
                 Some(name) => crate::homeserver::lookup_quickly(name).await,
@@ -189,7 +252,7 @@ impl MudrixClient {
             }
         };
         let (info, software) =
-            futures_util::future::join(Self::discover_sign_in(server), software).await;
+            futures_util::future::join(Self::discover_sign_in(&server), software).await;
         let mut info = info?;
         info.server_name = server_name;
         info.software = software;
@@ -302,8 +365,9 @@ impl MudrixClient {
     /// Whether and how the server lets people register. Fails when the server can't tell (only
     /// a refusal means registration is closed), like when it's rate limited.
     pub async fn sign_up_info(server: &str) -> Result<RegistrationInfo> {
+        let server = crate::client::normalize_homeserver(server)?;
         let client = Client::builder()
-            .server_name_or_homeserver_url(server)
+            .server_name_or_homeserver_url(&server)
             .build()
             .await
             .map_err(|e| Error::Homeserver(e.to_string()))?;
@@ -342,7 +406,8 @@ impl MudrixClient {
         token: Option<&str>,
         store: StoreConfig,
     ) -> Result<(Self, Session)> {
-        let client = Self::build_client(server, &store).await?;
+        let server = crate::client::normalize_homeserver(server)?;
+        let client = Self::build_client(&server, &store).await?;
         let request = |auth: Option<AuthData>| {
             let mut request = register::v3::Request::new();
             request.username = Some(username.to_owned());
@@ -421,7 +486,8 @@ impl MudrixClient {
         create_account: bool,
         known_clients: HashMap<String, String>,
     ) -> Result<PendingLogin> {
-        let client = Self::build_client(server, &store).await?;
+        let server = crate::client::normalize_homeserver(server)?;
+        let client = Self::build_client(&server, &store).await?;
         let redirect = parse_url(redirect_uri)?;
         // Native apps receive the redirect on a loopback port that changes every time; servers
         // match such redirects to the registered URI ignoring the port (RFC 8252)
@@ -479,15 +545,18 @@ impl MudrixClient {
         redirect_uri: &str,
         idp_id: Option<&str>,
     ) -> Result<PendingLogin> {
-        let client = Self::build_client(server, &store).await?;
+        let server = crate::client::normalize_homeserver(server)?;
+        let client = Self::build_client(&server, &store).await?;
+        let nonce = new_sso_nonce()?;
+        let redirect_uri = redirect_with_nonce(redirect_uri, &nonce);
         let url = client
             .matrix_auth()
-            .get_sso_login_url(redirect_uri, idp_id)
+            .get_sso_login_url(&redirect_uri, idp_id)
             .await?;
         Ok(PendingLogin {
             client,
             url,
-            kind: PendingKind::Sso,
+            kind: PendingKind::Sso { nonce },
         })
     }
 
@@ -565,12 +634,8 @@ impl PendingLogin {
                     .await
                     .map_err(|e| Error::Sdk(e.to_string()))?;
             }
-            PendingKind::Sso => {
-                let token = callback
-                    .query_pairs()
-                    .find(|(key, _)| key == "loginToken")
-                    .map(|(_, value)| value.into_owned())
-                    .ok_or_else(|| Error::Sdk("the redirect carries no login token".into()))?;
+            PendingKind::Sso { nonce } => {
+                let token = sso_callback_token(&callback, &nonce)?;
                 self.client
                     .matrix_auth()
                     .login_token(&token)
@@ -694,5 +759,56 @@ mod tests {
                 number: "123".into()
             }
         );
+    }
+
+    #[test]
+    fn sso_redirects_carry_the_nonce_in_the_query() {
+        assert_eq!(
+            redirect_with_nonce("https://app.example/callback", "abc123"),
+            "https://app.example/callback?nonce=abc123"
+        );
+        assert_eq!(
+            redirect_with_nonce("https://app.example/callback?theme=dark", "abc123"),
+            "https://app.example/callback?theme=dark&nonce=abc123"
+        );
+        assert_eq!(
+            redirect_with_nonce("https://app.example/callback?", "abc123"),
+            "https://app.example/callback?nonce=abc123"
+        );
+        assert_eq!(
+            redirect_with_nonce("org.example:/callback#fragment", "abc123"),
+            "org.example:/callback?nonce=abc123#fragment"
+        );
+        assert_eq!(
+            redirect_with_nonce("org.example:/callback?x=1#fragment", "abc123"),
+            "org.example:/callback?x=1&nonce=abc123#fragment"
+        );
+    }
+
+    #[test]
+    fn sso_callbacks_must_carry_the_started_logins_nonce() {
+        let callback =
+            |query: &str| parse_url(&format!("https://app.example/callback?{query}")).unwrap();
+        for query in [
+            "nonce=abc123&loginToken=token",
+            "loginToken=token&nonce=abc123",
+            "theme=dark&nonce=abc123&loginToken=token",
+        ] {
+            assert_eq!(
+                sso_callback_token(&callback(query), "abc123").unwrap(),
+                "token"
+            );
+        }
+        assert!(sso_callback_token(&callback("loginToken=token"), "abc123").is_err());
+        assert!(sso_callback_token(&callback("nonce=wrong&loginToken=token"), "abc123").is_err());
+        assert!(sso_callback_token(&callback("nonce=abc123"), "abc123").is_err());
+    }
+
+    #[test]
+    fn sso_nonces_are_random_hex() {
+        let nonce = new_sso_nonce().unwrap();
+        assert_eq!(nonce.len(), 32);
+        assert!(nonce.bytes().all(|b| b.is_ascii_hexdigit()));
+        assert_ne!(nonce, new_sso_nonce().unwrap());
     }
 }

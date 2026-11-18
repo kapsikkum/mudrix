@@ -3,6 +3,9 @@
 
 use std::time::Duration;
 
+#[cfg(not(target_arch = "wasm32"))]
+use std::net::IpAddr;
+
 use serde::Serialize;
 use serde_json::Value;
 
@@ -23,6 +26,9 @@ pub struct HomeserverSoftware {
 }
 
 const REQUEST_TIMEOUT: Duration = Duration::from_secs(6);
+/// How long resolving a server name may take before it isn't contacted
+#[cfg(not(target_arch = "wasm32"))]
+const RESOLVE_TIMEOUT: Duration = Duration::from_secs(3);
 const MAX_BODY: usize = 64 * 1024;
 const MAX_FIELD_CHARS: usize = 64;
 const PRIVATE_SUFFIXES: [&str; 8] = [
@@ -80,6 +86,82 @@ pub(crate) fn is_public_server_name(server_name: &str) -> bool {
             .iter()
             .all(|l| !l.is_empty() && l.bytes().all(|b| b.is_ascii_digit()));
     !is_ipv4 && !PRIVATE_SUFFIXES.iter().any(|s| host.ends_with(s))
+}
+
+/// The port this probe may contact: the HTTPS default or the federation port.
+#[cfg(not(target_arch = "wasm32"))]
+fn probe_port(port: Option<&str>) -> Option<u16> {
+    match port {
+        None | Some("443") => Some(443),
+        Some("8448") => Some(8448),
+        Some(_) => None,
+    }
+}
+
+/// Whether an address resolved from a public-looking name belongs to a network this probe must
+/// not touch: loopback, private, link-local, unspecified, and the cloud metadata address.
+#[cfg(not(target_arch = "wasm32"))]
+fn is_private_address(address: IpAddr) -> bool {
+    match address {
+        IpAddr::V4(ip) => {
+            ip.is_loopback()
+                || ip.is_private()
+                || ip.is_link_local()
+                || ip.is_unspecified()
+                || ip.is_broadcast()
+                || ip.octets() == [169, 254, 169, 254]
+        }
+        IpAddr::V6(ip) => {
+            // A mapped IPv4 address (`::ffff:127.0.0.1`) is as local as the IPv4 one
+            if let Some(ip) = ip.to_ipv4_mapped() {
+                return is_private_address(IpAddr::V4(ip));
+            }
+            let first = ip.segments()[0];
+            ip.is_loopback()
+                || ip.is_unspecified()
+                // link-local fe80::/10 and unique-local fc00::/7
+                || (first & 0xffc0) == 0xfe80
+                || (first & 0xfe00) == 0xfc00
+        }
+    }
+}
+
+/// [`is_public_server_name`], and on native targets the name must resolve only to public
+/// addresses: a public-looking name such as `127.0.0.1.nip.io` can point into the local network.
+/// A browser resolves names itself and refuses private hosts there, so it keeps the name-only
+/// check.
+async fn is_public_server_host(server_name: &str) -> bool {
+    if !is_public_server_name(server_name) {
+        return false;
+    }
+    #[cfg(target_arch = "wasm32")]
+    {
+        true
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        let (host, port) = split_port(server_name);
+        let Some(port) = probe_port(port) else {
+            return false;
+        };
+        let Some(addresses) =
+            with_timeout(tokio::net::lookup_host((host, port)), RESOLVE_TIMEOUT).await
+        else {
+            return false;
+        };
+        let Ok(addresses) = addresses else {
+            return false;
+        };
+        let mut any = false;
+        for address in addresses {
+            any = true;
+            if is_private_address(address.ip()) {
+                return false;
+            }
+        }
+        // A name that resolves to nothing can't be contacted
+        any
+    }
 }
 
 /// Where to ask, in order: the host `/.well-known/matrix/server` delegates to (8448 when it names
@@ -170,7 +252,7 @@ pub(crate) fn server_name_of(input: &str) -> Option<String> {
 /// Asks the server what it runs. Servers that refuse cross-site requests (a browser build),
 /// hide their version or are unreachable have no answer.
 pub(crate) async fn lookup(server_name: &str) -> Option<HomeserverSoftware> {
-    if !is_public_server_name(server_name) {
+    if !is_public_server_host(server_name).await {
         return None;
     }
     let well_known = fetch_json(&format!("https://{server_name}/.well-known/matrix/server")).await;
@@ -179,6 +261,9 @@ pub(crate) async fn lookup(server_name: &str) -> Option<HomeserverSoftware> {
         .and_then(|w| w.get("m.server"))
         .and_then(Value::as_str);
     for host in candidates(server_name, delegated) {
+        if !is_public_server_host(&host).await {
+            continue;
+        }
         let url = format!("https://{host}/_matrix/federation/v1/version");
         if let Some(software) = fetch_json(&url)
             .await
@@ -261,6 +346,45 @@ mod tests {
         ] {
             assert!(!is_public_server_name(bad), "{bad}");
         }
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    #[test]
+    fn private_addresses_are_never_probed() {
+        use std::net::{Ipv4Addr, Ipv6Addr};
+
+        for bad in [
+            IpAddr::V4(Ipv4Addr::LOCALHOST),
+            IpAddr::V4(Ipv4Addr::new(10, 1, 2, 3)),
+            IpAddr::V4(Ipv4Addr::new(172, 16, 0, 1)),
+            IpAddr::V4(Ipv4Addr::new(192, 168, 1, 1)),
+            IpAddr::V4(Ipv4Addr::new(169, 254, 1, 1)),
+            IpAddr::V4(Ipv4Addr::new(169, 254, 169, 254)),
+            IpAddr::V4(Ipv4Addr::UNSPECIFIED),
+            IpAddr::V4(Ipv4Addr::BROADCAST),
+            IpAddr::V6(Ipv6Addr::LOCALHOST),
+            IpAddr::V6(Ipv6Addr::UNSPECIFIED),
+        ] {
+            assert!(is_private_address(bad), "{bad}");
+        }
+        for bad in ["fe80::1", "fd00::1", "::ffff:127.0.0.1", "::ffff:10.0.0.1"] {
+            let address: IpAddr = bad.parse().unwrap();
+            assert!(is_private_address(address), "{address}");
+        }
+        for ok in ["1.1.1.1", "2606:4700:4700::1111"] {
+            let address: IpAddr = ok.parse().unwrap();
+            assert!(!is_private_address(address), "{address}");
+        }
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    #[test]
+    fn only_the_https_and_federation_ports_are_probed() {
+        assert_eq!(probe_port(None), Some(443));
+        assert_eq!(probe_port(Some("443")), Some(443));
+        assert_eq!(probe_port(Some("8448")), Some(8448));
+        assert_eq!(probe_port(Some("8008")), None);
+        assert_eq!(probe_port(Some("9000")), None);
     }
 
     #[test]

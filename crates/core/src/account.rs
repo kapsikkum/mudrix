@@ -90,6 +90,7 @@ fn client_secret(secret: &str) -> Result<OwnedClientSecret> {
 }
 
 async fn plain_client(server: &str) -> Result<Client> {
+    let server = crate::client::normalize_homeserver(server)?;
     Client::builder()
         .server_name_or_homeserver_url(server)
         .build()

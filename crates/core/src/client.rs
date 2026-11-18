@@ -29,11 +29,41 @@ use matrix_sdk_ui::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
+use crate::{
+    auth::LoginIdentifier,
+    media_download::{media_too_large, MAX_MEDIA_BYTES},
+    Error, Result, Session, StoreConfig,
+};
 
 /// Events the room list keeps per room from sync. The SDK's default of one never reaches a
 /// room's read marker, so unread counts would only see one message.
 const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
+
+/// The `server` argument as the SDK builder wants it: a server name (`matrix.org`) or a
+/// homeserver URL, without a trailing slash. HTTPS is always allowed; plain `http://` is
+/// allowed in debug builds only, for a development homeserver (a release build would send the
+/// account's tokens in the clear). Other schemes are refused.
+pub(crate) fn normalize_homeserver(server: &str) -> Result<String> {
+    let trimmed = server.trim().trim_end_matches('/');
+    let Some((scheme, _)) = trimmed.split_once("://") else {
+        if trimmed.is_empty() || trimmed.ends_with(':') {
+            return Err(Error::Homeserver("the homeserver address is empty".into()));
+        }
+        // A bare server name; the SDK resolves it over https
+        return Ok(trimmed.to_owned());
+    };
+    let https = scheme.eq_ignore_ascii_case("https");
+    #[cfg(debug_assertions)]
+    let allowed = https || scheme.eq_ignore_ascii_case("http");
+    #[cfg(not(debug_assertions))]
+    let allowed = https;
+    if !allowed {
+        return Err(Error::Homeserver(format!(
+            "unsupported homeserver URL {scheme}://; use https://"
+        )));
+    }
+    Ok(trimmed.to_owned())
+}
 
 /// The state of the background sync, as shown to the user.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -104,6 +134,7 @@ impl MudrixClient {
     /// The SDK client every sign-in path uses: persistent stores, refresh-token handling, and
     /// cross-signing plus key backup set up automatically.
     pub(crate) async fn build_client(server: &str, store: &StoreConfig) -> Result<Client> {
+        let server = normalize_homeserver(server)?;
         Self::finish_build(
             Client::builder().server_name_or_homeserver_url(server),
             store,
@@ -112,6 +143,7 @@ impl MudrixClient {
     }
 
     async fn build_restored_client(homeserver_url: &str, store: &StoreConfig) -> Result<Client> {
+        let homeserver_url = normalize_homeserver(homeserver_url)?;
         Self::finish_build(Client::builder().homeserver_url(homeserver_url), store).await
     }
 
@@ -394,8 +426,9 @@ impl MudrixClient {
 
     /// Ends a stored session on the server without restoring it (when restoring failed).
     pub async fn logout_session(session: Session) -> Result<()> {
+        let homeserver_url = normalize_homeserver(&session.homeserver_url)?;
         let client = Client::builder()
-            .homeserver_url(&session.homeserver_url)
+            .homeserver_url(homeserver_url)
             .build()
             .await?;
         let user_id = OwnedUserId::try_from(session.user_id.as_str())
@@ -439,7 +472,7 @@ impl MudrixClient {
 
     /// Downloads a message's media (decrypting it if needed). `source` is the opaque
     /// `MediaInfo::source` or `thumbnail_source`; a size asks the server for a thumbnail of
-    /// unencrypted media instead of the full file.
+    /// unencrypted media instead of the full file. Media over the 100 MiB ceiling is refused.
     pub async fn media(
         &self,
         source: serde_json::Value,
@@ -454,11 +487,17 @@ impl MudrixClient {
             _ => MediaFormat::File,
         };
         let request = MediaRequestParameters { source, format };
-        Ok(self
+        let bytes = self
             .client
             .media()
             .get_media_content(&request, true)
-            .await?)
+            .await?;
+        // The SDK only returns a finished buffer, so the ceiling is checked once it is here;
+        // returning it would hand the app an unbounded allocation.
+        if bytes.len() as u64 > MAX_MEDIA_BYTES {
+            return Err(media_too_large(MAX_MEDIA_BYTES));
+        }
+        Ok(bytes)
     }
 
     /// Downloads a thumbnail of an `mxc://` URI (avatars, previews) with the account's
@@ -480,11 +519,15 @@ impl MudrixClient {
                 UInt::from(height),
             )),
         };
-        Ok(self
+        let bytes = self
             .client
             .media()
             .get_media_content(&request, true)
-            .await?)
+            .await?;
+        if bytes.len() as u64 > MAX_MEDIA_BYTES {
+            return Err(media_too_large(MAX_MEDIA_BYTES));
+        }
+        Ok(bytes)
     }
 }
 
@@ -544,5 +587,48 @@ fn sqlite_config(store: &StoreConfig) -> matrix_sdk::SqliteStoreConfig {
             config.high_entropy_passphrase(Some(&key), matrix_sdk_sqlite::Base64Variant::Padded)
         }
         _ => config.passphrase(Some(passphrase)),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn homeserver_urls_must_be_https() {
+        assert_eq!(
+            normalize_homeserver("https://matrix.example.org/").unwrap(),
+            "https://matrix.example.org"
+        );
+        assert_eq!(
+            normalize_homeserver("matrix.example.org").unwrap(),
+            "matrix.example.org"
+        );
+        assert_eq!(
+            normalize_homeserver("  matrix.example.org:8448/  ").unwrap(),
+            "matrix.example.org:8448"
+        );
+        for bad in ["ftp://matrix.example.org", "https://", "  "] {
+            assert!(normalize_homeserver(bad).is_err(), "{bad}");
+        }
+        // Plain http is a debug-build convenience only
+        assert_eq!(
+            normalize_homeserver("http://matrix.example.org").is_ok(),
+            cfg!(debug_assertions)
+        );
+    }
+
+    #[cfg(debug_assertions)]
+    #[test]
+    fn plain_http_is_allowed_while_developing() {
+        for ok in [
+            "http://localhost:8008",
+            "http://127.0.0.1:8008",
+            "http://[::1]:8008",
+            "http://172.30.18.177:6167",
+            "http://nas.local:8008",
+        ] {
+            assert!(normalize_homeserver(ok).is_ok(), "{ok}");
+        }
     }
 }
