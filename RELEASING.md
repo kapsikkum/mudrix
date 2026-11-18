@@ -89,7 +89,10 @@ release APK and updater signatures are signed, the rest is not.
    the artifacts, rename them to the names in the table above, write `latest.json` from the `.sig` files of the
    release build, add `SHA256SUMS`, then create the GitHub release (a pre-release for any `-` tag) and attach
    everything.
-5. Smoke test on a clean profile: install, sign in, receive a notification with the window closed (tray), check the
+5. Refresh the distribution repos: `gh workflow run update.yml -R kapsikkum/apps`. That rebuilds the F-Droid
+   repository and the SideStore source (`https://kapsikkum.github.io/apps/sidestore.json`); creating a release does
+   not notify it, and its own schedule only runs every 6 hours.
+6. Smoke test on a clean profile: install, sign in, receive a notification with the window closed (tray), check the
    unread badge, open a `matrix:` link, quit from the tray, and update from an older build.
 
 To go from the last pre-release to the stable release, merge `next` into `main`, set the plain version and repeat.
