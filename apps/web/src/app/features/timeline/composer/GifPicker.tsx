@@ -137,7 +137,9 @@ export function GifPicker({
   feedsRef.current = feeds;
   const toast = useToast();
   const getTimeline = useComposerTimeline(client, roomId, threadId);
-  const isEncrypted = useRoom(roomId)?.isEncrypted ?? false;
+  const room = useRoom(roomId);
+  const encryptionKnown = room != null;
+  const isEncrypted = room?.isEncrypted === true;
 
   const onProviderTab = isProviderTab(tab);
   const activeProvider: GifProviderId = isProviderTab(tab) ? tab : parseGifProviderId(providerPref);
@@ -277,6 +279,10 @@ export function GifPicker({
 
   const sendImage = useCallback(
     async (item: GifItem) => {
+      if (!encryptionKnown) {
+        toast.error(t('composer.gifSendFailed'));
+        return;
+      }
       // Record in Recent synchronously: onClose() below may unmount the picker.
       const nextRecent = withRecentGif(readRecentGifs(), item);
       writeRecentGifs(nextRecent);
@@ -300,6 +306,7 @@ export function GifPicker({
     },
     [
       client,
+      encryptionKnown,
       isEncrypted,
       threadId,
       getTimeline,

@@ -1109,7 +1109,9 @@ export function MessageContent({
 
   const html = renderRichTextHtml(textContent, imagePacks, myId, prettifyLinks);
   const firstUrl = extractFirstUrl(textBody, textHtml ?? undefined);
-  const isEncrypted = !!roomId && room?.isEncrypted === true;
+  // Until the room summary has loaded, encryption is unknown: treat that as encrypted so no
+  // homeserver preview or third-party embed is contacted on a guess.
+  const isEncrypted = room?.isEncrypted !== false;
   const emojiOnlyMsg = isRenderedEmojiOnly(html);
 
   return (

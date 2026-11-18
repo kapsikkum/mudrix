@@ -4,12 +4,13 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import type { MudrixClient } from '@mudrix/core';
 import { ChatTextIcon, SpeakerHighIcon } from '@phosphor-icons/react';
 import { useRoom } from '@/app/data';
-import { openRoomChatAtom } from '@/app/store/atoms';
+import { openRoomChatAtom, roomChatRoomIdAtom } from '@/app/store/atoms';
 import { callUiAtom, callPopoutOpenAtom } from '@/app/store/atoms/call';
 import { effectiveThemeAtom } from '@/app/store/atoms/settings';
 import { RoomHeader } from '@/app/features/timeline/RoomHeader';
 import { useJoinVoiceRoom } from './useJoinVoiceRoom';
 import { useRoomReadReceipts } from '@/app/hooks/useRoomReadReceipts';
+import { isAppFocused, isAppVisible } from '@/bridge/windowActivity';
 import { buildCallBackground } from '@/app/features/calls/callBackground';
 import * as css from './VoiceRoomStage.css';
 
@@ -31,10 +32,15 @@ export function VoiceRoomStage({ client, roomId }: Props) {
   const callPoppedOut = callUi.roomId === roomId && (popoutOpen || callUi.presentation === 'tile');
 
   const markRead = useRoomReadReceipts(client, roomId);
+  const roomChatRoomId = useAtomValue(roomChatRoomIdAtom);
+  // The stage shows the call, not the messages: the room's chat is only visible when its panel
+  // is open. Opening the panel mounts a timeline, which sends receipts as it is actually read.
+  const chatVisible = roomChatRoomId === roomId;
   const lastActivity = room?.lastActivity;
   useEffect(() => {
+    if (!chatVisible || !isAppVisible() || !isAppFocused()) return;
     markRead();
-  }, [markRead, lastActivity]);
+  }, [markRead, lastActivity, chatVisible]);
 
   return (
     <div className={css.stageRoot}>

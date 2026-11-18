@@ -22,6 +22,40 @@ export const DEVICE_NAME = isDesktop ? 'Mudrix Desktop' : 'Mudrix Web';
 export const AUTH_CALLBACK_PATH = publicUrl('auth/callback');
 const AUTH_MESSAGE = 'mudrix-auth-callback';
 const AUTH_CHANNEL = 'mudrix-auth';
+/** Names the popup's sessionStorage slot that ties its callback to the sign-in that opened it */
+const AUTH_FLOW_KEY = 'mudrix-auth-flow';
+
+function newAuthFlowId(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function readAuthFlowId(): string | null {
+  try {
+    return sessionStorage.getItem(AUTH_FLOW_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Gives the popup its flow id before it leaves for the server; it is that tab's own storage. */
+function prepareAuthCallback(popup: Window, flow: string): void {
+  try {
+    popup.sessionStorage.setItem(AUTH_FLOW_KEY, flow);
+  } catch {
+    // The window is already on another origin: its callback cannot carry this flow's id.
+  }
+}
+
+/** A callback this app produced: our own origin and the callback page, nothing else. */
+function isAuthCallbackUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return parsed.origin === location.origin && parsed.pathname === AUTH_CALLBACK_PATH;
+  } catch {
+    return false;
+  }
+}
 
 /** Loads and starts the wasm core once */
 export function loadCore(): Promise<unknown> {
@@ -108,7 +142,11 @@ export async function signInWithPassword(
  */
 export function handleAuthCallbackPopup(): boolean {
   if (location.pathname !== AUTH_CALLBACK_PATH) return false;
-  const message = { type: AUTH_MESSAGE, url: location.href };
+  // Only a popup opened by a sign-in carries its flow id. A callback page someone opened or
+  // linked to must not be able to tell another window to finish a sign-in.
+  const flow = readAuthFlowId();
+  if (!flow) return false;
+  const message = { type: AUTH_MESSAGE, flow, url: location.href };
   if (window.opener) {
     (window.opener as Window).postMessage(message, location.origin);
   } else if (typeof BroadcastChannel !== 'undefined') {
@@ -124,16 +162,32 @@ export function handleAuthCallbackPopup(): boolean {
   return true;
 }
 
-function waitForCallback(popup: Window): Promise<string> {
+function waitForCallback(popup: Window, flow: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const channel =
       typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel(AUTH_CHANNEL) : null;
-    const onMessage = (event: MessageEvent) => {
-      if (event.origin && event.origin !== location.origin) return;
-      if (event.data?.type !== AUTH_MESSAGE) return;
+    const accept = (data: unknown) => {
+      if (typeof data !== 'object' || data === null) return;
+      const {
+        type,
+        flow: answerFlow,
+        url,
+      } = data as {
+        type?: unknown;
+        flow?: unknown;
+        url?: unknown;
+      };
+      // Another tab's sign-in (or a forged message) must not finish this one.
+      if (type !== AUTH_MESSAGE || answerFlow !== flow) return;
+      if (typeof url !== 'string' || !isAuthCallbackUrl(url)) return;
       cleanup();
-      resolve(String(event.data.url));
+      resolve(url);
     };
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== location.origin || event.source !== popup) return;
+      accept(event.data);
+    };
+    const onChannelMessage = (event: MessageEvent) => accept(event.data);
     const closed = setInterval(() => {
       if (popup.closed) {
         cleanup();
@@ -142,11 +196,12 @@ function waitForCallback(popup: Window): Promise<string> {
     }, 500);
     const cleanup = () => {
       window.removeEventListener('message', onMessage);
+      channel?.removeEventListener('message', onChannelMessage);
       channel?.close();
       clearInterval(closed);
     };
     window.addEventListener('message', onMessage);
-    channel?.addEventListener('message', onMessage);
+    channel?.addEventListener('message', onChannelMessage);
   });
 }
 
@@ -160,13 +215,17 @@ export async function signInWithPopup(
 ) {
   if (isDesktop) return signInWithBrowser(start);
   if (!popup) throw Object.assign(new Error('popup blocked'), { code: 'popupBlocked' });
+  // Generated before the popup leaves for the server and kept for this flow only: a callback
+  // that does not carry it (another tab's, or a forged one) is ignored.
+  const flow = newAuthFlowId();
+  prepareAuthCallback(popup, flow);
   await loadCore();
   const store = newStoreConfig();
   let pending: PendingLogin | null = null;
   try {
     pending = await start(store, `${location.origin}${AUTH_CALLBACK_PATH}`);
     popup.location.href = pending.url();
-    const callback = await waitForCallback(popup);
+    const callback = await waitForCallback(popup, flow);
     const client = await pending.finish(callback, DEVICE_NAME);
     pending = null;
     remember(client, store);

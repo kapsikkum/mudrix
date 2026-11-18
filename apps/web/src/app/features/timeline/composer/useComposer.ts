@@ -205,7 +205,9 @@ export function useComposer({
   const callUi = useAtomValue(callUiAtom);
   const { data: members } = useMembers(roomId);
   const rooms = useAllRooms();
-  const isEncrypted = useRoom(roomId)?.isEncrypted ?? false;
+  const room = useRoom(roomId);
+  const encryptionKnown = room != null;
+  const isEncrypted = room?.isEncrypted === true;
   const myId = client.userId() ?? '';
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -226,6 +228,7 @@ export function useComposer({
     handleAutocompleteSelect,
     handleAutocompleteHover,
     clearValue: clearEditor,
+    setValue: setEditorValue,
     isEmpty,
   } = useRichEditor({
     client,
@@ -243,6 +246,15 @@ export function useComposer({
     },
     [editor]
   );
+  /** Puts a draft that was cleared for sending back into the editor, formatting and all. */
+  const restoreEditorValue = useCallback(
+    (value: Descendant[]) => {
+      editor.children = value;
+      setEditorValue([...value]);
+      Transforms.select(editor, Editor.end(editor, []));
+    },
+    [editor, setEditorValue]
+  );
   const draftText = useMemo(
     () => (isEmpty ? '' : toMarkdown(editorValue).markdown.trim()),
     [isEmpty, editorValue]
@@ -253,6 +265,8 @@ export function useComposer({
   const isTypingRef = useRef(false);
 
   const draftKey = composerDraftKey(roomId, threadId);
+  const roomIdRef = useRef(roomId);
+  roomIdRef.current = roomId;
   const [allAttachments, setAllAttachments] = useAtom(composerAttachmentsAtom);
   const attachments = allAttachments[draftKey] ?? EMPTY_ATTACHMENTS;
   const setAttachments = useCallback(
@@ -338,8 +352,8 @@ export function useComposer({
   const enqueueUploadsRef = useRef<(items: UploadQueueItem[]) => void>(() => {});
 
   const sendAttachments = useCallback(
-    (replyToEvent: ReplyTarget | null, text?: TextMessage) => {
-      if (attachments.length === 0) return;
+    (replyToEvent: ReplyTarget | null, text?: TextMessage): boolean => {
+      if (attachments.length === 0) return false;
       // Two or more pictures sent together are tagged so every client of ours shows them as one set
       const imageCount = attachments.filter((a) => isGalleryImage(a.file)).length;
       const galleryId = imageCount >= 2 ? crypto.randomUUID() : null;
@@ -374,21 +388,59 @@ export function useComposer({
       enqueueUploadsRef.current(items);
       attachments.forEach((a) => setAttachmentQuality(a.id, undefined));
       attachments.forEach(revokeAttachment);
-      setAttachments(() => []);
+      // Only the files that went into this send leave the tray: the user may have added more
+      // while the timeline was resolving.
+      const sentIds = new Set(attachments.map((a) => a.id));
+      setAttachments((prev) => prev.filter((a) => !sentIds.has(a.id)));
       if (replyToEvent) onClearReply();
+      return true;
     },
     [attachments, setAttachments, onClearReply, defaultQuality, videoPrefs, maxUploadBytes]
   );
 
   const sendMessage = useCallback(async () => {
     if (sendingRef.current) return;
+    if (!encryptionKnown) {
+      toast.error(t('common.somethingWentWrong'));
+      return;
+    }
     sendingRef.current = true;
+    // Kept so a command that fails can put the draft back; ordinary sends leave the box alone
+    // until the timeline has accepted them.
+    const draftValue = editorValue;
+    let editorCleared = false;
+    const clearDraft = () => {
+      if (editorCleared) return;
+      editorCleared = true;
+      clearEditor();
+      sendTyping(false);
+      if (typingTimerRef.current) {
+        clearTimeout(typingTimerRef.current);
+        typingTimerRef.current = null;
+      }
+    };
+    // The user may have started typing a new message while this one was still in flight: leave
+    // that text alone instead of wiping it when the send resolves. A composer that has since
+    // moved to another room is left alone too.
+    const clearDraftIfUnchanged = (sentText: string) => {
+      if (roomIdRef.current !== roomId) return;
+      if (toMarkdown(editor.children).markdown.trim() !== sentText) return;
+      clearDraft();
+    };
+    const restoreDraft = () => {
+      if (roomIdRef.current !== roomId) return;
+      restoreEditorValue(draftValue);
+      editorCleared = false;
+    };
     try {
       if (attachments.some((a) => a.oversized)) {
         toast.error(t('attachment.removeOversized', { limit: formatFileSize(maxUploadBytes) }));
         return;
       }
       if (isEmpty) {
+        // Start the uploads only once the timeline is there: if it is missing, nothing was cleared.
+        await getTimeline();
+        clearDraftIfUnchanged('');
         sendAttachments(replyTo);
         return;
       }
@@ -397,19 +449,19 @@ export function useComposer({
       const { markdown } = toMarkdown(editorValue);
       const text = markdown.trim();
       if (!text) {
+        await getTimeline();
+        clearDraftIfUnchanged('');
         sendAttachments(replyTo);
         return;
       }
-
-      clearEditor();
-      sendTyping(false);
-      if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
 
       try {
         const parsed = parseCommand(text);
         if (parsed) {
           const cmd = getCommandDefinition(parsed.command, integrationCommands);
           if (cmd) {
+            // Commands act on the draft as it is and may insert their own text: clear first.
+            clearDraft();
             const ctx: CommandContext = {
               client,
               roomId,
@@ -438,6 +490,8 @@ export function useComposer({
             try {
               await cmd.fn(parsed.args, ctx);
             } catch (cmdErr) {
+              restoreDraft();
+              editorCleared = false;
               toast.error(getErrorMessage(cmdErr));
             }
             if (replyTo) onClearReply();
@@ -460,6 +514,7 @@ export function useComposer({
                 threadId,
                 replyTo,
               });
+              clearDraftIfUnchanged(text);
               if (replyTo) onClearReply();
               onSent?.();
               return;
@@ -479,15 +534,20 @@ export function useComposer({
         );
         const message = textMessageFrom('text', built);
         if (attachments.length > 0) {
+          // As with the plain-files case, the timeline must exist before the draft is cleared.
+          await getTimeline();
+          clearDraftIfUnchanged(text);
           sendAttachments(replyTo, message);
           onSent?.();
           return;
         }
         const timeline = await getTimeline();
         await sendTextMessage(timeline, message, { replyTo, myId });
+        clearDraftIfUnchanged(text);
         if (replyTo) onClearReply();
         onSent?.();
       } catch (err) {
+        if (editorCleared) restoreDraft();
         toast.error(t('timeline.sendFailed', { error: getErrorMessage(err) }));
       }
     } finally {
@@ -520,14 +580,18 @@ export function useComposer({
     commandActions,
     callUi,
     navigate,
+    encryptionKnown,
     isEncrypted,
     integrationCommands,
     integrationLauncher,
     setComposerText,
+    editor,
+    restoreEditorValue,
   ]);
 
   const scheduleSend = useCallback(
     async (delayMs: number) => {
+      if (!encryptionKnown) throw new Error(t('common.somethingWentWrong'));
       const text = toMarkdown(editorValue).markdown.trim();
       if (!text) throw new Error(t('composer.schedule.noDraft'));
       const parsed = parseCommand(text);
@@ -560,6 +624,7 @@ export function useComposer({
       myId,
       onClearReply,
       clearEditor,
+      encryptionKnown,
       t,
       integrationCommands,
     ]

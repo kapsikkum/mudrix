@@ -41,6 +41,8 @@ import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import { buildItems, useBuildContext } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { useMessageHover } from '@/app/features/timeline/useMessageHover';
+import { decideReadReceipt, isServerEventId } from '@/app/features/timeline/readReceipt';
+import { isAppFocused, isAppVisible, onAppActivityChange } from '@/bridge/windowActivity';
 import {
   editStateFor,
   publishTimelineEntries,
@@ -51,6 +53,8 @@ import { useUsernameColor } from '@/app/hooks/useUsernameColor';
 import { useRoleNameColor } from '@/app/features/space/spaceRoles';
 
 const MAX_PAGES = 10;
+/** How close to the bottom counts as reading the newest reply; matches the room timeline. */
+const AT_BOTTOM_PX = 4;
 
 type EventEntry = Extract<TimelineEntry, { kind: 'event' }>;
 
@@ -120,6 +124,7 @@ export function ThreadPanel({
   const overlay = useMediaQuery(PANEL_OVERLAY_QUERY);
   const isDesktop = useMediaQuery('(min-width: 769px)') && !overlay;
   const sheetRef = useRef<HTMLElement>(null);
+  const replyListRef = useRef<HTMLDivElement>(null);
   useSwipeDownDismiss({ enabled: overlay, sheetRef, onClose });
 
   const { entries, atStart, loading, loadOlder, timeline } = useTimeline(client, roomId, {
@@ -212,11 +217,55 @@ export function ThreadPanel({
     [timeline, rootId, sendReadReceipts, setThreadLastSeen]
   );
 
-  useEffect(() => {
-    if (items.length === 0) return;
+  const lastReadRef = useRef<{ eventId: string; at: number } | null>(null);
+
+  /** Marks the thread read only when its newest reply is really on screen. */
+  const markReadIfVisible = useCallback(() => {
+    const el = replyListRef.current;
+    // A mounted panel can still be covered or off screen; never mark from a hidden one.
+    if (!el || el.getClientRects().length === 0) return;
     const lastItem = items[items.length - 1];
+    if (!lastItem) return;
+    const eventId = lastItem.event.eventId ?? null;
+    const lastSent = lastReadRef.current;
+    const decision = decideReadReceipt({
+      focused: isAppFocused(),
+      visible: isAppVisible(),
+      atBottom: el.scrollHeight - el.scrollTop - el.clientHeight <= AT_BOTTOM_PX,
+      // Threads load older pages above the newest reply, so the view always reaches its end.
+      atLiveEnd: true,
+      latestEventId: eventId,
+      lastSentEventId: lastSent?.eventId ?? null,
+      lastSentAt: lastSent?.at ?? null,
+      // The thread's own unread count is not tracked here; a new server event is enough.
+      roomUnread: false,
+      now: Date.now(),
+    });
+    if (!decision.send || !eventId || !isServerEventId(eventId)) return;
+    lastReadRef.current = { eventId, at: Date.now() };
     markRead(lastItem.event);
   }, [items, markRead]);
+
+  useEffect(() => {
+    markReadIfVisible();
+  }, [markReadIfVisible]);
+
+  // Scrolling to the bottom is itself the signal that the newest reply was read.
+  useEffect(() => {
+    const el = replyListRef.current;
+    if (!el) return undefined;
+    const onScroll = () => markReadIfVisible();
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [markReadIfVisible, loaded]);
+
+  // Reading resumes when the app comes back to the foreground while the panel sits at the bottom.
+  useEffect(() => {
+    const onWake = () => {
+      if (isAppVisible()) markReadIfVisible();
+    };
+    return onAppActivityChange(onWake);
+  }, [markReadIfVisible]);
 
   const memberById = useMemo(() => new Map((members ?? []).map((m) => [m.userId, m])), [members]);
 
@@ -328,7 +377,6 @@ export function ThreadPanel({
     [client, roomId, timeline, setEmojiPicker, toast, t]
   );
 
-  const replyListRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = replyListRef.current;
     if (!el) return;

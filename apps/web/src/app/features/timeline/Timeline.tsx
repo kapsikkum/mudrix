@@ -314,7 +314,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
   // Unencrypted rooms are searched on the homeserver, which can page through every message;
   // encrypted ones can only be matched against what this device has loaded.
-  const serverSearchEnabled = isSearching && !room?.isEncrypted;
+  const serverSearchEnabled = isSearching && room?.isEncrypted === false;
   const serverSearch = useRoomServerSearch(client, roomId, search.query, serverSearchEnabled);
 
   const scrollRef = useRef<HTMLDivElement>(null);

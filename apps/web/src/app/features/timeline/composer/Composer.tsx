@@ -91,7 +91,8 @@ export function Composer({
   const { t } = useTranslation();
   const { timeline, getTimeline } = useSendTimeline(client, roomId, threadId, providedTimeline);
   const room = useRoom(roomId);
-  const roomEncrypted = room?.isEncrypted ?? false;
+  const encryptionKnown = room != null;
+  const isEncrypted = room?.isEncrypted === true;
   const timelineContext = useMemo(
     () => ({ roomId, threadId: threadId ?? null, getTimeline }),
     [roomId, threadId, getTimeline]
@@ -405,9 +406,11 @@ export function Composer({
                 onSelectionChange={updateToolbar}
                 onPaste={handlePaste}
                 placeholder={
-                  roomEncrypted
+                  isEncrypted
                     ? t('encryption.composerEncrypted')
-                    : t('encryption.composerUnencrypted')
+                    : encryptionKnown
+                      ? t('encryption.composerUnencrypted')
+                      : t('composer.typeMessage')
                 }
                 className={css.richEditor}
                 client={client}
@@ -540,7 +543,7 @@ export function Composer({
                             e.currentTarget
                           );
                         }}
-                        disabled={attachments.some((a) => a.oversized)}
+                        disabled={!encryptionKnown || attachments.some((a) => a.oversized)}
                         aria-label={t('composer.send')}
                       >
                         <PaperPlaneRightIcon size={18} weight="fill" />

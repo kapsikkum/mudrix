@@ -136,6 +136,9 @@ function toAppPath(url: string): string | null {
     else path = '/';
   }
   if (!path.startsWith('/')) path = `/${path}`;
+  // `//host` and `/\host` are protocol-relative once a browser resolves them: a link like
+  // chat.mudrix.mobile:////evil.com/path must never become a navigation off the app.
+  if (path.startsWith('//') || path.startsWith('/\\')) return null;
   return path + parsed.search;
 }
 
@@ -143,8 +146,16 @@ function openAppLink(url: string | undefined): void {
   if (!url || sessionStorage.getItem(HANDLED_URL_KEY) === url) return;
   const path = toAppPath(url);
   if (!path) return;
+  // Resolve the way the browser will, then refuse anything that changed the origin.
+  let target: URL;
+  try {
+    target = new URL(path, window.location.origin);
+  } catch {
+    return;
+  }
+  if (target.origin !== window.location.origin) return;
   sessionStorage.setItem(HANDLED_URL_KEY, url);
-  window.location.replace(path);
+  window.location.replace(target.href);
 }
 
 function listenForAppLinks(): void {

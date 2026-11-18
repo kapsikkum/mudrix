@@ -9,6 +9,19 @@ export interface ComposerTimeline {
 
 export const ComposerTimelineContext = createContext<ComposerTimeline | null>(null);
 
+/** How long a send waits for a timeline the view has not linked yet before it gives up. */
+const TIMELINE_WAIT_TIMEOUT_MS = 30_000;
+
+interface TimelineWaiter {
+  resolve: (timeline: RoomTimeline) => void;
+  reject: (reason: Error) => void;
+  timer: ReturnType<typeof setTimeout>;
+}
+
+function timelineNotReadyError(): Error {
+  return new Error('The room timeline is not ready yet');
+}
+
 function kindOf(threadId: string | null | undefined): TimelineKind {
   return threadId ? { type: 'thread', rootEventId: threadId } : { type: 'main' };
 }
@@ -24,7 +37,7 @@ export function useSendTimeline(
   const external = provided !== undefined;
   const ownRef = useRef<{ key: string; promise: Promise<RoomTimeline> } | null>(null);
   const [own, setOwn] = useState<{ key: string; timeline: RoomTimeline } | null>(null);
-  const waitersRef = useRef<((timeline: RoomTimeline) => void)[]>([]);
+  const waitersRef = useRef<TimelineWaiter[]>([]);
 
   const ensureOwn = useCallback(() => {
     if (ownRef.current?.key === key) return ownRef.current.promise;
@@ -47,13 +60,41 @@ export function useSendTimeline(
   }, [external, eager, ensureOwn]);
 
   useEffect(() => {
-    if (provided) waitersRef.current.splice(0).forEach((resolve) => resolve(provided));
+    if (!provided) return;
+    const waiters = waitersRef.current.splice(0);
+    for (const waiter of waiters) {
+      clearTimeout(waiter.timer);
+      waiter.resolve(provided);
+    }
   }, [provided]);
+
+  // A send that is still waiting when the composer goes away must not hang forever.
+  useEffect(
+    () => () => {
+      const waiters = waitersRef.current.splice(0);
+      for (const waiter of waiters) {
+        clearTimeout(waiter.timer);
+        waiter.reject(timelineNotReadyError());
+      }
+    },
+    []
+  );
 
   const getTimeline = useCallback((): Promise<RoomTimeline> => {
     if (provided) return Promise.resolve(provided);
     if (provided === null) {
-      return new Promise((resolve) => waitersRef.current.push(resolve));
+      return new Promise<RoomTimeline>((resolve, reject) => {
+        const waiter: TimelineWaiter = {
+          resolve,
+          reject,
+          timer: setTimeout(() => {
+            const index = waitersRef.current.indexOf(waiter);
+            if (index >= 0) waitersRef.current.splice(index, 1);
+            reject(timelineNotReadyError());
+          }, TIMELINE_WAIT_TIMEOUT_MS),
+        };
+        waitersRef.current.push(waiter);
+      });
     }
     return ensureOwn();
   }, [provided, ensureOwn]);

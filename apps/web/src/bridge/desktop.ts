@@ -33,7 +33,9 @@ export async function signInInBrowser<T>(
   const port = await invoke<number>('loopback_listen', { page });
   try {
     const pending = await start(`http://127.0.0.1:${port}/callback`);
-    await openUrl(pending.url());
+    const url = externalUrl(pending.url());
+    if (!url) throw Object.assign(new Error('invalid sign-in URL'), { code: 'invalidUrl' });
+    await openUrl(url);
     const callback = await invoke<string>('loopback_wait', { port });
     return await finish(callback);
   } catch (error) {
@@ -46,10 +48,28 @@ export function deleteDesktopStore(location: string): Promise<void> {
   return invoke('core_delete_store', { location });
 }
 
-function isExternal(url: string): boolean {
+/** Schemes the app hands to the system; anything else stays in the app or is dropped. */
+const EXTERNAL_PROTOCOLS = ['http:', 'https:', 'mailto:'];
+
+/**
+ * The absolute URL to open outside the app, or null when it is not a scheme the system may be
+ * asked to open. Relative and protocol-relative links do not count: they would resolve against
+ * a protocol they only appear to have.
+ */
+function externalUrl(url: string): string | null {
   try {
-    const { protocol } = new URL(url, location.href);
-    return protocol === 'http:' || protocol === 'https:' || protocol === 'mailto:';
+    const parsed = new URL(url);
+    return EXTERNAL_PROTOCOLS.includes(parsed.protocol) ? parsed.href : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Whether a link stays inside the app: a relative path or this app's own origin. */
+function isAppUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url, location.href);
+    return parsed.protocol === location.protocol && parsed.host === location.host;
   } catch {
     return false;
   }
@@ -79,9 +99,12 @@ export function interceptExternalLinks(doc: Document): void {
     (event) => {
       const link = (event.target as Element | null)?.closest?.('a[href]');
       if (!(link instanceof HTMLAnchorElement) || link.hasAttribute('download')) return;
-      if (link.origin === location.origin || !isExternal(link.href)) return;
+      if (isAppUrl(link.href)) return;
+      // Only schemes the system may open are handed over; tel:, custom schemes and
+      // protocol-relative targets are dropped instead of followed by the webview.
       event.preventDefault();
-      void openUrl(link.href);
+      const url = externalUrl(link.href);
+      if (url) void openUrl(url);
     },
     true
   );
@@ -110,8 +133,10 @@ export function installDesktopHooks(): void {
   const open = window.open.bind(window);
   window.open = (url, target, features) => {
     const href = url?.toString();
-    if (href && isExternal(href) && new URL(href, location.href).origin !== location.origin) {
-      void openUrl(href);
+    if (href && href !== 'about:blank' && !isAppUrl(href)) {
+      const external = externalUrl(href);
+      if (!external) return null;
+      void openUrl(external);
       return null;
     }
     return open(url, target, features);
