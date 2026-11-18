@@ -317,7 +317,6 @@ fun RoomListScreen(
                         searchOpen = true
                     }
                 })
-                RoundToolButton("sliders", tr("roomList.sort"), { showSort = true })
                 if (onOpenInbox != null) InboxButton(roomList, onOpenInbox, round = true)
                 Spacer(Modifier.weight(1f))
                 Box {

@@ -238,6 +238,9 @@ struct RoomListScreen: View {
     @ViewBuilder
     private var newMenuItems: some View {
         Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
+        if dmPane {
+            Button { showSort = true } label: { Label(menu: String(localized: "roomList.sort"), icon: "ph-sliders-regular") }
+        }
         if selection != .dms {
             Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
         }
@@ -251,16 +254,14 @@ struct RoomListScreen: View {
         }
     }
 
-    /// The Direct Messages pane's toolbar, as on Android: search, inbox, a wide new message button and the accent +
+    /// The Direct Messages pane's toolbar, as on Android: search, inbox and the accent + (which opens the new menu,
+    /// including sort)
     private var dmHeader: some View {
         VStack(spacing: WZ.Space.space2) {
             HStack(spacing: WZ.Space.space3) {
                 RoundToolButton(icon: "ph-magnifying-glass-regular", label: String(localized: "common.search")) {
                     searchOpen = true
                     searchFocused = true
-                }
-                RoundToolButton(icon: "ph-sliders-regular", label: String(localized: "roomList.sort")) {
-                    showSort = true
                 }
                 if let onOpenInbox {
                     InboxButton(roomList: roomList, action: onOpenInbox, round: true)
