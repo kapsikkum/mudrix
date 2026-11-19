@@ -40,9 +40,10 @@ use crate::{
 const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
 
 /// The `server` argument as the SDK builder wants it: a server name (`matrix.org`) or a
-/// homeserver URL, without a trailing slash. HTTPS is always allowed; plain `http://` is
-/// allowed in debug builds only, for a development homeserver (a release build would send the
-/// account's tokens in the clear). Other schemes are refused.
+/// homeserver URL, without a trailing slash. HTTPS is always allowed. Plain `http://` is allowed
+/// for a development build and for a homeserver on a private network (a LAN or loopback address),
+/// where self-hosting over http is normal; a public `http://` server is refused because it would
+/// send the account's tokens in the clear. Other schemes are refused.
 pub(crate) fn normalize_homeserver(server: &str) -> Result<String> {
     let trimmed = server.trim().trim_end_matches('/');
     let Some((scheme, _)) = trimmed.split_once("://") else {
@@ -53,16 +54,55 @@ pub(crate) fn normalize_homeserver(server: &str) -> Result<String> {
         return Ok(trimmed.to_owned());
     };
     let https = scheme.eq_ignore_ascii_case("https");
-    #[cfg(debug_assertions)]
-    let allowed = https || scheme.eq_ignore_ascii_case("http");
-    #[cfg(not(debug_assertions))]
-    let allowed = https;
+    let http = scheme.eq_ignore_ascii_case("http");
+    let allowed = https || (http && (cfg!(debug_assertions) || is_private_http_host(trimmed)));
     if !allowed {
         return Err(Error::Homeserver(format!(
             "unsupported homeserver URL {scheme}://; use https://"
         )));
     }
     Ok(trimmed.to_owned())
+}
+
+/// Whether an `http://` URL points into a local network (a self-hosted homeserver), where
+/// cleartext is the accepted trade-off. A public host is not one of these.
+fn is_private_http_host(server: &str) -> bool {
+    let Ok(url) = url::Url::parse(server) else {
+        return false;
+    };
+    match url.host() {
+        Some(url::Host::Domain(name)) => {
+            let name = name.to_ascii_lowercase();
+            name == "localhost" || name.ends_with(".localhost") || name.ends_with(".local")
+        }
+        Some(url::Host::Ipv4(ip)) => ip.is_private() || ip.is_loopback() || ip.is_link_local(),
+        Some(url::Host::Ipv6(ip)) => {
+            ip.is_loopback() || ip.is_unique_local() || ip.is_unicast_link_local()
+        }
+        None => false,
+    }
+}
+
+/// The homeserver URL of an **existing** session, which must keep restoring: users who signed in
+/// before the HTTPS-only rule (including anyone on a LAN or a server they typed as `http://`) must
+/// not be signed out by an update. The scheme is checked, but `http` is not refused here; new
+/// sign-ins still go through [`normalize_homeserver`].
+pub(crate) fn normalize_restored_homeserver(homeserver_url: &str) -> Result<String> {
+    let trimmed = homeserver_url.trim().trim_end_matches('/');
+    if trimmed.is_empty() || trimmed.ends_with(':') {
+        return Err(Error::Homeserver(
+            "the stored homeserver address is empty".into(),
+        ));
+    }
+    let Some((scheme, _)) = trimmed.split_once("://") else {
+        return Ok(trimmed.to_owned());
+    };
+    if scheme.eq_ignore_ascii_case("http") || scheme.eq_ignore_ascii_case("https") {
+        return Ok(trimmed.to_owned());
+    }
+    Err(Error::Homeserver(format!(
+        "unsupported stored homeserver URL {scheme}://"
+    )))
 }
 
 /// The state of the background sync, as shown to the user.
@@ -143,7 +183,7 @@ impl MudrixClient {
     }
 
     async fn build_restored_client(homeserver_url: &str, store: &StoreConfig) -> Result<Client> {
-        let homeserver_url = normalize_homeserver(homeserver_url)?;
+        let homeserver_url = normalize_restored_homeserver(homeserver_url)?;
         Self::finish_build(Client::builder().homeserver_url(homeserver_url), store).await
     }
 
@@ -426,7 +466,7 @@ impl MudrixClient {
 
     /// Ends a stored session on the server without restoring it (when restoring failed).
     pub async fn logout_session(session: Session) -> Result<()> {
-        let homeserver_url = normalize_homeserver(&session.homeserver_url)?;
+        let homeserver_url = normalize_restored_homeserver(&session.homeserver_url)?;
         let client = Client::builder()
             .homeserver_url(homeserver_url)
             .build()
@@ -611,11 +651,21 @@ mod tests {
         for bad in ["ftp://matrix.example.org", "https://", "  "] {
             assert!(normalize_homeserver(bad).is_err(), "{bad}");
         }
-        // Plain http is a debug-build convenience only
+        // Plain http is for a dev build or a self-hosted server on a private network; a public
+        // http server is refused in a release build.
         assert_eq!(
             normalize_homeserver("http://matrix.example.org").is_ok(),
             cfg!(debug_assertions)
         );
+        assert!(normalize_homeserver("http://172.30.18.177:6167").is_ok());
+        assert!(normalize_homeserver("http://nas.local:8008").is_ok());
+        assert!(normalize_homeserver("http://127.0.0.1:8008").is_ok());
+        // An existing session keeps restoring even if its server was recorded as http.
+        assert_eq!(
+            normalize_restored_homeserver("http://matrix.example.org").unwrap(),
+            "http://matrix.example.org"
+        );
+        assert!(normalize_restored_homeserver("ftp://matrix.example.org").is_err());
     }
 
     #[cfg(debug_assertions)]

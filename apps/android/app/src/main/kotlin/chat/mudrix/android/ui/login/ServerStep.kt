@@ -44,9 +44,10 @@ object ServerStep {
     }
 
     /**
-     * The address to ask discovery with: as typed, with `https://` when it names no scheme. Release
-     * builds force `https://` (the core refuses cleartext there), while debug builds keep a typed
-     * `http://` so a LAN test server works. A non-http scheme is invalid, not rewritten.
+     * The address to ask discovery with: as typed, with `https://` when it names no scheme. A
+     * release build upgrades a public `http://` address to `https://` (the core refuses cleartext
+     * there), while a private/LAN address keeps http: a self-hosted homeserver on the local network
+     * is a normal setup. A non-http scheme is invalid, not rewritten.
      */
     fun address(input: String): String {
         val trimmed = input.trim()
@@ -55,8 +56,26 @@ object ServerStep {
         return when (schemeOf(trimmed)) {
             null -> "https://$trimmed"
             "https" -> trimmed
-            else -> if (BuildConfig.DEBUG) trimmed else "https://" + trimmed.substringAfter("://")
+            else -> if (BuildConfig.DEBUG || isPrivateHost(host(trimmed))) trimmed
+            else "https://" + trimmed.substringAfter("://")
         }
+    }
+
+    /** Whether a host is on the local network (`localhost`, RFC1918, link-local, ULA) */
+    private fun isPrivateHost(host: String): Boolean {
+        if (host == "localhost" || host.endsWith(".localhost") || host.endsWith(".local")) return true
+        val address = host.removePrefix("[").removeSuffix("]")
+        if (address == "::1") return true
+        val parts = address.split('.')
+        if (parts.size == 4) {
+            val octets = parts.map { it.toIntOrNull() ?: return false }
+            if (octets.any { it !in 0..255 }) return false
+            val (a, b) = octets
+            return a == 10 || a == 127 || (a == 172 && b in 16..31) ||
+                (a == 192 && b == 168) || (a == 169 && b == 254)
+        }
+        val lower = address.lowercase()
+        return lower.startsWith("fc") || lower.startsWith("fd") || lower.startsWith("fe80")
     }
 
     /** The host of an address, lower-cased, without a scheme, port or path ("matrix.org") */
