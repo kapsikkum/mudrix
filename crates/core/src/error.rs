@@ -31,6 +31,9 @@ pub enum Error {
     /// The homeserver refused, with a Matrix error code like `M_FORBIDDEN` or `M_LIMIT_EXCEEDED`
     #[error("{message}")]
     Matrix { errcode: String, message: String },
+    /// A soundboard clip was refused: unsupported type, too large, too long, or a bad shortcode
+    #[error("invalid soundboard sound: {0}")]
+    InvalidSound(String),
     /// The app cancelled the call (a media download)
     #[error("cancelled")]
     Cancelled,

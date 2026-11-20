@@ -1,0 +1,39 @@
+{
+  "component": {
+    "type": 17,
+    "accent_color": 1947988,
+    "components": [
+      {
+        "type": 10,
+        "content": "**[Never Gonna Give You Up](https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8)**\nby Rick Astley\non Whenever You Need Somebody\n-# 3:34 · track 1 of 10\n-# 16 November 1987"
+      },
+      {
+        "type": 12,
+        "items": [
+          {
+            "media": {
+              "url": "https://embeds.now/media/track-4PTG3Z6ehGkBFwjybzWkR8.mp4"
+            }
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "components": [
+          {
+            "type": 2,
+            "style": 5,
+            "url": "https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8",
+            "label": "Open on Spotify"
+          },
+          {
+            "type": 2,
+            "style": 5,
+            "url": "https://open.spotify.com/artist/0gxyHStUsqpMadRV0Di1Qt",
+            "label": "See artist"
+          }
+        ]
+      }
+    ]
+  }
+}

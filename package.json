@@ -31,7 +31,7 @@
     "android:install": "cd apps/android && ./gradlew :app:installGplayDebug",
     "core:web": "wasm-pack build crates/wasm --target web --out-dir pkg --out-name mudrix_core",
     "core:web:dev": "wasm-pack build crates/wasm --dev --target web --out-dir pkg --out-name mudrix_core",
-    "core:types": "cargo run -q -p mudrix-core --features typegen --example typegen && prettier --write apps/web/src/core/rpc/api.gen.ts > /dev/null",
+    "core:types": "cargo run -q -p mudrix-core --features typegen --example typegen && prettier --write apps/web/src/core/rpc/api.gen.ts --log-level warn",
     "test-server": "node tools/test-server/up.mjs",
     "test-server:down": "node tools/test-server/up.mjs down",
     "test-server:reset": "node tools/test-server/up.mjs reset",

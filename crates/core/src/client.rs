@@ -168,6 +168,7 @@ pub struct MudrixClient {
     pub(crate) hierarchies: Mutex<HashMap<String, crate::spaces::CachedHierarchy>>,
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
+    pub(crate) sound_states: crate::sound_packs::PackStates,
 }
 
 impl MudrixClient {
@@ -240,6 +241,7 @@ impl MudrixClient {
             spaces: Mutex::new(None),
             hierarchies: Mutex::default(),
             notifications: Mutex::new(None),
+            sound_states: Default::default(),
         }
     }
 
@@ -289,31 +291,54 @@ impl MudrixClient {
             .map_err(|e| Error::InvalidId(e.to_string()))?;
         let device_id: OwnedDeviceId = session.device_id.as_str().into();
         let meta = SessionMeta { user_id, device_id };
-        let tokens = SessionTokens {
+        #[cfg_attr(target_arch = "wasm32", allow(unused_mut))]
+        let mut tokens = SessionTokens {
             access_token: session.access_token,
             refresh_token: session.refresh_token,
         };
+        // Another process on this store (the notification extension, or the app after a restart)
+        // may have refreshed since this session was saved; its tokens are the only ones the
+        // server still accepts.
+        #[cfg(not(target_arch = "wasm32"))]
+        let token_file = crate::token_file::TokenFile::new(&store).map(Arc::new);
+        #[cfg(not(target_arch = "wasm32"))]
+        if let Some(newer) = token_file.as_ref().and_then(|file| file.read()) {
+            tokens = newer;
+        }
         let shared_tokens = Arc::new(Mutex::new(Some(tokens.clone())));
+        let newest = shared_tokens.clone();
+        #[cfg(not(target_arch = "wasm32"))]
+        let reader = token_file.clone();
+        let reload = Box::new(move |_: Client| {
+            #[cfg(not(target_arch = "wasm32"))]
+            if let Some(tokens) = reader.as_ref().and_then(|file| file.read()) {
+                return Ok(tokens);
+            }
+            newest
+                .lock()
+                .unwrap()
+                .clone()
+                .ok_or_else(|| "no session to reload".into())
+        });
+        #[cfg(not(target_arch = "wasm32"))]
+        let writer = token_file.clone();
+        let save = Box::new(move |_client: Client| {
+            #[cfg(not(target_arch = "wasm32"))]
+            if let (Some(file), Some(tokens)) = (writer.as_ref(), _client.session_tokens()) {
+                file.write(&tokens)?;
+            }
+            Ok(())
+        });
+        client.set_session_callbacks(reload, save)?;
         match session.oauth_client_id {
             Some(client_id) => {
-                // Tabs sharing this store take turns refreshing the rotating tokens; one that
-                // lost the race picks up the winner's (handed over with `adopt_session`)
+                // Processes and tabs sharing this store take turns refreshing the rotating tokens;
+                // one that lost the race picks up the winner's, from the file or `adopt_session`
                 client
                     .oauth()
                     .enable_cross_process_refresh_lock(TransactionId::new().to_string())
                     .await
                     .map_err(|e| Error::Sdk(e.to_string()))?;
-                let newest = shared_tokens.clone();
-                client.set_session_callbacks(
-                    Box::new(move |_| {
-                        newest
-                            .lock()
-                            .unwrap()
-                            .clone()
-                            .ok_or_else(|| "no session to reload".into())
-                    }),
-                    Box::new(|_| Ok(())),
-                )?;
                 client
                     .restore_session(OAuthSession {
                         client_id: ClientId::new(client_id),
@@ -616,9 +641,13 @@ pub fn sniff_mime_type(bytes: &[u8]) -> Option<&'static str> {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+const SQLITE_POOL_SIZE: usize = 8;
+
+#[cfg(not(target_arch = "wasm32"))]
 fn sqlite_config(store: &StoreConfig) -> matrix_sdk::SqliteStoreConfig {
     use base64::{engine::general_purpose::STANDARD, Engine};
-    let config = matrix_sdk::SqliteStoreConfig::new(&store.location);
+    let config =
+        matrix_sdk::SqliteStoreConfig::new(&store.location).pool_max_size(SQLITE_POOL_SIZE);
     let Some(passphrase) = store.passphrase.as_deref() else {
         return config;
     };

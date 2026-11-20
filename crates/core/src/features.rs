@@ -95,6 +95,8 @@ pub struct Notification {
     pub highlight: bool,
     pub sound: bool,
     pub is_direct: bool,
+    /// When the message was sent, in milliseconds since the Unix epoch
+    pub ts: u64,
 }
 
 /// A notification the server keeps for the user, read or not
@@ -114,7 +116,7 @@ pub struct ServerNotification {
 }
 
 const ROOM_PACK_TYPES: [&str; 2] = ["im.ponies.room_emotes", "m.room.image_pack"];
-const MAX_SPACE_DEPTH: usize = 5;
+pub(crate) const MAX_SPACE_DEPTH: usize = 5;
 /// The most results one search page asks the server for
 const SEARCH_PAGE: u32 = 30;
 const USER_PACK: &str = "im.ponies.user_emotes";
@@ -213,7 +215,7 @@ fn room_packs(
     packs
 }
 
-fn canonical_parents(state: &[Value]) -> Vec<String> {
+pub(crate) fn canonical_parents(state: &[Value]) -> Vec<String> {
     of_type(state, "m.space.parent")
         .filter(|event| {
             event
@@ -616,6 +618,7 @@ pub(crate) async fn notification_for(
         highlight,
         sound,
         is_direct: room.direct_targets_length() > 0,
+        ts: sent_at(&event),
     })
 }
 
