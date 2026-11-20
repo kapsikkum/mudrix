@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "Du hast in einem anderen Tab zu {{account}} gewechselt. Dieser Tab wird neu geladen, um als {{account}} fortzufahren.",
     "signedOutElsewhereTitle": "Du wurdest abgemeldet",
     "signedOutElsewhereMessage": "Deine Sitzung wurde in einem anderen Tab beendet. Dieser Tab wird neu geladen.",
+    "otherTabTitle": "Mudrix ist in einem anderen Tab geöffnet",
+    "otherTabBody": "Nur ein Tab kann dieses Konto gleichzeitig verwenden. Beide Tabs wären dasselbe verschlüsselte Gerät, und Nachrichten kämen in einem davon verschlüsselt an.",
+    "otherTabUse": "Diesen Tab verwenden",
+    "otherTabTakingOver": "Wird übernommen...",
     "errors": {
       "homeserver": "Unter {{server}} wurde kein Matrix-Homeserver gefunden.",
       "credentials": "Benutzername oder Passwort ist falsch",
@@ -1454,7 +1458,28 @@
       "unknown": "Konnte nicht ermitteln, aus welchem Paket dieser Sticker stammt"
     },
     "seen": "Gelesen",
-    "sent": "Gesendet"
+    "sent": "Gesendet",
+    "linkEmbed": {
+      "consent": "Diese {{service}}-Einbettung laden? Dabei wird {{service}} kontaktiert und kann deine IP-Adresse und Gerätedetails sehen.",
+      "allow": "Einbettung laden",
+      "deny": "Jetzt nicht",
+      "open": "Auf {{service}} öffnen",
+      "play": "{{service}}-Einbettung abspielen",
+      "spotifyPrompt": "Spotify-Player laden? Dabei wird Spotify kontaktiert und kann deine IP-Adresse und Gerätedetails sehen.",
+      "spotifyPlayer": "Spotify-Player",
+      "loadSpotify": "Spotify-Player laden",
+      "xLoading": "Beitrag von X wird geladen…",
+      "xVerified": "Verifiziert",
+      "postFailed": "Dieser Beitrag konnte nicht geladen werden",
+      "mastodonLoading": "Beitrag von Mastodon wird geladen…",
+      "mastodonWarning": "Inhaltswarnung: {{warning}}",
+      "via": "über embeds.now",
+      "loading": "{{service}}-Einbettung wird geladen…",
+      "unavailable": "Für diesen {{service}}-Link ist keine Vorschau möglich",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Diese {{service}}-Einbettung laden? Mudrix lässt sie von embeds.now abrufen, daher sieht embeds.now den Link und deine IP-Adresse – nicht {{service}}.",
+      "openImage": "Bild ansehen"
+    }
   },
   "call": {
     "event": {
@@ -1767,6 +1792,36 @@
         "sizeLarge": "Groß ({{px}} px)",
         "sizeMedium": "Mittel ({{px}} px)",
         "sizeSmall": "Klein ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Link-Einbettungen",
+        "note": "Fragen zeigt zuerst eine Abfrage. Erlauben lädt den Player oder Beitrag automatisch vom Dienst, auch in verschlüsselten Räumen. Ausblenden lässt den Link als reinen Text stehen.",
+        "ask": "Fragen",
+        "on": "Erlauben",
+        "off": "Ausblenden",
+        "via": "Karten für X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn und Tumblr werden von embeds.now erstellt. Wenn du einen Dienst erlaubst, werden seine Links an embeds.now gesendet, das den Beitrag für dich lädt – dein Gerät kontaktiert den Dienst selbst nie.",
+        "groupCards": "Karten von embeds.now",
+        "groupPlayers": "Player des Dienstes",
+        "allowAll": "Alle erlauben",
+        "askAll": "Bei allen fragen",
+        "hideAll": "Alle ausblenden",
+        "browserUnavailable": "Die Browser-Version kann diese Karten nicht laden und zeigt stattdessen einen einfachen Link. Die Desktop- und Mobil-Apps können es.",
+        "bulk": "Alle Dienste",
+        "desc": {
+          "youtube": "Videoplayer von YouTube, per Klick gestartet",
+          "spotify": "Titel, Alben, Playlists und Podcasts",
+          "x": "Beiträge und Profile mit Fotos und Videos",
+          "instagram": "Beiträge, Reels und geteilte Links",
+          "tiktok": "Videos und Fotobeiträge",
+          "reddit": "Beiträge mit Bildern und Videos",
+          "facebook": "Beiträge, Reels und Videos",
+          "threads": "Beiträge und Konten",
+          "bluesky": "Beiträge und Profile",
+          "mastodon": "Beiträge von großen Servern",
+          "pinterest": "Pins mit ihren Bildern",
+          "linkedin": "Öffentliche Beiträge",
+          "tumblr": "Blogbeiträge"
+        }
       }
     },
     "voice": {
@@ -1798,7 +1853,6 @@
         "moved": "In anderen Kanal verschoben",
         "watchTogetherStart": "Gemeinsames Schauen startet"
       },
-      "title": "Stimme & Audio",
       "inputTitle": "Eingabe",
       "outputTitle": "Ausgabe",
       "cameraTitle": "Kamera",
@@ -1894,7 +1948,7 @@
         "fingerprintLabel": "Fingerabdruck des Signaturschlüssels: {{fingerprint}}",
         "explain": "Mudrix speichert diesen Schlüssel und überprüft künftige Aktualisierungen anhand dieses Schlüssels.",
         "confirm": "Vertrauen und hinzufügen",
-        "address": "Address",
+        "address": "Adresse",
         "runCode_other": "{{count}} Integrationen führen Code aus",
         "runCode_one": "{{count}} Integration führt Code aus"
       },
@@ -1968,7 +2022,7 @@
         "none": "Sie kontaktiert keinen Server",
         "note": "Alle anderen Adressen werden abgelehnt. Es werden keine Cookies oder Kontodaten gesendet."
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "Herausgeberschlüssel {{fingerprint}}",
       "badge": {
         "runsCode": "Führt Code aus"
       },
@@ -2274,13 +2328,6 @@
       "notificationSoundsNote": "Ton abspielen, wenn eine Benachrichtigung eintrifft",
       "notificationBanners": "Benachrichtigungsbanner",
       "notificationBannersNote": "Desktop-Benachrichtigungen anzeigen",
-      "desktop": "Desktop-App",
-      "desktopKeepRunning": "Im Hintergrund weiterlaufen",
-      "desktopKeepRunningNote": "Beim Schließen wird Mudrix im Infobereich versteckt, damit du weiterhin Benachrichtigungen erhältst. Beenden über das Tray-Menü.",
-      "desktopLaunchAtLogin": "Beim Anmelden starten",
-      "desktopLaunchAtLoginNote": "Mudrix automatisch starten, wenn du dich am Computer anmeldest.",
-      "desktopStartMinimized": "Minimiert im Tray starten",
-      "desktopStartMinimizedNote": "Beim Start mit der Anmeldung im Tray bleiben, statt das Fenster zu öffnen.",
       "messagesLabel": "Nachrichten",
       "dms": "Direktnachrichten",
       "rooms": "Räume",
@@ -2307,15 +2354,15 @@
         "entry": "{{room}} um {{time}}",
         "cancel": "Erinnerung abbrechen"
       },
-      "chooseSounds": "Töne in Sprache & Audio wählen",
+      "chooseSounds": "Töne in Audio & Video wählen",
       "notificationBannersNoteTouch": "Benachrichtigungen auf diesem Gerät anzeigen",
       "bannerNote": "Zeige ein Banner, wenn eine Nachricht eintrifft",
       "systemDisabledIos": "Benachrichtigungen für Mudrix sind in der iOS-Einstellungen-App ausgeschaltet.",
       "systemDisabledAndroid": "Benachrichtigungen für Mudrix sind in den Android-Einstellungen ausgeschaltet."
     },
     "voiceVideo": {
-      "title": "Sprache & Video",
-      "voice": "Sprache",
+      "title": "Audio & Video",
+      "voice": "Audio",
       "video": "Video",
       "previewCamera": "Kameravorschau",
       "stopPreview": "Vorschau beenden",
@@ -2372,6 +2419,34 @@
       "unsubscribeAll": "Alle abbestellen",
       "noPacksMatch": "Keine Packs entsprechen deiner Suche",
       "packsLoadFailed": "Die Packs in deinen Räumen konnten nicht geladen werden."
+    },
+    "soundboard": {
+      "title": "Soundboard",
+      "defaultPack": "Standardpaket",
+      "defaultPackNote": "Dein persönliches Paket ist in jedem Anruf verfügbar.",
+      "defaultPackName": "Deine Sounds",
+      "favoritePacks": "Favorisierte Pakete",
+      "favoritePacksNote": "Wähle Soundpakete aus deinen Räumen, um sie in jedem Anruf zu nutzen.",
+      "selectPacks": "Pakete auswählen",
+      "noFavoritePacks": "Noch keine favorisierten Pakete",
+      "noPacksFound": "Keine Soundpakete gefunden",
+      "removeFavorite": "{{name}} aus den Favoriten entfernen",
+      "soundCount_one": "{{count}} Sound",
+      "soundCount_other": "{{count}} Sounds",
+      "packName": "Paketname",
+      "packNamePlaceholder": "Meine Sounds",
+      "attribution": "Quellenangabe",
+      "attributionPlaceholder": "Wer diese Sounds gemacht hat oder woher sie stammen",
+      "sounds": "Sounds",
+      "addSounds": "Sounds hinzufügen",
+      "noSounds": "Noch keine Sounds. Füge einen Clip hinzu, um loszulegen.",
+      "name": "Soundname",
+      "emoji": "Sound-Emoji",
+      "preview": "Vorschau",
+      "stopPreview": "Vorschau beenden",
+      "removeSound": "{{name}} entfernen",
+      "limits": "MP3, M4A, AAC oder WAV, jeweils höchstens 5 Sekunden und 512 KB.",
+      "loadFailed": "Deine Soundpakete konnten nicht geladen werden."
     },
     "keybinds": {
       "title": "Tastenkürzel",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Fertig",
       "excludeInsecure": "Unsichere Sitzungen ausschließen",
       "excludeInsecureNote": "Wenn aktiv, werden verschlüsselte Nachrichten nicht mit unverifizierten Sitzungen geteilt, und Nachrichten von unverifizierten Sitzungen werden als Fehler angezeigt. Mit Personen, die ihre Sitzungen nicht verifiziert haben, kannst du dann eventuell nicht schreiben."
+    },
+    "desktop": {
+      "title": "Desktop-App",
+      "note": "Diese Einstellungen gelten für die Mudrix-App auf diesem Computer.",
+      "launchAtLogin": "Bei der Anmeldung öffnen",
+      "launchAtLoginNote": "Mudrix automatisch starten, wenn du dich an deinem Computer anmeldest.",
+      "startMinimized": "Minimiert starten",
+      "startMinimizedNote": "Wenn die App bei der Anmeldung startet, im Tray bleiben, statt das Fenster zu zeigen.",
+      "closeToTray": "In den Tray schließen",
+      "closeToTrayNote": "Beim Schließen des Fensters läuft Mudrix im Tray weiter, damit du weiterhin Nachrichten und Anrufe erhältst. Beende es über das Tray-Symbol.",
+      "muteNotifications": "Benachrichtigungen stummschalten",
+      "muteNotificationsNote": "Desktop-Benachrichtigungen stummschalten, ohne die App zu beenden. Das lässt sich auch über den Tray ändern.",
+      "saveFailed": "Diese Einstellung konnte nicht gespeichert werden: {{error}}",
+      "loadFailed": "Die Desktop-Einstellungen konnten nicht geladen werden: {{error}}"
     },
     "about": {
       "title": "Über",
@@ -3142,7 +3231,7 @@
       "moderators": "Moderatoren und höher"
     },
     "error": {
-      "type": "Verwende eine MP3-, OGG- oder WAV-Datei",
+      "type": "Verwende eine MP3-, M4A-, AAC- oder WAV-Datei",
       "size": "Die Datei ist zu groß (maximal 512 KB)",
       "duration": "Der Clip ist zu lang (maximal 5 Sekunden)",
       "decode": "Die Datei konnte nicht als Audio gelesen werden",
@@ -3183,7 +3272,7 @@
       "noResults": "Keine Sounds für \"{{query}}\" gefunden",
       "file": "Sounddatei",
       "chooseFile": "Datei auswählen",
-      "fileNote": "MP3, OGG oder WAV, höchstens 5 Sekunden und 512 KB",
+      "fileNote": "MP3, M4A, AAC oder WAV, höchstens 5 Sekunden und 512 KB",
       "chooseFirst": "Wähle zuerst eine Sounddatei aus",
       "name": "Name",
       "emoji": "Emoji",

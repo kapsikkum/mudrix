@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "Sei passato a {{account}} in un'altra scheda. Questa scheda verrà ricaricata per continuare come {{account}}.",
     "signedOutElsewhereTitle": "Sei stato disconnesso",
     "signedOutElsewhereMessage": "La tua sessione è stata terminata in un'altra scheda. Questa scheda verrà ricaricata.",
+    "otherTabTitle": "Mudrix è aperto in un'altra scheda",
+    "otherTabBody": "Solo una scheda può usare questo account alla volta. Le due schede sarebbero lo stesso dispositivo cifrato e i messaggi arriverebbero bloccati in una di esse.",
+    "otherTabUse": "Usa questa scheda",
+    "otherTabTakingOver": "Subentro in corso...",
     "errors": {
       "homeserver": "Impossibile raggiungere un homeserver Matrix su {{server}}.",
       "credentials": "Nome utente o password errati",
@@ -1454,7 +1458,28 @@
       "unknown": "Impossibile trovare da quale pack proviene questo sticker"
     },
     "seen": "Visto",
-    "sent": "Inviato"
+    "sent": "Inviato",
+    "linkEmbed": {
+      "consent": "Caricare questo contenuto incorporato di {{service}}? Contatta {{service}}, che può vedere il tuo indirizzo IP e i dettagli del dispositivo.",
+      "allow": "Carica contenuto",
+      "deny": "Non ora",
+      "open": "Apri su {{service}}",
+      "play": "Riproduci contenuto di {{service}}",
+      "spotifyPrompt": "Caricare il lettore Spotify? Contatta Spotify, che può vedere il tuo indirizzo IP e i dettagli del dispositivo.",
+      "spotifyPlayer": "Lettore Spotify",
+      "loadSpotify": "Carica il lettore Spotify",
+      "xLoading": "Caricamento del post da X…",
+      "xVerified": "Verificato",
+      "postFailed": "Impossibile caricare questo post",
+      "mastodonLoading": "Caricamento del post da Mastodon…",
+      "mastodonWarning": "Avviso sui contenuti: {{warning}}",
+      "via": "tramite embeds.now",
+      "loading": "Caricamento del contenuto incorporato di {{service}}…",
+      "unavailable": "Non è possibile mostrare l'anteprima di questo link di {{service}}",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Caricare questo contenuto incorporato di {{service}}? Mudrix chiede a embeds.now di recuperarlo, quindi embeds.now vede il link e il tuo indirizzo IP, non {{service}}.",
+      "openImage": "Visualizza immagine"
+    }
   },
   "call": {
     "event": {
@@ -1767,6 +1792,36 @@
         "sizeLarge": "Grande ({{px}} px)",
         "sizeMedium": "Media ({{px}} px)",
         "sizeSmall": "Piccola ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Contenuti incorporati dai link",
+        "note": "Chiedi mostra prima una richiesta. Consenti carica automaticamente il lettore o il post dal servizio, anche nelle stanze crittografate. Nascondi lascia il link come testo semplice.",
+        "ask": "Chiedi",
+        "on": "Consenti",
+        "off": "Nascondi",
+        "via": "Le schede per X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn e Tumblr sono create da embeds.now. Consentire un servizio invia i suoi link a embeds.now, che carica il post per te, quindi il tuo dispositivo non contatta mai il servizio.",
+        "groupCards": "Schede da embeds.now",
+        "groupPlayers": "Player del servizio",
+        "allowAll": "Consenti tutto",
+        "askAll": "Chiedi per tutti",
+        "hideAll": "Nascondi tutto",
+        "browserUnavailable": "La versione browser non può caricare queste schede e mostra invece un semplice link. Le app desktop e mobili sì.",
+        "bulk": "Tutti i servizi",
+        "desc": {
+          "youtube": "Player video di YouTube, si avvia con un clic",
+          "spotify": "Brani, album, playlist e podcast",
+          "x": "Post e profili con foto e video",
+          "instagram": "Post, reel e link condivisi",
+          "tiktok": "Video e post con foto",
+          "reddit": "Post con immagini e video",
+          "facebook": "Post, reel e video",
+          "threads": "Post e account",
+          "bluesky": "Post e profili",
+          "mastodon": "Post dei server più grandi",
+          "pinterest": "Pin e le loro immagini",
+          "linkedin": "Post pubblici",
+          "tumblr": "Post dei blog"
+        }
       }
     },
     "voice": {
@@ -1798,7 +1853,6 @@
         "moved": "Spostato in un altro canale",
         "watchTogetherStart": "Inizio visione condivisa"
       },
-      "title": "Voce e audio",
       "inputTitle": "Ingresso",
       "outputTitle": "Uscita",
       "cameraTitle": "Fotocamera",
@@ -1894,7 +1948,7 @@
         "fingerprintLabel": "Impronta della chiave di firma: {{fingerprint}}",
         "explain": "Mudrix salverà questa chiave e verificherà i futuri aggiornamenti su di essa.",
         "confirm": "Fidati e aggiungi",
-        "address": "Address",
+        "address": "Indirizzo",
         "runCode_other": "{{count}} integrazioni eseguono codice",
         "runCode_one": "{{count}} integrazione esegue codice"
       },
@@ -1968,7 +2022,7 @@
         "none": "Non contatta nessun server",
         "note": "Ogni altro indirizzo viene rifiutato. Non vengono inviati cookie né dati dell'account."
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "Chiave del publisher {{fingerprint}}",
       "badge": {
         "runsCode": "Esegue codice"
       },
@@ -2274,13 +2328,6 @@
       "notificationSoundsNote": "Riproduci un suono quando arriva una notifica",
       "notificationBanners": "Banner di notifica",
       "notificationBannersNote": "Mostra notifiche sul desktop",
-      "desktop": "App desktop",
-      "desktopKeepRunning": "Continua a funzionare in background",
-      "desktopKeepRunningNote": "Chiudere la finestra nasconde Mudrix nell'area di notifica così continui a ricevere notifiche. Esci dal menu dell'area di notifica.",
-      "desktopLaunchAtLogin": "Avvia all'accesso",
-      "desktopLaunchAtLoginNote": "Avvia Mudrix automaticamente quando accedi al tuo computer.",
-      "desktopStartMinimized": "Avvia minimizzato nell'area di notifica",
-      "desktopStartMinimizedNote": "Se avviato all'accesso, resta nell'area di notifica invece di aprire la finestra.",
       "messagesLabel": "Messaggi",
       "dms": "Messaggi diretti",
       "rooms": "Stanze",
@@ -2307,15 +2354,15 @@
         "entry": "{{room}} alle {{time}}",
         "cancel": "Annulla promemoria"
       },
-      "chooseSounds": "Scegli i suoni in Voce e audio",
+      "chooseSounds": "Scegli i suoni in Audio e video",
       "notificationBannersNoteTouch": "Mostra le notifiche su questo dispositivo",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "Audio e video",
+      "voice": "Audio",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2372,6 +2419,34 @@
       "unsubscribeAll": "Annulla tutte le iscrizioni",
       "noPacksMatch": "Nessun pacchetto corrisponde alla ricerca",
       "packsLoadFailed": "Impossibile caricare i pacchetti delle tue stanze."
+    },
+    "soundboard": {
+      "title": "Soundboard",
+      "defaultPack": "Pacchetto predefinito",
+      "defaultPackNote": "Il tuo pacchetto personale è disponibile in ogni chiamata.",
+      "defaultPackName": "I tuoi suoni",
+      "favoritePacks": "Pacchetti preferiti",
+      "favoritePacksNote": "Scegli pacchetti di suoni dalle tue stanze per usarli in ogni chiamata.",
+      "selectPacks": "Seleziona pacchetti",
+      "noFavoritePacks": "Ancora nessun pacchetto preferito",
+      "noPacksFound": "Nessun pacchetto di suoni trovato",
+      "removeFavorite": "Rimuovi {{name}} dai preferiti",
+      "soundCount_one": "{{count}} suono",
+      "soundCount_other": "{{count}} suoni",
+      "packName": "Nome del pacchetto",
+      "packNamePlaceholder": "I miei suoni",
+      "attribution": "Attribuzione",
+      "attributionPlaceholder": "Chi ha creato questi suoni o da dove provengono",
+      "sounds": "Suoni",
+      "addSounds": "Aggiungi suoni",
+      "noSounds": "Ancora nessun suono. Aggiungi una clip per iniziare.",
+      "name": "Nome del suono",
+      "emoji": "Emoji del suono",
+      "preview": "Anteprima",
+      "stopPreview": "Interrompi anteprima",
+      "removeSound": "Rimuovi {{name}}",
+      "limits": "MP3, M4A, AAC o WAV, fino a 5 secondi e 512 KB ciascuno.",
+      "loadFailed": "Impossibile caricare i tuoi pacchetti di suoni."
     },
     "keybinds": {
       "title": "Scorciatoie da tastiera",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Fine",
       "excludeInsecure": "Escludi le sessioni non sicure",
       "excludeInsecureNote": "Se attivo, i messaggi cifrati non vengono condivisi con le sessioni non verificate, e i messaggi inviati da sessioni non verificate vengono mostrati come errore. Potresti non riuscire a chattare con chi non ha verificato le proprie sessioni."
+    },
+    "desktop": {
+      "title": "App desktop",
+      "note": "Queste impostazioni si applicano all'app Mudrix su questo computer.",
+      "launchAtLogin": "Apri all'accesso",
+      "launchAtLoginNote": "Avvia Mudrix automaticamente quando accedi al tuo computer.",
+      "startMinimized": "Avvia minimizzata",
+      "startMinimizedNote": "Se si apre all'accesso, resta nell'area di notifica invece di mostrare la finestra.",
+      "closeToTray": "Chiudi nell'area di notifica",
+      "closeToTrayNote": "Chiudendo la finestra Mudrix resta attivo nell'area di notifica, così continui a ricevere messaggi e chiamate. Esci dall'icona nell'area di notifica.",
+      "muteNotifications": "Silenzia le notifiche",
+      "muteNotificationsNote": "Silenzia le notifiche del desktop senza chiudere l'app. Puoi cambiarlo anche dall'area di notifica.",
+      "saveFailed": "Impossibile salvare questa impostazione: {{error}}",
+      "loadFailed": "Impossibile caricare le impostazioni del desktop: {{error}}"
     },
     "about": {
       "title": "Informazioni",
@@ -3076,9 +3165,9 @@
   "whatsNew": {
     "title": "Novità",
     "fullChangelog": "Elenco completo delle modifiche su GitHub",
-    "version": "Version {{version}}",
-    "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website",
+    "version": "Versione {{version}}",
+    "dateVersion": "{{date}} · Versione {{version}}",
+    "website": "Sito web",
     "gotIt": "Ho capito",
     "titleVersion": "Novità della versione {{version}}"
   },
@@ -3142,7 +3231,7 @@
       "moderators": "Moderatori e superiori"
     },
     "error": {
-      "type": "Usa un file MP3, OGG o WAV",
+      "type": "Usa un file MP3, M4A, AAC o WAV",
       "size": "Il file è troppo grande (massimo 512 KB)",
       "duration": "La clip è troppo lunga (massimo 5 secondi)",
       "decode": "Impossibile leggere il file come audio",
@@ -3183,7 +3272,7 @@
       "noResults": "Nessun suono corrisponde a \"{{query}}\"",
       "file": "File audio",
       "chooseFile": "Scegli un file",
-      "fileNote": "MP3, OGG o WAV, fino a 5 secondi e 512 KB",
+      "fileNote": "MP3, M4A, AAC o WAV, fino a 5 secondi e 512 KB",
       "chooseFirst": "Scegli prima un file audio",
       "name": "Nome",
       "emoji": "Emoji",

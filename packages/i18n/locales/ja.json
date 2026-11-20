@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "別のタブで {{account}} に切り替えました。このタブは {{account}} として続行するために再読み込みされます。",
     "signedOutElsewhereTitle": "サインアウトしました",
     "signedOutElsewhereMessage": "別のタブでセッションが終了されました。このタブは再読み込みされます。",
+    "otherTabTitle": "Mudrix は別のタブで開いています",
+    "otherTabBody": "このアカウントを使えるタブは一度に 1 つだけです。両方のタブが同じ暗号化デバイスになり、メッセージはどちらかでロックされたまま届きます。",
+    "otherTabUse": "このタブを使う",
+    "otherTabTakingOver": "引き継いでいます...",
     "errors": {
       "homeserver": "{{server}} のMatrixホームサーバーに接続できませんでした。",
       "credentials": "ユーザー名またはパスワードが正しくありません",
@@ -1454,7 +1458,28 @@
       "unknown": "このスタンプがどのパックのものか見つかりませんでした"
     },
     "seen": "既読",
-    "sent": "送信済み"
+    "sent": "送信済み",
+    "linkEmbed": {
+      "consent": "この{{service}}の埋め込みを読み込みますか？{{service}}に接続するため、IPアドレスやデバイス情報が接続先に見えます。",
+      "allow": "埋め込みを読み込む",
+      "deny": "今はしない",
+      "open": "{{service}}で開く",
+      "play": "{{service}}の埋め込みを再生",
+      "spotifyPrompt": "Spotifyプレーヤーを読み込みますか？Spotifyに接続するため、IPアドレスやデバイス情報がSpotifyに見えます。",
+      "spotifyPlayer": "Spotifyプレーヤー",
+      "loadSpotify": "Spotifyプレーヤーを読み込む",
+      "xLoading": "Xの投稿を読み込み中…",
+      "xVerified": "認証済み",
+      "postFailed": "この投稿を読み込めませんでした",
+      "mastodonLoading": "Mastodonの投稿を読み込み中…",
+      "mastodonWarning": "コンテンツ警告: {{warning}}",
+      "via": "embeds.now 経由",
+      "loading": "{{service}}の埋め込みを読み込み中…",
+      "unavailable": "この{{service}}のリンクはプレビューできません",
+      "moreMedia": "+{{count}}",
+      "consentCard": "この{{service}}の埋め込みを読み込みますか？Mudrix が embeds.now に取得を依頼するため、リンクとIPアドレスは{{service}}ではなく embeds.now に見えます。",
+      "openImage": "画像を表示"
+    }
   },
   "call": {
     "event": {
@@ -1767,6 +1792,36 @@
         "sizeLarge": "大（{{px}} px）",
         "sizeMedium": "中（{{px}} px）",
         "sizeSmall": "小（{{px}} px）"
+      },
+      "linkEmbeds": {
+        "title": "リンクの埋め込み",
+        "note": "「確認」は先に確認メッセージを表示します。「許可」は、暗号化されたルームでも、サービスからプレーヤーや投稿を自動的に読み込みます。「非表示」はリンクをテキストのままにします。",
+        "ask": "確認",
+        "on": "許可",
+        "off": "非表示",
+        "via": "X、Instagram、TikTok、Reddit、Facebook、Threads、Bluesky、Mastodon、Pinterest、LinkedIn、Tumblr のカードは embeds.now が作成します。サービスを許可すると、そのリンクが embeds.now に送られ、投稿はそこで読み込まれるため、お使いのデバイスがサービスに直接接続することはありません。",
+        "groupCards": "embeds.now のカード",
+        "groupPlayers": "サービスのプレーヤー",
+        "allowAll": "すべて許可",
+        "askAll": "すべて確認",
+        "hideAll": "すべて非表示",
+        "browserUnavailable": "ブラウザ版ではこれらのカードを読み込めず、代わりに通常のリンクが表示されます。デスクトップ版とモバイルアプリでは読み込めます。",
+        "bulk": "すべてのサービス",
+        "desc": {
+          "youtube": "YouTube の動画プレーヤー（クリックで再生）",
+          "spotify": "曲、アルバム、プレイリスト、ポッドキャスト",
+          "x": "写真や動画付きの投稿とプロフィール",
+          "instagram": "投稿、リール、共有リンク",
+          "tiktok": "動画と写真の投稿",
+          "reddit": "画像や動画付きの投稿",
+          "facebook": "投稿、リール、動画",
+          "threads": "投稿とアカウント",
+          "bluesky": "投稿とプロフィール",
+          "mastodon": "大規模サーバーの投稿",
+          "pinterest": "ピンとその画像",
+          "linkedin": "公開投稿",
+          "tumblr": "ブログの投稿"
+        }
       }
     },
     "voice": {
@@ -1798,7 +1853,6 @@
         "moved": "別のチャンネルに移動",
         "watchTogetherStart": "一緒に視聴を開始"
       },
-      "title": "音声とオーディオ",
       "inputTitle": "入力",
       "outputTitle": "出力",
       "cameraTitle": "カメラ",
@@ -1894,7 +1948,7 @@
         "fingerprintLabel": "署名鍵のフィンガープリント: {{fingerprint}}",
         "explain": "Mudrix はこの公開鍵を保存し、今後のアップデート検証に使用します。",
         "confirm": "信頼して追加",
-        "address": "Address",
+        "address": "アドレス",
         "runCode_other": "{{count}} 件の統合機能がコードを実行します",
         "runCode_one": "{{count}} 件の統合機能がコードを実行します"
       },
@@ -1968,7 +2022,7 @@
         "none": "どのサーバーにも接続しません",
         "note": "それ以外のアドレスは拒否されます。Cookie やアカウント情報は送信されません。"
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "発行者の公開鍵 {{fingerprint}}",
       "badge": {
         "runsCode": "コードを実行"
       },
@@ -2274,13 +2328,6 @@
       "notificationSoundsNote": "通知が届いたときに音を鳴らします",
       "notificationBanners": "通知バナー",
       "notificationBannersNote": "デスクトップ通知を表示します",
-      "desktop": "デスクトップアプリ",
-      "desktopKeepRunning": "バックグラウンドで実行を継続",
-      "desktopKeepRunningNote": "ウィンドウを閉じると、Mudrix はシステムトレイに格納され、通知を受け取り続けます。終了はトレイのメニューから行えます。",
-      "desktopLaunchAtLogin": "ログイン時に起動",
-      "desktopLaunchAtLoginNote": "コンピューターにサインインしたときに Mudrix を自動的に起動します。",
-      "desktopStartMinimized": "トレイに最小化して起動",
-      "desktopStartMinimizedNote": "ログイン時に起動した場合、ウィンドウを開かずトレイに留まります。",
       "messagesLabel": "メッセージ",
       "dms": "ダイレクトメッセージ",
       "rooms": "ルーム",
@@ -2307,15 +2354,15 @@
         "entry": "{{room}} ・ {{time}}",
         "cancel": "リマインダーを取り消す"
       },
-      "chooseSounds": "音声とオーディオで音を選択",
+      "chooseSounds": "オーディオとビデオで音を選択",
       "notificationBannersNoteTouch": "このデバイスに通知を表示します",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "オーディオとビデオ",
+      "voice": "オーディオ",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2372,6 +2419,34 @@
       "unsubscribeAll": "すべて購読解除",
       "noPacksMatch": "検索に一致するパックはありません",
       "packsLoadFailed": "ルームのパックを読み込めませんでした。"
+    },
+    "soundboard": {
+      "title": "サウンドボード",
+      "defaultPack": "デフォルトのパック",
+      "defaultPackNote": "個人用のパックはすべての通話で使えます。",
+      "defaultPackName": "自分のサウンド",
+      "favoritePacks": "お気に入りのパック",
+      "favoritePacksNote": "ルームのサウンドパックを選ぶと、すべての通話で使えます。",
+      "selectPacks": "パックを選択",
+      "noFavoritePacks": "お気に入りのパックはまだありません",
+      "noPacksFound": "サウンドパックが見つかりません",
+      "removeFavorite": "{{name}}をお気に入りから削除",
+      "soundCount_one": "サウンド {{count}} 件",
+      "soundCount_other": "サウンド {{count}} 件",
+      "packName": "パック名",
+      "packNamePlaceholder": "マイサウンド",
+      "attribution": "クレジット",
+      "attributionPlaceholder": "サウンドの作成者や出典",
+      "sounds": "サウンド",
+      "addSounds": "サウンドを追加",
+      "noSounds": "サウンドはまだありません。クリップを追加して始めましょう。",
+      "name": "サウンド名",
+      "emoji": "サウンドの絵文字",
+      "preview": "プレビュー",
+      "stopPreview": "プレビューを停止",
+      "removeSound": "{{name}}を削除",
+      "limits": "MP3、M4A、AAC、WAV。各 5 秒以内、512 KB 以下。",
+      "loadFailed": "サウンドパックを読み込めませんでした。"
     },
     "keybinds": {
       "title": "キーバインド",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "完了",
       "excludeInsecure": "安全でないセッションを除外",
       "excludeInsecureNote": "オンにすると、暗号化メッセージは未検証のセッションと共有されず、未検証のセッションから送信されたメッセージはエラーとして表示されます。セッションを検証していない相手とはチャットできなくなる場合があります。"
+    },
+    "desktop": {
+      "title": "デスクトップアプリ",
+      "note": "この設定は、このコンピューター上の Mudrix アプリに適用されます。",
+      "launchAtLogin": "ログイン時に開く",
+      "launchAtLoginNote": "コンピューターにサインインしたときに Mudrix を自動的に起動します。",
+      "startMinimized": "最小化して起動",
+      "startMinimizedNote": "ログイン時に起動した場合、ウィンドウを表示せずトレイに留まります。",
+      "closeToTray": "閉じるとトレイに格納",
+      "closeToTrayNote": "ウィンドウを閉じても Mudrix はトレイで実行を続けるため、メッセージや通話を受け取れます。終了するにはトレイのアイコンから行います。",
+      "muteNotifications": "通知をミュート",
+      "muteNotificationsNote": "アプリを終了せずにデスクトップ通知を消音します。トレイからも変更できます。",
+      "saveFailed": "この設定を保存できませんでした: {{error}}",
+      "loadFailed": "デスクトップ設定を読み込めませんでした: {{error}}"
     },
     "about": {
       "title": "情報",
@@ -3076,9 +3165,9 @@
   "whatsNew": {
     "title": "新機能",
     "fullChangelog": "GitHubで変更履歴をすべて見る",
-    "version": "Version {{version}}",
-    "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website",
+    "version": "バージョン {{version}}",
+    "dateVersion": "{{date}} · バージョン {{version}}",
+    "website": "ウェブサイト",
     "gotIt": "わかりました",
     "titleVersion": "{{version}} の新機能"
   },
@@ -3142,7 +3231,7 @@
       "moderators": "モデレーター以上"
     },
     "error": {
-      "type": "MP3、OGG、WAVファイルを使用してください",
+      "type": "MP3、M4A、AAC、WAVファイルを使用してください",
       "size": "ファイルが大きすぎます（最大512 KB）",
       "duration": "クリップが長すぎます（最大5秒）",
       "decode": "このファイルを音声として読み込めませんでした",
@@ -3183,7 +3272,7 @@
       "noResults": "「{{query}}」に一致するサウンドはありません",
       "file": "サウンドファイル",
       "chooseFile": "ファイルを選択",
-      "fileNote": "MP3、OGG、WAV。5 秒以内、512 KB 以下",
+      "fileNote": "MP3、M4A、AAC、WAV。5 秒以内、512 KB 以下",
       "chooseFirst": "先にサウンドファイルを選択してください",
       "name": "名前",
       "emoji": "絵文字",

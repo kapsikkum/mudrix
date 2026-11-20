@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "Je bent in een ander tabblad overgeschakeld naar {{account}}. Dit tabblad wordt opnieuw geladen om door te gaan als {{account}}.",
     "signedOutElsewhereTitle": "Je bent afgemeld",
     "signedOutElsewhereMessage": "Je sessie is in een ander tabblad beëindigd. Dit tabblad wordt opnieuw geladen.",
+    "otherTabTitle": "Mudrix is geopend in een ander tabblad",
+    "otherTabBody": "Slechts één tabblad kan dit account tegelijk gebruiken. Beide tabbladen zouden hetzelfde versleutelde apparaat zijn en berichten komen in één ervan vergrendeld aan.",
+    "otherTabUse": "Dit tabblad gebruiken",
+    "otherTabTakingOver": "Overnemen...",
     "errors": {
       "homeserver": "Kon geen Matrix-homeserver bereiken op {{server}}.",
       "credentials": "Verkeerde gebruikersnaam of wachtwoord",
@@ -1454,7 +1458,28 @@
       "unknown": "Kon niet vinden uit welk pakket deze sticker komt"
     },
     "seen": "Gelezen",
-    "sent": "Verzonden"
+    "sent": "Verzonden",
+    "linkEmbed": {
+      "consent": "Deze {{service}}-insluiting laden? Er wordt contact gemaakt met {{service}}, dat je IP-adres en apparaatgegevens kan zien.",
+      "allow": "Insluiting laden",
+      "deny": "Niet nu",
+      "open": "Openen op {{service}}",
+      "play": "{{service}}-insluiting afspelen",
+      "spotifyPrompt": "De Spotify-speler laden? Er wordt contact gemaakt met Spotify, dat je IP-adres en apparaatgegevens kan zien.",
+      "spotifyPlayer": "Spotify-speler",
+      "loadSpotify": "Spotify-speler laden",
+      "xLoading": "Bericht van X laden…",
+      "xVerified": "Geverifieerd",
+      "postFailed": "Dit bericht kon niet worden geladen",
+      "mastodonLoading": "Bericht van Mastodon laden…",
+      "mastodonWarning": "Inhoudswaarschuwing: {{warning}}",
+      "via": "via embeds.now",
+      "loading": "{{service}}-insluiting laden…",
+      "unavailable": "Van deze {{service}}-link kan geen voorbeeld worden getoond",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Deze {{service}}-insluiting laden? Mudrix vraagt embeds.now om hem op te halen, dus embeds.now ziet de link en je IP-adres, niet {{service}}.",
+      "openImage": "Afbeelding bekijken"
+    }
   },
   "call": {
     "event": {
@@ -1767,6 +1792,36 @@
         "sizeLarge": "Groot ({{px}} px)",
         "sizeMedium": "Middel ({{px}} px)",
         "sizeSmall": "Klein ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Link-insluitingen",
+        "note": "Vragen toont eerst een melding. Toestaan laadt de speler of het bericht automatisch van de dienst, ook in versleutelde kamers. Verbergen laat de link als gewone tekst staan.",
+        "ask": "Vragen",
+        "on": "Toestaan",
+        "off": "Verbergen",
+        "via": "Kaarten voor X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn en Tumblr worden gemaakt door embeds.now. Als je een dienst toestaat, worden de links naar embeds.now gestuurd, dat het bericht voor je laadt, zodat je apparaat nooit zelf contact maakt met de dienst.",
+        "groupCards": "Kaarten van embeds.now",
+        "groupPlayers": "Spelers van de dienst",
+        "allowAll": "Alles toestaan",
+        "askAll": "Overal vragen",
+        "hideAll": "Alles verbergen",
+        "browserUnavailable": "De browserversie kan deze kaarten niet laden en toont in plaats daarvan een gewone link. De desktop- en mobiele apps kunnen dat wel.",
+        "bulk": "Alle diensten",
+        "desc": {
+          "youtube": "Videospeler van YouTube, start met een klik",
+          "spotify": "Nummers, albums, afspeellijsten en podcasts",
+          "x": "Berichten en profielen met foto's en video",
+          "instagram": "Berichten, reels en gedeelde links",
+          "tiktok": "Video's en fotoberichten",
+          "reddit": "Berichten met afbeeldingen en video",
+          "facebook": "Berichten, reels en video's",
+          "threads": "Berichten en accounts",
+          "bluesky": "Berichten en profielen",
+          "mastodon": "Berichten van grote servers",
+          "pinterest": "Pins met hun afbeeldingen",
+          "linkedin": "Openbare berichten",
+          "tumblr": "Blogberichten"
+        }
       }
     },
     "voice": {
@@ -1798,7 +1853,6 @@
         "moved": "Naar ander kanaal verplaatst",
         "watchTogetherStart": "Samen kijken begint"
       },
-      "title": "Spraak & audio",
       "inputTitle": "Invoer",
       "outputTitle": "Uitvoer",
       "cameraTitle": "Camera",
@@ -1894,7 +1948,7 @@
         "fingerprintLabel": "Vingerafdruk van de ondertekeningssleutel: {{fingerprint}}",
         "explain": "Mudrix slaat deze sleutel op en controleert toekomstige updates aan de hand hiervan.",
         "confirm": "Vertrouwen en toevoegen",
-        "address": "Address",
+        "address": "Adres",
         "runCode_other": "{{count}} integraties voeren code uit",
         "runCode_one": "{{count}} integratie voert code uit"
       },
@@ -1968,7 +2022,7 @@
         "none": "Het benadert geen enkele server",
         "note": "Elk ander adres wordt geweigerd. Er worden geen cookies of accountgegevens verstuurd."
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "Sleutel van uitgever {{fingerprint}}",
       "badge": {
         "runsCode": "Voert code uit"
       },
@@ -2274,13 +2328,6 @@
       "notificationSoundsNote": "Speel een geluid af wanneer er een melding binnenkomt",
       "notificationBanners": "Meldingsbanners",
       "notificationBannersNote": "Bureaubladmeldingen tonen",
-      "desktop": "Bureaubladapp",
-      "desktopKeepRunning": "Op de achtergrond blijven draaien",
-      "desktopKeepRunningNote": "Als je het venster sluit, wordt Mudrix naar het systeemvak verborgen zodat je meldingen blijft ontvangen. Sluit af via het menu in het systeemvak.",
-      "desktopLaunchAtLogin": "Starten bij aanmelden",
-      "desktopLaunchAtLoginNote": "Start Mudrix automatisch wanneer je je op je computer aanmeldt.",
-      "desktopStartMinimized": "Geminimaliseerd naar systeemvak starten",
-      "desktopStartMinimizedNote": "Wanneer het bij het aanmelden wordt gestart, blijft het in het systeemvak in plaats van het venster te openen.",
       "messagesLabel": "Berichten",
       "dms": "Directe berichten",
       "rooms": "Kamers",
@@ -2307,15 +2354,15 @@
         "entry": "{{room}} om {{time}}",
         "cancel": "Herinnering annuleren"
       },
-      "chooseSounds": "Kies geluiden in Spraak & audio",
+      "chooseSounds": "Kies geluiden in Audio & video",
       "notificationBannersNoteTouch": "Meldingen op dit apparaat tonen",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "Audio & video",
+      "voice": "Audio",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2372,6 +2419,34 @@
       "unsubscribeAll": "Alles opzeggen",
       "noPacksMatch": "Geen pakketten die overeenkomen met je zoekopdracht",
       "packsLoadFailed": "Kon de packs in je kamers niet laden."
+    },
+    "soundboard": {
+      "title": "Soundboard",
+      "defaultPack": "Standaardpakket",
+      "defaultPackNote": "Je persoonlijke pakket is beschikbaar in elk gesprek.",
+      "defaultPackName": "Jouw geluiden",
+      "favoritePacks": "Favoriete pakketten",
+      "favoritePacksNote": "Kies geluidspakketten uit je kamers om ze in elk gesprek te gebruiken.",
+      "selectPacks": "Pakketten kiezen",
+      "noFavoritePacks": "Nog geen favoriete pakketten",
+      "noPacksFound": "Geen geluidspakketten gevonden",
+      "removeFavorite": "{{name}} uit favorieten verwijderen",
+      "soundCount_one": "{{count}} geluid",
+      "soundCount_other": "{{count}} geluiden",
+      "packName": "Pakketnaam",
+      "packNamePlaceholder": "Mijn geluiden",
+      "attribution": "Bronvermelding",
+      "attributionPlaceholder": "Wie deze geluiden heeft gemaakt, of waar ze vandaan komen",
+      "sounds": "Geluiden",
+      "addSounds": "Geluiden toevoegen",
+      "noSounds": "Nog geen geluiden. Voeg een clip toe om te beginnen.",
+      "name": "Geluidsnaam",
+      "emoji": "Emoji van het geluid",
+      "preview": "Voorbeeld",
+      "stopPreview": "Voorbeeld stoppen",
+      "removeSound": "{{name}} verwijderen",
+      "limits": "MP3, M4A, AAC of WAV, maximaal 5 seconden en 512 KB per stuk.",
+      "loadFailed": "Je geluidspakketten konden niet worden geladen."
     },
     "keybinds": {
       "title": "Sneltoetsen",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Klaar",
       "excludeInsecure": "Onveilige sessies uitsluiten",
       "excludeInsecureNote": "Als dit aan staat, worden versleutelde berichten niet gedeeld met niet-geverifieerde sessies en worden berichten die vanuit niet-geverifieerde sessies zijn verstuurd als fout getoond. Mogelijk kun je niet chatten met mensen die hun sessies niet hebben geverifieerd."
+    },
+    "desktop": {
+      "title": "Desktop-app",
+      "note": "Deze instellingen gelden voor de Mudrix-app op deze computer.",
+      "launchAtLogin": "Openen bij aanmelden",
+      "launchAtLoginNote": "Start Mudrix automatisch wanneer je je op je computer aanmeldt.",
+      "startMinimized": "Geminimaliseerd starten",
+      "startMinimizedNote": "Als de app bij het aanmelden opent, blijft hij in het systeemvak in plaats van het venster te tonen.",
+      "closeToTray": "Sluiten naar systeemvak",
+      "closeToTrayNote": "Als je het venster sluit, blijft Mudrix draaien in het systeemvak, zodat je berichten en gesprekken blijft ontvangen. Sluit af via het pictogram in het systeemvak.",
+      "muteNotifications": "Meldingen dempen",
+      "muteNotificationsNote": "Demp desktopmeldingen zonder af te sluiten. Je kunt dit ook via het systeemvak wijzigen.",
+      "saveFailed": "Deze instelling kon niet worden opgeslagen: {{error}}",
+      "loadFailed": "De desktopinstellingen konden niet worden geladen: {{error}}"
     },
     "about": {
       "title": "Over",
@@ -3076,8 +3165,8 @@
   "whatsNew": {
     "title": "Wat is er nieuw",
     "fullChangelog": "Volledige changelog op GitHub",
-    "version": "Version {{version}}",
-    "dateVersion": "{{date}} · Version {{version}}",
+    "version": "Versie {{version}}",
+    "dateVersion": "{{date}} · Versie {{version}}",
     "website": "Website",
     "gotIt": "Begrepen",
     "titleVersion": "Wat is er nieuw in {{version}}"
@@ -3142,7 +3231,7 @@
       "moderators": "Moderators en hoger"
     },
     "error": {
-      "type": "Gebruik een MP3-, OGG- of WAV-bestand",
+      "type": "Gebruik een MP3-, M4A-, AAC- of WAV-bestand",
       "size": "Het bestand is te groot (maximaal 512 KB)",
       "duration": "De clip is te lang (maximaal 5 seconden)",
       "decode": "Dit bestand kon niet als audio worden gelezen",
@@ -3183,7 +3272,7 @@
       "noResults": "Geen geluiden gevonden voor \"{{query}}\"",
       "file": "Geluidsbestand",
       "chooseFile": "Kies een bestand",
-      "fileNote": "MP3, OGG of WAV, maximaal 5 seconden en 512 KB",
+      "fileNote": "MP3, M4A, AAC of WAV, maximaal 5 seconden en 512 KB",
       "chooseFirst": "Kies eerst een geluidsbestand",
       "name": "Naam",
       "emoji": "Emoji",

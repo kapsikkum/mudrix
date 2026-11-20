@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "You switched to {{account}} in another tab. This tab will reload to continue as {{account}}.",
     "signedOutElsewhereTitle": "You were signed out",
     "signedOutElsewhereMessage": "Your session was ended in another tab. This tab will reload.",
+    "otherTabTitle": "Mudrix is open in another tab",
+    "otherTabBody": "Only one tab can use this account at a time. Both tabs would be the same encrypted device, and messages would arrive locked in one of them.",
+    "otherTabUse": "Use this tab",
+    "otherTabTakingOver": "Taking over...",
     "errors": {
       "homeserver": "Couldn't reach a Matrix homeserver at {{server}}.",
       "credentials": "Wrong username or password",
@@ -1454,7 +1458,28 @@
       "unknown": "Couldn't find which pack this sticker is from"
     },
     "seen": "Seen",
-    "sent": "Sent"
+    "sent": "Sent",
+    "linkEmbed": {
+      "consent": "Load this {{service}} embed? It contacts {{service}}, which can see your IP address and device details.",
+      "allow": "Load embed",
+      "deny": "Not now",
+      "open": "Open on {{service}}",
+      "play": "Play {{service}} embed",
+      "spotifyPrompt": "Load the Spotify player? It contacts Spotify, which can see your IP address and device details.",
+      "spotifyPlayer": "Spotify player",
+      "loadSpotify": "Load Spotify player",
+      "xLoading": "Loading post from X…",
+      "xVerified": "Verified",
+      "postFailed": "Could not load this post",
+      "mastodonLoading": "Loading post from Mastodon…",
+      "mastodonWarning": "Content warning: {{warning}}",
+      "via": "via embeds.now",
+      "loading": "Loading {{service}} embed…",
+      "unavailable": "This {{service}} link can't be previewed",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Load this {{service}} embed? Mudrix asks embeds.now to fetch it, so embeds.now sees the link and your IP address, not {{service}}.",
+      "openImage": "View image"
+    }
   },
   "call": {
     "event": {
@@ -1767,6 +1792,36 @@
         "sizeLarge": "Large ({{px}} px)",
         "sizeMedium": "Medium ({{px}} px)",
         "sizeSmall": "Small ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Link embeds",
+        "note": "Ask shows a prompt first. Allow loads the player or post from the service automatically, even in encrypted rooms. Hide leaves the link as plain text.",
+        "ask": "Ask",
+        "on": "Allow",
+        "off": "Hide",
+        "via": "Cards for X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn and Tumblr are built by embeds.now. Allowing a service sends its links to embeds.now, which loads the post for you, so your device never contacts the service itself.",
+        "groupCards": "Cards from embeds.now",
+        "groupPlayers": "Players from the service",
+        "allowAll": "Allow all",
+        "askAll": "Ask for all",
+        "hideAll": "Hide all",
+        "browserUnavailable": "The browser version can't load these cards and shows a plain link instead. The desktop and mobile apps can.",
+        "bulk": "All services",
+        "desc": {
+          "youtube": "Click-to-play video player from YouTube",
+          "spotify": "Tracks, albums, playlists and podcasts",
+          "x": "Posts and profiles with photos and video",
+          "instagram": "Posts, reels and shared links",
+          "tiktok": "Videos and photo posts",
+          "reddit": "Posts with images and video",
+          "facebook": "Posts, reels and videos",
+          "threads": "Posts and accounts",
+          "bluesky": "Posts and profiles",
+          "mastodon": "Posts from large servers",
+          "pinterest": "Pins and their pictures",
+          "linkedin": "Public posts",
+          "tumblr": "Blog posts"
+        }
       }
     },
     "voice": {
@@ -1798,7 +1853,6 @@
         "moved": "Moved to another channel",
         "watchTogetherStart": "Watch together starts"
       },
-      "title": "Voice & Audio",
       "inputTitle": "Input",
       "outputTitle": "Output",
       "cameraTitle": "Camera",
@@ -2274,13 +2328,6 @@
       "notificationSoundsNote": "Play a sound when a notification arrives",
       "notificationBanners": "Notification banners",
       "notificationBannersNote": "Show desktop notifications",
-      "desktop": "Desktop app",
-      "desktopKeepRunning": "Keep running in the background",
-      "desktopKeepRunningNote": "Closing the window hides Mudrix to the system tray so you keep getting notifications. Quit from the tray menu.",
-      "desktopLaunchAtLogin": "Launch at login",
-      "desktopLaunchAtLoginNote": "Start Mudrix automatically when you sign in to your computer.",
-      "desktopStartMinimized": "Start minimised to tray",
-      "desktopStartMinimizedNote": "When started at login, stay in the tray instead of opening the window.",
       "messagesLabel": "Messages",
       "dms": "Direct messages",
       "rooms": "Rooms",
@@ -2307,15 +2354,15 @@
         "entry": "{{room}} at {{time}}",
         "cancel": "Cancel reminder"
       },
-      "chooseSounds": "Choose sounds in Voice & Audio",
+      "chooseSounds": "Choose sounds in Audio & Video",
       "notificationBannersNoteTouch": "Show notifications on this device",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "Audio & Video",
+      "voice": "Audio",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2372,6 +2419,34 @@
       "unsubscribeAll": "Unsubscribe all",
       "noPacksMatch": "No packs match your search",
       "packsLoadFailed": "Couldn’t load the packs in your rooms."
+    },
+    "soundboard": {
+      "title": "Soundboard",
+      "defaultPack": "Default Pack",
+      "defaultPackNote": "Your personal pack is available in every call.",
+      "defaultPackName": "Your sounds",
+      "favoritePacks": "Favorite Packs",
+      "favoritePacksNote": "Pick sound packs from your rooms to use them in every call.",
+      "selectPacks": "Select Packs",
+      "noFavoritePacks": "No favorite packs yet",
+      "noPacksFound": "No sound packs found",
+      "removeFavorite": "Remove {{name}} from favorites",
+      "soundCount_one": "{{count}} sound",
+      "soundCount_other": "{{count}} sounds",
+      "packName": "Pack name",
+      "packNamePlaceholder": "My sounds",
+      "attribution": "Attribution",
+      "attributionPlaceholder": "Who made these sounds, or where they are from",
+      "sounds": "Sounds",
+      "addSounds": "Add sounds",
+      "noSounds": "No sounds yet. Add a clip to get started.",
+      "name": "Sound name",
+      "emoji": "Sound emoji",
+      "preview": "Preview",
+      "stopPreview": "Stop preview",
+      "removeSound": "Remove {{name}}",
+      "limits": "MP3, M4A, AAC or WAV, up to 5 seconds and 512 KB each.",
+      "loadFailed": "Couldn't load your sound packs."
     },
     "keybinds": {
       "title": "Keybinds",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Done",
       "excludeInsecure": "Exclude insecure sessions",
       "excludeInsecureNote": "When on, encrypted messages aren't shared with unverified sessions, and messages sent from unverified sessions show as an error. You might not be able to chat with people who haven't verified their sessions."
+    },
+    "desktop": {
+      "title": "Desktop app",
+      "note": "These settings apply to the Mudrix app on this computer.",
+      "launchAtLogin": "Open when you log in",
+      "launchAtLoginNote": "Start Mudrix automatically when you sign in to your computer.",
+      "startMinimized": "Start minimised",
+      "startMinimizedNote": "When it opens at login, stay in the tray instead of showing the window.",
+      "closeToTray": "Close to tray",
+      "closeToTrayNote": "Closing the window keeps Mudrix running in the tray, so you still get messages and calls. Quit it from the tray icon.",
+      "muteNotifications": "Mute notifications",
+      "muteNotificationsNote": "Silence desktop notifications without quitting. You can change this from the tray too.",
+      "saveFailed": "Couldn't save this setting: {{error}}",
+      "loadFailed": "Couldn't load the desktop settings: {{error}}"
     },
     "about": {
       "title": "About",
@@ -3142,7 +3231,7 @@
       "moderators": "Moderators and up"
     },
     "error": {
-      "type": "Use an MP3, OGG or WAV file",
+      "type": "Use an MP3, M4A, AAC or WAV file",
       "size": "The file is too large (512 KB at most)",
       "duration": "The clip is too long (5 seconds at most)",
       "decode": "That file could not be read as audio",
@@ -3183,7 +3272,7 @@
       "noResults": "No sounds match \"{{query}}\"",
       "file": "Sound file",
       "chooseFile": "Choose a file",
-      "fileNote": "MP3, OGG or WAV, up to 5 seconds and 512 KB",
+      "fileNote": "MP3, M4A, AAC or WAV, up to 5 seconds and 512 KB",
       "chooseFirst": "Choose a sound file first",
       "name": "Name",
       "emoji": "Emoji",
