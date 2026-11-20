@@ -20,7 +20,7 @@ struct SettingsView: View {
     }
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, media, integrations, emojis, activity, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, emojis, cosmetics, soundboard, media, integrations, activity, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
         var name: String { NSLocalizedString(titleKey, comment: "") }
@@ -32,6 +32,8 @@ struct SettingsView: View {
             case .media: return "settings.media.title"
             case .integrations: return "settings.integrations.title"
             case .emojis: return "room.settings.emojis.title"
+            case .cosmetics: return "settings.cosmetics.title"
+            case .soundboard: return "settings.soundboard.title"
             case .activity: return "settings.activity.title"
             case .notifications: return "settings.notifications.title"
             case .voiceVideo: return "settings.voiceVideo.title"
@@ -52,6 +54,8 @@ struct SettingsView: View {
             case .media: return "ph-film-strip-regular"
             case .integrations: return "ph-plugs-connected-regular"
             case .emojis: return "ph-smiley-sticker-regular"
+            case .cosmetics: return "ph-sparkle-regular"
+            case .soundboard: return "ph-speaker-high-regular"
             case .activity: return "ph-play-fill"
             case .notifications: return "ph-bell-regular"
             case .voiceVideo: return "ph-microphone-regular"
@@ -103,7 +107,7 @@ struct SettingsView: View {
                 .listRowBackground(theme.groupedRow)
 
                 Section {
-                    ForEach([Page.privacy, .media, .integrations, .notifications, .emojis, .activity]) { pageRow($0) }
+                    ForEach([Page.privacy, .notifications, .emojis, .cosmetics, .soundboard, .media, .activity, .integrations]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.voiceVideo, .appearance, .accessibility, .language]) { pageRow($0) }
@@ -128,6 +132,8 @@ struct SettingsView: View {
                 case .media: MediaSettings()
                 case .integrations: IntegrationsSettings()
                 case .emojis: EmojisSettings()
+                case .cosmetics: CosmeticSettings()
+                case .soundboard: SoundboardSettings()
                 case .activity: ActivitySettings()
                 case .notifications: NotificationSettingsPage()
                 case .voiceVideo: VoiceVideoSettings()

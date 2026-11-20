@@ -81,6 +81,7 @@ struct MainTabView: View {
             Button(String(localized: "common.ok"), role: .cancel) {}
         }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
+        .onChange(of: readRooms, initial: true) { _, _ in notifier.clearRead(roomList.joinedRooms) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
         .fullScreenCover(isPresented: Binding(get: {
             session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil
@@ -97,7 +98,9 @@ struct MainTabView: View {
             sendShared()
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { sendShared() }
+            guard phase == .active else { return }
+            notifier.clearRead(roomList.joinedRooms)
+            sendShared()
         }
         .onChange(of: roomList.isLoaded, initial: true) { _, loaded in
             if loaded { sendShared() }
@@ -193,6 +196,12 @@ struct MainTabView: View {
     @MainActor
     private var totalUnread: Int {
         roomList.joinedRooms.reduce(0) { $0 + Int($1.unreadCount) }
+    }
+
+    @MainActor
+    private var readRooms: [String] {
+        roomList.joinedRooms.filter { $0.unreadCount == 0 && $0.mentionCount == 0 }
+            .map { "\($0.id)|\($0.lastActivity ?? 0)" }
     }
 
     @ViewBuilder

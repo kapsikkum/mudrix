@@ -99,7 +99,7 @@ struct RoomMemberProfileSection: View {
     private func setPhoto(_ item: PhotosPickerItem) async {
         defer { photo = nil }
         guard let data = try? await item.loadTransferable(type: Data.self),
-              let image = UIImage(data: data),
+              let image = AnimatedImage.image(from: data, animated: false),
               let jpeg = Self.squareJpeg(image) else { return }
         await run { try await client.setRoomMemberAvatar(roomId: roomId, data: jpeg, mimetype: "image/jpeg") }
     }

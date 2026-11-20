@@ -149,6 +149,7 @@ struct MudrixApp: App {
         await session.applyPresence(prefs.showPresence, choice: prefs.presenceChoice)
         await session.ensureMudrixUserFlag()
         if let roomList = session.roomList {
+            roomList.prefs = prefs
             notifier.start(roomList: roomList, prefs: prefs)
         }
         Push.client = { [weak session] in session?.client }

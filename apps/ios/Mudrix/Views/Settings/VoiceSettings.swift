@@ -1,3 +1,4 @@
+import MudrixCore
 import SwiftUI
 
 /// Microphone processing, applied to the next call. A section of Settings > Voice & Video
@@ -18,10 +19,9 @@ struct VoiceProcessingSection: View {
 }
 
 /// The Mudrix-only sections of Settings > Voice & Video: call display and moves between voice rooms, sound
-/// effects and the soundboard on this device. Meant to be placed inside the page by `VoiceVideoSettings`.
+/// effects on this device. Meant to be placed inside the page by `VoiceVideoSettings`.
 struct VoiceSettings: View {
     @EnvironmentObject private var prefs: AppPreferences
-    @Environment(\.theme) private var theme
 
     var body: some View {
         SettingsSection(title: "settings.voice.callTitle") {
@@ -31,7 +31,6 @@ struct VoiceSettings: View {
             ToggleRow(label: "settings.voice.allowMoves", note: "settings.voice.allowMovesNote", isOn: $prefs.allowVoiceMoves)
         }
         soundEffects
-        soundboard
     }
 
     // MARK: Sound effects
@@ -109,7 +108,43 @@ struct VoiceSettings: View {
         }
     }
 
-    // MARK: Soundboard
+}
+
+/// Settings > Soundboard: the on-this-device switch, volume and muted people, the default (personal) pack and the
+/// room packs favourited into every call
+struct SoundboardSettings: View {
+    @EnvironmentObject private var prefs: AppPreferences
+    @EnvironmentObject private var session: MatrixSession
+    @Environment(\.theme) private var theme
+    @StateObject private var previewer = SoundPreviewPlayer()
+    @State private var mine: MudrixCore.SoundPack?
+    @State private var mineFailed = false
+    @State private var favorites: [MudrixCore.SoundPack]?
+    @State private var favoritesFailed = false
+    @State private var editingDefault = false
+    @State private var selecting = false
+
+    var body: some View {
+        SettingsPage(title: "settings.soundboard.title") {
+            soundboard
+            muted
+            if session.client != nil {
+                defaultPack
+                favoritePacks
+            }
+        }
+        .task { await loadMine() }
+        .task { await loadFavorites() }
+        .onDisappear { previewer.stop() }
+        .sheet(isPresented: $editingDefault) {
+            PersonalPackSheet { Task { await loadMine() } }
+        }
+        .sheet(isPresented: $selecting) {
+            SoundPackSelectionSheet { pack, everywhere in Task { await setEverywhere(pack, everywhere) } }
+        }
+    }
+
+    // MARK: This device
 
     private var soundboard: some View {
         SettingsSection(title: "settings.voice.soundboardTitle") {
@@ -117,22 +152,193 @@ struct VoiceSettings: View {
                       isOn: $prefs.soundboardEnabled)
             VolumeRow(label: "settings.voice.soundboardVolume", volume: prefs.soundboardVolume,
                       onCommit: { prefs.soundboardVolume = $0 }, onPreview: nil)
+                .disabled(!prefs.soundboardEnabled)
+            Button { Task { await playTestClip() } } label: {
+                Label(String(localized: "settings.voice.soundboardPreview"), image: "ph-play-fill")
+            }
+            .buttonStyle(SecondaryButtonStyle())
+            .disabled(!prefs.soundboardEnabled || session.client == nil)
+        }
+    }
+
+    private var muted: some View {
+        SettingsSection(title: "settings.voice.soundboardMuted",
+                        note: prefs.soundboardMutedUsers.isEmpty ? nil : "settings.voice.soundboardMutedNote") {
             if prefs.soundboardMutedUsers.isEmpty {
                 Text(String(localized: "settings.voice.soundboardMutedNone"))
                     .font(.wizard(WZ.FontSize.sm))
                     .foregroundStyle(theme.textMuted)
             } else {
                 ForEach(prefs.soundboardMutedUsers.sorted(), id: \.self) { userId in
-                    HStack {
-                        Text(userId).lineLimit(1).truncationMode(.middle)
-                        Spacer()
-                        Button(String(localized: "settings.voice.soundboardUnmute")) {
-                            prefs.soundboardMutedUsers.removeAll { $0 == userId }
-                        }
-                        .buttonStyle(.borderless)
-                    }
+                    MutedUserRow(userId: userId) { prefs.soundboardMutedUsers.removeAll { $0 == userId } }
                 }
             }
+        }
+    }
+
+    /// The standard sound at the configured volume (the first of the core's built-in pack, as the web page plays)
+    private func playTestClip() async {
+        guard let client = session.client else { return }
+        let packs = (try? await client.soundboardPacks(roomId: nil)) ?? []
+        guard let sample = packs.first(where: { $0.source == .builtIn })?.sounds.first,
+              await previewer.toggle(url: sample.url, client: client, volume: prefs.soundboardVolume) else {
+            CopyToast.shared.show(String(localized: "soundboard.play.error"))
+            return
+        }
+    }
+
+    // MARK: Default pack
+
+    private var defaultPack: some View {
+        SettingsSection(title: "settings.soundboard.defaultPack", note: "settings.soundboard.defaultPackNote") {
+            if mineFailed {
+                Text(String(localized: "settings.soundboard.loadFailed"))
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            } else if let mine {
+                let name = mine.name.flatMap { $0.isEmpty ? nil : $0 } ?? String(localized: "settings.soundboard.defaultPackName")
+                let count = L10n.plural("settings.soundboard.soundCount", count: mine.sounds.count, mine.sounds.count)
+                let note = mine.attribution.flatMap { $0.isEmpty ? nil : $0 }
+                PackCard(emoji: mine.sounds.first?.emoji, title: name, meta: note.map { "\($0) Â· \(count)" } ?? count) {
+                    Button { editingDefault = true } label: {
+                        Label(String(localized: "common.edit"), image: "ph-pencil-simple-regular")
+                            .font(.wizard(WZ.FontSize.md, .medium))
+                    }
+                    .buttonStyle(.borderless)
+                }
+                ForEach(mine.sounds, id: \.shortcode) { sound in
+                    PackSoundRow(sound: sound, playing: previewer.playing == sound.url) {
+                        Task { _ = await previewer.toggle(url: sound.url, client: session.client, volume: prefs.soundboardVolume) }
+                    }
+                }
+            } else {
+                HStack { Spacer(); ProgressView(); Spacer() }
+            }
+        }
+    }
+
+    private func loadMine() async {
+        guard let client = session.client else { return }
+        do {
+            mine = try await client.mySounds()
+            mineFailed = false
+        } catch {
+            if mine == nil { mineFailed = true }
+        }
+    }
+
+    // MARK: Favorite packs
+
+    private var favoritePacks: some View {
+        SettingsSection(title: "settings.soundboard.favoritePacks", note: "settings.soundboard.favoritePacksNote") {
+            if favoritesFailed {
+                Text(String(localized: "settings.soundboard.loadFailed"))
+                    .font(.wizard(WZ.FontSize.sm))
+                    .foregroundStyle(theme.textMuted)
+            } else if let favorites {
+                if favorites.isEmpty {
+                    Text(String(localized: "settings.soundboard.noFavoritePacks"))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
+                }
+                ForEach(favorites, id: \.id) { pack in
+                    let name = pack.name ?? ""
+                    let count = L10n.plural("settings.soundboard.soundCount", count: pack.sounds.count, pack.sounds.count)
+                    PackCard(emoji: nil, title: name, meta: "\(pack.roomName ?? pack.roomId ?? "") Â· \(count)") {
+                        Button { Task { await setEverywhere(pack, false) } } label: {
+                            Image("ph-x-regular")
+                                .font(.system(size: WZ.SizeIcon.md))
+                                .foregroundStyle(theme.textMuted)
+                                .minTouchTarget()
+                        }
+                        .buttonStyle(.borderless)
+                        .accessibilityLabel(L10n.format("settings.soundboard.removeFavorite", name))
+                    }
+                }
+            } else {
+                HStack { Spacer(); ProgressView(); Spacer() }
+            }
+            Button { selecting = true } label: { Text(String(localized: "settings.soundboard.selectPacks")) }
+                .buttonStyle(SecondaryButtonStyle())
+        }
+    }
+
+    private func loadFavorites() async {
+        guard let client = session.client else { return }
+        do {
+            favorites = try await client.favoriteSoundPacks()
+            favoritesFailed = false
+        } catch {
+            favorites = []
+            favoritesFailed = true
+        }
+    }
+
+    /// Adds or drops a pack at once and puts the list back when the core refuses
+    private func setEverywhere(_ pack: MudrixCore.SoundPack, _ everywhere: Bool) async {
+        guard let client = session.client, let roomId = pack.roomId, !roomId.isEmpty,
+              let stateKey = pack.stateKey, !stateKey.isEmpty else { return }
+        let before = favorites ?? []
+        var added = pack
+        added.everywhere = true
+        favorites = before.filter { $0.id != pack.id } + (everywhere ? [added] : [])
+        favoritesFailed = false
+        do {
+            try await client.setSoundPackEverywhere(roomId: roomId, stateKey: stateKey, everywhere: everywhere)
+        } catch {
+            favorites = before
+            CopyToast.shared.show(L10n.format("common.saveFailed", error.localizedDescription))
+        }
+    }
+}
+
+/// A pack in the list: a tile with its first clip's emoji, a title and a line under it, and a control at the end
+private struct PackCard<Trailing: View>: View {
+    let emoji: String?
+    let title: String
+    let meta: String
+    @ViewBuilder let trailing: () -> Trailing
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        HStack(spacing: WZ.Space.space5) {
+            Group {
+                if let emoji, !emoji.isEmpty {
+                    Text(emoji).font(.system(size: 22))
+                } else {
+                    Image("ph-speaker-high-regular")
+                        .font(.system(size: WZ.SizeIcon.md))
+                        .foregroundStyle(theme.textMuted)
+                }
+            }
+            .frame(width: 40, height: 40)
+            .background(theme.fill, in: RoundedRectangle(cornerRadius: WZ.Radius.lg, style: .continuous))
+            VStack(alignment: .leading, spacing: WZ.Space.space1) {
+                Text(title).font(.wizard(WZ.FontSize.lg, .medium)).foregroundStyle(theme.textPrimary).lineLimit(1)
+                Text(meta).font(.wizard(WZ.FontSize.sm)).foregroundStyle(theme.textMuted).lineLimit(2)
+            }
+            Spacer(minLength: WZ.Space.space3)
+            trailing()
+        }
+    }
+}
+
+/// A muted person: their display name when the profile can be read, else their user id
+private struct MutedUserRow: View {
+    let userId: String
+    let onUnmute: () -> Void
+    @EnvironmentObject private var session: MatrixSession
+    @State private var name: String?
+
+    var body: some View {
+        HStack {
+            Text(name ?? userId).lineLimit(1).truncationMode(.middle)
+            Spacer()
+            Button(String(localized: "settings.voice.soundboardUnmute"), action: onUnmute)
+                .buttonStyle(.borderless)
+        }
+        .task(id: userId) {
+            if let found = await session.profile(of: userId)?.displayName, !found.isEmpty { name = found }
         }
     }
 }

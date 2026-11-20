@@ -22,10 +22,8 @@ struct MediaSettings: View {
             SettingsSection(title: "settings.media.viewing") {
                 PickerRow(label: "settings.privacy.mediaVisibility", selection: $prefs.mediaVisibility,
                           options: [(.always, "settings.privacy.mediaVisibilityAlways"), (.private, "settings.privacy.mediaVisibilityPrivate"), (.never, "settings.privacy.mediaVisibilityNever")])
-                PickerRow(label: "settings.privacy.youtubeEmbeds", note: "settings.privacy.youtubeEmbedsNote",
-                          selection: $prefs.youtubeEmbeds,
-                          options: [(.ask, "settings.privacy.youtubeEmbedsAsk"), (.on, "settings.privacy.youtubeEmbedsOn"), (.off, "settings.privacy.youtubeEmbedsOff")])
             }
+            linkEmbedsSections
             SettingsSection(title: "settings.media.photoUpload.title") {
                 ToggleRow(label: "settings.media.photoUpload.strip", note: "settings.media.photoUpload.stripNote",
                           isOn: $prefs.photoStripMetadata)
@@ -51,6 +49,46 @@ struct MediaSettings: View {
         }
     }
 
+    // MARK: Link embeds
+
+    private var bulkMode: Binding<LinkEmbedMode?> {
+        Binding(
+            get: {
+                let modes = Set(LinkEmbedService.allCases.map { prefs[keyPath: $0.modeKey] })
+                return modes.count == 1 ? modes.first : nil
+            },
+            set: { mode in
+                guard let mode else { return }
+                for service in LinkEmbedService.allCases { prefs[keyPath: service.modeKey] = mode }
+            })
+    }
+
+    @ViewBuilder
+    private var linkEmbedsSections: some View {
+        SettingsSection(title: "settings.media.linkEmbeds.title", note: "settings.media.linkEmbeds.note") {
+            VStack(alignment: .leading, spacing: WZ.Space.space4) {
+                Text("settings.media.linkEmbeds.bulk")
+                    .font(.wizard(WZ.FontSize.lg))
+                    .foregroundStyle(theme.textPrimary)
+                LinkEmbedModePicker(title: "settings.media.linkEmbeds.bulk", selection: bulkMode, bulk: true)
+            }
+            .padding(.vertical, WZ.Space.space2)
+        }
+        SettingsSection(title: "settings.media.linkEmbeds.groupPlayers") {
+            ForEach(LinkEmbedService.players) { service in
+                LinkEmbedServiceRow(service: service)
+            }
+        }
+        SettingsSection(title: "settings.media.linkEmbeds.groupCards") {
+            Text("settings.media.linkEmbeds.via")
+                .font(.wizard(WZ.FontSize.sm))
+                .foregroundStyle(theme.textMuted)
+                .fixedSize(horizontal: false, vertical: true)
+            ForEach(LinkEmbedService.cards) { service in
+                LinkEmbedServiceRow(service: service)
+            }
+        }
+    }
     private static func photoSizeLabel(_ size: PhotoUploadSize) -> String {
         switch size {
         case .original: return String(localized: "settings.media.photoUpload.sizeOriginal")
@@ -146,5 +184,73 @@ struct MediaSettings: View {
                                "\(plan.height)", sizeText(min(Int64(plan.estimatedBytes), original)))
         }
         return L10n.format("settings.media.videoUpload.exampleSame", "\(minutes)", sizeText(original))
+    }
+}
+
+/// Ask / Allow / Hide as a segmented control; at the largest text sizes, where segments would clip, a menu
+private struct LinkEmbedModePicker: View {
+    let title: LocalizedStringKey
+    @Binding var selection: LinkEmbedMode?
+    var bulk = false
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Picker(title, selection: $selection) {
+            Text(LocalizedStringKey(bulk ? "settings.media.linkEmbeds.askAll" : "settings.media.linkEmbeds.ask")).tag(LinkEmbedMode?.some(.ask))
+            Text(LocalizedStringKey(bulk ? "settings.media.linkEmbeds.allowAll" : "settings.media.linkEmbeds.on")).tag(LinkEmbedMode?.some(.on))
+            Text(LocalizedStringKey(bulk ? "settings.media.linkEmbeds.hideAll" : "settings.media.linkEmbeds.off")).tag(LinkEmbedMode?.some(.off))
+        }
+        .labelsHidden()
+        .modifier(LinkEmbedPickerStyle(compact: typeSize >= .xxLarge))
+        .tint(theme.accent)
+    }
+}
+
+private struct LinkEmbedPickerStyle: ViewModifier {
+    let compact: Bool
+
+    func body(content: Content) -> some View {
+        if compact {
+            content.pickerStyle(.menu).frame(maxWidth: .infinity, alignment: .leading)
+        } else {
+            content.pickerStyle(.segmented)
+        }
+    }
+}
+
+/// One service: its icon, name and what it covers, and its setting
+private struct LinkEmbedServiceRow: View {
+    let service: LinkEmbedService
+    @EnvironmentObject private var prefs: AppPreferences
+    @Environment(\.theme) private var theme
+
+    private var mode: Binding<LinkEmbedMode?> {
+        Binding(
+            get: { prefs[keyPath: service.modeKey] },
+            set: { if let mode = $0 { prefs[keyPath: service.modeKey] = mode } })
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: WZ.Space.space4) {
+            HStack(alignment: .top, spacing: WZ.Space.space5) {
+                Image(service.icon)
+                    .font(.system(size: WZ.SizeIcon.md))
+                    .foregroundStyle(theme.textMuted)
+                    .frame(width: WZ.SizeIcon.lg)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: WZ.Space.space1) {
+                    Text(verbatim: service.name)
+                        .font(.wizard(WZ.FontSize.lg))
+                        .foregroundStyle(theme.textPrimary)
+                    Text(LocalizedStringKey(service.descriptionKey))
+                        .font(.wizard(WZ.FontSize.sm))
+                        .foregroundStyle(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            LinkEmbedModePicker(title: LocalizedStringKey(service.name), selection: mode)
+        }
+        .padding(.vertical, WZ.Space.space2)
     }
 }

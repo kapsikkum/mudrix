@@ -79,6 +79,7 @@ final class RoomListModel: ObservableObject {
     @Published private(set) var roomTags: [String: Set<String>] = [:]
     @Published private(set) var favouriteOrder: [String: Double] = [:]
     @Published private(set) var homeOrder: [String] = []
+    weak var prefs: AppPreferences?
     /// The DM screen's saved order, sections and pins (`io.github.kapsikkum.mudrix.room_list`)
     @Published private(set) var options = RoomListOptions()
 
@@ -167,7 +168,7 @@ final class RoomListModel: ObservableObject {
 
     func setRead(_ room: RoomSummary, read: Bool) async {
         if read {
-            try? await client.timeline(roomId: room.id).markAsRead()
+            try? await client.timeline(roomId: room.id).markAsRead(_private: prefs?.sendReadReceipts == false)
         }
         try? await client.setMarkedUnread(roomId: room.id, unread: !read)
     }

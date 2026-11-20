@@ -378,6 +378,7 @@ struct RoomView: View {
             .task { await reactionPacks.load(session: session, roomId: room.id) }
         }
         .onAppear {
+            notifier.clear(roomId: room.id)
             if threadRoot == nil { notifier.activeRoomId = room.id }
             // Opening a thread, from the inbox or anywhere, marks it seen
             if let threadRoot { ThreadLastSeen.shared.markSeen(threadRoot) }
@@ -1216,6 +1217,9 @@ struct MessageRow: View {
                     if prefs.youtubeEmbeds != .off, let video = YouTubeLink.parse(url.absoluteString) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
                         YouTubeCard(url: url, video: video, loader: actions?.linkPreviews)
+                    } else if let match = LinkEmbedLinks.match(url.absoluteString) {
+                        // embeds.now builds these cards; "on" is consent, also in encrypted rooms
+                        LinkEmbedEntry(url: url, match: match, loader: actions?.linkPreviews)
                     } else if let loader = actions?.linkPreviews {
                         LinkPreviewCard(url: url, loader: loader)
                     }

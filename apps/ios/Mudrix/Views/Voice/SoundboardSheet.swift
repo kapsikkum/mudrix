@@ -26,6 +26,7 @@ struct SoundboardSheet: View {
     @State private var editing = false
     @State private var canEditRoom = false
     @State private var ownRoomSounds: [SoundboardSound] = []
+    @State private var ownStateKey = ""
     @State private var spaceNames: [String: String] = [:]
     @State private var editor: SoundEditorRequest?
 
@@ -74,10 +75,10 @@ struct SoundboardSheet: View {
                         section(String(localized: "soundboard.panel.roomSounds"), clips: own,
                                 empty: String(localized: "soundboard.panel.emptyRoomManage"),
                                 addLabel: canEditRoom ? String(localized: "soundboard.panel.addToRoom") : nil,
-                                onAdd: { editor = SoundEditorRequest(target: .room(roomId), sound: nil) },
+                                onAdd: { editor = SoundEditorRequest(target: .room(roomId, ownStateKey), sound: nil) },
                                 editable: canEditRoom) { clip in
                             if let sound = ownRoomSounds.first(where: { $0.id == clip.id }) {
-                                editor = SoundEditorRequest(target: .room(roomId), sound: sound)
+                                editor = SoundEditorRequest(target: .room(roomId, clip.packStateKey ?? ownStateKey), sound: sound)
                             }
                         }
                     }
@@ -85,7 +86,7 @@ struct SoundboardSheet: View {
                         section(L10n.format("soundboard.panel.fromSpace", spaceNames[group.origin] ?? group.origin),
                                 clips: group.clips, empty: nil)
                     }
-                    section(String(localized: "soundboard.panel.defaultSounds"), clips: SoundboardFormat.builtInClips, empty: nil)
+                    section(String(localized: "soundboard.panel.defaultSounds"), clips: soundboard.builtIn, empty: nil)
                 }
                 .padding(WZ.Space.space6)
             }
@@ -102,7 +103,8 @@ struct SoundboardSheet: View {
                 }
             }
             .sheet(item: $editor) { request in
-                SoundEditorSheet(target: request.target, existing: request.sound, soundboard: soundboard) {
+                SoundEditorSheet(target: request.target, existing: request.sound,
+                                 preview: { await soundboard.preview($0) }) {
                     Task {
                         await soundboard.refreshRoomBoards(force: true)
                         await loadRoom(force: true)
@@ -114,14 +116,15 @@ struct SoundboardSheet: View {
         .task(id: roomId) { await loadRoom(force: false) }
     }
 
-    /// The room's own board and whether this person may change it, and the names of the spaces whose clips are listed
+    /// The room's own packs and whether this person may change them, and the names of the spaces whose clips are listed
     private func loadRoom(force: Bool) async {
         guard let client = session.client else { return }
-        let own = await RoomSoundboards.load(client: client, roomId: roomId, force: force)
-        ownRoomSounds = own.board
-        canEditRoom = session.userId.map {
-            SoundboardEdit.canManage(own, userId: $0, type: SoundboardFormat.boardType)
-        } ?? false
+        _ = force
+        let own = try? await client.roomSoundPacks(roomId: roomId)
+        let packs = own?.packs ?? []
+        ownStateKey = packs.first?.stateKey ?? ""
+        ownRoomSounds = packs.flatMap { $0.sounds.map(SoundboardFormat.sound) }
+        canEditRoom = own?.canEdit ?? false
         for origin in Set(soundboard.roomClips.map(\.originRoomId)) where origin != roomId && spaceNames[origin] == nil {
             spaceNames[origin] = (try? await client.roomDetails(roomId: origin))?.name
         }

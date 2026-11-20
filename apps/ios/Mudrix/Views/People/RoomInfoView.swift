@@ -327,7 +327,7 @@ struct RoomInfoView: View {
         saving = true
         defer { saving = false; photo = nil }
         guard let data = try? await item.loadTransferable(type: Data.self),
-              let image = UIImage(data: data),
+              let image = AnimatedImage.image(from: data, animated: false),
               let jpeg = image.preparingThumbnail(of: CGSize(width: WZ.SizeDialog.md, height: WZ.SizeDialog.md * image.size.height / max(image.size.width, 1)))?
                 .jpegData(compressionQuality: 0.85) else { return }
         do {

@@ -62,18 +62,6 @@ struct AccountSettings: View {
 
             AboutMeSection()
 
-            SettingsSection {
-                NavigationLink {
-                    CosmeticSettings()
-                } label: {
-                    Text(String(localized: "settings.cosmetics.title"))
-                        .font(.wizard(WZ.FontSize.md))
-                        .foregroundStyle(theme.textPrimary)
-                        .frame(maxWidth: .infinity, minHeight: WZ.Space.space11, alignment: .leading)
-                        .contentShape(Rectangle())
-                }
-            }
-
             SettingsSection(title: "status.title") {
                 HStack(spacing: WZ.Space.space4) {
                     VStack(alignment: .leading, spacing: WZ.Space.space1) {
@@ -125,7 +113,8 @@ struct AccountSettings: View {
             Task {
                 await run {
                     guard let data = try await item.loadTransferable(type: Data.self),
-                          let jpeg = UIImage(data: data)?.jpegData(compressionQuality: 0.85) else { return }
+                          let jpeg = AnimatedImage.image(from: data, animated: false)?
+                            .jpegData(compressionQuality: 0.85) else { return }
                     try await session.setAvatar(jpeg, mimeType: "image/jpeg")
                 }
                 photo = nil

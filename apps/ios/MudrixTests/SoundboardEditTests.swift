@@ -2,11 +2,11 @@ import XCTest
 import MudrixCore
 @testable import Mudrix
 
-/// Editing soundboards and who may play in them (S5), matching the web's `boards.ts` and Android's `SoundboardEdit`
+/// Editing sound packs and who may play in them, matching the core's pack API
 final class SoundboardEditTests: XCTestCase {
-    private func sound(_ id: String, name: String = "Clip", volume: Float = 1) -> SoundboardSound {
-        SoundboardSound(id: id, name: name, emoji: nil, url: "mxc://s/\(id)", mimetype: "audio/mpeg", durationMs: 1000,
-                        size: 100, volume: volume)
+    private func sound(_ id: String, name: String = "Clip") -> Mudrix.SoundboardSound {
+        Mudrix.SoundboardSound(id: id, name: name, emoji: nil, url: "mxc://s/\(id)", mimetype: "audio/mpeg", durationMs: 1000,
+                        size: 100, volume: 1)
     }
 
     func testMimetypeFromTheTypeOrTheFileName() {
@@ -17,7 +17,7 @@ final class SoundboardEditTests: XCTestCase {
         XCTAssertNil(SoundboardEdit.mimetype(contentType: nil, fileName: nil))
     }
 
-    func testFileChecksFollowTheLimits() {
+    func testFileChecksFollowTheCoresLimits() {
         XCTAssertNil(SoundboardEdit.check(mimetype: "audio/mpeg", size: 1000, durationMs: 2000))
         XCTAssertEqual(SoundboardEdit.check(mimetype: nil, size: 1000, durationMs: 2000), .type)
         XCTAssertEqual(SoundboardEdit.check(mimetype: "audio/mpeg", size: 0, durationMs: 2000), .size)
@@ -33,11 +33,12 @@ final class SoundboardEditTests: XCTestCase {
         XCTAssertEqual(SoundboardEdit.cleanEmoji(" X "), "X")
     }
 
-    func testNewIdsLookLikeTheWebsAndDiffer() {
+    func testShortcodesLookLikeTheStandardsAndDiffer() {
         let first = SoundboardEdit.newId()
         XCTAssertTrue(first.hasPrefix("c_"))
         XCTAssertEqual(first.count, 18)
         XCTAssertNotEqual(first, SoundboardEdit.newId())
+        XCTAssertLessThanOrEqual(first.utf8.count, SoundboardFormat.maxShortcodeBytes)
     }
 
     func testBoardChanges() throws {
@@ -54,10 +55,12 @@ final class SoundboardEditTests: XCTestCase {
         }
     }
 
-    func testStoredBoardReadsBackTheSame() {
-        let board = [sound("a", name: "Boom", volume: 0.5), SoundboardSound(id: "b", name: "Pop", emoji: "X", url: "mxc://s/b",
-                                                                              mimetype: "audio/wav", durationMs: 300, size: 50, volume: 1)]
-        XCTAssertEqual(SoundboardFormat.parseBoard(SoundboardEdit.content(board)), board)
+    func testCoreSoundsReadBackTheSame() {
+        let board = [sound("a", name: "Boom"), Mudrix.SoundboardSound(id: "b", name: "Pop", emoji: "X", url: "mxc://s/b",
+                                                               mimetype: "audio/wav", durationMs: 300, size: 50, volume: 1)]
+        let core = board.map(SoundboardFormat.coreSound)
+        XCTAssertEqual(core.map(\.shortcode), ["a", "b"])
+        XCTAssertEqual(core.map(SoundboardFormat.sound), board)
     }
 
     func testSettingsContent() {
@@ -71,7 +74,7 @@ final class SoundboardEditTests: XCTestCase {
     }
 }
 
-/// The room and space boards and the rules over who may play (S5)
+/// The room and space rules over who may play
 final class RoomSoundboardsRuleTests: XCTestCase {
     private func settings(_ enabled: Bool, _ level: Double) -> RoomSoundboards.Settings {
         RoomSoundboards.Settings(enabled: enabled, minPowerLevel: level)
@@ -110,16 +113,5 @@ final class RoomSoundboardsRuleTests: XCTestCase {
         XCTAssertEqual(RoomSoundboards.verdict([space, room]), .ok)
         let lowRoom = RoomSoundboards.Rules(settings: nil, level: 0)
         XCTAssertEqual(RoomSoundboards.verdict([space, lowRoom]), .forbidden)
-    }
-
-    func testTheRoomsOwnClipWinsOverASpacesWithTheSameId() {
-        func clip(_ id: String, _ name: String) -> SoundboardSound {
-            SoundboardSound(id: id, name: name, emoji: nil, url: "mxc://s/\(id)", mimetype: "audio/mpeg", durationMs: 100,
-                            size: 1, volume: 1)
-        }
-        let merged = RoomSoundboards.merged(ids: ["!space", "!room"],
-                                            boards: [[clip("a", "Space A"), clip("b", "Space B")], [clip("a", "Room A")]])
-        XCTAssertEqual(merged.map(\.clip.name), ["Space B", "Room A"])
-        XCTAssertEqual(merged.map(\.originRoomId), ["!space", "!room"])
     }
 }

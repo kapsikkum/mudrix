@@ -201,8 +201,8 @@ final class CallManager: NSObject, ObservableObject {
                 isDeafened: { [weak self] in self?.deafened ?? true },
                 graph: { [weak self] in self?.appSession?.roomList?.graph ?? [] },
                 userId: { [weak self] identity in self?.members.first { $0.identity == identity }?.userId },
-                send: { [weak self] content in
-                    self?.sendData(content.object?.mapValues(\.any) ?? [:], topic: SoundboardFormat.playType)
+                send: { [weak self] content, topic in
+                    self?.sendData(content.object?.mapValues(\.any) ?? [:], topic: topic)
                 })
             Self.applyPreferredInput()
             if pushToTalk { micMuted = false }
@@ -919,7 +919,9 @@ extension CallManager: RoomDelegate {
         let from = participant?.identity?.stringValue ?? ""
         Task { @MainActor in
             if WatchTogether.topics.contains(topic) { self.watch?.receive(data, from: from) }
-            if SoundboardFormat.playTypes.contains(topic) { self.soundboard.receive(data: data, identity: from) }
+            if topic == SoundboardFormat.topic || SoundboardFormat.playTypes.contains(topic) {
+                self.soundboard.receive(data: data, topic: topic, identity: from)
+            }
         }
     }
 

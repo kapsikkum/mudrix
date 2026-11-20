@@ -957,6 +957,116 @@ public enum LastMessageKind: String, Codable, Hashable, Sendable, CaseIterable {
     case other = "other"
 }
 
+public enum LinkEmbedBlock: Codable, Hashable, Sendable {
+    public struct Text: Codable, Hashable, Sendable {
+        public var markdown: String
+        public var thumbnail: LinkEmbedMedia?
+
+        public init(markdown: String, thumbnail: LinkEmbedMedia? = nil) {
+            self.markdown = markdown
+            self.thumbnail = thumbnail
+        }
+    }
+    public struct Gallery: Codable, Hashable, Sendable {
+        public var items: [LinkEmbedMedia]
+
+        public init(items: [LinkEmbedMedia]) {
+            self.items = items
+        }
+    }
+    public struct Buttons: Codable, Hashable, Sendable {
+        public var buttons: [LinkEmbedButton]
+
+        public init(buttons: [LinkEmbedButton]) {
+            self.buttons = buttons
+        }
+    }
+    /// Text in Discord's markdown (`**bold**`, `[label](url)`, `-# small line`), with an optional
+    /// small picture beside it (an avatar, a cover)
+    case text(Text)
+    /// Pictures and videos, in order
+    case gallery(Gallery)
+    case separator
+    /// Link buttons
+    case buttons(Buttons)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: AnyKey.self)
+        switch try container.decode(String.self, forKey: AnyKey("type")) {
+        case "text": self = .text(try Text(from: decoder))
+        case "gallery": self = .gallery(try Gallery(from: decoder))
+        case "separator": self = .separator
+        case "buttons": self = .buttons(try Buttons(from: decoder))
+        case let other: throw DecodingError.dataCorruptedError(forKey: AnyKey("type"), in: container, debugDescription: "Unknown LinkEmbedBlock \(other)")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: AnyKey.self)
+        switch self {
+        case .text(let value):
+            try container.encode("text", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .gallery(let value):
+            try container.encode("gallery", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        case .separator:
+            try container.encode("separator", forKey: AnyKey("type"))
+        case .buttons(let value):
+            try container.encode("buttons", forKey: AnyKey("type"))
+            try value.encode(to: encoder)
+        }
+    }
+}
+
+public struct LinkEmbedButton: Codable, Hashable, Sendable {
+    public var label: String
+    /// An `https` address
+    public var url: String
+
+    public init(label: String, url: String) {
+        self.label = label
+        self.url = url
+    }
+}
+
+/// A link's embed card
+public struct LinkEmbedCard: Codable, Hashable, Sendable {
+    /// The site's name ("X/Twitter", "Instagram")
+    public var service: String
+    /// The link's canonical address, as the service reports it
+    public var url: String
+    /// The card's accent color, `0xRRGGBB`
+    public var accent: Int?
+    public var blocks: [LinkEmbedBlock]
+
+    public init(service: String, url: String, accent: Int? = nil, blocks: [LinkEmbedBlock]) {
+        self.service = service
+        self.url = url
+        self.accent = accent
+        self.blocks = blocks
+    }
+}
+
+public struct LinkEmbedMedia: Codable, Hashable, Sendable {
+    /// An `https` address
+    public var url: String
+    public var kind: LinkEmbedMediaKind
+    public var description: String?
+
+    public init(url: String, kind: LinkEmbedMediaKind, description: String? = nil) {
+        self.url = url
+        self.kind = kind
+        self.description = description
+    }
+}
+
+public enum LinkEmbedMediaKind: String, Codable, Hashable, Sendable, CaseIterable {
+    case image = "image"
+    case video = "video"
+    case audio = "audio"
+}
+
 /// A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
 /// plain values so apps can apply it to their own list type.
 public enum ListDiff<T: Codable & Hashable & Sendable>: Codable, Hashable, Sendable {
@@ -1282,8 +1392,10 @@ public struct Notification: Codable, Hashable, Sendable {
     public var highlight: Bool
     public var sound: Bool
     public var isDirect: Bool
+    /// When the message was sent, in milliseconds since the Unix epoch
+    public var ts: Int
 
-    public init(roomId: String, roomName: String? = nil, roomAvatarUrl: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, encrypted: Bool, highlight: Bool, sound: Bool, isDirect: Bool) {
+    public init(roomId: String, roomName: String? = nil, roomAvatarUrl: String? = nil, eventId: String, sender: String, senderName: String? = nil, body: String, spoiler: Bool, encrypted: Bool, highlight: Bool, sound: Bool, isDirect: Bool, ts: Int) {
         self.roomId = roomId
         self.roomName = roomName
         self.roomAvatarUrl = roomAvatarUrl
@@ -1296,6 +1408,7 @@ public struct Notification: Codable, Hashable, Sendable {
         self.highlight = highlight
         self.sound = sound
         self.isDirect = isDirect
+        self.ts = ts
     }
 }
 
@@ -1986,6 +2099,16 @@ public struct RoomSettings: Codable, Hashable, Sendable {
     }
 }
 
+public struct RoomSoundPacks: Codable, Hashable, Sendable {
+    public var canEdit: Bool
+    public var packs: [SoundPack]
+
+    public init(canEdit: Bool, packs: [SoundPack]) {
+        self.canEdit = canEdit
+        self.packs = packs
+    }
+}
+
 /// What a room list row needs, without touching the SDK.
 public struct RoomSummary: Codable, Hashable, Sendable {
     public var id: String
@@ -2302,6 +2425,75 @@ public struct ShieldView: Codable, Hashable, Sendable {
     public init(color: ShieldColor, code: ShieldCode) {
         self.color = color
         self.code = code
+    }
+}
+
+public struct SoundCredit: Codable, Hashable, Sendable {
+    public var title: String
+    public var author: String
+    public var url: String
+
+    public init(title: String, author: String, url: String) {
+        self.title = title
+        self.author = author
+        self.url = url
+    }
+}
+
+public struct SoundPack: Codable, Hashable, Sendable {
+    public var id: String
+    public var source: SoundPackSource
+    public var roomId: String?
+    public var stateKey: String?
+    public var name: String?
+    public var roomName: String?
+    public var avatarUrl: String?
+    public var attribution: String?
+    public var everywhere: Bool
+    public var canEdit: Bool
+    public var sounds: [SoundboardSound]
+
+    public init(id: String, source: SoundPackSource, roomId: String? = nil, stateKey: String? = nil, name: String? = nil, roomName: String? = nil, avatarUrl: String? = nil, attribution: String? = nil, everywhere: Bool, canEdit: Bool, sounds: [SoundboardSound]) {
+        self.id = id
+        self.source = source
+        self.roomId = roomId
+        self.stateKey = stateKey
+        self.name = name
+        self.roomName = roomName
+        self.avatarUrl = avatarUrl
+        self.attribution = attribution
+        self.everywhere = everywhere
+        self.canEdit = canEdit
+        self.sounds = sounds
+    }
+}
+
+public enum SoundPackSource: String, Codable, Hashable, Sendable, CaseIterable {
+    case frequent = "frequent"
+    case builtIn = "builtIn"
+    case mine = "mine"
+    case everywhere = "everywhere"
+    case room = "room"
+    case space = "space"
+}
+
+public struct SoundboardSound: Codable, Hashable, Sendable {
+    public var shortcode: String
+    public var url: String
+    public var body: String?
+    public var emoji: String?
+    public var mimetype: String?
+    public var size: Int?
+    public var durationMs: Int?
+
+    public init(shortcode: String, url: String, body: String? = nil, emoji: String? = nil, mimetype: String? = nil, size: Int? = nil, durationMs: Int? = nil) {
+        self.shortcode = shortcode
+        self.url = url
+        self.body = body
+        self.emoji = emoji
+        self.mimetype = mimetype
+        self.size = size
+        self.durationMs = durationMs
     }
 }
 
@@ -3315,6 +3507,13 @@ public final class MudrixClient: Remote, @unchecked Sendable {
         try await Runtime.shared.call("MudrixClient.sniffMimeType", this: nil, [.bytes(head)])
     }
 
+    /// The embed card (post text, pictures, video) embeds.now makes for a link, or null when
+    /// there is none. Needs no account. Fails when the service can't be reached (always, in
+    /// a browser tab).
+    public static func linkEmbed(url: String) async throws -> LinkEmbedCard? {
+        try await Runtime.shared.call("MudrixClient.linkEmbed", this: nil, [.value(url)])
+    }
+
     public func userProfile(userId: String) async throws -> UserProfile {
         try await call("MudrixClient.userProfile", [.value(userId)])
     }
@@ -3844,6 +4043,58 @@ public final class MudrixClient: Remote, @unchecked Sendable {
     @discardableResult
     public func watchCallMembers(roomId: String, listener: @escaping @Sendable ([CallMember]) -> Void) -> Subscription {
         watch("MudrixClient.watchCallMembers", [.value(roomId), .listener([CallMember].self, listener)])
+    }
+
+    public func soundboardPacks(roomId: String? = nil) async throws -> [SoundPack] {
+        try await call("MudrixClient.soundboardPacks", [.value(roomId)])
+    }
+
+    public func favoriteSoundPacks() async throws -> [SoundPack] {
+        try await call("MudrixClient.favoriteSoundPacks", [])
+    }
+
+    public func allSoundPacks() async throws -> [SoundPack] {
+        try await call("MudrixClient.allSoundPacks", [])
+    }
+
+    public func recordSoundPlayed(url: String) async throws {
+        _ = try await call("MudrixClient.recordSoundPlayed", [.value(url)]) as Empty
+    }
+
+    public func roomSoundPacks(roomId: String) async throws -> RoomSoundPacks {
+        try await call("MudrixClient.roomSoundPacks", [.value(roomId)])
+    }
+
+    public func mySounds() async throws -> SoundPack {
+        try await call("MudrixClient.mySounds", [])
+    }
+
+    public func uploadSound(data: Data, mimetype: String, durationMs: Int) async throws -> SoundboardSound {
+        try await call("MudrixClient.uploadSound", [.bytes(data), .value(mimetype), .value(durationMs)])
+    }
+
+    public func saveSoundPack(roomId: String?, stateKey: String, name: String, attribution: String?, sounds: [SoundboardSound]) async throws {
+        _ = try await call("MudrixClient.saveSoundPack", [.value(roomId), .value(stateKey), .value(name), .value(attribution), .value(sounds)]) as Empty
+    }
+
+    public func createSoundPack(roomId: String, name: String) async throws -> String {
+        try await call("MudrixClient.createSoundPack", [.value(roomId), .value(name)])
+    }
+
+    public func deleteSoundPack(roomId: String, stateKey: String) async throws {
+        _ = try await call("MudrixClient.deleteSoundPack", [.value(roomId), .value(stateKey)]) as Empty
+    }
+
+    public func setSoundPackEverywhere(roomId: String, stateKey: String, everywhere: Bool) async throws {
+        _ = try await call("MudrixClient.setSoundPackEverywhere", [.value(roomId), .value(stateKey), .value(everywhere)]) as Empty
+    }
+
+    public func soundboardCredits() async throws -> [SoundCredit] {
+        try await call("MudrixClient.soundboardCredits", [])
+    }
+
+    public func soundboardSound(url: String) async throws -> Data {
+        try await call("MudrixClient.soundboardSound", [.value(url)])
     }
 
     /// A token for a LiveKit service, for this device in the room's call.
