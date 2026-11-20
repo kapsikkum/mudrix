@@ -37,7 +37,6 @@ import chat.mudrix.android.matrix.rtc.RoomSoundboards
 import chat.mudrix.android.matrix.rtc.Soundboard
 import chat.mudrix.android.ui.space.LocalSpaceGraph
 import chat.mudrix.android.matrix.rtc.SoundboardClip
-import chat.mudrix.android.matrix.rtc.SoundboardEdit
 import chat.mudrix.android.matrix.rtc.SoundboardSound
 import chat.mudrix.android.ui.BarTextButton
 import chat.mudrix.android.ui.CopyToast
@@ -48,41 +47,47 @@ import chat.mudrix.android.ui.WizardSheet
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
+import chat.mudrix.core.SoundPack
+import chat.mudrix.core.SoundPackSource
 import chat.mudrix.tokens.WZ
 
-/** The call's soundboard: your own clips and the bundled ones, played for everyone in the call */
+/** The call's soundboard: your own pack, the room's and its spaces' packs, and the standard sounds */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SoundboardSheet(roomId: String, onDismiss: () -> Unit) {
     val session = LocalSession.current
-    var personal by remember { mutableStateOf<List<SoundboardClip>>(emptyList()) }
-    val graph = LocalSpaceGraph.current
-    var roomClips by remember { mutableStateOf<List<RoomSoundboards.RoomClip>>(emptyList()) }
-    var origins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
-    var access by remember { mutableStateOf(RoomSoundboards.Access.ok) }
+    var packs by remember { mutableStateOf<List<SoundPack>>(emptyList()) }
+    var roomPacks by remember { mutableStateOf<List<SoundPack>>(emptyList()) }
+    var canEditRoom by remember { mutableStateOf(false) }
     var personalBoard by remember { mutableStateOf<List<SoundboardSound>>(emptyList()) }
     var ownBoard by remember { mutableStateOf<List<SoundboardSound>>(emptyList()) }
-    var canEditRoom by remember { mutableStateOf(false) }
+    var origins by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var access by remember { mutableStateOf(RoomSoundboards.Access.ok) }
     var editing by remember { mutableStateOf(false) }
     var reloads by remember { mutableIntStateOf(0) }
     var editor by remember { mutableStateOf<Pair<BoardTarget, SoundboardSound?>?>(null) }
-    LaunchedEffect(session.client, reloads) {
+    val graph = LocalSpaceGraph.current
+
+    LaunchedEffect(session.client, roomId, reloads) {
         val client = session.client ?: return@LaunchedEffect
-        personalBoard = Soundboard.personalBoard(client)
-        personal = personalBoard.map(Soundboard::toClip)
-    }
-    // The boards of this room and of the spaces above it (read only), and whether this person may play here
-    LaunchedEffect(session.client, roomId, graph, reloads) {
-        val client = session.client ?: return@LaunchedEffect
-        roomClips = RoomSoundboards.clips(client, graph, roomId)
-        val own = RoomSoundboards.load(client, roomId)
-        ownBoard = own.board
-        canEditRoom = session.userId?.let { SoundboardEdit.canManage(own, it, Soundboard.BOARD_TYPE) } == true
-        origins = roomClips.map { it.originRoomId }.distinct().filter { it != roomId }.associateWith { id ->
-            runCatching { client.roomDetails(id).name }.getOrNull().orEmpty()
-        }
+        val all = runCatching { client.soundboardPacks(roomId) }.getOrDefault(emptyList())
+        packs = all
+        personalBoard = all.firstOrNull { it.source == SoundPackSource.mine }?.sounds?.map(Soundboard::toSound).orEmpty()
+        val own = runCatching { client.roomSoundPacks(roomId) }.getOrNull()
+        roomPacks = own?.packs.orEmpty()
+        ownBoard = roomPacks.flatMap { pack -> pack.sounds.map(Soundboard::toSound) }
+        canEditRoom = own?.canEdit == true
+        origins = all.mapNotNull { pack -> pack.roomId?.let { it to (pack.roomName ?: pack.name.orEmpty()) } }
+            .filter { it.first != roomId }
+            .toMap()
         session.userId?.let { access = RoomSoundboards.access(client, graph, roomId, it) }
     }
+
+    val personal = packs.firstOrNull { it.source == SoundPackSource.mine }?.let(Soundboard::clips).orEmpty()
+    val builtIn = packs.firstOrNull { it.source == SoundPackSource.builtIn }?.let(Soundboard::clips).orEmpty()
+    val ownClips = roomPacks.flatMap(Soundboard::clips)
+    val spacePacks = packs.filter { it.source == SoundPackSource.space && it.sounds.isNotEmpty() }
+    val roomKey = roomPacks.firstOrNull()?.stateKey.orEmpty()
 
     fun press(clip: SoundboardClip) {
         when (access) {
@@ -106,7 +111,8 @@ fun SoundboardSheet(roomId: String, onDismiss: () -> Unit) {
     }
 
     fun tapRoom(clip: SoundboardClip) {
-        if (editing && canEditRoom) ownBoard.firstOrNull { it.id == clip.id }?.let { editor = BoardTarget.Room(roomId) to it } else press(clip)
+        val key = clip.packStateKey ?: roomKey
+        if (editing && canEditRoom) ownBoard.firstOrNull { it.id == clip.id }?.let { editor = BoardTarget.Room(roomId, key) to it } else press(clip)
     }
 
     WizardSheet(onDismiss) {
@@ -139,31 +145,31 @@ fun SoundboardSheet(roomId: String, onDismiss: () -> Unit) {
                     personal.forEach { ClipButton(it, editing) { tapPersonal(it) } }
                 }
             }
-            // The room's own clips first, then each space's
-            val groups = roomClips.groupBy { it.originRoomId }
-            val own = groups[roomId].orEmpty()
-            if (own.isNotEmpty() || canEditRoom) {
+            if (ownClips.isNotEmpty() || canEditRoom) {
                 SectionHeader(
                     tr("soundboard.panel.roomSounds"),
                     if (canEditRoom) tr("soundboard.panel.addToRoom") else null,
-                ) { editor = BoardTarget.Room(roomId) to null }
-                if (own.isEmpty()) {
+                ) { editor = BoardTarget.Room(roomId, roomKey) to null }
+                if (ownClips.isEmpty()) {
                     Text(tr("soundboard.panel.emptyRoomManage"), style = wizardFont(WZ.FontSize.sm), color = theme.textMuted)
                 } else {
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                        own.forEach { ClipButton(it.clip, editing && canEditRoom) { tapRoom(it.clip) } }
+                        ownClips.forEach { ClipButton(it, editing && canEditRoom) { tapRoom(it) } }
                     }
                 }
             }
-            groups.filterKeys { it != roomId }.forEach { (origin, list) ->
+            spacePacks.forEach { pack ->
+                val origin = pack.roomId.orEmpty()
                 Section(tr("soundboard.panel.fromSpace", origins[origin].orEmpty().ifEmpty { origin }))
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                    list.forEach { ClipButton(it.clip) { press(it.clip) } }
+                    Soundboard.clips(pack).forEach { ClipButton(it) { press(it) } }
                 }
             }
-            Section(tr("soundboard.panel.defaultSounds"))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
-                Soundboard.builtInClips.forEach { ClipButton(it) { press(it) } }
+            if (builtIn.isNotEmpty()) {
+                Section(tr("soundboard.panel.defaultSounds"))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space3), verticalArrangement = Arrangement.spacedBy(WZ.Space.space3)) {
+                    builtIn.forEach { ClipButton(it) { press(it) } }
+                }
             }
             Spacer(Modifier.navigationBarsPadding())
         }

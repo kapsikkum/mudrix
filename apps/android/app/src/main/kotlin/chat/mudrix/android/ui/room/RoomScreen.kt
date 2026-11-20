@@ -126,6 +126,7 @@ import chat.mudrix.android.matrix.MessageNotifier
 import chat.mudrix.android.matrix.PacksStore
 import chat.mudrix.android.matrix.PendingUpload
 import chat.mudrix.android.matrix.YouTubeEmbeds
+import chat.mudrix.android.media.LinkEmbedMode
 import chat.mudrix.android.media.YouTubeLink
 import chat.mudrix.android.matrix.RecentEmoji
 import chat.mudrix.android.matrix.ReminderPreset
@@ -356,6 +357,7 @@ fun RoomScreen(room: RoomSummary, client: MudrixClient, onBack: () -> Unit, thre
     }
 
     DisposableEffect(timeline) {
+        notifier.clear(room.id)
         if (threadRoot == null) notifier.activeRoomId = room.id
         onDispose {
             if (threadRoot == null && notifier.activeRoomId == room.id) notifier.activeRoomId = null
@@ -1316,9 +1318,15 @@ fun MessageRow(entry: ChatEntry, actions: MessageActions? = null, isPrivateRoom:
                         body?.takeIf { chat.mudrix.android.media.GifLink.parse(it) == null }?.let { MessageText.firstPreviewURL(it) }
                     }
                     val youtube = remember(previewUrl) { previewUrl?.let { YouTubeLink.parse(it) } }
+                    val embedMatch = remember(previewUrl) { previewUrl?.takeIf { youtube == null }?.let { chat.mudrix.android.media.LinkEmbeds.match(it) } }
                     if (previewUrl != null && youtube != null && LocalPrefs.current.youtubeEmbeds != YouTubeEmbeds.off) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
                         YouTubeCard(previewUrl, youtube, loader)
+                    } else if (previewUrl != null && embedMatch != null && LocalPrefs.current.linkEmbedMode(embedMatch.service) != LinkEmbedMode.off) {
+                        // Cards come from embeds.now, so they load only once the service is allowed, in encrypted rooms too
+                        EmbedsNowLink(embedMatch, LocalPrefs.current.linkEmbedMode(embedMatch.service)) {
+                            if (loader != null) LinkPreviewCard(previewUrl, loader)
+                        }
                     } else if (loader != null && previewUrl != null) {
                         LinkPreviewCard(previewUrl, loader)
                     }

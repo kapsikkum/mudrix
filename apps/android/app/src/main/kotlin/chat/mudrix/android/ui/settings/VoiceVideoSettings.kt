@@ -163,7 +163,6 @@ internal fun VoiceVideoSettings(onBack: () -> Unit) {
             }
         }
         SoundEffectsSection()
-        SoundboardSection()
         VoiceMovesSection()
     }
 }

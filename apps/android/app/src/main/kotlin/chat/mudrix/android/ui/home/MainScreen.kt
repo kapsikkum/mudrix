@@ -85,6 +85,7 @@ import chat.mudrix.android.matrix.SettingsSyncer
 import chat.mudrix.android.matrix.SidebarSelection
 import chat.mudrix.android.matrix.SpaceRail
 import chat.mudrix.android.matrix.UnreadState
+import chat.mudrix.android.matrix.mentionCount
 import chat.mudrix.android.matrix.unreadCount
 import chat.mudrix.android.ui.composer.GIF_FAVOURITES_LEGACY_KEY
 import chat.mudrix.android.ui.composer.composerDefaults
@@ -281,6 +282,9 @@ fun MainScreen(roomList: RoomListModel) {
     }
     val totalUnread = roomList.joinedRooms.sumOf { it.unreadCount }
     LaunchedEffect(totalUnread) { notifier.updateBadge(totalUnread) }
+    val readRooms = roomList.joinedRooms.filter { it.unreadCount == 0 && it.mentionCount == 0 }
+        .map { "${it.id}|${it.lastActivity}" }
+    LaunchedEffect(readRooms) { notifier.clearRead(roomList.joinedRooms) }
 
     // Back to the space that was open when the app last closed, once the spaces have loaded
     var startupHandled by remember { mutableStateOf(false) }

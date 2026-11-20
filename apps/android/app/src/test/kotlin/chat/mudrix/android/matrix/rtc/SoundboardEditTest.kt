@@ -1,6 +1,5 @@
 package chat.mudrix.android.matrix.rtc
 
-import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertThrows
@@ -20,7 +19,7 @@ class SoundboardEditTest {
     }
 
     @Test
-    fun checksFilesAgainstTheLimits() {
+    fun checksFilesAgainstTheCoresLimits() {
         assertNull(SoundboardEdit.check("audio/mpeg", 1000, 2000))
         assertEquals(SoundboardEdit.Problem.Type, SoundboardEdit.check(null, 1000, 2000))
         assertEquals(SoundboardEdit.Problem.Size, SoundboardEdit.check("audio/mpeg", Soundboard.MAX_SIZE_BYTES + 1L, 2000))
@@ -38,10 +37,11 @@ class SoundboardEditTest {
     }
 
     @Test
-    fun idsLookLikeTheWebsAndDiffer() {
+    fun shortcodesLookLikeTheStandardsAndDiffer() {
         val a = SoundboardEdit.newId()
         assertTrue(Regex("^c_[0-9a-f]{16}$").matches(a))
         assertTrue(a != SoundboardEdit.newId())
+        assertTrue(a.length <= Soundboard.MAX_SHORTCODE_BYTES)
     }
 
     @Test
@@ -56,10 +56,15 @@ class SoundboardEditTest {
     }
 
     @Test
-    fun storedBoardsReadBackTheSame() {
-        val board = listOf(sound("a", "One").copy(emoji = "🔔", volume = 0.5f), sound("b"))
-        val stored = SoundboardEdit.content(board)
-        assertEquals(board, Soundboard.parseBoard(Json.parseToJsonElement(stored.toString())))
+    fun storedSoundsUseTheStandardFields() {
+        val stored = SoundboardEdit.stored(sound("a", "One").copy(emoji = "🔔"))
+        assertEquals("a", stored.shortcode)
+        assertEquals("mxc://s/a", stored.url)
+        assertEquals("One", stored.body)
+        assertEquals("🔔", stored.emoji)
+        assertEquals("audio/mpeg", stored.mimetype)
+        assertEquals(1200L, stored.durationMs)
+        assertEquals(4000L, stored.size)
     }
 
     @Test

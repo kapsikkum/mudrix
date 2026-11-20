@@ -1,15 +1,12 @@
 package chat.mudrix.android.matrix
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.LruCache
 import java.io.File
 import java.net.URLEncoder
-import java.nio.ByteBuffer
 import java.util.UUID
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CancellationException
@@ -64,7 +61,7 @@ class MediaLoader(val client: MudrixClient) {
         animatedCache.get(key)?.let { return it }
         val data = runCatching { client.media(source) }.getOrNull() ?: return null
         val drawable = withContext(Dispatchers.Default) {
-            runCatching { ImageDecoder.decodeDrawable(ImageDecoder.createSource(ByteBuffer.wrap(data))) }.getOrNull()
+            MediaMetadata.decodeDrawable(data)
         } ?: return null
         if (drawable !is AnimatedImageDrawable) return null
         animatedCache.put(key, drawable)
@@ -111,17 +108,11 @@ class MediaLoader(val client: MudrixClient) {
 
     companion object {
         /** Nothing is decoded larger than this on its longer side: a 48 MP photo would need ~190 MB and exceeds the GPU texture limit */
-        const val MAX_FULL_SIDE = 4096
+        const val MAX_FULL_SIDE = MediaMetadata.MAX_DECODED_SIZE
 
-        /** The bitmap, decoded at a power-of-two fraction of its size so its longer side is not much over [maxSide] */
-        fun decodeSampled(data: ByteArray, maxSide: Int): Bitmap? {
-            val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeByteArray(data, 0, data.size, bounds)
-            val longest = maxOf(bounds.outWidth, bounds.outHeight)
-            var sample = 1
-            while (longest / (sample * 2) >= maxSide) sample *= 2
-            return BitmapFactory.decodeByteArray(data, 0, data.size, BitmapFactory.Options().apply { inSampleSize = sample })
-        }
+        /** The bitmap, decoded at a power-of-two fraction of its size so its longer side is near [maxSide] (and never over the full cap) */
+        fun decodeSampled(data: ByteArray, maxSide: Int): Bitmap? =
+            MediaMetadata.decodeImage(data, minOf(maxSide, MAX_FULL_SIDE))
 
         fun standardSize(size: Int): Int = listOf(96, 320, 640, 800).firstOrNull { it >= size } ?: 800
 

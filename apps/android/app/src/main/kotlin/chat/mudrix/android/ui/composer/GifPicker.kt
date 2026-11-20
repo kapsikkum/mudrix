@@ -1,7 +1,5 @@
 package chat.mudrix.android.ui.composer
 
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -56,6 +54,7 @@ import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.LocalPrefs
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.GifFavourites
+import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.media.GifApi
 import chat.mudrix.android.media.GifItem
 import chat.mudrix.android.media.GifLink
@@ -441,8 +440,8 @@ fun RemoteAnimatedImage(url: String, modifier: Modifier = Modifier) {    var dra
 
 private fun decodeAnimated(data: ByteArray): Drawable? {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        return runCatching { ImageDecoder.decodeDrawable(ImageDecoder.createSource(java.nio.ByteBuffer.wrap(data))) }.getOrNull()
+        return MediaMetadata.decodeDrawable(data)
     }
-    val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
+    val bitmap = MediaMetadata.decodeImage(data, 400) ?: return null
     return BitmapDrawable(chat.mudrix.android.MudrixApplication.instance.resources, bitmap)
 }

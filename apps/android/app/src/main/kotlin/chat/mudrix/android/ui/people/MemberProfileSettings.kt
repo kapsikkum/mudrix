@@ -1,7 +1,6 @@
 package chat.mudrix.android.ui.people
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.LocalSession
+import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.ui.BarTextButton
 import chat.mudrix.android.ui.CopyToast
 import chat.mudrix.android.ui.GroupedRow
@@ -103,7 +103,7 @@ internal fun RoomMemberProfileItem(roomId: String, onError: (String) -> Unit) {
             try {
                 val data = readBytes(context, uri) ?: return@launch
                 val jpeg = withContext(Dispatchers.Default) {
-                    val image = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return@withContext null
+                    val image = MediaMetadata.decodeImage(data, null) ?: return@withContext null
                     ByteArrayOutputStream().use { out ->
                         cropSquare(image).compress(Bitmap.CompressFormat.JPEG, 88, out)
                         out.toByteArray()

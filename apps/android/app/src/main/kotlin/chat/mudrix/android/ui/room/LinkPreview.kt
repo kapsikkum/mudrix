@@ -1,7 +1,6 @@
 package chat.mudrix.android.ui.room
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.LocalMedia
 import chat.mudrix.android.integrations.IntegrationNetwork
+import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.ui.tr
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -94,7 +94,7 @@ private const val MAX_PREVIEW_SIDE = 2048
  * while streamer mode blocks passive traffic. Only the returned bytes are decoded. Anything else
  * (an `http` image, a local host, an answer that failed a rule) simply yields no image.
  */
-private suspend fun fetchPreviewImage(imageUrl: String): Bitmap? {
+internal suspend fun fetchPreviewImage(imageUrl: String, maxSide: Int = MAX_PREVIEW_SIDE): Bitmap? {
     val uri = try {
         URI(imageUrl)
     } catch (_: URISyntaxException) {
@@ -112,19 +112,11 @@ private suspend fun fetchPreviewImage(imageUrl: String): Bitmap? {
             passive = true,
         ),
     ) as? IntegrationNetwork.Success ?: return null
-    return decodePreviewImage(result.bytes)
+    return MediaMetadata.decodeImage(result.bytes, maxSide)
 }
 
-private fun decodePreviewImage(bytes: ByteArray): Bitmap? {
-    if (bytes.isEmpty()) return null
-    val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-    runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds) }.getOrNull() ?: return null
-    if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
-    var sample = 1
-    while (maxOf(bounds.outWidth, bounds.outHeight) / sample > MAX_PREVIEW_SIDE) sample *= 2
-    val options = BitmapFactory.Options().apply { inSampleSize = sample }
-    return runCatching { BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options) }.getOrNull()
-}
+private fun decodePreviewImage(bytes: ByteArray): Bitmap? =
+    MediaMetadata.decodeImage(bytes, MAX_PREVIEW_SIDE)
 
 @Composable
 fun LinkPreviewCard(url: String, loader: LinkPreviewLoader) {

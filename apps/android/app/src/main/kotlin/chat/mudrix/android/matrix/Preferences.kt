@@ -17,6 +17,8 @@ import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.put
+import chat.mudrix.android.media.LinkEmbedMode
+import chat.mudrix.android.media.LinkEmbedService
 import chat.mudrix.android.media.VideoPlan
 import chat.mudrix.android.ui.theme.CustomTheme
 import chat.mudrix.android.ui.theme.CustomThemes
@@ -194,6 +196,18 @@ class AppPreferences(context: Context) {
         jsonEnumCodec("photoUploadSize", PhotoUploadSize.entries),
     ) { putString("photoUploadSize", it.json) }
     var youtubeEmbeds by pref(enumPref("youtubeEmbeds", YouTubeEmbeds.ask), enumCodec<YouTubeEmbeds>("youtubeEmbeds")) { putString("youtubeEmbeds", it.name) }
+    var spotifyEmbeds by pref(enumPref("spotifyEmbeds", LinkEmbedMode.on), enumCodec<LinkEmbedMode>("spotifyEmbeds")) { putString("spotifyEmbeds", it.name) }
+    var xEmbeds by pref(enumPref("xEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("xEmbeds")) { putString("xEmbeds", it.name) }
+    var instagramEmbeds by pref(enumPref("instagramEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("instagramEmbeds")) { putString("instagramEmbeds", it.name) }
+    var tiktokEmbeds by pref(enumPref("tiktokEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("tiktokEmbeds")) { putString("tiktokEmbeds", it.name) }
+    var redditEmbeds by pref(enumPref("redditEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("redditEmbeds")) { putString("redditEmbeds", it.name) }
+    var facebookEmbeds by pref(enumPref("facebookEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("facebookEmbeds")) { putString("facebookEmbeds", it.name) }
+    var threadsEmbeds by pref(enumPref("threadsEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("threadsEmbeds")) { putString("threadsEmbeds", it.name) }
+    var blueskyEmbeds by pref(enumPref("blueskyEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("blueskyEmbeds")) { putString("blueskyEmbeds", it.name) }
+    var mastodonEmbeds by pref(enumPref("mastodonEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("mastodonEmbeds")) { putString("mastodonEmbeds", it.name) }
+    var pinterestEmbeds by pref(enumPref("pinterestEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("pinterestEmbeds")) { putString("pinterestEmbeds", it.name) }
+    var linkedinEmbeds by pref(enumPref("linkedinEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("linkedinEmbeds")) { putString("linkedinEmbeds", it.name) }
+    var tumblrEmbeds by pref(enumPref("tumblrEmbeds", LinkEmbedMode.ask), enumCodec<LinkEmbedMode>("tumblrEmbeds")) { putString("tumblrEmbeds", it.name) }
     var timeFormat by pref(jsonEnumPref("timeFormat", TimeFormat.entries, TimeFormat.auto), jsonEnumCodec("timeFormat", TimeFormat.entries)) {
         putString("timeFormat", it.json)
     }
@@ -320,6 +334,40 @@ class AppPreferences(context: Context) {
             soundOverrides
         }
 
+    /** One service's link-embed setting; YouTube keeps its own [youtubeEmbeds] and this reads it as the same three choices */
+    fun linkEmbedMode(service: LinkEmbedService): LinkEmbedMode = when (service) {
+        LinkEmbedService.youtube -> LinkEmbedMode.valueOf(youtubeEmbeds.name)
+        LinkEmbedService.spotify -> spotifyEmbeds
+        LinkEmbedService.x -> xEmbeds
+        LinkEmbedService.instagram -> instagramEmbeds
+        LinkEmbedService.tiktok -> tiktokEmbeds
+        LinkEmbedService.reddit -> redditEmbeds
+        LinkEmbedService.facebook -> facebookEmbeds
+        LinkEmbedService.threads -> threadsEmbeds
+        LinkEmbedService.bluesky -> blueskyEmbeds
+        LinkEmbedService.mastodon -> mastodonEmbeds
+        LinkEmbedService.pinterest -> pinterestEmbeds
+        LinkEmbedService.linkedin -> linkedinEmbeds
+        LinkEmbedService.tumblr -> tumblrEmbeds
+    }
+
+    fun setLinkEmbedMode(service: LinkEmbedService, mode: LinkEmbedMode) {
+        when (service) {
+            LinkEmbedService.youtube -> youtubeEmbeds = YouTubeEmbeds.valueOf(mode.name)
+            LinkEmbedService.spotify -> spotifyEmbeds = mode
+            LinkEmbedService.x -> xEmbeds = mode
+            LinkEmbedService.instagram -> instagramEmbeds = mode
+            LinkEmbedService.tiktok -> tiktokEmbeds = mode
+            LinkEmbedService.reddit -> redditEmbeds = mode
+            LinkEmbedService.facebook -> facebookEmbeds = mode
+            LinkEmbedService.threads -> threadsEmbeds = mode
+            LinkEmbedService.bluesky -> blueskyEmbeds = mode
+            LinkEmbedService.mastodon -> mastodonEmbeds = mode
+            LinkEmbedService.pinterest -> pinterestEmbeds = mode
+            LinkEmbedService.linkedin -> linkedinEmbeds = mode
+            LinkEmbedService.tumblr -> tumblrEmbeds = mode
+        }
+    }
     /** The video options in the form [VideoPlan] plans with */
     fun videoUploadPrefs(): VideoPlan.UploadPrefs = VideoPlan.UploadPrefs(
         mode = VideoPlan.Mode.valueOf(videoUploadMode.name),
