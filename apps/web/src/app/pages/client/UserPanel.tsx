@@ -187,7 +187,10 @@ export function UserPanel() {
           size="sm"
           tooltip={t('settings.title')}
           aria-label={t('settings.title')}
-          onClick={() => setSettingsOpen(true)}
+          onClick={() => {
+            setProfile(null);
+            setSettingsOpen(true);
+          }}
         >
           <GearIcon size={16} />
         </IconButton>

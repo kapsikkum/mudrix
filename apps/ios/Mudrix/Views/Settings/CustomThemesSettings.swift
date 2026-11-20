@@ -210,7 +210,7 @@ private struct ThemePreview: View {
     var body: some View {
         let preview = MudrixTheme(colors: ThemeDerive.build(spec), isLight: ThemeDerive.isLightColor(spec.bgPrimary))
         VStack(alignment: .leading, spacing: WZ.Space.space3) {
-            Text(verbatim: "Merlin")
+            Text(verbatim: "Muddy")
                 .font(.wizard(WZ.FontSize.sm, .semibold))
                 .foregroundStyle(preview.accent)
             Text(verbatim: "Abracadabra")

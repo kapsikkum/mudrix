@@ -52,7 +52,6 @@ import chat.mudrix.android.ui.BarTextButton
 import chat.mudrix.android.ui.L10n
 import chat.mudrix.android.ui.PhIcon
 import chat.mudrix.android.ui.PhWeight
-import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardSheet
 import chat.mudrix.android.ui.cosmetics.CosmeticCatalog
 import chat.mudrix.android.ui.cosmetics.BuiltinEffects
@@ -125,7 +124,9 @@ internal fun CosmeticsSection() {
             packs = emptyList()
             return
         }
-        packs = listOfNotNull(CosmeticPackStore.personal(session)) + CosmeticPackStore.subscribed(session)
+        runCatching { listOfNotNull(CosmeticPackStore.personal(session)) + CosmeticPackStore.subscribed(session) }
+            .onSuccess { packs = it }
+            .onFailure { error = L10n.format("settings.emojisStickers.packsLoadFailed") }
     }
 
     LaunchedEffect(session.client, me) { reloadProfile() }
@@ -275,10 +276,12 @@ internal fun CosmeticsSettings(onBack: () -> Unit) {
     suspend fun reloadPacks() {
         if (!showPacks) {
             packs = emptyList()
+            error = null
             return
         }
-        packs = runCatching { listOfNotNull(CosmeticPackStore.personal(session)) + CosmeticPackStore.subscribed(session) }
-            .getOrDefault(emptyList())
+        runCatching { listOfNotNull(CosmeticPackStore.personal(session)) + CosmeticPackStore.subscribed(session) }
+            .onSuccess { packs = it; error = null }
+            .onFailure { error = L10n.format("settings.emojisStickers.packsLoadFailed") }
     }
 
     LaunchedEffect(session.client, showPacks) { reloadPacks() }
@@ -351,6 +354,10 @@ internal fun CosmeticsSettings(onBack: () -> Unit) {
 
         error?.let { message ->
             StatusText(message)
+            RowFrame(onClick = { scope.launch { reloadPacks() } }) {
+                RowLabel(tr("common.retry"), null, Modifier.weight(1f))
+                PhIcon("arrow-clockwise", size = WZ.SizeIcon.sm, tint = theme.textMuted)
+            }
         }
     }
 
@@ -537,26 +544,46 @@ private fun Tile(selected: Boolean, onClick: () -> Unit, content: @Composable ()
 @Composable
 private fun SelectPacksSheet(onDismiss: () -> Unit, onToggle: (CosmeticPacks.Pack, Boolean) -> Unit) {
     val session = LocalSession.current
+    val scope = rememberCoroutineScope()
     var packs by remember { mutableStateOf(listOf<CosmeticPacks.Pack>()) }
     var subscribed by remember { mutableStateOf(setOf<String>()) }
     var loading by remember { mutableStateOf(true) }
+    var failed by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    suspend fun load() {
+        loading = true
+        failed = false
         try {
             subscribed = CosmeticPacks.subscribedRefs(CosmeticPackStore.subscriptions(session))
                 .map { "${it.roomId}|${it.stateKey}" }
                 .toSet()
             packs = CosmeticPackStore.discoverable(session)
+        } catch (_: Exception) {
+            failed = true
         } finally {
             loading = false
         }
     }
 
+    LaunchedEffect(Unit) { load() }
+
     WizardSheet(onDismiss) {
         SheetBar(tr("settings.emojisStickers.selectPacks"), trailing = { BarTextButton(tr("common.done"), onDismiss, bold = true) })
         LazyColumn(Modifier.fillMaxWidth().fillMaxHeight(0.85f).background(theme.bgSecondary).navigationBarsPadding()) {
             if (loading) {
-                item { Box(Modifier.fillMaxWidth().padding(WZ.Space.space6), contentAlignment = Alignment.Center) { Spinner() } }
+                item {
+                    Text(
+                        tr("common.loading"),
+                        Modifier.padding(WZ.Space.space6),
+                        style = wizardFont(WZ.FontSize.md),
+                        color = theme.textMuted,
+                    )
+                }
+            } else if (failed) {
+                item {
+                    Text(tr("settings.emojisStickers.packsLoadFailed"), Modifier.padding(WZ.Space.space6), style = wizardFont(WZ.FontSize.md), color = theme.error)
+                    BarTextButton(tr("common.retry"), { scope.launch { load() } }, bold = true)
+                }
             } else if (packs.isEmpty()) {
                 item {
                     Text(tr("settings.emojisStickers.noPacksFound"), Modifier.padding(WZ.Space.space6), style = wizardFont(WZ.FontSize.lg), color = theme.textMuted)

@@ -2,9 +2,11 @@
 
 use std::sync::{Arc, Mutex};
 
-use mudrix_core::rpc::Rpc;
+use mudrix_core::rpc::{Rpc, RpcError};
 use serde::Deserialize;
 use tauri::ipc::{Channel, InvokeBody, Request, Response};
+
+use crate::keyfile;
 
 pub struct Core {
     rpc: Rpc,
@@ -53,6 +55,7 @@ fn read_u32(bytes: &[u8], at: usize) -> Option<usize> {
 #[tauri::command]
 pub async fn rpc_call(
     core: tauri::State<'_, Core>,
+    keyfiles: tauri::State<'_, keyfile::KeyFiles>,
     request: Request<'_>,
 ) -> Result<Response, String> {
     let InvokeBody::Raw(body) = request.body() else {
@@ -62,7 +65,22 @@ pub async fn rpc_call(
     let length = read_u32(body, 0).ok_or_else(malformed)?;
     let header: Header = serde_json::from_slice(body.get(4..4 + length).ok_or_else(malformed)?)
         .map_err(|_| malformed())?;
-    let args = serde_json::from_str(&header.args).map_err(|_| malformed())?;
+    let args: Vec<serde_json::Value> =
+        serde_json::from_str(&header.args).map_err(|_| malformed())?;
+    // The core writes and reads key files itself, so its two file methods only run for a path a
+    // native dialog returned, and only once.
+    if let Some(kind) = keyfile::Kind::for_method(&header.method) {
+        let path = args
+            .first()
+            .and_then(|arg| arg.as_str())
+            .unwrap_or_default();
+        if !keyfiles.take(path, kind) {
+            return Err(RpcError::invalid(
+                "key file paths must be chosen with the file dialog first",
+            )
+            .to_json());
+        }
+    }
     let mut offset = 4 + length;
     let mut blobs = Vec::with_capacity(header.blobs.len());
     for size in header.blobs {

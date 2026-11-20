@@ -1,9 +1,28 @@
-import { style, keyframes } from '@vanilla-extract/css';
+import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { uiSize } from '@/theme/uiDensity';
 import { fast } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
+import { listNameplateWash } from '@/app/features/profile/ListCosmetics.css';
+
+/**
+ * One DM row, nameplate or not: a rounded card whose edges are the lines every other list row's
+ * content sits on. A plain room row is `margin 4px + padding 8px` from the list's edge, so its avatar
+ * starts and its text/badges end 12px in; the card takes that same 12px as its own inset and carries
+ * no padding, so a nameplate's art starts on the avatar line and stops on the badges line, just
+ * clear of the scrollbar. The virtualizer's 4px under the card is the air between DM rows.
+ */
+const dmRowCard = {
+  boxSizing: 'border-box' as const,
+  height: `calc(${uiSize('dmRow')} - 4px)`,
+  margin: '0 12px',
+  padding: 0,
+  borderRadius: vars.radius.md,
+};
+
+/** The avatar always fits the card with 6px above and below it, at every density. */
+const dmAvatar = `min(${uiSize('roomAvatar')}, calc(${uiSize('dmRow')} - 16px))`;
 
 export const roomItem = style({
   position: 'relative',
@@ -22,19 +41,22 @@ export const roomItem = style({
     color: vars.color.textPrimary,
   },
   selectors: {
-    '&[data-fixed-height="true"]': {
-      boxSizing: 'border-box',
-      height: `calc(${uiSize('dmRow')} - 4px)`,
-    },
+    '&[data-fixed-height="true"]': dmRowCard,
+    // A nameplate is the card's whole surface, so it shares the plain DM row's box exactly
+    '&[data-nameplate="true"]': dmRowCard,
+
     '&[data-active="true"]:hover': {
       backgroundColor: vars.color.bgActive,
     },
     '&[data-active="true"]': {
       backgroundColor: vars.color.bgActive,
       color: vars.color.textPrimary,
-      // Painted over the row's contents so it still shows on top of a custom nameplate.
-      outline: `1px solid color-mix(in srgb, ${vars.color.accent} 70%, transparent)`,
-      outlineOffset: '-1px',
+    },
+    // The surface is the whole affordance: a focus ring only for a keyboard visitor, never on click
+    '&:focus': { outline: 'none' },
+    '&:focus-visible': {
+      outline: `2px solid ${vars.color.accent}`,
+      outlineOffset: '-2px',
     },
     '&[data-has-notif="true"]': {
       color: vars.color.textPrimary,
@@ -45,6 +67,14 @@ export const roomItem = style({
   },
 });
 
+// A nameplate is an image above the row's own background, so hover and selection wash the card itself
+globalStyle(`${roomItem}:hover ${listNameplateWash}`, {
+  backgroundColor: vars.color.bgHover,
+});
+globalStyle(`${roomItem}[data-active="true"] ${listNameplateWash}`, {
+  backgroundColor: vars.color.bgActive,
+});
+
 export const chatAvatarImg = style({
   width: '100%',
   height: '100%',
@@ -53,10 +83,46 @@ export const chatAvatarImg = style({
 });
 
 export const chatTextContent = style({
-  flex: 1,
+  // The name takes its own width (and ellipsises) so a badge can sit right after it
+  flex: '0 1 auto',
+  minWidth: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
+  selectors: {
+    // Over the banner the name is the row's one strong line: white, semibold, like the reference
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      fontWeight: 600,
+      color: vars.color.textPrimary,
+    },
+  },
+});
+
+/** The name and the badge that may follow it, on one line, centred; the name keeps the ellipsis. */
+export const nameLine = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px',
+  minWidth: 0,
+  width: '100%',
+});
+
+/** Optional pill right after a name: a tiny icon and 2-4 uppercase letters, on translucent dark. */
+export const nameBadge = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '2px',
+  flexShrink: 0,
+  height: '16px',
+  padding: '0 6px',
+  borderRadius: vars.radius.pill,
+  backgroundColor: vars.scrim.base,
+  color: vars.color.onAccent,
+  fontSize: fontSize.xs,
+  fontWeight: 600,
+  letterSpacing: '0.04em',
+  textTransform: 'uppercase',
+  lineHeight: 1,
 });
 
 export const itemBadges = style({
@@ -91,6 +157,12 @@ export const chatAvatar = style({
   justifyContent: 'center',
   fontSize: fontSize.rem85,
   position: 'relative',
+  selectors: {
+    [`${roomItem}[data-fixed-height="true"] &`]: {
+      width: dmAvatar,
+      height: dmAvatar,
+    },
+  },
 });
 
 export const avatarWrap = style({
@@ -99,6 +171,18 @@ export const avatarWrap = style({
   height: uiSize('roomAvatar'),
   flexShrink: 0,
   marginRight: '8px',
+  selectors: {
+    [`${roomItem}[data-fixed-height="true"] &`]: {
+      width: dmAvatar,
+      height: dmAvatar,
+    },
+    // Inside the banner the avatar keeps a thin dark ring so it separates from the art
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      marginRight: '12px',
+      borderRadius: '50%',
+      boxShadow: `0 0 0 1px ${vars.scrim.base}`,
+    },
+  },
 });
 
 export const roomTypeBadge = style({
@@ -253,6 +337,13 @@ export const chatTextColumn = style({
   flexDirection: 'column',
   justifyContent: 'center',
   lineHeight: 1.2,
+  selectors: {
+    // The scrim keeps the left readable, and this local halo keeps the name crisp where a bright
+    // patch of art reaches it, whatever the name's length
+    [`${roomItem}[data-nameplate="true"] &`]: {
+      textShadow: `0 1px 2px ${vars.scrim.deep}`,
+    },
+  },
 });
 
 export const chatStatusLine = style({
@@ -280,13 +371,14 @@ export const chatStatusText = style({
 
 export const presenceDot = style({
   position: 'absolute',
-  right: '-2px',
-  bottom: '-2px',
-  width: '14px',
-  height: '14px',
+  // Tucked into the avatar's corner, 12px with a 2px page-coloured ring so it reads over art
+  right: 0,
+  bottom: 0,
+  width: '12px',
+  height: '12px',
   boxSizing: 'border-box',
   borderRadius: '50%',
-  border: `2px solid ${vars.color.bgSecondary}`,
+  border: `2px solid ${vars.color.bgPrimary}`,
   pointerEvents: 'none',
   zIndex: zIndex.avatar,
 });

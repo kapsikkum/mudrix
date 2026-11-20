@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "Вы переключились на {{account}} в другой вкладке. Эта вкладка будет перезагружена, чтобы продолжить как {{account}}.",
     "signedOutElsewhereTitle": "Вы вышли из системы",
     "signedOutElsewhereMessage": "Ваш сеанс был завершён в другой вкладке. Эта вкладка будет перезагружена.",
+    "otherTabTitle": "Mudrix открыт в другой вкладке",
+    "otherTabBody": "Одновременно использовать этот аккаунт может только одна вкладка. Обе вкладки были бы одним и тем же зашифрованным устройством, и сообщения приходили бы заблокированными в одну из них.",
+    "otherTabUse": "Использовать эту вкладку",
+    "otherTabTakingOver": "Переключаем...",
     "errors": {
       "homeserver": "Не удалось подключиться к homeserver Matrix по адресу {{server}}.",
       "credentials": "Неверное имя пользователя или пароль",
@@ -1454,7 +1458,28 @@
       "unknown": "Не удалось найти, из какого набора этот стикер"
     },
     "seen": "Прочитано",
-    "sent": "Отправлено"
+    "sent": "Отправлено",
+    "linkEmbed": {
+      "consent": "Загрузить встроенный контент {{service}}? При этом происходит обращение к {{service}}, и сервис увидит ваш IP-адрес и данные устройства.",
+      "allow": "Загрузить контент",
+      "deny": "Не сейчас",
+      "open": "Открыть в {{service}}",
+      "play": "Воспроизвести контент {{service}}",
+      "spotifyPrompt": "Загрузить плеер Spotify? При этом происходит обращение к Spotify, и сервис увидит ваш IP-адрес и данные устройства.",
+      "spotifyPlayer": "Плеер Spotify",
+      "loadSpotify": "Загрузить плеер Spotify",
+      "xLoading": "Загрузка поста из X…",
+      "xVerified": "Подтверждён",
+      "postFailed": "Не удалось загрузить этот пост",
+      "mastodonLoading": "Загрузка поста из Mastodon…",
+      "mastodonWarning": "Предупреждение о содержимом: {{warning}}",
+      "via": "через embeds.now",
+      "loading": "Загрузка встроенного контента {{service}}…",
+      "unavailable": "Для этой ссылки {{service}} нельзя показать предпросмотр",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Загрузить встроенный контент {{service}}? Mudrix просит embeds.now получить его, поэтому embeds.now видит ссылку и ваш IP-адрес, а {{service}} — нет.",
+      "openImage": "Открыть изображение"
+    }
   },
   "call": {
     "event": {
@@ -1506,7 +1531,7 @@
       "invalidLink": "Это не похоже на ссылку на видео YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Смотреть вместе",
       "menu": "Смотреть видео с YouTube",
       "title": "Смотреть видео YouTube вместе",
       "linkLabel": "Ссылка на YouTube",
@@ -1521,7 +1546,6 @@
       "stopWatching": "Перестать смотреть",
       "consentTitle": "Прежде чем смотреть",
       "consentBody": "Видео воспроизводит YouTube. При просмотре оно загружается с серверов YouTube, из-за чего ваш IP-адрес, данные об устройстве и браузере и то, что вы смотрите, отправляются в YouTube (Google).",
-      "beta": "Бета",
       "playerUnavailable": "Не удалось загрузить плеер. Повторите попытку позже или откройте видео на YouTube.",
       "focus": "Выделить видео",
       "waitingFor": "Ожидание {{name}}..."
@@ -1768,6 +1792,36 @@
         "sizeLarge": "Большой ({{px}} px)",
         "sizeMedium": "Средний ({{px}} px)",
         "sizeSmall": "Малый ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Встраивание ссылок",
+        "note": "«Спрашивать» сначала показывает запрос. «Разрешать» автоматически загружает плеер или пост с сервиса, даже в зашифрованных комнатах. «Скрывать» оставляет ссылку обычным текстом.",
+        "ask": "Спрашивать",
+        "on": "Разрешать",
+        "off": "Скрывать",
+        "via": "Карточки для X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn и Tumblr создаёт embeds.now. Если разрешить сервис, его ссылки отправляются в embeds.now, который загружает пост за вас, поэтому ваше устройство само никогда не обращается к сервису.",
+        "groupCards": "Карточки от embeds.now",
+        "groupPlayers": "Плееры сервисов",
+        "allowAll": "Разрешить все",
+        "askAll": "Спрашивать для всех",
+        "hideAll": "Скрыть все",
+        "browserUnavailable": "Браузерная версия не может загружать эти карточки и показывает обычную ссылку. Приложения для компьютера и телефона могут.",
+        "bulk": "Все сервисы",
+        "desc": {
+          "youtube": "Видеоплеер YouTube, запускается по клику",
+          "spotify": "Треки, альбомы, плейлисты и подкасты",
+          "x": "Посты и профили с фото и видео",
+          "instagram": "Посты, рилсы и общие ссылки",
+          "tiktok": "Видео и фотопосты",
+          "reddit": "Посты с изображениями и видео",
+          "facebook": "Посты, рилсы и видео",
+          "threads": "Посты и аккаунты",
+          "bluesky": "Посты и профили",
+          "mastodon": "Посты с крупных серверов",
+          "pinterest": "Пины и их изображения",
+          "linkedin": "Публичные посты",
+          "tumblr": "Записи в блогах"
+        }
       }
     },
     "voice": {
@@ -1799,7 +1853,6 @@
         "moved": "Перемещение в другой канал",
         "watchTogetherStart": "Начало совместного просмотра"
       },
-      "title": "Голос и звук",
       "inputTitle": "Ввод",
       "outputTitle": "Вывод",
       "cameraTitle": "Камера",
@@ -1895,7 +1948,7 @@
         "fingerprintLabel": "Отпечаток ключа подписи: {{fingerprint}}",
         "explain": "Mudrix сохранит этот ключ и будет проверять последующие обновления с его помощью.",
         "confirm": "Доверять и добавить",
-        "address": "Address",
+        "address": "Адрес",
         "runCode_other": "{{count}} интеграций запускают код",
         "runCode_one": "{{count}} интеграция запускает код"
       },
@@ -1969,7 +2022,7 @@
         "none": "Он не обращается ни к одному серверу",
         "note": "Любые другие адреса отклоняются. Файлы cookie и данные аккаунта не отправляются."
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "Ключ издателя {{fingerprint}}",
       "badge": {
         "runsCode": "Запускает код"
       },
@@ -2275,13 +2328,6 @@
       "notificationSoundsNote": "Воспроизводить звук при поступлении уведомления",
       "notificationBanners": "Баннеры уведомлений",
       "notificationBannersNote": "Показывать уведомления на рабочем столе",
-      "desktop": "Настольное приложение",
-      "desktopKeepRunning": "Продолжать работу в фоновом режиме",
-      "desktopKeepRunningNote": "При закрытии окна Mudrix скрывается в системный трей, и вы продолжаете получать уведомления. Выйти можно из меню трея.",
-      "desktopLaunchAtLogin": "Запускать при входе в систему",
-      "desktopLaunchAtLoginNote": "Автоматически запускать Mudrix при входе в компьютер.",
-      "desktopStartMinimized": "Запускать свёрнутым в трей",
-      "desktopStartMinimizedNote": "При запуске при входе в систему оставаться в трее вместо открытия окна.",
       "messagesLabel": "Сообщения",
       "dms": "Личные сообщения",
       "rooms": "Комнаты",
@@ -2308,15 +2354,15 @@
         "entry": "{{room}} в {{time}}",
         "cancel": "Отменить напоминание"
       },
-      "chooseSounds": "Выберите звуки в разделе «Голос и звук»",
+      "chooseSounds": "Выберите звуки в разделе «Аудио и видео»",
       "notificationBannersNoteTouch": "Показывать уведомления на этом устройстве",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "Аудио и видео",
+      "voice": "Аудио",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2371,7 +2417,36 @@
       "searchPacks": "Поиск наборов",
       "subscribeAll": "Подписаться на все",
       "unsubscribeAll": "Отписаться от всех",
-      "noPacksMatch": "Наборы, соответствующие запросу, не найдены"
+      "noPacksMatch": "Наборы, соответствующие запросу, не найдены",
+      "packsLoadFailed": "Не удалось загрузить наборы из ваших комнат."
+    },
+    "soundboard": {
+      "title": "Звуковая панель",
+      "defaultPack": "Набор по умолчанию",
+      "defaultPackNote": "Ваш личный набор доступен в каждом звонке.",
+      "defaultPackName": "Ваши звуки",
+      "favoritePacks": "Избранные наборы",
+      "favoritePacksNote": "Выберите наборы звуков из своих комнат, чтобы использовать их в каждом звонке.",
+      "selectPacks": "Выбрать наборы",
+      "noFavoritePacks": "Избранных наборов пока нет",
+      "noPacksFound": "Наборы звуков не найдены",
+      "removeFavorite": "Убрать {{name}} из избранного",
+      "soundCount_one": "{{count}} звук",
+      "soundCount_other": "Звуков: {{count}}",
+      "packName": "Название набора",
+      "packNamePlaceholder": "Мои звуки",
+      "attribution": "Авторство",
+      "attributionPlaceholder": "Кто создал эти звуки или откуда они",
+      "sounds": "Звуки",
+      "addSounds": "Добавить звуки",
+      "noSounds": "Звуков пока нет. Добавьте клип, чтобы начать.",
+      "name": "Название звука",
+      "emoji": "Эмодзи звука",
+      "preview": "Прослушать",
+      "stopPreview": "Остановить прослушивание",
+      "removeSound": "Убрать {{name}}",
+      "limits": "MP3, M4A, AAC или WAV, до 5 секунд и 512 КБ каждый.",
+      "loadFailed": "Не удалось загрузить ваши наборы звуков."
     },
     "keybinds": {
       "title": "Горячие клавиши",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Готово",
       "excludeInsecure": "Исключить небезопасные сеансы",
       "excludeInsecureNote": "Если включено, зашифрованные сообщения не передаются непроверенным сеансам, а сообщения, отправленные из непроверенных сеансов, отображаются как ошибка. Возможно, вы не сможете общаться с людьми, которые не проверили свои сеансы."
+    },
+    "desktop": {
+      "title": "Приложение для компьютера",
+      "note": "Эти настройки относятся к приложению Mudrix на этом компьютере.",
+      "launchAtLogin": "Открывать при входе в систему",
+      "launchAtLoginNote": "Автоматически запускать Mudrix при входе в компьютер.",
+      "startMinimized": "Запускать свёрнутым",
+      "startMinimizedNote": "Если приложение открывается при входе, оставаться в трее, а не показывать окно.",
+      "closeToTray": "Закрывать в трей",
+      "closeToTrayNote": "При закрытии окна Mudrix продолжает работать в трее, поэтому вы по-прежнему получаете сообщения и звонки. Выйти можно через значок в трее.",
+      "muteNotifications": "Отключить уведомления",
+      "muteNotificationsNote": "Отключает уведомления на компьютере без выхода из приложения. Это можно изменить и через трей.",
+      "saveFailed": "Не удалось сохранить эту настройку: {{error}}",
+      "loadFailed": "Не удалось загрузить настройки для компьютера: {{error}}"
     },
     "about": {
       "title": "О приложении",
@@ -3076,9 +3165,9 @@
   "whatsNew": {
     "title": "Что нового",
     "fullChangelog": "Полный список изменений на GitHub",
-    "version": "Version {{version}}",
-    "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website",
+    "version": "Версия {{version}}",
+    "dateVersion": "{{date}} · Версия {{version}}",
+    "website": "Сайт",
     "gotIt": "Понятно",
     "titleVersion": "Что нового в {{version}}"
   },
@@ -3142,7 +3231,7 @@
       "moderators": "Модераторы и выше"
     },
     "error": {
-      "type": "Используйте файл MP3, OGG или WAV",
+      "type": "Используйте файл MP3, M4A, AAC или WAV",
       "size": "Файл слишком большой (максимум 512 КБ)",
       "duration": "Клип слишком длинный (максимум 5 секунд)",
       "decode": "Не удалось прочитать файл как аудио",
@@ -3183,7 +3272,7 @@
       "noResults": "Нет звуков, подходящих под «{{query}}»",
       "file": "Звуковой файл",
       "chooseFile": "Выбрать файл",
-      "fileNote": "MP3, OGG или WAV, до 5 секунд и 512 КБ",
+      "fileNote": "MP3, M4A, AAC или WAV, до 5 секунд и 512 КБ",
       "chooseFirst": "Сначала выберите звуковой файл",
       "name": "Название",
       "emoji": "Эмодзи",

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -102,7 +103,16 @@ object MessageText {
             for ((part, url) in parts) {
                 val range = offset until offset + part.length
                 if (url != null && hidden.none { it.overlaps(range) }) {
-                    pushLink(LinkAnnotation.Url(url, TextLinkStyles(SpanStyle(color = linkColor))))
+                    // The underline is the affordance (the colour alone is never the only signal),
+                    // and it stays on the on-accent colour in an own bubble where it is passed in.
+                    pushLink(
+                        LinkAnnotation.Url(
+                            url,
+                            TextLinkStyles(
+                                SpanStyle(color = linkColor, textDecoration = TextDecoration.Underline)
+                            )
+                        )
+                    )
                     append(part)
                     pop()
                     linked += range

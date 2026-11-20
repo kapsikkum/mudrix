@@ -9,6 +9,9 @@ export function useLoadedMembers(roomId: string | null | undefined): ReadonlyMap
   const { data } = useQuery<Member[]>({
     queryKey: queryKeys.members(roomId ?? ''),
     queryFn: skipToken,
+    // Cache-only: useMembers owns the fetch. Without this, React Query tries to run the skipToken
+    // query for the first message rendered in a room and logs a configuration error.
+    enabled: false,
   });
   if (!data) return EMPTY;
   let byId = byIdCache.get(data);

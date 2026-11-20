@@ -35,9 +35,9 @@ import kotlinx.serialization.json.JsonPrimitive
  * - redirects are not followed by the connection: each hop is checked against the same allow-list, at most three, GET
  *   only (a redirect of a POST is refused);
  * - a size cap counted while the body streams, and a timeout for the whole request;
- * - the answer must be what the caller expects: JSON (parsed here), or for the two files a repository needs, the signed
- *   repo.json (GitHub serves it as `text/plain`) and its detached signature. Nothing else is accepted, so nothing from
- *   an answer is ever markup;
+ * - the answer must be what the caller expects: JSON (parsed here), for the two files a repository needs the signed
+ *   repo.json (GitHub serves it as `text/plain`) and its detached signature, or a raster image for a link card. Nothing
+ *   else is accepted, so nothing from an answer is ever markup;
  * - a request nobody asked for (a link card looking something up while a message is on screen) is refused while the
  *   blocker is set, which the app uses for streamer mode.
  *
@@ -45,8 +45,11 @@ import kotlinx.serialization.json.JsonPrimitive
  * icons are never fetched.
  */
 object IntegrationNetwork {
-    /** No answer may be bigger than this, whatever the caller asks for */
+    /** No answer but a link preview image may be bigger than this, whatever the caller asks for */
     const val MAX_RESPONSE_BYTES = 1024 * 1024
+
+    /** The larger cap a link preview image may ask for */
+    const val MAX_IMAGE_BYTES = 5 * 1024 * 1024
     const val DEFAULT_TIMEOUT_MS = 10_000
     const val MAX_TIMEOUT_MS = 30_000
     const val MAX_REDIRECTS = 3
@@ -64,6 +67,9 @@ object IntegrationNetwork {
 
         /** A short `text/plain` file, the detached signature of a repo.json, returned in `text` */
         signature("text/plain"),
+
+        /** A raster image for a link card, returned in `bytes` */
+        image("image/*"),
     }
 
     enum class Reason { blocked, forbidden, redirect, tooLarge, timeout, type, invalid, network }
@@ -234,12 +240,20 @@ object IntegrationNetwork {
         return UrlCheck.Ok(URI(text), host)
     }
 
+    /** The raster types a link preview may be; nothing a browser would render as markup */
+    private val IMAGE_TYPES = setOf(
+        "image/png", "image/jpeg", "image/gif", "image/webp", "image/bmp", "image/avif", "image/heic", "image/heif",
+        "image/x-icon", "image/vnd.microsoft.icon",
+    )
+
     private fun contentTypeAllowed(expect: Expect, type: String): Boolean {
         val isJson = type == "application/json" || Regex("^application/[a-z0-9.+-]+\\+json$").matches(type)
         return when (expect) {
             Expect.json -> isJson
             Expect.jsonFile -> isJson || type == "text/plain"
             Expect.signature -> type == "text/plain"
+            // Raster formats a bitmap decoder understands; SVG and anything else is never markup here
+            Expect.image -> type in IMAGE_TYPES
         }
     }
 
@@ -287,7 +301,8 @@ object IntegrationNetwork {
 
     private fun run(request: Request, transport: Transport): Result {
         val timeoutMs = request.timeoutMs.coerceIn(1, MAX_TIMEOUT_MS)
-        val maxBytes = request.maxBytes.coerceIn(1, MAX_RESPONSE_BYTES)
+        val sizeCap = if (request.expect == Expect.image) MAX_IMAGE_BYTES else MAX_RESPONSE_BYTES
+        val maxBytes = request.maxBytes.coerceIn(1, sizeCap)
         val hasBody = request.jsonBody != null
         val post = request.post || hasBody
         val allow = request.allow.map { it.lowercase() }
@@ -345,6 +360,10 @@ object IntegrationNetwork {
                     return Failure("could not load $host", network = true, reason = Reason.network)
                 }
                 val etag = validEtag(res.headers["etag"])
+                if (request.expect == Expect.image) {
+                    // Decoded by the caller from these bytes only; never treated as text
+                    return Success(current.uri.toString(), bytes, contentType, etag = etag)
+                }
                 val text = decodeUtf8(bytes) ?: return fail("$host sent text that is not UTF-8", Reason.invalid)
                 return if (request.expect == Expect.signature) {
                     Success(current.uri.toString(), bytes, contentType, text = text, etag = etag)

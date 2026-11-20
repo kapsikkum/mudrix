@@ -291,7 +291,7 @@ fun CallControls(onOpenChat: (() -> Unit)? = null, modifier: Modifier = Modifier
                             watch.stop()
                         }
                     } else {
-                        MenuRow(tr("call.watchTogether.menuBeta"), "youtube-logo", PhWeight.fill) {
+                        MenuRow(tr("call.watchTogether.menuWatch"), "youtube-logo", PhWeight.fill) {
                             showMenu = false
                             showWatchSheet = true
                         }

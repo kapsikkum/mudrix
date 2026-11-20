@@ -14,6 +14,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import { formatUserId, isDmRoom } from '@/util/matrix';
 import { scrollToBottom } from '@/util/dom';
+import { droppedFiles, hasDraggedFiles } from '@/util/fileDrop';
 import { useRoom, useRoomSettings, useTimeline as useLiveTimeline } from '@/app/data';
 import {
   editMessageAtom,
@@ -39,6 +40,7 @@ import { useTimeline, itemContainsEvent, buildItems } from '@/app/hooks/useTimel
 import type { TimelineItem } from '@/app/hooks/useTimeline';
 import { isServerEventId, roomHasUnread } from './readReceipt';
 import { useTimelineReadReceipts } from './useTimelineReadReceipts';
+import { isAppVisible } from '@/bridge/windowActivity';
 import { itemMatchesQuery, useSearch } from '@/app/hooks/useSearch';
 import { useToast } from '@/app/hooks/useToast';
 import { useConfirm } from '@/app/hooks/useConfirm';
@@ -312,7 +314,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
 
   // Unencrypted rooms are searched on the homeserver, which can page through every message;
   // encrypted ones can only be matched against what this device has loaded.
-  const serverSearchEnabled = isSearching && !room?.isEncrypted;
+  const serverSearchEnabled = isSearching && room?.isEncrypted === false;
   const serverSearch = useRoomServerSearch(client, roomId, search.query, serverSearchEnabled);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -419,7 +421,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           debounceSetAtBottom(targetEntry);
           if (targetEntry.isIntersecting && atLiveEndRef.current) {
             setAtBottom(true);
-            if (document.hasFocus()) {
+            if (isAppVisible()) {
               tryAutoMarkAsRead();
             }
           }
@@ -689,7 +691,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   useLayoutEffect(() => {
     if (!liveArrival) return;
     if (atBottomRef.current && atLiveEndRef.current) {
-      if (document.hasFocus()) {
+      if (isAppVisible()) {
         requestAnimationFrame(() => sendReadReceiptIfDue());
       }
       const scrollEl = scrollRef.current;
@@ -719,25 +721,49 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const dragDepthRef = useRef(0);
   const handleDragEnter = useCallback((e: React.DragEvent) => {
+    // Only files: dragging text, a link or a row of the room list in from elsewhere is not a drop
+    // the message area takes.
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
     if (++dragDepthRef.current === 1) setIsDragging(true);
   }, []);
   const handleDragLeave = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
-    if (--dragDepthRef.current === 0) setIsDragging(false);
+    dragDepthRef.current = Math.max(dragDepthRef.current - 1, 0);
+    if (dragDepthRef.current === 0) setIsDragging(false);
   }, []);
   const handleDragOver = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
+    // Without this the webview refuses the drop and follows the file instead.
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
   }, []);
   const [droppedFile, setDroppedFile] = useState<File[] | null>(null);
   const handleDrop = useCallback((e: React.DragEvent) => {
+    if (!hasDraggedFiles(e.dataTransfer)) return;
     e.preventDefault();
     dragDepthRef.current = 0;
     setIsDragging(false);
-    const files = Array.from(e.dataTransfer.files);
+    const files = droppedFiles(e.dataTransfer);
     if (files.length > 0) setDroppedFile(files);
   }, []);
   const clearDroppedFile = useCallback(() => setDroppedFile(null), []);
+
+  // A drag that is dropped outside the message area, or ends outside the window, never sends the
+  // `dragleave` that would take the hint away: clear it on the window's own end of the drag.
+  useEffect(() => {
+    const resetDrag = () => {
+      dragDepthRef.current = 0;
+      setIsDragging(false);
+    };
+    window.addEventListener('drop', resetDrag);
+    window.addEventListener('dragend', resetDrag);
+    return () => {
+      window.removeEventListener('drop', resetDrag);
+      window.removeEventListener('dragend', resetDrag);
+    };
+  }, []);
 
   const [hoveredEventId, handleHover] = useMessageHover();
 
@@ -942,11 +968,11 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return map;
   }, [items]);
 
-  // Where each reader has got to: their read receipt, or their own latest message if that is later
-  // (replying means they saw what came before). A reader's marker never sits on their own messages,
-  // so it moves back to the last message from someone else.
+  // Where each reader has got to: their actual read receipt. Sending a message is not proof that
+  // someone read what came before it, so it must not move their marker: that showed avatars under
+  // messages the person had never opened. A reader's marker never sits on their own messages, so
+  // the last step moves it back to the last message from someone else.
   const effectiveReceiptMap = useMemo(() => {
-    const myUserId = client.userId();
     const indexOfEvent = new Map<string, number>();
     const lastSenderPos = new Map<string, number>();
     items.forEach((it, i) => {
@@ -976,20 +1002,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           readers.set(user.userId, { user, pos: effectivePos });
       }
     }
-    items.forEach((it, i) => {
-      if (!it.senderId || it.senderId === myUserId || it.isSystemMessage) return;
-      const known = readers.get(it.senderId);
-      if (known && known.pos >= i) return;
-      readers.set(it.senderId, {
-        user: {
-          userId: it.senderId,
-          displayName: it.senderName,
-          avatarUrl: it.senderAvatar ?? null,
-          ts: it.event.timestamp ?? 0,
-        },
-        pos: i,
-      });
-    });
 
     const out = new Map<string, ReceiptUser[]>();
     for (const { user, pos } of readers.values()) {
@@ -1002,7 +1014,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       out.set(targetId, list);
     }
     return out;
-  }, [items, receiptMap, client]);
+  }, [items, receiptMap]);
 
   // Your latest message that has actually been sent: the bubble layout marks it Sent until read.
   const lastOwnEventId = useMemo(() => {

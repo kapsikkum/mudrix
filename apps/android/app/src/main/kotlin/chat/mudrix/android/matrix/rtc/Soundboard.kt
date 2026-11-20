@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -20,13 +21,16 @@ import kotlinx.serialization.json.put
 import chat.mudrix.android.MudrixApplication
 import chat.mudrix.android.matrix.Namespace
 import chat.mudrix.core.MudrixClient
+import chat.mudrix.core.SoundPack
+import chat.mudrix.core.SoundPackSource
+import chat.mudrix.core.SoundboardSound as PackSound
 
-/** A bundled clip; the ids are what other clients know them by, and the files are `sb_<id>` in `res/raw` */
+/** A bundled clip of the pre-MSC4577 board; the ids are what 26.12.4 clients know them by, and the files are `sb_<id>` in `res/raw` */
 data class BuiltInClip(val id: String, val name: String, val emoji: String, val durationMs: Long) {
     val resource get() = "sb_" + id.replace('-', '_')
 }
 
-/** A custom clip of a personal or room board: stored in account data or room state */
+/** A clip of a pack as the editor works on it; `id` is the shortcode MSC4577 sends */
 data class SoundboardSound(
     val id: String,
     val name: String,
@@ -35,10 +39,10 @@ data class SoundboardSound(
     val mimetype: String,
     val durationMs: Long,
     val size: Long,
-    val volume: Float,
+    val volume: Float = 1f,
 )
 
-/** What the UI lists: a bundled clip (`url` empty) or a custom one */
+/** What the UI lists: a clip of a core pack (`builtIn` for the standard sounds) */
 data class SoundboardClip(
     val id: String,
     val name: String,
@@ -49,9 +53,13 @@ data class SoundboardClip(
     val durationMs: Long,
     val volume: Float,
     val resource: String? = null,
+    val size: Long? = null,
+    /** The pack the clip came from, for editing; null for the standard sounds */
+    val packRoomId: String? = null,
+    val packStateKey: String? = null,
 )
 
-/** One press as it is sent: `{ sound: { id, name, emoji?, volume, builtin? | url, mimetype, durationMs } }` */
+/** The payload of the pre-MSC4577 press, still accepted from 26.12.4 clients */
 data class SoundboardPress(
     val id: String,
     val name: String,
@@ -98,19 +106,28 @@ class SoundboardLimiter(private val minGapMs: Long, private val burst: Int, priv
 }
 
 /**
- * The call soundboard (`features/soundboard` on the web). A press is played here at once and sent to the
- * call as `io.github.kapsikkum.mudrix.soundboard.play`, on the data channel (topic = the type) and as a
- * room event for clients that cannot use the data channel; everyone who receives it plays it on their own
- * side, so each listener can silence it separately from voice. Receivers check what they are sent.
+ * The call soundboard. A press is played here at once and sent in the standard MSC4577 form on the
+ * LiveKit data topic `moe.crafty.soundboard`: `{ url, shortcode, org.wizardchat.emoji? }`, an `mxc://`
+ * URI of at most 1024 bytes. Receivers fetch it with the core's `soundboardSound` and play it on their
+ * own side, so each listener can silence it separately from voice. The old Mudrix topic
+ * `io.github.kapsikkum.mudrix.soundboard.play` is still received from 26.12.4 clients and sent as a
+ * silent fallback on the data channel (never as a room event). Packs live in core.
  */
 object Soundboard {
-    val PLAY_TYPE = Namespace.mudrixKey("soundboard.play")
+    /** The standard LiveKit data topic (MSC4577) */
+    const val TOPIC = "moe.crafty.soundboard"
+    /** The old Mudrix data topic and room event, read for 26.12.4 clients */
+    const val PLAY_TYPE = "io.github.kapsikkum.mudrix.soundboard.play"
     val PLAY_TYPES = listOf(PLAY_TYPE, Namespace.legacyMudrixKey("soundboard.play"))
-    val BOARD_TYPE = Namespace.mudrixKey("soundboard")
-    val LEGACY_BOARD_TYPE = Namespace.legacyMudrixKey("soundboard")
 
-    const val MAX_DURATION_MS = 5000L
-    const val MAX_SIZE_BYTES = 512 * 1024
+    const val EMOJI_KEY = "org.wizardchat.emoji"
+    const val MAX_MESSAGE_BYTES = 1024
+    const val MAX_SHORTCODE_BYTES = 100
+    const val MAX_EMOJI_BYTES = 32
+
+    /** The limits of the core's pack API; a clip from any client is held to them */
+    const val MAX_DURATION_MS = 15_000L
+    const val MAX_SIZE_BYTES = 1024 * 1024L
     const val MAX_SOUNDS = 32
     const val MAX_NAME_LENGTH = 32
     private const val MAX_PLAY_MS = MAX_DURATION_MS + 1000
@@ -118,6 +135,7 @@ object Soundboard {
     private const val DUPLICATE_WINDOW_MS = 1500L
     private const val ROOM_AFTER_CALL_WINDOW_MS = 10_000L
 
+    /** The 26.12.4 built-ins, kept only to play what an old client sends */
     val builtIn = listOf(
         BuiltInClip("airhorn", "Air Horn", "📯", 2009),
         BuiltInClip("applause", "Applause", "👏", 3451),
@@ -156,7 +174,68 @@ object Soundboard {
     private fun JsonElement?.string() = (this as? JsonPrimitive)?.takeIf { it.isString }?.content
     private fun JsonElement?.number() = (this as? JsonPrimitive)?.takeIf { !it.isString }?.doubleOrNull?.takeIf { it.isFinite() }
 
-    /** Keeps only well-formed clips with an allowed type, size and length; never throws */
+    private fun readable(shortcode: String): String = when (shortcode) {
+        "applause" -> "Applause"
+        "laugh" -> "Laughter"
+        "rimshot" -> "Ba-dum-tss"
+        "drumroll" -> "Drum roll"
+        "tada" -> "Ta-da"
+        "airhorn" -> "Air horn"
+        "crickets" -> "Crickets"
+        "sad_trombone" -> "Sad trombone"
+        else -> shortcode.replace('_', ' ').replace('-', ' ').replaceFirstChar { it.uppercase() }
+    }
+
+    /** A core pack sound as the UI lists it */
+    fun toClip(sound: PackSound, builtIn: Boolean = false, roomId: String? = null, stateKey: String? = null) =
+        SoundboardClip(
+            sound.shortcode,
+            sound.body?.takeIf { it.isNotBlank() } ?: readable(sound.shortcode),
+            sound.emoji,
+            builtIn,
+            sound.url,
+            sound.mimetype ?: "audio/mpeg",
+            (sound.durationMs ?: 0).toLong(),
+            1f,
+            null,
+            (sound.size ?: 0).toLong().takeIf { it > 0 },
+            roomId,
+            stateKey,
+        )
+
+    /** A core pack sound as the editor works on it */
+    fun toSound(sound: PackSound) = SoundboardSound(
+        sound.shortcode,
+        sound.body?.takeIf { it.isNotBlank() } ?: readable(sound.shortcode),
+        sound.emoji,
+        sound.url,
+        sound.mimetype ?: "audio/mpeg",
+        (sound.durationMs ?: 0).toLong(),
+        (sound.size ?: 0).toLong(),
+        1f,
+    )
+
+    /** A UI sound as the editor previews it */
+    fun toClip(sound: SoundboardSound) = SoundboardClip(
+        id = sound.id,
+        name = sound.name,
+        emoji = sound.emoji,
+        builtIn = false,
+        url = sound.url,
+        mimetype = sound.mimetype,
+        durationMs = sound.durationMs,
+        volume = sound.volume,
+        size = sound.size,
+    )
+
+    /** The clips of a core pack */
+    fun clips(pack: SoundPack): List<SoundboardClip> =
+        pack.sounds.map { toClip(it, pack.source == SoundPackSource.builtIn, pack.roomId, pack.stateKey) }
+
+    /**
+     * Keeps only well-formed clips of the old `{ sounds: [ { id, name, url, ... } ] }` board; never
+     * throws. Only used by the access rules, whose settings are not part of MSC4577.
+     */
     fun parseBoard(raw: JsonElement?): List<SoundboardSound> {
         val list = (raw as? JsonObject)?.get("sounds") as? JsonArray ?: return emptyList()
         val seen = HashSet<String>()
@@ -186,38 +265,42 @@ object Soundboard {
         return out.take(MAX_SOUNDS)
     }
 
-    fun toClip(sound: SoundboardSound) =
-        SoundboardClip(sound.id, sound.name, sound.emoji, false, sound.url, sound.mimetype, sound.durationMs, sound.volume)
-
-    /** The personal board: the current name wins, the earlier Mudrix one fills in */
-    suspend fun personalBoard(client: MudrixClient): List<SoundboardSound> {
-        val current = runCatching { client.cachedAccountData(BOARD_TYPE) }.getOrNull()
-        val board = parseBoard(current)
-        if (board.isNotEmpty() || current != null) return board
-        return parseBoard(runCatching { client.cachedAccountData(LEGACY_BOARD_TYPE) }.getOrNull())
+    /** The MSC4577 payload of a press: the `mxc://` URI, the shortcode and the emoji */
+    fun message(clip: SoundboardClip): JsonObject = buildJsonObject {
+        put("url", clip.url)
+        put("shortcode", clip.id.take(MAX_SHORTCODE_BYTES))
+        clip.emoji?.takeIf { it.encodeToByteArray().size <= MAX_EMOJI_BYTES }?.let { put(EMOJI_KEY, it) }
     }
 
-    /** The content for a press: bundled clips carry only their id, the rest the `mxc://` URI */
-    fun playContent(clip: SoundboardClip): JsonObject = buildJsonObject {
+    /** The old payload, sent as a silent fallback on the data channel so 26.12.4 clients can fetch the same file */
+    fun legacyMessage(clip: SoundboardClip): JsonObject = buildJsonObject {
         put(
             "sound",
             buildJsonObject {
                 put("id", clip.id)
                 put("name", clip.name)
                 clip.emoji?.let { put("emoji", it) }
-                put("volume", clip.volume.coerceIn(0f, 1f).toDouble())
-                if (clip.builtIn) {
-                    put("builtin", true)
-                } else {
-                    put("url", clip.url)
-                    put("mimetype", clip.mimetype)
-                    put("durationMs", clip.durationMs)
-                }
+                put("volume", 1.0)
+                put("url", clip.url)
+                put("mimetype", normalizeMimetype(clip.mimetype) ?: "audio/mpeg")
+                put("durationMs", minOf(clip.durationMs, 5000L))
             },
         )
     }
 
-    /** What a received press asks for, or null when it is not an acceptable one */
+    class Play(val url: String, val shortcode: String?, val emoji: String?)
+
+    /** A press on the standard topic, or null when it is not an acceptable one */
+    fun parse(data: ByteArray): Play? {
+        if (data.size > MAX_MESSAGE_BYTES) return null
+        val message = runCatching { Json.parseToJsonElement(data.decodeToString()) as? JsonObject }.getOrNull() ?: return null
+        val url = message["url"].string()?.takeIf { it.startsWith("mxc://") } ?: return null
+        val shortcode = message["shortcode"].string()?.takeIf { it.encodeToByteArray().size <= MAX_SHORTCODE_BYTES }
+        val emoji = message[EMOJI_KEY].string()?.takeIf { it.encodeToByteArray().size <= MAX_EMOJI_BYTES }
+        return Play(url, shortcode, emoji)
+    }
+
+    /** What a received old press asks for, or null when it is not an acceptable one */
     fun parsePress(content: JsonElement?): SoundboardPress? {
         val sound = (content as? JsonObject)?.get("sound") as? JsonObject ?: return null
         val id = sound["id"].string() ?: return null
@@ -243,7 +326,7 @@ object Soundboard {
         val userId: String,
         val inCall: (String) -> Boolean,
         val deafened: () -> Boolean,
-        val send: (JsonObject) -> Unit,
+        val send: (JsonObject, String) -> Unit,
     )
 
     @Volatile var link: CallLink? = null
@@ -271,64 +354,120 @@ object Soundboard {
         val link = link ?: return PlayResult.NotInCall
         if (!prefs.soundboardEnabled) return PlayResult.Disabled
         if (link.roomId != roomId) return PlayResult.NotInCall
-        val verdict = sendLimiter.check(link.userId, (if (clip.builtIn) "builtIn:" else "custom:") + clip.id)
+        if (clip.url.isEmpty()) return PlayResult.Error
+        val verdict = sendLimiter.check(link.userId, clip.id)
         if (verdict != PlayResult.Ok) return verdict
         // While deafened the press is sent but not heard
-        if (!link.deafened()) {
-            play(link.client, link.userId, clip.id, clip.builtIn, clip.resource, clip.url, clip.volume, clip.durationMs)
-        }
-        link.send(playContent(clip))
+        if (!link.deafened()) playUrl(link.client, link.userId, clip.url, clip.volume, clip.durationMs)
+        link.send(message(clip), TOPIC)
+        // Silent fallback for 26.12.4 clients, on the data channel only (no room event)
+        link.send(legacyMessage(clip), PLAY_TYPE)
+        scope.launch { runCatching { link.client.recordSoundPlayed(clip.url) } }
         return PlayResult.Ok
     }
 
     /** Plays a clip here only (the editor's preview); nothing is sent */
     fun preview(client: MudrixClient, clip: SoundboardClip) {
-        play(client, "preview", clip.id, clip.builtIn, clip.resource, clip.url, clip.volume, clip.durationMs)
+        if (clip.url.isNotEmpty()) playUrl(client, "preview", clip.url, clip.volume, clip.durationMs)
+        else if (clip.builtIn && clip.resource != null) playBundled("preview", clip.resource, clip.volume, clip.durationMs)
     }
 
-    /** Plays someone else's press when everything checks out; `fromRoom` is a press that came as a room event */
-    fun receive(roomId: String, sender: String, content: JsonElement?, fromRoom: Boolean) {
-        val link = link ?: return
-        if (link.roomId != roomId || sender == link.userId || !link.inCall(sender)) return
-        if (!prefs.soundboardEnabled || link.deafened() || sender in prefs.soundboardMutedUsers) return
-        val press = parsePress(content) ?: return
+    /** A press on the call's data channel: the standard topic, or the old one from 26.12.4 */
+    fun receive(roomId: String, sender: String, topic: String, data: ByteArray) {
+        if (topic == TOPIC) {
+            val play = parse(data) ?: return
+            receiveStandard(roomId, sender, play)
+        } else if (topic in PLAY_TYPES) {
+            val content = runCatching { Json.parseToJsonElement(data.decodeToString()) }.getOrNull() ?: return
+            receiveLegacy(roomId, sender, content, fromRoom = false)
+        }
+    }
+
+    /** A press that came as the old room event (26.12.4 clients send one as well as the data topic) */
+    fun receive(roomId: String, sender: String, content: JsonElement, fromRoom: Boolean) {
+        receiveLegacy(roomId, sender, content, fromRoom)
+    }
+
+    private fun listening(roomId: String, sender: String): CallLink? {
+        val link = link ?: return null
+        if (link.roomId != roomId || sender == link.userId || !link.inCall(sender)) return null
+        if (!prefs.soundboardEnabled || link.deafened() || sender in prefs.soundboardMutedUsers) return null
+        return link
+    }
+
+    private fun duplicate(sender: String, key: String, fromRoom: Boolean): Boolean {
         val now = System.currentTimeMillis()
-        val key = "$sender:${press.id}"
-        // The same press can arrive twice, on the data channel and as a room event
         val own = if (fromRoom) recentRoom else recentCall
-        if (own[key]?.let { now - it < DUPLICATE_WINDOW_MS } == true) return
-        if (fromRoom && recentCall[key]?.let { now - it < ROOM_AFTER_CALL_WINDOW_MS } == true) return
-        own[key] = now
+        if (own["$sender:$key"]?.let { now - it < DUPLICATE_WINDOW_MS } == true) return true
+        if (fromRoom && recentCall["$sender:$key"]?.let { now - it < ROOM_AFTER_CALL_WINDOW_MS } == true) return true
+        own["$sender:$key"] = now
         if (own.size > 100) own.remove(own.keys.first())
-        if (receiveLimiter.check(sender, press.id) != PlayResult.Ok) return
-        play(link.client, sender, press.id, press.builtIn, if (press.builtIn) builtInClip(press.id)?.resource else null, press.url.orEmpty(), press.volume, press.durationMs)
+        return false
     }
 
-    @SuppressLint("DiscouragedApi")
-    private fun play(client: MudrixClient, sender: String, id: String, builtIn: Boolean, resource: String?, url: String, volume: Float, durationMs: Long?) {
+    private fun receiveStandard(roomId: String, sender: String, play: Play) {
+        val link = listening(roomId, sender) ?: return
+        val key = play.shortcode ?: play.url
+        if (duplicate(sender, key, fromRoom = false)) return
+        if (receiveLimiter.check(sender, key) != PlayResult.Ok) return
+        playUrl(link.client, sender, play.url, 1f, null)
+    }
+
+    private fun receiveLegacy(roomId: String, sender: String, content: JsonElement?, fromRoom: Boolean) {
+        val link = listening(roomId, sender) ?: return
+        val press = parsePress(content) ?: return
+        if (duplicate(sender, press.id, fromRoom)) return
+        if (receiveLimiter.check(sender, press.id) != PlayResult.Ok) return
+        if (press.builtIn) {
+            playBundled(sender, builtInClip(press.id)?.resource, press.volume, press.durationMs)
+        } else {
+            playUrl(link.client, sender, press.url.orEmpty(), press.volume, press.durationMs)
+        }
+    }
+
+    private fun playUrl(client: MudrixClient, sender: String, url: String, volume: Float, durationMs: Long?) {
+        if (url.isEmpty()) return
         scope.launch {
             try {
                 if (active.size >= MAX_CONCURRENT) return@launch
-                val player = open(client, builtIn, resource, url) ?: return@launch
-                if (!prefs.soundboardEnabled || link?.deafened?.invoke() == true || active.size >= MAX_CONCURRENT) {
-                    player.release()
-                    return@launch
-                }
-                // One clip per person at a time: a new press cuts off that person's previous one
-                active.keys.filter { it.startsWith("$sender|") }.forEach { stop(it) }
-                val gain = volume.coerceIn(0f, 1f) * (prefs.soundboardVolume.coerceIn(0, 100) / 100f)
-                player.setVolume(gain, gain)
-                val key = "$sender|$id|${System.nanoTime()}"
-                active[key] = player
-                player.setOnCompletionListener { stop(key) }
-                player.setOnErrorListener { _, _, _ -> stop(key).let { true } }
-                player.start()
-                // A file claiming 5 s but running longer is cut off
-                val limit = minOf(durationMs?.takeIf { it > 0 } ?: MAX_PLAY_MS, MAX_PLAY_MS) + 400
-                kotlinx.coroutines.delay(limit)
-                stop(key)
+                val player = openFile(client, url) ?: return@launch
+                start(sender, url, player, volume, durationMs)
             } catch (_: Exception) {
             }
+        }
+    }
+
+    private fun playBundled(sender: String, resource: String?, volume: Float, durationMs: Long?) {
+        if (resource == null) return
+        scope.launch {
+            try {
+                if (active.size >= MAX_CONCURRENT) return@launch
+                val player = openBundled(resource) ?: return@launch
+                start(sender, resource, player, volume, durationMs)
+            } catch (_: Exception) {
+            }
+        }
+    }
+
+    private fun start(sender: String, id: String, player: MediaPlayer, volume: Float, durationMs: Long?) {
+        if (!prefs.soundboardEnabled || link?.deafened?.invoke() == true || active.size >= MAX_CONCURRENT) {
+            player.release()
+            return
+        }
+        // One clip per person at a time: a new press cuts off that person's previous one
+        active.keys.filter { it.startsWith("$sender|") }.forEach { stop(it) }
+        val gain = volume.coerceIn(0f, 1f) * (prefs.soundboardVolume.coerceIn(0, 100) / 100f)
+        player.setVolume(gain, gain)
+        val key = "$sender|$id|${System.nanoTime()}"
+        active[key] = player
+        player.setOnCompletionListener { stop(key) }
+        player.setOnErrorListener { _, _, _ -> stop(key).let { true } }
+        player.start()
+        scope.launch {
+            // A file claiming 5 s but running longer is cut off
+            val limit = minOf(durationMs?.takeIf { it > 0 } ?: MAX_PLAY_MS, MAX_PLAY_MS) + 400
+            kotlinx.coroutines.delay(limit)
+            stop(key)
         }
     }
 
@@ -345,35 +484,43 @@ object Soundboard {
     }
 
     @SuppressLint("DiscouragedApi")
-    private suspend fun open(client: MudrixClient, builtIn: Boolean, resource: String?, url: String): MediaPlayer? {
+    private fun openBundled(resource: String): MediaPlayer? {
         val context = MudrixApplication.instance
-        val attributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION_SIGNALLING)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build()
         return runCatching {
             MediaPlayer().apply {
-                setAudioAttributes(attributes)
-                if (builtIn) {
-                    val id = context.resources.getIdentifier(resource ?: return null, "raw", context.packageName)
-                    if (id == 0) return null
-                    val descriptor = context.resources.openRawResourceFd(id)
-                    setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
-                    descriptor.close()
-                } else {
-                    setDataSource(download(client, url).absolutePath)
-                }
+                setAudioAttributes(attributes())
+                val id = context.resources.getIdentifier(resource, "raw", context.packageName)
+                if (id == 0) return null
+                val descriptor = context.resources.openRawResourceFd(id)
+                setDataSource(descriptor.fileDescriptor, descriptor.startOffset, descriptor.length)
+                descriptor.close()
                 prepare()
             }
         }.getOrNull()
     }
 
-    /** A custom clip on disk, downloaded once (and decrypted when the room's media is) */
+    private suspend fun openFile(client: MudrixClient, url: String): MediaPlayer? {
+        val file = download(client, url)
+        return runCatching {
+            MediaPlayer().apply {
+                setAudioAttributes(attributes())
+                setDataSource(file.absolutePath)
+                prepare()
+            }
+        }.getOrNull()
+    }
+
+    private fun attributes() = AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION_SIGNALLING)
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+
+    /** A clip on disk, downloaded once through the core (which decrypts the room's media and knows the built-ins) */
     private suspend fun download(client: MudrixClient, url: String): File {
         val name = MessageDigest.getInstance("SHA-256").digest(url.encodeToByteArray()).joinToString("") { "%02x".format(it) }.take(32)
         val file = File(files, name)
         if (file.exists()) return file
-        val bytes = client.media(buildJsonObject { put("url", url) })
+        val bytes = client.soundboardSound(url)
         if (bytes.size > MAX_SIZE_BYTES * 1.5) throw IllegalStateException("clip too large")
         withContext(Dispatchers.IO) {
             files.mkdirs()

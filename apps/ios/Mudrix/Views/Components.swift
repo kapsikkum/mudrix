@@ -156,6 +156,9 @@ struct WizardFieldStyle: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            // The list's automatic field style paints its own filled box inside ours, which is what
+            // made settings' fields look like grey blocks with extra insets.
+            .textFieldStyle(.plain)
             .font(.wizard(WZ.FontSize.lg))
             .foregroundStyle(theme.textPrimary)
             .padding(.horizontal, WZ.Space.space5)

@@ -311,6 +311,22 @@ export function CallControlBar() {
             (view === 'fullscreen' && !isVoiceCall && !popoutOpen) ||
             view === 'tile') && <div className={css.menuDivider} role="separator" />}
 
+          <button
+            type="button"
+            role="menuitemcheckbox"
+            className={css.menuItem}
+            aria-checked={ui.isScreenSharing}
+            onClick={() => {
+              actions.toggleScreenshare();
+              closeMenu();
+            }}
+          >
+            <MonitorArrowUpIcon size={16} weight={ui.isScreenSharing ? 'fill' : 'regular'} />
+            <span className={css.menuItemLabel}>
+              {ui.isScreenSharing ? t('call.stopShare') : t('call.shareScreen')}
+            </span>
+          </button>
+
           {watchActions && (
             <button
               type="button"
@@ -324,7 +340,7 @@ export function CallControlBar() {
             >
               <YoutubeLogoIcon size={16} />
               <span className={css.menuItemLabel}>
-                {watching ? t('call.watchTogether.stop') : t('call.watchTogether.menu')}
+                {watching ? t('call.watchTogether.stop') : t('call.watchTogether.menuWatch')}
               </span>
             </button>
           )}

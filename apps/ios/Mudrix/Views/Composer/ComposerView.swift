@@ -104,20 +104,24 @@ struct ComposerView: View {
         .sensoryFeedback(.impact(weight: .light), trigger: sent)
         .task { await packStore.load(session: session, roomId: room.id) }
         .onAppear {
-            if draft.isEmpty, editing == nil, let saved = UserDefaults.standard.string(forKey: draftKey) { draft = saved }
+            if draft.isEmpty, editing == nil,
+               let saved = DraftStore.shared.draft(account: session.userId, key: draftKey) { draft = saved }
         }
         .onChange(of: draft) { _, text in
             guard editing == nil else { return }
-            if text.isEmpty { UserDefaults.standard.removeObject(forKey: draftKey) }
-            else { UserDefaults.standard.set(text, forKey: draftKey) }
+            DraftStore.shared.setDraft(text, account: session.userId, key: draftKey)
         }
         .dropDestination(for: Data.self) { items, _ in
             for data in items { addData(data) }
             return !items.isEmpty
         }
         .task { members = await timeline.members() }
-        // Leaving the room (or the thread) drops the attachments' background uploads
-        .onDisappear { timeline.cancelPreuploads() }
+        // Leaving the room (or the thread) drops the attachments' background uploads, and writes
+        // the draft while it is still this account's
+        .onDisappear {
+            timeline.cancelPreuploads()
+            DraftStore.shared.flush()
+        }
         .onChange(of: editing?.id) { _, _ in
             if let text = editing?.editableText {
                 draft = text

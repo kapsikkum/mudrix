@@ -1,0 +1,17 @@
+# Keeps the commit SHA pins in .github/workflows and .github/actions current: Dependabot rewrites the
+# pinned SHA and leaves the trailing `# vX` comment, so a review shows the version change. Weekly, one
+# grouped pull request (branch pushes run the unsigned test builds; a pin never gets the release keys).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns:
+          - '*'
+    commit-message:
+      prefix: ci

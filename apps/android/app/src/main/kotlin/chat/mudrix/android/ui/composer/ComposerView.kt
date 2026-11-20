@@ -351,7 +351,9 @@ fun ComposerView(
         if (saved && uri != null) addUri(uri, keepName = false)
     }
     fun launchCamera() {
-        val file = File(context.cacheDir, "camera-${System.currentTimeMillis()}.jpg")
+        // The FileProvider only exposes cache/share (and cache/media): keep the capture there, not at the cache root
+        val folder = File(context.cacheDir, "share").apply { mkdirs() }
+        val file = File(folder, "camera-${System.currentTimeMillis()}.jpg")
         val uri = androidx.core.content.FileProvider.getUriForFile(context, "${context.packageName}.files", file)
         cameraUri = uri
         takePicture.launch(uri)

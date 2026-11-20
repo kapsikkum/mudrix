@@ -1573,6 +1573,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const dmVirtualizer = useVirtualizer({
     count: dms.length,
     getScrollElement: () => roomListRef.current,
+    // Every DM row is the same card height, so the stride is the estimate exactly and nothing measures
     estimateSize: () => dmRowHeight,
     overscan: LIST_OVERSCAN,
     enabled: isDmView,

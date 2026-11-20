@@ -8,21 +8,18 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.doubleOrNull
 import chat.mudrix.android.matrix.MudrixRoomState
-import chat.mudrix.android.matrix.Namespace
 import chat.mudrix.android.matrix.MudrixTypes
 import chat.mudrix.android.matrix.SpaceModern
 import chat.mudrix.core.SpaceNode
 import chat.mudrix.core.MudrixClient
 
 /**
- * The boards of rooms and spaces and who may play in them (read only here; editing is not done on Android). A room's board is
- * its `io.github.kapsikkum.mudrix.soundboard` state (also read under the earlier name), its settings
- * `...soundboard.settings`. A space's clips are shared with its rooms, and every space above the room can switch the
- * soundboard off or raise the level needed to play, like the web's `boards.ts`.
+ * Who may play in a room's call. The packs themselves live in the core (`moe.crafty.room_soundboard`);
+ * only the Mudrix "who may play" setting stays a room setting: `...soundboard.settings` with
+ * `{ enabled, minPowerLevel }`. A space above the room can switch the soundboard off or raise the level.
  */
 object RoomSoundboards {
-    private val DATA_TYPE = Namespace.mudrixKey("soundboard")
-    val SETTINGS_TYPE = Namespace.mudrixKey("soundboard.settings")
+    val SETTINGS_TYPE = chat.mudrix.android.matrix.Namespace.mudrixKey("soundboard.settings")
 
     /** Kept this long: custom state is not part of what sync delivers */
     private const val CACHE_MS = 30_000L
@@ -30,16 +27,12 @@ object RoomSoundboards {
     class Settings(val enabled: Boolean, val minPowerLevel: Double)
 
     class Data(
-        val board: List<SoundboardSound>,
         /** The room's own setting, or null when it never set one */
         val settings: Settings?,
         val powerLevels: JsonObject?,
         val creators: Set<String>,
         val loadedAt: Long,
     )
-
-    /** A clip of a room or space board and the room whose board holds it */
-    class RoomClip(val clip: SoundboardClip, val originRoomId: String)
 
     enum class Access { ok, roomDisabled, forbidden }
 
@@ -53,10 +46,10 @@ object RoomSoundboards {
         return Settings(enabled ?: true, level ?: 0.0)
     }
 
-    /** The room's board, settings and power levels (kept for 30 seconds unless [force]) */
+    /** The room's setting and power levels (kept for 30 seconds unless [force]) */
     suspend fun load(client: MudrixClient, roomId: String, force: Boolean = false, now: Long = System.currentTimeMillis()): Data {
         cache[roomId]?.let { if (!force && now - it.loadedAt < CACHE_MS) return it }
-        val types = MudrixTypes.typeAndLegacy(DATA_TYPE) + MudrixTypes.typeAndLegacy(SETTINGS_TYPE)
+        val types = MudrixTypes.typeAndLegacy(SETTINGS_TYPE)
         val (events, room) = coroutineScope {
             val events = async { runCatching { client.stateEventsOfTypes(roomId, types) }.getOrDefault(emptyList()) }
             val room = async { runCatching { client.localRoomSettings(roomId) }.getOrNull() }
@@ -65,7 +58,6 @@ object RoomSoundboards {
         val state = MudrixRoomState.from(events)
         val previous = cache[roomId]
         val data = Data(
-            board = Soundboard.parseBoard(state.get(DATA_TYPE)),
             settings = sanitizeSettings(state.get(SETTINGS_TYPE)),
             powerLevels = (room?.powerLevels as? JsonObject) ?: previous?.powerLevels,
             creators = room?.creators?.toSet() ?: previous?.creators ?: emptySet(),
@@ -75,23 +67,9 @@ object RoomSoundboards {
         return data
     }
 
-    /** The rooms whose boards apply in [roomId]: the spaces above it (outermost first), then the room itself */
+    /** The rooms whose settings apply in [roomId]: the spaces above it (outermost first), then the room itself */
     fun boardRoomIds(graph: List<SpaceNode>, roomId: String): List<String> =
         (SpaceModern.rolesChainOf(graph, roomId).filter { it != roomId }.reversed() + roomId)
-
-    /** Every room and space board that applies in [roomId] (the room's own clip wins over a space's with the same id) */
-    suspend fun clips(client: MudrixClient, graph: List<SpaceNode>, roomId: String): List<RoomClip> {
-        val ids = boardRoomIds(graph, roomId)
-        val all = coroutineScope { ids.map { id -> async { load(client, id) } }.map { it.await() } }
-        val out = ArrayList<RoomClip>()
-        ids.forEachIndexed { i, origin ->
-            for (sound in all[i].board) {
-                out.removeAll { it.clip.id == sound.id }
-                out += RoomClip(Soundboard.toClip(sound), origin)
-            }
-        }
-        return out
-    }
 
     /**
      * Whether [userId] may play clips in the call in [roomId]: the room and every space above it must have the soundboard on
@@ -117,10 +95,9 @@ object RoomSoundboards {
     }
 
     /** Shows a change this device just wrote at once (the server's copy is read again after the cache runs out) */
-    fun remember(roomId: String, board: List<SoundboardSound>? = null, settings: Settings? = null) {
+    fun remember(roomId: String, settings: Settings? = null) {
         val current = cache[roomId]
         cache[roomId] = Data(
-            board = board ?: current?.board.orEmpty(),
             settings = settings ?: current?.settings,
             powerLevels = current?.powerLevels,
             creators = current?.creators.orEmpty(),

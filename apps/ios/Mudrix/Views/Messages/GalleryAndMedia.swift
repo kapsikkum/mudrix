@@ -46,18 +46,29 @@ extension MessageText {
     }
 }
 
+/// A message sent as several pictures, laid out as the web's `MessageGallery`: square tiles in two
+/// columns, three columns from five pictures, one tall tile with two squares beside it for three,
+/// and at most eight tiles with a "+N" tile for the rest.
 struct GalleryGridView: View {
     let items: [ChatEntry]
     var isPrivateRoom = true
     /// The bubble layout clips the grid with the bubble's own corner radius
     var cornerRadius: CGFloat = WZ.Radius.lg
+    /// Bubble layout: the grid is clipped by the bubble, with no padding and tighter gaps
+    var isBubble = false
 
     @State private var openIndex: Int?
     private static let maxVisible = 8
-    private let width: CGFloat = 260
-    private let spacing: CGFloat = 3
+    /// The web's gallery is at most 400 wide
+    private static let maxWidth: CGFloat = 400
 
-    private var media: [(entry: ChatEntry, media: ChatEntry.MediaContent)] {
+    private typealias Item = (entry: ChatEntry, media: ChatEntry.MediaContent)
+
+    private var gap: CGFloat { isBubble ? WZ.Space.space1 : WZ.Space.space2 }
+    private var tileRadius: CGFloat { isBubble ? 0 : WZ.Radius.md }
+    private var contentPadding: CGFloat { isBubble ? 0 : WZ.Space.space1 }
+
+    private var media: [Item] {
         items.compactMap { entry in
             if case .image(let media) = entry.kind { return (entry, media) }
             return nil
@@ -68,25 +79,84 @@ struct GalleryGridView: View {
         let all = media
         let visible = Array(all.prefix(Self.maxVisible))
         let extra = all.count - visible.count
-        let columns = visible.count <= 2 ? visible.count : (visible.count == 4 ? 2 : 3)
-        let tile = (width - spacing * CGFloat(columns - 1)) / CGFloat(columns)
-        LazyVGrid(columns: Array(repeating: GridItem(.fixed(tile), spacing: spacing), count: columns),
-                  spacing: spacing) {
-            ForEach(Array(visible.enumerated()), id: \.element.entry.id) { index, item in
-                GalleryTile(media: item.media, eventId: item.entry.eventId, spoiler: item.entry.mediaSpoiler,
-                            isPrivateRoom: isPrivateRoom,
-                            moreCount: index == visible.count - 1 && extra > 0 ? extra : 0) {
-                    openIndex = index
-                }
-                .frame(width: tile, height: tile)
+        Group {
+            if visible.count == 3 {
+                tallGrid(visible)
+            } else {
+                squareGrid(visible, extra: extra)
             }
         }
-        .frame(width: width, alignment: .leading)
+        .padding(contentPadding)
+        .frame(maxWidth: Self.maxWidth, alignment: .leading)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .fullScreenCover(item: Binding(get: { openIndex.map(IdentifiedInt.init) }, set: { openIndex = $0?.id })) { start in
             MediaPagerView(items: all.map(\.media), startIndex: start.id)
         }
         .accessibilityLabel(L10n.format("timeline.photos", all.count))
+    }
+
+    /// Two columns (three from five pictures) of square tiles, plus the "+N" tile when there are
+    /// more pictures than fit.
+    private func squareGrid(_ visible: [Item], extra: Int) -> some View {
+        let columns = visible.count >= 5 ? 3 : 2
+        return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: gap), count: columns),
+                         spacing: gap) {
+            ForEach(Array(visible.enumerated()), id: \.element.entry.id) { index, item in
+                tile(item, index: index)
+                    .aspectRatio(1, contentMode: .fit)
+            }
+            if extra > 0 {
+                GalleryMoreTile(count: extra) { openIndex = Self.maxVisible }
+                    .aspectRatio(1, contentMode: .fit)
+            }
+        }
+    }
+
+    /// Three pictures: one tall tile on the left, two equal squares stacked on the right. The grid
+    /// is square, so the right tiles stay square instead of matching the tall picture's aspect.
+    private func tallGrid(_ visible: [Item]) -> some View {
+        GeometryReader { proxy in
+            let side = proxy.size.width
+            let small = max((side - gap) / 2, 0)
+            HStack(spacing: gap) {
+                tile(visible[0], index: 0)
+                    .frame(width: small, height: side)
+                VStack(spacing: gap) {
+                    tile(visible[1], index: 1).frame(width: small, height: small)
+                    tile(visible[2], index: 2).frame(width: small, height: small)
+                }
+                .frame(width: small)
+            }
+        }
+        .aspectRatio(1, contentMode: .fit)
+    }
+
+    private func tile(_ item: Item, index: Int) -> some View {
+        GalleryTile(media: item.media, eventId: item.entry.eventId, spoiler: item.entry.mediaSpoiler,
+                    isPrivateRoom: isPrivateRoom, cornerRadius: tileRadius) {
+            openIndex = index
+        }
+    }
+}
+
+/// The "+N" tile that closes a gallery with more pictures than the eight shown
+private struct GalleryMoreTile: View {
+    let count: Int
+    let onOpen: () -> Void
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        ZStack {
+            theme.fill
+            Rectangle().fill(theme.overlay)
+            Text("+\(count)")
+                .font(.wizard(WZ.FontSize.lg, .bold))
+                .foregroundStyle(theme.textOnAccent)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onOpen)
+        .accessibilityLabel("+\(count)")
+        .accessibilityAddTraits(.isButton)
     }
 }
 
@@ -98,7 +168,8 @@ private struct GalleryTile: View {
     var eventId: String?
     let spoiler: String?
     let isPrivateRoom: Bool
-    let moreCount: Int
+    /// Zero in the bubble layout, where the bubble's own corners clip the whole grid
+    var cornerRadius: CGFloat = WZ.Radius.md
     let onOpen: () -> Void
 
     @EnvironmentObject private var prefs: AppPreferences
@@ -151,14 +222,9 @@ private struct GalleryTile: View {
                 Image(spoiler != nil ? "ph-eye-slash-regular" : "ph-eye-regular")
                     .font(.system(size: WZ.SizeIcon.md, weight: .semibold))
                     .foregroundStyle(theme.textPrimary)
-            } else if moreCount > 0 {
-                Rectangle().fill(theme.overlay)
-                Text("+\(moreCount)")
-                    .font(.wizard(WZ.FontSize.xxl, .bold))
-                    .foregroundStyle(theme.textOnAccent)
             }
         }
-        .clipped()
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture {
             if hidden {
@@ -187,7 +253,7 @@ private struct MediaBackdrop: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        theme.overlay.opacity(1 - progress.value * 0.85).ignoresSafeArea()
+        theme.overlay.opacity(1.0 - (progress.value * 0.85)).ignoresSafeArea()
     }
 }
 

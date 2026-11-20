@@ -4,7 +4,7 @@ import { CheckIcon, StickerIcon } from '@phosphor-icons/react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import {
-  useAllRoomsPacks,
+  useAllRoomsPackList,
   packKindOf,
   type PackKind,
   type RoomPackSummary,
@@ -58,7 +58,8 @@ function PackPickerList({ client, kind, current, onSave }: PickerListProps) {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<Set<PackKey>>(() => new Set(current.map(makeKey)));
 
-  const allPacks = useAllRoomsPacks(client);
+  const packList = useAllRoomsPackList(client);
+  const allPacks = packList.data;
   const roomNames = useRoomNames();
 
   const visiblePacks = useMemo(() => {
@@ -169,11 +170,20 @@ function PackPickerList({ client, kind, current, onSave }: PickerListProps) {
         </span>
       </div>
 
-      {rows.length === 0 ? (
+      {packList.error ? (
+        <div className={css.popEmpty} style={{ display: 'grid', gap: 8, justifyItems: 'center' }}>
+          {t('settings.emojisStickers.packsLoadFailed')}
+          <Button variant="secondary" size="sm" onClick={packList.retry}>
+            {t('common.retry')}
+          </Button>
+        </div>
+      ) : rows.length === 0 ? (
         <div className={css.popEmpty}>
-          {allPacks.length === 0
-            ? t('settings.emojisStickers.noPacksFound')
-            : t('settings.emojisStickers.noPacksMatch')}
+          {packList.loading
+            ? t('common.loading')
+            : allPacks.length === 0
+              ? t('settings.emojisStickers.noPacksFound')
+              : t('settings.emojisStickers.noPacksMatch')}
         </div>
       ) : (
         <div ref={scrollRef} style={{ height: LIST_HEIGHT, overflowY: 'auto' }}>

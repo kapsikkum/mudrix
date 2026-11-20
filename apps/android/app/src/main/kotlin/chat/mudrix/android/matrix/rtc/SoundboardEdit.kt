@@ -1,14 +1,14 @@
 package chat.mudrix.android.matrix.rtc
 
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import chat.mudrix.android.matrix.SpaceModern
 import chat.mudrix.core.MudrixClient
+import chat.mudrix.core.SoundPack
+import chat.mudrix.core.SoundboardSound as PackSound
 
-/** Adding, changing and removing clips of a personal, room or space board (the web's `boards.ts` writes and `upload.ts`) */
+/** Adding, changing and removing clips of a core pack (the personal one, or a room's or space's) */
 object SoundboardEdit {
     enum class Problem(val key: String) {
         Type("soundboard.error.type"),
@@ -23,9 +23,10 @@ object SoundboardEdit {
 
     class Failure(val problem: Problem, detail: String? = null) : Exception(detail ?: problem.key)
 
+    /** The power level of a moderator, the "Moderators and up" choice of the room settings */
     const val MODERATOR_LEVEL = 50.0
 
-    /** The three formats allowed, from the type the system reports or else the file name's ending */
+    /** The three formats the pre-MSC4577 clients know, from the type the system reports or else the file name's ending */
     fun mimetypeOf(contentType: String?, fileName: String?): String? {
         Soundboard.normalizeMimetype(contentType)?.let { return it }
         return when (fileName?.substringAfterLast('.', "")?.lowercase()) {
@@ -36,7 +37,7 @@ object SoundboardEdit {
         }
     }
 
-    /** What is wrong with a chosen file, or null when it can be added */
+    /** What is wrong with a chosen file, or null when it can be added (the core's limits) */
     fun check(mimetype: String?, size: Long, durationMs: Long): Problem? = when {
         mimetype == null -> Problem.Type
         size <= 0 || size > Soundboard.MAX_SIZE_BYTES -> Problem.Size
@@ -49,6 +50,7 @@ object SoundboardEdit {
 
     fun cleanEmoji(emoji: String): String? = emoji.trim().take(16).ifEmpty { null }
 
+    /** A shortcode of the standard's shape: ASCII letters, digits, `-` and `_`, at most 100 bytes */
     fun newId(random: java.util.Random = java.security.SecureRandom()): String {
         val bytes = ByteArray(8).also(random::nextBytes)
         return "c_" + bytes.joinToString("") { "%02x".format(it) }
@@ -65,33 +67,29 @@ object SoundboardEdit {
 
     fun removed(board: List<SoundboardSound>, id: String): List<SoundboardSound> = board.filter { it.id != id }
 
-    /** How a board is stored in account data or room state */
-    fun content(board: List<SoundboardSound>): JsonObject = buildJsonObject {
-        put(
-            "sounds",
-            JsonArray(
-                board.map { s ->
-                    buildJsonObject {
-                        put("id", s.id)
-                        put("name", s.name)
-                        s.emoji?.let { put("emoji", it) }
-                        put("url", s.url)
-                        put("mimetype", s.mimetype)
-                        put("durationMs", s.durationMs)
-                        put("size", s.size)
-                        put("volume", s.volume.coerceIn(0f, 1f).toDouble())
-                    }
-                },
-            ),
-        )
+    /** A UI sound as the core saves it */
+    fun stored(sound: SoundboardSound) = PackSound(
+        shortcode = sound.id,
+        url = sound.url,
+        body = sound.name.takeIf { it.isNotBlank() },
+        emoji = sound.emoji,
+        mimetype = sound.mimetype,
+        size = sound.size.takeIf { it > 0 },
+        durationMs = sound.durationMs,
+    )
+
+    private fun problem(error: Exception): Problem {
+        val message = error.message.orEmpty()
+        return when {
+            "tooLarge" in message || "size" in message -> Problem.Size
+            "tooLong" in message || "duration" in message -> Problem.Duration
+            "unsupported" in message -> Problem.Type
+            "badShortcode" in message || "shortcodeTaken" in message -> Problem.Save
+            else -> Problem.Upload
+        }
     }
 
-    fun settingsContent(enabled: Boolean, minPowerLevel: Double): JsonObject = buildJsonObject {
-        put("enabled", enabled)
-        put("minPowerLevel", JsonPrimitive(minPowerLevel))
-    }
-
-    /** Uploads the file and returns the clip to add to a board (it is not saved yet) */
+    /** Uploads the file through the core and returns the clip to add to a pack (it is not saved yet) */
     suspend fun upload(
         client: MudrixClient,
         bytes: ByteArray,
@@ -99,19 +97,46 @@ object SoundboardEdit {
         durationMs: Long,
         name: String,
         emoji: String?,
-        volume: Float,
     ): SoundboardSound {
-        val url = try {
-            client.uploadMedia(bytes, mimetype)
+        val uploaded = try {
+            client.uploadSound(bytes, mimetype, durationMs)
         } catch (e: Exception) {
-            throw Failure(Problem.Upload, e.message)
+            throw Failure(problem(e), e.message)
         }
-        return SoundboardSound(newId(), cleanName(name).ifEmpty { "Sound" }, cleanEmoji(emoji.orEmpty()), url, mimetype, durationMs, bytes.size.toLong(), volume.coerceIn(0f, 1f))
+        return SoundboardSound(
+            newId(),
+            cleanName(name).ifEmpty { "Sound" },
+            cleanEmoji(emoji.orEmpty()),
+            uploaded.url,
+            uploaded.mimetype ?: mimetype,
+            (uploaded.durationMs ?: durationMs).toLong(),
+            (uploaded.size ?: bytes.size.toLong()).toLong(),
+            1f,
+        )
     }
 
-    suspend fun writePersonal(client: MudrixClient, board: List<SoundboardSound>) {
+    /** Writes the personal pack (`moe.crafty.soundboard` account data) */
+    suspend fun savePersonal(client: MudrixClient, pack: SoundPack?, board: List<SoundboardSound>) {
         try {
-            client.setAccountData(Soundboard.BOARD_TYPE, content(board))
+            client.saveSoundPack(null, "", pack?.name.orEmpty(), pack?.attribution, board.map(::stored))
+        } catch (e: Exception) {
+            throw Failure(Problem.Save, e.message)
+        }
+    }
+
+    /** Writes a room's pack; a room without one gets the default pack first. Returns its state key. */
+    suspend fun saveRoom(
+        client: MudrixClient,
+        roomId: String,
+        stateKey: String,
+        name: String,
+        attribution: String?,
+        board: List<SoundboardSound>,
+    ): String {
+        try {
+            val key = stateKey.ifEmpty { client.createSoundPack(roomId, name) }
+            client.saveSoundPack(roomId, key, name, attribution, board.map(::stored))
+            return key
         } catch (e: Exception) {
             throw Failure(Problem.Save, e.message)
         }
@@ -123,17 +148,12 @@ object SoundboardEdit {
         return SpaceModern.canSendState(levels, data.creators, userId, type)
     }
 
-    suspend fun writeRoom(client: MudrixClient, roomId: String, userId: String, board: List<SoundboardSound>) {
-        val data = RoomSoundboards.load(client, roomId)
-        if (!canManage(data, userId, Soundboard.BOARD_TYPE)) throw Failure(Problem.Forbidden)
-        try {
-            client.setStateEvent(roomId, Soundboard.BOARD_TYPE, "", content(board))
-        } catch (e: Exception) {
-            throw Failure(Problem.Save, e.message)
-        }
-        RoomSoundboards.remember(roomId, board = board)
+    fun settingsContent(enabled: Boolean, minPowerLevel: Double) = buildJsonObject {
+        put("enabled", enabled)
+        put("minPowerLevel", JsonPrimitive(minPowerLevel))
     }
 
+    /** The "who may play" setting is a Mudrix room setting, not part of the standard; it stays as it was */
     suspend fun writeRoomSettings(client: MudrixClient, roomId: String, enabled: Boolean, minPowerLevel: Double) {
         client.setStateEvent(roomId, RoomSoundboards.SETTINGS_TYPE, "", settingsContent(enabled, minPowerLevel))
         RoomSoundboards.remember(roomId, settings = RoomSoundboards.Settings(enabled, minPowerLevel))

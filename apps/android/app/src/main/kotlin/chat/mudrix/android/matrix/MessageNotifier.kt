@@ -10,13 +10,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
+import android.service.notification.StatusBarNotification
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -77,16 +77,41 @@ class MessageNotifier {
         roomList = null
     }
 
-    /** Launchers show the notifications as the badge, so there is no count to set; at 0 everything is read */
+    /** Launchers show the notifications as the badge, so there is no count to set */
     fun updateBadge(count: Int) {
         badge = count
-        if (count == 0) roomList?.client?.userId?.let(::removeDelivered)
     }
 
-    fun removeDelivered(userId: String) {
-        val system = context.getSystemService(NotificationManager::class.java) ?: return
-        system.activeNotifications.filter { it.tag?.startsWith("$userId|") == true }.forEach { manager.cancel(it.tag, it.id) }
+    fun removeDelivered(userId: String) = cancel { it.tag?.startsWith("$userId|") == true }
+
+    /** Drops the notifications of one room, e.g. when it is opened */
+    fun clear(roomId: String) {
+        val userId = roomList?.client?.userId ?: return
+        clear(userId, roomId)
     }
+
+    private fun clear(userId: String, roomId: String) = cancel { it.tag == "$userId|$roomId" }
+
+    /** Drops the notifications of the rooms that are read now, leaving unread ones alone */
+    fun clearRead(rooms: List<RoomSummary>) {
+        val userId = roomList?.client?.userId ?: return
+        val seen = rooms.filter { it.unreadCount == 0 && it.mentionCount == 0 }
+            .associate { it.id to (it.lastActivity ?: 0L) }
+        if (seen.isEmpty()) return
+        cancel { delivered ->
+            val tag = delivered.tag ?: return@cancel false
+            if (!tag.startsWith("$userId|")) return@cancel false
+            val latest = seen[tag.substringAfter('|')] ?: return@cancel false
+            latest >= delivered.notification.extras.getLong(EXTRA_TS, delivered.postTime)
+        }
+    }
+
+    private fun cancel(matches: (StatusBarNotification) -> Boolean) {
+        val system = context.getSystemService(NotificationManager::class.java) ?: return
+        system.activeNotifications.filter(matches).forEach { manager.cancel(it.tag, it.id) }
+    }
+
+    private val inForeground get() = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
 
     private fun notify(notification: Notification) {
         val roomList = roomList ?: return
@@ -96,7 +121,8 @@ class MessageNotifier {
 
     suspend fun show(notification: Notification, client: MudrixClient, roomAvatar: String? = notification.roomAvatarUrl) {
         val prefs = prefs ?: MudrixApplication.instance.prefs
-        if (!(prefs.notificationBanners || prefs.notificationSounds) || notification.roomId == activeRoomId) return
+        if (!(prefs.notificationBanners || prefs.notificationSounds)) return
+        if (notification.roomId == activeRoomId && inForeground) return
         if (!canPost()) return
         createChannels()
         val sender = notification.senderName ?: notification.sender
@@ -135,6 +161,7 @@ class MessageNotifier {
             .setOnlyAlertOnce(true)
             .setAutoCancel(true)
             .setNumber(badge)
+            .addExtras(Bundle().apply { putLong(EXTRA_TS, notification.ts) })
             .setContentIntent(openIntent(notification.roomId, userId))
             .addAction(reply)
             .addAction(markRead)
@@ -196,7 +223,7 @@ class MessageNotifier {
     private suspend fun avatarBitmap(mxc: String?, client: MudrixClient): Bitmap? {
         mxc ?: return null
         val data = runCatching { client.thumbnail(mxc, 192, 192, true) }.getOrNull() ?: return null
-        val source = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return null
+        val source = MediaMetadata.decodeImage(data, null) ?: return null
         val size = minOf(source.width, source.height)
         val output = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -215,7 +242,7 @@ class MessageNotifier {
         if (canPost()) return
         val defaults = context.getSharedPreferences("notifier", Context.MODE_PRIVATE)
         if (defaults.getBoolean("askedPermission", false)) return
-        if (!ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
+        if (!inForeground) return
         defaults.edit().putBoolean("askedPermission", true).apply()
         context.startActivity(
             Intent(context, NotifierActivity::class.java)
@@ -307,7 +334,7 @@ class MessageNotifier {
                     ACTION_MARK_READ -> room(roomId)?.let { currentRoomList()?.setRead(it, read = true) }
                 }
             } finally {
-                manager.cancel(tag, id)
+                if (userId != null) clear(userId, roomId) else manager.cancel(tag, id)
                 done()
             }
         }
@@ -336,7 +363,7 @@ class MessageNotifier {
         val client = currentRoomList()?.client ?: return
         val timeline = runCatching { client.timeline(roomId) }.getOrNull() ?: return
         runCatching { timeline.sendText(text) }
-        runCatching { timeline.markAsRead() }
+        runCatching { timeline.markAsRead(!MudrixApplication.instance.prefs.sendReadReceipts) }
         // Give the send queue a moment before the process may be stopped again
         delay(2000)
     }
@@ -356,6 +383,7 @@ class MessageNotifier {
         internal const val EXTRA_EVENT = "eventId"
         internal const val EXTRA_TAG = "tag"
         internal const val EXTRA_PERMISSION = "requestPermission"
+        private const val EXTRA_TS = "chat.mudrix.ts"
     }
 }
 

@@ -136,6 +136,14 @@ enum WidgetSandbox {
         return url.user() == nil && url.password() == nil
     }
 
+    /// Once a page has loaded, it may only move to its own host: a widget cannot take the sheet to another
+    /// site under the "Code from" label it was given
+    static func allowsNavigation(to url: URL, from page: URL) -> Bool {
+        guard allows(url), let target = url.host()?.lowercased(),
+              let initial = page.host()?.lowercased() else { return false }
+        return target == initial
+    }
+
     /// The host shown as "Code from ..."
     static func host(of url: URL) -> String { url.host() ?? url.absoluteString }
 }
@@ -195,12 +203,12 @@ struct WidgetViewerSheet: View {
 }
 
 /// A web view with its own throwaway storage, no script bridge, no pop-ups, no camera or microphone, and
-/// navigation kept to https
+/// navigation kept to the page's own host
 private struct SandboxedWebView: UIViewRepresentable {
     let url: URL
     let onFailure: () -> Void
 
-    func makeCoordinator() -> Coordinator { Coordinator(onFailure: onFailure) }
+    func makeCoordinator() -> Coordinator { Coordinator(pageURL: url, onFailure: onFailure) }
 
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
@@ -220,14 +228,22 @@ private struct SandboxedWebView: UIViewRepresentable {
     func updateUIView(_ view: WKWebView, context: Context) {}
 
     final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
+        let pageURL: URL
         let onFailure: () -> Void
 
-        init(onFailure: @escaping () -> Void) { self.onFailure = onFailure }
+        init(pageURL: URL, onFailure: @escaping () -> Void) {
+            self.pageURL = pageURL
+            self.onFailure = onFailure
+        }
 
         func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
                      decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
             guard let target = navigationAction.request.url else { return decisionHandler(.cancel) }
-            decisionHandler(target.absoluteString == "about:blank" || WidgetSandbox.allows(target) ? .allow : .cancel)
+            // The page the sheet is for, exactly as it was handed over, and blank frames a page may use
+            if target.absoluteString == pageURL.absoluteString || target.absoluteString == "about:blank" {
+                return decisionHandler(.allow)
+            }
+            decisionHandler(WidgetSandbox.allowsNavigation(to: target, from: pageURL) ? .allow : .cancel)
         }
 
         func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { report(error) }

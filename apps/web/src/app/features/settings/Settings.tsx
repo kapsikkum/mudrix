@@ -3,7 +3,7 @@ import { motionReduced } from '@/app/util/elastic';
 import { useTranslation } from 'react-i18next';
 import { zIndex } from '@/theme/zIndex';
 import { useNavigate } from 'react-router-dom';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Dialog } from '@/app/components/Dialog/Dialog';
 import {
   ArrowSquareOutIcon,
@@ -17,13 +17,14 @@ import {
   SparkleIcon,
   FilmStripIcon,
   PuzzlePieceIcon,
-  MicrophoneIcon,
   GameControllerIcon,
   KeyboardIcon,
   GlobeSimpleIcon,
   WrenchIcon,
   DevicesIcon,
+  DesktopIcon,
   LockKeyIcon,
+  VinylRecordIcon,
   InfoIcon,
   XIcon,
   SpinnerGapIcon,
@@ -35,6 +36,7 @@ import {
   settingsHighlightAtom,
   settingsOpenAtom,
   settingsPageAtom,
+  userProfileAtom,
 } from '@/app/store/atoms';
 import type { SettingsPage } from '@/app/store/atoms';
 import {
@@ -59,7 +61,6 @@ import { EmojisStickers } from './emojis';
 import { Cosmetics } from './cosmetics';
 import { Media } from './media';
 import { Integrations } from './integrations';
-import { VoiceAudio } from './voice';
 import { Keybinds } from './keybinds';
 import { Activity } from './activity';
 import { isTauriDesktop } from '@/util/desktop';
@@ -67,6 +68,8 @@ import { DeveloperOptions } from './developer';
 import { Sessions } from './sessions';
 import { Encryption } from './encryption';
 import { About } from './about';
+import { SoundboardSettings } from './soundboard/SoundboardSettings';
+import { DesktopSettings } from './desktop/DesktopSettings';
 import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
 import {
   NarrowSettingsList,
@@ -194,8 +197,11 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Language />;
     case 'notifications':
       return <Notifications />;
+    case 'voice':
     case 'voice-video':
       return <VoiceVideo />;
+    case 'soundboard':
+      return <SoundboardSettings />;
     case 'emojis-stickers':
       return <EmojisStickers />;
     case 'cosmetics':
@@ -204,8 +210,6 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <Integrations />;
     case 'media':
       return <Media />;
-    case 'voice':
-      return <VoiceAudio />;
     case 'activity':
       return <Activity />;
     case 'keybinds':
@@ -214,6 +218,8 @@ function PageContent({ page }: { page: SettingsPage }) {
       return <DeveloperOptions />;
     case 'sessions':
       return <Sessions />;
+    case 'desktop':
+      return <DesktopSettings />;
     case 'encryption':
       return <Encryption />;
     case 'about':
@@ -224,8 +230,15 @@ function PageContent({ page }: { page: SettingsPage }) {
 export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
   const { t } = useTranslation();
   const keyboardHints = useKeyboardHints();
+  const hasDesktop = typeof window !== 'undefined' && !!window.desktopAPI?.getSettings;
   return [
     { key: 'account', label: t('settings.account.title'), Icon: UserIcon },
+    {
+      key: 'appearance',
+      label: t('settings.appearance.title'),
+      Icon: PaletteIcon,
+      dividerBefore: true,
+    },
     { key: 'privacy', label: t('settings.privacy.title'), Icon: ShieldIcon },
     ...(isTauriDesktop()
       ? [
@@ -242,21 +255,16 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       label: t('settings.emojisStickers.title'),
       Icon: SmileyStickerIcon,
     },
-    { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
     { key: 'cosmetics', label: t('settings.cosmetics.title'), Icon: SparkleIcon },
+    { key: 'soundboard', label: t('settings.soundboard.title'), Icon: VinylRecordIcon },
+    { key: 'media', label: t('settings.media.title'), Icon: FilmStripIcon },
     { key: 'notifications', label: t('settings.notifications.title'), Icon: BellIcon },
-    { key: 'voice', label: t('settings.voice.title'), Icon: MicrophoneIcon },
     { key: 'voice-video', label: t('settings.voiceVideo.title'), Icon: HeadphonesIcon },
-    {
-      key: 'appearance',
-      label: t('settings.appearance.title'),
-      Icon: PaletteIcon,
-      dividerBefore: true,
-    },
     {
       key: 'accessibility',
       label: t('settings.accessibility.title'),
       Icon: PersonSimpleCircleIcon,
+      dividerBefore: true,
     },
     ...(keyboardHints
       ? [{ key: 'keybinds' as const, label: t('settings.keybinds.title'), Icon: KeyboardIcon }]
@@ -268,6 +276,9 @@ export function useSettingsNav(): NarrowSettingsItem<SettingsPage>[] {
       Icon: DevicesIcon,
       dividerBefore: true,
     },
+    ...(hasDesktop
+      ? [{ key: 'desktop' as const, label: t('settings.desktop.title'), Icon: DesktopIcon }]
+      : []),
     { key: 'encryption', label: t('settings.encryption.title'), Icon: LockKeyIcon },
     { key: 'developer', label: t('developer.title'), Icon: WrenchIcon },
     { key: 'about', label: t('settings.about.title'), Icon: InfoIcon },
@@ -313,10 +324,15 @@ function NavSubList({
 export function Settings() {
   const { t } = useTranslation();
   const [open, setOpen] = useAtom(settingsOpenAtom);
+  const setProfile = useSetAtom(userProfileAtom);
   const youTabOpen = useAtomValue(mobileYouOpenAtom);
   const [targetPage, setTargetPage] = useAtom(settingsPageAtom);
   const [activePage, setActivePage] = useState<SettingsPage>('account');
   const [scrollerEl, setScrollerEl] = useState<HTMLDivElement | null>(null);
+  // Settings is the page the person asked for; never leave a profile card on top of it.
+  useEffect(() => {
+    if (open) setProfile(null);
+  }, [open, setProfile]);
   const keyboardHints = useKeyboardHints();
   const [isNarrow, setIsNarrow] = useState(false);
   useEffect(() => {
@@ -343,6 +359,9 @@ export function Settings() {
     navigate('/welcome?add=1');
   };
   const shownPage = !keyboardHints && activePage === 'keybinds' ? 'account' : activePage;
+  // `voice` is the old page key that Notifications and the soundboard still open; it shows the
+  // same page as `voice-video`, so the sidebar highlights (and titles) the surviving entry.
+  const navPage = shownPage === 'voice' ? 'voice-video' : shownPage;
   const [narrowView, setNarrowView] = useState<'list' | 'page'>('list');
   const backToList = useCallback(() => setNarrowView('list'), []);
   const openPage = (page: SettingsPage) => {
@@ -390,7 +409,7 @@ export function Settings() {
       {isNarrow ? (
         showPage ? (
           <NarrowSettingsPage
-            title={NAV.find((item) => item.key === shownPage)?.label ?? ''}
+            title={NAV.find((item) => item.key === navPage)?.label ?? ''}
             onBack={pageOnly ? close : backToList}
           >
             {page}
@@ -413,7 +432,7 @@ export function Settings() {
           <nav className={css.nav}>
             <span className={css.navLabel}>{t('settings.title')}</span>
             {NAV.map((item) => {
-              const isActive = activePage === item.key;
+              const isActive = navPage === item.key;
               return (
                 <div key={item.key}>
                   {item.dividerBefore && <div className={css.navDivider} />}

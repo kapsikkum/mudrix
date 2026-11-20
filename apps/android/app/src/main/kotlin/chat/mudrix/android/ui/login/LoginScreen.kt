@@ -363,13 +363,15 @@ private fun ServerPicker(
     val host = ServerStep.host(input)
     val status = when (state) {
         ServerStep.State.empty -> tr("welcome.serverEmpty")
+        // A non-http scheme is refused rather than turned into an https address
+        ServerStep.State.invalid -> tr("welcome.serverIncomplete")
         ServerStep.State.checking -> tr("auth.checkingServer")
         ServerStep.State.ok -> if (software.isNotEmpty()) tr("welcome.serverDetected", software) else tr("welcome.serverDetectedPlain")
         ServerStep.State.notMatrix -> tr("welcome.serverNotFound")
         ServerStep.State.unreachable -> tr("auth.serverUnreachable")
     }
     val statusColor = when (state) {
-        ServerStep.State.notMatrix, ServerStep.State.unreachable -> theme.error
+        ServerStep.State.invalid, ServerStep.State.notMatrix, ServerStep.State.unreachable -> theme.error
         ServerStep.State.ok -> theme.success
         else -> theme.textMuted
     }

@@ -12,7 +12,6 @@ import {
   ClockCounterClockwiseIcon,
   CompassIcon,
   EnvelopeSimpleIcon,
-  GameControllerIcon,
   ShieldWarningIcon,
   NewspaperIcon,
   SpeakerHighIcon,
@@ -35,18 +34,15 @@ import {
 import { Avatar } from '@/app/components/Avatar';
 import { Button } from '@/app/components/Button';
 import { parentSpacesOf, useAllJoinedSpaces, useProfile, useSpaceGraph } from '@/app/data';
-import { activityText } from '@/app/hooks/useExtendedProfile';
 import { useInvites, type Invite } from '@/app/features/inbox/useInvites';
 import { useMentions, type Mention } from '@/app/features/inbox/useMentions';
 import { useJoinVoiceRoom } from '@/app/features/calls/useJoinVoiceRoom';
 import { useRoomEntries, type RoomEntry } from '@/app/features/roomSwitcher/roomEntries';
 import { latestWhatsNew } from '@/app/features/whatsNew';
-import { ActivityIcon } from '@/app/features/profile/ActivityIcon';
 import { formatUserId } from '@/util/matrix';
 import { MODIFIER_KEY } from '@/app/util/platform';
 import { PersonAvatar } from './ActiveNowPanel';
 import { useActiveVoiceCards } from './useActiveVoiceCards';
-import { useFriendActivities } from './useFriendActivities';
 import * as css from './HomeWelcome.css';
 
 const CATCH_UP_INVITES = 3;
@@ -54,7 +50,6 @@ const CATCH_UP_MENTIONS = 4;
 const RECENT_ROOMS = 6;
 const LIVE_ROOMS = 4;
 const LIVE_AVATARS = 4;
-const FRIENDS_SHOWN = 5;
 const NOTES_SHOWN = 4;
 
 /** Puts a block in line for the staggered entrance. */
@@ -170,7 +165,6 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
 
   const invites = useInvites();
   const { mentions } = useMentions(true);
-  const friends = useFriendActivities(client);
 
   const openSettings = (page: SettingsPage) => {
     setSettingsPage(page);
@@ -281,12 +275,11 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   let place = 1;
   const next = () => place++;
 
+  const quickIndex = next();
   const catchUpIndex = hasCatchUp ? next() : 0;
   const recentIndex = recent.length > 0 ? next() : 0;
   const liveIndex = live.length > 0 ? next() : 0;
-  const friendsIndex = friends.length > 0 ? next() : 0;
   const whatsNewIndex = whatsNew ? next() : 0;
-  const quickIndex = next();
 
   const startGrid = (
     <section className={css.section} aria-labelledby="home-start-heading">
@@ -322,6 +315,30 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
   return (
     <div className={css.home}>
       <div className={css.inner}>
+        {hasRooms ? (
+          <section
+            className={`${css.section} ${css.enter}`}
+            style={step(quickIndex)}
+            aria-labelledby="home-quick-heading"
+          >
+            <h2 id="home-quick-heading" className={css.sectionLabel}>
+              {t('timeline.home.startHeading')}
+            </h2>
+            <ul className={css.chips}>
+              {start.map((action) => (
+                <li key={action.id}>
+                  <button type="button" className={css.chip} onClick={action.onClick}>
+                    {action.icon}
+                    {action.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : (
+          startGrid
+        )}
+
         {setup.length > 0 && (
           <section className={css.section} aria-labelledby="home-setup-heading">
             <h2
@@ -363,8 +380,6 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
             </ul>
           </section>
         )}
-
-        {!hasRooms && startGrid}
 
         <div className={css.columns}>
           <div className={css.column}>
@@ -481,28 +496,6 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
                 </ul>
               </section>
             )}
-
-            {hasRooms && (
-              <section
-                className={`${css.section} ${css.enter}`}
-                style={step(quickIndex)}
-                aria-labelledby="home-quick-heading"
-              >
-                <h2 id="home-quick-heading" className={css.sectionLabel}>
-                  {t('timeline.home.startHeading')}
-                </h2>
-                <ul className={css.chips}>
-                  {start.map((action) => (
-                    <li key={action.id}>
-                      <button type="button" className={css.chip} onClick={action.onClick}>
-                        {action.icon}
-                        {action.title}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
           </div>
 
           <div className={css.column}>
@@ -556,69 +549,31 @@ export function HomeWelcome({ client }: { client: MudrixClient }) {
               </Panel>
             )}
 
-            {friends.length > 0 && (
-              <Panel
-                id="home-friends-heading"
-                index={friendsIndex}
-                icon={<GameControllerIcon size={16} weight="fill" />}
-                title={t('timeline.home.friendsHeading')}
-              >
-                <ul className={css.rows}>
-                  {friends.slice(0, FRIENDS_SHOWN).map((friend) => (
-                    <li key={friend.userId}>
-                      <button
-                        type="button"
-                        className={css.row}
-                        onClick={() => navigate(roomPath('dm', friend.roomId))}
-                      >
-                        <Avatar
-                          name={friend.name}
-                          mxcUrl={friend.avatarMxc}
-                          client={client}
-                          size="md"
-                        />
-                        <span className={css.rowText}>
-                          <span className={css.rowTitle}>{friend.name}</span>
-                          {friend.activities.map((activity) => (
-                            <span key={`${activity.type}:${activity.name}`} className={css.rowSub}>
-                              <ActivityIcon
-                                type={activity.type}
-                                size={14}
-                                className={css.activityIcon}
-                              />
-                              {activityText(t, activity)}
-                            </span>
-                          ))}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </Panel>
-            )}
-
             {whatsNew && (
-              <Panel
-                id="home-whatsnew-heading"
-                index={whatsNewIndex}
-                icon={<NewspaperIcon size={16} weight="fill" />}
-                title={t('timeline.home.whatsNewHeading')}
-                className={css.whatsNew}
-                action={<span className={css.versionPill}>{whatsNew.version}</span>}
+              <section
+                className={`${css.section} ${css.enter}`}
+                style={step(whatsNewIndex)}
+                aria-labelledby="home-whatsnew-heading"
               >
-                {highlights.length > 0 && (
-                  <ul className={css.notes}>
-                    {highlights.map((note) => (
-                      <li key={note} className={css.note}>
-                        {note}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <Button size="sm" variant="secondary" onClick={() => setWhatsNewOpen(true)}>
-                  {t('timeline.home.readAll')}
-                </Button>
-              </Panel>
+                <h2 id="home-whatsnew-heading" className={css.sectionLabel}>
+                  <NewspaperIcon size={14} aria-hidden /> {t('timeline.home.whatsNewHeading')}
+                  <span className={css.versionPill}>{whatsNew.version}</span>
+                </h2>
+                <div className={`${css.panel} ${css.whatsNew}`}>
+                  {highlights.length > 0 && (
+                    <ul className={css.notes}>
+                      {highlights.map((note) => (
+                        <li key={note} className={css.note}>
+                          {note}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <Button size="sm" variant="secondary" onClick={() => setWhatsNewOpen(true)}>
+                    {t('timeline.home.readAll')}
+                  </Button>
+                </div>
+              </section>
             )}
           </div>
         </div>

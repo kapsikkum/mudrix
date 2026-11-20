@@ -81,6 +81,7 @@ struct MainTabView: View {
             Button(String(localized: "common.ok"), role: .cancel) {}
         }
         .onChange(of: totalUnread, initial: true) { _, count in notifier.updateBadge(count) }
+        .onChange(of: readRooms, initial: true) { _, _ in notifier.clearRead(roomList.joinedRooms) }
         .onChange(of: roomList.joinedRooms.map(\.id), initial: true) { _, _ in ShareSender.publishRooms(roomList) }
         .fullScreenCover(isPresented: Binding(get: {
             session.needsEncryptionSetup || encryptionSetup.recoveryKey != nil
@@ -93,11 +94,13 @@ struct MainTabView: View {
             if isSpace { showSpace(id) } else { show(id) }
         })
         .onOpenURL { url in
-            guard url.scheme == "mudrix" else { return }
+            guard let scheme = url.scheme, MatrixSession.shareSchemes.contains(scheme) else { return }
             sendShared()
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { sendShared() }
+            guard phase == .active else { return }
+            notifier.clearRead(roomList.joinedRooms)
+            sendShared()
         }
         .onChange(of: roomList.isLoaded, initial: true) { _, loaded in
             if loaded { sendShared() }
@@ -139,8 +142,8 @@ struct MainTabView: View {
     private var tabView: some View {
         TabView(selection: Binding(get: { tab }, set: select)) {
             tabItem(.home, title: "nav.home", icon: "house", unread: roomList.unreadState(of: .home))
-            tabItem(.dms, title: "search.switcher.prefixDms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
-            tabItem(.spaces, title: "room.settings.permissions.groups.spaces", icon: "stack", unread: spacesUnread)
+            tabItem(.dms, title: "nav.dms", icon: "chat-circle", unread: roomList.unreadState(of: .dms))
+            tabItem(.spaces, title: "nav.spaces", icon: "stack", unread: spacesUnread)
             SwiftUI.Tab(value: Tab.me) {
                 tabContent(.me).tint(theme.control)
             } label: {
@@ -195,6 +198,12 @@ struct MainTabView: View {
         roomList.joinedRooms.reduce(0) { $0 + Int($1.unreadCount) }
     }
 
+    @MainActor
+    private var readRooms: [String] {
+        roomList.joinedRooms.filter { $0.unreadCount == 0 && $0.mentionCount == 0 }
+            .map { "\($0.id)|\($0.lastActivity ?? 0)" }
+    }
+
     @ViewBuilder
     private func tabContent(_ item: Tab) -> some View {
         switch item {
@@ -205,8 +214,14 @@ struct MainTabView: View {
             NavigationStack(path: binding(for: item)) {
                 Group {
                     switch item {
-                    case .home: RoomListScreen(roomList: roomList, selection: .home) { showInbox = true }
-                    case .dms: RoomListScreen(roomList: roomList, selection: .dms) { showInbox = true }
+                    case .home:
+                        RoomListScreen(roomList: roomList, selection: .home,
+                                       onOpenInbox: { showInbox = true },
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
+                    case .dms:
+                        RoomListScreen(roomList: roomList, selection: .dms,
+                                       onOpenInbox: { showInbox = true },
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
                     default: SpacesScreen(roomList: roomList, onCreateSpace: { showCreateSpace = true },
                                           onExplore: { showExplore = true })
                     }
@@ -227,7 +242,8 @@ struct MainTabView: View {
                         }
                         .toolbar(.hidden, for: .tabBar)
                     case .space(let id):
-                        RoomListScreen(roomList: roomList, selection: .space(id))
+                        RoomListScreen(roomList: roomList, selection: .space(id),
+                                       onOpenRoom: { paths[item, default: []].append(.room($0)) })
                     }
                 }
             }

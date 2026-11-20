@@ -34,6 +34,13 @@ The installers are not code-signed, so your system warns the first time:
 - Sign in with SSO, OAuth or a QR code, and multiple accounts
 - 29 themes, custom themes, and 11 languages
 
+## Screenshots
+
+| Web                                                                                                 | Android                                                                                                 | iOS                                                                                             |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| <img src="docs/screenshots/web-direct-messages.png" width="440" alt="Direct messages on the web" /> | <img src="docs/screenshots/android-direct-messages.png" width="190" alt="Direct messages on Android" /> | <img src="docs/screenshots/ios-direct-messages.png" width="190" alt="Direct messages on iOS" /> |
+| <img src="docs/screenshots/web-room.png" width="440" alt="A conversation on the web" />             | <img src="docs/screenshots/android-room.png" width="190" alt="A conversation on Android" />             | <img src="docs/screenshots/ios-room.png" width="190" alt="A conversation on iOS" />             |
+
 ## For developers
 
 ```sh

@@ -6,14 +6,25 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import chat.mudrix.android.LocalPrefs
+import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.SoundKind
 import chat.mudrix.android.matrix.SoundPack
 import chat.mudrix.android.matrix.SoundPacks
+import chat.mudrix.android.matrix.memberProfile
+import chat.mudrix.android.matrix.rtc.Soundboard
 import chat.mudrix.android.matrix.rtc.Sounds
+import chat.mudrix.android.ui.CopyToast
+import chat.mudrix.android.ui.L10n
+import chat.mudrix.android.ui.PhWeight
 import chat.mudrix.android.ui.PrimaryButton
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
@@ -21,7 +32,7 @@ import chat.mudrix.android.ui.tr
 import chat.mudrix.tokens.WZ
 
 // The Mudrix-only sections of Settings > Voice & Video (`VoiceVideoSettings` lays them out):
-// microphone processing, sound effects, the soundboard and moving people between voice rooms.
+// microphone processing, sound effects and moving people between voice rooms. The soundboard has its own page.
 
 /** Microphone processing, applied to the next call */
 @Composable
@@ -109,8 +120,32 @@ internal fun SoundEffectsSection() {
 }
 
 @Composable
-internal fun SoundboardSection() {
+internal fun SoundboardSettings(onBack: () -> Unit) {
+    val client = LocalSession.current.client
+    SettingsPage(tr("settings.soundboard.title"), onBack) {
+        SoundboardSection()
+        if (client != null) {
+            DefaultPackSection(client)
+            FavoritePacksSection(client)
+        }
+    }
+}
+
+@Composable
+private fun MutedUserRow(userId: String, onUnmute: () -> Unit) {
+    val session = LocalSession.current
+    var name by remember(userId) { mutableStateOf<String?>(null) }
+    LaunchedEffect(userId) { name = session.memberProfile(userId, null).name }
+    SettingRow(name?.takeIf { it.isNotBlank() } ?: userId) {
+        IconAction("x", tr("settings.voice.soundboardUnmute"), onClick = onUnmute)
+    }
+}
+
+@Composable
+private fun SoundboardSection() {
     val prefs = LocalPrefs.current
+    val client = LocalSession.current.client
+    val sample = Soundboard.builtInClips.firstOrNull()
     SettingsSection(tr("settings.voice.soundboardTitle")) {
         ToggleRow(
             tr("settings.voice.soundboardEnable"),
@@ -119,24 +154,45 @@ internal fun SoundboardSection() {
             note = tr("settings.voice.soundboardEnableNote"),
         )
         SettingsDivider()
-        VolumeRow(tr("settings.voice.soundboardVolume"), prefs.soundboardVolume, { prefs.soundboardVolume = it }, onPreview = null)
-        if (prefs.soundboardMutedUsers.isNotEmpty()) {
-            SettingsDivider()
-            prefs.soundboardMutedUsers.sorted().forEach { userId ->
-                SettingRow(userId) {
-                    IconAction("x", tr("settings.voice.soundboardUnmute")) { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers - userId }
-                }
-            }
+        VolumeRow(
+            tr("settings.voice.soundboardVolume"),
+            prefs.soundboardVolume,
+            { prefs.soundboardVolume = it },
+            onPreview = null,
+            testClip = if (sample != null && client != null) ({ Soundboard.preview(client, sample) }) else null,
+            testEnabled = prefs.soundboardEnabled,
+        )
+    }
+    val muted = prefs.soundboardMutedUsers
+    SettingsSection(
+        tr("settings.voice.soundboardMuted"),
+        tr(if (muted.isEmpty()) "settings.voice.soundboardMutedNone" else "settings.voice.soundboardMutedNote"),
+    ) {
+        muted.sorted().forEachIndexed { index, userId ->
+            if (index > 0) SettingsDivider()
+            MutedUserRow(userId) { prefs.soundboardMutedUsers = prefs.soundboardMutedUsers - userId }
         }
     }
 }
 
 @Composable
-private fun VolumeRow(label: String, volume: Int, onChange: (Int) -> Unit, onPreview: (() -> Unit)?) {
+private fun VolumeRow(
+    label: String,
+    volume: Int,
+    onChange: (Int) -> Unit,
+    testClip: (() -> Unit)? = null,
+    testEnabled: Boolean = true,
+    onPreview: (() -> Unit)?,
+) {
     SettingsItem {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
             Text(label, Modifier.weight(1f), style = wizardFont(WZ.FontSize.md), color = theme.textPrimary)
             Text("$volume%", style = wizardFont(WZ.FontSize.sm, FontWeight.Medium), color = theme.textMuted)
+            if (testClip != null) {
+                IconAction("play", tr("settings.voice.soundboardPreview"), PhWeight.fill, if (testEnabled) theme.accent else theme.textMuted) {
+                    if (testEnabled) testClip() else CopyToast.show(L10n.format("soundboard.play.disabled"))
+                }
+            }
         }
         Slider(
             value = volume.toFloat(),

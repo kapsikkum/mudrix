@@ -46,6 +46,8 @@ interface MediaLightboxProps {
   /** Gallery only: save every item at once. */
   onSaveAll?: () => void;
   saveAllBusy?: boolean;
+  /** A picture from a third-party site: no referrer is sent, and there is nothing to save. */
+  remote?: boolean;
 }
 
 const DEFAULT_ZOOM = 2.5;
@@ -69,6 +71,7 @@ export function MediaLightbox({
   onRevealItem,
   onSaveAll,
   saveAllBusy = false,
+  remote = false,
 }: MediaLightboxProps) {
   // Click the image to zoom in on the spot you clicked; drag to move around, scroll to change the
   // zoom, and click without dragging to zoom back out.
@@ -302,7 +305,7 @@ export function MediaLightbox({
           <TrashIcon size={14} /> {t('common.remove')}
         </button>
       )}
-      {curSrc && (
+      {curSrc && !remote && (
         <DownloadLink
           href={curSrc}
           filename={curFilename || 'image.png'}
@@ -372,6 +375,7 @@ export function MediaLightbox({
               ref={imgRef}
               src={curSrc}
               alt=""
+              referrerPolicy={remote ? 'no-referrer' : undefined}
               className={imgClassName}
               style={imgStyle}
               onLoad={handleImgLoad}

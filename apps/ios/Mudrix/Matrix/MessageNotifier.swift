@@ -69,7 +69,8 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
         content.categoryIdentifier = Self.messageCategory
         // A mention, direct message or invite plays the mention sound, other messages the message sound
         let priority = notification.highlight || notification.isDirect
-        var info = ["roomId": notification.roomId, "eventId": notification.eventId, "priority": priority ? "1" : "0"]
+        var info = ["roomId": notification.roomId, "eventId": notification.eventId,
+                    "priority": priority ? "1" : "0", "ts": String(notification.ts)]
         if let userId = roomList?.client.userId { info["userId"] = userId }
         content.userInfo = info
         if prefs.notificationSounds && notification.sound { content.sound = Sounds.notificationSound(priority: priority) }
@@ -136,9 +137,14 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
             case "reply":
                 guard let text = text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
                 await reply(text, in: roomId)
+                if let userId = info["userId"] as? String { await Self.remove(userId: userId, roomId: roomId) }
             case "markRead":
                 if let room = await room(roomId) { await roomList?.setRead(room, read: true) }
-                center.removeDeliveredNotifications(withIdentifiers: [identifier])
+                if let userId = info["userId"] as? String {
+                    await Self.remove(userId: userId, roomId: roomId)
+                } else {
+                    center.removeDeliveredNotifications(withIdentifiers: [identifier])
+                }
             default:
                 if let eventId = info["eventId"] as? String { eventToFocus = (roomId, eventId) }
                 roomToOpen = roomId
@@ -157,9 +163,44 @@ final class MessageNotifier: NSObject, ObservableObject, UNUserNotificationCente
     private func reply(_ text: String, in roomId: String) async {
         guard await room(roomId) != nil, let timeline = try? await roomList?.client.timeline(roomId: roomId) else { return }
         try? await timeline.sendText(body: text)
-        try? await timeline.markAsRead()
+        try? await timeline.markAsRead(_private: prefs?.sendReadReceipts == false)
         // Give the send queue a moment before iOS suspends the app again.
         try? await Task.sleep(for: .seconds(2))
+    }
+
+    /// Drops the notifications of one room, e.g. when it is opened
+    func clear(roomId: String) {
+        guard let userId = roomList?.client.userId else { return }
+        Task { await Self.remove(userId: userId, roomId: roomId) }
+    }
+
+    /// Drops the notifications of the rooms that are read now, leaving unread ones alone
+    func clearRead(_ rooms: [RoomSummary]) {
+        guard let userId = roomList?.client.userId else { return }
+        let seen = Dictionary(rooms.filter { $0.unreadCount == 0 && $0.mentionCount == 0 }
+            .map { ($0.id, $0.lastActivity ?? 0) }, uniquingKeysWith: max)
+        guard !seen.isEmpty else { return }
+        Task {
+            await Self.remove(userId: userId) { delivered in
+                let info = delivered.request.content.userInfo
+                guard let roomId = info["roomId"] as? String, let latest = seen[roomId] else { return false }
+                let sent = (info["ts"] as? String).flatMap(Int.init)
+                    ?? Int(delivered.date.timeIntervalSince1970 * 1000)
+                return latest >= sent
+            }
+        }
+    }
+
+    private static func remove(userId: String, roomId: String) async {
+        await remove(userId: userId) { $0.request.content.userInfo["roomId"] as? String == roomId }
+    }
+
+    private static func remove(userId: String, where matches: (UNNotification) -> Bool) async {
+        let center = UNUserNotificationCenter.current()
+        let ids = await center.deliveredNotifications()
+            .filter { $0.request.content.userInfo["userId"] as? String == userId && matches($0) }
+            .map(\.request.identifier)
+        if !ids.isEmpty { center.removeDeliveredNotifications(withIdentifiers: ids) }
     }
 
     static func removeDelivered(userId: String) {

@@ -14,6 +14,7 @@ import {
   useTimeline as useCoreTimeline,
 } from '@/app/data';
 import { useIgnoredUsers } from '@/app/hooks/useIgnoredUsers';
+import { useAutoKeyBackupRestore } from '@/app/hooks/useAutoKeyBackupRestore';
 import { formatUserId } from '@/util/matrix';
 import { formatDateLabel } from '@/util/format';
 import { isPinnedEvent } from '@/app/features/timeline/message/pinning';
@@ -516,6 +517,12 @@ export function useTimeline(
   const { entries, timeline } = core;
   const events = useMemo(() => entries.filter(isEventEntry), [entries]);
   const decryptingIds = useDecryptingIds(events);
+  // A readable key backup can still hold the keys of history this device never received: fetch
+  // them once, rather than waiting for someone to open a message's help and press restore.
+  const hasUnreadable = events.some(
+    (event) => event.content.type === 'unableToDecrypt' && !decryptingIds.has(entryEventId(event))
+  );
+  useAutoKeyBackupRestore(client, hasUnreadable);
   const baseContext = useBuildContext(client, roomId);
   const buildContext = useMemo(
     () => ({ ...baseContext, decryptingIds }),

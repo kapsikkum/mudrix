@@ -11,6 +11,9 @@ struct RoomListScreen: View {
     @ObservedObject var roomList: RoomListModel
     let selection: SidebarSelection
     var onOpenInbox: (() -> Void)?
+    /// Opens a room through the shell's navigation path. A row with this is a plain button, so the
+    /// list does not add the trailing disclosure chevron that a NavigationLink row gets.
+    var onOpenRoom: ((String) -> Void)?
     /// The Modern shell's Direct Messages pane: a header under the title instead of the top bar's + and inbox
     var modernHeader = false
 
@@ -61,8 +64,9 @@ struct RoomListScreen: View {
         room.isVoice || SpaceModern.isVoiceChannelFlagged(mudrix.state(room.id))
     }
 
-    /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox
-    private var dmPane: Bool { modernHeader && selection == .home }
+    /// The Modern shell's Direct Messages pane: its header replaces the top bar's + and inbox.
+    /// The rail can select either home or the DMs entry; both are the same pane there.
+    private var dmPane: Bool { modernHeader && (selection == .home || selection == .dms) }
 
     /// The list's groups; the Modern Home pane includes the DMs, the Classic tabs keep them apart
     private var groups: [RoomGroup] {
@@ -83,7 +87,7 @@ struct RoomListScreen: View {
                     .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))
             }
             if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded, let onOpenInbox {
-                HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox)
+                HomeWelcome(roomList: roomList, onOpenInbox: onOpenInbox, onOpenRoom: onOpenRoom)
             }
             if !dmPane, selection == .home, search.isEmpty, roomList.isLoaded {
                 ActiveNowSection(roomList: roomList)
@@ -234,6 +238,9 @@ struct RoomListScreen: View {
     @ViewBuilder
     private var newMenuItems: some View {
         Button { showNewMessage = true } label: { Label(menu: String(localized: "common.newDm"), icon: "ph-chat-circle-regular") }
+        if dmPane {
+            Button { showSort = true } label: { Label(menu: String(localized: "roomList.sort"), icon: "ph-sliders-regular") }
+        }
         if selection != .dms {
             Button { showNewRoom = true } label: { Label(menu: String(localized: "nav.newRoom"), icon: "ph-hash-straight-regular") }
         }
@@ -247,7 +254,8 @@ struct RoomListScreen: View {
         }
     }
 
-    /// The Direct Messages pane's toolbar, as on Android: search, inbox, a wide new message button and the accent +
+    /// The Direct Messages pane's toolbar, as on Android: search, inbox and the accent + (which opens the new menu,
+    /// including sort)
     private var dmHeader: some View {
         VStack(spacing: WZ.Space.space2) {
             HStack(spacing: WZ.Space.space3) {
@@ -255,26 +263,10 @@ struct RoomListScreen: View {
                     searchOpen = true
                     searchFocused = true
                 }
-                RoundToolButton(icon: "ph-sliders-regular", label: String(localized: "roomList.sort")) {
-                    showSort = true
-                }
                 if let onOpenInbox {
                     InboxButton(roomList: roomList, action: onOpenInbox, round: true)
                 }
-                Button { showNewMessage = true } label: {
-                    HStack(spacing: WZ.Space.space2) {
-                        Image("ph-chat-circle-regular")
-                            .font(.system(size: WZ.SizeIcon.sm))
-                            .foregroundStyle(theme.textPrimary)
-                        Text(String(localized: "common.newMessage"))
-                            .font(.wizard(WZ.FontSize.sm, .semibold))
-                            .foregroundStyle(theme.textPrimary)
-                            .lineLimit(1)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: WZ.Space.space9)
-                    .background(theme.fill, in: Capsule())
-                }
-                .buttonStyle(.plain)
+                Spacer(minLength: 0)
                 Menu {
                     newMenuItems
                 } label: {
@@ -311,10 +303,21 @@ struct RoomListScreen: View {
     }
 
     private func roomRow(_ room: RoomSummary, modern: Bool = false) -> some View {
-        NavigationLink(value: Route.room(room.id)) {
-            RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
-                    isVoice: modern ? isVoice(room) : nil,
-                    muted: roomList.notificationMode(of: room) == .mute)
+        Group {
+            if let onOpenRoom {
+                Button { onOpenRoom(room.id) } label: {
+                    RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
+                            isVoice: modern ? isVoice(room) : nil,
+                            muted: roomList.notificationMode(of: room) == .mute)
+                }
+                .buttonStyle(.plain)
+            } else {
+                NavigationLink(value: Route.room(room.id)) {
+                    RoomRow(room: room, showsHashIcon: modern ? !room.isDirect : !prefs.showRoomAvatars && !room.isDirect,
+                            isVoice: modern ? isVoice(room) : nil,
+                            muted: roomList.notificationMode(of: room) == .mute)
+                }
+            }
         }
         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
         .listRowBackground(theme.bgPrimary)
@@ -743,10 +746,47 @@ struct RoomRow: View {
 
     var body: some View {
         if room.isDirect, let partner = room.dmUserId, !partner.isEmpty {
-            CosmeticName(userId: partner) { rowContent }
+            CosmeticName(userId: partner, fullBleed: true) { rowContent }
         } else {
             rowContent
         }
+    }
+
+    /// A direct message's row is a card: the art fills it, so the name and the scrim follow it
+    private var dmRow: Bool { room.isDirect }
+
+    /// The nameplate is the row's whole background, so this scrim keeps the name and preview readable
+    /// on the left and lets the artwork show on the right. It is a surface wash over the banner, not a
+    /// lower opacity on the banner itself. The quiet dim under it carries a long name over bright art.
+    private var nameplateScrim: some View {
+        ZStack {
+            LinearGradient(stops: [
+                .init(color: .black.opacity(0.30), location: 0),
+                .init(color: .black.opacity(0.30), location: 0.66),
+                .init(color: .black.opacity(0), location: 1),
+            ], startPoint: .leading, endPoint: .trailing)
+            LinearGradient(stops: [
+                .init(color: theme.bgPrimary, location: 0),
+                .init(color: theme.bgPrimary, location: 0.40),
+                .init(color: theme.bgPrimary.opacity(0), location: 0.74),
+            ], startPoint: .leading, endPoint: .trailing)
+        }
+    }
+
+    /// Optional pill right after a name: a tiny icon and 2-4 uppercase letters, on translucent dark
+    private var nameBadge: some View {
+        HStack(spacing: WZ.Space.space1) {
+            Icon("phone", .fill, size: 10)
+            Text(String(localized: "call.live").uppercased())
+                .font(.wizard(WZ.FontSize.xs, .semibold))
+                .tracking(0.4)
+        }
+        .foregroundStyle(theme.textOnAccent)
+        .padding(.horizontal, WZ.Space.space3)
+        .padding(.vertical, WZ.Space.space1)
+        .background(theme.overlay, in: Capsule())
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(String(localized: "call.inProgress"))
     }
 
     /// The other person's nameplate, when they have one, is the row's whole background behind the avatar and text
@@ -760,6 +800,12 @@ struct RoomRow: View {
                 CosmeticAvatar(userId: room.dmUserId ?? "", name: room.displayName, url: room.avatarUrl, size: avatarSize,
                                presence: (!room.isDirect || inCall) ? nil : partnerPresence,
                                dot: (!room.isDirect || inCall) ? nil : StatusFields.dot(partnerPresence, mode: partnerStatusMode))
+                    .overlay {
+                        // Inside the banner the avatar keeps a thin dark ring so it separates from the art
+                        if dmRow {
+                            Circle().strokeBorder(theme.overlay, lineWidth: WZ.BorderWidth.thin)
+                        }
+                    }
                     .overlay(alignment: .bottomTrailing) {
                         if !room.isDirect || inCall {
                             typeIcon(size: WZ.SizeIcon.xs)
@@ -771,10 +817,17 @@ struct RoomRow: View {
                     }
             }
             VStack(alignment: .leading, spacing: WZ.Space.space2) {
-                Text(room.displayName)
-                    .font(.wizard(WZ.FontSize.lg, hasUnread ? .semibold : .regular))
-                    .foregroundStyle(hasUnread ? theme.textPrimary : theme.textPrimary.opacity(0.85))
-                    .lineLimit(1)
+                HStack(spacing: WZ.Space.space2) {
+                    Text(room.displayName)
+                        .font(.wizard(WZ.FontSize.md, dmRow || hasUnread ? .semibold : .regular))
+                        .foregroundStyle(dmRow || hasUnread ? theme.textPrimary : theme.textSecondary)
+                        .lineLimit(1)
+                        // Over the banner's art a local halo keeps the name crisp on a bright patch
+                        .shadow(color: dmRow ? .black.opacity(0.55) : .clear, radius: 1, x: 0, y: 1)
+                    if dmRow && !room.callParticipants.isEmpty {
+                        nameBadge
+                    }
+                }
                 if let preview {
                     Text(preview)
                         .font(.wizard(WZ.FontSize.sm, hasUnread ? .medium : .regular))
@@ -800,7 +853,15 @@ struct RoomRow: View {
                 UnreadBadge(count: room.unreadCount, isMention: false)
             }
         }
-        .padding(.vertical, prefs.roomRowPadding)
+        // A DM card's own edges are the list's row inset, which is where a plain row's content starts,
+        // so neither kind adds horizontal padding inside it. A DM row's avatar always fits its 64pt
+        // card, so the density padding is vertical only for plain rows
+        .padding(.vertical, dmRow ? 0 : prefs.roomRowPadding)
+        // Every DM row is one card height, with or without a nameplate, so the list never jumps
+        .frame(minHeight: dmRow ? 64 : 0)
+        .background { nameplateScrim }
+        // Air between two cards, unclipped by the list's zero row insets
+        .padding(.vertical, dmRow ? WZ.Space.space1 : 0)
         .contentShape(Rectangle())
         .task(id: "\(room.isDirect)|\(room.dmUserId ?? "")|\(prefs.showPresence)") {
             guard prefs.showPresence, room.isDirect, let partnerId = room.dmUserId, !partnerId.isEmpty,

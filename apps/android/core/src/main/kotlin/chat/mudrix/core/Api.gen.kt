@@ -624,6 +624,81 @@ enum class LastMessageKind {
     @SerialName("other") other,
 }
 
+@Serializable(with = LinkEmbedBlock.Serializer::class)
+sealed interface LinkEmbedBlock {
+    /**
+     * Text in Discord's markdown (`**bold**`, `[label](url)`, `-# small line`), with an optional
+     * small picture beside it (an avatar, a cover)
+     */
+    @Serializable
+    data class Text(
+        val markdown: String,
+        val thumbnail: LinkEmbedMedia? = null,
+    ) : LinkEmbedBlock
+    /** Pictures and videos, in order */
+    @Serializable
+    data class Gallery(
+        val items: List<LinkEmbedMedia>,
+    ) : LinkEmbedBlock
+    data object Separator : LinkEmbedBlock
+    /** Link buttons */
+    @Serializable
+    data class Buttons(
+        val buttons: List<LinkEmbedButton>,
+    ) : LinkEmbedBlock
+
+    object Serializer : JsonUnionSerializer<LinkEmbedBlock>("LinkEmbedBlock") {
+        override fun read(json: JsonElement): LinkEmbedBlock = when (val tag = json.jsonObject["type"]?.jsonPrimitive?.content) {
+            "text" -> CoreJson.decodeFromJsonElement(Text.serializer(), json)
+            "gallery" -> CoreJson.decodeFromJsonElement(Gallery.serializer(), json)
+            "separator" -> Separator
+            "buttons" -> CoreJson.decodeFromJsonElement(Buttons.serializer(), json)
+            else -> throw SerializationException("Unknown LinkEmbedBlock $tag")
+        }
+
+        override fun write(value: LinkEmbedBlock): JsonElement = when (value) {
+            is Text -> tagged(CoreJson.encodeToJsonElement(Text.serializer(), value), "type", "text")
+            is Gallery -> tagged(CoreJson.encodeToJsonElement(Gallery.serializer(), value), "type", "gallery")
+            Separator -> tagged(JsonObject(emptyMap()), "type", "separator")
+            is Buttons -> tagged(CoreJson.encodeToJsonElement(Buttons.serializer(), value), "type", "buttons")
+        }
+    }
+}
+
+@Serializable
+data class LinkEmbedButton(
+    val label: String,
+    /** An `https` address */
+    val url: String,
+)
+
+/** A link's embed card */
+@Serializable
+data class LinkEmbedCard(
+    /** The site's name ("X/Twitter", "Instagram") */
+    val service: String,
+    /** The link's canonical address, as the service reports it */
+    val url: String,
+    /** The card's accent color, `0xRRGGBB` */
+    val accent: Long? = null,
+    val blocks: List<LinkEmbedBlock>,
+)
+
+@Serializable
+data class LinkEmbedMedia(
+    /** An `https` address */
+    val url: String,
+    val kind: LinkEmbedMediaKind,
+    val description: String? = null,
+)
+
+@Serializable
+enum class LinkEmbedMediaKind {
+    @SerialName("image") image,
+    @SerialName("video") video,
+    @SerialName("audio") audio,
+}
+
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
@@ -844,6 +919,8 @@ data class Notification(
     val highlight: Boolean,
     val sound: Boolean,
     val isDirect: Boolean,
+    /** When the message was sent, in milliseconds since the Unix epoch */
+    val ts: Long,
 )
 
 /** How much a room notifies */
@@ -1282,6 +1359,12 @@ data class RoomSettings(
     val predecessor: String? = null,
 )
 
+@Serializable
+data class RoomSoundPacks(
+    val canEdit: Boolean,
+    val packs: List<SoundPack>,
+)
+
 /** What a room list row needs, without touching the SDK. */
 @Serializable
 data class RoomSummary(
@@ -1505,6 +1588,49 @@ enum class ShieldColor {
 data class ShieldView(
     val color: ShieldColor,
     val code: ShieldCode,
+)
+
+@Serializable
+data class SoundCredit(
+    val title: String,
+    val author: String,
+    val url: String,
+)
+
+@Serializable
+data class SoundPack(
+    val id: String,
+    val source: SoundPackSource,
+    val roomId: String? = null,
+    val stateKey: String? = null,
+    val name: String? = null,
+    val roomName: String? = null,
+    val avatarUrl: String? = null,
+    val attribution: String? = null,
+    val everywhere: Boolean,
+    val canEdit: Boolean,
+    val sounds: List<SoundboardSound>,
+)
+
+@Serializable
+enum class SoundPackSource {
+    @SerialName("frequent") frequent,
+    @SerialName("builtIn") builtIn,
+    @SerialName("mine") mine,
+    @SerialName("everywhere") everywhere,
+    @SerialName("room") room,
+    @SerialName("space") space,
+}
+
+@Serializable
+data class SoundboardSound(
+    val shortcode: String,
+    val url: String,
+    val body: String? = null,
+    val emoji: String? = null,
+    val mimetype: String? = null,
+    val size: Long? = null,
+    val durationMs: Long? = null,
 )
 
 /** A room or subspace inside a space, joined or not */
@@ -2046,6 +2172,14 @@ class MudrixClient(handle: Long, props: JsonObject) : Remote(handle, props) {
         /** The MIME type of media bytes, from their first bytes (images, audio, video, PDF). */
         suspend fun sniffMimeType(head: Bytes): String? =
             Runtime.call("MudrixClient.sniffMimeType", null, listOf(Arg.bytes(head)))
+
+        /**
+         * The embed card (post text, pictures, video) embeds.now makes for a link, or null when
+         * there is none. Needs no account. Fails when the service can't be reached (always, in
+         * a browser tab).
+         */
+        suspend fun linkEmbed(url: String): LinkEmbedCard? =
+            Runtime.call("MudrixClient.linkEmbed", null, listOf(Arg.value<String>(url)))
 
         /**
          * The state types Mudrix keeps in rooms and spaces, under both namespaces; pass them to
@@ -2747,6 +2881,49 @@ class MudrixClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     /** Calls `listener` with the room's call members now and on every change. */
     fun watchCallMembers(roomId: String, listener: (List<CallMember>) -> Unit): Subscription =
         Runtime.watch("MudrixClient.watchCallMembers", handle, listOf(Arg.value<String>(roomId), Arg.listener<List<CallMember>>(listener)), ::Subscription)
+
+    suspend fun soundboardPacks(roomId: String? = null): List<SoundPack> =
+        Runtime.call("MudrixClient.soundboardPacks", handle, listOf(Arg.value<String?>(roomId)))
+
+    suspend fun favoriteSoundPacks(): List<SoundPack> =
+        Runtime.call("MudrixClient.favoriteSoundPacks", handle, listOf())
+
+    suspend fun allSoundPacks(): List<SoundPack> =
+        Runtime.call("MudrixClient.allSoundPacks", handle, listOf())
+
+    suspend fun recordSoundPlayed(url: String) {
+        Runtime.callUnit("MudrixClient.recordSoundPlayed", handle, listOf(Arg.value<String>(url)))
+    }
+
+    suspend fun roomSoundPacks(roomId: String): RoomSoundPacks =
+        Runtime.call("MudrixClient.roomSoundPacks", handle, listOf(Arg.value<String>(roomId)))
+
+    suspend fun mySounds(): SoundPack =
+        Runtime.call("MudrixClient.mySounds", handle, listOf())
+
+    suspend fun uploadSound(data: Bytes, mimetype: String, durationMs: Long): SoundboardSound =
+        Runtime.call("MudrixClient.uploadSound", handle, listOf(Arg.bytes(data), Arg.value<String>(mimetype), Arg.value<Long>(durationMs)))
+
+    suspend fun saveSoundPack(roomId: String?, stateKey: String, name: String, attribution: String?, sounds: List<SoundboardSound>) {
+        Runtime.callUnit("MudrixClient.saveSoundPack", handle, listOf(Arg.value<String?>(roomId), Arg.value<String>(stateKey), Arg.value<String>(name), Arg.value<String?>(attribution), Arg.value<List<SoundboardSound>>(sounds)))
+    }
+
+    suspend fun createSoundPack(roomId: String, name: String): String =
+        Runtime.call("MudrixClient.createSoundPack", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(name)))
+
+    suspend fun deleteSoundPack(roomId: String, stateKey: String) {
+        Runtime.callUnit("MudrixClient.deleteSoundPack", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(stateKey)))
+    }
+
+    suspend fun setSoundPackEverywhere(roomId: String, stateKey: String, everywhere: Boolean) {
+        Runtime.callUnit("MudrixClient.setSoundPackEverywhere", handle, listOf(Arg.value<String>(roomId), Arg.value<String>(stateKey), Arg.value<Boolean>(everywhere)))
+    }
+
+    suspend fun soundboardCredits(): List<SoundCredit> =
+        Runtime.call("MudrixClient.soundboardCredits", handle, listOf())
+
+    suspend fun soundboardSound(url: String): Bytes =
+        Runtime.call("MudrixClient.soundboardSound", handle, listOf(Arg.value<String>(url)))
 
     /** A token for a LiveKit service, for this device in the room's call. */
     suspend fun sfuConfig(roomId: String, serviceUrl: String): SfuConfig =

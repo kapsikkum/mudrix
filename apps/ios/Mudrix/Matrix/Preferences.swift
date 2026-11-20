@@ -49,6 +49,9 @@ enum PhotoUploadSize: String, CaseIterable {
 /// YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all)
 enum YouTubeEmbeds: String, CaseIterable { case ask, on, off }
 
+/// Every other link-embed service uses the same three answers as YouTube
+typealias LinkEmbedMode = YouTubeEmbeds
+
 /// Which online status to send when presence is shared: follow the app, or always online, away or invisible (offline)
 enum PresenceChoice: String, CaseIterable, Hashable {
     case auto, online, away, invisible
@@ -141,6 +144,18 @@ final class AppPreferences: ObservableObject {
     @Published var photoStripMetadata: Bool { didSet { save("photoStripMetadata", photoStripMetadata); syncIfNeeded() } }
     @Published var photoUploadSize: PhotoUploadSize { didSet { save("photoUploadSize", photoUploadSize.rawValue); syncIfNeeded() } }
     @Published var youtubeEmbeds: YouTubeEmbeds { didSet { save("youtubeEmbeds", youtubeEmbeds.rawValue); syncIfNeeded() } }
+    @Published var spotifyEmbeds: LinkEmbedMode { didSet { save("spotifyEmbeds", spotifyEmbeds.rawValue); syncIfNeeded() } }
+    @Published var xEmbeds: LinkEmbedMode { didSet { save("xEmbeds", xEmbeds.rawValue); syncIfNeeded() } }
+    @Published var instagramEmbeds: LinkEmbedMode { didSet { save("instagramEmbeds", instagramEmbeds.rawValue); syncIfNeeded() } }
+    @Published var tiktokEmbeds: LinkEmbedMode { didSet { save("tiktokEmbeds", tiktokEmbeds.rawValue); syncIfNeeded() } }
+    @Published var redditEmbeds: LinkEmbedMode { didSet { save("redditEmbeds", redditEmbeds.rawValue); syncIfNeeded() } }
+    @Published var facebookEmbeds: LinkEmbedMode { didSet { save("facebookEmbeds", facebookEmbeds.rawValue); syncIfNeeded() } }
+    @Published var threadsEmbeds: LinkEmbedMode { didSet { save("threadsEmbeds", threadsEmbeds.rawValue); syncIfNeeded() } }
+    @Published var blueskyEmbeds: LinkEmbedMode { didSet { save("blueskyEmbeds", blueskyEmbeds.rawValue); syncIfNeeded() } }
+    @Published var mastodonEmbeds: LinkEmbedMode { didSet { save("mastodonEmbeds", mastodonEmbeds.rawValue); syncIfNeeded() } }
+    @Published var pinterestEmbeds: LinkEmbedMode { didSet { save("pinterestEmbeds", pinterestEmbeds.rawValue); syncIfNeeded() } }
+    @Published var linkedinEmbeds: LinkEmbedMode { didSet { save("linkedinEmbeds", linkedinEmbeds.rawValue); syncIfNeeded() } }
+    @Published var tumblrEmbeds: LinkEmbedMode { didSet { save("tumblrEmbeds", tumblrEmbeds.rawValue); syncIfNeeded() } }
 
     @Published var timeFormat: TimeFormat { didSet { save("timeFormat", timeFormat.rawValue); syncIfNeeded() } }
     @Published var dateFormat: DateFormatStyle { didSet { save("dateFormat", dateFormat.rawValue); syncIfNeeded() } }
@@ -265,6 +280,18 @@ final class AppPreferences: ObservableObject {
         photoStripMetadata = d.bool(forKey: "photoStripMetadata")
         photoUploadSize = Self.stored(d, "photoUploadSize", .original)
         youtubeEmbeds = Self.stored(d, "youtubeEmbeds", .ask)
+        spotifyEmbeds = Self.stored(d, "spotifyEmbeds", .ask)
+        xEmbeds = Self.stored(d, "xEmbeds", .ask)
+        instagramEmbeds = Self.stored(d, "instagramEmbeds", .ask)
+        tiktokEmbeds = Self.stored(d, "tiktokEmbeds", .ask)
+        redditEmbeds = Self.stored(d, "redditEmbeds", .ask)
+        facebookEmbeds = Self.stored(d, "facebookEmbeds", .ask)
+        threadsEmbeds = Self.stored(d, "threadsEmbeds", .ask)
+        blueskyEmbeds = Self.stored(d, "blueskyEmbeds", .ask)
+        mastodonEmbeds = Self.stored(d, "mastodonEmbeds", .ask)
+        pinterestEmbeds = Self.stored(d, "pinterestEmbeds", .ask)
+        linkedinEmbeds = Self.stored(d, "linkedinEmbeds", .ask)
+        tumblrEmbeds = Self.stored(d, "tumblrEmbeds", .ask)
 
         timeFormat = Self.stored(d, "timeFormat", .auto)
         dateFormat = Self.stored(d, "dateFormat", .long)
@@ -335,7 +362,10 @@ final class AppPreferences: ObservableObject {
 
     /// The layout in use on this device: its own phone choice, else the account's main one
     var messageLayout: MessageLayout {
-        get { (phoneMessageLayout ?? mainMessageLayout) == "classic" ? .classic : .modern }
+        // Every value the settings offer has to survive the round trip: the two-way ternary that
+        // came before reported "compact" back as `.modern`, so the picker snapped back to Modern
+        // and the compact timeline (which RoomView already draws) could never be selected.
+        get { MessageLayout(rawValue: phoneMessageLayout ?? mainMessageLayout) ?? .modern }
         set {
             setPhoneLayout(newValue.rawValue)
             syncIfNeeded()
@@ -424,6 +454,18 @@ final class AppPreferences: ObservableObject {
             boolKey("photoStripMetadata", \.photoStripMetadata),
             enumKey("photoUploadSize", \.photoUploadSize),
             enumKey("youtubeEmbeds", \.youtubeEmbeds),
+            enumKey("spotifyEmbeds", \.spotifyEmbeds),
+            enumKey("xEmbeds", \.xEmbeds),
+            enumKey("instagramEmbeds", \.instagramEmbeds),
+            enumKey("tiktokEmbeds", \.tiktokEmbeds),
+            enumKey("redditEmbeds", \.redditEmbeds),
+            enumKey("facebookEmbeds", \.facebookEmbeds),
+            enumKey("threadsEmbeds", \.threadsEmbeds),
+            enumKey("blueskyEmbeds", \.blueskyEmbeds),
+            enumKey("mastodonEmbeds", \.mastodonEmbeds),
+            enumKey("pinterestEmbeds", \.pinterestEmbeds),
+            enumKey("linkedinEmbeds", \.linkedinEmbeds),
+            enumKey("tumblrEmbeds", \.tumblrEmbeds),
             enumKey("timeFormat", \.timeFormat),
             enumKey("dateFormat", \.dateFormat),
             enumKey("emojiOnlySize", \.emojiOnlySize),

@@ -126,8 +126,115 @@ class MainActivity : AppCompatActivity() {
 
     private fun handle(intent: Intent?) {
         val uri = intent?.data ?: return
-        if (uri.scheme in MatrixSession.CALLBACK_SCHEMES) BrowserLogin.callback(uri)
+        // Only the server's sign-in redirect may reach the pending login. Room, space and user
+        // permalinks are known routes too, but they have no navigator at the activity level yet;
+        // everything else (including unknown paths on a callback scheme) is dropped.
+        val link = AppLinks.parse(uri) ?: return
+        if (link is AppLink.Callback) BrowserLogin.callback(uri)
     }
+}
+
+/** An external link the app knows, once its scheme, host and path have been checked */
+internal sealed interface AppLink {
+    /** The server's sign-in redirect: `chat.mudrix:/callback`, `chat.mudrix://callback`, or the legacy scheme */
+    data object Callback : AppLink
+    data class Room(val id: String) : AppLink
+    data class Space(val id: String) : AppLink
+    data class User(val id: String) : AppLink
+}
+
+/**
+ * The links the app accepts from outside, with the exact routes it knows: permalinks on `matrix.to`
+ * and the two app schemes' room, space and user routes, plus the sign-in callback. A link that does
+ * not match one of those is rejected as a whole, so no arbitrary URI reaches the browser or login.
+ */
+internal object AppLinks {
+    private const val MATRIX_TO = "matrix.to"
+    private val ROOM_ROUTES = setOf("room", "r")
+    private val SPACE_ROUTES = setOf("space")
+    private val USER_ROUTES = setOf("user", "dm")
+
+    fun parse(uri: Uri): AppLink? = when (uri.scheme?.lowercase()) {
+        "https" -> matrixTo(uri)
+        in MatrixSession.CALLBACK_SCHEMES -> callback(uri) ?: appRoute(uri)
+        else -> null
+    }
+
+    /**
+     * The callback route only: `<scheme>:/callback` (the registered redirect) or
+     * `<scheme>://callback` (a URL parser's reading of it). A host or path beyond that is another
+     * route, not a sign-in, even on a callback scheme.
+     */
+    private fun callback(uri: Uri): AppLink.Callback? {
+        if (uri.userInfo != null || uri.port != -1) return null
+        val callback = when (uri.host?.lowercase()) {
+            null, "" -> uri.path == "/callback"
+            "callback" -> uri.path.isNullOrEmpty() || uri.path == "/"
+            else -> false
+        }
+        return if (callback) AppLink.Callback else null
+    }
+
+    /** `https://matrix.to/#/!room:server`, `/#/@user:server`, and their `room/`, `user/`, `space/` forms */
+    private fun matrixTo(uri: Uri): AppLink? {
+        if (uri.host?.lowercase() != MATRIX_TO || uri.userInfo != null || uri.port != -1) return null
+        if (!uri.path.isNullOrEmpty() && uri.path != "/") return null
+        val fragment = uri.fragment ?: return null
+        if (!fragment.startsWith("/")) return null
+        val route = fragment.removePrefix("/").substringBefore('?')
+        val parts = route.split('/').filter { it.isNotEmpty() }.map { Uri.decode(it) }
+        if (parts.isEmpty()) return null
+        val first = parts.first().lowercase()
+        return when (first) {
+            in ROOM_ROUTES -> {
+                val id = parts.getOrNull(1) ?: return null
+                // `/#/room/!id:server/event` is still the room; deeper paths are not
+                if (parts.size > 3 || !roomId(id)) null else AppLink.Room(id)
+            }
+            in SPACE_ROUTES -> {
+                val id = parts.getOrNull(1) ?: return null
+                if (parts.size == 2 && roomId(id)) AppLink.Space(id) else null
+            }
+            in USER_ROUTES -> {
+                val id = parts.getOrNull(1) ?: return null
+                if (parts.size == 2 && userId(id)) AppLink.User(id) else null
+            }
+            else -> {
+                if (parts.size > 2) return null
+                val id = parts.first()
+                when {
+                    roomId(id) -> AppLink.Room(id)
+                    parts.size == 1 && userId(id) -> AppLink.User(id)
+                    else -> null
+                }
+            }
+        }
+    }
+
+    /** `chat.mudrix://room/!id:server`, `:/user/@id:server`, and the legacy scheme's same routes */
+    private fun appRoute(uri: Uri): AppLink? {
+        if (uri.userInfo != null || uri.port != -1) return null
+        val host = uri.host?.lowercase()
+        val path = uri.pathSegments.orEmpty().map { Uri.decode(it) }
+        // `://app/r/...` is the desktop shell's spelling; `://room/...` puts the route in the host
+        val parts = when (host) {
+            null, "", "app" -> path
+            in ROOM_ROUTES, in SPACE_ROUTES, in USER_ROUTES -> listOf(host) + path
+            else -> return null
+        }
+        if (parts.isEmpty() || parts.size > 2) return null
+        val route = parts.first().lowercase()
+        val id = parts.getOrNull(1) ?: return null
+        return when {
+            route in ROOM_ROUTES && roomId(id) -> AppLink.Room(id)
+            route in SPACE_ROUTES && roomId(id) -> AppLink.Space(id)
+            route in USER_ROUTES && userId(id) -> AppLink.User(id)
+            else -> null
+        }
+    }
+
+    private fun roomId(id: String) = (id.startsWith("!") || id.startsWith("#")) && id.length > 1 && ':' in id
+    private fun userId(id: String) = id.startsWith("@") && id.length > 1 && ':' in id
 }
 
 /** The server's sign-in page in a Custom Tab: `open` returns the redirect, or null if the tab was closed */

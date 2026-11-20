@@ -1,9 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useAtomValue } from 'jotai';
 import type { MudrixClient } from '@mudrix/core';
 import { useLinkPreview } from '@/app/hooks/useLinkPreview';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import { Tooltip } from '@/app/components/Tooltip';
+import { linkEmbedModeAtoms } from '@/app/store/atoms';
+import { isDesktop } from '@/bridge/desktop';
+import { matchLinkEmbed, planLinkEmbed, type LinkEmbedMatch } from '@/util/linkEmbeds';
 import { parseYouTubeUrl } from '@/util/youtube';
+import { EmbedsNowCard, EmbedsNowPrompt } from '../embeds/EmbedsNowCard';
+import { LinkEmbed } from '../embeds/LinkEmbed';
+import { MastodonEmbed } from '../embeds/MastodonEmbed';
+import { RedditEmbed } from '../embeds/RedditEmbed';
+import { SpotifyEmbed } from '../embeds/SpotifyEmbed';
+import { XPostEmbed } from '../embeds/XPostEmbed';
 import { YouTubeEmbed } from './YouTubeEmbed';
 import * as css from './LinkPreview.css';
 
@@ -85,9 +95,53 @@ function PlainLinkPreview({ url, client, isEncrypted }: LinkPreviewProps) {
   );
 }
 
-/** A YouTube link becomes a click-to-play card; any other link shows the homeserver's preview. */
+/**
+ * A recognised service link renders its embed (Show), its prompt (Ask), or nothing (Hide).
+ * YouTube keeps its own component and setting.
+ */
+function ServiceLinkPreview({ match, ...props }: LinkPreviewProps & { match: LinkEmbedMatch }) {
+  const mode = useAtomValue(linkEmbedModeAtoms[match.service]);
+  if (mode === 'off' || match.service === 'youtube') return null;
+  const plan = planLinkEmbed(match, mode, { embedsNow: isDesktop });
+  if (!plan) return <PlainLinkPreview {...props} />;
+  if (plan.kind === 'prompt' && plan.embedsNow) return <EmbedsNowPrompt service={match.service} />;
+  if (plan.kind === 'embeds-now') {
+    return (
+      <EmbedsNowCard
+        url={plan.url}
+        service={match.service}
+        fallback={<PlainLinkPreview {...props} />}
+      />
+    );
+  }
+  if (match.service === 'spotify' && match.embedUrl) {
+    return <SpotifyEmbed match={match} mode={mode} />;
+  }
+  if (match.service === 'x' && match.xStatusId) {
+    return <XPostEmbed url={match.url} match={match} mode={mode} />;
+  }
+  if (match.service === 'reddit' && match.embedUrl) {
+    return (
+      <RedditEmbed
+        match={match}
+        mode={mode}
+        client={props.client}
+        isEncrypted={props.isEncrypted}
+      />
+    );
+  }
+  if (match.service === 'mastodon' && match.metadata?.kind === 'mastodon') {
+    return <MastodonEmbed match={match} mode={mode} />;
+  }
+  return <LinkEmbed {...props} match={match} mode={mode} />;
+}
+
+/** A YouTube link becomes a click-to-play card; other services use the embed registry; the rest
+ *  show the homeserver's preview. Only one of them can render for a link. */
 export function LinkPreview(props: LinkPreviewProps) {
   const video = parseYouTubeUrl(props.url);
   if (video) return <YouTubeEmbed {...props} video={video} />;
+  const match = matchLinkEmbed(props.url);
+  if (match) return <ServiceLinkPreview {...props} match={match} />;
   return <PlainLinkPreview {...props} />;
 }

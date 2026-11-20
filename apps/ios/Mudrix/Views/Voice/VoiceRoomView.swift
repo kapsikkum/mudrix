@@ -173,7 +173,7 @@ struct CallControls: View {
                         .tint(theme.danger)
                     } else {
                         Button { showWatchSheet = true } label: {
-                            Label(menu: String(localized: "call.watchTogether.menuBeta"), icon: "ph-youtube-logo-fill")
+                            Label(menu: String(localized: "call.watchTogether.menuWatch"), icon: "ph-youtube-logo-fill")
                         }
                     }
                 }

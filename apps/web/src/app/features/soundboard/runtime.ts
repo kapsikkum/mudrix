@@ -1,7 +1,16 @@
 import type { SpaceNode, MudrixClient } from '@mudrix/core';
 import { DEFAULT_PREFERENCES } from '@/app/store/atoms/settings';
 import { STORAGE_KEY_PREFERENCES } from '@/const/storageKeys';
-import type { SoundboardPlayContent } from './types';
+
+/** What a press needs beyond the standard `{ url, shortcode, emoji }` (for old clients). */
+export interface SoundboardPlayRequest {
+  url: string;
+  shortcode: string;
+  emoji?: string;
+  name?: string;
+  mimetype?: string;
+  durationMs?: number;
+}
 
 /**
  * What the plain (non-React) soundboard functions need to know about the current session. The
@@ -21,8 +30,8 @@ export interface SoundboardRuntime {
   client: MudrixClient | null;
   /** Spaces and their rooms, to find the spaces whose boards apply in a room. */
   spaceGraph: SpaceNode[];
-  /** Tells the rest of the call about a press; null outside a call. */
-  send: ((content: SoundboardPlayContent) => void) | null;
+  /** Plays a press here and tells the call about it; null outside a call. */
+  play: ((sound: SoundboardPlayRequest) => Promise<void>) | null;
 }
 
 function readStoredPrefs(): {
@@ -66,7 +75,7 @@ export const soundboardRuntime: SoundboardRuntime = {
   setMutedUsers: null,
   client: null,
   spaceGraph: [],
-  send: null,
+  play: null,
 };
 
 /** Current device preferences: the live values when the receiver is mounted, else from storage. */

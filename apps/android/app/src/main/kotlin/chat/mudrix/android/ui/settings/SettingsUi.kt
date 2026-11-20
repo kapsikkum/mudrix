@@ -66,6 +66,7 @@ internal enum class SettingsPageId(val titleKey: String, val icon: String) {
     privacy("settings.privacy.title", "shield"),
     emojis("room.settings.emojis.title", "smiley-sticker"),
     cosmetics("settings.cosmetics.title", "sparkle"),
+    soundboard("settings.soundboard.title", "speaker-high"),
     media("settings.media.title", "film-strip"),
     activity("settings.activity.title", "waveform"),
     integrations("settings.integrations.title", "plugs-connected"),
@@ -129,6 +130,7 @@ fun SettingsScreen(isTab: Boolean, onDismiss: (() -> Unit)? = null) {
             SettingsPageId.privacy -> PrivacySettings(pop)
             SettingsPageId.emojis -> EmojisSettings(pop)
             SettingsPageId.cosmetics -> CosmeticsSettings(pop)
+            SettingsPageId.soundboard -> SoundboardSettings(pop)
             SettingsPageId.media -> MediaSettings(pop)
             SettingsPageId.activity -> ActivitySettings(pop)
             SettingsPageId.integrations -> IntegrationsSettings(pop)
@@ -197,7 +199,7 @@ private fun SettingsRoot(isTab: Boolean, onDismiss: (() -> Unit)?, open: (Settin
                 SettingsDivider()
                 AccountSwitcher(onLogout = { if (!isTab) onDismiss?.invoke() })
             }
-            PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis, SettingsPageId.cosmetics, SettingsPageId.media, SettingsPageId.activity, SettingsPageId.integrations), open)
+            PageRows(listOf(SettingsPageId.privacy, SettingsPageId.notifications, SettingsPageId.emojis, SettingsPageId.cosmetics, SettingsPageId.soundboard, SettingsPageId.media, SettingsPageId.activity, SettingsPageId.integrations), open)
             PageRows(listOf(SettingsPageId.voiceVideo, SettingsPageId.appearance, SettingsPageId.accessibility, SettingsPageId.language), open)
             PageRows(listOf(SettingsPageId.sessions, SettingsPageId.encryption, SettingsPageId.developer, SettingsPageId.about), open)
             }

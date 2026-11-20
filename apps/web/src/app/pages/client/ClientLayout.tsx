@@ -48,7 +48,7 @@ import { Inbox, MobileInboxPage } from '@/app/features/inbox';
 import { MobileSettingsHome } from '@/app/features/settings/MobileSettingsHome';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { ListIcon } from '@phosphor-icons/react';
-import { PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
+import { SIDE_PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
 import { useBackToClose } from '@/app/hooks/useBackToClose';
 import { SWIPE_DRAWER_ATTR, SWIPE_SCRIM_ATTR, useSwipePanels } from '@/app/hooks/useSwipePanels';
 import { useEdgeSwipeBack, useLongPressContextMenu } from '@/app/hooks/useTouchGestures';
@@ -543,7 +543,15 @@ export function ClientLayout() {
   // Where the side panels are overlays (phones, touch tablets), the browser's back button dismisses
   // them. Back from a room opens the room list (the sidebar drawer) instead of leaving the page; the
   // list opened that way has no history entry of its own, so a second Back leaves as normal.
-  const panelsOverlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const panelsOverlay = useMediaQuery(SIDE_PANEL_OVERLAY_QUERY);
+  // Too narrow for the members panel beside the chat: close it (it can be reopened as an
+  // overlay). Closing on the layout change, not on every render, leaves a panel the person opens
+  // at this width alone.
+  useEffect(() => {
+    if (!panelsOverlay) return;
+    setMembersPanelOpen(false);
+    setSpaceMembersPanelOpen(false);
+  }, [panelsOverlay, setMembersPanelOpen, setSpaceMembersPanelOpen]);
   const backCloses = panelsOverlay && !isNativeApp();
   useBackToClose(backCloses && membersPanelVisible, () => setMembersVisible(false));
   useBackToClose(backCloses && !!threadsPanelView, closeThreads);

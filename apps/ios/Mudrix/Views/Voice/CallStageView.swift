@@ -66,7 +66,7 @@ struct CallStageView: View {
                 : Label(String(localized: "call.muteForMe"), image: "ph-speaker-slash-regular")
         }
         Button { volumeFor = participant } label: { Label(String(localized: "call.volume"), image: "ph-sliders-regular") }
-        // Only their soundboard clips are silenced, on this device (Settings > Voice lists who is muted)
+        // Only their soundboard clips are silenced, on this device (Settings > Soundboard lists who is muted)
         Button {
             if prefs.soundboardMutedUsers.contains(participant.userId) {
                 prefs.soundboardMutedUsers.removeAll { $0 == participant.userId }

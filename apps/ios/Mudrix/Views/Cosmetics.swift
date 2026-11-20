@@ -134,8 +134,9 @@ struct PresenceDot: View {
 
     var body: some View {
         if let color {
-            let diameter = max(8, size * 0.3)
-            let inset = max(1.5, diameter * 0.14)
+            // 12pt at the corner, a 2pt ring of the page's own background so it separates from art
+            let diameter = min(12, max(8, size * 0.3))
+            let inset = diameter / 6
             Circle()
                 .fill(color)
                 .padding(inset)
@@ -184,6 +185,8 @@ struct CosmeticAvatar: View {
 /// A nameplate's tint and art behind a name; the content alone without one
 struct CosmeticNameplate<Content: View>: View {
     let value: CosmeticValue?
+    /// A list row's card: the art fills the row edge to edge, so the content brings its own inset
+    var fullBleed = false
     @ViewBuilder let content: () -> Content
 
     @EnvironmentObject private var session: MatrixSession
@@ -193,8 +196,8 @@ struct CosmeticNameplate<Content: View>: View {
         if let value {
             let palette = CosmeticPacks.paletteColor(CosmeticPacks.nameplatePalette(value) ?? packPalette)
             content()
-                .padding(.horizontal, WZ.Space.space3)
-                .padding(.vertical, WZ.Space.space1)
+                .padding(.horizontal, fullBleed ? 0 : WZ.Space.space3)
+                .padding(.vertical, fullBleed ? 0 : WZ.Space.space1)
                 .background {
                     ZStack {
                         LinearGradient(colors: [palette.opacity(0.2), palette.opacity(0.55)], startPoint: .leading,
@@ -206,7 +209,7 @@ struct CosmeticNameplate<Content: View>: View {
                         }
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.sm, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: fullBleed ? WZ.Radius.md : WZ.Radius.sm, style: .continuous))
                 .task(id: "\(value.url)|\(CosmeticPacks.nameplatePalette(value) ?? "")") {
                     packPalette = nil
                     guard CosmeticPacks.nameplatePalette(value) == nil,
@@ -227,6 +230,8 @@ struct CosmeticNameplate<Content: View>: View {
 /// A person's name with their nameplate, loaded once per person
 struct CosmeticName<Content: View>: View {
     let userId: String
+    /// A list row's nameplate is the row's whole card, so its art reaches the row's edges
+    var fullBleed = false
     @ViewBuilder let content: () -> Content
 
     @EnvironmentObject private var session: MatrixSession
@@ -234,7 +239,8 @@ struct CosmeticName<Content: View>: View {
     @State private var nameplate: CosmeticValue?
 
     var body: some View {
-        CosmeticNameplate(value: CosmeticPacks.resolve(nameplate, showPacks: prefs.showCosmeticPacks), content: content)
+        CosmeticNameplate(value: CosmeticPacks.resolve(nameplate, showPacks: prefs.showCosmeticPacks),
+                          fullBleed: fullBleed, content: content)
             .task(id: "\(userId)|\(prefs.showCosmeticPacks)") {
                 guard prefs.showCosmeticPacks, !userId.isEmpty, let client = session.client else { return }
                 if let cached = CosmeticCache.shared.cached(userId) {

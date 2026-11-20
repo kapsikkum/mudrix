@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::{BTreeMap, HashSet, VecDeque};
 
 use futures_util::StreamExt;
 use matrix_sdk::{
@@ -95,6 +95,8 @@ pub struct Notification {
     pub highlight: bool,
     pub sound: bool,
     pub is_direct: bool,
+    /// When the message was sent, in milliseconds since the Unix epoch
+    pub ts: u64,
 }
 
 /// A notification the server keeps for the user, read or not
@@ -114,11 +116,13 @@ pub struct ServerNotification {
 }
 
 const ROOM_PACK_TYPES: [&str; 2] = ["im.ponies.room_emotes", "m.room.image_pack"];
-const MAX_SPACE_DEPTH: usize = 5;
+pub(crate) const MAX_SPACE_DEPTH: usize = 5;
 /// The most results one search page asks the server for
 const SEARCH_PAGE: u32 = 30;
 const USER_PACK: &str = "im.ponies.user_emotes";
 const ENABLED_ROOM_PACKS: &str = "im.ponies.emote_rooms";
+/// The most rooms from `im.ponies.emote_rooms` one call reads state for
+const MAX_EMOTE_ROOMS: usize = 50;
 
 fn parse_pack(id: String, room_id: Option<String>, content: &Value) -> Option<EmojiPack> {
     let pack = content.get("pack");
@@ -211,7 +215,7 @@ fn room_packs(
     packs
 }
 
-fn canonical_parents(state: &[Value]) -> Vec<String> {
+pub(crate) fn canonical_parents(state: &[Value]) -> Vec<String> {
     of_type(state, "m.space.parent")
         .filter(|event| {
             event
@@ -321,20 +325,33 @@ impl MudrixClient {
                 .and_then(Value::as_object)
                 .cloned()
                 .unwrap_or_default();
+            // The account data can name rooms that were left or never joined; their state can't
+            // be read. Only joined rooms are worth a request.
+            let joined: HashSet<String> = self
+                .sdk()
+                .joined_rooms()
+                .into_iter()
+                .map(|room| room.room_id().to_string())
+                .collect();
+            let mut queried = 0;
             for (id, keys) in rooms {
-                if Some(id.as_str()) == room_id {
+                if queried >= MAX_EMOTE_ROOMS {
+                    break;
+                }
+                if Some(id.as_str()) == room_id || !joined.contains(&id) {
                     continue;
                 }
                 let keys: BTreeMap<String, Value> = keys
                     .as_object()
                     .map(|o| o.clone().into_iter().collect())
                     .unwrap_or_default();
+                queried += 1;
                 let state = room_state(self, &id).await;
                 packs.extend(room_packs(&id, &state, Some(&keys)));
             }
         }
         // A favourited pack can also be one of this room's or its spaces'
-        let mut seen = std::collections::HashSet::new();
+        let mut seen = HashSet::new();
         packs.retain(|pack| seen.insert(pack.id.clone()));
         Ok(packs)
     }
@@ -601,6 +618,7 @@ pub(crate) async fn notification_for(
         highlight,
         sound,
         is_direct: room.direct_targets_length() > 0,
+        ts: sent_at(&event),
     })
 }
 

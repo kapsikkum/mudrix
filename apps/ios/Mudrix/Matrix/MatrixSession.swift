@@ -57,6 +57,13 @@ final class MatrixSession: ObservableObject {
     /// the rename send the redirect back on it, and `ASWebAuthenticationSession` watches one scheme, so
     /// iOS sign-in stays on it (Android accepts both this and the new `chat.mudrix`).
     static let callbackScheme = "org.wizardchat"
+    /// The schemes links from other apps use: the share extension opens `mudrix`, new sign-in
+    /// redirect URIs use `chat.mudrix`.
+    static let shareSchemes: Set<String> = ["mudrix", "chat.mudrix"]
+    /// Every scheme `Info.plist` registers: the share ones plus `org.wizardchat`, which client
+    /// registrations made before the rename still redirect on (the one `ASWebAuthenticationSession`
+    /// watches, since it takes one scheme).
+    static let urlSchemes: Set<String> = shareSchemes.union([callbackScheme])
     static let app = AppInfo(name: "Mudrix", clientUri: "https://github.com/kapsikkum/mudrix")
 
     var requireClient: MudrixClient {
@@ -86,6 +93,7 @@ final class MatrixSession: ObservableObject {
                 // a bug) keeps it so the user isn't signed out
                 SessionStore.remove(stored.session.userId)
                 MessageNotifier.removeDelivered(userId: stored.session.userId)
+                Self.discardAccountData(stored.session.userId)
                 reloadAccounts()
             } catch {
                 state = .restoreFailed(error.localizedDescription)
@@ -112,7 +120,9 @@ final class MatrixSession: ObservableObject {
 
     func switchAccount(to userId: String) async {
         guard userId != self.userId, !isRestoring, accounts.contains(where: { $0.userId == userId }) else { return }
+        let outgoing = self.userId
         await close()
+        if let outgoing { Self.discardAccountData(outgoing) }
         SessionStore.setActive(userId)
         state = .restoring
         await restore()
@@ -194,6 +204,7 @@ final class MatrixSession: ObservableObject {
         guard let pending = pendingLogin else { throw WizardError.noPendingLogin }
         pendingLogin = nil
         do {
+            // The core checks the per-login nonce, which is in the query, so the URL goes on whole
             let client = try await pending.login.finish(callbackUrl: callbackUrl.absoluteString, deviceName: Self.deviceName)
             await remember(client, folder: pending.folder, store: pending.store)
         } catch {
@@ -212,6 +223,8 @@ final class MatrixSession: ObservableObject {
     /// Leaving the app: stop syncing so coming back starts a fresh connection (iOS freezes the
     /// app and its open connection goes stale). Calls keep syncing, they need room events.
     func pauseSync(keepRunning: Bool) async {
+        // Nothing typed just before backgrounding should be lost to the draft store's write delay
+        DraftStore.shared.flush()
         guard !keepRunning, let client, syncState == .running else { return }
         try? await client.stopSync()
     }
@@ -222,6 +235,8 @@ final class MatrixSession: ObservableObject {
     }
 
     init() {
+        // Shares waiting for an account that never came back are dropped when the app starts
+        ShareInbox.expireStale()
         pathMonitor.pathUpdateHandler = { [weak self] path in
             Task { @MainActor in self?.networkChanged(path.status == .satisfied) }
         }
@@ -350,7 +365,10 @@ final class MatrixSession: ObservableObject {
 
     private func remember(_ client: MudrixClient, folder: String, store: StoreConfig) async {
         let stored = StoredSession(session: client.session, storeFolder: folder, passphrase: store.passphrase ?? "")
+        let previous = userId
         await close()
+        // Adding an account or signing in again moves away from the one that was active
+        if let previous, previous != stored.session.userId { Self.discardAccountData(previous) }
         let replaced = SessionStore.all().first { $0.session.userId == stored.session.userId }
         if let replaced, replaced.storeFolder != folder { SessionStore.removeStore(replaced.storeFolder) }
         SessionStore.save(stored)
@@ -389,7 +407,7 @@ final class MatrixSession: ObservableObject {
         displayName = stored.displayName
         avatarUrl = stored.avatarUrl
         roomList = RoomListModel(client: client)
-        media = MediaLoader(client: client)
+        media = MediaLoader(client: client, userId: stored.session.userId)
         uploadLimit = Self.defaultUploadLimit
         subscriptions = [
             client.watchSession { [weak self] event in
@@ -442,11 +460,20 @@ final class MatrixSession: ObservableObject {
 
     private func forget(_ stored: StoredSession) async {
         await close()
+        Self.discardAccountData(stored.session.userId)
         SessionStore.remove(stored.session.userId)
         MessageNotifier.removeDelivered(userId: stored.session.userId)
         reloadAccounts()
         state = .restoring
         await restore()
+    }
+
+    /// What the device kept for an account that signs out, is switched away from or is thrown out:
+    /// drafts, decrypted media and shares still waiting to be sent.
+    private static func discardAccountData(_ userId: String) {
+        DraftStore.shared.clear(account: userId)
+        MediaLoader.purge(account: userId)
+        ShareInbox.clear()
     }
 }
 

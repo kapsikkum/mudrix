@@ -87,7 +87,7 @@ struct RoomView: View {
     var body: some View {
         GeometryReader { outer in
             ScrollViewReader { proxy in
-                timelineScroll(proxy)
+                timelineScroll(proxy, width: outer.size.width)
                     // Flipped (newest first, at the visual bottom), so history and images
                     // loading in above can't move what you're reading. Safe areas are flipped
                     // too, so they're applied by hand: the composer at the visual bottom, the
@@ -196,11 +196,20 @@ struct RoomView: View {
                 ComposerView(timeline: timeline, room: room, replyTo: $replyTo, editing: $editing, threadRoot: threadRoot) { typing in
                     if prefs.typingIndicators { timeline.setTyping(typing) }
                 }
+                // The composer's own 8pt inset plus this 8 gives it the same 16pt gutter as the
+                // message rows and the call/typing bars above it.
+                .padding(.horizontal, WZ.Space.space4)
             }
             .onGeometryChange(for: CGFloat.self) { $0.frame(in: .global).minY } action: { composerTop = $0 }
         }
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { barWidth = $0 }
         .background(theme.bgSecondary.ignoresSafeArea())
+        // Swapping the message layout (or its size and density) changes every row's height and
+        // width. Animating those frames is what leaves ghosted, duplicated text behind, so the
+        // swap is a clean cut: opacity and small transforms stay the only animated properties.
+        .animation(nil, value: prefs.messageLayout)
+        .animation(nil, value: prefs.chatScale)
+        .animation(nil, value: prefs.chatSpacing)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(threadRoot == nil)
         .toolbarBackground(theme.bgSecondary, for: .navigationBar)
@@ -369,6 +378,7 @@ struct RoomView: View {
             .task { await reactionPacks.load(session: session, roomId: room.id) }
         }
         .onAppear {
+            notifier.clear(roomId: room.id)
             if threadRoot == nil { notifier.activeRoomId = room.id }
             // Opening a thread, from the inbox or anywhere, marks it seen
             if let threadRoot { ThreadLastSeen.shared.markSeen(threadRoot) }
@@ -442,7 +452,7 @@ struct RoomView: View {
         )
     }
 
-    private func timelineScroll(_ proxy: ScrollViewProxy) -> some View {
+    private func timelineScroll(_ proxy: ScrollViewProxy, width: CGFloat) -> some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: WZ.Space.space0) {
                 Color.clear
@@ -456,7 +466,8 @@ struct RoomView: View {
                     case .single(let entry, let collapsible):
                         VStack(spacing: WZ.Space.space0) {
                             if entry.id == unreadDividerId { NewMessagesDivider() }
-                            TimelineRow(entry: entry, actions: actions, isPrivateRoom: room.isDirect)
+                            TimelineRow(entry: entry, actions: actions, isPrivateRoom: room.isDirect,
+                                        availableWidth: width)
                                 .equatable()
                                 .background(highlightedId == entry.id ? theme.accent.opacity(0.18) : .clear)
                             if collapsible {
@@ -873,6 +884,9 @@ private struct RoomChatTitle: View {
                             .font(.wizard(WZ.FontSize.lg, .bold))
                             .foregroundStyle(theme.textPrimary)
                             .lineLimit(1)
+                            .truncationMode(.tail)
+                            // The name keeps the width; only the chevron is fixed and small
+                            .layoutPriority(1)
                         Image("ph-caret-right-bold")
                             .font(.system(size: WZ.SizeIcon.xs, weight: .bold))
                             .foregroundStyle(theme.textMuted)
@@ -882,8 +896,10 @@ private struct RoomChatTitle: View {
                             .font(.wizard(WZ.FontSize.xs))
                             .foregroundStyle(theme.textMuted)
                             .lineLimit(1)
+                            .truncationMode(.tail)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: maxWidth, alignment: .leading)
             .contentShape(Rectangle())
@@ -918,11 +934,15 @@ struct RoomTitle: View {
     let room: RoomSummary
     var maxWidth: CGFloat = WZ.Size.sidebar
 
-    /// Shrinks the title (it truncates) so the bar's buttons never fold into an overflow menu
+    /// Shrinks the title (it truncates) so the bar's buttons never fold into an overflow menu.
+    /// Each bar button takes its touch target; what is left, minus the bar's own margins and a
+    /// gap, belongs to the title. This used to subtract seven 16pt gaps as well, which left the
+    /// name a few characters wide ("8…").
     static func maxWidth(barWidth: CGFloat, buttons: Int) -> CGFloat {
         guard barWidth > 0 else { return WZ.Size.sidebar }
-        let taken = WZ.Space.space11 * CGFloat(buttons + 1) + WZ.Space.space6 * 7
-        return min(WZ.Size.sidebar, max(WZ.Space.space11, barWidth - taken))
+        let taken = WZ.Size.touchTarget * CGFloat(buttons + 1)
+            + WZ.Space.space6 * 2 + WZ.Space.space5
+        return min(WZ.Size.sidebar, max(WZ.Size.touchTarget * 2, barWidth - taken))
     }
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
@@ -980,6 +1000,8 @@ private struct TimelineRow: View, Equatable {
     let entry: ChatEntry
     let actions: MessageActions
     let isPrivateRoom: Bool
+    /// The room's width, which caps a bubble at the web's share of the message column
+    var availableWidth: CGFloat = 0
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
 
@@ -988,7 +1010,8 @@ private struct TimelineRow: View, Equatable {
     /// The closures are ignored on purpose: they only capture stable models and state setters.
     /// Environment and observed objects (prefs, theme) still re-render the row when they change.
     static func == (lhs: TimelineRow, rhs: TimelineRow) -> Bool {
-        guard lhs.entry == rhs.entry, lhs.isPrivateRoom == rhs.isPrivateRoom else { return false }
+        guard lhs.entry == rhs.entry, lhs.isPrivateRoom == rhs.isPrivateRoom,
+              lhs.availableWidth == rhs.availableWidth else { return false }
         let a = lhs.actions
         let b = rhs.actions
         let pinned = lhs.entry.eventId.map { a.pinnedIds.contains($0) } == rhs.entry.eventId.map { b.pinnedIds.contains($0) }
@@ -1023,7 +1046,8 @@ private struct TimelineRow: View, Equatable {
                 .padding(.horizontal, WZ.Space.space6)
                 .padding(.vertical, WZ.Space.space1)
         default:
-            MessageRow(entry: entry, actions: actions, isPrivateRoom: isPrivateRoom)
+            MessageRow(entry: entry, actions: actions, isPrivateRoom: isPrivateRoom,
+                       availableWidth: availableWidth)
         }
     }
 
@@ -1038,6 +1062,8 @@ struct MessageRow: View {
     let entry: ChatEntry
     var actions: MessageActions?
     var isPrivateRoom = true
+    /// The room's width, used to cap a bubble at the web's share of the message column
+    var availableWidth: CGFloat = 0
     @EnvironmentObject private var prefs: AppPreferences
     @Environment(\.theme) private var theme
     @Environment(\.mediaLoader) private var mediaLoader
@@ -1051,11 +1077,33 @@ struct MessageRow: View {
     /// Modern and Compact body text: the web's `chatSize(0.95)`, 15.2pt at the default chat text size
     private static let bodySize: CGFloat = WZ.FontSize.md * 0.95
 
+    /// The web's bubble padding (8px 14px); the Android port uses the same, so bubbles match there
+    private static let bubblePaddingH: CGFloat = WZ.Space.space5 + WZ.Space.space1
+    private static let bubblePaddingV: CGFloat = WZ.Space.space4
+    /// The bubble layout's avatar column: 24pt wide with the 20pt avatar centred in it
+    private var bubbleAvatarColumn: CGFloat { WZ.SizeAvatar.xs + WZ.Space.space2 }
+
     private var scale: CGFloat { prefs.chatScale }
     private var spacing: CGFloat { prefs.chatSpacing }
     private var isClassic: Bool { prefs.messageLayout == .classic }
     private var isCompact: Bool { prefs.messageLayout == .compact }
+    private var isOwnBubble: Bool { isClassic && entry.isOwn }
     private var senderColor: Color { theme.nameColor(entry.sender, colored: prefs.colorUsernames) }
+
+    /// The web caps a text bubble at 78% of its column and a media bubble at 90% (both at most
+    /// 620pt), and Android follows it. Own rows have no avatar column and keep 16pt on the right.
+    private var bubbleMaxWidth: CGFloat? {
+        guard isClassic, availableWidth > 0 else { return nil }
+        let avatar = isOwnBubble ? 0 : bubbleAvatarColumn + WZ.Space.space5
+        let trailing = isOwnBubble ? WZ.Space.space6 : 0
+        let column = max(availableWidth - WZ.Space.space6 * 2 - avatar - trailing, 0)
+        return min(column * (entry.hasMedia ? 0.9 : 0.78), 620)
+    }
+
+    /// Bubble text is the accent's on-colour; an emoji-only bubble keeps the normal text ramp
+    private var messageTextColor: Color {
+        isClassic && entry.isOwn && !isEmojiOnlyMessage ? theme.textOnAccent : theme.textPrimary
+    }
 
     private var isMessageText: Bool {
         if case .message = entry.kind { true } else { false }
@@ -1073,6 +1121,21 @@ struct MessageRow: View {
         HStack(alignment: .top, spacing: WZ.Space.space5) {
             if isCompact {
                 EmptyView()
+            } else if isClassic {
+                // Bubble layout: no avatar column for your own rows; others get the web's 20pt
+                // avatar in a 24pt column.
+                if !entry.isOwn {
+                    if entry.isGrouped {
+                        Color.clear.frame(width: bubbleAvatarColumn, height: WZ.Space.space0)
+                    } else {
+                        CosmeticAvatar(userId: entry.sender, name: entry.senderName,
+                                       url: entry.senderAvatarUrl, size: WZ.SizeAvatar.xs)
+                            .frame(width: bubbleAvatarColumn)
+                            .padding(.top, WZ.Space.space1)
+                            .onTapGesture { actions?.openProfile(entry.sender) }
+                            .accessibilityAddTraits(.isButton)
+                    }
+                }
             } else if entry.isGrouped {
                 Color.clear.frame(width: WZ.SizeAvatar.md, height: WZ.Space.space0)
             } else {
@@ -1081,7 +1144,7 @@ struct MessageRow: View {
                     .onTapGesture { actions?.openProfile(entry.sender) }
                     .accessibilityAddTraits(.isButton)
             }
-            VStack(alignment: .leading, spacing: WZ.Space.space0) {
+            VStack(alignment: isOwnBubble ? .trailing : .leading, spacing: WZ.Space.space0) {
                 if isCompact {
                     if !isMessageText {
                         HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space3) {
@@ -1098,13 +1161,13 @@ struct MessageRow: View {
                 } else if !entry.isGrouped {
                     HStack(alignment: .firstTextBaseline, spacing: WZ.Space.space4) {
                         Text(entry.senderName)
-                            .font(.wizard(WZ.FontSize.md * scale, .semibold))
+                            .font(.wizard((isClassic ? WZ.FontSize.sm : WZ.FontSize.md) * scale, .semibold))
                             .foregroundStyle(roomRoles.color(of: entry.sender) ?? senderColor)
                             .lineLimit(1)
                             .onTapGesture { actions?.openProfile(entry.sender) }
-                        // A media-only bubble shows its time in the pill over the media instead, and
-                        // a text bubble carries it at the bottom of the bubble itself.
-                        if !showsMediaOnlyBubbleTime && !(isClassic && isMessageText) {
+                        // Bubble layout: every bubble carries its time at the bottom (a media-only
+                        // bubble in the pill over the media), so the header has the name alone.
+                        if !bubbleCarriesTime {
                             Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
                                 .font(.wizard(WZ.FontSize.sm * scale))
                                 .foregroundStyle(theme.textMuted)
@@ -1154,6 +1217,9 @@ struct MessageRow: View {
                     if prefs.youtubeEmbeds != .off, let video = YouTubeLink.parse(url.absoluteString) {
                         // Also in encrypted rooms, where the card is made without the homeserver's preview
                         YouTubeCard(url: url, video: video, loader: actions?.linkPreviews)
+                    } else if let match = LinkEmbedLinks.match(url.absoluteString) {
+                        // embeds.now builds these cards; "on" is consent, also in encrypted rooms
+                        LinkEmbedEntry(url: url, match: match, loader: actions?.linkPreviews)
                     } else if let loader = actions?.linkPreviews {
                         LinkPreviewCard(url: url, loader: loader)
                     }
@@ -1174,8 +1240,10 @@ struct MessageRow: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.trailing, WZ.Space.space5)
+            .frame(maxWidth: .infinity, alignment: isOwnBubble ? .trailing : .leading)
+            // Bubble layout: your bubbles keep 16pt from the edge (32 from the screen's), others
+            // run to the row's own 16pt padding. Every other layout keeps its 12pt.
+            .padding(.trailing, isOwnBubble ? WZ.Space.space6 : (isClassic ? 0 : WZ.Space.space5))
         }
         .padding(.horizontal, WZ.Space.space6)
         .padding(.top, (entry.isGrouped || isCompact ? 1 : 6) * spacing)
@@ -1249,18 +1317,27 @@ struct MessageRow: View {
         }
     }
 
+    /// The classic rows that draw their own time: text, pictures and videos. Files, audio, polls,
+    /// locations and stickers keep it beside the sender, as they have no bubble to put it in.
+    private var bubbleCarriesTime: Bool {
+        guard isClassic else { return false }
+        switch entry.kind {
+        case .message, .redacted, .undecryptable, .image, .video: return true
+        default: return false
+        }
+    }
+
     @ViewBuilder
     private var messageContent: some View {
         if isText {
             if let item = gifLoader.item {
                 GifLinkPicture(item: item)
             } else if isClassic {
-                VStack(alignment: .trailing, spacing: 2) {
+                VStack(alignment: .trailing, spacing: WZ.Space.space1) {
                     textContent
                         .font(.wizard((emojiOnlyFontSize ?? WZ.FontSize.lg) * scale))
                         .lineSpacing(3 * scale)
-                        .tint(entry.isOwn && theme.colorScheme == .dark && !isEmojiOnlyMessage
-                              ? theme.textOnAccent : theme.linkColor)
+                        .tint(entry.isOwn && !isEmojiOnlyMessage ? theme.textOnAccent : theme.linkColor)
                     // Every bubble carries its time in the same place, first of a run or not.
                     HStack(spacing: WZ.Space.space2) {
                         Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
@@ -1272,18 +1349,19 @@ struct MessageRow: View {
                     }
                 }
                 // Emoji-only messages are just the big emoji, with no coloured bubble.
-                .padding(.horizontal, isEmojiOnlyMessage ? 0 : WZ.Space.space5)
-                .padding(.vertical, isEmojiOnlyMessage ? 0 : WZ.Space.space4)
+                .padding(.horizontal, isEmojiOnlyMessage ? 0 : Self.bubblePaddingH)
+                .padding(.vertical, isEmojiOnlyMessage ? 0 : Self.bubblePaddingV)
                 .background {
                     if !isEmojiOnlyMessage {
-                        RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
-                            .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+                        BubbleFill(own: entry.isOwn)
+                            .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
                     }
                 }
+                .frame(maxWidth: bubbleMaxWidth, alignment: .leading)
             } else {
                 textContent
                     .font(.wizard((emojiOnlyFontSize ?? Self.bodySize) * scale))
-                    .lineSpacing(3 * scale)
+                    .lineSpacing(isCompact ? 0 : 3 * scale)
                     .multilineTextAlignment(.leading)
                     .tint(theme.linkColor)
             }
@@ -1309,21 +1387,29 @@ struct MessageRow: View {
                                             @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: isClassic && hasCaption ? 0 : WZ.Space.space2) {
             content()
-            if isClassic, hasCaption, let shield = Shields.display(entry.shield) {
-                HStack(spacing: 0) {
+            // A captioned bubble carries its time (and any warning) under the caption, inside the
+            // bubble; a media-only one shows both in the pill over the media instead.
+            if isClassic, hasCaption {
+                HStack(spacing: WZ.Space.space2) {
                     Spacer(minLength: 0)
-                    MessageShieldButton(display: shield, scale: scale)
+                    Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
+                        .font(.wizard(WZ.FontSize.xs * scale))
+                        .foregroundStyle((entry.isOwn ? theme.textOnAccent : theme.textPrimary).opacity(0.65))
+                    if let shield = Shields.display(entry.shield) {
+                        MessageShieldButton(display: shield, scale: scale)
+                    }
                 }
                 .padding(.horizontal, WZ.Space.space5)
-                .padding(.bottom, WZ.Space.space3)
+                .padding(.bottom, Self.bubblePaddingV)
             }
         }
         .background {
             if isClassic && hasCaption {
-                RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous)
-                    .fill(entry.isOwn ? theme.msgMineBg : theme.msgOtherBg)
+                BubbleFill(own: entry.isOwn)
+                    .clipShape(RoundedRectangle(cornerRadius: WZ.Radius.xl, style: .continuous))
             }
         }
+        .frame(maxWidth: bubbleMaxWidth, alignment: .leading)
     }
 
     /// A caption under media: padded inside the bubble in the bubble layout, a plain line otherwise.
@@ -1332,8 +1418,8 @@ struct MessageRow: View {
             .font(.wizard((isClassic ? WZ.FontSize.lg : Self.bodySize) * scale))
             .foregroundStyle(isClassic && entry.isOwn ? theme.textOnAccent : theme.textPrimary)
             .multilineTextAlignment(.leading)
-            .padding(.horizontal, isClassic ? WZ.Space.space5 : 0)
-            .padding(.vertical, isClassic ? WZ.Space.space4 : 0)
+            .padding(.horizontal, isClassic ? Self.bubblePaddingH : 0)
+            .padding(.vertical, isClassic ? Self.bubblePaddingV : 0)
     }
 
     private var swipeToReply: SwipeToReplyGesture {
@@ -1351,11 +1437,11 @@ struct MessageRow: View {
         return Text(verbatim: Formats.time(entry.timestamp, prefs.timeFormat))
             .font(.wizard(WZ.FontSize.xs * scale))
             .foregroundColor(theme.textMuted)
-            + Text(verbatim: "  ")
+            + Text(verbatim: " ")
             + Text(entry.senderName)
             .font(.wizard(WZ.FontSize.md * scale, .semibold))
             .foregroundColor(senderColor)
-            + Text(verbatim: "  ")
+            + Text(verbatim: " ")
     }
 
     @ViewBuilder
@@ -1374,7 +1460,7 @@ struct MessageRow: View {
                         .foregroundStyle(theme.textMuted)
                 }
             }
-            .foregroundStyle(isNotice ? theme.textMuted : theme.textPrimary)
+            .foregroundStyle(isNotice ? theme.textMuted : messageTextColor)
             .environment(\.openURL, OpenURLAction { url in
                 if RoomLinks.target(url.absoluteString) != nil, let actions {
                     actions.openRoomLink(url.absoluteString)
@@ -1393,7 +1479,7 @@ struct MessageRow: View {
                                            prettifyLinks: prefs.prettifyLinks),
                     entry.mentions, theme: theme),
                 spoilers: spoilersRevealed ? [] : entry.spoilers, cover: theme.textMuted))
-                .foregroundColor(isNotice ? theme.textMuted : theme.textPrimary)
+                .foregroundColor(isNotice ? theme.textMuted : messageTextColor)
                 .italic(isEmote)
              + Text(entry.isEdited ? String(localized: "timeline.edited") : "")
                 .font(.wizard(WZ.FontSize.xs * scale))
@@ -1438,7 +1524,8 @@ struct MessageRow: View {
             mediaBubble(hasCaption: mediaCaption != nil) {
                 if entry.galleryItems.count >= 2 {
                     GalleryGridView(items: entry.galleryItems, isPrivateRoom: isPrivateRoom,
-                                    cornerRadius: isClassic ? WZ.Radius.xl : WZ.Radius.lg)
+                                    cornerRadius: isClassic ? WZ.Radius.xl : WZ.Radius.lg,
+                                    isBubble: isClassic)
                 } else {
                     ImageMessageView(media: media, isPrivateRoom: isPrivateRoom, spoiler: entry.mediaSpoiler,
                                      eventIds: entry.mediaEventIds, roomId: actions?.roomId,
@@ -1501,6 +1588,20 @@ private struct MessageShieldButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(L10n.format(display.reasonKey))
+    }
+}
+
+/// The fill behind a bubble: yours a deep accent, others' a light tint of it on the raised
+/// surface — the web's `BUBBLE_OWN_BG`/`BUBBLE_OTHER_BG` mix and Android's `bubbleFill`.
+private struct BubbleFill: View {
+    let own: Bool
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        ZStack {
+            own ? Color.black : theme.bgTertiary
+            theme.accent.opacity(own ? 0.78 : 0.14)
+        }
     }
 }
 
@@ -1662,6 +1763,9 @@ enum MessageText {
             let original = ns.substring(with: match.range)
             var link = AttributedString(prettifyLinks ? prettified(url) ?? original : original)
             link.link = url
+            // Same affordance as on the web and Android: the underline carries the "this is a
+            // link" signal, the colour alone never has to.
+            link.underlineStyle = .single
             result += link
             cursor = match.range.location + match.range.length
         }
@@ -1797,6 +1901,11 @@ extension MessageText {
             if span.underline { part.underlineStyle = .single }
             if span.code { part.backgroundColor = theme.fill }
             if let link = span.link, let url = URL(string: link) { part.link = url }
+            // Inline markdown links get the web's underline too; mention and room pills are links
+            // of their own and keep their plain pill text.
+            if let link = span.link, span.mention == nil, RoomLinks.target(link) == nil {
+                part.underlineStyle = .single
+            }
             if span.mention == nil, let link = span.link, RoomLinks.target(link) != nil {
                 if let name = style.roomName(link) {
                     part = AttributedString("#" + name)
@@ -1820,6 +1929,7 @@ extension MessageText {
                 part.foregroundColor = theme.textMuted
                 part.backgroundColor = theme.textMuted
                 part.link = nil
+                part.underlineStyle = nil
             }
             result += part
         }

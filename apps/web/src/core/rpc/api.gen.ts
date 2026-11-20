@@ -562,6 +562,50 @@ export type LastMessage = {
 export type LastMessageKind =
   'text' | 'image' | 'video' | 'audio' | 'file' | 'sticker' | 'poll' | 'call' | 'other';
 
+export type LinkEmbedBlock =
+  | { type: 'text'; markdown: string; thumbnail: LinkEmbedMedia | null }
+  | { type: 'gallery'; items: Array<LinkEmbedMedia> }
+  | { type: 'separator' }
+  | { type: 'buttons'; buttons: Array<LinkEmbedButton> };
+
+export type LinkEmbedButton = {
+  label: string;
+  /**
+   * An `https` address
+   */
+  url: string;
+};
+
+/**
+ * A link's embed card
+ */
+export type LinkEmbedCard = {
+  /**
+   * The site's name ("X/Twitter", "Instagram")
+   */
+  service: string;
+  /**
+   * The link's canonical address, as the service reports it
+   */
+  url: string;
+  /**
+   * The card's accent color, `0xRRGGBB`
+   */
+  accent: number | null;
+  blocks: Array<LinkEmbedBlock>;
+};
+
+export type LinkEmbedMedia = {
+  /**
+   * An `https` address
+   */
+  url: string;
+  kind: LinkEmbedMediaKind;
+  description: string | null;
+};
+
+export type LinkEmbedMediaKind = 'image' | 'video' | 'audio';
+
 /**
  * A change to an ordered list (room list, timeline), mirroring `eyeball_im::VectorDiff` with
  * plain values so apps can apply it to their own list type.
@@ -702,6 +746,10 @@ export type Notification = {
   highlight: boolean;
   sound: boolean;
   isDirect: boolean;
+  /**
+   * When the message was sent, in milliseconds since the Unix epoch
+   */
+  ts: number;
 };
 
 /**
@@ -1063,6 +1111,8 @@ export type RoomSettings = {
   predecessor: string | null;
 };
 
+export type RoomSoundPacks = { canEdit: boolean; packs: Array<SoundPack> };
+
 /**
  * What a room list row needs, without touching the SDK.
  */
@@ -1297,6 +1347,34 @@ export type ShieldColor = 'red' | 'grey';
  * The encryption warning to show on a message
  */
 export type ShieldView = { color: ShieldColor; code: ShieldCode };
+
+export type SoundCredit = { title: string; author: string; url: string };
+
+export type SoundPack = {
+  id: string;
+  source: SoundPackSource;
+  roomId: string | null;
+  stateKey: string | null;
+  name: string | null;
+  roomName: string | null;
+  avatarUrl: string | null;
+  attribution: string | null;
+  everywhere: boolean;
+  canEdit: boolean;
+  sounds: Array<SoundboardSound>;
+};
+
+export type SoundPackSource = 'frequent' | 'builtIn' | 'mine' | 'everywhere' | 'room' | 'space';
+
+export type SoundboardSound = {
+  shortcode: string;
+  url: string;
+  body?: string | null;
+  emoji?: string | null;
+  mimetype?: string | null;
+  size?: number | null;
+  durationMs?: number | null;
+};
 
 /**
  * A room or subspace inside a space, joined or not
@@ -1977,6 +2055,15 @@ export class MudrixClient extends Remote {
   /** The MIME type of media bytes, from their first bytes (images, audio, video, PDF). */
   static sniffMimeType(head: Uint8Array): Promise<string | null> {
     return runtime.call('MudrixClient.sniffMimeType', null, [head]) as Promise<string | null>;
+  }
+
+  /**
+   * The embed card (post text, pictures, video) embeds.now makes for a link, or null when
+   * there is none. Needs no account. Fails when the service can't be reached (always, in
+   * a browser tab).
+   */
+  static linkEmbed(url: string): Promise<LinkEmbedCard | null> {
+    return runtime.call('MudrixClient.linkEmbed', null, [url]) as Promise<LinkEmbedCard | null>;
   }
 
   userProfile(userId: string): Promise<UserProfile> {
@@ -2706,6 +2793,80 @@ export class MudrixClient extends Remote {
   /** Calls `listener` with the room's call members now and on every change. */
   watchCallMembers(roomId: string, listener: (value: Array<CallMember>) => void): Subscription {
     return runtime.watch('MudrixClient.watchCallMembers', this, [roomId, listener], Subscription);
+  }
+
+  soundboardPacks(roomId?: string | null): Promise<Array<SoundPack>> {
+    return runtime.call('MudrixClient.soundboardPacks', this, [roomId]) as Promise<
+      Array<SoundPack>
+    >;
+  }
+
+  favoriteSoundPacks(): Promise<Array<SoundPack>> {
+    return runtime.call('MudrixClient.favoriteSoundPacks', this, []) as Promise<Array<SoundPack>>;
+  }
+
+  allSoundPacks(): Promise<Array<SoundPack>> {
+    return runtime.call('MudrixClient.allSoundPacks', this, []) as Promise<Array<SoundPack>>;
+  }
+
+  recordSoundPlayed(url: string): Promise<void> {
+    return runtime.call('MudrixClient.recordSoundPlayed', this, [url]) as Promise<void>;
+  }
+
+  roomSoundPacks(roomId: string): Promise<RoomSoundPacks> {
+    return runtime.call('MudrixClient.roomSoundPacks', this, [roomId]) as Promise<RoomSoundPacks>;
+  }
+
+  mySounds(): Promise<SoundPack> {
+    return runtime.call('MudrixClient.mySounds', this, []) as Promise<SoundPack>;
+  }
+
+  uploadSound(data: Uint8Array, mimetype: string, durationMs: number): Promise<SoundboardSound> {
+    return runtime.call('MudrixClient.uploadSound', this, [
+      data,
+      mimetype,
+      durationMs,
+    ]) as Promise<SoundboardSound>;
+  }
+
+  saveSoundPack(
+    roomId: string | null | undefined,
+    stateKey: string,
+    name: string,
+    attribution: string | null | undefined,
+    sounds: Array<SoundboardSound>
+  ): Promise<void> {
+    return runtime.call('MudrixClient.saveSoundPack', this, [
+      roomId,
+      stateKey,
+      name,
+      attribution,
+      sounds,
+    ]) as Promise<void>;
+  }
+
+  createSoundPack(roomId: string, name: string): Promise<string> {
+    return runtime.call('MudrixClient.createSoundPack', this, [roomId, name]) as Promise<string>;
+  }
+
+  deleteSoundPack(roomId: string, stateKey: string): Promise<void> {
+    return runtime.call('MudrixClient.deleteSoundPack', this, [roomId, stateKey]) as Promise<void>;
+  }
+
+  setSoundPackEverywhere(roomId: string, stateKey: string, everywhere: boolean): Promise<void> {
+    return runtime.call('MudrixClient.setSoundPackEverywhere', this, [
+      roomId,
+      stateKey,
+      everywhere,
+    ]) as Promise<void>;
+  }
+
+  soundboardCredits(): Promise<Array<SoundCredit>> {
+    return runtime.call('MudrixClient.soundboardCredits', this, []) as Promise<Array<SoundCredit>>;
+  }
+
+  soundboardSound(url: string): Promise<Uint8Array> {
+    return runtime.call('MudrixClient.soundboardSound', this, [url]) as Promise<Uint8Array>;
   }
 
   /** A token for a LiveKit service, for this device in the room's call. */

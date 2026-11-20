@@ -109,6 +109,28 @@ function spellcheckDictionariesPlugin(): Plugin {
 }
 
 const corePkg = fileURLToPath(new URL('../../crates/wasm/pkg/', import.meta.url));
+
+// livekit-client encrypts data packets without stamping their encryption type, so the other
+// LiveKit SDKs (and itself) report them as unencrypted and our encrypted calls drop them
+const LIVEKIT_ENCRYPTED_PACKET = /new EncryptedPacket\(\{(\s*)encryptedValue:/;
+const LIVEKIT_ESM = 'livekit-client/dist/livekit-client.esm.mjs';
+function livekitDataEncryptionPlugin(): Plugin {
+  return {
+    name: 'livekit-data-encryption-type',
+    transform(code, id) {
+      if (!id.replace(/\\/g, '/').endsWith(LIVEKIT_ESM)) return;
+      if (!LIVEKIT_ENCRYPTED_PACKET.test(code) || !/const Encryption_Type =/.test(code))
+        throw new Error(
+          `livekit-client changed, check livekitDataEncryptionPlugin in vite.config.ts (${id})`
+        );
+      return code.replace(
+        LIVEKIT_ENCRYPTED_PACKET,
+        'new EncryptedPacket({$1encryptionType: Encryption_Type.GCM,$1encryptedValue:'
+      );
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   // The desktop app runs the core natively in Tauri and talks to it over IPC
   const desktop = mode === 'desktop';
@@ -119,6 +141,7 @@ export default defineConfig(({ mode }) => {
       versionFilePlugin(),
       soundsPlugin(),
       spellcheckDictionariesPlugin(),
+      livekitDataEncryptionPlugin(),
     ],
     resolve: {
       alias: {
@@ -147,7 +170,10 @@ export default defineConfig(({ mode }) => {
         packageJson.homepage ?? 'https://github.com/kapsikkum/mudrix'
       ),
     },
-    optimizeDeps: { exclude: ['@mudrix/core-wasm'] },
+    optimizeDeps: {
+      exclude: ['@mudrix/core-wasm'],
+      rolldownOptions: { plugins: [livekitDataEncryptionPlugin()] },
+    },
     // BASE_PATH (e.g. /mudrix/ or /mudrix/next/) serves the web build under a subpath, as GitHub Pages does
     base: desktop ? '/' : (process.env.BASE_PATH ?? '/'),
     build: { target: 'es2022', outDir: desktop ? 'dist-desktop' : 'dist' },

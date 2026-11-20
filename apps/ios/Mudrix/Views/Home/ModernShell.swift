@@ -79,7 +79,7 @@ struct ModernShell: View {
             if !chatOpen { dock }
         }
         .background(theme.bgPrimary.ignoresSafeArea())
-        .animation(reduceMotion ? nil : .easeOut(duration: WZ.MotionDuration.normal), value: chatOpen)
+        .animation(reduceMotion ? nil : .spring(duration: 0.34, bounce: 0), value: chatOpen)
         .fullScreenCover(isPresented: $showOwnProfile, onDismiss: {
             guard settingsAfterProfile else { return }
             settingsAfterProfile = false
@@ -120,12 +120,17 @@ struct ModernShell: View {
     @ViewBuilder
     private var paneRoot: some View {
         if case .space(let id) = selection {
-            RoomListScreen(roomList: roomList, selection: .space(id))
+            RoomListScreen(roomList: roomList, selection: .space(id), onOpenRoom: openRoom)
                 .contentMargins(.bottom, dockHeight, for: .scrollContent)
         } else {
-            RoomListScreen(roomList: roomList, selection: selection, onOpenInbox: onOpenInbox, modernHeader: true)
+            RoomListScreen(roomList: roomList, selection: selection, onOpenInbox: onOpenInbox,
+                           onOpenRoom: openRoom, modernHeader: true)
                 .contentMargins(.bottom, dockHeight, for: .scrollContent)
         }
+    }
+
+    private func openRoom(_ roomId: String) {
+        path.append(.room(roomId))
     }
 
     @ViewBuilder
@@ -142,7 +147,7 @@ struct ModernShell: View {
                 ProgressView().tint(theme.accent)
             }
         case .space(let id):
-            RoomListScreen(roomList: roomList, selection: .space(id))
+            RoomListScreen(roomList: roomList, selection: .space(id), onOpenRoom: openRoom)
         }
     }
 

@@ -13,6 +13,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
+import chat.mudrix.android.MudrixApplication
 import chat.mudrix.core.ListDiff
 import chat.mudrix.core.NotificationMode
 import chat.mudrix.core.RoomSection
@@ -151,7 +152,7 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
     }
 
     suspend fun setRead(room: RoomSummary, read: Boolean) {
-        if (read) runCatching { client.timeline(room.id).markAsRead() }
+        if (read) runCatching { client.timeline(room.id).markAsRead(!MudrixApplication.instance.prefs.sendReadReceipts) }
         runCatching { client.setMarkedUnread(room.id, !read) }
     }
 

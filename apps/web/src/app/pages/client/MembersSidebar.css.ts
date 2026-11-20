@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
+import { SIDE_PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
@@ -15,7 +15,7 @@ const base = {
   flexShrink: 0,
   '@media': {
     // Phones and touch tablets: a panel over the chat, from the right edge.
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
       right: 'var(--safe-right)',
       top: 'var(--safe-top)',
@@ -32,7 +32,7 @@ export const membersSidebar = style(base);
 export const membersSidebarOpen = style({
   ...base,
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
       right: 'var(--safe-right)',
       top: 'var(--safe-top)',
@@ -53,7 +53,7 @@ export const membersSidebarClosed = style({
   borderLeft: 'none',
   padding: 0,
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       width: '260px',
       minWidth: '260px',
       flex: '0 0 auto',

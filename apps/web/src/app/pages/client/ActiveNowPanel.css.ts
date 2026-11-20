@@ -98,3 +98,99 @@ export const more = style({
   color: vars.color.textMuted,
   paddingLeft: '28px',
 });
+
+// ---------- friends activity ----------
+
+export const friendsCard = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '8px',
+  padding: '10px 12px',
+  marginTop: '4px',
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.color.bgSecondary,
+  border: `1px solid ${vars.color.border}`,
+});
+
+export const friendsHeader = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  minWidth: 0,
+});
+
+export const friendsIcon = style({
+  display: 'flex',
+  flexShrink: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  color: vars.color.accent,
+  backgroundColor: `rgba(${vars.color.accentRgb}, 0.14)`,
+});
+
+export const friendsTitle = style({
+  minWidth: 0,
+  fontSize: fontSize.sm,
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+});
+
+export const friendsList = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+});
+
+export const friendRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  width: '100%',
+  minWidth: 0,
+  padding: '6px 4px',
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  background: 'none',
+  color: vars.color.textPrimary,
+  font: 'inherit',
+  textAlign: 'start',
+  cursor: 'pointer',
+  transition: 'background-color 150ms',
+  ':hover': { backgroundColor: vars.color.bgHover },
+  ':focus-visible': {
+    outline: `2px solid ${vars.color.accent}`,
+    outlineOffset: '-2px',
+  },
+});
+
+export const friendText = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  minWidth: 0,
+  flex: 1,
+});
+
+export const friendName = style({
+  ...ellipsis,
+  fontSize: fontSize.sm,
+  fontWeight: 600,
+  color: vars.color.textPrimary,
+});
+
+export const friendActivity = style({
+  ...ellipsis,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '5px',
+  fontSize: fontSize.xs,
+  color: vars.color.textMuted,
+});
+
+export const friendActivityIcon = style({
+  flexShrink: 0,
+  color: vars.color.accent,
+});

@@ -12,6 +12,7 @@ says what each artifact is and how to install it. The repository is public; macO
 | [android.yml](../.github/workflows/android.yml)             | push to `main` or `web-look` / PR touching `apps/android`, `crates`, `packages` (and build inputs), manual                                              | Core for Android, `fdroid` debug APK (+ `SHA256SUMS.txt`), unit tests; a release-signed `fdroid` APK when the signing secrets exist                                                   |
 | [ios.yml](../.github/workflows/ios.yml)                     | push to `main` / PR touching `apps/ios`, `crates`, `packages` (and build inputs), manual                                                                | Core for iOS, `xcodegen`, unsigned Simulator build, XCTest, `.app` + screenshots + raw logs                                                                                           |
 | [desktop.yml](../.github/workflows/desktop.yml)             | push to `main` or `web-look` / PR touching `apps/desktop`, `apps/web`, `crates`, `packages`, `packaging`, `flake.nix`, `nix` (and build inputs), manual | `tauri build --debug` on Windows, Linux and macOS: installers + raw binary; then Arch (`makepkg`), Fedora (`rpmbuild`) and Nix (`nix build` + module) packages from the Linux tarball |
+| [flatpak.yml](../.github/workflows/flatpak.yml)             | manual, `v*` tag, PR touching `packaging/flatpak/**` or the workflow                                                                                    | Linux release binary, Flathub tray shared module, `mudrix.flatpak` + SHA-256; artifact only, never a second release                                                                   |
 | [branding-gate.yml](../.github/workflows/branding-gate.yml) | push to `main`, every pull request                                                                                                                      | Fails when the upstream name shows up in user-visible text                                                                                                                            |
 
 Shared steps are local composite actions: `.github/actions/setup-rust` (toolchain from `rust-toolchain.toml`, extra
@@ -86,10 +87,12 @@ Run by hand: Actions -> iOS -> Run workflow.
 Matrix `windows-latest`, `ubuntu-latest`, `macos-latest` (`fail-fast: false`). Each: `npm ci --ignore-scripts`,
 `npm run tokens`, then `npm run tauri -w @mudrix/desktop -- build --debug --bundles <list>` (Tauri's
 `beforeBuildCommand` runs `tsc` and `vite build --mode desktop`). The bundle list is per runner, because Tauri rejects a
-target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. When
-`TAURI_SIGNING_PRIVATE_KEY` exists the command also gets `--config src-tauri/tauri.updater.conf.json`, which makes Tauri
-write the minisign-signed updater bundles (`.sig` files) into `target/debug/bundle/`; they are uploaded as
-`mudrix-desktop-updater-<OS>`. Two artifacts per leg:
+target it cannot build there: `nsis,msi` on Windows, `appimage,deb` on Linux, `app,dmg` on macOS. A release run
+(`--ref v<version> -f profile=release`) builds the optimised profile, runs `release-config.mjs` to require that tag, and
+passes `--config src-tauri/tauri.release.conf.json`, which makes Tauri write the minisign-signed updater bundles
+(`.sig` files) into the bundle directory; the signing key is only exposed on that tag-and-release path. Debug builds,
+branch pushes and pull requests stay unsigned. The updater bundles are uploaded as `mudrix-desktop-updater-<OS>`. Two
+artifacts per leg:
 `mudrix-desktop-<OS>-unsigned` (the installers plus a `SHA256SUMS.txt`; the macOS `.app` is zipped with `ditto`, because
 `upload-artifact` loses a bundle's symlinks and file modes) and `mudrix-desktop-debug-<OS>` (the raw
 `target/debug/mudrix-desktop[.exe]`, plus `.pdb` on Windows). The installers themselves are not code-signed, so
@@ -97,8 +100,9 @@ SmartScreen and Gatekeeper complain.
 Ubuntu installs `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev
 librsvg2-dev libx11-dev libxi-dev libxtst-dev libxdo-dev libssl-dev patchelf`.
 
-Run by hand: Actions -> Desktop -> Run workflow. The `platforms` input takes a JSON array, for example `["ubuntu-latest"]`
-to skip the expensive runners; `bundles` set to `"false"` compiles without building installers.
+Run by hand: Actions -> Desktop -> Run workflow. A release must be dispatched on the version tag (`--ref v<version>`) with
+`profile=release`; `platforms` takes a JSON array, for example `["ubuntu-latest"]` to skip the expensive runners, and
+`bundles` set to `"false"` compiles without building installers.
 
 ### branding-gate.yml
 

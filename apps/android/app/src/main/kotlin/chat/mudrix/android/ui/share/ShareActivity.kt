@@ -76,8 +76,12 @@ import chat.mudrix.android.ui.theme.rememberAppTheme
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
+import chat.mudrix.android.util.safeFileName
 import chat.mudrix.core.RoomSummary
 import chat.mudrix.tokens.WZ
+
+/** Leaves room for the UUID prefix inside Android's 255-byte file name limit */
+private const val SHARED_NAME_BYTES = 200
 
 /**
  * "Share to Mudrix" from other apps (text, links, images, files): pick a room, add a message,
@@ -147,7 +151,8 @@ class ShareActivity : ComponentActivity() {
         } ?: uri.lastPathSegment ?: "file"
         val mimetype = contentResolver.getType(uri) ?: "application/octet-stream"
         val folder = File(cacheDir, "share").apply { mkdirs() }
-        val file = File(folder, "${UUID.randomUUID()}-$name")
+        // The UUID keeps the cache file unique; the original name stays the display and sent name
+        val file = File(folder, "${UUID.randomUUID()}-${safeFileName(name, SHARED_NAME_BYTES)}")
         contentResolver.openInputStream(uri)?.use { input -> file.outputStream().use { input.copyTo(it) } } ?: return null
         var width: Long? = null
         var height: Long? = null

@@ -2,7 +2,6 @@ package chat.mudrix.android.ui.settings
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -39,6 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import chat.mudrix.android.LocalSession
 import chat.mudrix.android.matrix.MatrixSession
+import chat.mudrix.android.matrix.MediaMetadata
 import chat.mudrix.android.matrix.accountManagementUrl
 import chat.mudrix.android.matrix.addEmail
 import chat.mudrix.android.matrix.changePassword
@@ -74,7 +74,7 @@ internal suspend fun readBytes(context: Context, uri: Uri): ByteArray? = withCon
 
 /** Re-encodes an image */
 internal suspend fun reencode(data: ByteArray, format: Bitmap.CompressFormat, quality: Int): ByteArray? = withContext(Dispatchers.Default) {
-    val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size) ?: return@withContext null
+    val bitmap = MediaMetadata.decodeImage(data, null) ?: return@withContext null
     ByteArrayOutputStream().use { out ->
         bitmap.compress(format, quality, out)
         out.toByteArray()

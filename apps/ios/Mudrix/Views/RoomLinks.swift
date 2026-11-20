@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 import MudrixCore
 
 enum RoomLinks {
@@ -37,20 +38,66 @@ enum RoomLinks {
     static func open(_ link: String, session: MatrixSession, opener: RoomOpener) async {
         guard let target = target(link) else { return }
         let roomList = session.roomList
-        let roomId: String
-        if let known = roomList?.joinedRooms.first(where: { $0.id == target || $0.canonicalAlias == target })?.id
-            ?? roomList?.allSpaces.first(where: { $0.id == target })?.id {
-            roomId = known
-        } else {
-            do {
-                roomId = try await session.join(link.replacingOccurrences(of: "%23", with: "#"))
-            } catch {
-                CopyToast.shared.show(L10n.format("common.joinFailed", "\(error)"))
-                return
-            }
+        // Already joined: just show it
+        if let known = roomList?.joinedRooms.first(where: { $0.id == target || $0.canonicalAlias == target }) {
+            opener.open(known.id, known.isSpace)
+            return
         }
-        let isSpace = roomList?.allSpaces.contains { $0.id == roomId } == true || roomList?.room(id: roomId)?.isSpace == true
+        if let known = roomList?.allSpaces.first(where: { $0.id == target }) {
+            opener.open(known.id, true)
+            return
+        }
+        // Not joined: joining is a membership change, so ask first. An invite already knows the
+        // room's name and kind; otherwise the prompt names the alias or ID the link points at.
+        guard let presenter = topViewController() else { return }
+        let invite = roomList?.invites.first(where: { $0.id == target || $0.canonicalAlias == target })
+        let name = (invite?.name).flatMap { $0.isEmpty ? nil : $0 } ?? target
+        let title = invite?.isSpace == true ? String(localized: "space.join.title") : String(localized: "link.joinTitle")
+        let alert = UIAlertController(title: title,
+                                      message: L10n.format("link.joinMessage", name),
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: String(localized: "common.cancel"), style: .cancel))
+        alert.addAction(UIAlertAction(title: String(localized: "common.join"), style: .default) { _ in
+            Task { @MainActor in await joinAndOpen(link: link, session: session, opener: opener) }
+        })
+        presenter.present(alert, animated: true)
+    }
+
+    /// Runs only from the Join action of the prompt above. A space is joined on its own here: its
+    /// children are never part of this request.
+    @MainActor
+    private static func joinAndOpen(link: String, session: MatrixSession, opener: RoomOpener) async {
+        let roomId: String
+        do {
+            roomId = try await session.join(link.replacingOccurrences(of: "%23", with: "#"))
+        } catch {
+            CopyToast.shared.show(L10n.format("common.joinFailed", "\(error)"))
+            return
+        }
+        let roomList = session.roomList
+        var isSpace = roomList?.allSpaces.contains { $0.id == roomId } == true || roomList?.room(id: roomId)?.isSpace == true
+        if !isSpace, let client = session.client, let details = try? await client.roomDetails(roomId: roomId) {
+            isSpace = details.isSpace
+        }
+        // The background runner must not join every room of a space the user opened from a link: it skips
+        // the space once (AutoJoinRunner.skipLinkJoined)
+        if isSpace, let userId = session.userId {
+            LinkJoinedSpaces.add(roomId, userId: userId)
+        }
         opener.open(roomId, isSpace)
+    }
+
+    /// A prompt already on screen, or another alert, is not stacked over: the tap does nothing
+    @MainActor
+    private static func topViewController() -> UIViewController? {
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        guard let scene = scenes.first(where: { $0.activationState == .foregroundActive }) ?? scenes.first,
+              var top = (scene.keyWindow ?? scene.windows.first)?.rootViewController else { return nil }
+        while let presented = top.presentedViewController {
+            if presented is UIAlertController { return nil }
+            top = presented
+        }
+        return top
     }
 }
 

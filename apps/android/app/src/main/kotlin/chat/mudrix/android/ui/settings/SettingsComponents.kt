@@ -279,7 +279,7 @@ internal fun CopyRow(label: String, value: String, secret: Boolean = false, sens
                 tr("common.copy"),
                 weight = if (copied) PhWeight.bold else PhWeight.regular,
             ) {
-                copyToClipboard(value)
+                copyToClipboard(value, sensitive = secret)
                 copied = true
             }
         }

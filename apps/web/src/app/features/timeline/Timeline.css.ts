@@ -1272,6 +1272,43 @@ globalStyle(`${replyText} *`, {
 });
 globalStyle(`${replyText} br`, { display: 'none' });
 
+// Links inside message text and reply quotes. The global reset drops the browser's underline, so
+// every inline link (markdown and auto-linked alike) states its own: the theme's link role plus a
+// quiet 1px underline with a 2px gap, so long URLs and dense text stay readable. Links that are
+// chips of their own (mention and room pills, prettified links, file cards, the map chip) carry a
+// class and keep their own treatment. Own bubbles swap to the on-accent colour, where the raw
+// link role would vanish.
+const messageLinkRoots = [msgContent, mediaCaption, replyText];
+const linkSelector = (roots: string[], state = '') =>
+  roots.map((root) => `${root} a:not([class])${state}`).join(', ');
+const messageLinkSelector = linkSelector(messageLinkRoots);
+
+globalStyle(messageLinkSelector, {
+  color: vars.color.link,
+  textDecorationLine: 'underline',
+  textDecorationThickness: '1px',
+  textUnderlineOffset: '2px',
+  overflowWrap: 'anywhere',
+  borderRadius: '2px',
+  transition: `color ${fast}, text-decoration-thickness ${fast}`,
+});
+globalStyle(linkSelector(messageLinkRoots, ':visited'), { color: vars.color.link });
+globalStyle(linkSelector(messageLinkRoots, ':hover'), { textDecorationThickness: '2px' });
+globalStyle(linkSelector(messageLinkRoots, ':active'), { color: vars.color.accentHover });
+globalStyle(linkSelector(messageLinkRoots, ':focus-visible'), {
+  outline: `2px solid ${vars.color.accent}`,
+  outlineOffset: '2px',
+});
+
+const ownBubbleLinkRoots = [msgContentClassicOwn, msgContentClassicGroupedOwn];
+
+globalStyle(linkSelector(ownBubbleLinkRoots), {
+  color: vars.color.onAccent,
+  textDecorationColor: 'currentColor',
+});
+globalStyle(linkSelector(ownBubbleLinkRoots, ':visited'), { color: vars.color.onAccent });
+globalStyle(linkSelector(ownBubbleLinkRoots, ':active'), { color: vars.color.onAccent });
+
 // A reply quote's image thumbnail, sized to the line of text it sits in.
 export const replyImage = style({
   height: '1.4em',
@@ -2164,10 +2201,6 @@ globalStyle('a.prettified-link:hover .full-text', {
   textDecoration: 'underline',
 });
 
-globalStyle(bubbleSelector('a'), {
-  color: vars.color.textPrimary,
-  textDecoration: 'underline',
-});
 globalStyle(bubbleSelector('a.prettified-link'), {
   border: `1px solid rgba(${vars.color.accentRgb}, 0.25)`,
   color: vars.color.textPrimary,
@@ -2177,6 +2210,25 @@ globalStyle(bubbleSelector('a.prettified-link:hover'), {
   backgroundColor: 'transparent',
   color: vars.color.textPrimary,
   textDecoration: 'underline',
+});
+
+// Own bubbles: the prettified link chip sits on the accent fill too, so it takes the on-accent
+// colour (and an on-accent border) instead of the body text colour.
+const ownBubblePrettified = ownBubbleLinkRoots
+  .map((root) => `${root} a.prettified-link`)
+  .join(', ');
+globalStyle(ownBubblePrettified, {
+  borderColor: `color-mix(in srgb, ${vars.color.onAccent} 30%, transparent)`,
+  color: vars.color.onAccent,
+});
+globalStyle(ownBubbleLinkRoots.map((root) => `${root} a.prettified-link:hover`).join(', '), {
+  color: vars.color.onAccent,
+});
+
+// Mention and room pill anchors take the bubble's text colour on an accent-filled bubble too,
+// as they did before the link rules moved onto the shared message selector.
+globalStyle(ownBubbleLinkRoots.map((root) => `${root} a.mention-pill`).join(', '), {
+  color: vars.color.onAccent,
 });
 
 export const readReceiptRow = style({
@@ -2543,13 +2595,6 @@ globalStyle(`:root[data-bubble-layout] ${msgRowOwn} ${msgBody}`, {
   alignItems: 'flex-end',
   paddingRight: '16px',
 });
-globalStyle(
-  `:root[data-bubble-layout] ${msgContentClassicOwn} a, :root[data-bubble-layout] ${msgContentClassicGroupedOwn} a`,
-  {
-    color: 'inherit',
-    textDecoration: 'underline',
-  }
-);
 globalStyle(`:root[data-bubble-layout] ${msgBody}`, { gap: '2px' });
 
 export const bubbleStatusRow = style({

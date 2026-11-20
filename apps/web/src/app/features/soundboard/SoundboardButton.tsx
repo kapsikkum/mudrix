@@ -33,7 +33,8 @@ export function SoundboardButton({
 } = {}) {
   const { t } = useTranslation();
   const ui = useAtomValue(callUiAtom);
-  const { enabled, access } = useSoundboard(ui.roomId);
+  const board = useSoundboard(ui.roomId);
+  const { enabled, access } = board;
   const anchorRef = useRef<HTMLSpanElement>(null);
   const [open, setOpen] = useState(false);
 
@@ -73,7 +74,7 @@ export function SoundboardButton({
         placement="top"
         role="dialog"
       >
-        <SoundboardPanel roomId={ui.roomId} onClose={() => setOpen(false)} />
+        <SoundboardPanel roomId={ui.roomId} board={board} onClose={() => setOpen(false)} />
       </Popover>
     </span>
   );

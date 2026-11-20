@@ -137,8 +137,12 @@ export function isForbiddenHost(host: string): boolean {
 
 export type UrlCheck = { ok: true; url: URL } | { ok: false; error: string };
 
-/** Whether this address may be requested for an allow-list. Pure. */
-export function checkRequestUrl(raw: string, allow: readonly string[]): UrlCheck {
+/**
+ * The scheme, port and host rules on their own, with no allow-list: https only, the default
+ * port, no credentials, and never an IP literal or a local-looking name. Link previews, whose
+ * host is whatever the message links to, are checked with this before the homeserver is asked.
+ */
+export function checkPublicHttpsUrl(raw: string): UrlCheck {
   if (typeof raw !== 'string' || raw.length > MAX_URL_LENGTH)
     return { ok: false, error: 'invalid address' };
   let u: URL;
@@ -154,9 +158,17 @@ export function checkRequestUrl(raw: string, allow: readonly string[]): UrlCheck
   if (u.port) return { ok: false, error: 'addresses with a port are not allowed' };
   const host = u.hostname.toLowerCase();
   if (isForbiddenHost(host)) return { ok: false, error: `${host || 'that host'} is not allowed` };
-  if (!allow.includes(host)) return { ok: false, error: `${host} is not allowed here` };
   u.hash = '';
   return { ok: true, url: u };
+}
+
+/** Whether this address may be requested for an allow-list. Pure. */
+export function checkRequestUrl(raw: string, allow: readonly string[]): UrlCheck {
+  const checked = checkPublicHttpsUrl(raw);
+  if (!checked.ok) return checked;
+  const host = checked.url.hostname.toLowerCase();
+  if (!allow.includes(host)) return { ok: false, error: `${host} is not allowed here` };
+  return checked;
 }
 
 const ACCEPT: Record<Expect, string> = {

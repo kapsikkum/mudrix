@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import type { MudrixClient, RoomTimeline } from '@mudrix/core';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
+import { isAppFocused, isAppVisible, onAppActivityChange } from '@/bridge/windowActivity';
 import { decideReadReceipt, isServerEventId } from './readReceipt';
 
 /** Anything on screen at the bottom of an open room gets read within a couple of seconds. */
@@ -75,8 +76,10 @@ export function useTimelineReadReceipts(options: Options): () => void {
       ? scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight <= AT_BOTTOM_PX
       : true;
     const decision = decideReadReceipt({
-      focused: document.hasFocus(),
-      visible: document.visibilityState === 'visible',
+      // On desktop these come from the shell: a Tauri window does not report focus or visibility
+      // the way a browser tab does (see bridge/windowActivity).
+      focused: isAppFocused(),
+      visible: isAppVisible(),
       atBottom,
       atLiveEnd: current.isAtLiveEnd(),
       latestEventId: latest,
@@ -96,17 +99,13 @@ export function useTimelineReadReceipts(options: Options): () => void {
     return () => window.clearInterval(timer);
   }, [attempt]);
 
-  // Catch up on what arrived while the tab was in the background.
+  // Catch up on what arrived while the app was in the background, including a desktop window
+  // restored from the tray or brought back with Alt+Tab.
   useEffect(() => {
     const onWake = () => {
-      if (document.visibilityState === 'visible') attempt();
+      if (isAppVisible()) attempt();
     };
-    window.addEventListener('focus', onWake);
-    document.addEventListener('visibilitychange', onWake);
-    return () => {
-      window.removeEventListener('focus', onWake);
-      document.removeEventListener('visibilitychange', onWake);
-    };
+    return onAppActivityChange(onWake);
   }, [attempt]);
 
   return attempt;

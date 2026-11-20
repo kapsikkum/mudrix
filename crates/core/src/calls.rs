@@ -46,9 +46,10 @@ use matrix_sdk::{
     sleep::sleep,
     HttpError, Room,
 };
-use matrix_sdk_crypto::CollectStrategy;
+use matrix_sdk_crypto::{CollectStrategy, TrustRequirement};
 use serde::Serialize;
 use serde_json::{json, Value};
+use url::{Position, Url};
 
 use crate::{rooms::parse_room_id, Error, MudrixClient, Result};
 
@@ -76,6 +77,10 @@ const MAX_RATE_LIMIT_RETRIES: u32 = 10;
 const RING_LIFETIME_MS: u64 = 30_000;
 /// A ring (or a caller's new membership) older than this doesn't ring anymore
 const RING_TIMEOUT_MS: u64 = 45_000;
+/// A membership's `expires` never counts for more than this, whatever the event claims
+const MAX_MEMBERSHIP_EXPIRES_MS: u64 = 6 * 60 * 60 * 1000;
+/// Timestamps more than this ahead of the local clock are forged or badly skewed
+const MAX_SENDER_SKEW_MS: u64 = 5 * 60 * 1000;
 /// A key shared this recently is handed to new joiners instead of rotating
 const KEY_ROTATION_GRACE_MS: u64 = 10_000;
 /// Others need a moment to receive a new key before media is encrypted with it
@@ -282,27 +287,220 @@ fn now_ms() -> u64 {
     u64::from(MilliSecondsSinceUnixEpoch::now().0)
 }
 
+/// When someone else's event claims to be from: a timestamp more than a few minutes ahead of
+/// the local clock is treated as now, so a forged value can't make something look fresh.
+fn sender_time(ts: u64, now: u64) -> u64 {
+    if ts > now.saturating_add(MAX_SENDER_SKEW_MS) {
+        now
+    } else {
+        ts
+    }
+}
+
+/// Whether the account keeps unverified devices out (`exclude_insecure_devices`). The client is
+/// built with `CrossSignedOrLegacy` decryption and identity-based sharing together (see
+/// `client.rs`), so the decryption setting tells.
+fn excludes_insecure_devices(client: &matrix_sdk::Client) -> bool {
+    matches!(
+        client.decryption_settings().sender_device_trust_requirement,
+        TrustRequirement::CrossSignedOrLegacy | TrustRequirement::CrossSigned
+    )
+}
+
 fn call_error(error: impl std::fmt::Display) -> Error {
     Error::Sdk(error.to_string())
 }
 
+/// A URL as it is compared and kept: lowercase scheme and host, no default port, no trailing
+/// slash. Anything that doesn't parse keeps the old trimming.
 fn normalize_url(url: &str) -> String {
-    url.trim().trim_end_matches('/').to_owned()
+    let trimmed = url.trim();
+    let Ok(parsed) = Url::parse(trimmed) else {
+        return trimmed.trim_end_matches('/').to_owned();
+    };
+    let mut normalized = parsed[..Position::BeforePath].to_owned();
+    normalized.push_str(parsed.path().trim_end_matches('/'));
+    if let Some(query) = parsed.query() {
+        normalized.push('?');
+        normalized.push_str(query);
+    }
+    if let Some(fragment) = parsed.fragment() {
+        normalized.push('#');
+        normalized.push_str(fragment);
+    }
+    normalized
+}
+
+/// The schemes accepted here: the TLS ones always; a debug build also takes plain `http`/`ws`
+/// from any host, so a LAN dev server can be used. A release build would send the account's
+/// token in the clear.
+fn scheme_allowed(url: &Url, schemes: &[&str]) -> bool {
+    let scheme = url.scheme();
+    schemes.contains(&scheme) || (cfg!(debug_assertions) && matches!(scheme, "http" | "ws"))
+}
+
+/// A call server URL that is safe to send the account's OpenID token to.
+fn secure_service_url(url: &str) -> Option<Url> {
+    let parsed = Url::parse(url).ok()?;
+    if !parsed.username().is_empty() || parsed.password().is_some() {
+        return None;
+    }
+    scheme_allowed(&parsed, &["https"]).then_some(parsed)
+}
+
+/// Whether a call server may receive this account's OpenID token: one the homeserver itself
+/// advertises, or, when it advertises none, an https server on the homeserver's domain.
+fn service_url_allowed(url: &str, discovered: &[String], homeserver: Option<&str>) -> bool {
+    let Some(parsed) = secure_service_url(url) else {
+        return false;
+    };
+    if discovered.contains(&normalize_url(url)) {
+        return true;
+    }
+    if !discovered.is_empty() {
+        return false;
+    }
+    let (Some(host), Some(homeserver)) = (parsed.host_str(), homeserver) else {
+        return false;
+    };
+    let host = host.to_ascii_lowercase();
+    let homeserver = homeserver.trim_end_matches('.').to_ascii_lowercase();
+    host == homeserver || host.ends_with(&format!(".{homeserver}"))
+}
+
+/// The URL a call server says media goes to: `https` or `wss`, plus plain `http`/`ws` in a
+/// debug build.
+fn is_secure_livekit_url(url: &str) -> bool {
+    Url::parse(url).is_ok_and(|url| scheme_allowed(&url, &["https", "wss"]))
+}
+
+/// Every LiveKit focus in a `foci`/`rtc_foci` list, normalised
+fn livekit_urls_from(list: Option<&Value>) -> Vec<String> {
+    list.and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter(|t| t.get("type").and_then(Value::as_str) == Some("livekit"))
+        .filter_map(|t| t.get("livekit_service_url").and_then(Value::as_str))
+        .map(normalize_url)
+        .collect()
 }
 
 fn livekit_from(list: Option<&Value>) -> Option<String> {
-    list?.as_array()?.iter().find_map(|t| {
-        if t.get("type")?.as_str()? != "livekit" {
-            return None;
-        }
-        t.get("livekit_service_url")?.as_str().map(normalize_url)
-    })
+    livekit_urls_from(list).into_iter().next()
 }
 
 /// Client well-knowns per account, kept for the session
 static WELL_KNOWN: Mutex<Vec<(String, Value)>> = Mutex::new(Vec::new());
+/// LiveKit services each account's homeserver advertised, and when they were discovered
+static RTC_TRANSPORTS: Mutex<Vec<(String, u64, Vec<String>)>> = Mutex::new(Vec::new());
 /// Accounts whose server is known to support calls
 static RTC_SUPPORTED: Mutex<Vec<String>> = Mutex::new(Vec::new());
+
+/// RTC transports change rarely; discover them at most hourly
+const RTC_TRANSPORTS_TTL_MS: u64 = 60 * 60 * 1000;
+/// A discovery that found nothing is retried sooner: the server may just have been unreachable
+const RTC_TRANSPORTS_EMPTY_TTL_MS: u64 = 5 * 60 * 1000;
+/// Discovery must never hold up a call list
+const RTC_DISCOVERY_TIMEOUT_MS: u64 = 5_000;
+
+/// The account server's `.well-known/matrix/client`, fetched once per session; `None` when it
+/// can't be read.
+async fn account_well_known(client: &matrix_sdk::Client) -> Option<Value> {
+    let user_id = client.user_id()?.to_owned();
+    let cached = WELL_KNOWN
+        .lock()
+        .unwrap()
+        .iter()
+        .find(|(user, _)| *user == user_id.as_str())
+        .map(|(_, content)| content.clone());
+    if cached.is_some() {
+        return cached;
+    }
+    let response = reqwest::Client::new()
+        .get(format!(
+            "https://{}/.well-known/matrix/client",
+            user_id.server_name()
+        ))
+        .send()
+        .await
+        .ok()?;
+    if !response.status().is_success() {
+        return None;
+    }
+    let content: Value = response.json().await.ok()?;
+    WELL_KNOWN
+        .lock()
+        .unwrap()
+        .push((user_id.to_string(), content.clone()));
+    Some(content)
+}
+
+/// The LiveKit services this account's homeserver advertises: the authenticated RTC transports
+/// endpoint (MSC4143), falling back to the client well-known when the server doesn't implement
+/// it. Cached per account, so member changes don't fetch it again and again.
+async fn discovered_rtc_transports(client: &matrix_sdk::Client) -> Vec<String> {
+    let Some(user_id) = client.user_id().map(ToString::to_string) else {
+        return Vec::new();
+    };
+    let now = now_ms();
+    let cached = RTC_TRANSPORTS
+        .lock()
+        .unwrap()
+        .iter()
+        .find(|(user, at, urls)| {
+            let ttl = if urls.is_empty() {
+                RTC_TRANSPORTS_EMPTY_TTL_MS
+            } else {
+                RTC_TRANSPORTS_TTL_MS
+            };
+            *user == user_id && now.saturating_sub(*at) < ttl
+        })
+        .map(|(_, _, urls)| urls.clone());
+    if let Some(urls) = cached {
+        return urls;
+    }
+    let urls = within(RTC_DISCOVERY_TIMEOUT_MS, async {
+        match client.fetch_rtc_transports().await {
+            Ok(transports) => transports
+                .into_iter()
+                .filter(|t| t.transport_type() == "livekit")
+                .filter_map(|t| {
+                    t.data()
+                        .get("livekit_service_url")?
+                        .as_str()
+                        .map(normalize_url)
+                })
+                .collect(),
+            Err(_) => {
+                let well_known = account_well_known(client).await;
+                livekit_urls_from(
+                    well_known
+                        .as_ref()
+                        .and_then(|w| w.get(RTC_FOCI_WELL_KNOWN_KEY)),
+                )
+            }
+        }
+    })
+    .await
+    .unwrap_or_default();
+    let mut transports = RTC_TRANSPORTS.lock().unwrap();
+    transports.retain(|(user, _, _)| *user != user_id);
+    transports.push((user_id, now, urls.clone()));
+    urls
+}
+
+/// Refuses a call server the homeserver doesn't offer, before any token is sent to it.
+async fn ensure_service_url(client: &matrix_sdk::Client, service_url: &str) -> Result<()> {
+    let discovered = discovered_rtc_transports(client).await;
+    let homeserver = client.homeserver().host_str().map(ToOwned::to_owned);
+    if service_url_allowed(service_url, &discovered, homeserver.as_deref()) {
+        Ok(())
+    } else {
+        Err(Error::Call(
+            "this call server isn't offered by the homeserver".into(),
+        ))
+    }
+}
 
 fn parse_member(event: &Value, own: (&str, &str), now: u64) -> Option<CallMember> {
     let content = event.get("content")?;
@@ -318,15 +516,20 @@ fn parse_member(event: &Value, own: (&str, &str), now: u64) -> Option<CallMember
     }
     let user_id = event.get("sender")?.as_str()?.to_owned();
     let device_id = content.get("device_id")?.as_str()?.to_owned();
-    let joined_at = content
-        .get("created_ts")
-        .and_then(Value::as_u64)
-        .or_else(|| event.get("origin_server_ts")?.as_u64())?;
+    let joined_at = sender_time(
+        content
+            .get("created_ts")
+            .and_then(Value::as_u64)
+            .or_else(|| event.get("origin_server_ts")?.as_u64())?,
+        now,
+    );
+    // `expires` is whatever the sender put there: never let a membership outlive the maximum
     let expires = content
         .get("expires")
         .and_then(Value::as_u64)
-        .unwrap_or(MEMBERSHIP_EXPIRES_MS);
-    if joined_at + expires < now {
+        .unwrap_or(MEMBERSHIP_EXPIRES_MS)
+        .min(MAX_MEMBERSHIP_EXPIRES_MS);
+    if joined_at.saturating_add(expires) < now {
         return None;
     }
     let service_url = content
@@ -611,6 +814,10 @@ async fn request_sfu_config(
         .get("url")
         .and_then(Value::as_str)
         .ok_or_else(|| Error::Call("no SFU URL".into()))?;
+    // The service names where media goes; never let it point the platform somewhere insecure
+    if !is_secure_livekit_url(url) {
+        return Err(Error::Call("the call server sent an insecure URL".into()));
+    }
     let jwt = body
         .get("jwt")
         .and_then(Value::as_str)
@@ -634,17 +841,13 @@ async fn request_sfu_config(
 }
 
 impl MudrixClient {
-    /// The LiveKit service the homeserver offers for calls, if any: the client well-known
-    /// first, then the server's RTC transports.
+    /// The LiveKit service the homeserver offers for calls, if any: the one it advertises to
+    /// this account. The same discovery decides which member-supplied URLs are trusted.
     pub async fn rtc_service_url(&self) -> Option<String> {
-        if let Some(url) = self
-            .client_well_known()
+        discovered_rtc_transports(self.sdk())
             .await
-            .and_then(|w| livekit_from(w.get(RTC_FOCI_WELL_KNOWN_KEY)))
-        {
-            return Some(url);
-        }
-        self.livekit_transport().await
+            .into_iter()
+            .next()
     }
 
     /// Whether calls can work here. Lenient: only a readable well-known
@@ -659,10 +862,7 @@ impl MudrixClient {
         let supported = self.livekit_transport().await.is_some()
             || match self.client_well_known().await {
                 None => true,
-                Some(well_known) => well_known
-                    .get(RTC_FOCI_WELL_KNOWN_KEY)
-                    .and_then(Value::as_array)
-                    .is_some_and(|foci| !foci.is_empty()),
+                Some(well_known) => livekit_from(well_known.get(RTC_FOCI_WELL_KNOWN_KEY)).is_some(),
             };
         if supported {
             RTC_SUPPORTED.lock().unwrap().push(user_id);
@@ -686,33 +886,7 @@ impl MudrixClient {
     /// The account server's `.well-known/matrix/client`, fetched once per session; `None`
     /// when it can't be read.
     async fn client_well_known(&self) -> Option<Value> {
-        let user_id = self.sdk().user_id()?.to_owned();
-        let cached = WELL_KNOWN
-            .lock()
-            .unwrap()
-            .iter()
-            .find(|(user, _)| *user == user_id.as_str())
-            .map(|(_, content)| content.clone());
-        if cached.is_some() {
-            return cached;
-        }
-        let response = reqwest::Client::new()
-            .get(format!(
-                "https://{}/.well-known/matrix/client",
-                user_id.server_name()
-            ))
-            .send()
-            .await
-            .ok()?;
-        if !response.status().is_success() {
-            return None;
-        }
-        let content: Value = response.json().await.ok()?;
-        WELL_KNOWN
-            .lock()
-            .unwrap()
-            .push((user_id.to_string(), content.clone()));
-        Some(content)
+        account_well_known(self.sdk()).await
     }
 
     pub async fn call_members(&self, room_id: &str) -> Result<Vec<CallMember>> {
@@ -769,6 +943,8 @@ impl MudrixClient {
         let room_id = parse_room_id(room_id)?;
         let (user_id, device_id) = self.own_device();
         let service_url = normalize_url(service_url);
+        // No OpenID token goes anywhere the homeserver didn't advertise
+        ensure_service_url(self.sdk(), &service_url).await?;
         let member_id = format!("{user_id}:{device_id}");
         let request = TokenRequest {
             service_url: &service_url,
@@ -1006,11 +1182,15 @@ async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Op
     }
     let now = now_ms();
     let content = event.get("content")?;
-    let sent = content
-        .get("sender_ts")
-        .and_then(Value::as_u64)
-        .or_else(|| event.get("origin_server_ts")?.as_u64())
-        .unwrap_or(now);
+    // A sender timestamp far ahead of the local clock would make an old ring look new
+    let sent = sender_time(
+        content
+            .get("sender_ts")
+            .and_then(Value::as_u64)
+            .or_else(|| event.get("origin_server_ts")?.as_u64())
+            .unwrap_or(now),
+        now,
+    );
     let lifetime = content
         .get("lifetime")
         .and_then(Value::as_u64)
@@ -1043,7 +1223,7 @@ async fn incoming_call(event: &Value, room: &Room, own: &(String, String)) -> Op
             .get("m.call.intent")
             .and_then(Value::as_str)
             .map(ToOwned::to_owned),
-        expires_at: sent + lifetime,
+        expires_at: sent.saturating_add(lifetime),
     })
 }
 
@@ -1073,6 +1253,17 @@ pub(crate) async fn call_members_of(
         })
         .filter_map(|event| parse_member(&event, (&own.0, &own.1), now))
         .collect();
+    // Anyone can put any URL in their membership: only a call server the homeserver itself
+    // advertises may receive this account's OpenID token (see `sfu_config`)
+    let client = room.client();
+    let discovered = discovered_rtc_transports(&client).await;
+    let homeserver = client.homeserver().host_str().map(ToOwned::to_owned);
+    for member in &mut members {
+        member.service_url = member
+            .service_url
+            .take()
+            .filter(|url| service_url_allowed(url, &discovered, homeserver.as_deref()));
+    }
     for member in members.iter_mut().filter(|_| with_profiles) {
         let Ok(user) = <&matrix_sdk::ruma::UserId>::try_from(member.user_id.as_str()) else {
             continue;
@@ -1193,6 +1384,8 @@ impl CallSession {
     /// leave to the call server, so others see a crashed client leave right away.
     pub async fn sfu_config(&self, service_url: &str, publisher: bool) -> Result<SfuConfig> {
         let service_url = normalize_url(service_url);
+        // No OpenID token goes anywhere the homeserver didn't advertise
+        ensure_service_url(&self.client, &service_url).await?;
         let delay = if publisher {
             self.delay_id().map(|id| {
                 (
@@ -1902,13 +2095,15 @@ impl CallSession {
                     devices.push(device);
                 }
             }
+            // With `exclude_insecure_devices` the client asks for identity-based sharing: call
+            // keys must not reach devices the user never verified.
+            let strategy = if excludes_insecure_devices(&self.client) {
+                CollectStrategy::IdentityBasedStrategy
+            } else {
+                CollectStrategy::AllDevices
+            };
             encryption
-                .encrypt_and_send_raw_to_device(
-                    devices.iter().collect(),
-                    KEYS_EVENT,
-                    raw,
-                    CollectStrategy::AllDevices,
-                )
+                .encrypt_and_send_raw_to_device(devices.iter().collect(), KEYS_EVENT, raw, strategy)
                 .await
                 .map_err(call_error)?;
         }
@@ -2114,6 +2309,110 @@ mod tests {
         let foci = json!([{ "type": "other" }, { "type": "livekit", "livekit_service_url": " https://sfu.x// " }]);
         assert_eq!(livekit_from(Some(&foci)).as_deref(), Some("https://sfu.x"));
         assert_eq!(livekit_from(Some(&json!({}))), None);
+    }
+
+    #[test]
+    fn normalizes_sfu_urls() {
+        for (raw, normalized) in [
+            (" https://sfu.x// ", "https://sfu.x"),
+            ("HTTPS://SFU.X:443/base/", "https://sfu.x/base"),
+            ("wss://sfu.x/live/", "wss://sfu.x/live"),
+        ] {
+            assert_eq!(normalize_url(raw), normalized, "{raw}");
+        }
+    }
+
+    #[test]
+    fn trusts_only_discovered_or_homeserver_sfus() {
+        let sfu = "https://sfu.example.net".to_owned();
+        let discovered = [sfu.clone()];
+        assert!(service_url_allowed(
+            &sfu,
+            &discovered,
+            Some("matrix.example.org")
+        ));
+        assert!(service_url_allowed(
+            "https://sfu.example.net/",
+            &discovered,
+            Some("matrix.example.org")
+        ));
+        // An URL that only starts with a discovered one is not one of them
+        assert!(!service_url_allowed(
+            "https://sfu.example.net.evil.org",
+            &discovered,
+            Some("matrix.example.org")
+        ));
+        assert!(!service_url_allowed(
+            "https://other.example.net",
+            &discovered,
+            Some("matrix.example.org")
+        ));
+        // With nothing discovered, the homeserver's own domain is the fallback
+        assert!(service_url_allowed(
+            "https://matrix.example.org",
+            &[],
+            Some("matrix.example.org")
+        ));
+        assert!(service_url_allowed(
+            "https://sfu.matrix.example.org",
+            &[],
+            Some("matrix.example.org")
+        ));
+        assert!(!service_url_allowed(
+            "https://matrix.example.org.evil.net",
+            &[],
+            Some("matrix.example.org")
+        ));
+        // Plain http is for debug builds (a LAN dev server), never for a release
+        assert_eq!(
+            service_url_allowed("http://matrix.example.org", &[], Some("matrix.example.org")),
+            cfg!(debug_assertions)
+        );
+        assert!(!service_url_allowed(
+            "https://user:secret@matrix.example.org",
+            &[],
+            Some("matrix.example.org")
+        ));
+    }
+
+    #[test]
+    fn rejects_insecure_sfu_urls() {
+        assert!(is_secure_livekit_url("https://sfu.x"));
+        assert!(is_secure_livekit_url("wss://sfu.x"));
+        // Plain ws/http is for debug builds (a LAN dev server), never for a release
+        assert_eq!(is_secure_livekit_url("ws://sfu.x"), cfg!(debug_assertions));
+        assert_eq!(
+            is_secure_livekit_url("http://172.30.1.5:7880"),
+            cfg!(debug_assertions)
+        );
+        assert!(!is_secure_livekit_url("ftp://sfu.x"));
+        assert!(!is_secure_livekit_url("javascript:alert(1)"));
+    }
+
+    #[test]
+    fn clamps_membership_lifetimes() {
+        let event = json!({
+            "sender": "@a:x", "origin_server_ts": 1000, "state_key": "_@a:x_DEV_m.call",
+            "content": {
+                "application": "m.call", "call_id": "", "scope": "m.room", "device_id": "DEV",
+                "created_ts": 1000, "expires": u64::MAX,
+            },
+        });
+        let hour = 60 * 60 * 1000;
+        assert!(parse_member(&event, ("@b:x", "D"), 1000 + 7 * hour).is_none());
+        assert!(parse_member(&event, ("@b:x", "D"), 1000 + 5 * hour).is_some());
+    }
+
+    #[test]
+    fn future_sender_timestamps_are_clamped() {
+        let now = 1_000_000;
+        assert_eq!(
+            sender_time(now + MAX_SENDER_SKEW_MS, now),
+            now + MAX_SENDER_SKEW_MS
+        );
+        assert_eq!(sender_time(now + MAX_SENDER_SKEW_MS + 1, now), now);
+        assert_eq!(sender_time(u64::MAX, now), now);
+        assert_eq!(sender_time(now - 1000, now), now - 1000);
     }
 
     fn server_error(status: u16, kind: ErrorKind) -> HttpError {

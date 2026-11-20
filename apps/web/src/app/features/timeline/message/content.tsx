@@ -32,7 +32,7 @@ import {
   getMediaCaption,
   textRenderContent,
 } from './textContent';
-import { getMediaBlobUrl, getMediaAnimates, plainMediaUrl } from './media';
+import { getMediaBlobUrl, getMediaAnimates, gifSourceRef, plainMediaUrl } from './media';
 import { MediaSpoiler } from './MediaSpoiler';
 import { VideoPlaceholder } from './VideoPlaceholder';
 import { GifLinkEmbed } from './GifLinkEmbed';
@@ -57,6 +57,7 @@ import { useIntegrationCards } from '@/app/features/integrations/ui/useIntegrati
 import { IntegrationCards } from '@/app/features/integrations/ui/IntegrationCard';
 import { extractFirstUrl } from '@/util/extractFirstUrl';
 import { formatFileSize } from '@/util/format';
+import { DownloadLink } from '@/app/components/DownloadLink/DownloadLink';
 import { fetchMediaBlobUrl } from '@/app/components/Avatar';
 import type { EventEntry } from './entry';
 import * as css from '../Timeline.css';
@@ -708,7 +709,7 @@ export function MessageContent({
     const src =
       mediaSrc ??
       (mxcUrl && mxcUrl.startsWith('mxc://') ? getMediaBlobUrl(mxcUrl, client, onMediaLoad) : null);
-    const gifUrl = media.mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') ? mxcUrl : null;
+    const gifUrl = media.mimetype === 'image/gif' ? gifSourceRef(media.source) : null;
     return (
       <StickerContent
         client={client}
@@ -722,7 +723,11 @@ export function MessageContent({
         width={media.width}
         height={media.height}
         requestFullRes={requestFullRes}
-        overlay={gifUrl ? <GifFavouriteButton client={client} url={gifUrl} /> : undefined}
+        overlay={
+          gifUrl ? (
+            <GifFavouriteButton client={client} url={gifUrl.url} file={gifUrl.file} />
+          ) : undefined
+        }
       />
     );
   }
@@ -766,6 +771,7 @@ export function MessageContent({
       : { width: MAX_MEDIA_W, height: 200 };
 
     const captionHtml = renderCaptionHtml(media);
+    const gif = mimetype === 'image/gif' ? gifSourceRef(media.source) : null;
     const mediaEl = isCovered ? (
       <div className={css.mediaBox} style={boxStyle}>
         <MediaSpoiler
@@ -786,9 +792,7 @@ export function MessageContent({
           onClick={() => onMediaClick?.(src)}
           requestFullRes={requestFullRes}
         />
-        {mimetype === 'image/gif' && mxcUrl?.startsWith('mxc://') && (
-          <GifFavouriteButton client={client} url={mxcUrl} />
-        )}
+        {gif && <GifFavouriteButton client={client} url={gif.url} file={gif.file} />}
       </div>
     ) : mediaFailed ? (
       <MediaError />
@@ -988,14 +992,14 @@ export function MessageContent({
         </span>
         <FilePreviewButton src={src} filename={filename} mimetype={mimetype} />
         <Tooltip content={t('common.download')}>
-          <a
+          <DownloadLink
             href={src}
-            download={filename}
+            filename={filename}
             className={css.fileDownload}
             aria-label={t('common.download')}
           >
             <DownloadSimpleIcon size={16} />
-          </a>
+          </DownloadLink>
         </Tooltip>
       </div>
     ) : mediaFailed ? (
@@ -1105,7 +1109,9 @@ export function MessageContent({
 
   const html = renderRichTextHtml(textContent, imagePacks, myId, prettifyLinks);
   const firstUrl = extractFirstUrl(textBody, textHtml ?? undefined);
-  const isEncrypted = !!roomId && room?.isEncrypted === true;
+  // Until the room summary has loaded, encryption is unknown: treat that as encrypted so no
+  // homeserver preview or third-party embed is contacted on a guess.
+  const isEncrypted = room?.isEncrypted !== false;
   const emojiOnlyMsg = isRenderedEmojiOnly(html);
 
   return (

@@ -6,6 +6,9 @@ import chat.mudrix.android.matrix.SessionStore
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -54,6 +57,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import chat.mudrix.android.LocalPrefs
@@ -81,6 +85,7 @@ import chat.mudrix.android.matrix.SettingsSyncer
 import chat.mudrix.android.matrix.SidebarSelection
 import chat.mudrix.android.matrix.SpaceRail
 import chat.mudrix.android.matrix.UnreadState
+import chat.mudrix.android.matrix.mentionCount
 import chat.mudrix.android.matrix.unreadCount
 import chat.mudrix.android.ui.composer.GIF_FAVOURITES_LEGACY_KEY
 import chat.mudrix.android.ui.composer.composerDefaults
@@ -277,6 +282,9 @@ fun MainScreen(roomList: RoomListModel) {
     }
     val totalUnread = roomList.joinedRooms.sumOf { it.unreadCount }
     LaunchedEffect(totalUnread) { notifier.updateBadge(totalUnread) }
+    val readRooms = roomList.joinedRooms.filter { it.unreadCount == 0 && it.mentionCount == 0 }
+        .map { "${it.id}|${it.lastActivity}" }
+    LaunchedEffect(readRooms) { notifier.clearRead(roomList.joinedRooms) }
 
     // Back to the space that was open when the app last closed, once the spaces have loaded
     var startupHandled by remember { mutableStateOf(false) }
@@ -483,12 +491,22 @@ private fun TabContent(
         targetState = path,
         transitionSpec = {
             val chat = initialState.lastOrNull().isChatRoute() || targetState.lastOrNull().isChatRoute()
+            // Swapping one conversation for another is not a push: a short crossfade with the panes
+            // barely shifting reads as a switch, where a full slide reads as going somewhere new.
+            val switchingRooms = initialState.lastOrNull().isChatRoute() && targetState.lastOrNull().isChatRoute()
+            val settle = spring<IntOffset>(stiffness = Spring.StiffnessMediumLow)
             when {
                 reducedMotion -> EnterTransition.None togetherWith ExitTransition.None
                 // Rail switches swap in place; only moving into or out of a chat slides
                 modernHeader && !chat -> fadeIn(tween(120)) togetherWith fadeOut(tween(120))
-                targetState.size >= initialState.size -> slideInHorizontally { it } togetherWith slideOutHorizontally { -it / 3 }
-                else -> slideInHorizontally { -it / 3 } togetherWith slideOutHorizontally { it }
+                switchingRooms -> (fadeIn(tween(180, easing = FastOutSlowInEasing)) +
+                    slideInHorizontally(animationSpec = settle) { it / 8 }) togetherWith
+                    (fadeOut(tween(140, easing = FastOutSlowInEasing)) +
+                        slideOutHorizontally(animationSpec = tween(140, easing = FastOutSlowInEasing)) { -it / 8 })
+                targetState.size >= initialState.size -> slideInHorizontally(animationSpec = settle) { it } togetherWith
+                    slideOutHorizontally(animationSpec = tween(220, easing = FastOutSlowInEasing)) { -it / 3 }
+                else -> slideInHorizontally(animationSpec = settle) { -it / 3 } togetherWith
+                    slideOutHorizontally(animationSpec = tween(220, easing = FastOutSlowInEasing)) { it }
             }
         },
         contentKey = { it.size to it.lastOrNull() },

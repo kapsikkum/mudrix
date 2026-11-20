@@ -30,6 +30,7 @@
 			<array>
 				<string>mudrix</string>
 				<string>chat.mudrix</string>
+				<string>org.wizardchat</string>
 			</array>
 		</dict>
 	</array>

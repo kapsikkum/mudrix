@@ -19,6 +19,29 @@ import { useAllRooms } from '@/app/data';
 import { formatUserId } from '@/util/matrix';
 import { useSyncReady } from '@/app/hooks/useSync';
 import { stripBase } from '@/util/publicUrl';
+import { isAppFocused, isAppVisible } from '@/bridge/windowActivity';
+
+/** The in-app routes a notification may open; nothing else is accepted from a message. */
+const NOTIFICATION_ROUTE_PREFIXES = ['/r/', '/dm/', '/space/'] as const;
+
+/** The router path a service-worker notification may navigate to, or null. */
+function notificationRoute(raw: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(raw);
+  } catch {
+    return null;
+  }
+  if (url.origin !== window.location.origin) return null;
+  const path = stripBase(url.pathname);
+  const known =
+    path === '/' ||
+    NOTIFICATION_ROUTE_PREFIXES.some(
+      (prefix) => path.startsWith(prefix) && path.length > prefix.length
+    );
+  if (!known) return null;
+  return path + url.search + url.hash;
+}
 
 export function useClientNotifications() {
   const { t } = useTranslation();
@@ -53,7 +76,9 @@ export function useClientNotifications() {
     const myId = mx?.userId();
     if (notification.sender === myId) return;
 
-    const isWindowVisible = document.visibilityState === 'visible';
+    // On desktop a window behind another app reads as hidden, so a message in another room (or
+    // even in this one while the person is elsewhere) raises a notification like a background tab.
+    const isWindowVisible = isAppVisible();
     const isCurrentRoom = notification.roomId === currentRoomIdRef.current;
     if (isWindowVisible && isCurrentRoom) return;
 
@@ -77,7 +102,7 @@ export function useClientNotifications() {
       );
     }
     // The window being looked at is quiet unless the person asked for sounds there too.
-    const isWindowActive = isWindowVisible && document.hasFocus();
+    const isWindowActive = isWindowVisible && isAppFocused();
     if (!isWindowActive || soundsWhenFocusedRef.current) {
       playNotificationSound(notification.isDirect || notification.highlight);
     }
@@ -86,10 +111,14 @@ export function useClientNotifications() {
   useEffect(() => {
     if (!('serviceWorker' in navigator)) return;
     const handler = (event: MessageEvent) => {
-      if (event.data?.type === 'navigateTo' && typeof event.data.url === 'string') {
-        const url = new URL(event.data.url);
-        navigateRef.current(stripBase(url.pathname) + url.search + url.hash);
-      }
+      // Only the service worker controlling this page may ask for a navigation: any window,
+      // frame or extension can post the same message otherwise. With no controller there is
+      // no trusted sender, and a null source (a MessagePort) must not match a missing one.
+      const controller = navigator.serviceWorker.controller;
+      if (!controller || event.source !== controller) return;
+      if (event.data?.type !== 'navigateTo' || typeof event.data.url !== 'string') return;
+      const path = notificationRoute(event.data.url);
+      if (path) navigateRef.current(path);
     };
     navigator.serviceWorker.addEventListener('message', handler);
     return () => navigator.serviceWorker.removeEventListener('message', handler);
@@ -149,7 +178,7 @@ export function useClientNotifications() {
 
           const msg = t('invite.receivedInviteSimple', { user: inviterName });
 
-          if (document.visibilityState !== 'visible' && notificationBannersRef.current) {
+          if (!isAppVisible() && notificationBannersRef.current) {
             showBrowserNotification(t('invite.newInvite'), msg);
           }
           playNotificationSound(true);

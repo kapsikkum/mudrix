@@ -11,7 +11,6 @@ import chat.mudrix.android.matrix.VideoUploadHeight
 import chat.mudrix.android.matrix.VideoUploadMinSize
 import chat.mudrix.android.matrix.VideoUploadMode
 import chat.mudrix.android.matrix.VideoUploadTarget
-import chat.mudrix.android.matrix.YouTubeEmbeds
 import chat.mudrix.android.media.CompressTarget
 import chat.mudrix.android.media.FileSize
 import chat.mudrix.android.media.VideoCompressor
@@ -42,19 +41,8 @@ internal fun MediaSettings(onBack: () -> Unit) {
                 ),
                 { prefs.mediaVisibility = it },
             )
-            SettingsDivider()
-            PickerRow(
-                tr("settings.privacy.youtubeEmbeds"),
-                prefs.youtubeEmbeds,
-                listOf(
-                    YouTubeEmbeds.ask to tr("settings.privacy.youtubeEmbedsAsk"),
-                    YouTubeEmbeds.on to tr("settings.privacy.youtubeEmbedsOn"),
-                    YouTubeEmbeds.off to tr("settings.privacy.youtubeEmbedsOff"),
-                ),
-                { prefs.youtubeEmbeds = it },
-                note = tr("settings.privacy.youtubeEmbedsNote"),
-            )
         }
+        LinkEmbedSettings()
         SettingsSection(tr("settings.media.photoUpload.title")) {
             ToggleRow(
                 tr("settings.media.photoUpload.strip"),

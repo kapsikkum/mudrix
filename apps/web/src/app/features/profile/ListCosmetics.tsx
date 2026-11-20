@@ -151,9 +151,8 @@ export function ListNameplate({
     <span
       className={css.listNameplate}
       aria-hidden="true"
-      style={{
-        background: `linear-gradient(90deg, rgba(${rgb}, 0.15) 0%, rgba(${rgb}, 0.5) 100%)`,
-      }}
+      // The artwork is the whole wash; a palette tint is only the fallback for a plate with no art.
+      style={src ? undefined : { background: `rgba(${rgb}, 0.35)` }}
     >
       {src && (
         <img
@@ -166,6 +165,11 @@ export function ListNameplate({
           }}
         />
       )}
+      {/* One horizontal scrim over the art: the surface colour on the left behind the text, clear on the
+          right where the artwork is. */}
+      <span className={css.listNameplateScrim} />
+      {/* Hover and selection wash the art itself; the row's background is under it. */}
+      <span className={css.listNameplateWash} />
     </span>
   );
 }

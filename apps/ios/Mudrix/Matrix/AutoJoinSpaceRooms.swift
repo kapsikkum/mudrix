@@ -64,6 +64,29 @@ enum AutoJoin {
     }
 }
 
+/// Spaces joined from a room or space link (`RoomLinks.joinAndOpen`), by account: the auto-join leaves such a
+/// space alone for the pass after the join, so opening a link never joins every room the space lists.
+@MainActor
+enum LinkJoinedSpaces {
+    private static func key(_ userId: String) -> String { "autoJoinLinkJoined|\(userId)" }
+
+    static func load(_ userId: String) -> Set<String> {
+        Set(UserDefaults.standard.stringArray(forKey: key(userId)) ?? [])
+    }
+
+    static func add(_ spaceId: String, userId: String) {
+        var ids = load(userId)
+        guard ids.insert(spaceId).inserted else { return }
+        UserDefaults.standard.set(Array(ids), forKey: key(userId))
+    }
+
+    static func remove(_ spaceId: String, userId: String) {
+        var ids = load(userId)
+        guard ids.remove(spaceId) != nil else { return }
+        UserDefaults.standard.set(Array(ids), forKey: key(userId))
+    }
+}
+
 /// Runs the auto-join over the account's spaces: once the room list is loaded, then every few minutes
 @MainActor
 final class AutoJoinRunner {
@@ -91,6 +114,9 @@ final class AutoJoinRunner {
             let graph = roomList.graph
             var again = false
             for spaceId in spaces where !Task.isCancelled {
+                // A space opened from a link: the pass after the join is skipped, so joining it here never
+                // joins every room it lists
+                if await skipLinkJoined(spaceId, client: client, userId: userId, done: &done) { continue }
                 let root = SpaceModern.rootSpace(of: spaceId, in: graph)
                 let style = SpaceModern.style(of: states.state(root))
                 let explicit = SpaceModern.explicitAutoJoin(of: states.state(spaceId))
@@ -100,6 +126,23 @@ final class AutoJoinRunner {
             saveDone(done, userId)
             try? await Task.sleep(for: .seconds(again ? AutoJoin.laterDelay(pass: 0) : AutoJoin.revisitSeconds))
         }
+    }
+
+    /// A space joined from a room or space link: its next pass is skipped and the rooms it would have joined
+    /// are remembered, so the automatic join never reaches them. The marker is dropped once they are
+    /// remembered: rooms added to the space later are looked at again as usual. True when the pass was skipped.
+    private func skipLinkJoined(_ spaceId: String, client: MudrixClient, userId: String,
+                                done: inout [String]) async -> Bool {
+        guard LinkJoinedSpaces.load(userId).contains(spaceId) else { return false }
+        // Without the children there is nothing to remember yet: skip again next time, marker kept, rather
+        // than joining the rooms the pass after that
+        guard let children = try? await client.spaceChildren(spaceId: spaceId) else { return true }
+        // Every room the pass would try, without its per-pass cap: a big space must not trickle its rooms in
+        // over the revisits that follow
+        done.append(contentsOf: AutoJoin.candidates(children, done: Set(done)).map(\.id))
+        saveDone(done, userId)
+        LinkJoinedSpaces.remove(spaceId, userId: userId)
+        return true
     }
 
     /// One pass over a space; true when something should be tried again later

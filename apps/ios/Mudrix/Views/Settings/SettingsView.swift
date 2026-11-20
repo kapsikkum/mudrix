@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsView: View {
     var isTab = false
@@ -19,7 +20,7 @@ struct SettingsView: View {
     }
 
     enum Page: Hashable, CaseIterable {
-        case account, privacy, media, integrations, emojis, activity, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
+        case account, privacy, emojis, cosmetics, soundboard, media, integrations, activity, notifications, voiceVideo, appearance, accessibility, language, sessions, encryption, developer, about
 
         var title: LocalizedStringKey { LocalizedStringKey(titleKey) }
         var name: String { NSLocalizedString(titleKey, comment: "") }
@@ -31,6 +32,8 @@ struct SettingsView: View {
             case .media: return "settings.media.title"
             case .integrations: return "settings.integrations.title"
             case .emojis: return "room.settings.emojis.title"
+            case .cosmetics: return "settings.cosmetics.title"
+            case .soundboard: return "settings.soundboard.title"
             case .activity: return "settings.activity.title"
             case .notifications: return "settings.notifications.title"
             case .voiceVideo: return "settings.voiceVideo.title"
@@ -51,6 +54,8 @@ struct SettingsView: View {
             case .media: return "ph-film-strip-regular"
             case .integrations: return "ph-plugs-connected-regular"
             case .emojis: return "ph-smiley-sticker-regular"
+            case .cosmetics: return "ph-sparkle-regular"
+            case .soundboard: return "ph-speaker-high-regular"
             case .activity: return "ph-play-fill"
             case .notifications: return "ph-bell-regular"
             case .voiceVideo: return "ph-microphone-regular"
@@ -102,7 +107,7 @@ struct SettingsView: View {
                 .listRowBackground(theme.groupedRow)
 
                 Section {
-                    ForEach([Page.privacy, .media, .integrations, .notifications, .emojis, .activity]) { pageRow($0) }
+                    ForEach([Page.privacy, .notifications, .emojis, .cosmetics, .soundboard, .media, .activity, .integrations]) { pageRow($0) }
                 }
                 Section {
                     ForEach([Page.voiceVideo, .appearance, .accessibility, .language]) { pageRow($0) }
@@ -120,14 +125,6 @@ struct SettingsView: View {
             .modifier(SettingsTitle(isTab: isTab))
             .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .automatic),
                         prompt: Text(String(localized: "settings.search")))
-            .toolbar {
-                if !isTab {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(String(localized: "common.done")) { dismiss() }
-                            .fontWeight(.semibold)
-                    }
-                }
-            }
             .navigationDestination(for: Page.self) { page in
                 switch page {
                 case .account: AccountSettings()
@@ -135,6 +132,8 @@ struct SettingsView: View {
                 case .media: MediaSettings()
                 case .integrations: IntegrationsSettings()
                 case .emojis: EmojisSettings()
+                case .cosmetics: CosmeticSettings()
+                case .soundboard: SoundboardSettings()
                 case .activity: ActivitySettings()
                 case .notifications: NotificationSettingsPage()
                 case .voiceVideo: VoiceVideoSettings()
@@ -289,11 +288,13 @@ struct SettingsPage<Content: View>: View {
     @Environment(\.theme) private var theme
 
     var body: some View {
-        Form {
+        // A List in the same inset-grouped style as the settings root: a Form adds its own row
+        // margins, so the pages did not line up with the list above them.
+        List {
             content()
                 .listRowBackground(theme.groupedRow)
         }
-        .formStyle(.grouped)
+        .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
         .scrollDismissesKeyboard(.interactively)
         .background(theme.groupedBackground.ignoresSafeArea())
@@ -435,6 +436,19 @@ struct PickerRow<Value: Hashable>: View {
     }
 }
 
+/// Copies something that must not stay on the clipboard (a recovery key, an access token): this
+/// device only, and gone after a minute.
+@MainActor
+enum SecretClipboard {
+    static func copy(_ value: String) {
+        let items: [[String: Any]] = [[UTType.utf8PlainText.identifier: value]]
+        UIPasteboard.general.setItems(items, options: [
+            .localOnly: true,
+            .expirationDate: Date().addingTimeInterval(60),
+        ])
+    }
+}
+
 struct CopyRow: View {
     let label: LocalizedStringKey
     let value: String
@@ -464,7 +478,7 @@ struct CopyRow: View {
                     .accessibilityLabel(revealed ? String(localized: "common.hide") : String(localized: "common.show"))
                 }
                 Button {
-                    UIPasteboard.general.string = value
+                    if secret { SecretClipboard.copy(value) } else { UIPasteboard.general.string = value }
                     copied = true
                 } label: {
                     Image(copied ? "ph-check-bold" : "ph-copy-regular")

@@ -1211,21 +1211,36 @@ fn preview_text(body: &str, is_reply: bool) -> String {
     } else {
         body
     };
-    let mut collapsed = String::with_capacity(body.len().min(MAX_PREVIEW_CHARS * 2));
-    for c in body.chars() {
-        if c.is_whitespace() {
-            if !collapsed.is_empty() && !collapsed.ends_with(' ') {
-                collapsed.push(' ');
-            }
-        } else if !c.is_control() {
-            collapsed.push(c);
+    let mut text = String::with_capacity(MAX_PREVIEW_CHARS * 2);
+    let mut chars = body.chars();
+    let mut count = 0;
+    let mut truncated = false;
+    for c in chars.by_ref() {
+        let collapsed = if c.is_whitespace() {
+            (!text.is_empty() && !text.ends_with(' ')).then_some(' ')
+        } else if c.is_control() {
+            None
+        } else {
+            Some(c)
+        };
+        let Some(collapsed) = collapsed else {
+            continue;
+        };
+        if count == MAX_PREVIEW_CHARS {
+            // Stop as soon as the preview is full; only trailing whitespace after the cut
+            // wouldn't be shown, so anything else means the body was longer.
+            truncated =
+                !collapsed.is_whitespace() || chars.any(|c| !c.is_whitespace() && !c.is_control());
+            break;
         }
+        text.push(collapsed);
+        count += 1;
     }
-    let collapsed = collapsed.trim_end();
-    if collapsed.chars().count() <= MAX_PREVIEW_CHARS {
-        return collapsed.to_owned();
+    let text = text.trim_end();
+    if !truncated {
+        return text.to_owned();
     }
-    let mut text: String = collapsed.chars().take(MAX_PREVIEW_CHARS - 1).collect();
+    let mut text: String = text.chars().take(MAX_PREVIEW_CHARS - 1).collect();
     text.push('…');
     text
 }
@@ -1669,6 +1684,12 @@ mod tests {
         // Exactly at the limit: nothing is cut
         let exact = "b".repeat(140);
         assert_eq!(preview_text(&exact, false), exact);
+        // Trailing whitespace doesn't make exactly-at-the-limit text look cut
+        let padded = format!("{exact}  \n");
+        assert_eq!(preview_text(&padded, false), exact);
+        // Only text past the limit is built, and it's cut at 140 characters
+        let unicode = "é".repeat(500);
+        assert_eq!(preview_text(&unicode, false).chars().count(), 140);
     }
 
     #[test]

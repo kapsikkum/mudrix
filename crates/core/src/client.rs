@@ -29,11 +29,81 @@ use matrix_sdk_ui::{
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::{auth::LoginIdentifier, Error, Result, Session, StoreConfig};
+use crate::{
+    auth::LoginIdentifier,
+    media_download::{media_too_large, MAX_MEDIA_BYTES},
+    Error, Result, Session, StoreConfig,
+};
 
 /// Events the room list keeps per room from sync. The SDK's default of one never reaches a
 /// room's read marker, so unread counts would only see one message.
 const ROOM_LIST_TIMELINE_LIMIT: u32 = 20;
+
+/// The `server` argument as the SDK builder wants it: a server name (`matrix.org`) or a
+/// homeserver URL, without a trailing slash. HTTPS is always allowed. Plain `http://` is allowed
+/// for a development build and for a homeserver on a private network (a LAN or loopback address),
+/// where self-hosting over http is normal; a public `http://` server is refused because it would
+/// send the account's tokens in the clear. Other schemes are refused.
+pub(crate) fn normalize_homeserver(server: &str) -> Result<String> {
+    let trimmed = server.trim().trim_end_matches('/');
+    let Some((scheme, _)) = trimmed.split_once("://") else {
+        if trimmed.is_empty() || trimmed.ends_with(':') {
+            return Err(Error::Homeserver("the homeserver address is empty".into()));
+        }
+        // A bare server name; the SDK resolves it over https
+        return Ok(trimmed.to_owned());
+    };
+    let https = scheme.eq_ignore_ascii_case("https");
+    let http = scheme.eq_ignore_ascii_case("http");
+    let allowed = https || (http && (cfg!(debug_assertions) || is_private_http_host(trimmed)));
+    if !allowed {
+        return Err(Error::Homeserver(format!(
+            "unsupported homeserver URL {scheme}://; use https://"
+        )));
+    }
+    Ok(trimmed.to_owned())
+}
+
+/// Whether an `http://` URL points into a local network (a self-hosted homeserver), where
+/// cleartext is the accepted trade-off. A public host is not one of these.
+fn is_private_http_host(server: &str) -> bool {
+    let Ok(url) = url::Url::parse(server) else {
+        return false;
+    };
+    match url.host() {
+        Some(url::Host::Domain(name)) => {
+            let name = name.to_ascii_lowercase();
+            name == "localhost" || name.ends_with(".localhost") || name.ends_with(".local")
+        }
+        Some(url::Host::Ipv4(ip)) => ip.is_private() || ip.is_loopback() || ip.is_link_local(),
+        Some(url::Host::Ipv6(ip)) => {
+            ip.is_loopback() || ip.is_unique_local() || ip.is_unicast_link_local()
+        }
+        None => false,
+    }
+}
+
+/// The homeserver URL of an **existing** session, which must keep restoring: users who signed in
+/// before the HTTPS-only rule (including anyone on a LAN or a server they typed as `http://`) must
+/// not be signed out by an update. The scheme is checked, but `http` is not refused here; new
+/// sign-ins still go through [`normalize_homeserver`].
+pub(crate) fn normalize_restored_homeserver(homeserver_url: &str) -> Result<String> {
+    let trimmed = homeserver_url.trim().trim_end_matches('/');
+    if trimmed.is_empty() || trimmed.ends_with(':') {
+        return Err(Error::Homeserver(
+            "the stored homeserver address is empty".into(),
+        ));
+    }
+    let Some((scheme, _)) = trimmed.split_once("://") else {
+        return Ok(trimmed.to_owned());
+    };
+    if scheme.eq_ignore_ascii_case("http") || scheme.eq_ignore_ascii_case("https") {
+        return Ok(trimmed.to_owned());
+    }
+    Err(Error::Homeserver(format!(
+        "unsupported stored homeserver URL {scheme}://"
+    )))
+}
 
 /// The state of the background sync, as shown to the user.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -98,12 +168,14 @@ pub struct MudrixClient {
     pub(crate) hierarchies: Mutex<HashMap<String, crate::spaces::CachedHierarchy>>,
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
+    pub(crate) sound_states: crate::sound_packs::PackStates,
 }
 
 impl MudrixClient {
     /// The SDK client every sign-in path uses: persistent stores, refresh-token handling, and
     /// cross-signing plus key backup set up automatically.
     pub(crate) async fn build_client(server: &str, store: &StoreConfig) -> Result<Client> {
+        let server = normalize_homeserver(server)?;
         Self::finish_build(
             Client::builder().server_name_or_homeserver_url(server),
             store,
@@ -112,6 +184,7 @@ impl MudrixClient {
     }
 
     async fn build_restored_client(homeserver_url: &str, store: &StoreConfig) -> Result<Client> {
+        let homeserver_url = normalize_restored_homeserver(homeserver_url)?;
         Self::finish_build(Client::builder().homeserver_url(homeserver_url), store).await
     }
 
@@ -168,6 +241,7 @@ impl MudrixClient {
             spaces: Mutex::new(None),
             hierarchies: Mutex::default(),
             notifications: Mutex::new(None),
+            sound_states: Default::default(),
         }
     }
 
@@ -217,31 +291,54 @@ impl MudrixClient {
             .map_err(|e| Error::InvalidId(e.to_string()))?;
         let device_id: OwnedDeviceId = session.device_id.as_str().into();
         let meta = SessionMeta { user_id, device_id };
-        let tokens = SessionTokens {
+        #[cfg_attr(target_arch = "wasm32", allow(unused_mut))]
+        let mut tokens = SessionTokens {
             access_token: session.access_token,
             refresh_token: session.refresh_token,
         };
+        // Another process on this store (the notification extension, or the app after a restart)
+        // may have refreshed since this session was saved; its tokens are the only ones the
+        // server still accepts.
+        #[cfg(not(target_arch = "wasm32"))]
+        let token_file = crate::token_file::TokenFile::new(&store).map(Arc::new);
+        #[cfg(not(target_arch = "wasm32"))]
+        if let Some(newer) = token_file.as_ref().and_then(|file| file.read()) {
+            tokens = newer;
+        }
         let shared_tokens = Arc::new(Mutex::new(Some(tokens.clone())));
+        let newest = shared_tokens.clone();
+        #[cfg(not(target_arch = "wasm32"))]
+        let reader = token_file.clone();
+        let reload = Box::new(move |_: Client| {
+            #[cfg(not(target_arch = "wasm32"))]
+            if let Some(tokens) = reader.as_ref().and_then(|file| file.read()) {
+                return Ok(tokens);
+            }
+            newest
+                .lock()
+                .unwrap()
+                .clone()
+                .ok_or_else(|| "no session to reload".into())
+        });
+        #[cfg(not(target_arch = "wasm32"))]
+        let writer = token_file.clone();
+        let save = Box::new(move |_client: Client| {
+            #[cfg(not(target_arch = "wasm32"))]
+            if let (Some(file), Some(tokens)) = (writer.as_ref(), _client.session_tokens()) {
+                file.write(&tokens)?;
+            }
+            Ok(())
+        });
+        client.set_session_callbacks(reload, save)?;
         match session.oauth_client_id {
             Some(client_id) => {
-                // Tabs sharing this store take turns refreshing the rotating tokens; one that
-                // lost the race picks up the winner's (handed over with `adopt_session`)
+                // Processes and tabs sharing this store take turns refreshing the rotating tokens;
+                // one that lost the race picks up the winner's, from the file or `adopt_session`
                 client
                     .oauth()
                     .enable_cross_process_refresh_lock(TransactionId::new().to_string())
                     .await
                     .map_err(|e| Error::Sdk(e.to_string()))?;
-                let newest = shared_tokens.clone();
-                client.set_session_callbacks(
-                    Box::new(move |_| {
-                        newest
-                            .lock()
-                            .unwrap()
-                            .clone()
-                            .ok_or_else(|| "no session to reload".into())
-                    }),
-                    Box::new(|_| Ok(())),
-                )?;
                 client
                     .restore_session(OAuthSession {
                         client_id: ClientId::new(client_id),
@@ -394,8 +491,9 @@ impl MudrixClient {
 
     /// Ends a stored session on the server without restoring it (when restoring failed).
     pub async fn logout_session(session: Session) -> Result<()> {
+        let homeserver_url = normalize_restored_homeserver(&session.homeserver_url)?;
         let client = Client::builder()
-            .homeserver_url(&session.homeserver_url)
+            .homeserver_url(homeserver_url)
             .build()
             .await?;
         let user_id = OwnedUserId::try_from(session.user_id.as_str())
@@ -439,7 +537,7 @@ impl MudrixClient {
 
     /// Downloads a message's media (decrypting it if needed). `source` is the opaque
     /// `MediaInfo::source` or `thumbnail_source`; a size asks the server for a thumbnail of
-    /// unencrypted media instead of the full file.
+    /// unencrypted media instead of the full file. Media over the 100 MiB ceiling is refused.
     pub async fn media(
         &self,
         source: serde_json::Value,
@@ -454,11 +552,17 @@ impl MudrixClient {
             _ => MediaFormat::File,
         };
         let request = MediaRequestParameters { source, format };
-        Ok(self
+        let bytes = self
             .client
             .media()
             .get_media_content(&request, true)
-            .await?)
+            .await?;
+        // The SDK only returns a finished buffer, so the ceiling is checked once it is here;
+        // returning it would hand the app an unbounded allocation.
+        if bytes.len() as u64 > MAX_MEDIA_BYTES {
+            return Err(media_too_large(MAX_MEDIA_BYTES));
+        }
+        Ok(bytes)
     }
 
     /// Downloads a thumbnail of an `mxc://` URI (avatars, previews) with the account's
@@ -480,11 +584,15 @@ impl MudrixClient {
                 UInt::from(height),
             )),
         };
-        Ok(self
+        let bytes = self
             .client
             .media()
             .get_media_content(&request, true)
-            .await?)
+            .await?;
+        if bytes.len() as u64 > MAX_MEDIA_BYTES {
+            return Err(media_too_large(MAX_MEDIA_BYTES));
+        }
+        Ok(bytes)
     }
 }
 
@@ -533,9 +641,13 @@ pub fn sniff_mime_type(bytes: &[u8]) -> Option<&'static str> {
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+const SQLITE_POOL_SIZE: usize = 8;
+
+#[cfg(not(target_arch = "wasm32"))]
 fn sqlite_config(store: &StoreConfig) -> matrix_sdk::SqliteStoreConfig {
     use base64::{engine::general_purpose::STANDARD, Engine};
-    let config = matrix_sdk::SqliteStoreConfig::new(&store.location);
+    let config =
+        matrix_sdk::SqliteStoreConfig::new(&store.location).pool_max_size(SQLITE_POOL_SIZE);
     let Some(passphrase) = store.passphrase.as_deref() else {
         return config;
     };
@@ -544,5 +656,58 @@ fn sqlite_config(store: &StoreConfig) -> matrix_sdk::SqliteStoreConfig {
             config.high_entropy_passphrase(Some(&key), matrix_sdk_sqlite::Base64Variant::Padded)
         }
         _ => config.passphrase(Some(passphrase)),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn homeserver_urls_must_be_https() {
+        assert_eq!(
+            normalize_homeserver("https://matrix.example.org/").unwrap(),
+            "https://matrix.example.org"
+        );
+        assert_eq!(
+            normalize_homeserver("matrix.example.org").unwrap(),
+            "matrix.example.org"
+        );
+        assert_eq!(
+            normalize_homeserver("  matrix.example.org:8448/  ").unwrap(),
+            "matrix.example.org:8448"
+        );
+        for bad in ["ftp://matrix.example.org", "https://", "  "] {
+            assert!(normalize_homeserver(bad).is_err(), "{bad}");
+        }
+        // Plain http is for a dev build or a self-hosted server on a private network; a public
+        // http server is refused in a release build.
+        assert_eq!(
+            normalize_homeserver("http://matrix.example.org").is_ok(),
+            cfg!(debug_assertions)
+        );
+        assert!(normalize_homeserver("http://172.30.18.177:6167").is_ok());
+        assert!(normalize_homeserver("http://nas.local:8008").is_ok());
+        assert!(normalize_homeserver("http://127.0.0.1:8008").is_ok());
+        // An existing session keeps restoring even if its server was recorded as http.
+        assert_eq!(
+            normalize_restored_homeserver("http://matrix.example.org").unwrap(),
+            "http://matrix.example.org"
+        );
+        assert!(normalize_restored_homeserver("ftp://matrix.example.org").is_err());
+    }
+
+    #[cfg(debug_assertions)]
+    #[test]
+    fn plain_http_is_allowed_while_developing() {
+        for ok in [
+            "http://localhost:8008",
+            "http://127.0.0.1:8008",
+            "http://[::1]:8008",
+            "http://172.30.18.177:6167",
+            "http://nas.local:8008",
+        ] {
+            assert!(normalize_homeserver(ok).is_ok(), "{ok}");
+        }
     }
 }

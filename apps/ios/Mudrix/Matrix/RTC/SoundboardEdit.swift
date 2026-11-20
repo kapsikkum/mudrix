@@ -1,8 +1,7 @@
 import Foundation
 import MudrixCore
 
-/// Adding, changing and removing clips on the personal, room or space board: the writes of the web's `boards.ts`
-/// and `upload.ts`, and the checks of Android's `matrix/rtc/SoundboardEdit.kt`.
+/// Adding, changing and removing clips of a core pack (the personal one, or a room's or space's).
 enum SoundboardEdit {
     /// What can go wrong; `key` is the message shown for it
     enum Problem: String, Equatable {
@@ -19,7 +18,7 @@ enum SoundboardEdit {
     /// The power level of a moderator, the "Moderators and up" choice of the room settings
     static let moderatorLevel = 50.0
 
-    /// The three formats allowed, from the type the system reports or from the file name's ending
+    /// The three formats the pre-MSC4577 clients know, from the type the system reports or from the file name's ending
     static func mimetype(contentType: String?, fileName: String?) -> String? {
         if let known = SoundboardFormat.normalizeMimetype(contentType) { return known }
         let ending = (fileName ?? "").split(separator: ".").last.map { String($0).lowercased() } ?? ""
@@ -31,7 +30,7 @@ enum SoundboardEdit {
         }
     }
 
-    /// What is wrong with a chosen file, or nil when it can be added
+    /// What is wrong with a chosen file, or nil when it can be added (the core's limits)
     static func check(mimetype: String?, size: Int64, durationMs: Int64) -> Problem? {
         if mimetype == nil { return .type }
         if size <= 0 || size > SoundboardFormat.maxSizeBytes { return .size }
@@ -50,7 +49,7 @@ enum SoundboardEdit {
         return trimmed.isEmpty ? nil : String(trimmed.prefix(16))
     }
 
-    /// `c_` and 16 hex digits, as the web's `newSoundId`
+    /// A shortcode of the standard's shape: ASCII letters, digits, `-` and `_`, at most 100 bytes
     static func newId() -> String {
         "c_" + (0..<8).map { _ in String(format: "%02x", UInt8.random(in: 0...255)) }.joined()
     }
@@ -69,68 +68,60 @@ enum SoundboardEdit {
         board.filter { $0.id != id }
     }
 
-    /// How a board is stored in account data or room state
-    static func content(_ board: [SoundboardSound]) -> JSONValue {
-        .object(["sounds": .array(board.map { sound in
-            var entry: [String: JSONValue] = [
-                "id": .string(sound.id),
-                "name": .string(sound.name),
-                "url": .string(sound.url),
-                "mimetype": .string(sound.mimetype),
-                "durationMs": .number(Double(sound.durationMs)),
-                "size": .number(Double(sound.size)),
-                "volume": .number(Double(min(max(sound.volume, 0), 1))),
-            ]
-            if let emoji = sound.emoji { entry["emoji"] = .string(emoji) }
-            return .object(entry)
-        })])
-    }
-
     static func settingsContent(enabled: Bool, minPowerLevel: Double) -> JSONValue {
         .object(["enabled": .bool(enabled), "minPowerLevel": .number(minPowerLevel)])
     }
 
-    /// Uploads the file and returns the clip to add to a board (it is not saved yet)
+    private static func problem(_ error: Error) -> Problem {
+        let message = error.localizedDescription
+        if message.contains("tooLarge") { return .size }
+        if message.contains("tooLong") { return .duration }
+        if message.contains("unsupported") { return .type }
+        return .upload
+    }
+
+    /// Uploads the file through the core and returns the clip to add to a pack (it is not saved yet)
     static func upload(client: MudrixClient, data: Data, mimetype: String, durationMs: Int64, name: String,
-                       emoji: String?, volume: Float) async throws -> SoundboardSound {
-        let url: String
+                       emoji: String?) async throws -> SoundboardSound {
+        let uploaded: MudrixCore.SoundboardSound
         do {
-            url = try await client.uploadMedia(data: data, mimetype: mimetype)
+            uploaded = try await client.uploadSound(data: data, mimetype: mimetype, durationMs: Int(durationMs))
         } catch {
-            throw Failure(problem: .upload, detail: error.localizedDescription)
+            throw Failure(problem: problem(error), detail: error.localizedDescription)
         }
         let clean = cleanName(name)
-        return SoundboardSound(id: newId(), name: clean.isEmpty ? "Sound" : clean, emoji: emoji.flatMap(cleanEmoji), url: url,
-                               mimetype: mimetype, durationMs: durationMs, size: Int64(data.count),
-                               volume: min(max(volume, 0), 1))
+        return SoundboardSound(id: newId(), name: clean.isEmpty ? "Sound" : clean,
+                               emoji: emoji.flatMap(cleanEmoji), url: uploaded.url,
+                               mimetype: uploaded.mimetype ?? mimetype,
+                               durationMs: Int64(uploaded.durationMs ?? Int(durationMs)),
+                               size: Int64(uploaded.size ?? data.count), volume: 1)
     }
 
-    static func writePersonal(client: MudrixClient, board: [SoundboardSound]) async throws {
+    /// Writes the personal pack (`moe.crafty.soundboard` account data)
+    static func savePersonal(client: MudrixClient, pack: MudrixCore.SoundPack?, board: [SoundboardSound]) async throws {
         do {
-            try await client.setAccountData(eventType: SoundboardFormat.boardType, content: content(board))
+            try await client.saveSoundPack(roomId: nil, stateKey: "", name: pack?.name ?? "",
+                                           attribution: pack?.attribution,
+                                           sounds: board.map(SoundboardFormat.coreSound))
         } catch {
             throw Failure(problem: .save, detail: error.localizedDescription)
         }
     }
 
-    /// Whether `userId` may send `type` state in a room (its board or its settings)
-    static func canManage(_ data: RoomSoundboards.Snapshot?, userId: String, type: String) -> Bool {
-        guard let data, let levels = data.powerLevels else { return false }
-        return SpaceModern.canSendState(levels, creators: data.creators, userId: userId, type: type)
-    }
-
-    static func writeRoom(client: MudrixClient, roomId: String, userId: String, board: [SoundboardSound]) async throws {
-        let data = await RoomSoundboards.load(client: client, roomId: roomId)
-        guard canManage(data, userId: userId, type: SoundboardFormat.boardType) else { throw Failure(problem: .forbidden) }
+    /// Writes a room's pack; a room without one gets the default pack first. Returns its state key.
+    static func saveRoom(client: MudrixClient, roomId: String, stateKey: String, name: String,
+                         attribution: String?, board: [SoundboardSound]) async throws -> String {
         do {
-            try await client.setStateEvent(roomId: roomId, eventType: SoundboardFormat.boardType, stateKey: "",
-                                           content: content(board))
+            let key = stateKey.isEmpty ? try await client.createSoundPack(roomId: roomId, name: name) : stateKey
+            try await client.saveSoundPack(roomId: roomId, stateKey: key, name: name, attribution: attribution,
+                                           sounds: board.map(SoundboardFormat.coreSound))
+            return key
         } catch {
             throw Failure(problem: .save, detail: error.localizedDescription)
         }
-        RoomSoundboards.remember(roomId: roomId, board: board)
     }
 
+    /// The "who may play" setting is a Mudrix room setting, not part of the standard; it stays as it was
     static func writeRoomSettings(client: MudrixClient, roomId: String, enabled: Bool, minPowerLevel: Double) async throws {
         try await client.setStateEvent(roomId: roomId, eventType: RoomSoundboards.settingsType, stateKey: "",
                                        content: settingsContent(enabled: enabled, minPowerLevel: minPowerLevel))

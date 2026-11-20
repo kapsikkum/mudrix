@@ -1,12 +1,16 @@
-import { activeAccount } from '@/core/storage';
+import { readAccountsState } from '@/core/accountsState';
 import { STORAGE_KEY_ACTIVE_ACCOUNT } from './storageKeys';
 
 function readUserIdFromStorage(): string | null {
   if (typeof localStorage === 'undefined') return null;
   try {
-    return (
-      localStorage.getItem(STORAGE_KEY_ACTIVE_ACCOUNT) ?? activeAccount()?.session.userId ?? null
-    );
+    const active = localStorage.getItem(STORAGE_KEY_ACTIVE_ACCOUNT);
+    if (active) return active;
+    // The active-account key can be missing from older installs: the accounts state knows.
+    const state = readAccountsState(localStorage);
+    return state.active && Object.prototype.hasOwnProperty.call(state.accounts, state.active)
+      ? state.active
+      : null;
   } catch {
     return null;
   }

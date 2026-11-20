@@ -55,5 +55,10 @@ tools/test-server/.generated/
 
 /target-*/
 
+# Flatpak staging directory (packaging/flatpak/README.md): CI copies the built binary here
+/packaging/flatpak/stage/
+# Pinned Flathub shared modules (tray icon library); CI downloads them, see packaging/flatpak/README.md
+/packaging/flatpak/shared-modules/
+
 # graphify knowledge-graph output (local tool cache)
 graphify-out/

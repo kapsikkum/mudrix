@@ -3960,6 +3960,7 @@ name = "mudrix-core"
 version = "0.1.0"
 dependencies = [
  "base64 0.22.1",
+ "chacha20poly1305",
  "eyeball-im",
  "futures-channel",
  "futures-util",
@@ -3973,8 +3974,10 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "sha2 0.10.9",
  "specta",
  "specta-serde",
+ "tempfile",
  "thiserror 2.0.21",
  "tokio",
  "tracing",

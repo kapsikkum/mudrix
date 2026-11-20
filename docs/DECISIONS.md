@@ -152,7 +152,8 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
   there is one place to edit the profile.
 - **Account > Status is its own page**, using the core-backed status and expiry, instead of only the profile modal.
 - **Voice & Video is a page**, not a section inside Voice & Audio: device/processing toggles and the per-event sounds
-  stay together, while sound packs and the soundboard keep their Mudrix page.
+  stay together, while sound packs and the soundboard keep their Mudrix page. Superseded: the two pages are one
+  Audio & Video page, and the soundboard has its own Settings > Soundboard page.
 - **The system accent colour row is last** in Appearance, under the Carbon theme, because it only applies there.
 - **Settings search was removed from the desktop settings dialog** and kept on the mobile settings list, where
   scrolling through 20 pages is the slow part. Room and space settings keep their own search.

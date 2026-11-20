@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 import { useAtomValue } from 'jotai';
 import type { RoomTimeline, MudrixClient } from '@mudrix/core';
 import { sendReadReceiptsAtom } from '@/app/store/atoms/settings';
+import { isAppFocused } from '@/bridge/windowActivity';
 import { markRoomAsRead } from '@/app/pages/client/markAsRead';
 
 export function useRoomReadReceipts(
@@ -16,7 +17,8 @@ export function useRoomReadReceipts(
   latestRef.current = latestEventId;
 
   return useCallback(() => {
-    if (!document.hasFocus()) return;
+    // The shell answers this on desktop (see bridge/windowActivity).
+    if (!isAppFocused()) return;
     const latest = latestRef.current;
     if (latest !== undefined) {
       if (!latest || latest === lastEventIdRef.current) return;

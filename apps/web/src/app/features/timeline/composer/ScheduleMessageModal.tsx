@@ -62,7 +62,10 @@ export function ScheduleMessageModal({
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const featureSupported = useDelayedEventsSupport(client);
-  const roomAllowed = !(useRoom(roomId)?.isEncrypted ?? false);
+  const room = useRoom(roomId);
+  const encryptionKnown = room != null;
+  const isEncrypted = room?.isEncrypted === true;
+  const roomAllowed = encryptionKnown && !isEncrypted;
 
   const [when, setWhen] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -145,6 +148,7 @@ export function ScheduleMessageModal({
 
   let unavailableReason: string | null = null;
   if (supported === false) unavailableReason = t('composer.schedule.unsupported');
+  else if (!encryptionKnown) unavailableReason = t('common.loading');
   else if (!roomAllowed) unavailableReason = t('composer.schedule.encrypted');
 
   return (

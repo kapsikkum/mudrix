@@ -9,7 +9,7 @@ use matrix_sdk_ui::notification_client::{
     NotificationClient, NotificationProcessSetup, NotificationStatus, RawNotificationEvent,
 };
 use serde::Deserialize;
-use serde_json::json;
+use serde_json::{json, Value};
 
 use crate::{
     features::notification_for, rooms::parse_room_id, timeline::parse_event_id, Error,
@@ -160,6 +160,12 @@ fn undecrypted_notification(
     if sender == own_user.as_str() {
         return None;
     }
+    // `m.relates_to` stays readable in encrypted events: reactions, edits, poll answers and call
+    // reactions are never messages worth a notification
+    let content: Option<Value> = raw.get_field("content").ok().flatten();
+    if is_relation(content.as_ref()) {
+        return None;
+    }
     Some(Notification {
         room_id: room_id.to_owned(),
         room_name: None,
@@ -173,7 +179,23 @@ fn undecrypted_notification(
         highlight: false,
         sound: true,
         is_direct: false,
+        ts: raw
+            .get_field("origin_server_ts")
+            .ok()
+            .flatten()
+            .unwrap_or_default(),
     })
+}
+
+/// Whether an event is a relation that never deserves a notification: a reaction, an edit, a
+/// reply that is only a reference, or a poll answer (`m.reference`).
+fn is_relation(content: Option<&Value>) -> bool {
+    matches!(
+        content
+            .and_then(|content| content.pointer("/m.relates_to/rel_type"))
+            .and_then(Value::as_str),
+        Some("m.annotation" | "m.replace" | "m.reference")
+    )
 }
 
 /// What the gateway gets as `default_payload`: the pusher's extra fields (the app sends an
@@ -190,7 +212,21 @@ fn pusher_default_payload(user_id: &str, extra: Option<serde_json::Value>) -> se
 
 #[cfg(test)]
 mod tests {
-    use super::pusher_default_payload;
+    use super::{is_relation, pusher_default_payload};
+
+    #[test]
+    fn encrypted_relations_are_not_messages() {
+        for rel in ["m.annotation", "m.replace", "m.reference"] {
+            assert!(
+                is_relation(Some(
+                    &serde_json::json!({ "m.relates_to": { "rel_type": rel } })
+                )),
+                "{rel}"
+            );
+        }
+        assert!(!is_relation(Some(&serde_json::json!({ "body": "hi" }))));
+        assert!(!is_relation(None));
+    }
 
     #[test]
     fn the_alert_reaches_the_gateway() {

@@ -36,7 +36,7 @@ export function openAuthUrlAndWaitForReturn(url: string): Promise<void> {
   });
 }
 
-function blobToBase64(blob: Blob): Promise<string> {
+export function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result).split(',', 2)[1] ?? '');
@@ -57,6 +57,16 @@ async function saveFileNative(blob: Blob, filename: string): Promise<void> {
 export function downloadBlob(blob: Blob, filename: string): void {
   if (isNativeApp()) {
     saveFileNative(blob, filename).catch((err) => console.warn('[native] save failed', err));
+    return;
+  }
+  // The desktop shell writes the file itself: a webview download would go through WebView2's own
+  // download manager, which asks for permission (and asks once per file when there are several).
+  const saveDownload = window.desktopAPI?.saveDownload;
+  if (saveDownload) {
+    blob
+      .arrayBuffer()
+      .then((bytes) => saveDownload(new Uint8Array(bytes), filename))
+      .catch((err) => console.warn('[desktop] save failed', err));
     return;
   }
   const url = URL.createObjectURL(blob);
@@ -126,6 +136,9 @@ function toAppPath(url: string): string | null {
     else path = '/';
   }
   if (!path.startsWith('/')) path = `/${path}`;
+  // `//host` and `/\host` are protocol-relative once a browser resolves them: a link like
+  // chat.mudrix.mobile:////evil.com/path must never become a navigation off the app.
+  if (path.startsWith('//') || path.startsWith('/\\')) return null;
   return path + parsed.search;
 }
 
@@ -133,8 +146,16 @@ function openAppLink(url: string | undefined): void {
   if (!url || sessionStorage.getItem(HANDLED_URL_KEY) === url) return;
   const path = toAppPath(url);
   if (!path) return;
+  // Resolve the way the browser will, then refuse anything that changed the origin.
+  let target: URL;
+  try {
+    target = new URL(path, window.location.origin);
+  } catch {
+    return;
+  }
+  if (target.origin !== window.location.origin) return;
   sessionStorage.setItem(HANDLED_URL_KEY, url);
-  window.location.replace(path);
+  window.location.replace(target.href);
 }
 
 function listenForAppLinks(): void {

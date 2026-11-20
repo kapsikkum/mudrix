@@ -1,6 +1,7 @@
 import {
   AudioPresets,
   ConnectionState,
+  Encryption_Type,
   Room as LivekitRoom,
   RoomEvent,
   ScreenSharePresets,
@@ -19,6 +20,16 @@ import E2EEWorker from 'livekit-client/e2ee-worker?worker';
 import type { CallEvent, CallMember, CallSession, Subscription, MudrixClient } from '@mudrix/core';
 import { GainProcessor } from './gainProcessor';
 import { MatrixKeyProvider } from './keyProvider';
+import {
+  LEGACY_SOUNDBOARD_TOPIC,
+  SOUNDBOARD_TOPIC,
+  SoundboardPlayer,
+  legacyPlayFromPayload,
+  legacySoundboardPayload,
+  parseSoundboardPlay,
+  soundboardPayload,
+  type SoundboardPlay,
+} from './soundboard';
 import { mudrixKey, upstreamKey } from '@/util/namespace';
 
 export type CallPhase = 'joining' | 'joined' | 'left' | 'error';
@@ -184,6 +195,12 @@ const SUBSCRIBE_RETRY_MS = 5000;
 const REACTION_VISIBLE_MS = 3000;
 const NEW_JOINER_MIC_WINDOW_MS = 2000;
 const KEY_CHECK_MS = 2000;
+/** A press can arrive twice on the same topic (a retransmit): play it once. */
+const SOUNDBOARD_DUPLICATE_MS = 700;
+/** The old topic can arrive after the standard one a press was already heard on. */
+const LEGACY_AFTER_STANDARD_MS = 10_000;
+/** The most senders whose recent presses are remembered for deduplication. */
+const SOUNDBOARD_SEEN_LIMIT = 200;
 
 function roomOptions(
   devices: PreferredDevices,
@@ -276,6 +293,27 @@ export class CallMedia {
   private reactions = new Map<string, string>();
   private reactionTimers = new Set<ReturnType<typeof setTimeout>>();
   private disposed = false;
+  private soundboard = new SoundboardPlayer((url) => this.client.soundboardSound(url));
+  private soundboardKey = 0;
+  private soundboardHeard = new Map<string, number>();
+  /**
+   * What the soundboard receiver (`useSoundboardReceiver`) knows: whether soundboard audio is on
+   * here, at what volume, whose clips are muted, and whether a sender may play in this room. Until
+   * it mounts, nobody's clip is heard.
+   */
+  soundboardEnabled: () => boolean = () => false;
+  soundboardVolume: () => number = () => 0;
+  soundboardMuted: (userId: string) => boolean = () => false;
+  soundboardAllowed: ((userId: string) => boolean | Promise<boolean>) | null = null;
+  /** For the "playing" chips in the call's UI. */
+  onSoundboardPlay:
+    | ((
+        senderId: string,
+        key: number,
+        sound: SoundboardPlay & { name?: string; durationMs?: number }
+      ) => void)
+    | null = null;
+  onSoundboardEnd: ((senderId: string, key: number) => void) | null = null;
   /** A screen share the app captures itself: the desktop picker's native capture, or the browser's */
   private manualShare: {
     video: MediaStreamTrack;
@@ -686,6 +724,106 @@ export class CallMedia {
     this.resubscribe(identity);
   }
 
+  /**
+   * Presses a soundboard clip: plays it here at once and tells the call on the standard
+   * `moe.crafty.soundboard` topic. The old Mudrix packet goes out on the data channel too, with the
+   * same sound as a URL, so 26.12.4 clients play it.
+   */
+  async playSound(
+    url: string,
+    shortcode: string,
+    emoji?: string | null,
+    info?: { name?: string; mimetype?: string; durationMs?: number }
+  ) {
+    if (!url.startsWith('mxc://')) return;
+    const me = this.client.userId() ?? '';
+    this.hearSound(url, shortcode, emoji ?? undefined, me, {
+      name: info?.name,
+      durationMs: info?.durationMs,
+    });
+    const standard = this.sendData(SOUNDBOARD_TOPIC, soundboardPayload(url, shortcode, emoji));
+    const legacy =
+      LEGACY_SOUNDBOARD_TOPIC === SOUNDBOARD_TOPIC
+        ? Promise.resolve()
+        : this.sendData(
+            LEGACY_SOUNDBOARD_TOPIC,
+            legacySoundboardPayload({
+              url,
+              shortcode,
+              name: info?.name,
+              emoji: emoji ?? undefined,
+              mimetype: info?.mimetype,
+              durationMs: info?.durationMs,
+            })
+          );
+    // The sound is already playing here: a failed send must not break the press.
+    await Promise.allSettled([standard, legacy]);
+  }
+
+  /** Warms a clip so a press plays at once. */
+  prefetchSound(url: string) {
+    if (url.startsWith('mxc://')) this.soundboard.prefetch(url);
+  }
+
+  private hearSound(
+    url: string,
+    shortcode: string | undefined,
+    emoji: string | undefined,
+    userId: string,
+    info?: { name?: string; durationMs?: number }
+  ) {
+    if (this.deafened || !this.soundboardEnabled() || this.soundboardMuted(userId)) return;
+    const volume = Math.min(1, Math.max(0, this.soundboardVolume()));
+    if (volume <= 0) return;
+    const key = ++this.soundboardKey;
+    void this.soundboard.play(url, userId, volume, this.devices.audiooutput, {
+      onStart: () => {
+        if (this.disposed) return;
+        this.onSoundboardPlay?.(userId, key, {
+          url,
+          shortcode,
+          emoji,
+          name: info?.name,
+          durationMs: info?.durationMs,
+        });
+      },
+      onEnd: () => this.onSoundboardEnd?.(userId, key),
+    });
+  }
+
+  /** Stops every soundboard clip now (deafened or the soundboard was turned off). */
+  stopSounds() {
+    this.soundboard.stopAll();
+  }
+
+  /** Whether a press from `identity` with this URL was already heard on the standard topic. */
+  private heardRecently(identity: string, url: string, windowMs: number): boolean {
+    const seenAt = this.soundboardHeard.get(`${identity}:${url}`);
+    return seenAt !== undefined && Date.now() - seenAt < windowMs;
+  }
+
+  private rememberHeard(identity: string, url: string) {
+    const seen = this.soundboardHeard;
+    seen.delete(`${identity}:${url}`);
+    seen.set(`${identity}:${url}`, Date.now());
+    while (seen.size > SOUNDBOARD_SEEN_LIMIT) {
+      const oldest = seen.keys().next().value as string;
+      seen.delete(oldest);
+    }
+  }
+
+  private async onSoundboardPacket(play: SoundboardPlay, participant: Participant): Promise<void> {
+    const identity = participant.identity;
+    const userId = this.userOf(identity);
+    if (this.heardRecently(identity, play.url, SOUNDBOARD_DUPLICATE_MS)) return;
+    this.rememberHeard(identity, play.url);
+    if (!this.soundboardEnabled() || this.deafened || this.soundboardMuted(userId)) return;
+    if (this.soundboardAllowed && !(await this.soundboardAllowed(userId))) return;
+    // The state may have changed while the room's settings were read.
+    if (this.disposed || this.deafened || !this.soundboardEnabled()) return;
+    this.hearSound(play.url, play.shortcode, play.emoji, userId);
+  }
+
   async sendData(topic: string, payload: unknown) {
     await this.localParticipant?.publishData(new TextEncoder().encode(JSON.stringify(payload)), {
       reliable: true,
@@ -891,13 +1029,32 @@ export class CallMedia {
         window.addEventListener('pointerdown', this.resumeAudio);
         window.addEventListener('keydown', this.resumeAudio);
       })
-      .on(RoomEvent.DataReceived, (data, participant, _kind, topic, _encryption, identity) => {
+      .on(RoomEvent.DataReceived, (data, participant, _kind, topic, encryption, identity) => {
         const from = participant?.identity ?? identity;
         if (!topic || !from) return;
+        if (topic === SOUNDBOARD_TOPIC) {
+          // In an encrypted call an unencrypted packet is a downgrade: ignore it.
+          if (!participant || (this.snapshot.encrypted && encryption === Encryption_Type.NONE))
+            return;
+          const play = parseSoundboardPlay(data);
+          if (play) void this.onSoundboardPacket(play, participant);
+          return;
+        }
         let payload: unknown;
         try {
           payload = JSON.parse(new TextDecoder().decode(data));
         } catch {
+          return;
+        }
+        if (topic === LEGACY_SOUNDBOARD_TOPIC) {
+          // New senders also send the old packet: the standard one was already heard.
+          const legacy = legacyPlayFromPayload(payload);
+          if (legacy?.url) {
+            if (this.heardRecently(from, legacy.url, LEGACY_AFTER_STANDARD_MS)) return;
+            if (this.heardRecently(`legacy:${from}`, legacy.url, SOUNDBOARD_DUPLICATE_MS)) return;
+            this.rememberHeard(`legacy:${from}`, legacy.url);
+          }
+          for (const listener of this.dataListeners) listener(topic, payload, from);
           return;
         }
         if (topic === STREAM_WATCH_TOPIC || topic === UPSTREAM_STREAM_WATCH_TOPIC) {
@@ -1128,6 +1285,11 @@ export class CallMedia {
     this.audioContainer = undefined;
     for (const timer of this.reactionTimers) clearTimeout(timer);
     this.reactionTimers.clear();
+    this.soundboard.dispose();
+    this.soundboardHeard.clear();
+    this.onSoundboardPlay = null;
+    this.onSoundboardEnd = null;
+    this.soundboardAllowed = null;
     void this.audioContext?.close();
     this.audioContext = undefined;
     this.gain = undefined;

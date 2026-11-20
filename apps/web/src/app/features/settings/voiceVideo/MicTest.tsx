@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtomValue, useStore } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import { WarningIcon } from '@phosphor-icons/react';
 import { Button } from '@/app/components/Button';
+import { ToggleRow } from '@/app/components/Toggle';
 import { callActionsAtom, callUiAtom } from '@/app/store/atoms/call';
 import * as layoutCss from '../Settings.css';
 import * as css from './VoiceVideo.css';
@@ -15,13 +17,35 @@ export function MicTest({ deviceId, volume }: { deviceId?: string; volume: numbe
   const [testing, setTesting] = useState(false);
   const [level, setLevel] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [hearYourself, setHearYourself] = useState(false);
   const gainRef = useRef<GainNode | null>(null);
+  const contextRef = useRef<AudioContext | null>(null);
+  const monitorRef = useRef(hearYourself);
+  monitorRef.current = hearYourself;
   const volumeRef = useRef(volume);
   volumeRef.current = volume;
 
   useEffect(() => {
     if (gainRef.current) gainRef.current.gain.value = volume;
   }, [volume]);
+
+  // Monitoring plays the processed microphone back through the output device, like the old
+  // input settings page did; it stays off by default because it feeds back through speakers.
+  useEffect(() => {
+    const gain = gainRef.current;
+    const context = contextRef.current;
+    if (!gain || !context) return;
+    if (hearYourself) gain.connect(context.destination);
+    return () => {
+      if (hearYourself) {
+        try {
+          gain.disconnect(context.destination);
+        } catch {
+          // Already disconnected when the context closed.
+        }
+      }
+    };
+  }, [hearYourself, testing]);
 
   useEffect(() => {
     if (!testing) return;
@@ -57,9 +81,12 @@ export function MicTest({ deviceId, volume }: { deviceId?: string; volume: numbe
       }
       setFailed(false);
       context = new AudioContext();
+      contextRef.current = context;
       const gain = context.createGain();
       gain.gain.value = volumeRef.current;
       gainRef.current = gain;
+      // Monitoring is already on when the test starts: connect before the analyser so it plays.
+      if (monitorRef.current) gain.connect(context.destination);
       const analyser = context.createAnalyser();
       analyser.fftSize = 1024;
       context.createMediaStreamSource(stream).connect(gain).connect(analyser);
@@ -81,6 +108,7 @@ export function MicTest({ deviceId, volume }: { deviceId?: string; volume: numbe
       stream?.getTracks().forEach((track) => track.stop());
       void context?.close();
       gainRef.current = null;
+      contextRef.current = null;
       setLevel(0);
       const now = store.get(callUiAtom);
       if (mutedCall && now.roomId === mutedCall && now.isMuted) callActions?.setMicrophone(true);
@@ -107,6 +135,22 @@ export function MicTest({ deviceId, volume }: { deviceId?: string; volume: numbe
       <p className={layoutCss.settingNote}>
         {failed ? t('settings.voiceVideo.testFailed') : t('settings.voiceVideo.testNote')}
       </p>
+      {testing && (
+        <>
+          <ToggleRow
+            label={t('settings.voice.hearYourself')}
+            description={t('settings.voice.hearYourselfNote')}
+            checked={hearYourself}
+            onChange={setHearYourself}
+          />
+          {hearYourself && (
+            <p className={css.monitorWarning}>
+              <WarningIcon size={16} weight="fill" />
+              {t('settings.voice.headphonesWarning')}
+            </p>
+          )}
+        </>
+      )}
     </>
   );
 }

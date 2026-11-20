@@ -53,6 +53,8 @@ import chat.mudrix.android.ui.SecondaryButton
 import chat.mudrix.android.ui.Spinner
 import chat.mudrix.android.ui.WizardTextField
 import chat.mudrix.android.ui.copyToClipboard
+import chat.mudrix.android.ui.isStreamerModeActive
+import chat.mudrix.android.ui.sensitive
 import chat.mudrix.android.ui.theme.theme
 import chat.mudrix.android.ui.theme.wizardFont
 import chat.mudrix.android.ui.tr
@@ -146,6 +148,7 @@ fun EncryptionSetupPrompts(state: EncryptionSetupState) {
 fun RecoveryKeyContent(recoveryKey: String, replaced: Boolean = false, onDone: () -> Unit) {
     val context = LocalContext.current
     var saved by remember { mutableStateOf(false) }
+    val streamerMode = isStreamerModeActive()
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -159,6 +162,7 @@ fun RecoveryKeyContent(recoveryKey: String, replaced: Boolean = false, onDone: (
                 recoveryKey,
                 Modifier
                     .fillMaxWidth()
+                    .sensitive()
                     .background(theme.fill, RoundedCornerShape(WZ.Radius.lg))
                     .padding(WZ.Space.space5),
                 style = wizardFont(WZ.FontSize.md).copy(fontFamily = FontFamily.Monospace),
@@ -166,18 +170,20 @@ fun RecoveryKeyContent(recoveryKey: String, replaced: Boolean = false, onDone: (
                 textAlign = TextAlign.Center,
             )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
-            SecondaryButton(tr("common.copy"), {
-                copyToClipboard(recoveryKey)
-                saved = true
-            }, Modifier.weight(1f))
-            SecondaryButton(tr("common.download"), {
-                val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, recoveryKey)
-                context.startActivity(Intent.createChooser(send, null))
-                saved = true
-            }, Modifier.weight(1f))
+        if (!streamerMode) {
+            Row(horizontalArrangement = Arrangement.spacedBy(WZ.Space.space4)) {
+                SecondaryButton(tr("common.copy"), {
+                    copyToClipboard(recoveryKey, sensitive = true)
+                    saved = true
+                }, Modifier.weight(1f))
+                SecondaryButton(tr("common.download"), {
+                    val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, recoveryKey)
+                    context.startActivity(Intent.createChooser(send, null))
+                    saved = true
+                }, Modifier.weight(1f))
+            }
         }
-        PrimaryButton(tr("settings.keyBackup.savedConfirmButton"), onDone, enabled = saved)
+        PrimaryButton(tr("settings.keyBackup.savedConfirmButton"), onDone, enabled = saved || streamerMode)
     }
 }
 

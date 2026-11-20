@@ -180,8 +180,8 @@ struct ThemeMenuRow: View {
 private struct ChatPreview: View {
     @EnvironmentObject private var session: MatrixSession
 
-    private static let otherId = "@merlin:example.org"
-    private static let otherName = "Merlin"
+    private static let otherId = "@muddy:example.org"
+    private static let otherName = "Muddy"
 
     var body: some View {
         let now = Date()

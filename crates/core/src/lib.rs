@@ -28,6 +28,7 @@ mod features;
 mod homeserver;
 mod key_export;
 mod key_recovery;
+mod link_embed;
 mod media_download;
 mod member_profile;
 mod net;
@@ -43,8 +44,12 @@ pub mod rpc;
 mod sections;
 mod session;
 mod settings;
+mod sound_packs;
+mod soundboard;
 mod spaces;
 mod timeline;
+#[cfg(not(target_arch = "wasm32"))]
+mod token_file;
 mod trust;
 mod widgets;
 
@@ -77,6 +82,9 @@ pub use features::{
 pub use homeserver::HomeserverSoftware;
 pub use key_export::KeyImportResult;
 pub use key_recovery::KeyRestoreProgress;
+pub use link_embed::{
+    link_embed, LinkEmbedBlock, LinkEmbedButton, LinkEmbedCard, LinkEmbedMedia, LinkEmbedMediaKind,
+};
 pub use media_download::DownloadProgress;
 pub use member_profile::RoomMemberProfile;
 pub use profile::{
@@ -98,6 +106,8 @@ pub use rooms::{
 pub use sections::RoomSection;
 pub use session::{Session, StoreConfig};
 pub use settings::{MentionRule, NotificationMode, NotificationPrefs};
+pub use sound_packs::{RoomSoundPacks, SoundPack, SoundPackSource};
+pub use soundboard::{soundboard_credits, SoundCredit, SoundboardSound};
 pub use spaces::SpaceHierarchy;
 pub use spaces::{SpaceChild, SpaceLink, SpaceNode, SpaceSummary};
 pub use timeline::{

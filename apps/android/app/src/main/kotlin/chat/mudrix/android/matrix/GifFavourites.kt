@@ -67,7 +67,9 @@ class GifFavourites private constructor() {
         val next = toggled(before, url)
         if (next == before) return
         urls = next
-        if (runCatching { client.setAccountData(TYPE, content(next)) }.isFailure) urls = before
+        if (runCatching { client.setAccountData(TYPE, content(next, contents[TYPE])) }.isFailure) {
+            urls = before
+        }
     }
 
     /** True when the old list needs no more work (moved, nothing to move, or already there) */
@@ -78,8 +80,8 @@ class GifFavourites private constructor() {
         val before = parse(current)
         val merged = sanitize(before + legacy)
         if (merged == before) return true
-        if (runCatching { client.setAccountData(TYPE, content(merged)) }.isFailure) return false
-        contents[TYPE] = content(merged)
+        if (runCatching { client.setAccountData(TYPE, content(merged, current)) }.isFailure) return false
+        contents[TYPE] = content(merged, current)
         urls = merged
         return true
     }
@@ -121,9 +123,22 @@ class GifFavourites private constructor() {
             return sanitize(listOf(url) + urls)
         }
 
-        /** The stored event for a list */
-        fun content(urls: List<String>): JsonObject = buildJsonObject {
-            put("urls", JsonArray(sanitize(urls).map(::JsonPrimitive)))
+        /**
+         * The stored event for a list. Fields this app does not know (the web keeps the encrypted file
+         * descriptor of an encrypted GIF under `files`) are copied through, with `files` pruned to the
+         * URLs that are still starred, so a toggle here does not drop them.
+         */
+        fun content(urls: List<String>, previous: JsonElement? = null): JsonObject {
+            val kept = sanitize(urls)
+            val base = previous as? JsonObject ?: JsonObject(emptyMap())
+            val files = (base["files"] as? JsonObject)?.filterKeys { it in kept }
+            return buildJsonObject {
+                for ((key, value) in base) {
+                    if (key != "urls" && key != "files") put(key, value)
+                }
+                put("urls", JsonArray(kept.map(::JsonPrimitive)))
+                if (!files.isNullOrEmpty()) put("files", JsonObject(files))
+            }
         }
 
         /** The list in a stored event */

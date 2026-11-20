@@ -2,9 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowsOutSimpleIcon, CodeIcon, DownloadSimpleIcon } from '@phosphor-icons/react';
 import type { MediaSource, MudrixClient } from '@mudrix/core';
+import { Button } from '@/app/components/Button';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Modal } from '@/app/components/Modal';
 import { formatFileSize } from '@/util/format';
+import { saveBlob } from '@/util/download';
 import * as css from '../Timeline.css';
 
 export type FilePreviewKind = 'pdf' | 'text';
@@ -13,6 +15,12 @@ const TEXT_EXT = /\.(md|markdown|txt|log|json|csv)$/i;
 const MAX_TEXT_BYTES = 2 * 1024 * 1024;
 // Above the lightbox and the other dialogs, so a preview opened from either sits on top.
 const PREVIEW_Z_INDEX = 8200;
+/** The five bytes every PDF starts with: "%PDF-". */
+const PDF_MAGIC = [0x25, 0x50, 0x44, 0x46, 0x2d] as const;
+
+function hasPdfMagic(bytes: Uint8Array): boolean {
+  return PDF_MAGIC.every((byte, i) => bytes[i] === byte);
+}
 
 /** Which in-app preview, if any, suits an attachment. */
 export function getFilePreviewKind(filename: string, mimetype?: string): FilePreviewKind | null {
@@ -30,21 +38,34 @@ interface Props {
 
 /** Previews a PDF (browser viewer) or a text/Markdown file without downloading it. */
 export function FilePreviewModal({ src, filename, kind, onClose }: Props) {
+  const { t } = useTranslation();
   const [text, setText] = useState<string | null>(null);
   const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+  const [pdfInvalid, setPdfInvalid] = useState(false);
 
   // The blob's MIME type comes from the uploader (server Content-Type), so a "PDF" served as
-  // text/html would run script in the app origin. Re-wrap the bytes as application/pdf and never
-  // hand the original blob URL to the iframe.
+  // text/html would run script in the app origin. Check the actual bytes, then re-wrap them as
+  // application/pdf and never hand the original blob URL to the iframe. A file that is not a
+  // PDF at all is not previewed; its bytes are offered for download instead.
   useEffect(() => {
     if (kind !== 'pdf') return undefined;
     let cancelled = false;
     let objectUrl: string | undefined;
     setPdfSrc(null);
+    setPdfBlob(null);
+    setPdfInvalid(false);
     fetch(src)
       .then((r) => r.blob())
-      .then((blob) => {
+      .then(async (blob) => {
         if (cancelled) return;
+        const head = new Uint8Array(await blob.slice(0, PDF_MAGIC.length).arrayBuffer());
+        if (cancelled) return;
+        if (!hasPdfMagic(head)) {
+          setPdfBlob(blob);
+          setPdfInvalid(true);
+          return;
+        }
         objectUrl = URL.createObjectURL(new Blob([blob], { type: 'application/pdf' }));
         setPdfSrc(objectUrl);
       })
@@ -75,7 +96,21 @@ export function FilePreviewModal({ src, filename, kind, onClose }: Props) {
   return (
     <Modal open onClose={onClose} title={filename} size="lg" zIndex={PREVIEW_Z_INDEX}>
       {kind === 'pdf' ? (
-        pdfSrc && <iframe src={pdfSrc} title={filename} className={css.filePreviewFrame} />
+        pdfSrc ? (
+          <iframe src={pdfSrc} title={filename} className={css.filePreviewFrame} sandbox="" />
+        ) : pdfInvalid ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '24px' }}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (pdfBlob) void saveBlob(pdfBlob, filename);
+              }}
+            >
+              <DownloadSimpleIcon size={16} />
+              {t('common.download')}
+            </Button>
+          </div>
+        ) : null
       ) : (
         <pre className={css.filePreviewText}>{text ?? ''}</pre>
       )}
@@ -194,11 +229,8 @@ export function TextFileCard({
     });
 
   const handleDownload = () =>
-    withFull((url) => {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
+    withFull(async (url) => {
+      await saveBlob(await (await fetch(url)).blob(), filename);
     });
 
   return (

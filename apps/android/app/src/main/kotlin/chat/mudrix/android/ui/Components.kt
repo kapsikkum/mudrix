@@ -1,9 +1,14 @@
 package chat.mudrix.android.ui
 
 import android.content.ClipData
+import android.content.ClipDescription
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.os.PersistableBundle
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -388,10 +393,48 @@ object CopyToast {
     internal val stamp get() = shownAt
 }
 
-fun copyToClipboard(text: String, message: String = L10n.format("common.copied")) {
+/** Marks the clipboard entries this app writes, so its own timer only ever clears its own secret */
+private const val CLIP_LABEL = "Mudrix"
+
+/** How long a secret may stay on the clipboard before it is cleared */
+private const val SECRET_CLIP_LIFETIME_MS = 60_000L
+
+/** Every copy replaces the previous one; an older timer must not clear a newer clip */
+private var clipboardGeneration = 0
+
+/**
+ * Puts [text] on the clipboard. A secret is flagged [ClipDescription.EXTRA_IS_SENSITIVE] (so the
+ * system can hide it from previews) and cleared after a minute, unless something else has been
+ * copied since; a non-secret copy cancels that pending clear.
+ */
+fun copyToClipboard(text: String, message: String = L10n.format("common.copied"), sensitive: Boolean = false) {
     val clipboard = MudrixApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    clipboard.setPrimaryClip(ClipData.newPlainText(null, text))
+    val clip = ClipData.newPlainText(CLIP_LABEL, text)
+    if (sensitive) {
+        clip.description.extras = PersistableBundle().apply {
+            putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
+        }
+    }
+    clipboard.setPrimaryClip(clip)
+    val generation = ++clipboardGeneration
+    if (sensitive) {
+        Handler(Looper.getMainLooper()).postDelayed({ clearClipboardIfOurs(clipboard, generation) }, SECRET_CLIP_LIFETIME_MS)
+    }
     CopyToast.show(message)
+}
+
+/** Clears the clipboard only if the clip is still the one this app wrote for [generation] */
+private fun clearClipboardIfOurs(clipboard: ClipboardManager, generation: Int) {
+    if (generation != clipboardGeneration) return
+    val current = runCatching { clipboard.primaryClip }.getOrNull() ?: return
+    if (current.description?.label?.toString() != CLIP_LABEL) return
+    runCatching {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            clipboard.clearPrimaryClip()
+        } else {
+            clipboard.setPrimaryClip(ClipData.newPlainText("", ""))
+        }
+    }
 }
 
 @Composable

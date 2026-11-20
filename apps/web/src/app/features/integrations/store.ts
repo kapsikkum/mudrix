@@ -18,30 +18,56 @@ import {
   type StoredSettings,
 } from './settings';
 import type { GrantMap, InstalledIntegration, RepositoryRecord } from './types';
+import { accountStorageKey, getStoredUserId } from '@/const/accountStorage';
 
 export { permissionsWidened } from './permissions';
 
+/**
+ * The active account's key for `key`. Repositories, installations, grants and settings are one
+ * person's own: two accounts on this device must not see or change each other's. A value saved
+ * before that separation is moved to the current account's key once, when the scoped key is
+ * still absent, so the account that upgrades keeps its setup; every other account starts clean.
+ */
+function scopedKey(key: string): string {
+  const scoped = accountStorageKey(key);
+  try {
+    // The welcome page has no account to hand the old shared value to: leave it for the first
+    // account that signs in and reads these keys.
+    if (getStoredUserId() && localStorage.getItem(scoped) === null) {
+      const legacy = localStorage.getItem(key);
+      if (legacy !== null) {
+        localStorage.setItem(scoped, legacy);
+        localStorage.removeItem(key);
+      }
+    }
+  } catch {
+    /* storage unavailable: nothing to migrate */
+  }
+  return scoped;
+}
+
 // Everything lives on this device only, in localStorage. Failures (private mode, quota) must
-// never break the app, so every access is guarded. The keys keep Mudrix's names: a Mudrix profile
-// on the same origin keeps its repositories and installed integrations.
+// never break the app, so every access is guarded. The keys keep Mudrix's names, with the
+// account added by scopedKey: a Mudrix profile on the same origin keeps its repositories and
+// installed integrations.
 const safeStorage = {
   getItem: (key: string): string | null => {
     try {
-      return localStorage.getItem(key);
+      return localStorage.getItem(scopedKey(key));
     } catch {
       return null;
     }
   },
   setItem: (key: string, value: string): void => {
     try {
-      localStorage.setItem(key, value);
+      localStorage.setItem(scopedKey(key), value);
     } catch {
       /* storage unavailable or full: keep working in memory */
     }
   },
   removeItem: (key: string): void => {
     try {
-      localStorage.removeItem(key);
+      localStorage.removeItem(scopedKey(key));
     } catch {
       /* ignore */
     }
@@ -62,7 +88,7 @@ function persisted<T>(key: string, initial: T) {
 /**
  * Repositories saved before signatures existed have no pinned key and cannot be trusted: drop
  * them and mark what was installed from them as having lost its source (it keeps working).
- * Runs once, before the persisted atoms read their storage.
+ * Runs once, on the active account's copy, before the persisted atoms read their storage.
  */
 function dropUnpinnedRepositories(): void {
   try {

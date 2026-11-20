@@ -32,6 +32,9 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
   ['privacy', 'settings.privacy.sendReadReceipts', 'settings.privacy.sendReadReceiptsNote'],
   ['privacy', 'settings.privacy.mediaVisibility'],
   ['privacy', 'settings.privacy.blockInvites', 'settings.privacy.blockInvitesNote'],
+  ['media', 'settings.media.linkEmbeds.title', 'settings.media.linkEmbeds.note'],
+  ['media', 'settings.media.linkEmbeds.title', 'settings.media.linkEmbeds.via'],
+  ['media', 'settings.media.linkEmbeds.title', 'settings.media.linkEmbeds.desc.youtube'],
   ['privacy', 'settings.privacy.ignoredUsers'],
 
   [
@@ -76,7 +79,21 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
   ['voice-video', 'settings.voiceVideo.inputMode'],
   ['voice-video', 'settings.voiceVideo.pushToTalkKey'],
   ['voice-video', 'settings.voiceVideo.sounds'],
+  ['voice-video', 'settings.voice.noiseSuppression', 'settings.voice.noiseSuppressionNote'],
+  ['voice-video', 'settings.voice.echoCancellation', 'settings.voice.echoCancellationNote'],
+  ['voice-video', 'settings.voice.autoGainControl', 'settings.voice.autoGainControlNote'],
+  ['voice-video', 'settings.voice.hearYourself', 'settings.voice.hearYourselfNote'],
+  ['voice-video', 'settings.voice.playTestSound'],
+  ['voice-video', 'settings.voice.callTitle'],
+  ['voice-video', 'settings.voice.showReactions', 'settings.voice.showReactionsNote'],
+  ['voice-video', 'settings.voice.allowMoves', 'settings.voice.allowMovesNote'],
+  ['voice-video', 'settings.voice.soundsTitle', 'settings.voice.soundsNote'],
+  ['soundboard', 'settings.voice.soundboardTitle', 'settings.voice.soundboardEnableNote'],
   ...SOUNDS.map((id): SettingsIndexEntry => ['voice-video', `settings.voiceVideo.sound.${id}`]),
+
+  ['soundboard', 'settings.soundboard.defaultPack', 'settings.soundboard.defaultPackNote'],
+  ['soundboard', 'settings.soundboard.favoritePacks', 'settings.soundboard.favoritePacksNote'],
+  ['soundboard', 'settings.soundboard.packName', 'settings.soundboard.sounds'],
 
   ['appearance', 'settings.appearance.theme'],
   ['appearance', 'settings.appearance.messageLayout'],
@@ -117,6 +134,11 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
 
   ['sessions', 'settings.sessions.currentDevice'],
   ['sessions', 'settings.sessions.yourDevices', 'settings.sessions.devicesDescription'],
+
+  ['desktop', 'settings.desktop.launchAtLogin', 'settings.desktop.launchAtLoginNote'],
+  ['desktop', 'settings.desktop.startMinimized', 'settings.desktop.startMinimizedNote'],
+  ['desktop', 'settings.desktop.closeToTray', 'settings.desktop.closeToTrayNote'],
+  ['desktop', 'settings.desktop.muteNotifications', 'settings.desktop.muteNotificationsNote'],
 
   ['encryption', 'settings.encryption.endToEnd'],
   ['encryption', 'settings.encryption.excludeInsecure', 'settings.encryption.excludeInsecureNote'],

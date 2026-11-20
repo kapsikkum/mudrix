@@ -55,12 +55,12 @@ import chat.mudrix.tokens.WZ
 /** Which board a clip belongs to */
 sealed interface BoardTarget {
     data object Personal : BoardTarget
-    data class Room(val roomId: String) : BoardTarget
+    data class Room(val roomId: String, val stateKey: String = "") : BoardTarget
 }
 
 private class PickedSound(val uri: Uri, val mimetype: String, val durationMs: Long, val size: Long, val fileName: String)
 
-/** Adding a clip to a board, or changing or deleting one of its clips (volume, name, emoji, file) */
+/** Adding a clip to a pack, or changing or deleting one of its clips (name, emoji, file) */
 @Composable
 fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss: () -> Unit, onChanged: () -> Unit) {
     val session = LocalSession.current
@@ -69,7 +69,6 @@ fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss:
     var picked by remember { mutableStateOf<PickedSound?>(null) }
     var name by remember { mutableStateOf(existing?.name.orEmpty()) }
     var emoji by remember { mutableStateOf(existing?.emoji.orEmpty()) }
-    var volume by remember { mutableFloatStateOf(existing?.volume ?: 1f) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var confirmDelete by remember { mutableStateOf(false) }
@@ -106,31 +105,44 @@ fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss:
                 setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build())
                 runCatching {
                     setDataSource(context, current.uri)
-                    setVolume(volume, volume)
+                    setVolume(1f, 1f)
                     prepare()
                     start()
                 }
             }
         } else if (existing != null) {
-            session.client?.let { Soundboard.preview(it, Soundboard.toClip(existing.copy(volume = volume))) }
+            session.client?.let { Soundboard.preview(it, Soundboard.toClip(existing)) }
         }
     }
 
     fun save(action: suspend (client: chat.mudrix.core.MudrixClient, board: List<SoundboardSound>) -> List<SoundboardSound>) {
         val client = session.client ?: return
-        val me = session.userId.orEmpty()
         scope.launch {
             busy = true
             error = null
             try {
-                val current = when (target) {
-                    BoardTarget.Personal -> Soundboard.personalBoard(client)
-                    is BoardTarget.Room -> RoomSoundboards.load(client, target.roomId, force = true).board
-                }
-                val next = action(client, current)
                 when (target) {
-                    BoardTarget.Personal -> SoundboardEdit.writePersonal(client, next)
-                    is BoardTarget.Room -> SoundboardEdit.writeRoom(client, target.roomId, me, next)
+                    BoardTarget.Personal -> {
+                        val pack = runCatching { client.mySounds() }.getOrNull()
+                        val current = pack?.sounds?.map(Soundboard::toSound).orEmpty()
+                        val next = action(client, current)
+                        SoundboardEdit.savePersonal(client, pack, next)
+                    }
+                    is BoardTarget.Room -> {
+                        val packs = runCatching { client.roomSoundPacks(target.roomId) }.getOrNull()?.packs.orEmpty()
+                        val pack = packs.firstOrNull { it.stateKey == target.stateKey } ?: packs.firstOrNull()
+                        if (pack?.canEdit == false) throw SoundboardEdit.Failure(SoundboardEdit.Problem.Forbidden)
+                        val current = pack?.sounds?.map(Soundboard::toSound).orEmpty()
+                        val next = action(client, current)
+                        SoundboardEdit.saveRoom(
+                            client,
+                            target.roomId,
+                            pack?.stateKey ?: target.stateKey,
+                            pack?.name.orEmpty(),
+                            pack?.attribution,
+                            next,
+                        )
+                    }
                 }
                 onChanged()
                 onDismiss()
@@ -150,13 +162,13 @@ fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss:
             val chosen = file ?: throw SoundboardEdit.Failure(SoundboardEdit.Problem.Type, L10n.format("soundboard.panel.chooseFirst"))
             val bytes = withContext(Dispatchers.IO) { context.contentResolver.openInputStream(chosen.uri)?.use { it.readBytes() } }
                 ?: throw SoundboardEdit.Failure(SoundboardEdit.Problem.Decode)
-            SoundboardEdit.added(board, SoundboardEdit.upload(client, bytes, chosen.mimetype, chosen.durationMs, name, emoji, volume))
+            SoundboardEdit.added(board, SoundboardEdit.upload(client, bytes, chosen.mimetype, chosen.durationMs, name, emoji))
         } else {
-            var updated = existing.copy(name = SoundboardEdit.cleanName(name).ifEmpty { existing.name }, emoji = SoundboardEdit.cleanEmoji(emoji), volume = volume)
+            var updated = existing.copy(name = SoundboardEdit.cleanName(name).ifEmpty { existing.name }, emoji = SoundboardEdit.cleanEmoji(emoji), volume = 1f)
             if (file != null) {
                 val bytes = withContext(Dispatchers.IO) { context.contentResolver.openInputStream(file.uri)?.use { it.readBytes() } }
                     ?: throw SoundboardEdit.Failure(SoundboardEdit.Problem.Decode)
-                val fresh = SoundboardEdit.upload(client, bytes, file.mimetype, file.durationMs, updated.name, updated.emoji, volume)
+                val fresh = SoundboardEdit.upload(client, bytes, file.mimetype, file.durationMs, updated.name, updated.emoji)
                 updated = updated.copy(url = fresh.url, mimetype = fresh.mimetype, durationMs = fresh.durationMs, size = fresh.size)
             }
             SoundboardEdit.replaced(board, updated)
@@ -200,19 +212,6 @@ fun SoundEditorSheet(target: BoardTarget, existing: SoundboardSound?, onDismiss:
                     FormField(name, { name = it.take(Soundboard.MAX_NAME_LENGTH) }, tr("soundboard.panel.name"))
                     RowDivider()
                     FormField(emoji, { emoji = it.take(16) }, tr("soundboard.panel.emoji"), plain = true)
-                    RowDivider()
-                    Column(Modifier.fillMaxWidth().padding(horizontal = WZ.Space.space5, vertical = WZ.Space.space3)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(tr("soundboard.panel.volume"), Modifier.weight(1f), style = wizardFont(WZ.FontSize.md, FontWeight.Medium), color = theme.textPrimary)
-                            Text("${Math.round(volume * 100)}%", style = wizardFont(WZ.FontSize.md), color = theme.textMuted)
-                        }
-                        Slider(
-                            value = volume,
-                            onValueChange = { volume = it },
-                            valueRange = 0f..1f,
-                            colors = SliderDefaults.colors(thumbColor = theme.accent, activeTrackColor = theme.accent, inactiveTrackColor = theme.fill),
-                        )
-                    }
                 }
             }
             if (existing != null) {

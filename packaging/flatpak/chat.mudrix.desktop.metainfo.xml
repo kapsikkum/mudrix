@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>chat.mudrix.desktop</id>
+  <name>Mudrix</name>
+  <summary>Simple, secure, magical Matrix client</summary>
+
+  <developer id="chat.mudrix">
+    <name>kapsikkum</name>
+  </developer>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0-only</project_license>
+
+  <description>
+    <p>
+      Mudrix is a Matrix client: end-to-end encrypted chat, direct messages and Spaces, threads and
+      reactions, voice and video calls with screen sharing, files, images, video and multiple accounts.
+    </p>
+    <p>
+      This Flatpak installs the desktop build, a Tauri app whose web UI and Rust core are bundled into
+      one binary.
+    </p>
+    <ul>
+      <li>End-to-end encryption with device verification and key backup</li>
+      <li>Direct messages, Spaces, threads, replies and reactions</li>
+      <li>Voice and video calls with screen sharing</li>
+      <li>Files, images, video, voice messages, polls and location sharing</li>
+      <li>Sign in with SSO, OAuth or a QR code, and multiple accounts</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">chat.mudrix.desktop.desktop</launchable>
+
+  <url type="homepage">https://github.com/kapsikkum/mudrix</url>
+  <url type="bugtracker">https://github.com/kapsikkum/mudrix/issues</url>
+  <url type="vcs-browser">https://github.com/kapsikkum/mudrix</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>A conversation</caption>
+      <image>https://raw.githubusercontent.com/kapsikkum/mudrix/main/docs/screenshots/web-room.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Direct messages</caption>
+      <image>https://raw.githubusercontent.com/kapsikkum/mudrix/main/docs/screenshots/web-direct-messages.png</image>
+    </screenshot>
+  </screenshots>
+
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+  </categories>
+
+  <keywords>
+    <keyword>matrix</keyword>
+    <keyword>chat</keyword>
+    <keyword>messaging</keyword>
+    <keyword>encryption</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-info">mild</content_attribute>
+  </content_rating>
+
+  <!-- CI rewrites the release version from package.json when it stages the metainfo. -->
+  <releases>
+    <release version="26.12.4" date="2026-11-20"/>
+  </releases>
+</component>

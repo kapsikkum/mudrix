@@ -1,0 +1,61 @@
+# Flatpak manifest for the prebuilt Linux Tauri binary. CI (.github/workflows/flatpak.yml) builds the
+# desktop app on ubuntu-latest, stages the binary, desktop file, metainfo and icons in
+# packaging/flatpak/stage, and runs flatpak-builder on this file. Nothing is compiled here: a
+# from-source Tauri build would need the whole Rust and Node toolchain inside the SDK.
+#
+# Runtime: GNOME 51, the current stable branch. Tauri v2 needs webkit2gtk-4.1, and the GNOME runtime
+# has shipped it since GNOME 45 (elements/sdk/webkit2gtk-4.1.bst: libwebkit2gtk-4.1.so). GNOME 46 is
+# end-of-life, 48 went EOL in March 2026 and 49 in September 2026, so a newer branch is used; its
+# freedesktop-sdk base also has a newer glibc than the Ubuntu 24.04 runner that builds the binary.
+app-id: chat.mudrix.desktop
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: mudrix-desktop
+separate-locales: false
+
+finish-args:
+  # Matrix sync, media and the webview's connections.
+  - --share=network
+  # WebKitGTK renders in a separate process.
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  # WebKitGTK's GPU rendering.
+  - --device=dri
+  # Voice and video calls, voice messages and in-app sounds.
+  - --socket=pulseaudio
+  # Attachments: the file dialog and drag and drop read and save in the user's own folders.
+  - --filesystem=xdg-download
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --filesystem=xdg-documents
+  # Notifications, file dialogs/URI opening (portals) and the Matrix session's secret storage.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.freedesktop.portal.Desktop
+  - --talk-name=org.freedesktop.secrets
+  # The app's own D-Bus name; the single-instance plugin owns a name under it on Linux.
+  - --own-name=chat.mudrix.desktop
+  # The tray icon registers with the StatusNotifier watcher. GNOME needs the AppIndicator
+  # extension to show it, but the permission must be there for any StatusNotifier host.
+  - --talk-name=org.kde.StatusNotifierWatcher
+
+modules:
+  # Tauri's tray backend dlopens libayatana-appindicator3 at startup and panics without it.
+  # The GNOME runtime does not ship it, so the standard Flathub shared module is built in.
+  # CI downloads flathub/shared-modules at the pinned commit (see .github/workflows/flatpak.yml).
+  - shared-modules/libayatana-appindicator/libayatana-appindicator-gtk3.json
+  - name: mudrix-desktop
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 mudrix-desktop /app/bin/mudrix-desktop
+      - install -Dm644 chat.mudrix.desktop.desktop /app/share/applications/chat.mudrix.desktop.desktop
+      - install -Dm644 chat.mudrix.desktop.metainfo.xml /app/share/metainfo/chat.mudrix.desktop.metainfo.xml
+      - install -Dm644 icons/32x32.png /app/share/icons/hicolor/32x32/apps/chat.mudrix.desktop.png
+      - install -Dm644 icons/128x128.png /app/share/icons/hicolor/128x128/apps/chat.mudrix.desktop.png
+      - install -Dm644 icons/256x256.png /app/share/icons/hicolor/256x256/apps/chat.mudrix.desktop.png
+      - install -Dm644 icons/512x512.png /app/share/icons/hicolor/512x512/apps/chat.mudrix.desktop.png
+    sources:
+      # Built by the workflow: target/release/mudrix-desktop plus the desktop file, metainfo and icons.
+      - type: dir
+        path: stage

@@ -4,7 +4,7 @@ import { XIcon, StickerIcon } from '@phosphor-icons/react';
 import type { MudrixClient as MatrixClient } from '@mudrix/core';
 import { useRoomNames } from './roomNames';
 import {
-  useFavoritePacks,
+  useFavoritePackList,
   saveFavoritePacks,
   packKindOf,
   type PackKind,
@@ -12,7 +12,7 @@ import {
 } from '@/app/hooks/useUserPacks';
 import { useToast } from '@/app/hooks/useToast';
 import { getErrorMessage } from '@/util/error';
-import { IconButton } from '@/app/components/Button';
+import { IconButton, Button } from '@/app/components/Button';
 import { FavoritePacksSelect } from './SelectFavoritePacksModal';
 import * as css from './EmojisStickers.css';
 import * as panelCss from '@/app/components/Settings/Settings.css';
@@ -31,7 +31,8 @@ interface Props {
 export function FavoritePacks({ client, kind = 'emoji', title, note, empty }: Props) {
   const { t } = useTranslation();
   const toast = useToast();
-  const allFavorites = useFavoritePacks(client);
+  const favoriteList = useFavoritePackList(client);
+  const allFavorites = useMemo(() => favoriteList.data.map((p) => p.summary), [favoriteList.data]);
   const favoritePacks = useMemo(
     () => allFavorites.filter((f) => packKindOf(f.usage) === kind),
     [allFavorites, kind]
@@ -125,9 +126,21 @@ export function FavoritePacks({ client, kind = 'emoji', title, note, empty }: Pr
       </div>
 
       <div style={{ marginTop: 12 }}>
-        {favoritePacks.length === 0 ? (
+        {favoriteList.error ? (
+          <div
+            className={css.emptyPacks}
+            style={{ display: 'grid', gap: 8, justifyItems: 'center' }}
+          >
+            {t('settings.emojisStickers.packsLoadFailed')}
+            <Button variant="secondary" size="sm" onClick={favoriteList.retry}>
+              {t('common.retry')}
+            </Button>
+          </div>
+        ) : favoritePacks.length === 0 ? (
           <div className={css.emptyPacks}>
-            {empty ?? t('settings.emojisStickers.noFavoritePacks')}
+            {favoriteList.loading
+              ? t('common.loading')
+              : (empty ?? t('settings.emojisStickers.noFavoritePacks'))}
           </div>
         ) : (
           <div className={css.packList}>{favoritePacks.map(renderPack)}</div>

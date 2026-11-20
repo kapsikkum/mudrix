@@ -43,7 +43,7 @@ export function SoundboardSection() {
       emoji: sample.emoji,
       url: sample.url,
       mimetype: sample.mimetype,
-      volume: volume / 100,
+      volume: 1,
       durationMs: sample.durationMs,
     });
   };

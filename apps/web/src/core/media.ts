@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MudrixClient, type MediaSource } from '@mudrix/core';
+import { saveBlob } from '@/util/download';
 import { getSafeMimeType } from '@/util/safeMimeType';
 
 const cache = new Map<string, Promise<string | null>>();
@@ -75,8 +76,5 @@ export async function downloadMedia(
 ) {
   const url = await load(`${JSON.stringify(source)}@full`, () => client.media(source), mimetype);
   if (!url) return;
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
+  await saveBlob(await (await fetch(url)).blob(), filename);
 }

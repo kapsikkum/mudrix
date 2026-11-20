@@ -260,6 +260,7 @@ export type SettingsPage =
   | 'privacy'
   | 'notifications'
   | 'voice-video'
+  | 'soundboard'
   | 'emojis-stickers'
   | 'cosmetics'
   | 'integrations'
@@ -270,6 +271,7 @@ export type SettingsPage =
   | 'language'
   | 'developer'
   | 'sessions'
+  | 'desktop'
   | 'encryption'
   | 'about';
 export const settingsPageAtom = atom<SettingsPage | null>(null);

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <cache-path name="cache" path="." />
+    <!-- Decrypted attachments and thumbnails, which "open with" and "share" hand to other apps -->
+    <cache-path name="media" path="media" />
+    <!-- Files another app shared into Mudrix, and the composer's camera capture (ComposerView) -->
+    <cache-path name="share" path="share" />
 </paths>

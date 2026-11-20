@@ -1,7 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { med } from '@/theme/animations.css';
-import { PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
+import { PANEL_OVERLAY_QUERY, SIDE_PANEL_OVERLAY_QUERY, TABLET_QUERY } from '@/const/breakpoints';
 import { TITLE_BAR_HEIGHT } from '@/app/components/TitleBar/TitleBar.css';
 import { spacesList } from './SpacesList.css';
 import { bottomDock, roomList } from './RoomListPanel.css';
@@ -125,7 +125,7 @@ export const panelDrawerOverlay = style({
 export const membersDrawerOverlay = style({
   display: 'none',
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,
@@ -138,7 +138,7 @@ export const membersDrawerOverlay = style({
 export const drawerOverlay = style({
   display: 'none',
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       display: 'block',
       position: 'fixed',
       inset: 0,

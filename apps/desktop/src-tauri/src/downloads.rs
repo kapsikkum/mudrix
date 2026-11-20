@@ -1,7 +1,11 @@
-//! Saving downloads: webview `<a download>` links do nothing in the shell, so the web app hands
-//! the bytes over (`window.desktopAPI.saveDownload`) and they land in the Downloads folder.
+//! Saving downloads: webview `<a download>` links do nothing in the shell (and several of them
+//! in a row make WebView2 ask to "download multiple files"), so the web app hands the bytes over
+//! (`window.desktopAPI.saveDownload` for one file, `saveFiles` for a save-all action) and they
+//! are written to disk here.
 
+use base64::Engine as _;
 use tauri::{AppHandle, Manager};
+use tauri_plugin_dialog::DialogExt;
 
 /// Keeps a file name safe to create: no directories, no characters Windows rejects.
 fn sanitize_file_name(raw: &str) -> String {
@@ -111,6 +115,49 @@ pub fn save_download(app: AppHandle, request: tauri::ipc::Request<'_>) -> Result
     #[cfg(windows)]
     mark_downloaded(&path);
     Ok(path.to_string_lossy().into_owned())
+}
+
+/// One file of a save-all action: the name to save it under and its bytes, base64 (the IPC is
+/// JSON).
+#[derive(serde::Deserialize)]
+pub struct SaveFile {
+    pub filename: String,
+    /// Standard base64, padding included.
+    pub data: String,
+}
+
+/// Saves several files from one action (a whole gallery, say). Asks once for a folder and writes
+/// them all there, so the shell never has to open a dialog per file. Returns the saved paths, or
+/// `None` when the user cancelled the folder dialog.
+#[tauri::command]
+pub async fn save_files(
+    app: AppHandle,
+    files: Vec<SaveFile>,
+) -> Result<Option<Vec<String>>, String> {
+    if files.is_empty() {
+        return Ok(Some(Vec::new()));
+    }
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    app.dialog().file().pick_folder(move |path| {
+        let _ = tx.send(path);
+    });
+    let Some(folder) = rx.await.map_err(|e| e.to_string())? else {
+        return Ok(None);
+    };
+    let dir = folder.into_path().map_err(|e| e.to_string())?;
+    std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    let mut saved = Vec::with_capacity(files.len());
+    for file in files {
+        let bytes = base64::engine::general_purpose::STANDARD
+            .decode(file.data.as_bytes())
+            .map_err(|e| format!("bad file data: {e}"))?;
+        let path = unique_path(&dir, &sanitize_file_name(&file.filename));
+        std::fs::write(&path, bytes).map_err(|e| e.to_string())?;
+        #[cfg(windows)]
+        mark_downloaded(&path);
+        saved.push(path.to_string_lossy().into_owned());
+    }
+    Ok(Some(saved))
 }
 
 /// Minimal `%XX` decoder for the file name header (invalid sequences are kept as they are).

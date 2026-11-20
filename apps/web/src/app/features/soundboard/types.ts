@@ -1,18 +1,24 @@
 /**
- * Soundboard data model.
+ * Soundboard data model for the web.
  *
- * A soundboard press is sent to the call as `io.github.kapsikkum.mudrix.soundboard.play` (a Matrix
- * event in the call's room, and the same payload on the call's data channel). Every receiving
- * client plays the clip locally; it is never mixed into the sender's microphone, so each listener
- * can silence it separately from voice.
+ * Packs live in the core: a person's sounds are account data, a room's or space's sounds are
+ * `moe.crafty.room_soundboard` state events, and built-ins come from the core's own pack. A press
+ * travels over the call as `{ url, shortcode, emoji }` on `moe.crafty.soundboard`; every receiving
+ * client plays the clip locally, so it is never mixed into the sender's microphone and each
+ * listener can silence it separately from voice.
+ *
+ * The old Mudrix event types below are still read and written for compatibility: room settings are
+ * ours (`soundboard.settings`), and 26.12.4 clients still hear presses on `soundboard.play`.
  */
 import { mudrixKey } from '@/util/namespace';
 
-/** Account data (personal board) and room state, state_key '' (room or space board). */
-export const SOUNDBOARD_DATA_TYPE = mudrixKey('soundboard');
 /** Room state, state_key '': `{ enabled, minPowerLevel }`. */
 export const SOUNDBOARD_SETTINGS_TYPE = mudrixKey('soundboard.settings');
-/** Event (and data channel topic) sent to the call when a clip is played. */
+/** Where pre-MSC4577 Mudrix kept a room's board; the core migrates it and still reads it. */
+export const SOUNDBOARD_DATA_TYPE = mudrixKey('soundboard');
+/** The standard room pack state event. */
+export const SOUNDBOARD_PACK_TYPE = 'moe.crafty.room_soundboard';
+/** Event (and data channel topic) Mudrix up to 26.12.4 used for a press. */
 export const SOUNDBOARD_PLAY_EVENT_TYPE = mudrixKey('soundboard.play');
 
 export const SOUNDBOARD_MAX_DURATION_MS = 5000;
@@ -21,27 +27,22 @@ export const SOUNDBOARD_MAX_SIZE_BYTES = 512 * 1024;
 export const SOUNDBOARD_MAX_SOUNDS = 32;
 export const SOUNDBOARD_MAX_NAME_LENGTH = 32;
 
-/** Normalised mimetypes a clip may have. */
-export const SOUNDBOARD_MIMETYPES = ['audio/mpeg', 'audio/ogg', 'audio/wav'] as const;
+/**
+ * Every format a clip may have. `ogg` only appears in clips made by older Mudrix versions; the
+ * core's uploader accepts the others.
+ */
+export const SOUNDBOARD_MIMETYPES = [
+  'audio/mpeg',
+  'audio/mp4',
+  'audio/x-m4a',
+  'audio/aac',
+  'audio/wav',
+  'audio/ogg',
+] as const;
 export type SoundboardMimetype = (typeof SOUNDBOARD_MIMETYPES)[number];
 
 /** Power level that "moderators only" means. */
 export const SOUNDBOARD_MODERATOR_LEVEL = 50;
-
-/** A custom clip: stored in account data (personal) or room state (room/space). */
-export interface SoundboardSound {
-  /** Unique within its board. */
-  id: string;
-  name: string;
-  emoji?: string;
-  /** mxc:// URI of the uploaded file. */
-  url: string;
-  mimetype: SoundboardMimetype;
-  durationMs: number;
-  size: number;
-  /** 0..1, the clip's own gain. */
-  volume: number;
-}
 
 /** A bundled clip (see `builtIn.ts`). */
 export interface BuiltInSound {
@@ -60,40 +61,33 @@ export interface BuiltInSound {
 export type SoundboardSource = 'builtIn' | 'personal' | 'room';
 
 /**
- * One clip as the UI lists and plays it, whichever board it came from.
- * For built-in clips `url` is the bundled file's http URL, `size` is 0 and `volume` is 1.
- * For custom clips `url` is the mxc:// URI.
+ * One clip as the UI lists and plays it, whichever pack it came from. `id` is the standard
+ * shortcode, which is unique within its pack; `url` is the mxc:// URI of the uploaded file.
  */
-export interface SoundboardClip extends Omit<SoundboardSound, 'emoji' | 'mimetype'> {
+export interface SoundboardClip {
+  id: string;
+  name: string;
   emoji?: string;
+  /** mxc:// URI of the uploaded file (built-ins included). */
+  url: string;
   mimetype: SoundboardMimetype;
+  durationMs: number;
+  size: number;
   source: SoundboardSource;
-  /** For 'room' clips: the room or space whose board holds the clip (needed to edit or remove it). */
+  /** For 'room' clips: the room or space whose pack holds the clip. */
   originRoomId?: string;
+  /** The standard pack's state key, needed to save an edit or a removal back to it. */
+  packStateKey?: string;
+  /** The pack's own name and attribution, kept when the pack is written again. */
+  packName?: string;
+  packAttribution?: string;
   /** Built-in clips only: credit shown in the UI. */
   license?: string;
   author?: string;
   sourceUrl?: string;
 }
 
-/** Content of a `io.github.kapsikkum.mudrix.soundboard.play` event. */
-export interface SoundboardPlayContent {
-  sound: {
-    id: string;
-    name: string;
-    emoji?: string;
-    /** 0..1 */
-    volume: number;
-    /** True for a bundled clip: receivers resolve it from their own catalogue by `id`. */
-    builtin?: boolean;
-    /** mxc:// URI, for custom clips. */
-    url?: string;
-    mimetype?: string;
-    durationMs?: number;
-  };
-}
-
-/** Room/space `io.github.kapsikkum.mudrix.soundboard.settings` state. */
+/** Room/space `soundboard.settings` state. */
 export interface SoundboardRoomSettings {
   enabled: boolean;
   /** 0 = everyone, 50 = moderators and up. */

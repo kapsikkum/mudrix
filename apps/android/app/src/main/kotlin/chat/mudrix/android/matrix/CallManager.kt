@@ -370,7 +370,7 @@ class CallManager {
 
     private var soundboardEvents: Subscription? = null
 
-    /** The soundboard hears the call's data channel and, for clients that cannot send there, room events */
+    /** The soundboard hears the call's data channel (MSC4577 and the old Mudrix topic) and old room events */
     private fun startSoundboard(client: MudrixClient, roomId: String) {
         val userId = client.userId ?: return
         Soundboard.reset()
@@ -380,10 +380,7 @@ class CallManager {
             userId,
             inCall = { id -> participants.any { it.connected && it.userId == id } },
             deafened = { deafened },
-            send = { content ->
-                sendData(content, Soundboard.PLAY_TYPE)
-                scope.launch { runCatching { client.sendEvent(roomId, Soundboard.PLAY_TYPE, content) } }
-            },
+            send = { content, topic -> sendData(content, topic) },
         )
         val startedAt = System.currentTimeMillis()
         soundboardEvents?.cancel()
@@ -395,11 +392,10 @@ class CallManager {
         }
     }
 
-    private fun receiveSoundboard(identity: String, data: ByteArray) {
+    private fun receiveSoundboard(identity: String, topic: String, data: ByteArray) {
         val roomId = room?.id ?: return
         val sender = participants.firstOrNull { it.identity == identity }?.userId ?: return
-        val content = runCatching { kotlinx.serialization.json.Json.parseToJsonElement(data.decodeToString()) }.getOrNull()
-        Soundboard.receive(roomId, sender, content, fromRoom = false)
+        Soundboard.receive(roomId, sender, topic, data)
     }
 
     private fun tearDown() {
@@ -913,7 +909,10 @@ class CallManager {
             is RoomEvent.DataReceived -> {
                 val identity = event.participant?.identity?.value ?: ""
                 if (event.topic in WatchTogether.TOPICS) watch?.receive(event.data, identity)
-                if (event.topic == Soundboard.PLAY_TYPE) receiveSoundboard(identity, event.data)
+                val topic = event.topic
+                if (topic != null && (topic == Soundboard.TOPIC || topic in Soundboard.PLAY_TYPES)) {
+                    receiveSoundboard(identity, topic, event.data)
+                }
             }
             is RoomEvent.TrackE2EEStateEvent -> {
                 val identity = event.participant?.identity?.value ?: return

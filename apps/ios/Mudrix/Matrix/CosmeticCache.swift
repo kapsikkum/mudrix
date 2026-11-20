@@ -169,12 +169,15 @@ enum CosmeticPackLibrary {
         visibleAt = nil
     }
 
-    /// Every cosmetic pack in the rooms the account is in, for the subscription picker
+    /// Every cosmetic pack in the rooms and spaces the account is in, for the subscription picker
     static func availablePacks(session: MatrixSession) async -> [CosmeticPack] {
-        guard let rooms = session.roomList?.allJoinedRooms else { return [] }
+        guard let roomList = session.roomList else { return [] }
+        // Packs are published in spaces as often as in rooms, so both are read
+        var ids = roomList.allJoinedRooms.map(\.id)
+        ids.append(contentsOf: roomList.spaces.map(\.id))
         var found: [CosmeticPack] = []
-        for room in rooms {
-            found.append(contentsOf: await packs(in: room.id, session: session))
+        for id in Set(ids) {
+            found.append(contentsOf: await packs(in: id, session: session))
         }
         return found.sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
     }

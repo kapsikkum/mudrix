@@ -18,6 +18,8 @@ func recentRooms(_ rooms: [RoomSummary]) -> [RoomSummary] {
 struct HomeWelcome: View {
     @ObservedObject var roomList: RoomListModel
     let onOpenInbox: () -> Void
+    /// Opens a room through the shell's path; without it the cards are NavigationLinks
+    var onOpenRoom: ((String) -> Void)?
 
     @EnvironmentObject private var session: MatrixSession
     @Environment(\.theme) private var theme
@@ -60,7 +62,7 @@ struct HomeWelcome: View {
                     .welcomeRow()
                 }
                 ForEach(mentions.prefix(3)) { room in
-                    NavigationLink(value: Route.room(room.id)) {
+                    roomLink(room.id) {
                         card(title: room.displayName, subtitle: String(localized: "inbox.youWereMentioned"),
                              avatar: room.avatarUrl, unread: room.mentionCount, mention: true)
                     }
@@ -70,7 +72,7 @@ struct HomeWelcome: View {
             if !friends.isEmpty {
                 heading(String(localized: "timeline.home.friendsHeading"))
                 ForEach(friends) { friend in
-                    NavigationLink(value: Route.room(friend.roomId)) {
+                    roomLink(friend.roomId) {
                         card(title: friend.name, subtitle: ProfileActivityText.activityLine(friend.activity),
                              avatar: friend.avatar, unread: 0, mention: false)
                     }
@@ -80,7 +82,7 @@ struct HomeWelcome: View {
             if !recent.isEmpty {
                 heading(String(localized: "timeline.home.recentHeading"))
                 ForEach(recent) { room in
-                    NavigationLink(value: Route.room(room.id)) {
+                    roomLink(room.id) {
                         card(title: room.displayName, subtitle: label(room), avatar: room.avatarUrl,
                              unread: room.mentionCount > 0 ? room.mentionCount : room.unreadCount,
                              mention: room.mentionCount > 0, showsUnreadText: true)
@@ -94,9 +96,27 @@ struct HomeWelcome: View {
         .sheet(isPresented: $showAccount) {
             NavigationStack {
                 AccountSettings()
-                    .toolbar(.hidden, for: .navigationBar)
+                    .navigationTitle(String(localized: "settings.account.title"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(String(localized: "common.done")) { showAccount = false }
+                        }
+                    }
             }
             .presentationDragIndicator(.visible)
+        }
+    }
+
+    /// A card that opens a room: a plain button through the shell's path (no disclosure chevron in
+    /// the list), or a NavigationLink when the screen has no path of its own.
+    @ViewBuilder
+    private func roomLink<Content: View>(_ roomId: String, @ViewBuilder content: () -> Content) -> some View {
+        if let onOpenRoom {
+            Button { onOpenRoom(roomId) } label: { content() }
+                .buttonStyle(.plain)
+        } else {
+            NavigationLink(value: Route.room(roomId)) { content() }
         }
     }
 

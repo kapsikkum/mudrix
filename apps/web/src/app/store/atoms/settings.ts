@@ -1,5 +1,10 @@
-import { atom } from 'jotai';
+import { atom, type WritableAtom } from 'jotai';
 import { MOD_MODIFIER } from '@/app/util/platform';
+import {
+  LINK_EMBED_DEFAULT_MODES,
+  type LinkEmbedMode,
+  type LinkEmbedServiceId,
+} from '@/util/linkEmbeds';
 import type { UiDensity, UiScale } from '@/theme/uiDensity';
 import {
   DEFAULT_EMOJI_ONLY_SIZE,
@@ -43,8 +48,8 @@ export type VideoUploadTarget = '25' | '50' | '100' | 'server';
 export type VideoUploadMinSize = '10' | '25' | '50' | '100';
 /** Longest side, in pixels, bigger photos are scaled down to before sending; 'original' keeps them. */
 export type PhotoUploadSize = 'original' | '2560' | '1920' | '1280';
-/** YouTube link embeds: asked once, then on (cards that can play) or off (no embed at all). */
-export type YouTubeEmbeds = 'ask' | 'on' | 'off';
+/** Link embeds: asked once, then on (cards that can play) or off (no embed at all). */
+export type YouTubeEmbeds = LinkEmbedMode;
 /** Which service the GIF picker opens on. */
 export type GifProviderPreference = 'giphy' | 'klipy';
 export type ReducedMotion = 'system' | 'on' | 'off';
@@ -104,6 +109,19 @@ export interface Preferences {
   photoStripMetadata: boolean;
   photoUploadSize: PhotoUploadSize;
   youtubeEmbeds: YouTubeEmbeds;
+  /** Per-service link embeds; YouTube uses youtubeEmbeds above. */
+  spotifyEmbeds: LinkEmbedMode;
+  xEmbeds: LinkEmbedMode;
+  instagramEmbeds: LinkEmbedMode;
+  tiktokEmbeds: LinkEmbedMode;
+  redditEmbeds: LinkEmbedMode;
+  facebookEmbeds: LinkEmbedMode;
+  threadsEmbeds: LinkEmbedMode;
+  blueskyEmbeds: LinkEmbedMode;
+  mastodonEmbeds: LinkEmbedMode;
+  pinterestEmbeds: LinkEmbedMode;
+  linkedinEmbeds: LinkEmbedMode;
+  tumblrEmbeds: LinkEmbedMode;
   gifProvider: GifProviderPreference;
   reducedMotion: ReducedMotion;
   chatFontSize: number;
@@ -213,7 +231,19 @@ export const DEFAULT_PREFERENCES: Preferences = {
   videoUploadMinSize: '25',
   photoStripMetadata: false,
   photoUploadSize: 'original',
-  youtubeEmbeds: 'ask',
+  youtubeEmbeds: LINK_EMBED_DEFAULT_MODES.youtube,
+  spotifyEmbeds: LINK_EMBED_DEFAULT_MODES.spotify,
+  xEmbeds: LINK_EMBED_DEFAULT_MODES.x,
+  instagramEmbeds: LINK_EMBED_DEFAULT_MODES.instagram,
+  tiktokEmbeds: LINK_EMBED_DEFAULT_MODES.tiktok,
+  redditEmbeds: LINK_EMBED_DEFAULT_MODES.reddit,
+  facebookEmbeds: LINK_EMBED_DEFAULT_MODES.facebook,
+  threadsEmbeds: LINK_EMBED_DEFAULT_MODES.threads,
+  blueskyEmbeds: LINK_EMBED_DEFAULT_MODES.bluesky,
+  mastodonEmbeds: LINK_EMBED_DEFAULT_MODES.mastodon,
+  pinterestEmbeds: LINK_EMBED_DEFAULT_MODES.pinterest,
+  linkedinEmbeds: LINK_EMBED_DEFAULT_MODES.linkedin,
+  tumblrEmbeds: LINK_EMBED_DEFAULT_MODES.tumblr,
   gifProvider: 'giphy',
   reducedMotion: 'system',
   chatFontSize: 15,
@@ -305,6 +335,35 @@ export const videoUploadMinSizeAtom = preferenceFieldAtom('videoUploadMinSize');
 export const photoStripMetadataAtom = preferenceFieldAtom('photoStripMetadata');
 export const photoUploadSizeAtom = preferenceFieldAtom('photoUploadSize');
 export const youtubeEmbedsAtom = preferenceFieldAtom('youtubeEmbeds');
+export const spotifyEmbedsAtom = preferenceFieldAtom('spotifyEmbeds');
+export const xEmbedsAtom = preferenceFieldAtom('xEmbeds');
+export const instagramEmbedsAtom = preferenceFieldAtom('instagramEmbeds');
+export const tiktokEmbedsAtom = preferenceFieldAtom('tiktokEmbeds');
+export const redditEmbedsAtom = preferenceFieldAtom('redditEmbeds');
+export const facebookEmbedsAtom = preferenceFieldAtom('facebookEmbeds');
+export const threadsEmbedsAtom = preferenceFieldAtom('threadsEmbeds');
+export const blueskyEmbedsAtom = preferenceFieldAtom('blueskyEmbeds');
+export const mastodonEmbedsAtom = preferenceFieldAtom('mastodonEmbeds');
+export const pinterestEmbedsAtom = preferenceFieldAtom('pinterestEmbeds');
+export const linkedinEmbedsAtom = preferenceFieldAtom('linkedinEmbeds');
+export const tumblrEmbedsAtom = preferenceFieldAtom('tumblrEmbeds');
+
+/** The setting behind each service, so the timeline and the settings list stay in step. */
+export const linkEmbedModeAtoms = {
+  youtube: youtubeEmbedsAtom,
+  spotify: spotifyEmbedsAtom,
+  x: xEmbedsAtom,
+  instagram: instagramEmbedsAtom,
+  tiktok: tiktokEmbedsAtom,
+  reddit: redditEmbedsAtom,
+  facebook: facebookEmbedsAtom,
+  threads: threadsEmbedsAtom,
+  bluesky: blueskyEmbedsAtom,
+  mastodon: mastodonEmbedsAtom,
+  pinterest: pinterestEmbedsAtom,
+  linkedin: linkedinEmbedsAtom,
+  tumblr: tumblrEmbedsAtom,
+} as unknown as Record<LinkEmbedServiceId, WritableAtom<LinkEmbedMode, [LinkEmbedMode], void>>;
 export const gifProviderAtom = preferenceFieldAtom('gifProvider');
 export const reducedMotionAtom = preferenceFieldAtom('reducedMotion');
 export const chatFontSizeAtom = preferenceFieldAtom('chatFontSize');

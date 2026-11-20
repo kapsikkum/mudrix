@@ -1153,7 +1153,6 @@ fun ReactionsBar(reactions: List<ChatEntry.ReactionGroup>, roomId: String? = nul
     val chipShape = if (bubble) RoundedCornerShape(WZ.Radius.lg) else CircleShape
     FlowRow(
         Modifier
-            .padding(top = WZ.Space.space2)
             // Bubble layout: half the pill hangs off the bubble's bottom edge on the bubble's side (Messenger style);
             // 22dp is half of the 44dp touch box the chip is centred in
             .then(if (bubble) Modifier.offset(y = (-22).dp) else Modifier)

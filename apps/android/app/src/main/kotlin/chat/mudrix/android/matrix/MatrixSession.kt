@@ -8,12 +8,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
+import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import chat.mudrix.android.MudrixApplication
@@ -123,6 +125,7 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
                         return
                     }
                     SessionStore.remove(stored.session.userId)
+                    clearDecryptedCaches()
                     MessageNotifier.shared.removeDelivered(stored.session.userId)
                     reloadAccounts()
                 }
@@ -140,6 +143,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     suspend fun switchAccount(userId: String) {
         if (userId == this.userId || isRestoring || accounts.none { it.userId == userId }) return
         close()
+        // The cache is shared by every account, so the next one must not find the last one's files
+        clearDecryptedCaches()
         SessionStore.setActive(userId)
         state = State.Restoring
         restore()
@@ -382,6 +387,8 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
     private suspend fun remember(client: MudrixClient, folder: String, store: StoreConfig) {
         val stored = StoredSession(client.session, folder, store.passphrase ?: "")
         close()
+        // Signing in replaces whoever was active, so the shared cache must not carry their files over
+        clearDecryptedCaches()
         SessionStore.all().firstOrNull { it.session.userId == stored.session.userId }
             ?.takeIf { it.storeFolder != folder }
             ?.let { SessionStore.removeStore(it.storeFolder) }
@@ -488,11 +495,23 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
         SessionClients.remove(stored.session.userId)
         Push.forget(stored.session.userId)
         SessionStore.remove(stored.session.userId)
+        clearDecryptedCaches()
         MessageNotifier.shared.removeDelivered(stored.session.userId)
         reloadAccounts()
         KeepAliveService.apply(MudrixApplication.instance)
         state = State.Restoring
         restore()
+    }
+
+    /**
+     * Removes what a signed-out account leaves readable on disk: decrypted attachments and thumbnails,
+     * soundboard clips, files shared in from other apps, and the room-key export/import temporaries
+     * (`ui/settings/RoomKeysSettings.kt`). An ordinary launch keeps them, so this runs only when an
+     * account is signed out, switched away from, or found invalid.
+     */
+    private suspend fun clearDecryptedCaches() = withContext(Dispatchers.IO) {
+        val cache = MudrixApplication.instance.cacheDir
+        DECRYPTED_CACHES.forEach { File(cache, it).deleteRecursively() }
     }
 
     companion object {
@@ -514,5 +533,20 @@ class MatrixSession(private val scope: CoroutineScope = MainScope()) {
 
         const val REDIRECT_URI = "$CALLBACK_SCHEME:/callback"
         val APP = AppInfo(name = "Mudrix", clientUri = "https://github.com/kapsikkum/mudrix")
+
+        /**
+         * Cache entries holding decrypted content or exported keys. `media` is the decrypted
+         * attachment cache (`MediaLoader`), `soundboard` the call clips, `share` files shared in from
+         * other apps (`ShareActivity`), and the two files are the temporary room-key export and
+         * import from `RoomKeysSettings`. They are removed together with the store folder, not on an
+         * ordinary restart.
+         */
+        private val DECRYPTED_CACHES = listOf(
+            "media",
+            "soundboard",
+            "share",
+            "room-keys-export.txt",
+            "room-keys-import.txt",
+        )
     }
 }

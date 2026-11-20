@@ -89,6 +89,10 @@
     "accountSwitchedMessage": "Você trocou para {{account}} em outra aba. Esta aba será recarregada para continuar como {{account}}.",
     "signedOutElsewhereTitle": "Você foi desconectado",
     "signedOutElsewhereMessage": "Sua sessão foi encerrada em outra aba. Esta aba será recarregada.",
+    "otherTabTitle": "O Mudrix está aberto noutra aba",
+    "otherTabBody": "Apenas uma aba pode usar esta conta de cada vez. As duas abas seriam o mesmo dispositivo criptografado e as mensagens chegariam bloqueadas numa delas.",
+    "otherTabUse": "Usar esta aba",
+    "otherTabTakingOver": "Assumindo...",
     "errors": {
       "homeserver": "Não foi possível contactar um homeserver Matrix em {{server}}.",
       "credentials": "Nome de utilizador ou palavra-passe incorretos",
@@ -1454,7 +1458,28 @@
       "unknown": "Não foi possível encontrar de qual pacote este selo é"
     },
     "seen": "Visto",
-    "sent": "Enviado"
+    "sent": "Enviado",
+    "linkEmbed": {
+      "consent": "Carregar este conteúdo incorporado do {{service}}? Ele se conecta ao {{service}}, que pode ver o seu endereço IP e os detalhes do dispositivo.",
+      "allow": "Carregar conteúdo",
+      "deny": "Agora não",
+      "open": "Abrir no {{service}}",
+      "play": "Reproduzir conteúdo do {{service}}",
+      "spotifyPrompt": "Carregar o reprodutor do Spotify? Ele se conecta ao Spotify, que pode ver o seu endereço IP e os detalhes do dispositivo.",
+      "spotifyPlayer": "Reprodutor do Spotify",
+      "loadSpotify": "Carregar reprodutor do Spotify",
+      "xLoading": "Carregando publicação do X…",
+      "xVerified": "Verificado",
+      "postFailed": "Não foi possível carregar esta publicação",
+      "mastodonLoading": "Carregando publicação do Mastodon…",
+      "mastodonWarning": "Aviso de conteúdo: {{warning}}",
+      "via": "via embeds.now",
+      "loading": "Carregando conteúdo incorporado do {{service}}…",
+      "unavailable": "Não é possível mostrar uma prévia deste link do {{service}}",
+      "moreMedia": "+{{count}}",
+      "consentCard": "Carregar este conteúdo incorporado do {{service}}? O Mudrix pede ao embeds.now que o busque, então o embeds.now vê o link e o seu endereço IP, não o {{service}}.",
+      "openImage": "Ver imagem"
+    }
   },
   "call": {
     "event": {
@@ -1506,7 +1531,7 @@
       "invalidLink": "Isso não parece um link de vídeo do YouTube",
       "joinNote": "Everyone in the call can join in. YouTube can see the IP address of each person who watches.",
       "stopTogether": "Stop watching together",
-      "menuBeta": "Watch together (Beta)",
+      "menuWatch": "Assistir juntos",
       "menu": "Ver vídeo do YouTube",
       "title": "Assistir a um vídeo do YouTube juntos",
       "linkLabel": "Link do YouTube",
@@ -1521,7 +1546,6 @@
       "stopWatching": "Parar de assistir",
       "consentTitle": "Antes de assistir",
       "consentBody": "O vídeo é reproduzido pelo YouTube. Ao assistir, ele é carregado dos servidores do YouTube, o que envia seu endereço IP, os detalhes do dispositivo e do navegador e o que você assiste ao YouTube (Google).",
-      "beta": "Beta",
       "playerUnavailable": "Não foi possível carregar o player. Tente novamente mais tarde ou abra o vídeo no YouTube.",
       "focus": "Destacar vídeo",
       "waitingFor": "Aguardando {{name}}..."
@@ -1768,6 +1792,36 @@
         "sizeLarge": "Grande ({{px}} px)",
         "sizeMedium": "Média ({{px}} px)",
         "sizeSmall": "Pequena ({{px}} px)"
+      },
+      "linkEmbeds": {
+        "title": "Conteúdo incorporado de links",
+        "note": "Perguntar mostra primeiro um aviso. Permitir carrega o reprodutor ou a publicação do serviço automaticamente, mesmo em salas criptografadas. Ocultar deixa o link como texto simples.",
+        "ask": "Perguntar",
+        "on": "Permitir",
+        "off": "Ocultar",
+        "via": "Os cartões de X, Instagram, TikTok, Reddit, Facebook, Threads, Bluesky, Mastodon, Pinterest, LinkedIn e Tumblr são criados pelo embeds.now. Permitir um serviço envia os links dele ao embeds.now, que carrega a publicação para você, então seu dispositivo nunca contata o serviço.",
+        "groupCards": "Cartões do embeds.now",
+        "groupPlayers": "Players do serviço",
+        "allowAll": "Permitir tudo",
+        "askAll": "Perguntar em tudo",
+        "hideAll": "Ocultar tudo",
+        "browserUnavailable": "A versão para navegador não consegue carregar esses cartões e mostra um link simples. Os apps de computador e de celular conseguem.",
+        "bulk": "Todos os serviços",
+        "desc": {
+          "youtube": "Player de vídeo do YouTube, iniciado com um clique",
+          "spotify": "Músicas, álbuns, playlists e podcasts",
+          "x": "Publicações e perfis com fotos e vídeos",
+          "instagram": "Publicações, reels e links compartilhados",
+          "tiktok": "Vídeos e publicações de fotos",
+          "reddit": "Publicações com imagens e vídeos",
+          "facebook": "Publicações, reels e vídeos",
+          "threads": "Publicações e contas",
+          "bluesky": "Publicações e perfis",
+          "mastodon": "Publicações de servidores grandes",
+          "pinterest": "Pins e suas imagens",
+          "linkedin": "Publicações públicas",
+          "tumblr": "Publicações de blogs"
+        }
       }
     },
     "voice": {
@@ -1799,7 +1853,6 @@
         "moved": "Movido para outro canal",
         "watchTogetherStart": "Início de assistir juntos"
       },
-      "title": "Voz e áudio",
       "inputTitle": "Entrada",
       "outputTitle": "Saída",
       "cameraTitle": "Câmera",
@@ -1895,7 +1948,7 @@
         "fingerprintLabel": "Impressão digital da chave de assinatura: {{fingerprint}}",
         "explain": "O Mudrix salvará esta chave e confiará nela para futuras atualizações.",
         "confirm": "Confiar e adicionar",
-        "address": "Address",
+        "address": "Endereço",
         "runCode_other": "{{count}} integrações executam código",
         "runCode_one": "{{count}} integração executa código"
       },
@@ -1969,7 +2022,7 @@
         "none": "Não contacta nenhum servidor",
         "note": "Qualquer outro endereço é recusado. Não são enviados cookies nem dados da conta."
       },
-      "publisherKeyValue": "Publisher key {{fingerprint}}",
+      "publisherKeyValue": "Chave do editor {{fingerprint}}",
       "badge": {
         "runsCode": "Executa código"
       },
@@ -2275,13 +2328,6 @@
       "notificationSoundsNote": "Toca um som quando chega uma notificação",
       "notificationBanners": "Banners de notificação",
       "notificationBannersNote": "Mostra notificações na área de trabalho",
-      "desktop": "Aplicativo de desktop",
-      "desktopKeepRunning": "Continuar executando em segundo plano",
-      "desktopKeepRunningNote": "Fechar a janela oculta o Mudrix na bandeja do sistema para que você continue recebendo notificações. Saia pelo menu da bandeja.",
-      "desktopLaunchAtLogin": "Iniciar ao fazer login",
-      "desktopLaunchAtLoginNote": "Inicia o Mudrix automaticamente quando você entra no seu computador.",
-      "desktopStartMinimized": "Iniciar minimizado na bandeja",
-      "desktopStartMinimizedNote": "Quando iniciado no login, permanece na bandeja em vez de abrir a janela.",
       "messagesLabel": "Mensagens",
       "dms": "Mensagens diretas",
       "rooms": "Salas",
@@ -2308,15 +2354,15 @@
         "entry": "{{room}} às {{time}}",
         "cancel": "Cancelar lembrete"
       },
-      "chooseSounds": "Escolha sons em Voz e áudio",
+      "chooseSounds": "Escolha sons em Áudio e vídeo",
       "notificationBannersNoteTouch": "Mostra notificações neste dispositivo",
       "bannerNote": "Show a banner when a message arrives",
       "systemDisabledIos": "Notifications are turned off for Mudrix in the iOS Settings app.",
       "systemDisabledAndroid": "Notifications are turned off for Mudrix in Android's settings."
     },
     "voiceVideo": {
-      "title": "Voice & Video",
-      "voice": "Voice",
+      "title": "Áudio e vídeo",
+      "voice": "Áudio",
       "video": "Video",
       "previewCamera": "Preview camera",
       "stopPreview": "Stop preview",
@@ -2371,7 +2417,36 @@
       "searchPacks": "Pesquisar pacotes",
       "subscribeAll": "Assinar todos",
       "unsubscribeAll": "Cancelar todas as assinaturas",
-      "noPacksMatch": "Nenhum pacote corresponde à sua pesquisa"
+      "noPacksMatch": "Nenhum pacote corresponde à sua pesquisa",
+      "packsLoadFailed": "Não foi possível carregar os pacotes das suas salas."
+    },
+    "soundboard": {
+      "title": "Soundboard",
+      "defaultPack": "Pacote padrão",
+      "defaultPackNote": "O seu pacote pessoal está disponível em todas as chamadas.",
+      "defaultPackName": "Os seus sons",
+      "favoritePacks": "Pacotes favoritos",
+      "favoritePacksNote": "Escolha pacotes de sons das suas salas para usá-los em todas as chamadas.",
+      "selectPacks": "Selecionar pacotes",
+      "noFavoritePacks": "Ainda não há pacotes favoritos",
+      "noPacksFound": "Nenhum pacote de sons encontrado",
+      "removeFavorite": "Remover {{name}} dos favoritos",
+      "soundCount_one": "{{count}} som",
+      "soundCount_other": "{{count}} sons",
+      "packName": "Nome do pacote",
+      "packNamePlaceholder": "Os meus sons",
+      "attribution": "Atribuição",
+      "attributionPlaceholder": "Quem fez estes sons, ou de onde vêm",
+      "sounds": "Sons",
+      "addSounds": "Adicionar sons",
+      "noSounds": "Ainda não há sons. Adicione um clipe para começar.",
+      "name": "Nome do som",
+      "emoji": "Emoji do som",
+      "preview": "Pré-visualizar",
+      "stopPreview": "Parar pré-visualização",
+      "removeSound": "Remover {{name}}",
+      "limits": "MP3, M4A, AAC ou WAV, até 5 segundos e 512 KB cada.",
+      "loadFailed": "Não foi possível carregar os seus pacotes de sons."
     },
     "keybinds": {
       "title": "Atalhos de teclado",
@@ -2498,6 +2573,20 @@
       "ssoBrowserDone": "Concluído",
       "excludeInsecure": "Excluir sessões inseguras",
       "excludeInsecureNote": "Quando ativado, as mensagens criptografadas não são compartilhadas com sessões não verificadas, e as mensagens enviadas de sessões não verificadas aparecem como erro. Você pode não conseguir conversar com quem não verificou suas sessões."
+    },
+    "desktop": {
+      "title": "App para computador",
+      "note": "Estas configurações se aplicam ao app do Mudrix neste computador.",
+      "launchAtLogin": "Abrir ao fazer login",
+      "launchAtLoginNote": "Inicia o Mudrix automaticamente quando você entra no computador.",
+      "startMinimized": "Iniciar minimizado",
+      "startMinimizedNote": "Quando abrir no login, permanece na bandeja em vez de mostrar a janela.",
+      "closeToTray": "Fechar para a bandeja",
+      "closeToTrayNote": "Fechar a janela mantém o Mudrix em execução na bandeja, para que você continue recebendo mensagens e chamadas. Saia pelo ícone da bandeja.",
+      "muteNotifications": "Silenciar notificações",
+      "muteNotificationsNote": "Silencia as notificações do computador sem sair do app. Você também pode mudar isso pela bandeja.",
+      "saveFailed": "Não foi possível salvar esta configuração: {{error}}",
+      "loadFailed": "Não foi possível carregar as configurações do computador: {{error}}"
     },
     "about": {
       "title": "Sobre",
@@ -3076,9 +3165,9 @@
   "whatsNew": {
     "title": "Novidades",
     "fullChangelog": "Registo de alterações completo no GitHub",
-    "version": "Version {{version}}",
-    "dateVersion": "{{date}} · Version {{version}}",
-    "website": "Website",
+    "version": "Versão {{version}}",
+    "dateVersion": "{{date}} · Versão {{version}}",
+    "website": "Site",
     "gotIt": "Entendi",
     "titleVersion": "Novidades da versão {{version}}"
   },
@@ -3142,7 +3231,7 @@
       "moderators": "Moderadores e acima"
     },
     "error": {
-      "type": "Use um arquivo MP3, OGG ou WAV",
+      "type": "Use um arquivo MP3, M4A, AAC ou WAV",
       "size": "O arquivo é muito grande (máximo de 512 KB)",
       "duration": "O clipe é muito longo (máximo de 5 segundos)",
       "decode": "Não foi possível ler o arquivo como áudio",
@@ -3183,7 +3272,7 @@
       "noResults": "Nenhum som corresponde a \"{{query}}\"",
       "file": "Ficheiro de som",
       "chooseFile": "Escolher um ficheiro",
-      "fileNote": "MP3, OGG ou WAV, até 5 segundos e 512 KB",
+      "fileNote": "MP3, M4A, AAC ou WAV, até 5 segundos e 512 KB",
       "chooseFirst": "Escolha primeiro um ficheiro de som",
       "name": "Nome",
       "emoji": "Emoji",

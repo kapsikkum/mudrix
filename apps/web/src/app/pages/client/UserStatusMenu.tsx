@@ -11,6 +11,7 @@ import {
   settingsPageAtom,
   showPresenceAtom,
   userIdAtom,
+  userProfileAtom,
 } from '@/app/store/atoms';
 import type { PresenceOverride } from '@/app/store/atoms';
 import { getMatrixClientOrNull } from '@/client/initMatrix';
@@ -68,6 +69,7 @@ export function UserStatusMenu({ open, onClose, anchorRef, onViewProfile, onEdit
   const [override, setOverride] = useAtom(presenceOverrideAtom);
   const setSettingsOpen = useSetAtom(settingsOpenAtom);
   const setSettingsPage = useSetAtom(settingsPageAtom);
+  const setProfile = useSetAtom(userProfileAtom);
   const { supported } = useExtendedProfileSupport(client);
   const { data: fields } = useExtendedProfile(client, myId);
   const { saveFields } = useExtendedProfileMutations(client);
@@ -109,6 +111,8 @@ export function UserStatusMenu({ open, onClose, anchorRef, onViewProfile, onEdit
 
   const openSettings = (page: 'account' | null) => {
     onClose();
+    // Settings always wins over a profile card left open behind it.
+    setProfile(null);
     setSettingsPage(page);
     setSettingsOpen(true);
   };

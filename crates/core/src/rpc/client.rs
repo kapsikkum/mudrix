@@ -266,5 +266,12 @@ rpc_methods! {
         bare fn sniffMimeType(head: Bytes) -> Option<String> {
             Ok(crate::sniff_mime_type(&head).map(ToOwned::to_owned))
         }
+
+        /// The embed card (post text, pictures, video) embeds.now makes for a link, or null when
+        /// there is none. Needs no account. Fails when the service can't be reached (always, in
+        /// a browser tab).
+        bare fn linkEmbed(url: String) -> Option<crate::LinkEmbedCard> {
+            crate::link_embed(url).await
+        }
     }
 }
