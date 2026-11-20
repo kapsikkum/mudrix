@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef, useLayoutEffect, useId } from 'react';
+import { useState, useEffect, useCallback, useRef, useId } from 'react';
 import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { FocusTrap } from 'focus-trap-react';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
@@ -8,14 +8,6 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import {
-  computePosition,
-  autoUpdate,
-  flip,
-  shift,
-  offset,
-  type VirtualElement,
-} from '@floating-ui/dom';
 import {
   ChatCircleIcon,
   HardDrivesIcon,
@@ -28,6 +20,8 @@ import {
   LinkSimpleIcon,
   DotsThreeVerticalIcon,
   ClockIcon,
+  PhoneIcon,
+  PencilSimpleIcon,
 } from '@phosphor-icons/react';
 import { Tooltip } from '@/app/components/Tooltip';
 import { Select } from '@/app/components/Select';
@@ -41,9 +35,11 @@ import {
   ownPresenceAtom,
   settingsOpenAtom,
   settingsPageAtom,
+  callActionsAtom,
 } from '@/app/store/atoms';
 import type { PresenceState } from '@/app/store/atoms';
 import { getMatrixClient, getMatrixClientOrNull } from '@/client/initMatrix';
+import { useCanSendState } from '@/app/hooks/useCanSendState';
 import { useUserProfile } from '@/app/hooks/useUserProfile';
 import { AccountSwitcher } from '@/app/features/settings/AccountSwitcher';
 import { useSyncReady } from '@/app/hooks/useSync';
@@ -91,7 +87,6 @@ import {
   NotesSection,
   ActivityPanel,
 } from './ProfileExtras';
-import { MutualRooms } from './MutualRooms';
 import { ProfileEffect } from './ProfileEffect';
 import { ActivityCards } from './ActivityCards';
 import { ProfileFrame } from './ProfileFrame';
@@ -99,8 +94,6 @@ import { ProfileFrame } from './ProfileFrame';
 import { makeUserPermalink } from '@/util/matrix';
 import { powerLevelOf, queryKeys, useAllRooms, useMembersIn, useRoomSettings } from '@/app/data';
 import { getRoleKey, getRoleLabel, getRoomCreators } from '@/app/features/room/memberRoles';
-
-const POPUP_MARGIN = 24;
 
 export function UserProfilePopup() {
   const { t } = useTranslation();
@@ -111,7 +104,6 @@ export function UserProfilePopup() {
   const toast = useToast();
   const navigate = useNavigate();
   const client = getMatrixClientOrNull();
-  const popupRef = useRef<HTMLDivElement>(null);
 
   const profile = useUserProfile(profileState?.userId ?? null, profileState?.roomId);
   const myId = client?.userId();
@@ -138,14 +130,12 @@ export function UserProfilePopup() {
   const bannerGradient = useBannerGradient(avatarBlob, profile?.displayName ?? '');
   const fileRef = useRef<HTMLInputElement>(null);
   const [bannerLightboxOpen, setBannerLightboxOpen] = useState(false);
-  // Phones skip the small card and go straight to the full profile.
   const isPhone = useMediaQuery(PANEL_OVERLAY_QUERY);
-  const [expandedState, setIsExpanded] = useState(false);
-  const isExpanded = expandedState || (isPhone && !!profileState);
   const setSettingsOpen = useSetAtom(settingsOpenAtom);
   const setSettingsPage = useSetAtom(settingsPageAtom);
   const [fullTab, setFullTab] = useState<'info' | 'activity' | 'mutual'>('info');
   const sheetRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const pressedOnMargin = useRef(false);
   const fullModalTitleId = useId();
@@ -153,6 +143,14 @@ export function UserProfilePopup() {
     client,
     profileState?.userId ?? null
   );
+
+  const callActions = useAtomValue(callActionsAtom);
+  const canSendInRoom = useCanSendState(profileState?.roomId);
+  const canCall =
+    !isOwn &&
+    !!profileState?.roomId &&
+    !!callActions &&
+    canSendInRoom('org.matrix.msc3401.call.member');
 
   const showPresence = useAtomValue(presenceVisibleAtom);
   const presenceMap = useAtomValue(presenceMapAtom);
@@ -171,6 +169,7 @@ export function UserProfilePopup() {
   const [avatarLightboxOpen, setAvatarLightboxOpen] = useState(false);
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const [startingDm, setStartingDm] = useState(false);
+  const [startingCall, setStartingCall] = useState(false);
   const [removingMessages, setRemovingMessages] = useState(false);
   const modMenuBtnRef = useRef<HTMLButtonElement>(null);
   const { openContextMenuAt } = useContextMenu();
@@ -184,18 +183,16 @@ export function UserProfilePopup() {
   }, [profile]);
 
   useEffect(() => {
-    setIsExpanded(false);
     setFullTab('info');
   }, [profileState]);
 
   const handleClose = useCallback(() => {
     setProfileState(null);
-    setIsExpanded(false);
   }, [setProfileState]);
 
   // Phones show the full profile as a bottom sheet that can be dragged down to dismiss.
   useSwipeDownDismiss({
-    enabled: isPhone && isExpanded,
+    enabled: isPhone,
     sheetRef,
     scrollRef,
     onClose: handleClose,
@@ -358,24 +355,16 @@ export function UserProfilePopup() {
     return () => window.removeEventListener('keydown', handler);
   }, [profileState, handleClose]);
 
+  const openAccountSettings = useCallback(() => {
+    handleClose();
+    setSettingsPage('account');
+    setSettingsOpen(true);
+  }, [handleClose, setSettingsPage, setSettingsOpen]);
+
   const handleAvatarClick = useCallback(async () => {
     if (!client) return;
-    // Your own avatar is the profile's edit entry, as in the old app: the picture itself opens in the
-    // lightbox from the profile card's photo, not from this avatar.
-    if (isOwn) {
-      if (!ownAvatarMxc) {
-        avatarFileRef.current?.click();
-        return;
-      }
-      handleClose();
-      setSettingsPage('account');
-      setSettingsOpen(true);
-      return;
-    }
-    // Another user: the first click on the popout's avatar opens the full profile, as the old app
-    // did (the tooltip says "View Full Screen"); once expanded, the avatar opens in the lightbox.
-    if (!isExpanded) {
-      setIsExpanded(true);
+    if (isOwn && !ownAvatarMxc) {
+      avatarFileRef.current?.click();
       return;
     }
     if (!ownAvatarMxc) return;
@@ -383,16 +372,7 @@ export function UserProfilePopup() {
     setAvatarLightboxOpen(true);
     const full = await fetchMediaBlobUrl(ownAvatarMxc, client);
     if (full) setAvatarSrc(full);
-  }, [
-    client,
-    isOwn,
-    isExpanded,
-    ownAvatarMxc,
-    avatarBlob,
-    handleClose,
-    setSettingsPage,
-    setSettingsOpen,
-  ]);
+  }, [client, isOwn, ownAvatarMxc, avatarBlob]);
 
   const handleAvatarFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -486,49 +466,21 @@ export function UserProfilePopup() {
     } finally {
       setStartingDm(false);
     }
-  }, [client, profile, setCurrentRoom, navigate, handleClose, toast, t]);
+  }, [client, profile, setCurrentRoom, setSidebarView, navigate, handleClose, toast, t]);
 
-  useLayoutEffect(() => {
-    if (!profileState || !popupRef.current || isExpanded) return;
-    // On phones the card is a bottom sheet laid out by CSS, not a popover next to its anchor.
-    if (window.matchMedia(PANEL_OVERLAY_QUERY).matches) {
-      popupRef.current.style.visibility = 'visible';
-      return;
+  const handleStartCall = useCallback(async () => {
+    const roomId = profileState?.roomId;
+    if (!callActions || !roomId) return;
+    setStartingCall(true);
+    try {
+      await callActions.start(roomId, { voiceOnly: true, presentation: 'room', ring: true });
+      handleClose();
+    } catch (err) {
+      toast.error(t('call.startFailed', { error: getErrorMessage(err) }));
+    } finally {
+      setStartingCall(false);
     }
-    const anchor = profileState.anchorRect;
-    if (!anchor) {
-      Object.assign(popupRef.current.style, {
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        visibility: 'visible',
-      });
-      return;
-    }
-    const virtualEl: VirtualElement = {
-      getBoundingClientRect: () =>
-        new DOMRect(anchor.left, anchor.top, anchor.width, anchor.height),
-      getClientRects: () => [new DOMRect(anchor.left, anchor.top, anchor.width, anchor.height)],
-      contextElement: undefined,
-    };
-    const popup = popupRef.current;
-    const cleanup = autoUpdate(virtualEl, popup, () => {
-      if (!popupRef.current) return;
-      computePosition(virtualEl, popupRef.current, {
-        placement: profileState.placement ?? 'right-start',
-        strategy: 'fixed',
-        middleware: [offset(POPUP_MARGIN), flip(), shift({ padding: POPUP_MARGIN })],
-      }).then(({ x, y }) => {
-        if (!popupRef.current) return;
-        Object.assign(popupRef.current.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-          visibility: 'visible',
-        });
-      });
-    });
-    return cleanup;
-  }, [profileState, isExpanded]);
+  }, [callActions, profileState, handleClose, toast, t]);
 
   if (!profileState || !profile) return null;
 
@@ -556,15 +508,6 @@ export function UserProfilePopup() {
   // The wash that runs down the card takes the prominent colour from the bottom of the banner, where
   // the banner fades into it; without a banner (or a colourful bottom edge) it is the accent.
   const washColor = bannerColor ?? accent;
-  const popupStyle = {
-    visibility: 'hidden',
-    ...(washColor
-      ? {
-          '--card-accent': washColor,
-          borderColor: `color-mix(in srgb, var(--card-accent) 70%, ${vars.color.border})`,
-        }
-      : {}),
-  } as React.CSSProperties;
 
   const hasModActions = canRedactAny || canKick || canBan;
 
@@ -692,39 +635,59 @@ export function UserProfilePopup() {
     </div>
   );
 
-  const messageButton = !isOwn && profileState.roomId && (
+  const primaryActions = isOwn ? (
     <div className={css.primaryRow}>
-      <Button
-        variant="primary"
-        className={css.primaryBtn}
-        loading={startingDm}
-        onClick={handleStartDm}
-      >
-        <ChatCircleIcon size={16} />
-        {t('profile.message')}
+      <Button variant="secondary" className={css.primaryBtn} onClick={openAccountSettings}>
+        <PencilSimpleIcon size={16} />
+        {t('presence.editProfile')}
       </Button>
-      {hasModActions && (
-        <IconButton
-          ref={modMenuBtnRef}
-          size="md"
-          aria-label={t('common.more')}
-          aria-haspopup="menu"
-          aria-expanded={modMenuOpen}
-          onClick={openModMenu}
-          onKeyDown={(e) => {
-            if (!isMenuOpenKey(e)) return;
-            e.preventDefault();
-            e.stopPropagation();
-            openModMenu();
-          }}
-        >
-          <DotsThreeVerticalIcon size={18} />
-        </IconButton>
-      )}
     </div>
+  ) : (
+    profileState.roomId && (
+      <div className={css.primaryRow}>
+        <Button
+          variant="primary"
+          className={css.primaryBtn}
+          loading={startingDm}
+          onClick={handleStartDm}
+        >
+          <ChatCircleIcon size={16} />
+          {t('profile.message')}
+        </Button>
+        {canCall && (
+          <IconButton
+            size="md"
+            tooltip={t('call.startCall')}
+            aria-label={t('call.startCall')}
+            disabled={startingCall}
+            onClick={handleStartCall}
+          >
+            <PhoneIcon size={18} />
+          </IconButton>
+        )}
+        {hasModActions && (
+          <IconButton
+            ref={modMenuBtnRef}
+            size="md"
+            aria-label={t('common.more')}
+            aria-haspopup="menu"
+            aria-expanded={modMenuOpen}
+            onClick={openModMenu}
+            onKeyDown={(e) => {
+              if (!isMenuOpenKey(e)) return;
+              e.preventDefault();
+              e.stopPropagation();
+              openModMenu();
+            }}
+          >
+            <DotsThreeVerticalIcon size={18} />
+          </IconButton>
+        )}
+      </div>
+    )
   );
 
-  const detailRows = (full: boolean) => (
+  const detailRows = (
     <>
       <div className={css.infoRow}>
         <span className={css.infoIcon}>
@@ -733,10 +696,7 @@ export function UserProfilePopup() {
         <Tooltip content={profile.homeserver}>
           <span className={css.infoValue}>{profile.homeserver}</span>
         </Tooltip>
-        {full ? null : profileState.roomId &&
-          !isOwn &&
-          profile.canModify &&
-          roleKey !== 'founder' ? (
+        {profileState.roomId && !isOwn && profile.canModify && roleKey !== 'founder' ? (
           <Select
             surface="pill"
             icon={<span className={roleDotClass} />}
@@ -796,15 +756,6 @@ export function UserProfilePopup() {
         </div>
       )}
 
-      {full && profileState.roomId && (
-        <div className={css.infoRow}>
-          <span className={roleClass}>
-            <span className={roleDotClass} />
-            {roleLabel}
-          </span>
-        </div>
-      )}
-
       {!isOwn && <VerificationRow client={client} userId={profile.userId} />}
       {!isOwn && <DeviceSummaryRow client={client} userId={profile.userId} />}
       {!isOwn && (
@@ -824,349 +775,118 @@ export function UserProfilePopup() {
 
   return (
     <>
-      {isExpanded ? (
-        <>
-          <div className={css.fullModalOverlay} role="presentation" onClick={handleClose} />
-          <FocusTrap
-            active={isExpanded}
-            focusTrapOptions={{
-              escapeDeactivates: false,
-              allowOutsideClick: true,
-            }}
-          >
-            <div
-              key="full-profile-modal"
-              className={css.fullModal}
-              style={
-                washColor
-                  ? ({
-                      '--card-accent': washColor,
-                      borderColor: `color-mix(in srgb, var(--card-accent) 70%, ${vars.color.border})`,
-                    } as React.CSSProperties)
-                  : undefined
-              }
-              onPointerDown={(e) => {
-                pressedOnMargin.current = e.target === e.currentTarget;
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                // On phones the modal is a full-screen scroll area; a tap on the empty margin dismisses it.
-                // A text selection dragged out of the card ends on the margin but did not start there.
-                const pressed = pressedOnMargin.current;
-                pressedOnMargin.current = false;
-                if (pressed && e.target === e.currentTarget) handleClose();
-              }}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby={fullModalTitleId}
-              tabIndex={-1}
-            >
-              <div className={css.fullModalCard} ref={sheetRef}>
-                <div className={css.fullModalHandle} aria-hidden="true" />
-                <div className={css.fullModalScroll} ref={scrollRef}>
-                  <div className={css.fullModalLeftWrap}>
-                    <div className={css.fullModalLeft}>
-                      <div
-                        className={css.coverWrap}
-                        onClick={handleBannerClick}
-                        style={bannerClickable ? { cursor: 'pointer' } : undefined}
-                      >
-                        {cover}
-                      </div>
-
-                      <div className={css.topRow}>
-                        <div className={css.avatarRow}>
-                          <DecoratedAvatar
-                            decoration={extFields?.avatarDecoration ?? null}
-                            client={client}
-                          >
-                            <div
-                              className={`${css.avatarWrap}${isOwn ? ` ${css.avatarWrapEditable}` : ''}`}
-                              onClick={handleAvatarClick}
-                            >
-                              <Avatar
-                                name={profile.displayName}
-                                mxcUrl={ownAvatarMxc}
-                                client={client ?? undefined}
-                                size="lg"
-                                placeholder="logo"
-                                presence={dotPresence}
-                              />
-                              {isOwn && (
-                                <div className={css.avatarEdit}>
-                                  <GearIcon size={16} />
-                                </div>
-                              )}
-                            </div>
-                          </DecoratedAvatar>
-
-                          <div style={{ flex: 1 }} />
-
-                          {avatarActions}
-                        </div>
-
-                        {nameSection(fullModalTitleId)}
-                      </div>
-
-                      <ActivityCards activities={liveActivities} />
-                      {extFields?.bio && (
-                        <ExpandableBio text={extFields.bio} displayName={profile.displayName} />
-                      )}
-
-                      {profileState.roomId && (
-                        <MemberSinceRow
-                          client={client}
-                          roomId={profileState.roomId}
-                          userId={profile.userId}
-                        />
-                      )}
-
-                      {messageButton}
-                    </div>
-                    {!isPhone && cosmetics}
-                  </div>
-
-                  <div className={css.fullModalRight}>
-                    <div className={css.fullModalHeader}>
-                      <div className={css.fullModalTabs} role="tablist">
-                        <button
-                          type="button"
-                          id={`${fullModalTitleId}-tab-info`}
-                          role="tab"
-                          className={css.fullModalTab}
-                          aria-selected={fullTab === 'info'}
-                          aria-controls={`${fullModalTitleId}-panel-info`}
-                          onClick={() => setFullTab('info')}
-                        >
-                          {t('profile.tabs.details', { defaultValue: 'Details' })}
-                        </button>
-                        <button
-                          type="button"
-                          id={`${fullModalTitleId}-tab-activity`}
-                          role="tab"
-                          className={css.fullModalTab}
-                          aria-selected={fullTab === 'activity'}
-                          aria-controls={`${fullModalTitleId}-panel-activity`}
-                          onClick={() => setFullTab('activity')}
-                        >
-                          {t('profile.tabs.activity', { defaultValue: 'Activity' })}
-                        </button>
-                        <button
-                          type="button"
-                          id={`${fullModalTitleId}-tab-mutual`}
-                          role="tab"
-                          className={css.fullModalTab}
-                          aria-selected={fullTab === 'mutual'}
-                          aria-controls={`${fullModalTitleId}-panel-mutual`}
-                          onClick={() => setFullTab('mutual')}
-                        >
-                          {t('profile.tabs.mutualRooms', { defaultValue: 'Mutual Rooms' })}
-                          <span className={css.fullModalTabBadge}>
-                            {mutualRooms.length + mutualSpaces.length}
-                          </span>
-                        </button>
-                      </div>
-                      <button
-                        type="button"
-                        className={css.fullModalCloseBtn}
-                        onClick={handleClose}
-                        aria-label={t('common.close')}
-                      >
-                        <XIcon size={18} />
-                      </button>
-                    </div>
-
-                    <div className={css.fullModalBody}>
-                      {fullTab === 'mutual' && (
-                        <div
-                          className={cardCss.mutualList}
-                          role="tabpanel"
-                          id={`${fullModalTitleId}-panel-mutual`}
-                          aria-labelledby={`${fullModalTitleId}-tab-mutual`}
-                        >
-                          {mutualSpaces.length > 0 && (
-                            <>
-                              <h4 className={cardCss.mutualHeading}>
-                                {t('profile.mutualSpacesHeading')}
-                              </h4>
-                              {mutualSpaces.map((s: MutualRoom) => (
-                                <button
-                                  key={s.roomId}
-                                  type="button"
-                                  className={cardCss.mutualItem}
-                                  onClick={() => {
-                                    navigate(`/space/${encodeURIComponent(s.roomId)}`);
-                                    handleClose();
-                                  }}
-                                >
-                                  <Avatar
-                                    name={s.name}
-                                    mxcUrl={s.avatarMxc}
-                                    client={client}
-                                    size="sm"
-                                  />
-                                  <span className={cardCss.mutualItemName}>{s.name}</span>
-                                </button>
-                              ))}
-                            </>
-                          )}
-                          {mutualRooms.length > 0 && (
-                            <>
-                              <h4 className={cardCss.mutualHeading}>
-                                {t('profile.mutualRoomsHeading')}
-                              </h4>
-                              {mutualRooms.map((r: MutualRoom) => (
-                                <button
-                                  key={r.roomId}
-                                  type="button"
-                                  className={cardCss.mutualItem}
-                                  onClick={() => {
-                                    navigate(`/r/${encodeURIComponent(r.roomId)}`);
-                                    handleClose();
-                                  }}
-                                >
-                                  <Avatar
-                                    name={r.name}
-                                    mxcUrl={r.avatarMxc}
-                                    client={client}
-                                    size="sm"
-                                  />
-                                  <span className={cardCss.mutualItemName}>{r.name}</span>
-                                </button>
-                              ))}
-                            </>
-                          )}
-                          {mutualRooms.length === 0 && mutualSpaces.length === 0 && (
-                            <p className={css.note}>{t('profile.mutualEmpty')}</p>
-                          )}
-                        </div>
-                      )}
-
-                      {fullTab === 'info' && (
-                        <div
-                          style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
-                          role="tabpanel"
-                          id={`${fullModalTitleId}-panel-info`}
-                          aria-labelledby={`${fullModalTitleId}-tab-info`}
-                        >
-                          {detailRows(true)}
-                          {!isOwn && <NotesSection client={client} userId={profile.userId} />}
-                        </div>
-                      )}
-
-                      {fullTab === 'activity' && (
-                        <div
-                          style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
-                          role="tabpanel"
-                          id={`${fullModalTitleId}-panel-activity`}
-                          aria-labelledby={`${fullModalTitleId}-tab-activity`}
-                        >
-                          <ActivityCards activities={liveActivities} />
-                          <ActivityPanel room={null} userId={profile.userId} />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                {isPhone && cosmetics}
-              </div>
-            </div>
-          </FocusTrap>
-        </>
-      ) : (
-        <>
-          <div className={css.overlay} role="presentation" onClick={handleClose} />
-          <div
-            key="compact-profile-popup"
-            ref={popupRef}
-            className={css.popup}
-            style={popupStyle}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className={css.popupScroll}>
-              <div
-                className={css.popoutCoverWrap}
-                onClick={handleBannerClick}
-                style={bannerClickable ? { cursor: 'pointer' } : undefined}
-              >
-                {cover}
-              </div>
-
-              <div className={css.popoutAvatarRow}>
-                <DecoratedAvatar decoration={extFields?.avatarDecoration ?? null} client={client}>
-                  <Tooltip
-                    content={
-                      isOwn
-                        ? t('presence.editProfile', { defaultValue: 'Edit Profile' })
-                        : t('profile.viewFullScreen')
-                    }
+      <div className={css.fullModalOverlay} role="presentation" onClick={handleClose} />
+      <FocusTrap
+        active
+        focusTrapOptions={{
+          escapeDeactivates: false,
+          allowOutsideClick: true,
+          // Start on the dialog itself, not the first icon: focusing "Copy link" opened its tooltip
+          // over the profile the moment the card appeared.
+          initialFocus: () => modalRef.current ?? false,
+        }}
+      >
+        <div
+          key="full-profile-modal"
+          ref={modalRef}
+          className={css.fullModal}
+          style={
+            washColor
+              ? ({
+                  '--card-accent': washColor,
+                  borderColor: `color-mix(in srgb, var(--card-accent) 70%, ${vars.color.border})`,
+                } as React.CSSProperties)
+              : undefined
+          }
+          onPointerDown={(e) => {
+            pressedOnMargin.current = e.target === e.currentTarget;
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            // On phones the modal is a full-screen scroll area; a tap on the empty margin dismisses it.
+            // A text selection dragged out of the card ends on the margin but did not start there.
+            const pressed = pressedOnMargin.current;
+            pressedOnMargin.current = false;
+            if (pressed && e.target === e.currentTarget) handleClose();
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={fullModalTitleId}
+          tabIndex={-1}
+        >
+          <div className={css.fullModalCard} ref={sheetRef}>
+            <div className={css.fullModalHandle} aria-hidden="true" />
+            <div className={css.fullModalScroll} ref={scrollRef}>
+              <div className={css.fullModalLeftWrap}>
+                <div className={css.fullModalLeft}>
+                  <div
+                    className={css.coverWrap}
+                    onClick={handleBannerClick}
+                    style={bannerClickable ? { cursor: 'pointer' } : undefined}
                   >
-                    <div
-                      className={`${css.avatarWrap}${isOwn ? ` ${css.avatarWrapEditable}` : ''}`}
-                      onClick={handleAvatarClick}
-                    >
-                      <Avatar
-                        name={profile.displayName}
-                        mxcUrl={ownAvatarMxc}
-                        client={client ?? undefined}
-                        size="xl"
-                        placeholder="logo"
-                        presence={dotPresence}
-                      />
-                      {isOwn && (
-                        <div className={css.avatarEdit}>
-                          <GearIcon size={20} />
+                    {cover}
+                  </div>
+
+                  <div className={css.topRow}>
+                    <div className={css.avatarRow}>
+                      <DecoratedAvatar
+                        decoration={extFields?.avatarDecoration ?? null}
+                        client={client}
+                      >
+                        <div
+                          className={`${css.avatarWrap}${isOwn ? ` ${css.avatarWrapEditable}` : ''}`}
+                          onClick={handleAvatarClick}
+                        >
+                          <Avatar
+                            name={profile.displayName}
+                            mxcUrl={ownAvatarMxc}
+                            client={client ?? undefined}
+                            size="lg"
+                            placeholder="logo"
+                            presence={dotPresence}
+                          />
+                          {isOwn && (
+                            <div className={css.avatarEdit}>
+                              <GearIcon size={16} />
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </DecoratedAvatar>
+
+                      <div style={{ flex: 1 }} />
+
+                      {avatarActions}
                     </div>
-                  </Tooltip>
-                </DecoratedAvatar>
 
-                <div style={{ flex: 1 }} />
+                    {nameSection(fullModalTitleId)}
+                  </div>
 
-                {avatarActions}
-              </div>
+                  {primaryActions}
 
-              <div className={css.cardBody}>
-                {nameSection()}
+                  {isKnock && canModerate && (
+                    <div className={css.modActions}>
+                      <Button
+                        variant="secondary"
+                        className={css.modActionBtn}
+                        loading={rejecting}
+                        onClick={handleReject}
+                      >
+                        <XIcon size={16} />
+                        {t('room.members.reject')}
+                      </Button>
+                      <Button
+                        variant="primary"
+                        className={css.modActionBtn}
+                        loading={approving}
+                        onClick={handleApprove}
+                      >
+                        <CheckIcon size={16} />
+                        {t('room.members.approve')}
+                      </Button>
+                    </div>
+                  )}
 
-                <ActivityCards activities={liveActivities} />
-                {extFields?.bio && (
-                  <>
-                    <div className={css.bodyDivider} />
-                    <span className={css.sectionHeader}>
-                      {t('profile.cosmetics.aboutMe', { defaultValue: 'About Me' })}
-                    </span>
-                    <ExpandableBio text={extFields.bio} displayName={profile.displayName} plain />
-                  </>
-                )}
-
-                <div className={css.bodyDivider} />
-
-                {detailRows(false)}
-
-                {!isOwn && (
-                  <>
-                    <div className={css.bodyDivider} />
-                    <MutualRooms
-                      client={client}
-                      userId={profile.userId}
-                      displayName={profile.displayName}
-                      onNavigate={handleClose}
-                    />
-                  </>
-                )}
-
-                {!isOwn && (
-                  <>
-                    <div className={css.bodyDivider} />
-                    <NotesSection client={client} userId={profile.userId} />
-                  </>
-                )}
-
-                {isOwn && profileState.source === 'userpanel' && (
-                  <>
-                    <div className={css.bodyDivider} />
+                  {isOwn && profileState.source === 'userpanel' && (
                     <div className={css.accountSwitcherSlot}>
                       <AccountSwitcher
                         onAddAccount={() => {
@@ -1175,62 +895,170 @@ export function UserProfilePopup() {
                         }}
                       />
                     </div>
-                  </>
-                )}
+                  )}
 
-                {isKnock && canModerate && (
-                  <div className={css.modActions}>
-                    <Button
-                      variant="secondary"
-                      className={css.modActionBtn}
-                      loading={rejecting}
-                      onClick={handleReject}
+                  <ActivityCards activities={liveActivities} />
+                  {extFields?.bio && (
+                    <ExpandableBio text={extFields.bio} displayName={profile.displayName} />
+                  )}
+
+                  {profileState.roomId && (
+                    <MemberSinceRow
+                      client={client}
+                      roomId={profileState.roomId}
+                      userId={profile.userId}
+                    />
+                  )}
+                </div>
+                {!isPhone && cosmetics}
+              </div>
+
+              <div className={css.fullModalRight}>
+                <div className={css.fullModalHeader}>
+                  <div className={css.fullModalTabs} role="tablist">
+                    <button
+                      type="button"
+                      id={`${fullModalTitleId}-tab-info`}
+                      role="tab"
+                      className={css.fullModalTab}
+                      aria-selected={fullTab === 'info'}
+                      aria-controls={`${fullModalTitleId}-panel-info`}
+                      onClick={() => setFullTab('info')}
                     >
-                      <XIcon size={16} />
-                      {t('room.members.reject')}
-                    </Button>
-                    <Button
-                      variant="primary"
-                      className={css.modActionBtn}
-                      loading={approving}
-                      onClick={handleApprove}
+                      {t('profile.tabs.details', { defaultValue: 'Details' })}
+                    </button>
+                    <button
+                      type="button"
+                      id={`${fullModalTitleId}-tab-activity`}
+                      role="tab"
+                      className={css.fullModalTab}
+                      aria-selected={fullTab === 'activity'}
+                      aria-controls={`${fullModalTitleId}-panel-activity`}
+                      onClick={() => setFullTab('activity')}
                     >
-                      <CheckIcon size={16} />
-                      {t('room.members.approve')}
-                    </Button>
+                      {t('profile.tabs.activity', { defaultValue: 'Activity' })}
+                    </button>
+                    <button
+                      type="button"
+                      id={`${fullModalTitleId}-tab-mutual`}
+                      role="tab"
+                      className={css.fullModalTab}
+                      aria-selected={fullTab === 'mutual'}
+                      aria-controls={`${fullModalTitleId}-panel-mutual`}
+                      onClick={() => setFullTab('mutual')}
+                    >
+                      {t('profile.tabs.mutualRooms', { defaultValue: 'Mutual Rooms' })}
+                      <span className={css.fullModalTabBadge}>
+                        {mutualRooms.length + mutualSpaces.length}
+                      </span>
+                    </button>
                   </div>
-                )}
-
-                {messageButton}
-
-                {isOwn ? (
                   <button
                     type="button"
-                    className={css.viewFullProfileBtn}
-                    onClick={() => {
-                      handleClose();
-                      setSettingsPage('account');
-                      setSettingsOpen(true);
-                    }}
+                    className={css.fullModalCloseBtn}
+                    onClick={handleClose}
+                    aria-label={t('common.close')}
                   >
-                    {t('presence.editProfile', { defaultValue: 'Edit Profile' })}
+                    <XIcon size={18} />
                   </button>
-                ) : (
-                  <button
-                    type="button"
-                    className={css.viewFullProfileBtn}
-                    onClick={() => setIsExpanded(true)}
-                  >
-                    {t('profile.viewFullProfile', { defaultValue: 'View Full Profile' })}
-                  </button>
-                )}
+                </div>
+
+                <div className={css.fullModalBody}>
+                  {fullTab === 'mutual' && (
+                    <div
+                      className={cardCss.mutualList}
+                      role="tabpanel"
+                      id={`${fullModalTitleId}-panel-mutual`}
+                      aria-labelledby={`${fullModalTitleId}-tab-mutual`}
+                    >
+                      {mutualSpaces.length > 0 && (
+                        <>
+                          <h4 className={cardCss.mutualHeading}>
+                            {t('profile.mutualSpacesHeading')}
+                          </h4>
+                          {mutualSpaces.map((s: MutualRoom) => (
+                            <button
+                              key={s.roomId}
+                              type="button"
+                              className={cardCss.mutualItem}
+                              onClick={() => {
+                                navigate(`/space/${encodeURIComponent(s.roomId)}`);
+                                handleClose();
+                              }}
+                            >
+                              <Avatar
+                                name={s.name}
+                                mxcUrl={s.avatarMxc}
+                                client={client}
+                                size="sm"
+                              />
+                              <span className={cardCss.mutualItemName}>{s.name}</span>
+                            </button>
+                          ))}
+                        </>
+                      )}
+                      {mutualRooms.length > 0 && (
+                        <>
+                          <h4 className={cardCss.mutualHeading}>
+                            {t('profile.mutualRoomsHeading')}
+                          </h4>
+                          {mutualRooms.map((r: MutualRoom) => (
+                            <button
+                              key={r.roomId}
+                              type="button"
+                              className={cardCss.mutualItem}
+                              onClick={() => {
+                                navigate(`/r/${encodeURIComponent(r.roomId)}`);
+                                handleClose();
+                              }}
+                            >
+                              <Avatar
+                                name={r.name}
+                                mxcUrl={r.avatarMxc}
+                                client={client}
+                                size="sm"
+                              />
+                              <span className={cardCss.mutualItemName}>{r.name}</span>
+                            </button>
+                          ))}
+                        </>
+                      )}
+                      {mutualRooms.length === 0 && mutualSpaces.length === 0 && (
+                        <p className={css.note}>{t('profile.mutualEmpty')}</p>
+                      )}
+                    </div>
+                  )}
+
+                  {fullTab === 'info' && (
+                    <div
+                      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+                      role="tabpanel"
+                      id={`${fullModalTitleId}-panel-info`}
+                      aria-labelledby={`${fullModalTitleId}-tab-info`}
+                    >
+                      {detailRows}
+                      {!isOwn && <NotesSection client={client} userId={profile.userId} />}
+                    </div>
+                  )}
+
+                  {fullTab === 'activity' && (
+                    <div
+                      style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+                      role="tabpanel"
+                      id={`${fullModalTitleId}-panel-activity`}
+                      aria-labelledby={`${fullModalTitleId}-tab-activity`}
+                    >
+                      <ActivityCards activities={liveActivities} />
+                      <ActivityPanel room={null} userId={profile.userId} />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-            {cosmetics}
+            {isPhone && cosmetics}
           </div>
-        </>
-      )}
+        </div>
+      </FocusTrap>
 
       {avatarLightboxOpen && (
         <MediaLightbox

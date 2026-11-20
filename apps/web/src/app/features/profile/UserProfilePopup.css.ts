@@ -13,69 +13,10 @@ import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { style, keyframes, globalStyle } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
 import { profileFramePieceBottom } from './ProfileCard.css';
-import { scaleIn, fast } from '@/theme/animations.css';
+import { fast } from '@/theme/animations.css';
 import { iconDanger } from '@/app/components/Button/Button.css';
 import { zIndex } from '@/theme/zIndex';
 import { fontSize } from '@/theme/typeScale';
-
-export const overlay = style({
-  position: 'fixed',
-  inset: 0,
-  zIndex: zIndex.dialog,
-  '@media': {
-    [PANEL_OVERLAY_QUERY]: {
-      backgroundColor: vars.scrim.base,
-    },
-  },
-});
-
-export const popup = style({
-  position: 'fixed',
-  zIndex: zIndex.dialogRaised,
-  width: '320px',
-  backgroundColor: vars.color.bgPrimary,
-  // The accent (or the theme's own) washes down from the banner into the card.
-  backgroundImage: `radial-gradient(130% 55% at 50% 0%, color-mix(in srgb, var(--card-accent, ${vars.color.accent}) 26%, transparent), transparent 75%)`,
-  border: `1px solid ${vars.color.border}`,
-  borderRadius: '16px',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
-  animation: `${scaleIn} ${fast} ease`,
-  display: 'flex',
-  flexDirection: 'column',
-  padding: 0,
-  maxHeight: 'calc(100vh - 32px)',
-  '@media': {
-    // Bottom sheet on phones: full width, pinned to the bottom edge, scrolls if tall.
-    // The inner wrapper scrolls, so the profile frame can still hang over the card's edges.
-    [PANEL_OVERLAY_QUERY]: {
-      left: '20px !important',
-      right: '20px !important',
-      top: 'auto !important',
-      bottom: 'calc(64px + var(--safe-bottom)) !important',
-      transform: 'none !important',
-      width: 'auto',
-      maxHeight: 'calc(100dvh - 200px)',
-      overflow: 'visible',
-    },
-  },
-  // Visible so an avatar decoration can spill past the card edge (as on Discord); the cover
-  // rounds its own top corners instead of relying on the card to clip it.
-  overflow: 'visible',
-});
-
-export const popupScroll = style({
-  display: 'contents',
-  '@media': {
-    [PANEL_OVERLAY_QUERY]: {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: 0,
-      maxHeight: 'calc(100dvh - 200px)',
-      overflowY: 'auto',
-      borderRadius: '16px',
-    },
-  },
-});
 
 export const coverWrap = style({
   margin: '-20px -20px 0',
@@ -85,18 +26,6 @@ export const coverWrap = style({
   overflow: 'hidden',
   borderTopLeftRadius: vars.radius.md,
   borderTopRightRadius: vars.radius.md,
-});
-
-export const popoutCoverWrap = style({
-  position: 'relative',
-  height: '110px',
-  width: '100%',
-  flexShrink: 0,
-  overflow: 'hidden',
-  borderTopLeftRadius: '15px',
-  borderTopRightRadius: '15px',
-  maskImage: 'linear-gradient(to bottom, #000 55%, transparent 100%)',
-  WebkitMaskImage: 'linear-gradient(to bottom, #000 55%, transparent 100%)',
 });
 
 export const cover = style({
@@ -120,60 +49,6 @@ export const coverNeutral = style({
   inset: 0,
   pointerEvents: 'none',
   backgroundColor: vars.color.bgTertiary,
-});
-
-export const popoutAvatarRow = style({
-  position: 'relative',
-  marginTop: '-42px',
-  padding: '0 16px',
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  zIndex: zIndex.above,
-});
-
-export const cardBody = style({
-  margin: '6px 4px 10px',
-  padding: '6px 16px',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
-  position: 'relative',
-  zIndex: zIndex.above,
-  maxHeight: 'min(520px, calc(100vh - 240px))',
-  overflowY: 'auto',
-  overflowX: 'hidden',
-  selectors: {
-    '&::-webkit-scrollbar': {
-      width: '4px',
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: vars.color.bgHover,
-      borderRadius: '2px',
-    },
-  },
-});
-
-export const bodyDivider = style({
-  width: '100%',
-  height: '1px',
-  backgroundColor: vars.color.border,
-  margin: '4px 0',
-  flexShrink: 0,
-});
-
-export const sectionHeader = style({
-  fontSize: fontSize.rem75,
-  fontWeight: 600,
-  color: vars.color.textMuted,
-  marginBottom: '2px',
-});
-
-export const frameClearance = style({
-  height: '32px',
-  flexShrink: 0,
-  pointerEvents: 'none',
 });
 
 export const topRow = style({
@@ -484,30 +359,6 @@ export const note = style({
   fontSize: fontSize.rem85,
   color: vars.color.textMuted,
   margin: 0,
-});
-
-export const viewFullProfileBtn = style({
-  width: '100%',
-  marginTop: '4px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '6px',
-  padding: '8px 12px',
-  borderRadius: vars.radius.sm,
-  backgroundColor: 'transparent',
-  border: 'none',
-  color: vars.color.textSecondary,
-  fontSize: fontSize.rem85,
-  fontWeight: 500,
-  cursor: 'pointer',
-  transition: `background-color ${fast}, color ${fast}`,
-  selectors: {
-    '&:hover': {
-      backgroundColor: vars.color.bgHover,
-      color: vars.color.textPrimary,
-    },
-  },
 });
 
 export const fullModalOverlay = style({
@@ -844,86 +695,6 @@ globalStyle(`${avatarActions} button svg`, {
   width: '15px',
   height: '15px',
   '@media': { '(pointer: coarse)': { width: '18px', height: '18px' } },
-});
-
-// Used by the card markup that came with the upstream profile popup.
-export const coverEdit = style({
-  position: 'absolute',
-  top: '8px',
-  right: '8px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '28px',
-  height: '28px',
-  borderRadius: '50%',
-  backgroundColor: 'rgba(0,0,0,0.4)',
-  color: 'rgba(255,255,255,0.9)',
-  opacity: 0,
-  transition: 'opacity 0.15s ease',
-  pointerEvents: 'none',
-  selectors: {
-    [`${coverWrap}:hover &`]: {
-      opacity: 1,
-    },
-  },
-});
-
-export const displayNameRow = style({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-  minWidth: 0,
-});
-
-export const verifiedBadge = style({
-  flexShrink: 0,
-  color: vars.color.accent,
-});
-
-export const statusSlot = style({
-  flex: 1,
-  minWidth: 0,
-  display: 'flex',
-  alignSelf: 'flex-end',
-  marginBottom: '6px',
-  paddingLeft: '2px',
-  paddingRight: '4px',
-});
-
-export const status = style({
-  position: 'relative',
-  display: 'flex',
-  minWidth: 0,
-  maxWidth: '100%',
-  padding: '6px 12px',
-  border: `1px solid ${vars.color.border}`,
-  borderRadius: '8px 16px 16px 8px',
-  backgroundColor: vars.color.bgSecondary,
-  fontSize: fontSize.xs,
-  lineHeight: 1.35,
-  color: vars.color.textPrimary,
-  '::before': {
-    content: '""',
-    position: 'absolute',
-    left: '-4px',
-    top: '50%',
-    width: '7px',
-    height: '7px',
-    backgroundColor: vars.color.bgSecondary,
-    borderLeft: `1px solid ${vars.color.border}`,
-    borderBottom: `1px solid ${vars.color.border}`,
-    transform: 'translateY(-50%) rotate(45deg)',
-  },
-});
-
-export const statusText = style({
-  minWidth: 0,
-  display: '-webkit-box',
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
-  overflowWrap: 'anywhere',
 });
 
 export const accountSwitcherSlot = style({

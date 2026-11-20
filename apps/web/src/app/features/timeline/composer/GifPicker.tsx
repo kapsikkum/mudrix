@@ -19,7 +19,6 @@ import { gifProviderAtom } from '@/app/store/atoms';
 import { type ReplyTarget } from './sendMessageContent';
 import { sendGif } from './sendGif';
 import { useComposerTimeline } from './composerTimeline';
-import { getErrorMessage } from '@/util/error';
 import { GIF_FAVOURITES_CAP, useGifFavourites } from '@/app/hooks/useGifFavourites';
 import { AuthMediaImg } from '@/app/components/AuthMediaImg';
 import { useMediaUrl } from '@/core/media';
@@ -299,7 +298,8 @@ export function GifPicker({
         });
         if (replyTo) onReplySent?.();
       } catch (err) {
-        toast.error(t('room.settings.widgets.stickerSendFailed', { error: getErrorMessage(err) }));
+        console.warn('[gif] could not send', err);
+        toast.error(t('composer.gifSendFailed'));
       } finally {
         onStatusChange?.(false);
       }

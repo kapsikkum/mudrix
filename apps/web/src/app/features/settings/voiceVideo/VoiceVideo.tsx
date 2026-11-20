@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useTranslation } from 'react-i18next';
+import { PlayIcon } from '@phosphor-icons/react';
 import {
+  autoGainControlAtom,
+  echoCancellationAtom,
   keybindsAtom,
+  noiseSuppressionAtom,
+  notificationSoundPackAtom,
+  notificationSoundVolumeAtom,
   pushToTalkEnabledAtom,
   settingsPageAtom,
   voiceSoundsAtom,
@@ -21,7 +27,10 @@ import {
 import { comboKeys, parseCombo } from '@/app/features/keyboardShortcuts/keyCombo';
 import { VOICE_SOUND_TOGGLES, type VoiceSoundToggle } from '@/app/features/voice/voiceSounds';
 import { useKeyboardHints } from '@/app/hooks/useKeyboardHints';
+import { previewSound } from '@/util/notificationSounds';
 import type { DeviceKind } from '@/call/media';
+import { CallSection } from '../voice/CallSection';
+import { SoundsSection } from '../voice/SoundsSection';
 import { CameraPreview } from './CameraPreview';
 import { MicTest } from './MicTest';
 import * as layoutCss from '../Settings.css';
@@ -157,6 +166,38 @@ function PushToTalk() {
   );
 }
 
+/** Microphone processing that applies to calls and voice messages. */
+function InputProcessing() {
+  const { t } = useTranslation();
+  const [noiseSuppression, setNoiseSuppression] = useAtom(noiseSuppressionAtom);
+  const [echoCancellation, setEchoCancellation] = useAtom(echoCancellationAtom);
+  const [autoGainControl, setAutoGainControl] = useAtom(autoGainControlAtom);
+
+  return (
+    <>
+      <ToggleRow
+        label={t('settings.voice.noiseSuppression')}
+        description={t('settings.voice.noiseSuppressionNote')}
+        checked={noiseSuppression}
+        onChange={setNoiseSuppression}
+      />
+      <ToggleRow
+        label={t('settings.voice.echoCancellation')}
+        description={t('settings.voice.echoCancellationNote')}
+        checked={echoCancellation}
+        onChange={setEchoCancellation}
+      />
+      <ToggleRow
+        label={t('settings.voice.autoGainControl')}
+        description={t('settings.voice.autoGainControlNote')}
+        checked={autoGainControl}
+        onChange={setAutoGainControl}
+      />
+      <p className={layoutCss.settingNote}>{t('settings.voice.processingNote')}</p>
+    </>
+  );
+}
+
 function Camera() {
   const { t } = useTranslation();
   const [accessCount, setAccessCount] = useState(0);
@@ -213,6 +254,8 @@ export function VoiceVideo() {
   const devices = useDevices(AUDIO_KINDS);
   const { select, current } = useSelectDevice();
   const [inputVolume] = useCallVolume('input');
+  const soundPack = useAtomValue(notificationSoundPackAtom);
+  const soundVolume = useAtomValue(notificationSoundVolumeAtom);
   const choices = Object.fromEntries(
     AUDIO_KINDS.map((kind) => [kind, deviceChoices(devices[kind] ?? [], current(kind))])
   ) as Record<'audioinput' | 'audiooutput', ReturnType<typeof deviceChoices>>;
@@ -243,6 +286,18 @@ export function VoiceVideo() {
           <VolumeField kind="output" />
         </div>
         <MicTest deviceId={choices.audioinput.selected} volume={inputVolume} />
+        {hasOutputs && (
+          <div className={css.testSoundRow}>
+            <Button
+              variant="secondary"
+              onClick={() => previewSound('message', soundPack, soundVolume)}
+            >
+              <PlayIcon size={16} weight="fill" />
+              {t('settings.voice.playTestSound')}
+            </Button>
+          </div>
+        )}
+        <InputProcessing />
       </div>
 
       <div className={layoutCss.divider} />
@@ -252,7 +307,13 @@ export function VoiceVideo() {
       <Camera />
 
       <div className={layoutCss.divider} />
+      <CallSection />
+
+      <div className={layoutCss.divider} />
       <Sounds />
+
+      <div className={layoutCss.divider} />
+      <SoundsSection />
     </div>
   );
 }

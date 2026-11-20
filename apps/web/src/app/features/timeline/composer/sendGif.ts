@@ -3,9 +3,9 @@ import { probeIsAnimated } from '../utils/imageAnimation';
 import { getImageDimensions } from './imageDimensions';
 import { sendRawEvent, type ReplyTarget } from './sendMessageContent';
 import { downloadGif, type GifItem } from './gifProviders';
+import { GIF_EVENT_TYPE, GIF_SOURCE_FIELD, gifContent, type GifImageInfo } from './gifEventContent';
 
-/** Event content field recording which provider GIF a sent message came from. */
-export const GIF_SOURCE_FIELD = 'xyz.mudrix.gif';
+export { GIF_SOURCE_FIELD };
 
 export interface SendGifOptions {
   client: MudrixClient;
@@ -17,7 +17,8 @@ export interface SendGifOptions {
 
 /**
  * Sends `item` to the room as a GIF: the file is downloaded from the provider, uploaded to the
- * homeserver (encrypted in encrypted rooms) and posted as a sticker-style image, as the base does.
+ * homeserver (encrypted in encrypted rooms) and posted as an ordinary image, so it keeps the
+ * image bubble and gallery behaviour Mudrix has always used for GIFs.
  */
 export async function sendGif(
   item: GifItem,
@@ -26,13 +27,8 @@ export async function sendGif(
   // A GIF favourited from a message is already on the homeserver: send it as it is.
   if (item.sendUrl.startsWith('mxc://')) {
     await sendRawEvent(
-      'm.sticker',
-      {
-        body: item.title || 'GIF',
-        info: { mimetype: 'image/gif', is_animated: true },
-        url: item.sendUrl,
-        [GIF_SOURCE_FIELD]: { provider: item.provider, id: item.id },
-      },
+      GIF_EVENT_TYPE,
+      gifContent(item, { url: item.sendUrl }, { mimetype: 'image/gif', is_animated: true }),
       { timeline, threadId, replyTo: replyTo ?? null, myId: client.userId() ?? '' }
     );
     return;
@@ -48,22 +44,18 @@ export async function sendGif(
     : { url: await client.uploadMedia(bytes, mimetype) };
   const isAnimated = await probeIsAnimated(mimetype, file);
 
-  const dims = await getImageDimensions(file);
-  const info: Record<string, unknown> = { mimetype, size: file.size };
+  const info: GifImageInfo = { mimetype, size: file.size };
   if (typeof isAnimated === 'boolean') info.is_animated = isAnimated;
+  const dims = await getImageDimensions(file);
   if (dims) {
     info.w = dims.w;
     info.h = dims.h;
   }
 
-  await sendRawEvent(
-    'm.sticker',
-    {
-      body: item.title || 'GIF',
-      info,
-      ...source,
-      [GIF_SOURCE_FIELD]: { provider: item.provider, id: item.id },
-    },
-    { timeline, threadId, replyTo: replyTo ?? null, myId: client.userId() ?? '' }
-  );
+  await sendRawEvent(GIF_EVENT_TYPE, gifContent(item, source, info), {
+    timeline,
+    threadId,
+    replyTo: replyTo ?? null,
+    myId: client.userId() ?? '',
+  });
 }

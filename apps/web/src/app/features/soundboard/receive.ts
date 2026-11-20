@@ -5,6 +5,11 @@ import { playClipLocal } from './playback';
 import { soundboardRuntime } from './runtime';
 import { SOUNDBOARD_MAX_DURATION_MS, type SoundboardMimetype } from './types';
 
+/**
+ * The receive path for Mudrix clients up to 26.12.4: they send `{ sound: { id, name, url, ... } }`
+ * on their own topic, and room events as well. New presses arrive on the standard topic and are
+ * played by the call (`call/media.ts`); this path is kept so older clients are still heard.
+ */
 const limiter = new SoundboardLimiter(RECEIVE_LIMITS);
 /** The same press can arrive twice (the call's data channel and the room event). */
 const DUPLICATE_WINDOW_MS = 1500;
@@ -41,7 +46,7 @@ function isDuplicate(source: SoundboardSource, key: string, now: number): boolea
 }
 
 /**
- * Plays someone else's press if all of this holds: we are connected to a call in `roomId`; the
+ * Plays an old-style press if all of this holds: we are connected to a call in `roomId`; the
  * soundboard is on here, we are not deafened and the sender is not muted for soundboard; the
  * sender is in the call, is not us, and may play (room/space enabled, power level high enough); the
  * clip has an allowed type and length; and the sender is within the rate limit. Best effort: it
@@ -74,11 +79,12 @@ export async function receiveSoundboardPlay(
       return;
     }
 
-    const volumeRaw =
-      typeof sound.volume === 'number' && Number.isFinite(sound.volume) ? sound.volume : 1;
-    const clipVolume = Math.min(1, Math.max(0, volumeRaw));
     const name = typeof sound.name === 'string' ? sound.name.slice(0, 64) : '';
     const emoji = typeof sound.emoji === 'string' ? sound.emoji.slice(0, 16) : undefined;
+    const volume =
+      typeof sound.volume === 'number' && Number.isFinite(sound.volume)
+        ? Math.min(1, Math.max(0, sound.volume))
+        : 1;
 
     let url: string;
     let mimetype: SoundboardMimetype;
@@ -111,7 +117,7 @@ export async function receiveSoundboardPlay(
       emoji,
       url,
       mimetype,
-      volume: clipVolume,
+      volume,
       durationMs,
     });
   } catch (err) {

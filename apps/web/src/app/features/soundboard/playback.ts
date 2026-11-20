@@ -42,7 +42,8 @@ async function download(
   let bytes: Uint8Array | ArrayBuffer;
   if (url.startsWith('mxc://')) {
     if (!client) throw new Error('no client');
-    bytes = await client.media({ url });
+    // The core serves the built-in pack without a round trip and caps the size.
+    bytes = await client.soundboardSound(url);
   } else {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

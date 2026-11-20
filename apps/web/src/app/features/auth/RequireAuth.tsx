@@ -1,15 +1,23 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSetAtom, useAtom } from 'jotai';
 import { credentialsAtom, userIdAtom, serverUploadLimitAtom } from '@/app/store/atoms';
 import { readSettings } from '@/client/settingsSync';
 import { loadSettingsContents, useApplySettings } from '@/app/hooks/useSettingsSync';
-import { resume, loadCredentials, logout, getMatrixClientOrNull } from '@/client/initMatrix';
+import {
+  resume,
+  loadCredentials,
+  logout,
+  getMatrixClientOrNull,
+  endSessionForOtherTab,
+} from '@/client/initMatrix';
+import { tabLockFor, type TabLock, type TabLockState } from '@/client/singleTab';
 import { AppLoading, FADE_OUT_MS } from '@/app/components/AppLoading';
 import { DataSync } from '@/app/data';
 import { fetchServerUploadLimit } from '@/util/serverCapabilities';
 import { getErrorMessage } from '@/util/error';
 import { SessionError } from './SessionError';
+import { OtherTab } from './OtherTab';
 
 interface Props {
   children: ReactNode;
@@ -23,16 +31,43 @@ export function RequireAuth({ children }: Props) {
   const setServerUploadLimit = useSetAtom(serverUploadLimitAtom);
   const applySettings = useApplySettings();
 
+  const creds = credentials ?? loadCredentials();
+  const storeLocation = creds?.store.location ?? null;
+  const [tabLock, setTabLock] = useState<TabLock | null>(null);
+  const [tabState, setTabState] = useState<TabLockState>('pending');
+  const [takingOver, setTakingOver] = useState(false);
+  /** The restore under way, so a takeover can wait for it before stopping the client. */
+  const resumeRef = useRef<Promise<unknown> | null>(null);
+
   const [status, setStatus] = useState<Status>('pending');
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
 
+  const onTakenOver = useCallback(async () => {
+    // A restore already under way must finish before the client is stopped: it would otherwise
+    // make a new client after this tab gave the store up.
+    await resumeRef.current?.catch(() => {});
+    await endSessionForOtherTab();
+  }, []);
+
   useEffect(() => {
-    const creds = credentials ?? loadCredentials();
+    if (!storeLocation) {
+      setTabLock(null);
+      return;
+    }
+    const lock = tabLockFor(storeLocation);
+    setTabLock(lock);
+    return lock.subscribe({ onState: setTabState, onTakenOver });
+  }, [storeLocation, onTakenOver]);
+
+  useEffect(() => {
     if (!creds) {
       setStatus('unauthenticated');
       return;
     }
+    // One tab owns the account's store: a second client on it is the same Matrix device twice,
+    // and their syncs would split the room keys between them.
+    if (tabState !== 'acquired') return;
 
     let cancelled = false;
     setStatus('pending');
@@ -45,7 +80,9 @@ export function RequireAuth({ children }: Props) {
           resolveFirstSync = res;
         });
 
-        const client = await resume(creds, () => resolveFirstSync());
+        const restoring = resume(creds, () => resolveFirstSync());
+        resumeRef.current = restoring;
+        const client = await restoring;
         if (cancelled) return;
         // Settings as this device stored them, before the app shows
         applySettings(readSettings(await loadSettingsContents(client)));
@@ -81,14 +118,42 @@ export function RequireAuth({ children }: Props) {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [attempt]);
+  }, [attempt, tabState]);
+
+  const useThisTab = useCallback(() => {
+    if (!tabLock || takingOver) return;
+    setTakingOver(true);
+    void tabLock
+      .takeOver()
+      .then((acquired) => {
+        if (!acquired) {
+          setTakingOver(false);
+          return;
+        }
+        // A reload starts from the store the other tab has just let go of, and from the current
+        // credentials: the account may have been signed out while this tab waited.
+        window.location.reload();
+      })
+      .catch(() => setTakingOver(false));
+  }, [tabLock, takingOver]);
+
+  if (!creds) {
+    return <Navigate to="/welcome" replace />;
+  }
+
+  if (tabState === 'otherTab') {
+    return <OtherTab busy={takingOver} onUse={useThisTab} />;
+  }
+
+  if (tabState === 'pending' || !tabLock) {
+    return <AppLoading />;
+  }
 
   if (status === 'unauthenticated') {
     return <Navigate to="/welcome" replace />;
   }
 
   if (status === 'error') {
-    const creds = credentials ?? loadCredentials();
     return (
       <SessionError
         error={error}

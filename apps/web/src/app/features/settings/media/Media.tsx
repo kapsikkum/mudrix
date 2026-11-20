@@ -3,11 +3,9 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useTranslation } from 'react-i18next';
 import {
   mediaVisibilityAtom,
-  youtubeEmbedsAtom,
   photoStripMetadataAtom,
   photoUploadSizeAtom,
   type MediaVisibility,
-  type YouTubeEmbeds,
   type PhotoUploadSize,
   serverUploadLimitAtom,
   videoUploadModeAtom,
@@ -25,6 +23,7 @@ import { formatFileSize } from '@/util/format';
 import { probeVideoCompression } from '@/util/videoCompress';
 import { planCompression, smartMaxBytes, type CompressTarget } from '@/util/videoPlan';
 import { useVideoUploadPrefs } from '@/app/features/timeline/composer/videoUpload';
+import { LinkEmbedSettings } from './LinkEmbedSettings';
 import * as css from '../Settings.css';
 
 const MB = 1024 * 1024;
@@ -33,12 +32,6 @@ const MEDIA_VISIBILITY_OPTIONS: Record<MediaVisibility, string> = {
   always: 'settings.privacy.mediaVisibilityAlways',
   private: 'settings.privacy.mediaVisibilityPrivate',
   never: 'settings.privacy.mediaVisibilityNever',
-};
-
-const YOUTUBE_EMBED_OPTIONS: Record<YouTubeEmbeds, string> = {
-  ask: 'settings.privacy.youtubeEmbedsAsk',
-  on: 'settings.privacy.youtubeEmbedsOn',
-  off: 'settings.privacy.youtubeEmbedsOff',
 };
 
 const VIDEO_UPLOAD_MODE_OPTIONS: Record<VideoUploadMode, [string, string]> = {
@@ -308,7 +301,6 @@ function PhotoUploadSettings() {
 function ViewingSettings() {
   const { t } = useTranslation();
   const [mediaVisibility, setMediaVisibility] = useAtom(mediaVisibilityAtom);
-  const [youtubeEmbeds, setYoutubeEmbeds] = useAtom(youtubeEmbedsAtom);
 
   return (
     <div className={css.section}>
@@ -330,22 +322,6 @@ function ViewingSettings() {
           onChange={(v) => setMediaVisibility(v as MediaVisibility)}
         />
       </div>
-
-      <div className={css.settingRow}>
-        <div className={css.settingInfo}>
-          <span className={css.settingLabel}>{t('settings.privacy.youtubeEmbeds')}</span>
-          <span className={css.settingNote}>{t('settings.privacy.youtubeEmbedsNote')}</span>
-        </div>
-        <Select
-          aria-label={t('settings.privacy.youtubeEmbeds')}
-          value={youtubeEmbeds}
-          options={Object.entries(YOUTUBE_EMBED_OPTIONS).map(([option, labelKey]) => ({
-            value: option,
-            label: t(labelKey),
-          }))}
-          onChange={(v) => setYoutubeEmbeds(v as YouTubeEmbeds)}
-        />
-      </div>
     </div>
   );
 }
@@ -357,6 +333,8 @@ export function Media() {
     <div>
       <h2 className={css.panelTitle}>{t('settings.media.title', { defaultValue: 'Media' })}</h2>
       <ViewingSettings />
+      <div className={css.divider} />
+      <LinkEmbedSettings />
       <div className={css.divider} />
       <PhotoUploadSettings />
       <div className={css.divider} />

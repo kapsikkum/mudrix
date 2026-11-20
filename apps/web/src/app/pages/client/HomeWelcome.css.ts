@@ -543,6 +543,7 @@ export const whatsNew = style({
 
 export const versionPill = style({
   flexShrink: 0,
+  marginInlineStart: 'auto',
   padding: '2px 10px',
   borderRadius: vars.radius.pill,
   fontSize: fontSize.xs,
@@ -556,7 +557,7 @@ export const notes = style({
   flexDirection: 'column',
   gap: '8px',
   margin: 0,
-  padding: '2px 16px 12px',
+  padding: '20px 16px 12px',
   listStyle: 'none',
 });
 

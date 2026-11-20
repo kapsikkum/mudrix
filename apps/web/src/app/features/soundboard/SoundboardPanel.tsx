@@ -35,7 +35,8 @@ const LONG_PRESS_MS = 500;
 const NOTICE_MS = 2600;
 const DEFAULT_EMOJI = '🔊';
 
-const clipKey = (clip: SoundboardClip) => `${clip.source}:${clip.originRoomId ?? ''}:${clip.id}`;
+const clipKey = (clip: SoundboardClip) =>
+  `${clip.source}:${clip.originRoomId ?? ''}:${clip.packStateKey ?? ''}:${clip.id}`;
 
 function errorText(t: (k: string) => string, err: unknown): string {
   const code = err instanceof SoundboardError ? err.code : 'save';
@@ -139,7 +140,7 @@ interface FormProps {
   onBack: () => void;
 }
 
-/** Add a new sound (choose a file, name, emoji, volume) or edit an existing one. */
+/** Add a new sound (choose a file, name, emoji) or edit an existing one. */
 function SoundForm({ view, board, onBack }: FormProps) {
   const { t } = useTranslation();
   const editClip = view.kind === 'edit' ? view.clip : null;
@@ -148,7 +149,6 @@ function SoundForm({ view, board, onBack }: FormProps) {
   const [validatedFile, setValidatedFile] = useState<ValidatedSoundFile | null>(null);
   const [name, setName] = useState(editClip?.name ?? '');
   const [emoji, setEmoji] = useState(editClip?.emoji ?? '');
-  const [volume, setVolume] = useState(Math.round((editClip?.volume ?? 1) * 100));
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -175,7 +175,7 @@ function SoundForm({ view, board, onBack }: FormProps) {
     setBusy(true);
     try {
       if (editClip) {
-        await board.editSound(editClip, { name, emoji, volume: volume / 100 });
+        await board.editSound(editClip, { name, emoji });
       } else {
         if (!file) {
           setError(t('soundboard.panel.chooseFirst'));
@@ -185,7 +185,7 @@ function SoundForm({ view, board, onBack }: FormProps) {
         await board.addSound(
           view.kind === 'add' ? view.target : 'personal',
           file,
-          { name, emoji, volume: volume / 100 },
+          { name, emoji },
           validatedFile ?? undefined
         );
       }
@@ -219,7 +219,7 @@ function SoundForm({ view, board, onBack }: FormProps) {
       emoji: editClip.emoji,
       url: editClip.url,
       mimetype: editClip.mimetype,
-      volume: volume / 100,
+      volume: 1,
       durationMs: editClip.durationMs,
     });
   };
@@ -272,7 +272,7 @@ function SoundForm({ view, board, onBack }: FormProps) {
           </div>
         )}
         <div className={css.fieldRow}>
-          <label className={css.field} style={{ flex: 1, minWidth: 0 }}>
+          <label className={css.field}>
             <span className={css.label}>{t('soundboard.panel.name')}</span>
             <input
               className={css.input}
@@ -294,21 +294,6 @@ function SoundForm({ view, board, onBack }: FormProps) {
             />
           </label>
         </div>
-        <label className={css.field}>
-          <span className={css.label}>
-            {t('soundboard.panel.volume')} - {volume}%
-          </span>
-          <input
-            type="range"
-            className={css.range}
-            min={0}
-            max={100}
-            step={5}
-            value={volume}
-            onChange={(e) => setVolume(Number(e.target.value))}
-            aria-label={t('soundboard.panel.volume')}
-          />
-        </label>
         {editClip && (
           <span className={css.credit}>{Math.round(editClip.durationMs / 100) / 10}s</span>
         )}
@@ -355,13 +340,13 @@ function SoundForm({ view, board, onBack }: FormProps) {
 
 interface SoundboardPanelProps {
   roomId: string;
+  board: ReturnType<typeof useSoundboard>;
   onClose: () => void;
 }
 
 /** Contents of the soundboard popover. */
-export function SoundboardPanel({ roomId, onClose }: SoundboardPanelProps) {
+export function SoundboardPanel({ roomId, board, onClose }: SoundboardPanelProps) {
   const { t } = useTranslation();
-  const board = useSoundboard(roomId);
   const { builtIn, personal, room, access, canManageRoom, canPlay, play } = board;
   const playing = useAtomValue(soundboardPlayingAtom);
   const setSettingsOpen = useSetAtom(settingsOpenAtom);
@@ -441,7 +426,7 @@ export function SoundboardPanel({ roomId, onClose }: SoundboardPanelProps) {
     spaces.find((s) => s.id === id)?.name ?? rooms.find((r) => r.id === id)?.name ?? id;
 
   const playingFor = (clip: SoundboardClip): number | null => {
-    const entry = playing.find((e) => e.soundId === clip.id);
+    const entry = playing.find((e) => e.soundId === clip.id || e.soundId === clip.url);
     return entry ? entry.durationMs : null;
   };
 
@@ -480,7 +465,7 @@ export function SoundboardPanel({ roomId, onClose }: SoundboardPanelProps) {
   );
 
   const openSettings = () => {
-    setSettingsPage('voice');
+    setSettingsPage('soundboard');
     setSettingsOpen(true);
     onClose();
   };

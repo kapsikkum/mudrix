@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { vars } from '@/theme/vars.css';
+import { fontSize } from '@/theme/typeScale';
 
 export const field = style({
   display: 'flex',
@@ -19,6 +20,23 @@ export const micTest = style({
   alignItems: 'center',
   gap: '12px',
   marginBottom: '12px',
+});
+
+export const testSoundRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+  margin: '4px 0 12px',
+});
+
+export const monitorWarning = style({
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: '6px',
+  color: vars.color.warning,
+  fontSize: fontSize.rem82,
+  lineHeight: 1.5,
+  margin: '0 0 8px',
 });
 
 export const meter = style({

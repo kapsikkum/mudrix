@@ -968,11 +968,11 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
     return map;
   }, [items]);
 
-  // Where each reader has got to: their read receipt, or their own latest message if that is later
-  // (replying means they saw what came before). A reader's marker never sits on their own messages,
-  // so it moves back to the last message from someone else.
+  // Where each reader has got to: their actual read receipt. Sending a message is not proof that
+  // someone read what came before it, so it must not move their marker: that showed avatars under
+  // messages the person had never opened. A reader's marker never sits on their own messages, so
+  // the last step moves it back to the last message from someone else.
   const effectiveReceiptMap = useMemo(() => {
-    const myUserId = client.userId();
     const indexOfEvent = new Map<string, number>();
     const lastSenderPos = new Map<string, number>();
     items.forEach((it, i) => {
@@ -1002,20 +1002,6 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
           readers.set(user.userId, { user, pos: effectivePos });
       }
     }
-    items.forEach((it, i) => {
-      if (!it.senderId || it.senderId === myUserId || it.isSystemMessage) return;
-      const known = readers.get(it.senderId);
-      if (known && known.pos >= i) return;
-      readers.set(it.senderId, {
-        user: {
-          userId: it.senderId,
-          displayName: it.senderName,
-          avatarUrl: it.senderAvatar ?? null,
-          ts: it.event.timestamp ?? 0,
-        },
-        pos: i,
-      });
-    });
 
     const out = new Map<string, ReceiptUser[]>();
     for (const { user, pos } of readers.values()) {
@@ -1028,7 +1014,7 @@ export function Timeline({ client, roomId, hideHeader }: Props) {
       out.set(targetId, list);
     }
     return out;
-  }, [items, receiptMap, client]);
+  }, [items, receiptMap]);
 
   // Your latest message that has actually been sent: the bubble layout marks it Sent until read.
   const lastOwnEventId = useMemo(() => {

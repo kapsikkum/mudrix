@@ -38,14 +38,30 @@ function refreshDesktopFocus(): void {
   appWindow.isFocused().then(setDesktopFocused, () => {});
 }
 
+/** The webview's own focus event: ask the shell again rather than trusting a cached answer. */
+function onWindowFocus(): void {
+  if (isDesktop) refreshDesktopFocus();
+  notify();
+}
+
+/** The window lost the keyboard: it is behind another app even if the page still says visible. */
+function onWindowBlur(): void {
+  if (isDesktop) setDesktopFocused(false);
+  notify();
+}
+
 /** Starts listening once, the first time anything asks. */
 function start(): void {
   if (started) return;
   started = true;
   // Web and the native apps: the document's own events are the answer.
-  document.addEventListener('visibilitychange', notify);
-  window.addEventListener('focus', notify);
-  window.addEventListener('blur', notify);
+  document.addEventListener('visibilitychange', () => {
+    // Restoring a minimised desktop window does not always send a focus event of its own.
+    if (isDesktop) refreshDesktopFocus();
+    notify();
+  });
+  window.addEventListener('focus', onWindowFocus);
+  window.addEventListener('blur', onWindowBlur);
   if (!isDesktop) return;
   // Desktop: the window's, including the focus it gets back from the tray or after Alt+Tab.
   const appWindow = getCurrentWindow();

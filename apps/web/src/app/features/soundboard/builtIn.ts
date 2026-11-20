@@ -207,7 +207,6 @@ export function builtInToClip(item: BuiltInSound): SoundboardClip {
     mimetype: mimetypeFromFileName(item.file),
     durationMs: item.durationMs,
     size: 0,
-    volume: 1,
     source: 'builtIn',
     license: item.license,
     author: item.author,
@@ -223,10 +222,13 @@ export function getBuiltInSound(id: string): SoundboardClip | null {
   return BUILT_IN_CLIPS.find((clip) => clip.id === id) ?? null;
 }
 
-/** Normalises the mimetypes browsers and servers use for the three formats a clip may have. */
+/** Normalises the mimetypes browsers and servers use for the formats a clip may have. */
 export function normalizeMimetype(raw: string | undefined | null): SoundboardMimetype | null {
   const type = (raw ?? '').split(';')[0].trim().toLowerCase();
   if (type === 'audio/mpeg' || type === 'audio/mp3') return 'audio/mpeg';
+  if (type === 'audio/mp4') return 'audio/mp4';
+  if (type === 'audio/x-m4a' || type === 'audio/m4a') return 'audio/x-m4a';
+  if (type === 'audio/aac') return 'audio/aac';
   if (type === 'audio/ogg' || type === 'application/ogg') return 'audio/ogg';
   if (
     type === 'audio/wav' ||

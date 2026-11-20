@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css';
-import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
+import { SIDE_PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { vars } from '@/theme/vars.css';
 import { med, slideInUp } from '@/theme/animations.css';
 import { zIndex } from '@/theme/zIndex';
@@ -15,7 +15,7 @@ const base = {
   overflow: 'hidden',
   flexShrink: 0,
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       // Bottom drawer, like the pickers and menus.
       position: 'fixed',
       left: 0,
@@ -41,7 +41,7 @@ export const threadPanel = style(base);
 export const threadPanelOpen = style({
   ...base,
   '@media': {
-    [PANEL_OVERLAY_QUERY]: {
+    [SIDE_PANEL_OVERLAY_QUERY]: {
       position: 'fixed',
       left: 0,
       right: 0,

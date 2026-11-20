@@ -36,7 +36,7 @@ import type { ReceiptUser } from '@/app/hooks/useRoomReceipts';
 import { useWidgets } from '@/app/hooks/useWidgets';
 import { useMediaQuery } from '@/app/hooks/useMediaQuery';
 import { useSwipeDownDismiss } from '@/app/hooks/useSwipeDownDismiss';
-import { PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
+import { SIDE_PANEL_OVERLAY_QUERY } from '@/const/breakpoints';
 import { PanelResizer } from '@/app/components/PanelResizer/PanelResizer';
 import { buildItems, useBuildContext } from '@/app/hooks/useTimeline';
 import type { TimelineItem } from '@/app/hooks/useTimeline';
@@ -121,7 +121,7 @@ export function ThreadPanel({
   const [threadPanelWidth, setThreadPanelWidth] = useAtom(threadPanelWidthAtom);
   const [expanded, setExpanded] = useAtom(threadPanelExpandedAtom);
   // Phones and touch tablets: a bottom sheet that a drag down closes.
-  const overlay = useMediaQuery(PANEL_OVERLAY_QUERY);
+  const overlay = useMediaQuery(SIDE_PANEL_OVERLAY_QUERY);
   const isDesktop = useMediaQuery('(min-width: 769px)') && !overlay;
   const sheetRef = useRef<HTMLElement>(null);
   const replyListRef = useRef<HTMLDivElement>(null);
