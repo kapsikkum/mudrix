@@ -11,9 +11,9 @@ name: Flatpak
 # the SDK and the privileged bubblewrap sandbox but no Rust or Node.
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
+  # Called by release.yml on a version tag. A tag no longer triggers this workflow directly: the
+  # release would build the Flatpak twice.
+  workflow_call:
   # Pull requests only rebuild for packaging changes: the full app build is too expensive to run for
   # every desktop change here (desktop.yml already covers those).
   pull_request:

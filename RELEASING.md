@@ -1,31 +1,32 @@
 ﻿# Releasing Mudrix
 
 Adapted from the release notes of the old `mudrix-web`, `mudrix-desktop` and `mudrix-mobile` repositories. This
-repository is a single repo for all apps, but **only the web channel is automated** (GitHub Pages, below); desktop, Android and iOS releases are still made by hand. This file says what is the
-plan, what already works and what does not, so nothing here should be read as "CI does this" unless it says so.
+repository is a single repo for all apps. **Pushing a `v*` tag publishes a release**: `release.yml` builds the signed
+desktop installers, the signed Android APK, the unsigned iOS IPA and the Flatpak on that tag, assembles the assets,
+and creates the GitHub release with the notes in `whatsnew/`. The web client is published separately by
+`pages.yml`. This file says what that pipeline does and how to run the pieces by hand when it cannot.
 
 ## State of CI
 
 - GitHub Actions workflows live in `.github/workflows/` (`check.yml`, `android.yml`, `ios.yml`, `desktop.yml`,
-  `branding-gate.yml`, `pages.yml`). All but `pages.yml` check the code and build test builds. A release-profile
-  `desktop.yml` run and an `android.yml` run **started from the version tag** sign with the old apps' keys; every
-  other run — a branch push (including `web-look`), a debug build, a pull request — is unsigned. Nothing is
-  published automatically, the installers themselves remain unsigned, and `pages.yml` only publishes the web
-  client. `desktop.yml` also builds Arch, Fedora and Nix packages (from the Linux tarball, unsigned, nothing
-  published; see [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)). [docs/CI.md](docs/CI.md) describes
-  every workflow, [TESTING.md](TESTING.md) what to do with the builds. Signing is in
-  [docs/SIGNING.md](docs/SIGNING.md).
+  `flatpak.yml`, `release.yml`, `branding-gate.yml`, `pages.yml`). All but `pages.yml` and `release.yml` check the
+  code and build test builds. A release-profile `desktop.yml` run and an `android.yml` run **started from the version
+  tag** sign with the old apps' keys; every other run — a branch push (including `next` and `web-look`), a debug
+  build, a pull request — is unsigned. Only `release.yml`, on a `v*` tag, publishes a GitHub release; `pages.yml`
+  publishes the web client. `desktop.yml` also builds Arch, Fedora and Nix packages (from the Linux tarball,
+  unsigned, nothing published; see [docs/BUILDING.md](docs/BUILDING.md#distribution-packages)).
+  [docs/CI.md](docs/CI.md) describes every workflow, [TESTING.md](TESTING.md) what to do with the builds. Signing is
+  in [docs/SIGNING.md](docs/SIGNING.md).
 - `.gitlab-ci.yml` (and `.gitlab/issue_templates/`) are the upstream project's GitLab pipeline. They are kept for
   reference only, they are not used here, and they still point at the GitLab package registry, Cloudflare Pages and
   `wizardchat.org`. The GitHub Actions workflows replace them; delete the GitLab files when nothing needs the reference.
-- A release is still published by hand (see [docs/BUILDING.md](docs/BUILDING.md)) and attached to a GitHub
-  release of `kapsikkum/mudrix`. The release files come from workflow runs dispatched on the version tag
-  (`--ref v26.12.0`, step 4 below): `desktop.yml` with `profile=release` (Windows, Linux, macOS installers plus
-  the signed updater bundles), `android.yml` (the signed APK, built from a release core) and `ios.yml` with
-  `device-ipa=true` (the unsigned IPA). The default `desktop.yml` runs are debug builds for testers and expire
-  after 14 days.
+- A release is published by `release.yml` on the version tag. It calls `desktop.yml` with `profile=release`
+  (Windows, Linux and macOS installers plus the signed updater bundles), `android.yml` (the signed APK, built from a
+  release core), `ios.yml` with `device-ipa=true` (the unsigned IPA) and `flatpak.yml`, downloads their artifacts,
+  and runs `tools/ci/assemble-release.mjs` to write the release assets, `latest.json` and `SHA256SUMS` before
+  `gh release create`. The default `desktop.yml` runs are debug builds for testers and expire after 14 days.
 - The old repositories had `check.yml`, `release.yml`, `pages.yml` (web), `release.yml` (desktop) and `android.yml` /
-  `ios.yml` (mobile). They are the model for the release workflow that is still to be written.
+  `ios.yml` (mobile). They are the model for `release.yml`.
 
 ## Versions
 
@@ -57,55 +58,62 @@ still to be written.
 
 ## What a release should contain
 
-| file                                                          | what                                                                                 |
-| ------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| `Mudrix-<v>-windows-x64-setup.exe`                            | NSIS installer, per user                                                             |
-| `Mudrix-<v>-windows-x64.msi`                                  | MSI, stable releases only (WiX only takes numeric versions)                          |
-| `Mudrix-<v>-macos-universal.dmg` and `.app.tar.gz` (+ `.sig`) | macOS, Apple silicon and Intel                                                       |
-| `Mudrix-<v>-linux-x64.AppImage` / `.deb` / `.rpm`             | Linux; pre-releases ship the AppImage only (deb and rpm reject a `-` in the version) |
-| `Mudrix-<version>-release.apk`                                | Android, release-signed (the Android workflow's `mudrix-android-fdroid-release`)     |
-| `Mudrix-simulator-<sha>.zip`                                  | iOS Simulator build only; there is no device-signed IPA                              |
-| `latest.json`                                                 | update manifest read by the desktop updater                                          |
-| `SHA256SUMS.txt`                                              | checksums of everything above                                                        |
+| file                                 | what                                                                                |
+| ------------------------------------ | ----------------------------------------------------------------------------------- |
+| `Mudrix_<v>_x64-setup.exe`           | NSIS installer, per user; also the Windows updater bundle                           |
+| `Mudrix_<v>_x64_en-US.msi`           | MSI, stable releases only (WiX only takes numeric versions)                         |
+| `Mudrix_<v>_aarch64.dmg`             | macOS disk image                                                                    |
+| `Mudrix.app.tar.gz`                  | macOS updater bundle (its `.sig` goes into `latest.json`, the file is not an asset) |
+| `Mudrix_<v>_amd64.AppImage` / `.deb` | Linux; also the updater bundle. Pre-releases ship the AppImage only                 |
+| `mudrix-<v>-1.fc45.x86_64.rpm`       | Fedora package, stable releases only (rpm rejects a `-` in the version)             |
+| `mudrix-<v>-linux-x86_64.tar.gz`     | Linux tarball, with the PKGBUILD and RPM spec filled in                             |
+| `Mudrix-<v>-release.apk`             | Android, release-signed (the Android workflow's `mudrix-android-fdroid-release`)    |
+| `Mudrix-unsigned.ipa`                | iOS for SideStore; there is no device-signed IPA                                    |
+| `mudrix-<v>.flatpak`                 | Flatpak bundle from `flatpak.yml`, installed from a remote                          |
+| `latest.json`                        | update manifest read by the desktop updater; stable releases only                   |
+| `SHA256SUMS`                         | checksums of everything above                                                       |
 
-These names are the old Mudrix convention and are kept so that installs of the old apps can find their update; no
-release workflow creates them yet. The CI builds described in [TESTING.md](TESTING.md) are test builds; the Android
-release APK and updater signatures are signed, the rest is not.
+These names are the old Mudrix convention and are kept so that installs of the old apps can find their update.
+`tools/ci/assemble-release.mjs` writes exactly this list from a run's artifacts; it fails rather than leave a file
+out. The CI builds described in [TESTING.md](TESTING.md) are test builds; the Android release APK and updater
+signatures are signed, the rest is not.
 
-## Cutting a release (manual, until workflows exist)
+## Cutting a release
 
-1. Merge what you want to ship (`next` for a pre-release, `main` for a stable release) and run `npm run check`.
+1. Develop on `next`. `check.yml`, `android.yml` and `desktop.yml` build test artifacts on every push there, and
+   `pages.yml` publishes `/next/`. Merge `next` into `main` when what is on it should become the next stable release.
 2. Set the version: `npm version 26.12.0 --no-git-tag-version` (Android's `versionName`/`versionCode` follow it
    automatically; the Cargo workspace version is set by hand if wanted). Write the notes with
    `node scripts/release-notes.mjs <version>` — it reads the conventional commits since the previous stable tag and
-   writes `whatsnew/<version>.md`, which is both the in-app "What's new" and (with `--body <file>`) the GitHub release
-   body. Commits can steer their line with a `Release-note:` trailer, and `scripts/release-notes.overrides.json`
-   steers ones already made. The notes are English only; every language falls back to them.
-3. Commit, tag and push the tag only when the user wants it released:
+   writes `whatsnew/<version>.md`, which is both the in-app "What's new" and the GitHub release body. Commits can
+   steer their line with a `Release-note:` trailer, and `scripts/release-notes.overrides.json` steers ones already
+   made. The notes are English only; every language falls back to them.
+3. Commit the version and the notes, and push them to the branch the release comes from: `next` for a pre-release
+   (`26.12.0-next.1`, `-rc.1`, `-beta.1`) or `main` for a stable one.
+4. Tag and push the tag:
    ```sh
-   git commit -am "chore(release): prepare v26.12.0"
    git tag v26.12.0
-   git push origin main v26.12.0
+   git push origin v26.12.0
    ```
-4. Build the release files **from the version tag**, never from a branch. A dispatch without `--ref`, or with
-   `--ref web-look`, runs the workflow from a branch, where the desktop release config refuses to sign and the
-   Android build stays unsigned; the assets would then not be the release:
-   ```sh
-   gh workflow run desktop.yml --ref v26.12.0 -f profile=release
-   gh workflow run android.yml --ref v26.12.0
-   gh workflow run ios.yml --ref v26.12.0 -f device-ipa=true
-   ```
-   Wait for those runs and download the artifacts **from those runs only**: do not reuse a branch build, an older
-   run or a local build, even when a file name looks the same (the signing steps never run for them). Rename the
-   files to the names in the table above, write `latest.json` from the `.sig` files of the desktop release run, add
-   `SHA256SUMS`, then create the GitHub release (a pre-release for any `-` tag) and attach everything.
-5. Refresh the distribution repos: `gh workflow run update.yml -R kapsikkum/apps`. That rebuilds the F-Droid
-   repository and the SideStore source (`https://kapsikkum.github.io/apps/sidestore.json`); creating a release does
-   not notify it, and its own schedule only runs every 6 hours.
-6. Smoke test on a clean profile: install, sign in, receive a notification with the window closed (tray), check the
+   `release.yml` checks that the tag matches `package.json` and is on the right branch, then builds everything on the
+   tag, assembles the assets and publishes the release. A pre-release is published as a pre-release (never
+   "latest"), without the msi/deb/rpm and without `latest.json`, so the updater does not offer it.
+5. If the run fails, fix the cause and re-run it: Actions -> Release -> Run workflow with the tag, and `replace` when
+   the release already exists. The assets are re-uploaded with `--clobber`; nothing is deleted.
+6. After a stable release, refresh the distribution repos: `gh workflow run update.yml -R kapsikkum/apps` (the
+   workflow does it itself when the optional `APPS_REPO_TOKEN` secret exists). That rebuilds the F-Droid repository
+   and the SideStore source (`https://kapsikkum.github.io/apps/sidestore.json`); creating a release does not notify
+   it, and its own schedule only runs every 6 hours.
+7. Smoke test on a clean profile: install, sign in, receive a notification with the window closed (tray), check the
    unread badge, open a `matrix:` link, quit from the tray, and update from an older build.
 
-To go from the last pre-release to the stable release, merge `next` into `main`, set the plain version and repeat.
+The pieces can still be run by hand when `release.yml` cannot: dispatch the three workflows **on the tag**
+(`gh workflow run desktop.yml --ref v26.12.0 -f profile=release`, `android.yml`, `ios.yml -f device-ipa=true`) and
+`flatpak.yml`, then
+`node tools/ci/assemble-release.mjs --artifacts <downloaded artifacts> --out release --version 26.12.0 --tag v26.12.0`
+and `gh release create`. A dispatch without `--ref`, or with `--ref web-look`, runs from a branch, where the desktop
+release config refuses to sign and the Android build stays unsigned; those files are not a release.
+
 Rollback: delete the GitHub release and its tag (`git push origin :refs/tags/v26.12.0-next.1`); settings and the web
 profile live outside the app, so a downgrade keeps the user's data.
 

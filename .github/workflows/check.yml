@@ -3,7 +3,7 @@ name: Check
 # The root `npm run check` (lint, format, i18n, rustfmt, clippy native + wasm), split into jobs, plus a web build.
 on:
   push:
-    branches: [main]
+    branches: [main, next]
   pull_request:
   workflow_dispatch:
 
