@@ -121,6 +121,11 @@ jobs:
       # Matches runtime-version '51' in the manifest, so the SDK is already in the image.
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
       options: --privileged
+      # The runtimes are preinstalled in the image's overlay layers; updating them there renames
+      # directories out of a lower layer and fails with "Invalid cross-device link". A named volume
+      # is seeded from the image's /var/lib/flatpak and lives on a normal filesystem.
+      volumes:
+        - flatpak-system:/var/lib/flatpak
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4

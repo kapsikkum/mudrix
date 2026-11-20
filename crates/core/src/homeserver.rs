@@ -131,15 +131,15 @@ fn is_private_address(address: IpAddr) -> bool {
 /// A browser resolves names itself and refuses private hosts there, so it keeps the name-only
 /// check.
 async fn is_public_server_host(server_name: &str) -> bool {
-    if !is_public_server_name(server_name) {
-        return false;
-    }
     #[cfg(target_arch = "wasm32")]
     {
-        true
+        is_public_server_name(server_name)
     }
     #[cfg(not(target_arch = "wasm32"))]
     {
+        if !is_public_server_name(server_name) {
+            return false;
+        }
         let (host, port) = split_port(server_name);
         let Some(port) = probe_port(port) else {
             return false;
