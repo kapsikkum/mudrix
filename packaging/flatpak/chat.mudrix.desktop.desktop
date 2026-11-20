@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Mudrix
+GenericName=Matrix Client
+Comment=Simple, secure, magical Matrix client
+Exec=mudrix-desktop %U
+Icon=chat.mudrix.desktop
+Terminal=false
+StartupWMClass=Mudrix
+Categories=Network;InstantMessaging;
+MimeType=x-scheme-handler/chat.mudrix.desktop;
+Keywords=matrix;chat;messaging;encryption;

@@ -1,0 +1,186 @@
+name: Flatpak
+
+# Builds a Flatpak (.flatpak bundle) of the desktop app from the prebuilt Linux Tauri binary, so the
+# user gets one from CI instead of a local Windows build. The bundle is a workflow artifact; nothing
+# is published. There is no release-publishing workflow in the repository yet, so a v* tag only names
+# the artifact after the version (mudrix-flatpak-<version>); attach it to the release by hand until a
+# release job exists, and never create a second release.
+#
+# Two jobs: the Tauri toolchain (Node, Rust, webkit2gtk) needs the normal Ubuntu runner, while the
+# flatpak-builder action expects to run inside the Flathub GNOME container, which has flatpak-builder,
+# the SDK and the privileged bubblewrap sandbox but no Rust or Node.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+  # Pull requests only rebuild for packaging changes: the full app build is too expensive to run for
+  # every desktop change here (desktop.yml already covers those).
+  pull_request:
+    paths:
+      - packaging/flatpak/**
+      - .github/workflows/flatpak.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  # GIF search (docs/SECRETS.md): public build-time keys, embedded in the web bundle
+  VITE_GIPHY_API_KEY: ${{ secrets.VITE_GIPHY_API_KEY }}
+  VITE_KLIPY_API_KEY: ${{ secrets.VITE_KLIPY_API_KEY }}
+
+jobs:
+  build:
+    name: Tauri binary (Linux, release)
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: ./.github/actions/setup-rust
+        with:
+          cache-key: flatpak
+
+      - name: Tauri system libraries
+        uses: ./.github/actions/tauri-linux-deps
+
+      - run: npm ci --ignore-scripts
+
+      - name: Design tokens
+        run: npm run tokens
+
+      - name: Version
+        id: version
+        shell: bash
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Building Mudrix $version."
+
+      # The release profile: this bundle is what people install, not a debug test build. beforeBuildCommand
+      # (tsc + vite build --mode desktop) builds the web UI Tauri embeds. No updater artifacts and no
+      # minisign key: Flatpak updates come from the remote, not from the app.
+      - name: Tauri build (release, no bundle)
+        run: npm run tauri -w @mudrix/desktop -- build --no-bundle
+
+      - name: Stage the Flatpak sources
+        shell: bash
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          stage=packaging/flatpak/stage
+          rm -rf "$stage"
+          mkdir -p "$stage/icons"
+
+          test -x target/release/mudrix-desktop
+          file target/release/mudrix-desktop
+          ldd target/release/mudrix-desktop | sort
+
+          install -m755 target/release/mudrix-desktop "$stage/mudrix-desktop"
+          install -m644 packaging/flatpak/chat.mudrix.desktop.desktop "$stage/chat.mudrix.desktop.desktop"
+          install -m644 packaging/flatpak/chat.mudrix.desktop.metainfo.xml "$stage/chat.mudrix.desktop.metainfo.xml"
+          install -m644 apps/desktop/src-tauri/icons/32x32.png "$stage/icons/32x32.png"
+          install -m644 apps/desktop/src-tauri/icons/128x128.png "$stage/icons/128x128.png"
+          install -m644 apps/desktop/src-tauri/icons/128x128@2x.png "$stage/icons/256x256.png"
+          install -m644 apps/desktop/src-tauri/icons/icon.png "$stage/icons/512x512.png"
+
+          # The metainfo's <release> carries a version and the linter compares it with the build.
+          sed -i "s|<release version=\"[^\"]*\"|<release version=\"$VERSION\"|" \
+            "$stage/chat.mudrix.desktop.metainfo.xml"
+          grep -F "version=\"$VERSION\"" "$stage/chat.mudrix.desktop.metainfo.xml"
+
+          ls -lR "$stage"
+
+      - name: Upload the staged sources
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: flatpak-stage
+          path: packaging/flatpak/stage/
+          if-no-files-found: error
+          retention-days: 1
+
+  flatpak:
+    name: Flatpak bundle
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      # Matches runtime-version '51' in the manifest, so the SDK is already in the image.
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
+      options: --privileged
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Download the staged sources
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flatpak-stage
+          path: packaging/flatpak/stage
+
+      - name: Show what gets packaged
+        run: |
+          ls -lR packaging/flatpak/stage
+          file packaging/flatpak/stage/mudrix-desktop
+
+      # Tauri's Linux tray dlopens libayatana-appindicator3, which org.gnome.Platform does not
+      # ship; without it the app panics in setup. This is Flathub's standard shared module, pinned
+      # to a commit so the build does not follow a moving branch.
+      - name: Shared modules (tray icon library)
+        shell: bash
+        run: |
+          set -euo pipefail
+          commit=c91a81101cf9bcf9fc8132e8c3ebed741ad8bae6
+          curl -sSfL "https://github.com/flathub/shared-modules/archive/$commit.tar.gz" | tar -xz -C packaging/flatpak
+          mv "packaging/flatpak/shared-modules-$commit" packaging/flatpak/shared-modules
+          test -f packaging/flatpak/shared-modules/libayatana-appindicator/libayatana-appindicator-gtk3.json
+
+      - name: Build the Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: packaging/flatpak/chat.mudrix.desktop.yml
+          bundle: mudrix.flatpak
+          branch: stable
+          # This is the action's input name for the --runtime-repo= URL recorded in the bundle.
+          repository-url: https://flathub.org/repo/flathub.flatpakrepo
+          # The build steps above make the artifact; this uploads it with its versioned name below.
+          upload-artifact: false
+          cache-key: mudrix-flatpak
+          verbose: true
+
+      # Advisory: the action does not provide a linter (flatpak/flatpak-github-actions#187). The
+      # AppStream check catches metainfo mistakes; the manifest check is skipped because it rejects
+      # the type: dir source CI needs and the --own-name/portal talk-names that are redundant only on
+      # Flathub. Keep this step advisory so a linter rule cannot hide a broken bundle.
+      - name: flatpak-builder-lint (AppStream, advisory)
+        continue-on-error: true
+        run: |
+          flatpak install --noninteractive -y flathub org.flatpak.Builder
+          flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream \
+            packaging/flatpak/stage/chat.mudrix.desktop.metainfo.xml
+
+      - name: Checksum
+        run: sha256sum mudrix.flatpak > mudrix.flatpak.sha256
+
+      - name: Upload the Flatpak
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mudrix-flatpak-${{ needs.build.outputs.version }}
+          path: |
+            mudrix.flatpak
+            mudrix.flatpak.sha256
+          if-no-files-found: error
+          retention-days: 14
