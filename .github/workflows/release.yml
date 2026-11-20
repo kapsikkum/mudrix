@@ -113,6 +113,8 @@ jobs:
     uses: ./.github/workflows/ios.yml
     with:
       device-ipa: true
+      # A release needs only the IPA: the Simulator build and XCTest are testing jobs.
+      simulator: false
     secrets: inherit
 
   flatpak:

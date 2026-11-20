@@ -110,9 +110,10 @@ Run by hand: Actions -> Desktop -> Run workflow. A release must be dispatched on
 
 A `v*` tag publishes a release. `check-tag` reads the version from `package.json` at the tag, refuses a tag that
 does not match it, and refuses a tag that is not on `origin/main` (stable) or `origin/next` (a tag with `-`, which is
-a pre-release). It then calls `desktop.yml` (`profile=release`), `android.yml`, `ios.yml` (`device-ipa=true`) and
-`flatpak.yml` as reusable workflows on the same tag, with `secrets: inherit`; the signing gates inside those
-workflows still key on the ref, so only this path ever sees the keys. `publish` is the only job with
+a pre-release). It then calls `desktop.yml` (`profile=release`), `android.yml`, `ios.yml` (`device-ipa=true` and
+`simulator=false`: a release needs the IPA, not the Simulator build and XCTest) and `flatpak.yml` as reusable
+workflows on the same tag, with `secrets: inherit`; the signing gates inside those workflows still key on the ref, so
+only this path ever sees the keys. `publish` is the only job with
 `contents: write`: it downloads the run's artifacts, runs `tools/ci/assemble-release.mjs` (which fails rather than
 leave a file out), writes the body from `whatsnew/<version>.md`, and runs `gh release create` (or
 `gh release upload --clobber` on a manual re-run with `replace`). A pre-release is marked as one, leaves out the

@@ -45,6 +45,10 @@ on:
         description: Also build an unsigned device IPA for SideStore (no signing, no Apple account)
         default: false
         type: boolean
+      simulator:
+        description: Build and test on the Simulator (a release only needs the IPA)
+        default: true
+        type: boolean
   # Called by release.yml on a version tag.
   workflow_call:
     inputs:
@@ -59,6 +63,10 @@ on:
       device-ipa:
         description: Also build an unsigned device IPA for SideStore (no signing, no Apple account)
         default: false
+        type: boolean
+      simulator:
+        description: Build and test on the Simulator (a release only needs the IPA)
+        default: true
         type: boolean
     secrets:
       VITE_GIPHY_API_KEY:
@@ -167,6 +175,7 @@ jobs:
           key: spm-${{ runner.os }}-${{ hashFiles('apps/ios/project.yml') }}
 
       - name: Pick an iOS 18+ simulator
+        if: inputs.simulator != false
         run: |
           xcrun simctl list devices available --json > ci-logs/simulators.json
           python3 - <<'PY' | tee sim.env
@@ -192,6 +201,7 @@ jobs:
           cat sim.env >> "$GITHUB_ENV"
 
       - name: xcodebuild build
+        if: inputs.simulator != false
         working-directory: apps/ios
         run: |
           set -o pipefail
@@ -209,7 +219,7 @@ jobs:
             | { if command -v xcbeautify > /dev/null; then xcbeautify; else cat; fi; }
 
       - name: xcodebuild test
-        if: env.RUN_TESTS == 'true'
+        if: inputs.simulator != false && env.RUN_TESTS == 'true'
         working-directory: apps/ios
         run: |
           set -o pipefail
@@ -240,7 +250,7 @@ jobs:
       # Unzip and drop into a booted Simulator: the app on disk is named after the target, not "Mudrix".
       - name: Package the Simulator app
         id: simulator-app
-        if: always() && hashFiles('apps/ios/build/Build/Products/Debug-iphonesimulator/*.app/Info.plist') != ''
+        if: inputs.simulator != false && always() && hashFiles('apps/ios/build/Build/Products/Debug-iphonesimulator/*.app/Info.plist') != ''
         run: |
           set -euo pipefail
           mkdir -p ci-logs/simulator
@@ -257,7 +267,7 @@ jobs:
       # (light and dark) so a run shows the UI instead of only a log. Anything the app needs a
       # homeserver for is not covered: this is the first screen after launch.
       - name: Screenshots in the Simulator
-        if: always() && steps.simulator-app.outputs.bundle-id != ''
+        if: inputs.simulator != false && always() && steps.simulator-app.outputs.bundle-id != ''
         run: |
           set -euo pipefail
           mkdir -p screenshots
@@ -331,7 +341,7 @@ jobs:
           retention-days: 14
 
       - name: Upload the Simulator app
-        if: always()
+        if: inputs.simulator != false
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ios-simulator-app
@@ -340,7 +350,7 @@ jobs:
           retention-days: 14
 
       - name: Upload the screenshots
-        if: always()
+        if: inputs.simulator != false
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ios-screenshots
