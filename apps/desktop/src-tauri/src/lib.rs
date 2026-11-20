@@ -26,6 +26,8 @@ use tauri::{
     window::Color,
     AppHandle, Manager, Runtime, Url, WebviewWindow, WebviewWindowBuilder,
 };
+#[cfg(debug_assertions)]
+use tauri_plugin_single_instance as _;
 use tauri_plugin_window_state::WindowExt as _;
 
 pub const MAIN_WINDOW: &str = "main";
@@ -162,13 +164,25 @@ fn hide_on_close<R: Runtime>(window: &tauri::Window<R>, event: &tauri::WindowEve
     }
 }
 
+#[cfg(all(debug_assertions, windows))]
+fn webview_data_folder() -> &'static str {
+    // A `tauri dev` session and a built debug installer are both debug builds. They must not share
+    // WebView2's user data folder: the second one then fails to create its webview with
+    // ERROR_INVALID_STATE. Installed debug builds keep the old folder so they do not lose data.
+    if crate::dev::IS_DEV {
+        "dev-webview-dev"
+    } else {
+        "dev-webview"
+    }
+}
+
 pub fn run() {
     #[cfg(all(debug_assertions, windows))]
     if std::env::var_os("WEBVIEW2_USER_DATA_FOLDER").is_none() {
         if let Ok(local_data) = std::env::var("LOCALAPPDATA") {
             let dev_webview = std::path::PathBuf::from(local_data)
                 .join("chat.mudrix.desktop")
-                .join("dev-webview");
+                .join(webview_data_folder());
             let _ = std::fs::create_dir_all(&dev_webview);
             std::env::set_var("WEBVIEW2_USER_DATA_FOLDER", dev_webview);
         }
@@ -276,8 +290,8 @@ pub fn run() {
                     popout::on_new_window(&popout_handle, url, features)
                 });
                 #[cfg(all(debug_assertions, windows))]
-                let window =
-                    window.data_directory(app.path().app_local_data_dir()?.join("dev-webview"));
+                let window = window
+                    .data_directory(app.path().app_local_data_dir()?.join(webview_data_folder()));
                 window.build()?;
             }
             let loaded = settings::load(app.handle());
