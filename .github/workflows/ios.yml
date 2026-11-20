@@ -5,7 +5,7 @@ name: iOS
 # The raw xcodebuild logs are uploaded whether or not the build passes.
 on:
   push:
-    branches: [main]
+    branches: [main, next]
     paths:
       - apps/ios/**
       - crates/**
@@ -45,7 +45,26 @@ on:
         description: Also build an unsigned device IPA for SideStore (no signing, no Apple account)
         default: false
         type: boolean
-
+  # Called by release.yml on a version tag.
+  workflow_call:
+    inputs:
+      xcode-version:
+        description: Xcode version to select (must ship the iOS 18 SDK or newer)
+        default: '26'
+        type: string
+      run-tests:
+        description: Run the XCTest target after the build
+        default: true
+        type: boolean
+      device-ipa:
+        description: Also build an unsigned device IPA for SideStore (no signing, no Apple account)
+        default: false
+        type: boolean
+    secrets:
+      VITE_GIPHY_API_KEY:
+        required: false
+      VITE_KLIPY_API_KEY:
+        required: false
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

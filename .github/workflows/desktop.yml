@@ -9,7 +9,7 @@ name: Desktop
 # minutes). A release is dispatched on its tag: gh workflow run desktop.yml --ref v26.12.0 -f profile=release.
 on:
   push:
-    branches: [main, web-look]
+    branches: [main, next, web-look]
     paths:
       - apps/desktop/**
       - apps/web/**
@@ -56,6 +56,30 @@ on:
         options:
           - debug
           - release
+  # Called by release.yml on a version tag; the same inputs keep that path identical to a dispatch.
+  workflow_call:
+    inputs:
+      platforms:
+        description: 'Runners to build on, as a JSON array'
+        default: '["windows-latest","ubuntu-latest","macos-latest"]'
+        type: string
+      bundles:
+        description: 'Build installers ("true") or compile only ("false")'
+        default: 'true'
+        type: string
+      profile:
+        description: 'Build profile: debug or release (release only runs from the version tag)'
+        default: 'debug'
+        type: string
+    secrets:
+      TAURI_SIGNING_PRIVATE_KEY:
+        required: false
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD:
+        required: false
+      VITE_GIPHY_API_KEY:
+        required: false
+      VITE_KLIPY_API_KEY:
+        required: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

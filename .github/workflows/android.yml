@@ -8,7 +8,7 @@ on:
   push:
     # `web-look` is the branch people test from; a push there should always leave a fresh APK behind.
     # (The path filter below still applies: web-only or docs-only commits don't rebuild the app.)
-    branches: [main, web-look]
+    branches: [main, next, web-look]
     paths:
       - apps/android/**
       - crates/**
@@ -35,6 +35,21 @@ on:
       - .github/workflows/android.yml
       - .github/actions/setup-rust/**
   workflow_dispatch:
+  # Called by release.yml on a version tag.
+  workflow_call:
+    secrets:
+      ANDROID_KEYSTORE_BASE64:
+        required: false
+      ANDROID_KEYSTORE_PASSWORD:
+        required: false
+      ANDROID_KEY_ALIAS:
+        required: false
+      ANDROID_KEY_PASSWORD:
+        required: false
+      VITE_GIPHY_API_KEY:
+        required: false
+      VITE_KLIPY_API_KEY:
+        required: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -43,12 +43,13 @@
     "i18n": "npm run build -w @mudrix/i18n",
     "emoji": "npm run build -w @mudrix/emoji",
     "icons": "npm run build -w @mudrix/icons",
-    "check": "npm run lint && npm run format:check && npm run i18n && cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features -- -D warnings && cargo clippy -p mudrix-core -p mudrix-core-wasm --target wasm32-unknown-unknown -- -D warnings",
+    "check": "npm run lint && npm run format:check && npm run i18n && cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features -- -D warnings && cargo clippy -p mudrix-core -p mudrix-core-wasm --target wasm32-unknown-unknown -- -D warnings && npm run test:ci",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test:ci": "node --test tools/ci/assemble-release.test.mjs"
   },
   "engines": {
     "node": ">=22"

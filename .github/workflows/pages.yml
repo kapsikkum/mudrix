@@ -16,7 +16,7 @@ name: Pages
 # deploy nor reach the Pages environment.
 on:
   push:
-    branches: [web-look, main]
+    branches: [next, web-look, main]
     tags: ['v*']
   workflow_dispatch:
 

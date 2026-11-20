@@ -1,9 +1,10 @@
 ﻿# CI
 
-GitHub Actions workflows live in `.github/workflows/`. They check the code and build test builds. The Android
-release APK and the desktop updater artifacts are signed with the old apps' keys when the signing secrets exist
-(see [SIGNING.md](SIGNING.md)); everything else is unsigned and nothing is published. [TESTING.md](../TESTING.md)
-says what each artifact is and how to install it. The repository is public; macOS runner minutes bill 10x; see
+GitHub Actions workflows live in `.github/workflows/`. They check the code, build test builds, and publish a release
+when a `v*` tag is pushed. The Android release APK and the desktop updater artifacts are signed with the old apps'
+keys when the signing secrets exist (see [SIGNING.md](SIGNING.md)); the installers themselves are unsigned.
+[TESTING.md](../TESTING.md) says what each artifact is and how to install it. The repository is public; macOS runner
+minutes bill 10x; see
 [Cost](#cost).
 
 | Workflow                                                    | Runs on                                                                                                                                                 | What it does                                                                                                                                                                          |
@@ -12,7 +13,8 @@ says what each artifact is and how to install it. The repository is public; macO
 | [android.yml](../.github/workflows/android.yml)             | push to `main` or `web-look` / PR touching `apps/android`, `crates`, `packages` (and build inputs), manual                                              | Core for Android, `fdroid` debug APK (+ `SHA256SUMS.txt`), unit tests; a release-signed `fdroid` APK when the signing secrets exist                                                   |
 | [ios.yml](../.github/workflows/ios.yml)                     | push to `main` / PR touching `apps/ios`, `crates`, `packages` (and build inputs), manual                                                                | Core for iOS, `xcodegen`, unsigned Simulator build, XCTest, `.app` + screenshots + raw logs                                                                                           |
 | [desktop.yml](../.github/workflows/desktop.yml)             | push to `main` or `web-look` / PR touching `apps/desktop`, `apps/web`, `crates`, `packages`, `packaging`, `flake.nix`, `nix` (and build inputs), manual | `tauri build --debug` on Windows, Linux and macOS: installers + raw binary; then Arch (`makepkg`), Fedora (`rpmbuild`) and Nix (`nix build` + module) packages from the Linux tarball |
-| [flatpak.yml](../.github/workflows/flatpak.yml)             | manual, `v*` tag, PR touching `packaging/flatpak/**` or the workflow                                                                                    | Linux release binary, Flathub tray shared module, `mudrix.flatpak` + SHA-256; artifact only, never a second release                                                                   |
+| [flatpak.yml](../.github/workflows/flatpak.yml)             | manual, PR touching `packaging/flatpak/**` or the workflow, called by `release.yml`                                                                     | Linux release binary, Flathub tray shared module, `mudrix.flatpak` + SHA-256                                                                                                          |
+| [release.yml](../.github/workflows/release.yml)             | `v*` tag, manual with a tag                                                                                                                             | Calls the four build workflows on the tag, assembles the release assets with `tools/ci/assemble-release.mjs` and publishes the GitHub release                                         |
 | [branding-gate.yml](../.github/workflows/branding-gate.yml) | push to `main`, every pull request                                                                                                                      | Fails when the upstream name shows up in user-visible text                                                                                                                            |
 
 Shared steps are local composite actions: `.github/actions/setup-rust` (toolchain from `rust-toolchain.toml`, extra
@@ -103,6 +105,23 @@ librsvg2-dev libx11-dev libxi-dev libxtst-dev libxdo-dev libssl-dev patchelf`.
 Run by hand: Actions -> Desktop -> Run workflow. A release must be dispatched on the version tag (`--ref v<version>`) with
 `profile=release`; `platforms` takes a JSON array, for example `["ubuntu-latest"]` to skip the expensive runners, and
 `bundles` set to `"false"` compiles without building installers.
+
+### release.yml
+
+A `v*` tag publishes a release. `check-tag` reads the version from `package.json` at the tag, refuses a tag that
+does not match it, and refuses a tag that is not on `origin/main` (stable) or `origin/next` (a tag with `-`, which is
+a pre-release). It then calls `desktop.yml` (`profile=release`), `android.yml`, `ios.yml` (`device-ipa=true`) and
+`flatpak.yml` as reusable workflows on the same tag, with `secrets: inherit`; the signing gates inside those
+workflows still key on the ref, so only this path ever sees the keys. `publish` is the only job with
+`contents: write`: it downloads the run's artifacts, runs `tools/ci/assemble-release.mjs` (which fails rather than
+leave a file out), writes the body from `whatsnew/<version>.md`, and runs `gh release create` (or
+`gh release upload --clobber` on a manual re-run with `replace`). A pre-release is marked as one, leaves out the
+msi/deb/rpm and ships no `latest.json`, so the desktop updater never offers it. The optional `APPS_REPO_TOKEN`
+secret makes the last step refresh the F-Droid and SideStore repos; without it the step is skipped.
+
+Run by hand: Actions -> Release -> Run workflow with an existing tag, and `replace` when the release is already
+there. The four build workflows also still run on their own triggers for test builds; `flatpak.yml` no longer
+triggers on tags directly, so a tag does not build the Flatpak twice.
 
 ### branding-gate.yml
 
