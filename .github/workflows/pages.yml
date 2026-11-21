@@ -2,13 +2,13 @@ name: Pages
 
 # Publishes the web app to GitHub Pages as one site with two builds:
 #   https://<owner>.github.io/<repo>/        the newest stable release tag (v26.12.0)
-#   https://<owner>.github.io/<repo>/next/   the branch just pushed: web-look or main
+#   https://<owner>.github.io/<repo>/next/   the branch just pushed: next, web-look or main
 # Pages replaces the whole site on every deploy, so each run builds both: the stable build is the tag that started
 # the run (or else the newest stable tag), the next build is the pushed branch (or else web-look, then main).
 # A pre-release tag (v26.12.0-next.1, -rc.1, -beta.1) does not deploy, so a test build never replaces stable.
 #
 # Needs nothing but GITHUB_TOKEN: Settings -> Pages -> Source = "GitHub Actions", and the github-pages environment must
-# allow deployments from web-look, main and v* tags. A repository variable PAGES_BASE_PATH (say "/") overrides the
+# allow deployments from next, web-look, main and v* tags. A repository variable PAGES_BASE_PATH (say "/") overrides the
 # default base "/<repo>/", for a custom domain. The optional secrets VITE_GIPHY_API_KEY / VITE_KLIPY_API_KEY enable
 # the GIF tabs (public keys, see docs/SECRETS.md).
 #
@@ -86,12 +86,12 @@ jobs:
             done
           fi
 
-          # Next: the branch that was pushed, else web-look, else main
+          # Next: the branch that was pushed, else next, else web-look, else main
           next=""
-          if [ "$GITHUB_REF_TYPE" = "branch" ] && { [ "$GITHUB_REF_NAME" = web-look ] || [ "$GITHUB_REF_NAME" = main ]; }; then
+          if [ "$GITHUB_REF_TYPE" = "branch" ] && { [ "$GITHUB_REF_NAME" = web-look ] || [ "$GITHUB_REF_NAME" = main ] || [ "$GITHUB_REF_NAME" = next ]; }; then
             next="origin/$GITHUB_REF_NAME"
           else
-            for branch in web-look main; do
+            for branch in next web-look main; do
               if git rev-parse --verify --quiet "origin/$branch" > /dev/null && has_app "origin/$branch"; then next="origin/$branch"; break; fi
             done
           fi
