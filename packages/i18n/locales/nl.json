@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Lage prioriteit bijwerken mislukt: {{error}}",
     "markUnread": "Markeren als ongelezen",
     "markUnreadFailed": "Markeren als ongelezen mislukt: {{error}}",
-    "moveToCategory": "Verplaatsen naar {{name}}"
+    "moveToCategory": "Verplaatsen naar {{name}}",
+    "archive": "Archiveren",
+    "unarchive": "Uit archief halen",
+    "archived": "Gearchiveerd",
+    "archiveFailed": "Kamer archiveren mislukt: {{error}}",
+    "unarchiveFailed": "Kamer uit archief halen mislukt: {{error}}"
   },
   "developer": {
     "title": "Developer",

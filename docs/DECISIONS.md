@@ -178,6 +178,12 @@ Rows in `docs/PARITY_MATRIX.md` that stay undone on purpose, with the reason a u
   room's badge and threads are available in every room that has them.
 - **The room list loads 20 events per room** (owner-approved), which is enough for the last-message preview and the
   unread counts without loading full timelines for every room.
+- **Archive is local and non-destructive** (owner request, 2026-11-21; web, Android, iOS): the room stays joined and
+  keeps syncing. The core writes the user tag `u.archived` with the archive time in the tag's `order`, the apps hide
+  it in a collapsed Archived section, and the core removes the tag when a message newer than the archive time
+  arrives. This is deliberately not Element's model: Element treats membership Leave/Ban as archived and has no
+  archive action, so a Mudrix archive is invisible to other clients and never costs the user messages or an invite.
+  `u.archived` is a Mudrix convention, not an MSC.
 
 ## Message layout
 

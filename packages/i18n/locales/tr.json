@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Düşük öncelik güncellenemedi: {{error}}",
     "markUnread": "Okunmadı olarak işaretle",
     "markUnreadFailed": "Okunmadı olarak işaretlenemedi: {{error}}",
-    "moveToCategory": "{{name}} kategorisine taşı"
+    "moveToCategory": "{{name}} kategorisine taşı",
+    "archive": "Arşivle",
+    "unarchive": "Arşivden çıkar",
+    "archived": "Arşivlenenler",
+    "archiveFailed": "Oda arşivlenemedi: {{error}}",
+    "unarchiveFailed": "Oda arşivden çıkarılamadı: {{error}}"
   },
   "developer": {
     "title": "Developer",

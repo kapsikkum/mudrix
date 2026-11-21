@@ -207,7 +207,10 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
         return state
     }
 
-    fun rooms(selection: SidebarSelection): List<RoomSummary> = when (selection) {
+    fun rooms(selection: SidebarSelection): List<RoomSummary> = selectionRooms(selection).withoutArchived()
+
+    /** Every room the selection covers, archived ones included; the list's groups split them */
+    private fun selectionRooms(selection: SidebarSelection): List<RoomSummary> = when (selection) {
         SidebarSelection.Home -> {
             val inSpaces = spaceRooms.values.flatten().toSet()
             joinedRooms.filter { !it.isDirect && it.id !in inSpaces }
@@ -219,14 +222,28 @@ class RoomListModel(val client: MudrixClient, private val scope: CoroutineScope)
         }
     }
 
+    /** The archived rooms of the screen, in the list's order; the Modern Home pane includes the DMs too */
+    private fun archivedRooms(selection: SidebarSelection, includeDms: Boolean): List<RoomSummary> {
+        val rooms =
+            if (includeDms && selection == SidebarSelection.Home) {
+                selectionRooms(SidebarSelection.Dms) + selectionRooms(selection)
+            } else {
+                selectionRooms(selection)
+            }
+        return rooms.filter { it.isArchived }.distinctBy { it.id }.sortedForRoomList(options)
+    }
+
     /**
      * The list's groups. [includeDms] is the Modern shell's Home pane, where the DMs and the rooms
      * outside spaces share one screen; the Classic Home tab keeps them apart.
      */
-    fun groups(selection: SidebarSelection, includeDms: Boolean = false): List<RoomGroup> = when (selection) {
-        SidebarSelection.Dms -> dmGroups()
-        SidebarSelection.Home -> if (includeDms) modernHomeGroups() else roomGroups(selection, rooms(selection))
-        is SidebarSelection.Space -> roomGroups(selection, rooms(selection))
+    fun groups(selection: SidebarSelection, includeDms: Boolean = false): List<RoomGroup> {
+        val groups = when (selection) {
+            SidebarSelection.Dms -> dmGroups()
+            SidebarSelection.Home -> if (includeDms) modernHomeGroups() else roomGroups(selection, rooms(selection))
+            is SidebarSelection.Space -> roomGroups(selection, rooms(selection))
+        }
+        return groups.withArchivedGroup(archivedRooms(selection, includeDms))
     }
 
     /** The DM screen: pinned DMs, favourites, then the rest in the chosen order. */
@@ -428,6 +445,9 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
 
         /** Rooms tagged `m.lowpriority` that are in no section; always last, not movable */
         data object LowPriority : Kind
+
+        /** Rooms tagged `u.archived`; always last, not movable, and collapsed until opened */
+        data object Archived : Kind
     }
 
     /** Sections and the room list itself can be moved up and down; the rest stay put */
@@ -439,10 +459,18 @@ data class RoomGroup(val kind: Kind, val rooms: List<RoomSummary>) {
             Kind.Favourites -> "favourites"
             Kind.Dms -> "dms"
             Kind.LowPriority -> "low-priority"
+            Kind.Archived -> "archived"
             is Kind.Section -> kind.section.tag
             Kind.Rooms -> ROOMS_ANCHOR
         }
 }
+
+/** The rooms the main groups show: archived ones leave them for the [RoomGroup.Kind.Archived] group */
+internal fun List<RoomSummary>.withoutArchived(): List<RoomSummary> = filter { !it.isArchived }
+
+/** Appends the Archived group last, only when it has rooms */
+internal fun List<RoomGroup>.withArchivedGroup(archived: List<RoomSummary>): List<RoomGroup> =
+    if (archived.isEmpty()) this else this + RoomGroup(RoomGroup.Kind.Archived, archived)
 
 const val ROOMS_ANCHOR = "chats"
 const val HOME_SPACE = "home-space"

@@ -35,6 +35,8 @@ struct RoomGroup: Identifiable {
         case rooms
         /// Rooms flagged low priority that are in no section; always last, not movable
         case lowPriority
+        /// Rooms tagged `u.archived`; always last, not movable, and collapsed until opened
+        case archived
     }
 
     let kind: Kind
@@ -50,6 +52,7 @@ struct RoomGroup: Identifiable {
         case .dms: "dms"
         case .rooms: RoomListModel.roomsAnchor
         case .lowPriority: "low-priority"
+        case .archived: "archived"
         }
     }
 }
@@ -217,11 +220,30 @@ final class RoomListModel: ObservableObject {
         }
     }
 
+    /// The rooms the selection covers, archived ones left out; the list's Archived group holds those
     func rooms(for selection: SidebarSelection) -> [RoomSummary] {
+        withoutArchived(selectionRooms(for: selection))
+    }
+
+    /// Every room the selection covers, archived ones included (the Modern list reads their state too)
+    func roomsIncludingArchived(for selection: SidebarSelection) -> [RoomSummary] {
+        selectionRooms(for: selection)
+    }
+
+    /// Every room the selection covers, archived ones included; the list's groups split them
+    private func selectionRooms(for selection: SidebarSelection) -> [RoomSummary] {
         if let cached = roomsCache[selection] { return cached }
         let result = computeRooms(for: selection)
         roomsCache[selection] = result
         return result
+    }
+
+    /// The archived rooms of the screen, in the list's order; the Modern Home pane includes the DMs too
+    private func archivedRooms(for selection: SidebarSelection, includeDms: Bool) -> [RoomSummary] {
+        var rooms = selectionRooms(for: selection)
+        if includeDms, selection == .home { rooms += selectionRooms(for: .dms) }
+        var seen = Set<String>()
+        return rooms.filter { $0.isArchived && seen.insert($0.id).inserted }.sortedForRoomList(options)
     }
 
     private func computeRooms(for selection: SidebarSelection) -> [RoomSummary] {
@@ -239,15 +261,18 @@ final class RoomListModel: ObservableObject {
 
     /// The list's groups. `includeDms` is the Modern shell's Home pane, where the DMs and the rooms
     /// outside spaces share one screen; the Classic Home tab keeps them apart.
+    /// The Archived group is appended last, only when it has rooms.
     func groups(for selection: SidebarSelection, includeDms: Bool = false) -> [RoomGroup] {
+        let groups: [RoomGroup]
         switch selection {
         case .dms:
-            return dmGroups()
+            groups = dmGroups()
         case .home:
-            return includeDms ? modernHomeGroups() : roomBlocks(.home, rooms: rooms(for: .home))
+            groups = includeDms ? modernHomeGroups() : roomBlocks(.home, rooms: rooms(for: .home))
         case .space:
-            return roomBlocks(selection, rooms: rooms(for: selection))
+            groups = roomBlocks(selection, rooms: rooms(for: selection))
         }
+        return withArchivedGroup(groups, archivedRooms(for: selection, includeDms: includeDms))
     }
 
     /// The DM screen: pinned DMs, favourites, then the rest in the chosen order.
@@ -389,7 +414,7 @@ final class RoomListModel: ObservableObject {
     func moveGroup(_ anchor: String, by offset: Int, in groups: [RoomGroup]) async throws {
         var anchors = groups.compactMap { group -> String? in
             switch group.kind {
-            case .pinned, .favourites, .dms, .lowPriority: return nil
+            case .pinned, .favourites, .dms, .lowPriority, .archived: return nil
             default: return group.id
             }
         }
@@ -478,4 +503,15 @@ final class RoomListModel: ObservableObject {
             })
         }
     }
+}
+
+/// The rooms the main groups show: archived ones leave them for the Archived group
+func withoutArchived(_ rooms: [RoomSummary]) -> [RoomSummary] {
+    rooms.filter { !$0.isArchived }
+}
+
+/// Appends the Archived group last, only when it has rooms
+func withArchivedGroup(_ groups: [RoomGroup], _ archived: [RoomSummary]) -> [RoomGroup] {
+    guard !archived.isEmpty else { return groups }
+    return groups + [RoomGroup(kind: .archived, rooms: archived)]
 }

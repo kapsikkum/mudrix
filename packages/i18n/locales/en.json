@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Couldn't update low priority: {{error}}",
     "markUnread": "Mark as unread",
     "markUnreadFailed": "Couldn't mark as unread: {{error}}",
-    "moveToCategory": "Move to {{name}}"
+    "moveToCategory": "Move to {{name}}",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "archived": "Archived",
+    "archiveFailed": "Couldn't archive the room: {{error}}",
+    "unarchiveFailed": "Couldn't unarchive the room: {{error}}"
   },
   "developer": {
     "title": "Developer",

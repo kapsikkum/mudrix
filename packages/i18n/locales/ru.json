@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Не удалось обновить приоритет: {{error}}",
     "markUnread": "Отметить как непрочитанное",
     "markUnreadFailed": "Не удалось отметить как непрочитанное: {{error}}",
-    "moveToCategory": "Переместить в «{{name}}»"
+    "moveToCategory": "Переместить в «{{name}}»",
+    "archive": "Архивировать",
+    "unarchive": "Вернуть из архива",
+    "archived": "В архиве",
+    "archiveFailed": "Не удалось архивировать комнату: {{error}}",
+    "unarchiveFailed": "Не удалось вернуть комнату из архива: {{error}}"
   },
   "developer": {
     "title": "Developer",

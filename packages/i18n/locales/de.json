@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Niedrige Priorität konnte nicht aktualisiert werden: {{error}}",
     "markUnread": "Als ungelesen markieren",
     "markUnreadFailed": "Konnte nicht als ungelesen markiert werden: {{error}}",
-    "moveToCategory": "Nach {{name}} verschieben"
+    "moveToCategory": "Nach {{name}} verschieben",
+    "archive": "Archivieren",
+    "unarchive": "Aus dem Archiv holen",
+    "archived": "Archiviert",
+    "archiveFailed": "Raum konnte nicht archiviert werden: {{error}}",
+    "unarchiveFailed": "Raum konnte nicht aus dem Archiv geholt werden: {{error}}"
   },
   "developer": {
     "title": "Entwickler",

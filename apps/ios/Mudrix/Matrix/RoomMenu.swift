@@ -18,4 +18,9 @@ enum RoomMenu {
     static func inLowPriorityGroup(flagged: Bool, isFavourite: Bool, sectionTag: String?) -> Bool {
         flagged && !isFavourite && sectionTag == nil
     }
+
+    /// The archive entry's title: "Unarchive" for an archived room, "Archive" otherwise
+    static func archiveKey(archived: Bool) -> String {
+        archived ? "room.unarchive" : "room.archive"
+    }
 }

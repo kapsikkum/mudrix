@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Impossibile aggiornare la bassa priorità: {{error}}",
     "markUnread": "Segna come non letto",
     "markUnreadFailed": "Impossibile segnare come non letto: {{error}}",
-    "moveToCategory": "Sposta in {{name}}"
+    "moveToCategory": "Sposta in {{name}}",
+    "archive": "Archivia",
+    "unarchive": "Ripristina",
+    "archived": "Archiviate",
+    "archiveFailed": "Impossibile archiviare la stanza: {{error}}",
+    "unarchiveFailed": "Impossibile ripristinare la stanza: {{error}}"
   },
   "developer": {
     "title": "Developer",

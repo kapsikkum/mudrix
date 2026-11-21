@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "No se pudo actualizar la baja prioridad: {{error}}",
     "markUnread": "Marcar como no leído",
     "markUnreadFailed": "No se pudo marcar como no leído: {{error}}",
-    "moveToCategory": "Mover a {{name}}"
+    "moveToCategory": "Mover a {{name}}",
+    "archive": "Archivar",
+    "unarchive": "Desarchivar",
+    "archived": "Archivados",
+    "archiveFailed": "No se pudo archivar la sala: {{error}}",
+    "unarchiveFailed": "No se pudo desarchivar la sala: {{error}}"
   },
   "developer": {
     "title": "Developer",

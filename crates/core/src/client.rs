@@ -17,7 +17,7 @@ use matrix_sdk::{
         events::{
             push_rules::PushRulesEventContent, room::MediaSource, GlobalAccountDataEventType,
         },
-        OwnedDeviceId, OwnedMxcUri, OwnedUserId, TransactionId, UInt,
+        OwnedDeviceId, OwnedMxcUri, OwnedRoomId, OwnedUserId, TransactionId, UInt,
     },
     Client, ClientBuilder, SessionMeta, ThreadingSupport,
 };
@@ -169,6 +169,14 @@ pub struct MudrixClient {
     pub(crate) notifications:
         Mutex<Option<matrix_sdk::notification_settings::NotificationSettings>>,
     pub(crate) sound_states: crate::sound_packs::PackStates,
+    /// Room archive times from global account data, keyed by room ID, ms since the epoch.
+    /// `None` means explicitly unarchived this session (suppresses the legacy tag fallback).
+    /// Room tags are not delivered by sliding sync, so account data is the source of truth.
+    pub(crate) archived: std::sync::Mutex<HashMap<String, Option<u64>>>,
+    /// Whether `archived` has been read from account data this session
+    pub(crate) archived_loaded: std::sync::Mutex<bool>,
+    /// Fires when a room is archived or unarchived, so the room list re-emits that row
+    pub(crate) archive_changed: tokio::sync::broadcast::Sender<OwnedRoomId>,
 }
 
 impl MudrixClient {
@@ -242,6 +250,9 @@ impl MudrixClient {
             hierarchies: Mutex::default(),
             notifications: Mutex::new(None),
             sound_states: Default::default(),
+            archived: Default::default(),
+            archived_loaded: Default::default(),
+            archive_changed: tokio::sync::broadcast::channel(16).0,
         }
     }
 

@@ -1380,6 +1380,8 @@ data class RoomSummary(
     val markedUnread: Boolean,
     val isVoice: Boolean,
     val isLowPriority: Boolean,
+    /** Tagged `u.archived` by this user; hidden from the main list, still joined and syncing */
+    val isArchived: Boolean,
     /** Replaced by a newer room (upgraded) */
     val isTombstoned: Boolean,
     val isEncrypted: Boolean,
@@ -2325,6 +2327,14 @@ class MudrixClient(handle: Long, props: JsonObject) : Remote(handle, props) {
     /** Moves a room to the low priority group (or back); a favourite stops being one. */
     suspend fun setLowPriority(roomId: String, lowPriority: Boolean) {
         Runtime.callUnit("MudrixClient.setLowPriority", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(lowPriority)))
+    }
+
+    /**
+     * Archives a room without leaving it: hidden from the main list, still joined and syncing,
+     * and unarchived by the core when a newer message arrives.
+     */
+    suspend fun setArchived(roomId: String, archived: Boolean) {
+        Runtime.callUnit("MudrixClient.setArchived", handle, listOf(Arg.value<String>(roomId), Arg.value<Boolean>(archived)))
     }
 
     suspend fun setMarkedUnread(roomId: String, unread: Boolean) {

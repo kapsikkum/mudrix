@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "低優先度を更新できませんでした: {{error}}",
     "markUnread": "未読にする",
     "markUnreadFailed": "未読にできませんでした: {{error}}",
-    "moveToCategory": "{{name}} に移動"
+    "moveToCategory": "{{name}} に移動",
+    "archive": "アーカイブ",
+    "unarchive": "アーカイブを解除",
+    "archived": "アーカイブ済み",
+    "archiveFailed": "ルームをアーカイブできませんでした: {{error}}",
+    "unarchiveFailed": "ルームのアーカイブを解除できませんでした: {{error}}"
   },
   "developer": {
     "title": "Developer",

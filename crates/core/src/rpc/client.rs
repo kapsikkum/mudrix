@@ -163,6 +163,12 @@ rpc_methods! {
             this.set_low_priority(&room_id, low_priority).await
         }
 
+        /// Archives a room without leaving it: hidden from the main list, still joined and syncing,
+        /// and unarchived by the core when a newer message arrives.
+        call fn setArchived(room_id: String, archived: bool) -> () {
+            this.set_archived(&room_id, archived).await
+        }
+
         call fn setMarkedUnread(room_id: String, unread: bool) -> () {
             this.set_marked_unread(&room_id, unread).await
         }

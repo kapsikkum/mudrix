@@ -1130,6 +1130,10 @@ export type RoomSummary = {
   isVoice: boolean;
   isLowPriority: boolean;
   /**
+   * Tagged `u.archived` by this user; hidden from the main list, still joined and syncing
+   */
+  isArchived: boolean;
+  /**
    * Replaced by a newer room (upgraded)
    */
   isTombstoned: boolean;
@@ -1933,6 +1937,14 @@ export class MudrixClient extends Remote {
       roomId,
       lowPriority,
     ]) as Promise<void>;
+  }
+
+  /**
+   * Archives a room without leaving it: hidden from the main list, still joined and syncing,
+   * and unarchived by the core when a newer message arrives.
+   */
+  setArchived(roomId: string, archived: boolean): Promise<void> {
+    return runtime.call('MudrixClient.setArchived', this, [roomId, archived]) as Promise<void>;
   }
 
   setMarkedUnread(roomId: string, unread: boolean): Promise<void> {

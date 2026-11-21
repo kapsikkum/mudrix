@@ -24,6 +24,7 @@ import {
   StackIcon,
   ArrowUpIcon,
   ArrowDownIcon,
+  ArchiveIcon,
 } from '@phosphor-icons/react';
 import {
   roomSettingsRoomIdAtom,
@@ -237,6 +238,18 @@ export const RoomListItem = memo(function RoomListItem({
     }
   }, [client, entry.roomId, lowPriority, toast, t]);
 
+  const handleToggleArchive = useCallback(() => {
+    if (!client) return;
+    const archived = entry.room.isArchived;
+    client.setArchived(entry.roomId, !archived).catch((err) =>
+      toast.error(
+        t(archived ? 'room.unarchiveFailed' : 'room.archiveFailed', {
+          error: getErrorMessage(err),
+        })
+      )
+    );
+  }, [client, entry.roomId, entry.room.isArchived, toast, t]);
+
   const handleToggleVoiceChannel = useCallback(() => {
     if (!client) return;
     setVoiceChannel(client, entry.roomId, !isFlaggedVoice).catch((err) =>
@@ -368,6 +381,11 @@ export const RoomListItem = memo(function RoomListItem({
           onClick: () => {},
         },
         {
+          label: entry.room.isArchived ? t('room.unarchive') : t('room.archive'),
+          icon: <ArchiveIcon size={14} />,
+          onClick: handleToggleArchive,
+        },
+        {
           label: t('room.leaveRoom'),
           icon: <SignOutIcon size={14} />,
           danger: true,
@@ -380,6 +398,7 @@ export const RoomListItem = memo(function RoomListItem({
       roomActions,
       setRoomSettings,
       entry.roomId,
+      entry.room.isArchived,
       entry.name,
       handleMarkAsRead,
       handleCopyLink,
@@ -391,6 +410,7 @@ export const RoomListItem = memo(function RoomListItem({
       onMoveToCategory,
       handleMarkAsUnread,
       handleToggleLowPriority,
+      handleToggleArchive,
       handleToggleVoiceChannel,
       offerVoiceFlag,
       isFlaggedVoice,
@@ -486,6 +506,18 @@ export const DmListItem = memo(function DmListItem({
       .catch((err) => toast.error(t('room.markUnreadFailed', { error: getErrorMessage(err) })));
   }, [client, entry.roomId, toast, t]);
 
+  const handleToggleArchive = useCallback(() => {
+    if (!client) return;
+    const archived = entry.room.isArchived;
+    client.setArchived(entry.roomId, !archived).catch((err) =>
+      toast.error(
+        t(archived ? 'room.unarchiveFailed' : 'room.archiveFailed', {
+          error: getErrorMessage(err),
+        })
+      )
+    );
+  }, [client, entry.roomId, entry.room.isArchived, toast, t]);
+
   const handleContextMenu = useCallback(
     (e: React.MouseEvent) => {
       openContextMenu(e, [
@@ -523,6 +555,11 @@ export const DmListItem = memo(function DmListItem({
           onClick: () => {},
         },
         {
+          label: entry.room.isArchived ? t('room.unarchive') : t('room.archive'),
+          icon: <ArchiveIcon size={14} />,
+          onClick: handleToggleArchive,
+        },
+        {
           label: t('room.dm.leaveDm'),
           icon: <SignOutIcon size={14} />,
           danger: true,
@@ -535,11 +572,13 @@ export const DmListItem = memo(function DmListItem({
       roomActions,
       setRoomSettings,
       entry.roomId,
+      entry.room.isArchived,
       entry.partnerName,
       entry.unreadCount,
       entry.hasNotif,
       handleMarkAsRead,
       handleMarkAsUnread,
+      handleToggleArchive,
       t,
       level,
       setLevel,

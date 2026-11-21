@@ -36,8 +36,9 @@ final class MessageForwardTests: XCTestCase {
                       isSpace: Bool = false, isInvite: Bool = false, isTombstoned: Bool = false) -> RoomSummary {
         RoomSummary(id: id, name: name, isDirect: false, isInvite: isInvite, isFavourite: false,
                     unreadMessages: 0, unreadMentions: 0, unreadNotifications: 0, markedUnread: false,
-                    isVoice: false, isLowPriority: false, isTombstoned: isTombstoned, isEncrypted: false,
-                    canonicalAlias: alias, memberCount: 1, callParticipants: [], inCall: false,
-                    inCallElsewhere: false, lastActivity: lastActivity, isSpace: isSpace, isKnocked: false)
+                    isVoice: false, isLowPriority: false, isArchived: false, isTombstoned: isTombstoned,
+                    isEncrypted: false, canonicalAlias: alias, memberCount: 1, callParticipants: [],
+                    inCall: false, inCallElsewhere: false, lastActivity: lastActivity, isSpace: isSpace,
+                    isKnocked: false)
     }
 }

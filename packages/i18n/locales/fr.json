@@ -895,7 +895,12 @@
     "toggleLowPriorityFailed": "Impossible de mettre à jour la priorité basse : {{error}}",
     "markUnread": "Marquer comme non lu",
     "markUnreadFailed": "Impossible de marquer comme non lu : {{error}}",
-    "moveToCategory": "Déplacer vers {{name}}"
+    "moveToCategory": "Déplacer vers {{name}}",
+    "archive": "Archiver",
+    "unarchive": "Désarchiver",
+    "archived": "Archivés",
+    "archiveFailed": "Impossible d'archiver le salon : {{error}}",
+    "unarchiveFailed": "Impossible de désarchiver le salon : {{error}}"
   },
   "developer": {
     "title": "Developer",

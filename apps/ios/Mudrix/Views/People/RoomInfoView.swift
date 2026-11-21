@@ -20,6 +20,7 @@ struct RoomInfoView: View {
     @State private var memberCount = 0
     @State private var encrypted = false
     @State private var isFavourite = false
+    @State private var isArchived = false
     @State private var alias: String?
     @State private var canEditName = false
     @State private var canEditTopic = false
@@ -185,6 +186,9 @@ struct RoomInfoView: View {
                 }
 
                 Section {
+                    Button { setArchived(!isArchived) } label: {
+                        Label(String(localized: RoomMenu.archiveKey(archived: isArchived)), image: "ph-tray-regular")
+                    }
                     Button(role: .destructive) { reporting = true } label: {
                         Label(String(localized: "room.report.button"), image: "ph-flag-regular")
                             .foregroundStyle(theme.danger)
@@ -274,6 +278,19 @@ struct RoomInfoView: View {
     @State private var originalTopic = ""
     private var hasChanges: Bool { name != originalName || topic != originalTopic }
 
+    /// Archives or restores the room; the core keeps it joined and restores it when a newer message comes
+    private func setArchived(_ archived: Bool) {
+        Task {
+            do {
+                try await client.setArchived(roomId: room.id, archived: archived)
+                isArchived = archived
+                error = nil
+            } catch {
+                error = L10n.format(archived ? "room.archiveFailed" : "room.unarchiveFailed", error.localizedDescription)
+            }
+        }
+    }
+
     private func load() async {
         let info = try? await client.roomDetails(roomId: room.id)
         if !loaded {
@@ -294,6 +311,7 @@ struct RoomInfoView: View {
         alias = info?.canonicalAlias
         pinnedCount = info?.pinnedEventIds.count ?? 0
         isFavourite = info?.isFavourite ?? room.isFavourite
+        isArchived = room.isArchived
         memberCount = info?.memberCount ?? room.memberCount
         encrypted = info?.isEncrypted ?? room.isEncrypted
         if let permissions = info?.permissions {

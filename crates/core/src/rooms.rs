@@ -14,6 +14,7 @@ use matrix_sdk::{
         events::{
             room::{create::RoomCreateEventContent, encryption::RoomEncryptionEventContent},
             space::{child::SpaceChildEventContent, parent::SpaceParentEventContent},
+            tag::{TagInfo, TagName, UserTagName},
             InitialStateEvent, SyncStateEvent,
         },
         room::RoomType,
@@ -38,6 +39,14 @@ use crate::{Error, ListDiff, MudrixClient, Result};
 use matrix_sdk::notification_settings::RoomNotificationMode;
 use matrix_sdk_base::RoomInfoNotableUpdateReasons;
 
+/// The room tag a local archive writes. It is a user tag, so other clients ignore it: the room
+/// stays joined, new messages still arrive, and Element keeps showing it in its own list.
+const ARCHIVE_TAG: &str = "u.archived";
+
+/// Global account data with each archived room's archive time. Sliding sync does not deliver room
+/// tags, so this is what Mudrix itself reads; the tag above is best-effort for other clients.
+const ARCHIVED_ROOMS_EVENT: &str = "io.github.kapsikkum.mudrix.archived_rooms";
+
 /// What a room list row needs, without touching the SDK.
 #[derive(Clone, Debug, Serialize)]
 #[cfg_attr(feature = "typegen", derive(specta::Type))]
@@ -55,6 +64,8 @@ pub struct RoomSummary {
     pub marked_unread: bool,
     pub is_voice: bool,
     pub is_low_priority: bool,
+    /// Tagged `u.archived` by this user; hidden from the main list, still joined and syncing
+    pub is_archived: bool,
     /// Replaced by a newer room (upgraded)
     pub is_tombstoned: bool,
     pub is_encrypted: bool,
@@ -176,6 +187,9 @@ pub(crate) struct RoomExtras {
     created_at: Option<u64>,
     last_message: Option<LastMessage>,
     call: crate::calls::RoomCallState,
+    /// When the room was archived (the `u.archived` tag's order), milliseconds since the epoch;
+    /// `None` when it is not archived or the tag carries no order
+    archived_at: Option<u64>,
 }
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -221,6 +235,7 @@ impl RoomSummary {
                 .map_or(room.num_unread_notifications(), |u| u.notifications),
             marked_unread: room.is_marked_unread(),
             is_low_priority: room.is_low_priority(),
+            is_archived: extras.and_then(|e| e.archived_at).is_some(),
             is_tombstoned: room.is_tombstoned(),
             is_encrypted: room.encryption_state().is_encrypted(),
             dm_user_id,
@@ -420,6 +435,7 @@ impl MudrixClient {
         filters: impl Stream<Item = RoomFilter>,
         mut on_update: impl FnMut(Vec<ListDiff<RoomSummary>>),
     ) -> Result<()> {
+        self.load_archived().await;
         let service = self.sync_service()?.room_list_service();
         let list = service.all_rooms().await?;
         let (entries, controller) = list.entries_with_dynamic_adapters(page_size);
@@ -466,6 +482,18 @@ impl MudrixClient {
         let (latest_sender, latest_receiver) = futures_channel::mpsc::unbounded::<OwnedRoomId>();
         // Read receipts change a room's unread counts without a new event, so its row is redone
         let _read_receipts = watch_read_receipts(self.sdk().clone(), latest_sender.clone());
+        // Archiving is local state in account data; wake the row so it moves without waiting for
+        // the next sync event.
+        let archive_receiver = self.archive_changed.subscribe();
+        let archive_changes = stream::unfold(archive_receiver, |mut receiver| async move {
+            loop {
+                match receiver.recv().await {
+                    Ok(room_id) => return Some((Update::RowChanged(room_id), receiver)),
+                    Err(tokio::sync::broadcast::error::RecvError::Lagged(_)) => continue,
+                    Err(tokio::sync::broadcast::error::RecvError::Closed) => return None,
+                }
+            }
+        });
         let updates = stream::select(
             stream::select(entries.map(Update::Diffs), filters.map(Update::Filter)),
             stream::select(
@@ -473,7 +501,7 @@ impl MudrixClient {
                     space_changes.map(|_| Update::SpacesChanged),
                     stream::select(ticks, rule_changes),
                 ),
-                latest_receiver.map(Update::RowChanged),
+                stream::select(latest_receiver.map(Update::RowChanged), archive_changes),
             ),
         );
         pin_mut!(updates);
@@ -504,7 +532,7 @@ impl MudrixClient {
                             None => item.clear_user_defined_notification_mode(),
                         }
                         sent_modes.insert(item.room_id().to_owned(), mode);
-                        let extras = room_extras(item).await;
+                        let extras = room_extras(self, item).await;
                         changed.push(ListDiff::Set {
                             index,
                             value: RoomSummary::with_extras(item, Some(&extras)),
@@ -521,7 +549,7 @@ impl MudrixClient {
                             continue;
                         };
                         if crate::calls::room_call_state(item).await != *before {
-                            let extras = room_extras(item).await;
+                            let extras = room_extras(self, item).await;
                             in_call.insert(item.room_id().to_owned(), extras.call.clone());
                             changed.push(ListDiff::Set {
                                 index,
@@ -600,14 +628,13 @@ impl MudrixClient {
                                 .collect(),
                         );
                     }
-                    let extras: HashMap<OwnedRoomId, RoomExtras> =
-                        stream::iter(rooms)
-                            .map(|room| async move {
-                                (room.room_id().to_owned(), room_extras(&room).await)
-                            })
-                            .buffer_unordered(16)
-                            .collect()
-                            .await;
+                    let extras: HashMap<OwnedRoomId, RoomExtras> = stream::iter(rooms)
+                        .map(|room| async move {
+                            (room.room_id().to_owned(), room_extras(self, &room).await)
+                        })
+                        .buffer_unordered(16)
+                        .collect()
+                        .await;
                     for (room_id, extras) in &extras {
                         if extras.call.participants.is_empty() {
                             in_call.remove(room_id);
@@ -649,7 +676,20 @@ impl MudrixClient {
                     else {
                         continue;
                     };
-                    let extras = room_extras(&shown[index]).await;
+                    let extras = room_extras(self, &shown[index]).await;
+                    // A message newer than the archive time brings the room back. The tag's
+                    // order is the archive time, so unread history from before is not a trigger.
+                    if let Some(at) = extras.archived_at {
+                        let newer = extras
+                            .last_message
+                            .as_ref()
+                            .is_some_and(|message| message.timestamp > at);
+                        if newer {
+                            // Rare and one request; keep it inline so the cache and account data
+                            // are already updated when the next diff is applied.
+                            let _ = self.set_archived(room_id.as_str(), false).await;
+                        }
+                    }
                     if extras.call.participants.is_empty() {
                         in_call.remove(&room_id);
                     } else {
@@ -939,6 +979,110 @@ impl MudrixClient {
             .room(room_id)?
             .set_is_low_priority(low_priority, None)
             .await?)
+    }
+
+    /// Archives a room for this user without leaving it: the room keeps syncing, and the first
+    /// newer message unarchives it. Stored in Mudrix's own global account data (the only account
+    /// data sliding sync delivers), with the `u.archived` tag written best-effort for other clients.
+    pub async fn set_archived(&self, room_id: &str, archived: bool) -> Result<()> {
+        self.load_archived().await;
+        let room = self.room(room_id)?;
+        let id = room.room_id().to_string();
+        let at = now_ms();
+        {
+            let mut times = self
+                .archived
+                .lock()
+                .map_err(|_| Error::InvalidId("archived rooms lock poisoned".into()))?;
+            if archived {
+                times.insert(id, Some(at));
+            } else {
+                // Explicitly unarchived: remember it so the legacy `u.archived` tag fallback
+                // cannot bring the room back.
+                times.insert(id, None);
+            }
+        }
+        if let Err(error) = self.save_archived().await {
+            // The cache no longer matches the server; reload it on the next call.
+            if let Ok(mut loaded) = self.archived_loaded.lock() {
+                *loaded = false;
+            }
+            return Err(error);
+        }
+        // Best effort: other clients ignore `u.archived`, and some servers may not accept tags.
+        if let Err(error) = set_room_archived_tag(&room, archived, at).await {
+            tracing::debug!("archive tag not written: {error}");
+        }
+        // Wake the room list so this row moves now rather than at the next event.
+        let _ = self.archive_changed.send(room.room_id().to_owned());
+        Ok(())
+    }
+
+    /// Reads the archive times once per session. Called before the room list is built.
+    async fn load_archived(&self) {
+        {
+            let Ok(loaded) = self.archived_loaded.lock() else {
+                return;
+            };
+            if *loaded {
+                return;
+            }
+        }
+        if let Ok(mut loaded) = self.archived_loaded.lock() {
+            *loaded = true;
+        }
+        let account = self.sdk().account();
+        // The server copy is authoritative (another Mudrix may have archived something); fall back
+        // to the store when offline.
+        let raw = match account
+            .fetch_account_data(ARCHIVED_ROOMS_EVENT.into())
+            .await
+        {
+            Ok(raw) => raw,
+            Err(_) => account
+                .account_data_raw(ARCHIVED_ROOMS_EVENT.into())
+                .await
+                .ok()
+                .flatten(),
+        };
+        let Some(raw) = raw else {
+            return;
+        };
+        let Ok(value) = raw.deserialize_as::<Value>() else {
+            return;
+        };
+        let Some(rooms) = value.get("rooms").and_then(Value::as_object) else {
+            return;
+        };
+        let Ok(mut times) = self.archived.lock() else {
+            return;
+        };
+        times.clear();
+        for (room_id, at) in rooms {
+            if let Some(at) = at.as_u64() {
+                times.insert(room_id.clone(), Some(at));
+            }
+        }
+    }
+
+    /// Writes the archive map to global account data.
+    async fn save_archived(&self) -> Result<()> {
+        let rooms: serde_json::Map<String, Value> = self
+            .archived
+            .lock()
+            .map_err(|_| Error::InvalidId("archived rooms lock poisoned".into()))?
+            .iter()
+            .filter_map(|(room_id, at)| at.map(|at| (room_id.clone(), Value::from(at))))
+            .collect();
+        let content = serde_json::json!({ "rooms": rooms });
+        let raw = Raw::new(&content)
+            .map_err(|error| Error::InvalidId(error.to_string()))?
+            .cast_unchecked();
+        self.sdk()
+            .account()
+            .set_account_data_raw(ARCHIVED_ROOMS_EVENT.into(), raw)
+            .await?;
+        Ok(())
     }
 
     pub async fn set_marked_unread(&self, room_id: &str, unread: bool) -> Result<()> {
@@ -1444,7 +1588,54 @@ async fn room_created_at(room: &Room) -> Option<u64> {
     }
 }
 
-pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
+/// The archive time for `room`: the synced account-data map first, then the `u.archived` tag
+/// written by older builds. Reading a legacy tag caches it for the rest of the session.
+async fn archived_at(client: &MudrixClient, room: &Room) -> Option<u64> {
+    let id = room.room_id().as_str();
+    if let Ok(times) = client.archived.lock() {
+        if let Some(state) = times.get(id) {
+            // `None` is an explicit unarchive; do not let the old tag resurrect the room.
+            return *state;
+        }
+    }
+    let tags = room.tags().await.ok().flatten()?;
+    let at = tags
+        .iter()
+        .find(|(name, _)| name.to_string() == ARCHIVE_TAG)
+        .and_then(|(_, info)| info.order)
+        .filter(|order| order.is_finite() && *order >= 0.0)
+        .map(|order| order as u64)?;
+    if let Ok(mut times) = client.archived.lock() {
+        times.insert(id.to_owned(), Some(at));
+    }
+    Some(at)
+}
+
+fn now_ms() -> u64 {
+    // `MilliSecondsSinceUnixEpoch::now` is the SDK's wasm-safe clock; `SystemTime::now` panics on
+    // wasm32-unknown-unknown ("time not implemented on this platform").
+    u64::from(matrix_sdk::ruma::MilliSecondsSinceUnixEpoch::now().0)
+}
+
+/// Writes or removes the `u.archived` tag. The tag's `order` is the archive time, so a message
+/// sent after it is a new message; history already unread when the room was archived is not.
+async fn set_room_archived_tag(room: &Room, archived: bool, at: u64) -> Result<()> {
+    let tag = TagName::User(
+        ARCHIVE_TAG
+            .parse::<UserTagName>()
+            .map_err(|error| Error::InvalidId(error.to_string()))?,
+    );
+    if archived {
+        let mut info = TagInfo::new();
+        info.order = Some(at as f64);
+        room.set_tag(tag, info).await?;
+    } else {
+        room.remove_tag(tag).await?;
+    }
+    Ok(())
+}
+
+pub(crate) async fn room_extras(client: &MudrixClient, room: &Room) -> RoomExtras {
     let mut extras = RoomExtras {
         name: room_display_name(room).await,
         ..Default::default()
@@ -1485,6 +1676,7 @@ pub(crate) async fn room_extras(room: &Room) -> RoomExtras {
     extras.last_message = last_message(room).await;
     extras.created_at = room_created_at(room).await;
     extras.call = crate::calls::room_call_state(room).await;
+    extras.archived_at = archived_at(client, room).await;
     if let Ok((cache, _handles)) = room.event_cache().await {
         extras.last_activity = cache
             .rfind_map_event_in_memory_by(|event| event.timestamp())

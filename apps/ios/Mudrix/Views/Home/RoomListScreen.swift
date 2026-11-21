@@ -35,6 +35,8 @@ struct RoomListScreen: View {
     @State private var sectionName = ""
     @State private var sectionError: String?
     @State private var collapsed = Set(UserDefaults.standard.stringArray(forKey: "roomList.collapsed") ?? [])
+    /// Groups that start closed (the Archived one) remember being opened here
+    @State private var expanded = Set(UserDefaults.standard.stringArray(forKey: "roomList.expanded") ?? [])
 
     private var title: String {
         switch selection {
@@ -169,7 +171,7 @@ struct RoomListScreen: View {
         }
         .onChange(of: isModern, initial: true) { _, modern in
             // Only Modern spaces and their rooms are read (one request per room, kept for a minute)
-            if modern, let spaceId { mudrix.ensureAll(roomList.rooms(for: .space(spaceId)).map(\.id)) }
+            if modern, let spaceId { mudrix.ensureAll(roomList.roomsIncludingArchived(for: .space(spaceId)).map(\.id)) }
         }
         .sheet(isPresented: $showNewMessage) { UserPickerView(mode: .directMessage) }
         .sheet(isPresented: $showNewRoom) { CreateRoomView(spaceId: spaceId) }
@@ -231,6 +233,17 @@ struct RoomListScreen: View {
                         .font(.wizard(WZ.FontSize.xs, .semibold))
                         .foregroundStyle(theme.textMuted)
                 }
+            }
+        }
+        // The Modern list draws its own categories, so its Archived group is added here
+        if let archived = groups.last, case .archived = archived.kind {
+            Section {
+                if !isCollapsed(archived) || reordering {
+                    ForEach(archived.rooms) { roomRow($0, modern: true) }
+                }
+            } header: {
+                groupHeader(archived, in: groups)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 8))
             }
         }
     }
@@ -334,6 +347,10 @@ struct RoomListScreen: View {
             .tint(theme.textMuted)
         }
         .swipeActions(edge: .trailing) {
+            Button { setArchived(room) } label: {
+                Label(String(localized: RoomMenu.archiveKey(archived: room.isArchived)), image: "ph-tray-regular")
+            }
+            .tint(theme.textMuted)
             Button(role: .destructive) { leaving = room } label: {
                 Label(String(localized: "common.leave"), image: "ph-sign-out-regular")
             }
@@ -402,6 +419,9 @@ struct RoomListScreen: View {
             Button { copyToClipboard("https://matrix.to/#/\(room.id)", message: String(localized: "timeline.linkCopied")) } label: {
                 Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
             }
+            Button { setArchived(room) } label: {
+                Label(menu: String(localized: RoomMenu.archiveKey(archived: room.isArchived)), icon: "ph-tray-regular")
+            }
             Divider()
             Button(role: .destructive) { leaving = room } label: {
                 Label(menu: String(localized: "common.leave"), icon: "ph-sign-out-regular", destructive: true)
@@ -441,7 +461,7 @@ struct RoomListScreen: View {
     private func groupHeader(_ group: RoomGroup, in groups: [RoomGroup]) -> some View {
         let anchors = groups.compactMap { group -> String? in
             switch group.kind {
-            case .pinned, .favourites, .dms, .lowPriority: return nil
+            case .pinned, .favourites, .dms, .lowPriority, .archived: return nil
             default: return group.id
             }
         }
@@ -506,9 +526,20 @@ struct RoomListScreen: View {
 
     @ViewBuilder
     private func collapsedBadge(_ group: RoomGroup) -> some View {
-        let unread = group.rooms.reduce(0) { $0 + max($1.unreadCount, $1.mentionCount) }
-        if unread > 0 {
-            UnreadBadge(count: unread, isMention: group.rooms.contains { $0.mentionCount > 0 })
+        if case .archived = group.kind {
+            // The Archived header counts its rooms whether or not they have anything new
+            Text("\(group.rooms.count)")
+                .font(.wizard(WZ.FontSize.xs, .bold))
+                .foregroundStyle(theme.textMuted)
+                .padding(.horizontal, WZ.Space.space3)
+                .padding(.vertical, WZ.Space.space0)
+                .frame(minWidth: WZ.Space.space6)
+                .background(theme.fill, in: Capsule())
+        } else {
+            let unread = group.rooms.reduce(0) { $0 + max($1.unreadCount, $1.mentionCount) }
+            if unread > 0 {
+                UnreadBadge(count: unread, isMention: group.rooms.contains { $0.mentionCount > 0 })
+            }
         }
     }
 
@@ -516,14 +547,25 @@ struct RoomListScreen: View {
         "\(roomList.sectionContext(selection))::\(group.id)"
     }
 
-    private func isCollapsed(_ group: RoomGroup) -> Bool { collapsed.contains(collapseKey(group)) }
+    private func isCollapsed(_ group: RoomGroup) -> Bool {
+        let key = collapseKey(group)
+        if case .archived = group.kind { return !expanded.contains(key) }
+        return collapsed.contains(key)
+    }
 
     private func toggle(_ group: RoomGroup) {
         let key = collapseKey(group)
         withAnimation(.snappy(duration: WZ.MotionDuration.normal)) {
-            if collapsed.contains(key) { collapsed.remove(key) } else { collapsed.insert(key) }
+            if isCollapsed(group) {
+                collapsed.remove(key)
+                if case .archived = group.kind { expanded.insert(key) }
+            } else {
+                collapsed.insert(key)
+                expanded.remove(key)
+            }
         }
         UserDefaults.standard.set(Array(collapsed), forKey: "roomList.collapsed")
+        UserDefaults.standard.set(Array(expanded), forKey: "roomList.expanded")
     }
 
     private func groupTitle(_ group: RoomGroup) -> String {
@@ -534,6 +576,7 @@ struct RoomListScreen: View {
         case .section(let section): section.name
         case .rooms: String(localized: "nav.rooms")
         case .lowPriority: String(localized: "room.lowPriority")
+        case .archived: String(localized: "room.archived")
         }
     }
 
@@ -542,7 +585,7 @@ struct RoomListScreen: View {
         switch group.kind {
         case .favourites: return true
         case .rooms: return selection == .home
-        case .pinned, .dms, .section, .lowPriority: return false
+        case .pinned, .dms, .section, .lowPriority, .archived: return false
         }
     }
 
@@ -630,6 +673,17 @@ struct RoomListScreen: View {
         Task {
             do { try await work() } catch {
                 sectionError = L10n.format("room.toggleLowPriorityFailed", error.localizedDescription)
+            }
+        }
+    }
+
+    /// Archives or restores a room; the core keeps it joined and restores it when a newer message comes
+    private func setArchived(_ room: RoomSummary) {
+        let archived = room.isArchived
+        let failed = archived ? "room.unarchiveFailed" : "room.archiveFailed"
+        Task {
+            do { try await roomList.client.setArchived(roomId: room.id, archived: !archived) } catch {
+                sectionError = L10n.format(failed, error.localizedDescription)
             }
         }
     }

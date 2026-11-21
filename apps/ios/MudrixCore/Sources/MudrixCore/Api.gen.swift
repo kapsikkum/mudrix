@@ -2123,6 +2123,8 @@ public struct RoomSummary: Codable, Hashable, Sendable {
     public var markedUnread: Bool
     public var isVoice: Bool
     public var isLowPriority: Bool
+    /// Tagged `u.archived` by this user; hidden from the main list, still joined and syncing
+    public var isArchived: Bool
     /// Replaced by a newer room (upgraded)
     public var isTombstoned: Bool
     public var isEncrypted: Bool
@@ -2155,7 +2157,7 @@ public struct RoomSummary: Codable, Hashable, Sendable {
     /// nothing to show yet (an invite, or a latest event that isn't a message)
     public var lastMessage: LastMessage?
 
-    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], inCall: Bool, inCallElsewhere: Bool, lastActivity: Int? = nil, createdAt: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil, lastMessage: LastMessage? = nil) {
+    public init(id: String, name: String? = nil, avatarUrl: String? = nil, isDirect: Bool, isInvite: Bool, isFavourite: Bool, unreadMessages: Int, unreadMentions: Int, unreadNotifications: Int, markedUnread: Bool, isVoice: Bool, isLowPriority: Bool, isArchived: Bool, isTombstoned: Bool, isEncrypted: Bool, dmUserId: String? = nil, topic: String? = nil, canonicalAlias: String? = nil, memberCount: Int, notificationMode: NotificationMode? = nil, callParticipants: [String], inCall: Bool, inCallElsewhere: Bool, lastActivity: Int? = nil, createdAt: Int? = nil, isSpace: Bool, isKnocked: Bool, dmUserName: String? = nil, dmUserAvatar: String? = nil, lastMessage: LastMessage? = nil) {
         self.id = id
         self.name = name
         self.avatarUrl = avatarUrl
@@ -2168,6 +2170,7 @@ public struct RoomSummary: Codable, Hashable, Sendable {
         self.markedUnread = markedUnread
         self.isVoice = isVoice
         self.isLowPriority = isLowPriority
+        self.isArchived = isArchived
         self.isTombstoned = isTombstoned
         self.isEncrypted = isEncrypted
         self.dmUserId = dmUserId
@@ -3418,6 +3421,12 @@ public final class MudrixClient: Remote, @unchecked Sendable {
     /// Moves a room to the low priority group (or back); a favourite stops being one.
     public func setLowPriority(roomId: String, lowPriority: Bool) async throws {
         _ = try await call("MudrixClient.setLowPriority", [.value(roomId), .value(lowPriority)]) as Empty
+    }
+
+    /// Archives a room without leaving it: hidden from the main list, still joined and syncing,
+    /// and unarchived by the core when a newer message arrives.
+    public func setArchived(roomId: String, archived: Bool) async throws {
+        _ = try await call("MudrixClient.setArchived", [.value(roomId), .value(archived)]) as Empty
     }
 
     public func setMarkedUnread(roomId: String, unread: Bool) async throws {

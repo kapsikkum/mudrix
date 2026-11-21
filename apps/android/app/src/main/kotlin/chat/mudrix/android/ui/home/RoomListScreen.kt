@@ -170,11 +170,23 @@ fun RoomListScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val collapsedPrefs = remember { context.getSharedPreferences("room_list", android.content.Context.MODE_PRIVATE) }
     var collapsed by remember { mutableStateOf(collapsedPrefs.getStringSet("collapsed", emptySet()).orEmpty()) }
+    // The Archived group starts closed, so opening it has to be remembered separately
+    var expanded by remember { mutableStateOf(collapsedPrefs.getStringSet("expanded", emptySet()).orEmpty()) }
     fun collapseKey(group: RoomGroup) = "${roomList.sectionContext(selection)}::${group.id}"
+    fun isClosed(group: RoomGroup): Boolean {
+        val key = collapseKey(group)
+        return key in collapsed || (group.kind == RoomGroup.Kind.Archived && key !in expanded)
+    }
     fun toggle(group: RoomGroup) {
         val key = collapseKey(group)
-        collapsed = if (key in collapsed) collapsed - key else collapsed + key
-        collapsedPrefs.edit().putStringSet("collapsed", collapsed).apply()
+        if (isClosed(group)) {
+            collapsed = collapsed - key
+            expanded = expanded + key
+        } else {
+            collapsed = collapsed + key
+            expanded = expanded - key
+        }
+        collapsedPrefs.edit().putStringSet("collapsed", collapsed).putStringSet("expanded", expanded).apply()
     }
     val anchors = groups.filter { it.isMovable }.map { it.id }
 
@@ -221,6 +233,12 @@ fun RoomListScreen(
     fun setLowPriority(room: RoomSummary, low: Boolean) = action("room.toggleLowPriorityFailed") {
         roomList.client.setLowPriority(room.id, low)
     }
+
+    /** Archives or restores a room; the core keeps it joined and unarchives it on a newer message */
+    fun setArchived(room: RoomSummary, archived: Boolean) =
+        action(if (archived) "room.archiveFailed" else "room.unarchiveFailed") {
+            roomList.client.setArchived(room.id, archived)
+        }
 
     fun setVoiceChannel(room: RoomSummary, enabled: Boolean) = action("room.voiceChannelFailed") {
         stores.set(roomList.client, room.id, MudrixTypes.VOICE_CHANNEL, RoomMenu.voiceChannelContent(enabled))
@@ -403,7 +421,8 @@ fun RoomListScreen(
                         )
                     }
                 }
-                val headers = selection != SidebarSelection.Dms || groups.size > 1
+                val headers = selection != SidebarSelection.Dms || groups.size > 1 ||
+                    groups.any { it.kind == RoomGroup.Kind.Archived }
                 groups.forEach { group ->
                     val isModernGroup = modern && group.kind == RoomGroup.Kind.Rooms
                     // The Modern list has no "Rooms" heading unless favourites or sections above it need one
@@ -412,7 +431,7 @@ fun RoomListScreen(
                             GroupHeader(
                                 group,
                                 anchors,
-                                closed = collapseKey(group) in collapsed && !reordering,
+                                closed = isClosed(group) && !reordering,
                                 onToggle = { if (!reordering) toggle(group) },
                                 onRename = { renaming = it },
                                 onMove = { offset -> sectionTask { roomList.moveGroup(group.id, offset, groups) } },
@@ -434,6 +453,7 @@ fun RoomListScreen(
                                 onLeave = { leaving = room },
                                 onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                                 onSetLowPriority = { low -> setLowPriority(room, low) },
+                                onToggleArchive = { setArchived(room, !room.isArchived) },
                                 onSetVoiceChannel = { enabled -> setVoiceChannel(room, enabled) },
                                 onMoveToSection = { movingRoom = room },
                                 notificationMode = roomList.notificationMode(room),
@@ -450,7 +470,7 @@ fun RoomListScreen(
                         return@forEach
                     }
                     if (matrixCategories && group.kind == RoomGroup.Kind.Rooms) {
-                        if (!(headers && collapseKey(group) in collapsed && !reordering)) {
+                        if (!(headers && isClosed(group) && !reordering)) {
                             matrixCategoryRooms(categories, group.rooms, categoryHeaders, roomsLabel) { room ->
                                 SwipeableRoomRow(
                                     room,
@@ -461,6 +481,7 @@ fun RoomListScreen(
                                     onLeave = { leaving = room },
                                     onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                                     onSetLowPriority = { low -> setLowPriority(room, low) },
+                                    onToggleArchive = { setArchived(room, !room.isArchived) },
                                     onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
                                     notificationMode = roomList.notificationMode(room),
                                     onSetNotificationMode = { mode -> scope.launch { roomList.setNotificationMode(room, mode) } },
@@ -476,7 +497,7 @@ fun RoomListScreen(
                         }
                         return@forEach
                     }
-                    val shown = if (headers && collapseKey(group) in collapsed && !reordering) emptyList() else group.rooms
+                    val shown = if (headers && isClosed(group) && !reordering) emptyList() else group.rooms
                     itemsIndexed(shown, key = { _, room -> room.id }) { index, room ->
                         SwipeableRoomRow(
                             room,
@@ -487,6 +508,7 @@ fun RoomListScreen(
                             onLeave = { leaving = room },
                             onToggleFavourite = { sectionTask { roomList.client.setFavourite(room.id, !room.isFavourite) } },
                             onSetLowPriority = { low -> setLowPriority(room, low) },
+                            onToggleArchive = { setArchived(room, !room.isArchived) },
                             onMoveToSection = if (selection == SidebarSelection.Dms) null else ({ movingRoom = room }),
                             onMoveBy = if (hasSavedOrder(group) && group.rooms.size > 1) {
                                 ({ offset -> move(group, index, offset) })
@@ -683,6 +705,7 @@ private fun SwipeableRoomRow(
     onLeave: () -> Unit,
     onToggleFavourite: () -> Unit,
     onSetLowPriority: (Boolean) -> Unit,
+    onToggleArchive: () -> Unit,
     onSetVoiceChannel: (Boolean) -> Unit = {},
     onMoveToSection: (() -> Unit)?,
     /** Moves this room up (-1) or down (1) inside its group; null when the list has no saved order to change */
@@ -819,6 +842,7 @@ private fun SwipeableRoomRow(
                             copyToClipboard("https://matrix.to/#/${room.id}", L10n.format("timeline.linkCopied"))
                         },
                     )
+                    add(MenuItem(tr(if (room.isArchived) "room.unarchive" else "room.archive"), "tray", onClick = onToggleArchive))
                     add(MenuItem(tr("common.leave"), "sign-out", destructive = true, divider = true, onClick = onLeave))
                 },
             )
@@ -1030,6 +1054,7 @@ private fun GroupHeader(
         is RoomGroup.Kind.Section -> kind.section.name
         RoomGroup.Kind.Rooms -> tr("nav.rooms")
         RoomGroup.Kind.LowPriority -> tr("mobile.lowPriority")
+        RoomGroup.Kind.Archived -> tr("room.archived")
     }
     val rotation by androidx.compose.animation.core.animateFloatAsState(if (closed) 0f else 90f, label = "chevron")
     val haptics = androidx.compose.ui.platform.LocalHapticFeedback.current

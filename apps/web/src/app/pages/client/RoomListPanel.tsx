@@ -111,6 +111,8 @@ import { moveRoomToCategory, saveSpaceChildrenOrder } from '@/app/features/space
 import { useRoomsWhereCanSendState } from '@/app/features/space/useStatePermissions';
 import { useFlaggedVoiceChannels } from '@/app/features/room/voiceChannel';
 import { arrangeModernItems, categoryParentsOf } from './modernRoomList';
+import { splitArchived, splitArchivedHierarchy } from '@/app/features/room/archivedRooms';
+import type { DmEntry } from '@/app/hooks/useDms';
 
 const LIST_OVERSCAN = 5;
 
@@ -130,12 +132,16 @@ type HomeListItem =
       showAdd: boolean;
     }
   | SectionListItem
+  | { kind: 'archived'; count: number }
   | { kind: 'room'; entry: RoomEntry; compact?: boolean };
 
 type SpaceListItem =
   | { kind: 'header'; item: HierarchySpaceItem }
   | SectionListItem
+  | { kind: 'archived'; count: number }
   | { kind: 'room'; item: HierarchyRoomItem; compact?: boolean };
+
+type DmListRow = { kind: 'archived'; count: number } | { kind: 'dm'; entry: DmEntry };
 
 type SectionListItem = {
   kind: 'section';
@@ -496,6 +502,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   );
 
   const closedCategories = useMemo(() => new Set(closedNavCategoriesArr), [closedNavCategoriesArr]);
+  // The Archived section starts closed, so opening it is remembered separately
+  const [expandedArchived, setExpandedArchived] = useState<string[]>([]);
 
   const toggleCategory = useCallback(
     (categoryKey: string) => {
@@ -514,6 +522,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
 
   const { rooms: homeRooms, loading: homeLoading } = useRooms();
   const dms = useDms();
+  const { active: homeMainRooms, archived: archivedHomeRooms } = useMemo(
+    () => splitArchived(homeRooms, (entry) => entry.room.isArchived),
+    [homeRooms]
+  );
+  const { active: activeDms, archived: archivedDms } = useMemo(
+    () => splitArchived(dms, (entry) => entry.room.isArchived),
+    [dms]
+  );
 
   // Modern keeps categories that are still empty, so channels can be put in them
   const rawHierarchyItems = useSpaceHierarchy(
@@ -527,10 +543,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     [modernList, rawHierarchyItems]
   );
   const flaggedVoice = useFlaggedVoiceChannels(hierarchyRoomIds);
-  const hierarchyItems = useMemo(
-    () => (modernList ? arrangeModernItems(rawHierarchyItems, flaggedVoice) : rawHierarchyItems),
-    [modernList, rawHierarchyItems, flaggedVoice]
-  );
+  const { active: hierarchyItems, archived: archivedSpaceRooms } = useMemo(() => {
+    const split = splitArchivedHierarchy(rawHierarchyItems);
+    return {
+      active: modernList ? arrangeModernItems(split.active, flaggedVoice) : split.active,
+      archived: split.archived,
+    };
+  }, [modernList, rawHierarchyItems, flaggedVoice]);
   const categoryParents = useMemo(
     () => (modernList ? categoryParentsOf(hierarchyItems) : new Map<string, string>()),
     [modernList, hierarchyItems]
@@ -554,6 +573,15 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   const prompt = usePrompt();
   const confirmDialog = useConfirm();
   const sectionContext = isSpaceView && currentSpaceId ? currentSpaceId : HOME_SPACE;
+  const archivedKey = isDmView ? 'dms::archived' : `${sectionContext}::archived`;
+  const archivedOpen = !draggingSection && expandedArchived.includes(archivedKey);
+  const toggleArchived = useCallback(() => {
+    setExpandedArchived((prev) =>
+      prev.includes(archivedKey)
+        ? prev.filter((key) => key !== archivedKey)
+        : [...prev, archivedKey]
+    );
+  }, [archivedKey]);
 
   const sectionError = useCallback(
     (err: unknown) => toast.error(t('room.sections.failed', { error: getErrorMessage(err) })),
@@ -856,7 +884,14 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
         lowBlock.push({ kind: 'room', item: room, compact: lowClosed });
       }
     }
-    return items.concat(roomsPart, sectionBlock(false), subspacePart, lowBlock);
+    const archivedBlock: SpaceListItem[] = [];
+    if (archivedSpaceRooms.length > 0) {
+      archivedBlock.push({ kind: 'archived', count: archivedSpaceRooms.length });
+      if (archivedOpen) {
+        for (const room of archivedSpaceRooms) archivedBlock.push({ kind: 'room', item: room });
+      }
+    }
+    return items.concat(roomsPart, sectionBlock(false), subspacePart, lowBlock, archivedBlock);
   }, [
     modernList,
     groupBySection,
@@ -868,6 +903,8 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     lowPriorityRooms,
     spaceLowKey,
     hierarchyItems,
+    archivedSpaceRooms,
+    archivedOpen,
     keepVisible,
     spaceFavKey,
     favouriteOrdersVersion,
@@ -886,17 +923,29 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     () => homeRooms.filter((r) => r.hasVoiceRoom).map((r) => r.roomId),
     [homeRooms]
   );
+  const dmRows = useMemo((): DmListRow[] => {
+    const rows: DmListRow[] = activeDms.map((entry) => ({ kind: 'dm', entry }));
+    if (archivedDms.length > 0) {
+      rows.push({ kind: 'archived', count: archivedDms.length });
+      if (archivedOpen) {
+        for (const entry of archivedDms) rows.push({ kind: 'dm', entry });
+      }
+    }
+    return rows;
+  }, [activeDms, archivedDms, archivedOpen]);
   const voiceRoomIds = isSpaceView ? spaceVoiceRoomIds : homeVoiceRoomIds;
 
   const listedRoomIds = useMemo(() => {
-    if (isDmView) return dms.map((d) => d.roomId);
+    if (isDmView) {
+      return dmRows.flatMap((row) => (row.kind === 'dm' ? [row.entry.roomId] : []));
+    }
     if (isSpaceView) {
       return spaceItemsBase
         .filter((i): i is Extract<SpaceListItem, { kind: 'room' }> => i.kind === 'room')
         .map((i) => i.item.roomId);
     }
     return homeRooms.map((r) => r.roomId);
-  }, [isDmView, isSpaceView, spaceItemsBase, dms, homeRooms]);
+  }, [isDmView, isSpaceView, spaceItemsBase, dmRows, homeRooms]);
 
   const pendingCallRoomId = useAtomValue(pendingCallRoomIdAtom);
   const joiningRoomId = pendingCallRoomId ?? (callUi.phase !== 'idle' ? callUi.roomId : null);
@@ -949,17 +998,19 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     const favSet = favouriteRooms;
 
     const favEntries: RoomEntry[] = [];
-    for (const entry of homeRooms) {
+    for (const entry of homeMainRooms) {
       if (favSet.has(entry.roomId)) {
         favEntries.push(entry);
       }
     }
 
-    const lowEntries = homeRooms.filter(
+    const lowEntries = homeMainRooms.filter(
       (entry) => !favSet.has(entry.roomId) && lowPriorityRooms.has(entry.roomId)
     );
     const grouped = groupBySection(
-      homeRooms.filter((entry) => !favSet.has(entry.roomId) && !lowPriorityRooms.has(entry.roomId)),
+      homeMainRooms.filter(
+        (entry) => !favSet.has(entry.roomId) && !lowPriorityRooms.has(entry.roomId)
+      ),
       (e) => e.roomId
     );
     const otherEntries = grouped.rest;
@@ -1021,6 +1072,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     pushSection(HOME_ROOMS_CATEGORY, otherEntries);
     pushSections(false);
     if (lowEntries.length > 0) pushSection(HOME_LOW_PRIORITY_CATEGORY, lowEntries);
+    if (archivedHomeRooms.length > 0) {
+      items.push({ kind: 'archived', count: archivedHomeRooms.length });
+      if (archivedOpen) {
+        for (const entry of archivedHomeRooms) items.push({ kind: 'room', entry });
+      }
+    }
     return items;
   }, [
     groupBySection,
@@ -1030,7 +1087,9 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     client,
     favouriteRooms,
     lowPriorityRooms,
-    homeRooms,
+    homeMainRooms,
+    archivedHomeRooms,
+    archivedOpen,
     keepVisible,
     favouriteOrdersVersion,
     t,
@@ -1098,6 +1157,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       // Modern with no "Rooms" heading: the rooms before the first heading are the space's own
       let group: string | null = modernList && currentSpaceId ? `cat:${currentSpaceId}` : null;
       for (const it of items) {
+        if (it.kind === 'archived') {
+          headerKey = null;
+          group = null;
+          continue;
+        }
+        // Archived rows belong to no reorderable group
+        if (it.kind === 'room' && it.item.entry.room.isArchived) continue;
         if (it.kind === 'header') {
           headerKey = it.item.categoryKey;
           // Modern: each category is a group of its own, so a room dropped on another category's
@@ -1184,6 +1250,13 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       let headerKey: string | null = null;
       let group: string | null = null;
       for (const it of items) {
+        if (it.kind === 'archived') {
+          headerKey = null;
+          group = null;
+          continue;
+        }
+        // Archived rows belong to no reorderable group
+        if (it.kind === 'room' && it.entry.room.isArchived) continue;
         if (it.kind === 'header') {
           headerKey = it.itemKey;
           group =
@@ -1543,6 +1616,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     },
     getItemKey: (index) => {
       const item = spaceItems[index];
+      if (item.kind === 'archived') return 'archived-header';
       if (item.kind === 'section') return `section-${item.key}`;
       return item.kind === 'header'
         ? `header-${item.item.categoryKey}`
@@ -1563,6 +1637,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     },
     getItemKey: (index) => {
       const item = homeItems[index];
+      if (item.kind === 'archived') return 'archived-header';
       if (item.kind === 'section') return `section-${item.key}`;
       return item.kind === 'header' ? `header-${item.itemKey}` : item.entry.roomId;
     },
@@ -1571,10 +1646,15 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   });
 
   const dmVirtualizer = useVirtualizer({
-    count: dms.length,
+    count: dmRows.length,
     getScrollElement: () => roomListRef.current,
-    // Every DM row is the same card height, so the stride is the estimate exactly and nothing measures
-    estimateSize: () => dmRowHeight,
+    // DM rows share a card height; the Archived heading is a category header
+    estimateSize: (index) =>
+      dmRows[index].kind === 'archived' ? categoryHeaderHeight : dmRowHeight,
+    getItemKey: (index) => {
+      const row = dmRows[index];
+      return row.kind === 'archived' ? 'archived-header' : row.entry.roomId;
+    },
     overscan: LIST_OVERSCAN,
     enabled: isDmView,
   });
@@ -1612,7 +1692,11 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
     return () => el.removeEventListener('scroll', remember);
   }, []);
 
-  const listRowCount = isDmView ? dms.length : isSpaceView ? spaceItems.length : homeItems.length;
+  const listRowCount = isDmView
+    ? dmRows.length
+    : isSpaceView
+      ? spaceItems.length
+      : homeItems.length;
 
   useLayoutEffect(() => {
     const el = roomListRef.current;
@@ -1675,7 +1759,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       let ids: string[];
       let virtualizer: { scrollToIndex: (index: number, opts?: { align?: 'auto' }) => void };
       if (isDmView) {
-        ids = dms.map((d) => d.roomId);
+        ids = dmRows.map((row) => (row.kind === 'dm' ? row.entry.roomId : ''));
         virtualizer = dmVirtualizer;
       } else if (isSpaceView) {
         ids = spaceItems.map((it) => (it.kind === 'room' ? it.item.roomId : ''));
@@ -1708,7 +1792,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   }, [
     isDmView,
     isSpaceView,
-    dms,
+    dmRows,
     spaceItems,
     homeItems,
     dmVirtualizer,
@@ -1803,6 +1887,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                 >
                   {item.kind === 'section' ? (
                     renderSectionHeader(item)
+                  ) : item.kind === 'archived' ? (
+                    <HomeCategoryHeader
+                      label={`${t('room.archived')} (${item.count})`}
+                      isClosed={!archivedOpen}
+                      onToggle={toggleArchived}
+                    />
                   ) : item.kind === 'header' ? (
                     <SortableHeaderRow
                       id={`hdr:${item.item.categoryKey}`}
@@ -1839,7 +1929,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                       )}
                     </SortableHeaderRow>
                   ) : (
-                    <SortableRoomRow roomId={item.item.roomId} disabled={false}>
+                    <SortableRoomRow
+                      roomId={item.item.roomId}
+                      disabled={item.item.entry.room.isArchived}
+                    >
                       <RoomListItem
                         entry={item.item.entry}
                         isActive={currentRoomId === item.item.roomId}
@@ -1927,6 +2020,12 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                 >
                   {item.kind === 'section' ? (
                     renderSectionHeader(item)
+                  ) : item.kind === 'archived' ? (
+                    <HomeCategoryHeader
+                      label={`${t('room.archived')} (${item.count})`}
+                      isClosed={!archivedOpen}
+                      onToggle={toggleArchived}
+                    />
                   ) : item.kind === 'header' ? (
                     <SortableHeaderRow
                       id={`hdr:${item.itemKey}`}
@@ -1944,7 +2043,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                       />
                     </SortableHeaderRow>
                   ) : (
-                    <SortableRoomRow roomId={item.entry.roomId} disabled={false}>
+                    <SortableRoomRow
+                      roomId={item.entry.roomId}
+                      disabled={item.entry.room.isArchived}
+                    >
                       <RoomListItem
                         entry={item.entry}
                         isActive={currentRoomId === item.entry.roomId}
@@ -1971,7 +2073,7 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
   };
 
   const renderDmList = () => {
-    if (dms.length === 0) {
+    if (dmRows.length === 0) {
       return (
         <div ref={roomListRef} className={css.roomList}>
           <div className={css.emptyList}>{t('nav.noDms')}</div>
@@ -1982,10 +2084,10 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
       <div ref={roomListRef} className={css.roomList}>
         <div style={{ height: dmVirtualizer.getTotalSize(), position: 'relative' }}>
           {dmVirtualizer.getVirtualItems().map((virtualRow) => {
-            const entry = dms[virtualRow.index];
+            const row = dmRows[virtualRow.index];
             return (
               <div
-                key={entry.roomId}
+                key={virtualRow.key}
                 style={{
                   position: 'absolute',
                   top: 0,
@@ -1995,13 +2097,21 @@ export function RoomListPanel({ onVoiceJoin }: RoomListPanelProps) {
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >
-                <DmListItem
-                  entry={entry}
-                  isActive={currentRoomId === entry.roomId}
-                  hasActiveCall={callParticipantsByRoom.has(entry.roomId)}
-                  isInCall={callUi.roomId === entry.roomId}
-                  onSelect={selectRoom}
-                />
+                {row.kind === 'archived' ? (
+                  <HomeCategoryHeader
+                    label={`${t('room.archived')} (${row.count})`}
+                    isClosed={!archivedOpen}
+                    onToggle={toggleArchived}
+                  />
+                ) : (
+                  <DmListItem
+                    entry={row.entry}
+                    isActive={currentRoomId === row.entry.roomId}
+                    hasActiveCall={callParticipantsByRoom.has(row.entry.roomId)}
+                    isInCall={callUi.roomId === row.entry.roomId}
+                    onSelect={selectRoom}
+                  />
+                )}
               </div>
             );
           })}
