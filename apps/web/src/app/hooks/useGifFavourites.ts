@@ -1,122 +1,79 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { MudrixClient } from '@mudrix/core';
 import { STORAGE_KEY_GIF_FAVOURITE_FILES, STORAGE_KEY_GIF_FAVOURITES } from '@/const/storageKeys';
 import { accountStorageKey } from '@/const/accountStorage';
 import { useAccountData, useSyncReady } from '@/app/data';
 import { mudrixKey, upstreamKey } from '@/util/namespace';
+import {
+  GIF_FAVOURITES_CAP,
+  type GifFavouriteFiles,
+  type FavouriteStorage,
+  accountDataContent,
+  descriptorsToCapture,
+  filesForUrls,
+  mergeDescriptors,
+  readLegacyFavourites,
+  readLocalFiles,
+  resolveFavourites,
+  writeLocalFiles,
+} from './gifFavouritesData';
 
-export const GIF_FAVOURITES_CAP = 50;
+export { GIF_FAVOURITES_CAP } from './gifFavouritesData';
+export type { GifFavouriteFiles, GifFavouriteState } from './gifFavouritesData';
+
 const GIF_FAVOURITES_ACCOUNT_DATA = mudrixKey('gif_favourites');
-/** Where the upstream base kept them, read until the first change writes the Mudrix event */
+/** Where the upstream base kept them; still read so old favourites are not lost. */
 const UPSTREAM_GIF_FAVOURITES = upstreamKey('gif_favourites');
 
-/** Encrypted media can only be shown again with its own key, so a favourite keeps the file descriptor too. */
-export type GifFavouriteFiles = Record<string, unknown>;
-
-export interface GifFavouriteState {
-  urls: string[];
-  files: GifFavouriteFiles;
-}
-
-function validUrl(url: unknown): url is string {
-  return typeof url === 'string' && (/^https:\/\//.test(url) || /^mxc:\/\//.test(url));
-}
-
-export function parseFavourites(content: unknown): GifFavouriteState {
-  if (!content || typeof content !== 'object') return { urls: [], files: {} };
-  const record = content as Record<string, unknown>;
-  const urls = Array.isArray(record.urls)
-    ? Array.from(new Set(record.urls.filter(validUrl))).slice(0, GIF_FAVOURITES_CAP)
-    : [];
-  const files: GifFavouriteFiles = {};
-  const stored = record.files;
-  if (stored && typeof stored === 'object') {
-    for (const url of urls) {
-      const file = (stored as Record<string, unknown>)[url];
-      if (file && typeof file === 'object') files[url] = file;
+/** localStorage may be unavailable (private mode, desktop webview quirks); never let it throw. */
+const storage: FavouriteStorage = {
+  getItem: (key) => {
+    try {
+      return typeof localStorage === 'undefined' ? null : localStorage.getItem(key);
+    } catch {
+      return null;
     }
-  }
-  return { urls, files };
-}
-
-/** Whether the account data still carries the file descriptors of older versions. */
-function hasAccountDataFiles(content: unknown): boolean {
-  return !!content && typeof content === 'object' && 'files' in content;
-}
-
-/** The descriptors that still belong to a favourited (and capped) URL list. */
-function filesForUrls(urls: string[], files: GifFavouriteFiles): GifFavouriteFiles {
-  const kept: GifFavouriteFiles = {};
-  for (const url of urls.slice(0, GIF_FAVOURITES_CAP)) {
-    const file = files[url];
-    if (file) kept[url] = file;
-  }
-  return kept;
-}
+  },
+  setItem: (key, value) => {
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.setItem(key, value);
+    } catch {
+      /* storage full or unavailable */
+    }
+  },
+  removeItem: (key) => {
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.removeItem(key);
+    } catch {
+      /* ignore */
+    }
+  },
+};
 
 /**
- * Descriptors of encrypted favourite GIFs live on this device only: `files` in account data would
- * expose their decryption keys, as account data is not end-to-end encrypted.
+ * Every account-scoped key that may hold descriptors, primary key first. An older build wrote
+ * descriptors before the active account id was known (or under a different scope); reading all
+ * of them recovers the only copy of a key instead of leaving a favourite undecryptable.
  */
-function readLocalFiles(): GifFavouriteFiles {
+function localDescriptorKeys(primary: string): string[] {
+  const keys = new Set<string>([primary]);
   try {
-    const raw = localStorage.getItem(accountStorageKey(STORAGE_KEY_GIF_FAVOURITE_FILES));
-    if (!raw) return {};
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    const files: GifFavouriteFiles = {};
-    for (const [url, file] of Object.entries(parsed as Record<string, unknown>)) {
-      if (validUrl(url) && file && typeof file === 'object') files[url] = file;
+    if (typeof localStorage !== 'undefined') {
+      const prefix = `${STORAGE_KEY_GIF_FAVOURITE_FILES}::`;
+      for (const key of Object.keys(localStorage)) {
+        if (key.startsWith(prefix)) keys.add(key);
+      }
     }
-    return files;
   } catch {
-    return {};
+    /* storage unavailable: the primary key is still enough */
   }
-}
-
-function writeLocalFiles(files: GifFavouriteFiles): void {
-  try {
-    const key = accountStorageKey(STORAGE_KEY_GIF_FAVOURITE_FILES);
-    if (Object.keys(files).length === 0) localStorage.removeItem(key);
-    else localStorage.setItem(key, JSON.stringify(files));
-  } catch {
-    // Storage being full or unavailable only loses the encrypted favourites' previews.
-  }
-}
-
-function readLegacyFavourites(): string[] {
-  try {
-    const raw = localStorage.getItem(accountStorageKey(STORAGE_KEY_GIF_FAVOURITES));
-    if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    const urls = parsed.map((entry) => {
-      if (typeof entry === 'string') return entry;
-      const images = (entry as Record<string, unknown> | null)?.images as
-        Record<string, { url?: string }> | undefined;
-      return images?.downsized?.url ?? images?.original?.url ?? images?.fixed_width?.url ?? '';
-    });
-    return parseFavourites({ urls }).urls;
-  } catch {
-    return [];
-  }
+  return [...keys];
 }
 
 function writeAccountFavourites(client: MudrixClient, urls: string[]): Promise<void> {
-  // Never include `files`: account data is not end-to-end encrypted.
-  return client.setAccountData(GIF_FAVOURITES_ACCOUNT_DATA, {
-    urls: urls.slice(0, GIF_FAVOURITES_CAP),
-  });
+  // Descriptors (decryption keys) must NEVER be written to account data: it is not E2EE.
+  return client.setAccountData(GIF_FAVOURITES_ACCOUNT_DATA, accountDataContent(urls));
 }
-
-function writeFavourites(client: MudrixClient, state: GifFavouriteState): Promise<void> {
-  const urls = state.urls.slice(0, GIF_FAVOURITES_CAP);
-  writeLocalFiles(filesForUrls(urls, state.files));
-  return writeAccountFavourites(client, urls);
-}
-
-/** Accounts whose encrypted GIF descriptors have already been moved off the account data. */
-const migratedClients = new WeakSet<MudrixClient>();
 
 export function useGifFavourites(client: MudrixClient | null | undefined): {
   favourites: string[];
@@ -126,79 +83,105 @@ export function useGifFavourites(client: MudrixClient | null | undefined): {
 } {
   const mudrixSynced = useAccountData(GIF_FAVOURITES_ACCOUNT_DATA);
   const upstreamSynced = useAccountData(UPSTREAM_GIF_FAVOURITES);
-  const synced = mudrixSynced ?? upstreamSynced;
   const syncReady = useSyncReady();
-  const [state, setState] = useState<GifFavouriteState>({ urls: [], files: {} });
 
-  useEffect(() => {
-    const parsed = parseFavourites(synced);
-    // Older account data still carried descriptors; merge them with this device's copies for now.
-    setState({
-      urls: parsed.urls,
-      files: filesForUrls(parsed.urls, { ...readLocalFiles(), ...parsed.files }),
-    });
-  }, [synced]);
+  // Consult BOTH account-data events. The old code used `mudrix ?? upstream`, so descriptors kept
+  // in the other event (or urls in one and files in the other) were invisible.
+  const accountData = useMemo(() => [mudrixSynced, upstreamSynced], [mudrixSynced, upstreamSynced]);
 
-  // Descriptors used to be written to the (unencrypted) account data. Move them to this device
-  // once, then rewrite the event without them.
-  useEffect(() => {
-    if (!client || !syncReady || !hasAccountDataFiles(mudrixSynced)) return;
-    if (migratedClients.has(client)) return;
-    migratedClients.add(client);
-    const parsed = parseFavourites(mudrixSynced);
-    // The legacy merge may be writing at the same time: carry its URLs, so either write keeps them.
-    const legacy = readLegacyFavourites();
-    const urls = Array.from(new Set([...parsed.urls, ...legacy])).slice(0, GIF_FAVOURITES_CAP);
-    writeLocalFiles(filesForUrls(urls, { ...readLocalFiles(), ...parsed.files }));
-    void writeAccountFavourites(client, urls).catch(() => {});
-  }, [client, syncReady, mudrixSynced]);
+  const filesKey = accountStorageKey(STORAGE_KEY_GIF_FAVOURITE_FILES);
+  const legacyKey = accountStorageKey(STORAGE_KEY_GIF_FAVOURITES);
+  const localKeys = useMemo(() => localDescriptorKeys(filesKey), [filesKey]);
+  const legacyUrls = useMemo(
+    () => readLegacyFavourites(storage, legacyKey),
+    [legacyKey, syncReady]
+  );
 
-  // Favourites used to live in this browser only: merge them into the synced list once
+  // `urls` is the authoritative (and optimistic) list. Descriptors are derived separately below
+  // so they are available synchronously, on the very same render the urls appear.
+  const [urls, setUrls] = useState<string[]>(
+    () => resolveFavourites(accountData, readLocalFiles(storage, localKeys), legacyUrls).urls
+  );
+
+  // Reconcile with account data as it loads/changes; drop any optimistic toggle once the write
+  // has been echoed back. Descriptors are NOT cleared here: the synchronous read below always
+  // re-derives them from every source, so a favourite is never shown as failed mid-migration.
   useEffect(() => {
-    if (!client || !syncReady) return;
-    const legacy = readLegacyFavourites();
-    if (legacy.length === 0) return;
+    setUrls(resolveFavourites(accountData, readLocalFiles(storage, localKeys), legacyUrls).urls);
+  }, [accountData, localKeys, legacyUrls]);
+
+  /**
+   * The read path, computed synchronously (no effect, no `syncReady` gate, no one-shot flag).
+   * Descriptors come from this device's local store AND from the legacy `files` still present in
+   * either account-data event. So a pre-d45aa7c8 favourite renders immediately, an already-
+   * migrated favourite keeps rendering after account data was rewritten to urls-only, and no
+   * favourite is shown as a broken image just because the migration has not settled yet.
+   */
+  const files = useMemo(
+    () => filesForUrls(urls, mergeDescriptors(accountData, readLocalFiles(storage, localKeys))),
+    [urls, accountData, localKeys]
+  );
+
+  /**
+   * Migrate legacy descriptors onto this device, eagerly and idempotently. This is deliberately
+   * NON-destructive: d45aa7c8 rewrote the shared account data to drop `files` in a fire-and-forget
+   * effect, which stranded every other device that had not yet copied the keys locally (the
+   * desktop symptom). We copy keys off account data here but leave the legacy `files` in place as
+   * a synced fallback; the next explicit write (toggleFavourite) rewrites account data urls-only.
+   */
+  useEffect(() => {
+    const toCapture = descriptorsToCapture(accountData, readLocalFiles(storage, localKeys), urls);
+    if (Object.keys(toCapture).length === 0) return;
+    const current = readLocalFiles(storage, localKeys);
+    if (writeLocalFiles(storage, filesKey, { ...current, ...toCapture })) {
+      // Captured. Nothing is written to account data here, so no key can be leaked or lost.
+    }
+  }, [accountData, localKeys, filesKey, urls]);
+
+  // Favourites saved by very old browser-only builds: merge them into account data once.
+  useEffect(() => {
+    if (!client || !syncReady || legacyUrls.length === 0) return;
     void client
       .accountData(GIF_FAVOURITES_ACCOUNT_DATA)
       .then((existing) => {
-        const current = parseFavourites(existing);
-        const urls = Array.from(new Set([...current.urls, ...legacy])).slice(0, GIF_FAVOURITES_CAP);
-        const merged: GifFavouriteState = {
-          urls,
-          files: filesForUrls(urls, { ...readLocalFiles(), ...current.files }),
-        };
-        setState(merged);
-        return writeFavourites(client, merged);
+        const merged = resolveFavourites(
+          [existing, upstreamSynced],
+          readLocalFiles(storage, localKeys),
+          legacyUrls
+        );
+        setUrls(merged.urls);
+        writeLocalFiles(storage, filesKey, merged.files);
+        return writeAccountFavourites(client, merged.urls);
       })
-      .then(() => localStorage.removeItem(accountStorageKey(STORAGE_KEY_GIF_FAVOURITES)))
+      .then(() => storage.removeItem(legacyKey))
       .catch(() => {});
-  }, [client, syncReady]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [client, syncReady, legacyKey]);
 
   const toggleFavourite = useCallback(
     (url: string, file?: unknown) => {
       if (!client) return;
-      const removing = state.urls.includes(url);
-      const urls = removing
-        ? state.urls.filter((u) => u !== url)
-        : [url, ...state.urls].slice(0, GIF_FAVOURITES_CAP);
-      const files: GifFavouriteFiles = {};
-      for (const kept of urls) {
-        if (kept === url) {
-          if (!removing && file) files[kept] = file;
-        } else if (state.files[kept]) {
-          files[kept] = state.files[kept];
-        }
-      }
-      const next: GifFavouriteState = { urls, files };
-      const previous = state;
-      setState(next);
-      writeFavourites(client, next).catch(() => {
-        setState(previous);
-        writeLocalFiles(filesForUrls(previous.urls, previous.files));
+      const removing = urls.includes(url);
+      const nextUrls = removing
+        ? urls.filter((u) => u !== url)
+        : [url, ...urls].slice(0, GIF_FAVOURITES_CAP);
+
+      const merged = mergeDescriptors(accountData, readLocalFiles(storage, localKeys));
+      const nextFiles = filesForUrls(nextUrls, merged);
+      if (!removing && file) nextFiles[url] = file;
+
+      const previous = { urls, files: filesForUrls(urls, merged) };
+      // Optimistic: update the list and persist the descriptor to this device immediately.
+      setUrls(nextUrls);
+      const persisted = writeLocalFiles(storage, filesKey, nextFiles);
+      // Account data keeps only urls, never descriptors (no key leak).
+      writeAccountFavourites(client, nextUrls).catch(() => {
+        setUrls(previous.urls);
+        if (persisted) writeLocalFiles(storage, filesKey, previous.files);
       });
     },
-    [client, state]
+    [client, urls, accountData, localKeys, filesKey]
   );
 
-  return { favourites: state.urls, files: state.files, toggleFavourite };
+  return { favourites: urls, files, toggleFavourite };
 }
