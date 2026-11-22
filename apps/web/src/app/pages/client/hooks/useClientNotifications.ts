@@ -91,7 +91,9 @@ export function useClientNotifications() {
       const roomUrl = notification.isDirect
         ? `/dm/${encodeURIComponent(notification.roomId)}`
         : `/r/${encodeURIComponent(notification.roomId)}`;
-      const title = `${senderName} in ${notification.roomName ?? notification.roomId}`;
+      const title = notification.isDirect
+        ? (notification.roomName ?? senderName)
+        : `${senderName} in ${notification.roomName ?? notification.roomId}`;
       // The desktop toast shows the sender's avatar where the web banner shows the logo.
       const avatar =
         mx && window.desktopAPI?.showNotification
