@@ -82,7 +82,9 @@ on:
         required: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  # A literal name keeps this distinct from the other workflows Release calls;
+  # inside a reusable workflow `github.workflow` is the caller ("Release").
+  group: desktop-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
