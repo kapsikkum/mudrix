@@ -66,20 +66,27 @@ struct ModernShell: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
+            // The pane's inset snaps. Animating it re-laid the whole stack, list and push included, on
+            // every frame of the rail's slide, so the rest of the motion waited on the rail.
             pane
                 .padding(.leading, chatOpen ? 0 : 72)
+                .animation(nil, value: chatOpen)
+            // The rail slides over the pane on its own animation, which nothing else shares
             ModernRail(spaces: roomList.spaces, slots: railSlots, selection: selection, bottomInset: dockHeight,
                        onSelect: choose, onCreateSpace: onCreateSpace, onExplore: onExplore)
                 .overlay(alignment: .trailing) {
                     Rectangle().fill(theme.border).frame(width: WZ.BorderWidth.thin).ignoresSafeArea()
                 }
                 .offset(x: chatOpen ? -72 : 0)
+                .animation(reduceMotion ? nil : .spring(duration: 0.34, bounce: 0), value: chatOpen)
         }
         .overlay(alignment: .bottom) {
-            if !chatOpen { dock }
+            ZStack {
+                if !chatOpen { dock.transition(.opacity) }
+            }
+            .animation(reduceMotion ? nil : .spring(duration: 0.34, bounce: 0), value: chatOpen)
         }
         .background(theme.bgPrimary.ignoresSafeArea())
-        .animation(reduceMotion ? nil : .spring(duration: 0.34, bounce: 0), value: chatOpen)
         .fullScreenCover(isPresented: $showOwnProfile, onDismiss: {
             guard settingsAfterProfile else { return }
             settingsAfterProfile = false
