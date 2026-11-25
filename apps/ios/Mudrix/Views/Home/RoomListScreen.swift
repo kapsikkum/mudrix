@@ -348,7 +348,7 @@ struct RoomListScreen: View {
         }
         .swipeActions(edge: .trailing) {
             Button { setArchived(room) } label: {
-                Label(String(localized: RoomMenu.archiveKey(archived: room.isArchived)), image: "ph-tray-regular")
+                Label(L10n.format(RoomMenu.archiveKey(archived: room.isArchived)), image: "ph-tray-regular")
             }
             .tint(theme.textMuted)
             Button(role: .destructive) { leaving = room } label: {
@@ -420,7 +420,7 @@ struct RoomListScreen: View {
                 Label(menu: String(localized: "common.copyLink"), icon: "ph-link-simple-regular")
             }
             Button { setArchived(room) } label: {
-                Label(menu: String(localized: RoomMenu.archiveKey(archived: room.isArchived)), icon: "ph-tray-regular")
+                Label(menu: L10n.format(RoomMenu.archiveKey(archived: room.isArchived)), icon: "ph-tray-regular")
             }
             Divider()
             Button(role: .destructive) { leaving = room } label: {

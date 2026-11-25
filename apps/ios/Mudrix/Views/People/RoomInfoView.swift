@@ -166,8 +166,10 @@ struct RoomInfoView: View {
                             NavigationLink {
                                 RoomBridgesView(roomId: room.id, bridges: bridges)
                             } label: {
-                                LabeledContent { Text("\(bridges.count)") } label: {
+                                HStack {
                                     Label(String(localized: "room.settings.bridges.title"), image: "ph-plugs-connected-regular")
+                                    Spacer()
+                                    Text("\(bridges.count)")
                                 }
                             }
                         }
@@ -187,7 +189,7 @@ struct RoomInfoView: View {
 
                 Section {
                     Button { setArchived(!isArchived) } label: {
-                        Label(String(localized: RoomMenu.archiveKey(archived: isArchived)), image: "ph-tray-regular")
+                        Label(L10n.format(RoomMenu.archiveKey(archived: isArchived)), image: "ph-tray-regular")
                     }
                     Button(role: .destructive) { reporting = true } label: {
                         Label(String(localized: "room.report.button"), image: "ph-flag-regular")
@@ -285,8 +287,8 @@ struct RoomInfoView: View {
                 try await client.setArchived(roomId: room.id, archived: archived)
                 isArchived = archived
                 error = nil
-            } catch {
-                error = L10n.format(archived ? "room.archiveFailed" : "room.unarchiveFailed", error.localizedDescription)
+            } catch let failure {
+                error = L10n.format(archived ? "room.archiveFailed" : "room.unarchiveFailed", failure.localizedDescription)
             }
         }
     }
