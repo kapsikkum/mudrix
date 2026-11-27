@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Beim Schließen des Fensters läuft Mudrix im Tray weiter, damit du weiterhin Nachrichten und Anrufe erhältst. Beende es über das Tray-Symbol.",
       "muteNotifications": "Benachrichtigungen stummschalten",
       "muteNotificationsNote": "Desktop-Benachrichtigungen stummschalten, ohne die App zu beenden. Das lässt sich auch über den Tray ändern.",
+      "windowControls": "Fensterknöpfe",
+      "windowControlsNote": "Stil der Schaltflächen zum Minimieren, Maximieren und Schließen. Automatisch folgt deinem System.",
+      "windowControls_auto": "Automatisch",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Systemrahmen",
       "saveFailed": "Diese Einstellung konnte nicht gespeichert werden: {{error}}",
       "loadFailed": "Die Desktop-Einstellungen konnten nicht geladen werden: {{error}}"
     },

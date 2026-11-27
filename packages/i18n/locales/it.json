@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Chiudendo la finestra Mudrix resta attivo nell'area di notifica, così continui a ricevere messaggi e chiamate. Esci dall'icona nell'area di notifica.",
       "muteNotifications": "Silenzia le notifiche",
       "muteNotificationsNote": "Silenzia le notifiche del desktop senza chiudere l'app. Puoi cambiarlo anche dall'area di notifica.",
+      "windowControls": "Pulsanti della finestra",
+      "windowControlsNote": "Lo stile dei pulsanti per ridurre a icona, ingrandire e chiudere. Automatico segue il tuo sistema.",
+      "windowControls_auto": "Automatico",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Cornice di sistema",
       "saveFailed": "Impossibile salvare questa impostazione: {{error}}",
       "loadFailed": "Impossibile caricare le impostazioni del desktop: {{error}}"
     },

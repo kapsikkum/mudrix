@@ -343,6 +343,12 @@ headlines.
       link opens the app, quit from the tray
 - [ ] **macOS:** menu bar, dock badge, deep link, quit with the window closed, traffic-light spacing
 - [ ] **Linux:** AppImage starts from a different directory; deb menu entry; Wayland and X11
+- [ ] **Linux (KDE, Wayland):** with the window closed to the tray, a message from another account
+      shows a banner and plays its sound; clicking the banner opens the room
+- [ ] **Window buttons (Windows, Linux):** Settings > Desktop > Window buttons switches between the
+      Windows, KDE and macOS styles at once; "System frame" brings the window manager's title bar
+      back; the default is Windows on Windows and KDE on Linux; the window still drags, resizes and
+      maximises on double-click in every style (the setting is hidden on macOS)
 - [ ] **Android:** back gesture at the room list, rotation, notification tap opens the room, share
       sheet target, battery/doze behaviour for notifications
 - [ ] **iOS Simulator:** share extension appears in Photos/Safari, notification service extension

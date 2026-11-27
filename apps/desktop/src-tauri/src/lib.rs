@@ -302,11 +302,11 @@ pub fn run() {
             toast::init(app.handle());
             tray::build(app.handle())?;
             activity::init(app.handle());
-            // On Windows the app draws its own title bar, window buttons included. Linux keeps the
-            // window manager's frame: many ignore a frameless window and draw theirs anyway
-            #[cfg(windows)]
+            // The app draws its own title bar and, unless the setting asks for the system's frame,
+            // the window buttons too. macOS keeps its native traffic lights.
+            #[cfg(not(target_os = "macos"))]
             if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
-                window.set_decorations(false)?;
+                shell::apply_window_frame(&window, settings::get(app.handle()).window_controls);
             }
             // The window starts hidden (no flash): place it, then show it unless this is a start
             // at login that should stay in the tray

@@ -5,7 +5,7 @@ import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { currentRoomIdAtom, roomSearchAtom, globalSearchOpenAtom } from '@/app/store/atoms';
 import { RoomSearchField } from '@/app/features/roomSearch';
 import { MODIFIER_KEY } from '@/app/util/platform';
-import { drawsWindowControls } from '@/bridge/desktop';
+import { useDrawnWindowControls } from '@/bridge/windowControls';
 import { WindowControls } from './WindowControls';
 import * as css from './TitleBar.css';
 
@@ -17,6 +17,7 @@ interface TitleBarProps {
 }
 
 export function TitleBar({ start, center, end, fixed }: TitleBarProps) {
+  const controls = useDrawnWindowControls();
   return (
     <header className={fixed ? css.titleBarFixed : css.titleBar} data-tauri-drag-region>
       {start && <div className={css.start}>{start}</div>}
@@ -26,7 +27,7 @@ export function TitleBar({ start, center, end, fixed }: TitleBarProps) {
         </div>
       )}
       {end && <div className={css.end}>{end}</div>}
-      {drawsWindowControls && <WindowControls />}
+      {controls && <WindowControls variant={controls} />}
     </header>
   );
 }

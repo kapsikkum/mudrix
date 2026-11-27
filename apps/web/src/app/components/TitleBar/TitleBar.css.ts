@@ -49,7 +49,9 @@ export const titleBar = style({
   },
   selectors: {
     'html.desktop-darwin:not(.desktop-fullscreen) &': { paddingLeft: '80px' },
-    'html.desktop-other &': { paddingRight: 0 },
+    // Drawn traffic lights stay in fullscreen: they are the only way out besides the keyboard
+    'html.desktop-controls-left &': { paddingLeft: '80px' },
+    'html.desktop-controls-right &': { paddingRight: 0 },
   },
   '@media': {
     '(max-width: 768px)': { display: 'none' },
@@ -169,3 +171,77 @@ export const closeButton = style([
     },
   },
 ]);
+
+export const kdeControls = style({
+  ...noDrag,
+  display: 'flex',
+  alignItems: 'center',
+  alignSelf: 'stretch',
+  gap: '4px',
+  marginLeft: '8px',
+  paddingRight: '8px',
+});
+
+/** Breeze: round buttons that light up under the pointer */
+export const kdeButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  color: vars.color.textMuted,
+  transition: `background-color ${fast}, color ${fast}`,
+  ':hover': {
+    backgroundColor: vars.color.bgHover,
+    color: vars.color.textPrimary,
+  },
+  ':active': {
+    backgroundColor: vars.color.bgTertiary,
+  },
+});
+
+export const kdeClose = style({
+  ':hover': {
+    backgroundColor: '#da4453',
+    color: '#ffffff',
+  },
+  ':active': {
+    backgroundColor: '#b53a46',
+    color: '#ffffff',
+  },
+});
+
+export const macControls = style({
+  ...noDrag,
+  position: 'absolute',
+  left: '14px',
+  top: 0,
+  bottom: 0,
+  display: 'flex',
+  alignItems: 'center',
+  gap: '8px',
+});
+
+export const macGlyph = style({
+  opacity: 0,
+  color: 'rgba(0, 0, 0, 0.6)',
+  transition: `opacity ${fast}`,
+});
+
+globalStyle(`${macControls}:hover ${macGlyph}`, { opacity: 1 });
+
+export const macButton = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '12px',
+  height: '12px',
+  borderRadius: '50%',
+  boxShadow: 'inset 0 0 0 0.5px rgba(0, 0, 0, 0.25)',
+  ':active': { filter: 'brightness(0.8)' },
+});
+
+export const macClose = style({ backgroundColor: '#ff5f57' });
+export const macMinimize = style({ backgroundColor: '#febc2e' });
+export const macMaximize = style({ backgroundColor: '#28c840' });

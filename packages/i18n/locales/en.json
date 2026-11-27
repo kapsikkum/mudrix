@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Closing the window keeps Mudrix running in the tray, so you still get messages and calls. Quit it from the tray icon.",
       "muteNotifications": "Mute notifications",
       "muteNotificationsNote": "Silence desktop notifications without quitting. You can change this from the tray too.",
+      "windowControls": "Window buttons",
+      "windowControlsNote": "The style of the minimize, maximize and close buttons. Automatic follows your system.",
+      "windowControls_auto": "Automatic",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "System frame",
       "saveFailed": "Couldn't save this setting: {{error}}",
       "loadFailed": "Couldn't load the desktop settings: {{error}}"
     },

@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Zamknięcie okna zostawia Mudrix uruchomiony w zasobniku, więc nadal odbierasz wiadomości i rozmowy. Zakończ działanie z ikony w zasobniku.",
       "muteNotifications": "Wycisz powiadomienia",
       "muteNotificationsNote": "Wycisz powiadomienia na komputerze bez zamykania aplikacji. Możesz to też zmienić w zasobniku.",
+      "windowControls": "Przyciski okna",
+      "windowControlsNote": "Styl przycisków minimalizowania, maksymalizowania i zamykania. Automatyczny podąża za twoim systemem.",
+      "windowControls_auto": "Automatyczny",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Ramka systemowa",
       "saveFailed": "Nie udało się zapisać tego ustawienia: {{error}}",
       "loadFailed": "Nie udało się wczytać ustawień komputera: {{error}}"
     },

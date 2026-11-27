@@ -139,6 +139,7 @@ export const SETTINGS_INDEX: SettingsIndexEntry[] = [
   ['desktop', 'settings.desktop.startMinimized', 'settings.desktop.startMinimizedNote'],
   ['desktop', 'settings.desktop.closeToTray', 'settings.desktop.closeToTrayNote'],
   ['desktop', 'settings.desktop.muteNotifications', 'settings.desktop.muteNotificationsNote'],
+  ['desktop', 'settings.desktop.windowControls', 'settings.desktop.windowControlsNote'],
 
   ['encryption', 'settings.encryption.endToEnd'],
   ['encryption', 'settings.encryption.excludeInsecure', 'settings.encryption.excludeInsecureNote'],

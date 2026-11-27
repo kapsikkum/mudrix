@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "При закрытии окна Mudrix продолжает работать в трее, поэтому вы по-прежнему получаете сообщения и звонки. Выйти можно через значок в трее.",
       "muteNotifications": "Отключить уведомления",
       "muteNotificationsNote": "Отключает уведомления на компьютере без выхода из приложения. Это можно изменить и через трей.",
+      "windowControls": "Кнопки окна",
+      "windowControlsNote": "Стиль кнопок свернуть, развернуть и закрыть. «Автоматически» следует вашей системе.",
+      "windowControls_auto": "Автоматически",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Рамка системы",
       "saveFailed": "Не удалось сохранить эту настройку: {{error}}",
       "loadFailed": "Не удалось загрузить настройки для компьютера: {{error}}"
     },

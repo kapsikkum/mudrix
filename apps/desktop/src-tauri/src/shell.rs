@@ -3,10 +3,14 @@
 
 use std::sync::atomic::{AtomicBool, Ordering};
 
+#[cfg(not(target_os = "macos"))]
+use tauri::WebviewWindow;
 use tauri::{AppHandle, Emitter, Manager, Runtime};
 use tauri_plugin_autostart::ManagerExt as _;
 use tauri_plugin_window_state::{AppHandleExt as _, StateFlags};
 
+#[cfg(not(target_os = "macos"))]
+use crate::settings::WindowControls;
 use crate::settings::{self, DesktopSettings, SettingsPatch};
 use crate::{tray, MAIN_WINDOW};
 
@@ -41,7 +45,17 @@ pub fn hide_main_window<R: Runtime>(app: &AppHandle<R>) {
     let _ = app.save_window_state(window_state_flags());
     if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
         let _ = window.hide();
+        // Some window systems (Wayland) keep reporting the hidden window as focused, so the web
+        // app is told it is gone rather than left to ask
+        let _ = app.emit_to(MAIN_WINDOW, "desktop://window-hidden", ());
     }
+}
+
+/// Gives the main window the system's frame, or none when the app draws its own window buttons.
+/// macOS keeps its native traffic lights under the overlay title bar whatever the setting says.
+#[cfg(not(target_os = "macos"))]
+pub fn apply_window_frame<R: Runtime>(window: &WebviewWindow<R>, controls: WindowControls) {
+    let _ = window.set_decorations(controls.native_frame());
 }
 
 pub fn toggle_main_window<R: Runtime>(app: &AppHandle<R>) {
@@ -75,6 +89,12 @@ pub fn apply_settings(app: &AppHandle, patch: &SettingsPatch) -> DesktopSettings
         }
     }
     let mut updated = settings::update(app, patch);
+    #[cfg(not(target_os = "macos"))]
+    if patch.window_controls.is_some() {
+        if let Some(window) = app.get_webview_window(MAIN_WINDOW) {
+            apply_window_frame(&window, updated.window_controls);
+        }
+    }
     sync_autostart(app, &mut updated);
     tray::sync_mute(app, updated.notifications_muted);
     let _ = app.emit("desktop://settings-changed", updated.clone());

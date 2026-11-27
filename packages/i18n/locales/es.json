@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Al cerrar la ventana, Mudrix sigue ejecutándose en la bandeja, así que sigues recibiendo mensajes y llamadas. Sal desde el icono de la bandeja.",
       "muteNotifications": "Silenciar notificaciones",
       "muteNotificationsNote": "Silencia las notificaciones del escritorio sin cerrar la aplicación. También puedes cambiarlo desde la bandeja.",
+      "windowControls": "Botones de ventana",
+      "windowControlsNote": "El estilo de los botones de minimizar, maximizar y cerrar. Automático sigue tu sistema.",
+      "windowControls_auto": "Automático",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Marco del sistema",
       "saveFailed": "No se pudo guardar este ajuste: {{error}}",
       "loadFailed": "No se pudieron cargar los ajustes del escritorio: {{error}}"
     },

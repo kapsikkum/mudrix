@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Als je het venster sluit, blijft Mudrix draaien in het systeemvak, zodat je berichten en gesprekken blijft ontvangen. Sluit af via het pictogram in het systeemvak.",
       "muteNotifications": "Meldingen dempen",
       "muteNotificationsNote": "Demp desktopmeldingen zonder af te sluiten. Je kunt dit ook via het systeemvak wijzigen.",
+      "windowControls": "Vensterknoppen",
+      "windowControlsNote": "De stijl van de knoppen voor minimaliseren, maximaliseren en sluiten. Automatisch volgt je systeem.",
+      "windowControls_auto": "Automatisch",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Systeemkader",
       "saveFailed": "Deze instelling kon niet worden opgeslagen: {{error}}",
       "loadFailed": "De desktopinstellingen konden niet worden geladen: {{error}}"
     },

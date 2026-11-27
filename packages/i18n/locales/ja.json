@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "ウィンドウを閉じても Mudrix はトレイで実行を続けるため、メッセージや通話を受け取れます。終了するにはトレイのアイコンから行います。",
       "muteNotifications": "通知をミュート",
       "muteNotificationsNote": "アプリを終了せずにデスクトップ通知を消音します。トレイからも変更できます。",
+      "windowControls": "ウィンドウボタン",
+      "windowControlsNote": "最小化・最大化・閉じるボタンのスタイルです。「自動」はお使いのシステムに合わせます。",
+      "windowControls_auto": "自動",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "システムのフレーム",
       "saveFailed": "この設定を保存できませんでした: {{error}}",
       "loadFailed": "デスクトップ設定を読み込めませんでした: {{error}}"
     },

@@ -29,6 +29,8 @@ interface DesktopSettings {
   startMinimized: boolean;
   /** The tray's "Mute notifications" */
   notificationsMuted: boolean;
+  /** The style of the window buttons; automatic is the platform's own, `system` keeps the window frame */
+  windowControls: 'auto' | 'system' | 'windows' | 'kde' | 'mac';
 }
 
 interface DesktopAPI {

@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Fermer la fenêtre laisse Mudrix actif dans la zone de notification, afin que vous receviez toujours messages et appels. Quittez depuis l'icône de la zone de notification.",
       "muteNotifications": "Mettre les notifications en sourdine",
       "muteNotificationsNote": "Coupez le son des notifications du bureau sans quitter l'application. Vous pouvez aussi le changer depuis la zone de notification.",
+      "windowControls": "Boutons de fenêtre",
+      "windowControlsNote": "Le style des boutons réduire, agrandir et fermer. Automatique suit votre système.",
+      "windowControls_auto": "Automatique",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Cadre du système",
       "saveFailed": "Impossible d'enregistrer ce paramètre : {{error}}",
       "loadFailed": "Impossible de charger les paramètres du bureau : {{error}}"
     },

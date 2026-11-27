@@ -4,11 +4,10 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import i18n from '@/i18n';
 import { desktopApi, onDesktopEvent } from './desktopApi';
+import { startWindowControls } from './windowControls';
 
 export const isDesktop = import.meta.env.DESKTOP;
 const isMacDesktop = isDesktop && /Mac/.test(navigator.userAgent);
-/** On Windows the window has no frame and the app draws minimize/maximize/close */
-export const drawsWindowControls = isDesktop && /Windows/.test(navigator.userAgent);
 
 /**
  * Runs a browser sign-in (OAuth or SSO): the server's page opens in the system browser and
@@ -121,7 +120,8 @@ export function installDesktopHooks(): void {
   const root = document.documentElement;
   root.classList.add('desktop');
   if (isMacDesktop) root.classList.add('desktop-darwin');
-  if (drawsWindowControls) root.classList.add('desktop-other');
+  // Windows and Linux draw their own window buttons unless the setting keeps the system's frame
+  startWindowControls();
   const appWindow = getCurrentWindow();
   const syncFullscreen = () =>
     appWindow

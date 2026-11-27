@@ -2590,6 +2590,13 @@
       "closeToTrayNote": "Pencereyi kapatmak Mudrix'i tepside çalışır durumda tutar; böylece mesajları ve aramaları almaya devam edersiniz. Tepsi simgesinden çıkın.",
       "muteNotifications": "Bildirimleri sessize al",
       "muteNotificationsNote": "Uygulamadan çıkmadan masaüstü bildirimlerini susturun. Bunu tepsiden de değiştirebilirsiniz.",
+      "windowControls": "Pencere düğmeleri",
+      "windowControlsNote": "Simge durumuna küçültme, büyütme ve kapatma düğmelerinin stili. Otomatik, sisteminizi izler.",
+      "windowControls_auto": "Otomatik",
+      "windowControls_windows": "Windows",
+      "windowControls_kde": "KDE",
+      "windowControls_mac": "macOS",
+      "windowControls_system": "Sistem çerçevesi",
       "saveFailed": "Bu ayar kaydedilemedi: {{error}}",
       "loadFailed": "Masaüstü ayarları yüklenemedi: {{error}}"
     },

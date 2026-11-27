@@ -9,6 +9,32 @@ use std::path::PathBuf;
 use std::sync::Mutex;
 use tauri::{AppHandle, Manager};
 
+/// Which window buttons the app draws. `Auto` is the platform's own style (Windows and KDE's,
+/// resolved by the web app).
+#[derive(Serialize, Deserialize, Clone, Copy, Debug, Default, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum WindowControls {
+    #[default]
+    Auto,
+    /// No drawn buttons: the window manager's own frame.
+    System,
+    Windows,
+    Kde,
+    Mac,
+}
+
+// macOS keeps its native traffic lights, so only the other platforms ask what to draw
+#[cfg(not(target_os = "macos"))]
+impl WindowControls {
+    /// Whether the window keeps the system's frame (and so its buttons)
+    pub fn native_frame(self) -> bool {
+        match self {
+            Self::System => true,
+            Self::Auto | Self::Windows | Self::Kde | Self::Mac => false,
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase", default)]
 pub struct DesktopSettings {
@@ -20,6 +46,8 @@ pub struct DesktopSettings {
     pub start_minimized: bool,
     /// Tray "Mute notifications".
     pub notifications_muted: bool,
+    /// The style of the window's minimize, maximize and close buttons.
+    pub window_controls: WindowControls,
 }
 
 impl Default for DesktopSettings {
@@ -29,6 +57,7 @@ impl Default for DesktopSettings {
             launch_at_login: false,
             start_minimized: false,
             notifications_muted: false,
+            window_controls: WindowControls::Auto,
         }
     }
 }
@@ -40,6 +69,7 @@ pub struct SettingsPatch {
     pub launch_at_login: Option<bool>,
     pub start_minimized: Option<bool>,
     pub notifications_muted: Option<bool>,
+    pub window_controls: Option<WindowControls>,
 }
 
 impl DesktopSettings {
@@ -55,6 +85,9 @@ impl DesktopSettings {
         }
         if let Some(v) = patch.notifications_muted {
             self.notifications_muted = v;
+        }
+        if let Some(v) = patch.window_controls {
+            self.window_controls = v;
         }
     }
 }
