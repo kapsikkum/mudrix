@@ -15,6 +15,7 @@
  */
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { isDesktop } from './desktop';
+import { onDesktopEvent } from './desktopApi';
 
 type Listener = () => void;
 
@@ -35,7 +36,12 @@ function setDesktopFocused(focused: boolean): void {
 
 function refreshDesktopFocus(): void {
   const appWindow = getCurrentWindow();
-  appWindow.isFocused().then(setDesktopFocused, () => {});
+  // A window hidden to the tray or minimised is not in front, whatever its last focus event said:
+  // Wayland keeps reporting a hidden window as focused.
+  Promise.all([appWindow.isFocused(), appWindow.isVisible(), appWindow.isMinimized()]).then(
+    ([focused, visible, minimized]) => setDesktopFocused(focused && visible && !minimized),
+    () => {}
+  );
 }
 
 /** The webview's own focus event: ask the shell again rather than trusting a cached answer. */
@@ -67,6 +73,8 @@ function start(): void {
   const appWindow = getCurrentWindow();
   void appWindow.onFocusChanged(({ payload }) => setDesktopFocused(payload));
   void appWindow.onResized(refreshDesktopFocus);
+  // The shell hid the window to the tray
+  onDesktopEvent('desktop://window-hidden', () => setDesktopFocused(false));
   refreshDesktopFocus();
 }
 
@@ -88,7 +96,7 @@ export function isAppFocused(): boolean {
   start();
   // Before the shell has answered, the page's own answer is the best guess; the focus event
   // corrects it a moment later.
-  return desktopFocused ?? document.hasFocus();
+  return (desktopFocused ?? document.hasFocus()) && document.visibilityState === 'visible';
 }
 
 /** Calls `listener` when the answers above change; returns an unsubscribe. */

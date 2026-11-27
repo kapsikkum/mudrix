@@ -164,7 +164,7 @@ export function Notifications() {
               : 'settings.notifications.notificationBannersNote'
           )}
           checked={notificationBanners}
-          disabled={!('Notification' in window)}
+          disabled={!window.desktopAPI?.showNotification && !('Notification' in window)}
           onChange={async (v) => {
             if (!v) {
               setNotificationBanners(false);

@@ -138,7 +138,8 @@ export function useClientNotifications() {
   }, []);
 
   useEffect(() => {
-    if (!('permissions' in navigator)) return;
+    // The desktop shell raises its own notifications; the webview's permission is not theirs
+    if (window.desktopAPI?.showNotification || !('permissions' in navigator)) return;
     navigator.permissions.query({ name: 'notifications' }).then((status) => {
       const handler = () => {
         if (status.state !== 'granted') {

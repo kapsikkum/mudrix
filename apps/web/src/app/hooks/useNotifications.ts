@@ -9,6 +9,9 @@ import type { MudrixClient } from '@mudrix/core';
 export type NotifLevel = 'default' | 'all' | 'mentions' | 'mute';
 
 export async function requestNotificationPermission(): Promise<NotificationPermission> {
+  // The desktop shell raises its own notifications, so the webview's permission has no say (and
+  // WebKitGTK on Linux never grants it)
+  if (window.desktopAPI?.showNotification) return 'granted';
   if (!('Notification' in window)) return 'denied';
   if (Notification.permission === 'granted' || Notification.permission === 'denied') {
     return Notification.permission;
